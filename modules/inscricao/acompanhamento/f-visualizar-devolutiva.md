@@ -10,7 +10,7 @@ error_codes: []
 depende_de: [INS-ACO-01]
 origem:
   tipo: issue
-  chave: HU-016_Dashboard_Participante
+  chave: HU-031_Consolidar_Feedback
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao participante ler a devolutiva consolidada da avaliação de uma inscrição em cada etapa avaliada, a partir do momento em que aquela etapa a libera.
 
+Pelo acesso aos feedbacks no painel de acompanhamento, ou pela notificação de devolutiva disponível, o participante abre a aba de feedbacks da inscrição e lê, em uma seção por etapa já liberada, o texto consolidado e a data da liberação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-016_Dashboard_Participante`](../../../hus/HU-016_Dashboard_Participante.docx) | Criação | — |
-| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — a HU não numera critérios; realiza "Visualizar Feedback Consolidado (Participante)": a devolutiva consolidada por etapa na aba de feedbacks da inscrição, apresentada só depois da liberação da etapa e só ao dono da inscrição (o aviso de disponibilidade futura que a HU descreve saiu na Sprint 6) |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — só a etapa já liberada aparece, sem anúncio nem data da etapa pendente, e sem a etiqueta "Gerado por I.A." (item 1 do card) |
 
 ---
 
@@ -119,12 +121,20 @@ Feature: Visualizar Devolutiva
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Etapa | Avaliação (etapa avaliada) | somente leitura | texto | — | uma devolutiva por etapa avaliada |
-| Devolutiva | Avaliação (consolidação) | somente leitura | texto longo | — | apresentada apenas quando a etapa já liberou |
-| Liberada em | Avaliação (etapa) | somente leitura | data | — | data em que a etapa liberou |
-| Situação da inscrição | Inscrição | somente leitura | lista | — | reflete o estado atual da inscrição avaliada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Etapa | Etapa | exibido do cadastro | somente leitura | texto | — | uma devolutiva por etapa avaliada |
+| Devolutiva | Apuração por Etapa | exibido do cadastro | somente leitura | texto longo | — | apresentada apenas quando a etapa já liberou |
+| Liberada em | derivado ↓ | calculado | somente leitura | data | — | data em que a etapa liberou |
+| Situação da inscrição | Inscrição | exibido do cadastro | somente leitura | lista | — | reflete o estado atual da inscrição avaliada |
+
+---
+
+## Derivações
+
+| Campo derivado | Fórmula (Label PO) | Campos-fonte (Entidade) |
+|---|---|---|
+| Liberada em | A mais tardia entre a conclusão da consolidação e a data de liberação do feedback da etapa; sem data de liberação informada, a conclusão da consolidação (regras 2 a 4) | Feedback consolidado em (Apuração por Etapa), Data de liberação do feedback (Etapa) |
 
 ---
 
@@ -168,9 +178,9 @@ Tela de devolutiva em `/inscricao/minha/:inscricaoId?tab=feedbacks`, alcançada 
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -182,7 +192,7 @@ Tela de devolutiva em `/inscricao/minha/:inscricaoId?tab=feedbacks`, alcançada 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); HU de origem corrigida de HU-016 para HU-031 na `## Origem` e no front-matter — a HU-016 não trata da devolutiva, e a HU-031 descreve a visualização do feedback consolidado pelo participante —, com os critérios cobertos da HU (sem numeração na fonte) e do ticket; coluna Entidade em `## Campos`; `## Derivações` para a data de liberação; coluna Papel na tabela de métricas (feature ainda sem processo elementar contado). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Remoção** do anúncio da etapa pendente e da marca de IA. *Antes* a tela listava **todas** as etapas avaliadas: a liberada com o texto, a pendente com o cartão "disponível a partir de…" e a data prevista — e o texto consolidado vinha com a etiqueta "Gerado por I.A.". *Agora* só a etapa já liberada aparece (RN4a); a pendente não é anunciada, nem com data, e o estado vazio não antecipa data. A etiqueta de IA saiu da tela em 2026-09-23. +1 regra, 2 cenários e 1 critério reescritos |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -191,6 +201,6 @@ Tela de devolutiva em `/inscricao/minha/:inscricaoId?tab=feedbacks`, alcançada 
 
 ---
 
-*Feature Set: Acompanhamento · Major Feature Set: Inscrição · Última revisão: 2026-08-28*
+*Feature Set: Acompanhamento · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante iniciar uma nova inscrição em rascunho pelo link público da premiação, criando o registro de trabalho onde o preenchimento terá continuidade.
 
+Pelo link público recebido, o participante abre a página de inscrição com a identidade visual da premiação, informa nome e e-mail no passo inicial e prossegue; a inscrição é criada em rascunho e ele segue para o preenchimento.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza "Acessar Link Público de Inscrição" e o início da inscrição em "Realizar Pré-Cadastro": token do link validado, nome e e-mail obrigatórios, e-mail já cadastrado conduzido ao acesso e inscrição nascida em rascunho |
 
 ---
 
@@ -102,10 +104,12 @@ Feature: Cadastrar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | nome completo do participante → ver FIELD-DICTIONARY: Nome de pessoa |
-| E-mail | entrada do usuário | editável | texto | sim | → ver FIELD-DICTIONARY: E-mail |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | externo: Portal corporativo (SSO) | entrada do usuário | editável | texto | sim | nome completo do participante → ver FIELD-DICTIONARY: Nome de pessoa |
+| E-mail | Inscrição | entrada do usuário | editável | texto | sim | → ver FIELD-DICTIONARY: E-mail |
+
+*O nome informado não é guardado na inscrição: segue para a conta do participante no login corporativo (ver `INS-PAR-08` — Registrar Pré-cadastro).*
 
 ---
 
@@ -117,6 +121,16 @@ Feature: Cadastrar Inscrição
 | Premiação | A premiação do link acessado | Na criação da inscrição |
 | Data de início | Data e hora da criação | Na criação da inscrição |
 | Percentual de preenchimento | 0% | Na criação da inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Link Público | lê | O token do link é conferido antes de conceder acesso; token inválido ou expirado barra a inscrição (regra 1) |
+| Premiação | lê | A inscrição nasce vinculada à premiação do link acessado (regra 3 e campo automático Premiação) |
+| Tipo de Participante | lê | Configuração da oferta — formulário, questionário, equipe e anexos — que a planilha do baseline conta na transação (ALR do baseline) |
 
 ---
 
@@ -150,13 +164,30 @@ Landing pública em `/inscricao/:token` com a identidade visual da premiação e
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Realizar Inscrição (Rascunho) | EE | 3 | 27 | Complexo | 6 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Inscrição | principal | EE | 3 | 27 | Complexo | 6 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Realizar Inscrição (Rascunho)*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Realizar Inscrição (Rascunho)** — ALR (3): Premiação · Inscrição · Tipo de Participante. DER (27): Percentual Inscrição · Qtd questões preenchidas/Total questões · Título Questão Formulário de Inscrição · Descrição Questão · Obrigatoriedade questão · Resposta · Número Questão Questionário de Avaliação · Título Questão · Tipo Questão · Obrigatoriedade · Peso · Resposta · Qtd min membros equipe · Qtd max membros equipe · Qtd membros cadastrados · Nome membro · CPF · E-mail · Telefone · Genero · Tipo de validação do formulário · Mensagem de validação · Tipo Anexo · Tipo Arquivo · Arquivo · Ação · Mensagem.
+**Cadastrar Inscrição** — EE · ALR 3 · DER 27 · Complexo · 6 PF
+
+```json
+{"pe": "Cadastrar Inscrição",
+ "alr": ["Premiação", "Inscrição", "Tipo de Participante"],
+ "der": ["Percentual Inscrição", "Qtd questões preenchidas/Total questões", "Título Questão Formulário de Inscrição", "Descrição Questão", "Obrigatoriedade questão", "Resposta (formulário)", "Número Questão Questionário de Avaliação", "Título Questão", "Tipo Questão", "Obrigatoriedade", "Peso", "Resposta (questionário)", "Qtd min membros equipe", "Qtd max membros equipe", "Qtd membros cadastrados", "Nome membro", "CPF", "E-mail", "Telefone", "Genero", "Tipo de validação do formulário", "Mensagem de validação", "Tipo Anexo", "Tipo Arquivo", "Arquivo", "Ação", "Mensagem"]}
+```
+
+Por que cada ALR:
+1. `Premiação` — a premiação do link acessado, à qual a inscrição nasce vinculada
+2. `Inscrição` — a transação grava a inscrição em rascunho, com respostas, membros da equipe e anexos
+3. `Tipo de Participante` — a configuração da oferta (campos do formulário, questões, limites da equipe e anexos exigidos) que estrutura o rascunho
+
+⚠️ A planilha repete o rótulo *Resposta*: uma vez entre os DER do formulário de inscrição e outra entre os do questionário de avaliação. Aqui está desambiguado por onde aparece — *Resposta (formulário)* e *Resposta (questionário)*, que se gravam em entidades distintas (*Resposta de Formulário* e *Resposta de Questão*). Se a equipe de métricas os tiver por um só DER, como pede o CPM para o mesmo campo, o DER cai para 26 sem mudar a complexidade; mantido como o baseline contou, a confirmar.
+
+⚠️ A enumeração da planilha descreve o rascunho do formulário inteiro — questões, equipe e anexos —, enquanto a `## Campos` deste N3 traz só o início da inscrição; a mesma enumeração aparece em `INS-PAR-02` — Editar Inscrição. O processo elementar é o do baseline e não foi movido; a correspondência vai à equipe de métricas.
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -168,12 +199,12 @@ Landing pública em `/inscricao/:token` com a identidade visual da premiação e
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON — com o DER repetido *Resposta* desambiguado —, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

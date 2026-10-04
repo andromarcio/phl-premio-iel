@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante reenviar para validação uma inscrição que teve ajustes solicitados, depois de corrigidos os itens apontados pela análise regional.
 
+Com a inscrição aguardando ajuste, o participante corrige no formulário os itens apontados e, na tela de termos e finalização, aciona o reenvio, que devolve a inscrição à validação com o mesmo número de protocolo.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza a regra de que a inscrição aguardando ajuste permite ao participante editar e reenviar os dados corrigidos — o reenvio que a devolve à validação |
 
 ---
 
@@ -94,10 +96,10 @@ Feature: Reenviar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Status | — | somente leitura | lista (Aguardando ajuste, Ajustes concluídos) | — | passa a Ajustes concluídos no reenvio |
-| Número de protocolo | — | somente leitura | texto | — | mantido do envio original |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Status | Inscrição | calculado | somente leitura | lista (Aguardando ajuste, Ajustes concluídos) | — | passa a Ajustes concluídos no reenvio |
+| Número de protocolo | Inscrição | exibido do cadastro | somente leitura | texto | — | mantido do envio original |
 
 ---
 
@@ -106,6 +108,15 @@ Feature: Reenviar Inscrição
 | Label PO | Valor | Quando |
 |---|---|---|
 | Status | Ajustes concluídos | No reenvio da inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Item de Ajuste | lê | Os itens de ajuste apontados precisam estar corrigidos para o reenvio ser concluído (regra 2) |
+| Termo de Aceite | lê | O reenvio parte da tela de termos e finalização; a planilha conta os termos da premiação na transação (ALR Premiação e DER Termo de Aceite do baseline) |
 
 ---
 
@@ -139,21 +150,37 @@ Ação de reenvio disponível na inscrição em ajuste, a partir da tela de term
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Realizar Ajuste na Inscrição | — | — | — | — | 0 | 2026-02-28 |
-| Reenviar Inscrição | EE | 2 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Realizar Ajuste na Inscrição | acessório | — | — | — | — | 0 | 2026-02-28 |
+| Reenviar Inscrição | principal | EE | 2 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, a linha *Realizar Ajuste na Inscrição* (linha 104 da planilha) vem com o tipo em branco, sem ALR, DER nem complexidade.
 
 ### Memória de cálculo
 
-- **Realizar Ajuste na Inscrição** — ALR (0): —. DER (0): —.
-- **Reenviar Inscrição** — ALR (2): Premiação · Inscrição. DER (4): ID Inscrição · Termo de Aceite · Ação · Mensagem.
+**Realizar Ajuste na Inscrição** — 0 PF
+
+```json
+{"pe": "Realizar Ajuste na Inscrição",
+ "motivo": "zerada no baseline APF sem tipo, ALR, DER nem complexidade; o motivo foi perguntado à equipe de métricas (Q7) e ainda não respondido para esta linha"}
+```
+
+É acessório desta feature: a correção dos itens apontados é a edição da inscrição aguardando ajuste, que `INS-PAR-02` — Editar Inscrição realiza (regra 1 de lá); o que esta feature realiza é o reenvio.
+
+⚠️ A Q7 observa que a correção feita pelo participante mantém o ALI *Inscrição* e parece qualificar como EE; se o zero foi lacuna da planilha, e não descarte, a linha precisa de contagem — ver `arquivos/demandas/QUESTIONAMENTO_METRICAS_BASELINE_APF.md`, Q7.
+
+**Reenviar Inscrição** — EE · ALR 2 · DER 4 · Simples · 3 PF
 
 ```json
 {"pe": "Reenviar Inscrição",
  "alr": ["Premiação", "Inscrição"],
  "der": ["ID Inscrição", "Termo de Aceite", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — os termos de aceite da premiação, apresentados na tela de onde parte o reenvio (DER *Termo de Aceite*)
+2. `Inscrição` — a transação grava a passagem de Aguardando ajuste a Ajustes concluídos, mantendo o protocolo
 
 **Total: 3 PF** (2 processos elementares).
 
@@ -165,13 +192,13 @@ Ação de reenvio disponível na inscrição em ajuste, a partir da tela de term
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON — com o motivo da linha de 0 PF —, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

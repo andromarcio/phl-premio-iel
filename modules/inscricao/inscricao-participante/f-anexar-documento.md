@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante enviar os documentos obrigatórios e opcionais exigidos pela configuração de anexos da premiação, vinculando cada arquivo à inscrição.
 
+No capítulo de anexos do formulário de inscrição, o participante vê a lista de documentos obrigatórios e opcionais e envia o arquivo de cada um, podendo substituí-lo enquanto a inscrição estiver editável.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza o envio dos documentos obrigatórios e opcionais do capítulo de anexos de "Preencher Formulário de Inscrição", com extensões e tamanho máximo conforme a configuração de anexos |
 
 ---
 
@@ -101,11 +103,11 @@ Feature: Anexar Documento
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Arquivo | entrada do usuário | editável | upload de arquivo | conforme configuração | extensões e tamanho máximo conforme a configuração de anexos → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo |
-| Nome do arquivo | derivado do upload | somente leitura | texto | sim | nome do arquivo enviado |
-| Configuração de anexo | contexto do ponto de anexo | somente leitura | referência → Configuração de Anexo | não | ponto de anexo que exige o documento |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Arquivo | Documento da Inscrição | entrada do usuário | editável | upload de arquivo | conforme configuração | extensões e tamanho máximo conforme a configuração de anexos → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo |
+| Nome do arquivo | Documento da Inscrição | calculado | somente leitura | texto | sim | nome do arquivo enviado, tomado do próprio arquivo |
+| Configuração de anexo | Configuração de Anexo | exibido do cadastro | somente leitura | referência → Configuração de Anexo | não | ponto de anexo que exige o documento |
 
 ---
 
@@ -116,6 +118,16 @@ Feature: Anexar Documento
 | Tipo MIME | Tipo do arquivo enviado | No envio do documento |
 | Tamanho (bytes) | Tamanho do arquivo enviado | No envio do documento |
 | Data do upload | Data e hora do envio | No envio do documento |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê | O documento fica vinculado à inscrição, e a substituição só vale enquanto ela está editável (regras 3 e 4) |
+| Arquivo | grava | Metadados do arquivo enviado, na infraestrutura de arquivos compartilhada, sem arquivo lógico próprio |
+| Conteúdo do Arquivo | grava | Conteúdo do arquivo enviado, na mesma infraestrutura, sem arquivo lógico próprio |
 
 ---
 
@@ -149,9 +161,9 @@ Capítulo de anexos do formulário de inscrição em `/inscricao/formulario/:ins
 
 > **Sem contagem no baseline APF** — passo dentro de cadastrar/editar inscrição. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -163,12 +175,12 @@ Capítulo de anexos do formulário de inscrição em `/inscricao/formulario/:ins
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos` (com o Preenchimento normalizado), `## Dados lidos e gravados`, coluna Papel na tabela de métricas (feature sem processo elementar próprio no baseline). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

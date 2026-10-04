@@ -29,13 +29,16 @@ contagem:
 ## Descrição
 Permite ao participante reabrir um rascunho salvo e retomar o preenchimento da inscrição do ponto em que havia parado.
 
+No painel de acompanhamento, o participante aciona "Continuar Inscrição" em uma inscrição editável e o formulário de inscrição reabre com o último conteúdo salvo, no ponto em que ele havia parado.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza o salvamento automático a cada alteração, que preserva o trabalho para a retomada, e a edição da inscrição aguardando ajuste |
+| [`HU-016_Dashboard_Participante`](../../../hus/HU-016_Dashboard_Participante.docx) | Criação | — a HU não numera critérios; realiza "Acessar Inscrição em Andamento": continuar, a partir do painel, a inscrição em rascunho, em andamento ou aguardando ajuste, reabrindo o formulário |
 
 ---
 
@@ -94,9 +97,9 @@ Feature: Retomar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Inscrição | seleção → Inscrição | somente leitura | referência | sim | inscrição em estado editável do próprio participante |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Inscrição | Inscrição | entrada do usuário | somente leitura | seleção → Inscrição | sim | inscrição em estado editável do próprio participante |
 
 ---
 
@@ -105,6 +108,14 @@ Feature: Retomar Inscrição
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Rascunho Autossalvo | lê | Último conteúdo salvo automaticamente da inscrição, recuperado na retomada (regra 2) |
 
 ---
 
@@ -138,9 +149,9 @@ A retomada parte do dashboard do participante em `/participante/dashboard`, onde
 
 > **Sem contagem no baseline APF** — passo dentro de cadastrar inscrição (retomar rascunho). Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -152,12 +163,12 @@ A retomada parte do dashboard do participante em `/participante/dashboard`, onde
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios cobertos da HU-015 (sem numeração na fonte) na `## Origem`, e a HU-016 acrescentada à tabela — é ela que descreve a continuação da inscrição a partir do painel ("Acessar Inscrição em Andamento"); coluna Entidade em `## Campos` (com o Preenchimento e o Tipo `seleção → Inscrição` normalizados); `## Dados lidos e gravados`; coluna Papel na tabela de métricas (feature sem processo elementar próprio no baseline). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante marcar uma notificação como lida, atualizando a contagem de avisos ainda não lidos.
 
+No painel de notificações aberto pelo sino, o participante seleciona uma notificação não lida, que passa a lida, e a contagem de não lidas no sino diminui.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — |
+| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — a HU não numera critérios; realiza "Marcar Notificação como Lida": o clique na notificação a marca como lida e atualiza a contagem de não lidas no sino |
 
 ---
 
@@ -94,10 +96,10 @@ Feature: Marcar Notificação como Lida
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Notificação | seleção → Notificação Participante | somente leitura | referência | sim | notificação do próprio participante |
-| Lida | entrada do usuário | editável | sim/não | — | passa a lida ao marcar |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Notificação | Notificação Participante | entrada do usuário | somente leitura | seleção → Notificação Participante | sim | notificação do próprio participante |
+| Lida | Notificação Participante | entrada do usuário | editável | sim/não | — | passa a lida ao marcar |
 
 ---
 
@@ -139,19 +141,22 @@ A marcação parte do painel de notificações em *(sem rota própria — painel
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Marcar Notificação como Lida | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Marcar Notificação como Lida | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Marcar Notificação como Lida** — ALR (1): Notificação Participante. DER (3): Notificação · Ação · Mensagem.
+**Marcar Notificação como Lida** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Marcar Notificação como Lida",
  "alr": ["Notificação Participante"],
  "der": ["Notificação", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Notificação Participante` — a transação grava a condição de lida da notificação selecionada
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -163,13 +168,13 @@ A marcação parte do painel de notificações em *(sem rota própria — painel
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos` (com o Preenchimento e o Tipo `seleção → Notificação Participante` normalizados), coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-022 |
 
 ---
 
-*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

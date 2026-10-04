@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite a quem chega pelo link público informar nome e e-mail para obter acesso ao Sistema Indústria e já ter a inscrição daquela oferta criada, sem depender de um cadastro prévio.
 
+Na página do link público, no bloco "Inscreva-se", a pessoa informa nome completo e e-mail e aciona "Iniciar Inscrição"; em seguida a página a orienta a verificar o e-mail, quando a conta foi criada, ou a entrar direto, quando a conta já existia.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza "Realizar Pré-Cadastro": nome e e-mail obrigatórios, em formato válido, para criar a conta com senha temporária enviada por e-mail, e o e-mail já cadastrado conduzido ao login |
 
 ---
 
@@ -120,10 +122,10 @@ Feature: Registrar Pré-cadastro
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome completo | entrada do usuário | editável | texto | sim | de 3 a 200 caracteres → ver FIELD-DICTIONARY: Nome de pessoa |
-| E-mail | entrada do usuário | editável | texto | sim | formato de e-mail válido; no máximo 300 caracteres → ver FIELD-DICTIONARY: E-mail |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome completo | externo: Portal corporativo (SSO) | entrada do usuário | editável | texto | sim | de 3 a 200 caracteres → ver FIELD-DICTIONARY: Nome de pessoa |
+| E-mail | Inscrição | entrada do usuário | editável | texto | sim | formato de e-mail válido; no máximo 300 caracteres → ver FIELD-DICTIONARY: E-mail |
 
 *O link público de origem não é digitado pela pessoa: vem do endereço acessado e identifica a oferta em que a inscrição será criada.*
 
@@ -136,6 +138,15 @@ Feature: Registrar Pré-cadastro
 | Oferta da inscrição | oferta associada ao link público acessado | Ao registrar o pré-cadastro |
 | Situação | Rascunho | Ao criar a inscrição |
 | Data de início da inscrição | data e hora do pré-cadastro | Ao criar a inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Link Público | lê | Validade do link e oferta associada a ele, em que a inscrição é criada (regra 1 e campo automático Oferta da inscrição) |
+| Premiação | lê | Datas de início e de término que abrem ou barram o pré-cadastro (regra 1) ⚠️ *(a regra fala no período de inscrição da oferta, e a oferta não tem datas próprias no modelo de dados — confirmar se o período é o da premiação)* |
 
 ---
 
@@ -170,9 +181,9 @@ Primeiro passo da Página do Link Público (`/inscricao/:token`), no bloco "Insc
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -184,12 +195,12 @@ Primeiro passo da Página do Link Público (`/inscricao/:token`), no bloco "Insc
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel na tabela de métricas (feature ainda sem processo elementar contado). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (pré-cadastro público a partir do link, com criação de conta no diretório corporativo) — capacidade implementada e até então citada apenas de passagem em INS-PAR-01. ⚠️ Confronta o não-objetivo do N0 "não gerir identidade" — ver `global/CONFORMIDADE-CODIGO.md` § 7 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-28*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

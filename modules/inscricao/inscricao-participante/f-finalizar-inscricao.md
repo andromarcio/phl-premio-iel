@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante submeter a inscrição para validação após a checagem dos itens obrigatórios, gerando o número de protocolo que identifica a inscrição enviada.
 
+Na tela de termos e finalização, depois de aceitar os termos obrigatórios, o participante aciona "Finalizar Inscrição"; havendo pendências, vê a lista agrupada em campos, anexos e questões, e, sem pendências, recebe o número de protocolo no resumo da inscrição.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza "Finalizar Inscrição": checagem de campos, anexos e questões obrigatórios com os erros agrupados por tipo, finalização habilitada só com os termos obrigatórios aceitos, protocolo gerado e passagem a Finalizada |
 
 ---
 
@@ -101,11 +103,11 @@ Feature: Finalizar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Número de protocolo | — | somente leitura | texto | — | gerado na finalização; identifica a inscrição enviada |
-| Status | — | somente leitura | lista (Rascunho, Em andamento, Finalizada, Em validação, Validada, Rejeitada, Aguardando ajuste, Ajustes concluídos) | — | passa a Finalizada na submissão |
-| Data de finalização | — | somente leitura | data e hora | — | registrada no momento da finalização |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Número de protocolo | Inscrição | calculado | somente leitura | texto | — | gerado na finalização; identifica a inscrição enviada |
+| Status | Inscrição | calculado | somente leitura | lista (Rascunho, Em andamento, Finalizada, Em validação, Validada, Rejeitada, Aguardando ajuste, Ajustes concluídos) | — | passa a Finalizada na submissão |
+| Data de finalização | Inscrição | calculado | somente leitura | data e hora | — | registrada no momento da finalização |
 
 ---
 
@@ -116,6 +118,21 @@ Feature: Finalizar Inscrição
 | Número de protocolo | Número gerado pelo sistema | Na finalização da inscrição |
 | Status | Finalizada | Na finalização da inscrição |
 | Data de finalização | Data e hora da finalização | Na finalização da inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Resposta de Formulário | lê | Conferência dos campos obrigatórios preenchidos (regra 1) |
+| Resposta de Questão | lê | Conferência das questões obrigatórias respondidas (regra 1) |
+| Documento da Inscrição | lê | Conferência dos anexos obrigatórios enviados (regra 1) |
+| Aceite de Termo do Participante | lê | A finalização só é habilitada com todos os termos obrigatórios aceitos (regra 2) |
+| Campo do Formulário | lê | Obrigatoriedade de cada campo na configuração da oferta (regra 1) |
+| Questão de Avaliação | lê | Obrigatoriedade de cada questão do questionário (regra 1) |
+| Configuração de Anexo | lê | Anexos obrigatórios da oferta (regra 1) |
+| Termo de Aceite | lê | Quais termos da premiação são obrigatórios (regra 2) |
 
 ---
 
@@ -149,19 +166,24 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: após o acei
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Finalizar Inscrição | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Finalizar Inscrição | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Finalizar Inscrição** — ALR (1): Inscrição. DER (4): ID Inscrição · Termo de Aceite · Ação · Mensagem.
+**Finalizar Inscrição** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
 {"pe": "Finalizar Inscrição",
  "alr": ["Inscrição"],
  "der": ["ID Inscrição", "Termo de Aceite", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Inscrição` — a transação grava a passagem a Finalizada, o número de protocolo e a data de finalização, e confere as respostas, os anexos e os aceites da própria inscrição
+
+⚠️ Pelas regras 1 e 2, a finalização também consulta a obrigatoriedade configurada para a oferta (ALI *Tipo de Participante*) e os termos obrigatórios da premiação (ALI *Premiação*), que a planilha não conta como ALR. Se a equipe de métricas os contar, a EE passa a ALR 3 × DER 4, Média, 4 PF. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -173,13 +195,13 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: após o acei
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

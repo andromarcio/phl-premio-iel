@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao participante consultar as próprias notificações sobre o andamento da inscrição e ver quantas ainda não foram lidas.
 
+Na área do participante, o sino no cabeçalho mostra a contagem de não lidas; ao acioná-lo, o participante abre o painel lateral com as notificações mais recentes, cada uma com título, mensagem e data.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — |
-| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
+| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — a HU não numera critérios; realiza "Visualizar Notificações" e "Visualizar Contagem de Não Lidas": painel com as últimas 15 notificações, não lidas em destaque, data em formato contextual e contagem de não lidas no sino |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — a notificação de devolutiva disponível leva direto à devolutiva da inscrição (item 3 do card) |
 
 ---
 
@@ -94,9 +96,9 @@ Feature: Consultar Notificações
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Participante | contexto de sessão | somente leitura | texto | — | notificações do participante autenticado |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Participante | externo: Portal corporativo (SSO) | externo: Portal corporativo (SSO) | somente leitura | texto | — | notificações do participante autenticado |
 
 ---
 
@@ -116,6 +118,16 @@ Feature: Consultar Notificações
 | Label PO | Valor | Quando |
 |---|---|---|
 | Contagem de não lidas | Quantidade de notificações do participante ainda não lidas | Ao abrir o painel e a cada leitura |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Notificação Participante | lê | As notificações mais recentes do participante e a contagem das não lidas (regras 1 a 3) |
+| Inscrição | lê | As notificações são as relativas às inscrições do participante (regra 1) |
+| Premiação | lê | A premiação da inscrição a que a notificação se refere, que a planilha do baseline conta na transação (ALR do baseline) |
 
 ---
 
@@ -149,19 +161,24 @@ Painel lateral aberto pelo sino de notificações no cabeçalho, na rota *(sem r
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Notificações | SE | 3 | 5 | Simples | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Notificações | principal | SE | 3 | 5 | Simples | 4 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consultar Notificações** — ALR (3): Premiação · Inscrição · Notificação Participante. DER (5): Qtd Não Lidas · Titulo · Descrição · Data/Hora · Ação.
+**Consultar Notificações** — SE · ALR 3 · DER 5 · Simples · 4 PF
 
 ```json
 {"pe": "Consultar Notificações",
  "alr": ["Premiação", "Inscrição", "Notificação Participante"],
  "der": ["Qtd Não Lidas", "Titulo", "Descrição", "Data/Hora", "Ação"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a premiação da inscrição a que cada notificação se refere
+2. `Inscrição` — as inscrições do participante, que delimitam as notificações apresentadas
+3. `Notificação Participante` — título, mensagem, data e condição de lida de cada notificação, e a contagem das não lidas
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -173,7 +190,7 @@ Painel lateral aberto pelo sino de notificações no cabeçalho, na rota *(sem r
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) e do ticket na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do destino da notificação de devolutiva. *Antes* a regra 4 dizia que o evento gera notificação e nada dizia sobre o que acontece ao abri-la. *Agora* a RN5 fixa que ela leva direto à devolutiva da inscrição. +1 regra. Sem Δ DER |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -181,6 +198,6 @@ Painel lateral aberto pelo sino de notificações no cabeçalho, na rota *(sem r
 
 ---
 
-*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

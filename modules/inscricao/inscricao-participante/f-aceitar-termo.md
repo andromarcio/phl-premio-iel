@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao participante registrar o aceite dos termos obrigatórios e opcionais da premiação, condição necessária para concluir a inscrição.
 
+Na tela de termos e finalização, o participante lê o título e o conteúdo de cada termo e marca o aceite dos obrigatórios e, se quiser, dos opcionais; com todos os obrigatórios aceitos, a finalização fica disponível.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — a HU não numera critérios; realiza "Aceitar Termos de Inscrição": termos obrigatórios e opcionais com título e conteúdo, aceite marcado termo a termo e finalização liberada só com todos os obrigatórios aceitos |
 
 ---
 
@@ -92,10 +94,10 @@ Feature: Aceitar Termo
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Termo de aceite | contexto da premiação | somente leitura | referência → Termo de Aceite | sim | termo configurado na premiação |
-| Aceito | entrada do usuário | editável | sim/não | sim (para termos obrigatórios) | obrigatório precisa ser aceito para finalizar |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Termo de aceite | Termo de Aceite | exibido do cadastro | somente leitura | referência → Termo de Aceite | sim | termo configurado na premiação |
+| Aceito | Aceite de Termo do Participante | entrada do usuário | editável | sim/não | sim (para termos obrigatórios) | obrigatório precisa ser aceito para finalizar |
 
 ---
 
@@ -105,6 +107,14 @@ Feature: Aceitar Termo
 |---|---|---|
 | Data do aceite | Data e hora do aceite | No registro do aceite |
 | Origem do aceite | Endereço de origem do participante | No registro do aceite |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Oferta | lê | Os termos apresentados são os definidos para a oferta da inscrição (regra 1; ALR Tipo de Participante do baseline) |
 
 ---
 
@@ -138,19 +148,25 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: cada termo e
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Termo de Aceite | CE | 2 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Termo de Aceite | acessório | CE | 2 | 3 | Simples | 3 | 2026-02-28 |
+
+> ⚠️ **Feature sem processo elementar principal.** O PE contado aqui consulta os termos para apresentá-los — intenção própria, por isso `acessório`; o registro do aceite, que é o que esta feature realiza, não tem PE no baseline: ele viaja com a finalização, e a planilha conta o DER *Termo de Aceite* em *Finalizar Inscrição* (`INS-PAR-03` — Finalizar Inscrição). O acessório não foi promovido a principal; a lacuna vai à equipe de métricas.
 
 ### Memória de cálculo
 
-- **Consultar Termo de Aceite** — ALR (2): Premiação · Tipo de Participante. DER (3): Titulo Termo de Aceite · Descrição Termo de Aceite · Ação.
+**Consultar Termo de Aceite** — CE · ALR 2 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Consultar Termo de Aceite",
  "alr": ["Premiação", "Tipo de Participante"],
  "der": ["Titulo Termo de Aceite", "Descrição Termo de Aceite", "Ação"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — o título e o conteúdo dos termos de aceite da premiação
+2. `Tipo de Participante` — a oferta da inscrição, que decide quais termos são apresentados
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -162,13 +178,13 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: cada termo e
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios cobertos da HU (sem numeração na fonte) na `## Origem`, coluna Entidade em `## Campos` (com o Preenchimento normalizado), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON — o único PE contado é `acessório` e a falta de principal fica registrada com ⚠️. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
