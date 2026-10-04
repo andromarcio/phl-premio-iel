@@ -1,4 +1,4 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_0 | atualizado: 2026-08-19 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_0 | atualizado: 2026-10-04 -->
 # Base de Conhecimento Extraída: Prêmio IEL de Talentos
 > **Origem**: 14 transcrições de reuniões de refinamento (abr–jul/2026) em `arquivos/transcricoes/`
 > **Gerado por**: PROMPT_0 (Extração de Insumos Desestruturados)

@@ -1,4 +1,4 @@
-<!-- docqui: {{VERSION}} | prompt: {{PROMPT_ID}} | atualizado: {{YYYY-MM-DD}} -->
+<!-- docqui: 4.1.0 | prompt: init-instance | atualizado: 2026-10-04 -->
 # ALI-AIE-MAP.md
 > **Registro canônico** dos Arquivos Lógicos Internos (ALI) e Arquivos de Interface
 > Externa (AIE) do sistema e das **entidades** que os constituem.
@@ -12,14 +12,9 @@
 
 ## Como usar
 
-- Todo **ALR** (Arquivo Lógico Referenciado = IFPUG FTR) contado numa função de transação deve
-  corresponder a um ALI ou AIE listado aqui.
-- **Ao contar um ALR ainda não mapeado**, registre-o nesta tabela com as **entidades
-  em branco** e status `pendente`. Isso marca que é um ALI/AIE **válido**; o
-  detalhamento (entidades, domínio, sizing) é preenchido conforme o projeto evolui.
-- **Arquivos de importação/transmissão** (XML, CSV, etc.) **não** são classificados
-  como AIE por padrão — são dados processados por uma EE. Contá-los como AIE fica a
-  **critério do Analista de Métricas**; se decidir contar, registre aqui.
+- Todo **ALR** (Arquivo Lógico Referenciado = IFPUG FTR) contado numa função de transação deve corresponder a um ALI ou AIE listado aqui.
+- **Ao contar um ALR ainda não mapeado**, registre-o nesta tabela com as **entidades em branco** e status `pendente`. Isso marca que é um ALI/AIE **válido**; o detalhamento (entidades, domínio, sizing) é preenchido conforme o projeto evolui.
+- **Arquivos de importação/transmissão** (XML, CSV, etc.) **não** são classificados como AIE por padrão — são dados processados por uma EE. Contá-los como AIE fica a **critério do Analista de Métricas**; se decidir contar, registre aqui.
 
 ---
 

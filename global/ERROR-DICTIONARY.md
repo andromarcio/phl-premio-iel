@@ -1,4 +1,4 @@
-<!-- docqui: {{VERSION}} | prompt: {{PROMPT_ID}} | atualizado: {{YYYY-MM-DD}} -->
+<!-- docqui: 4.1.0 | prompt: init-instance | atualizado: 2026-10-04 -->
 # ERROR-DICTIONARY.md
 > Dicionário centralizado de códigos de erro de API.
 > Todo novo código de erro criado durante a especificação técnica (N3)
@@ -15,8 +15,7 @@
 
 ## 1. Erros globais (qualquer rota)
 
-Estes erros podem ocorrer em qualquer endpoint do sistema
-e não são específicos de um domínio. *(baseline reutilizável — ajuste conforme a stack)*
+Estes erros podem ocorrer em qualquer endpoint do sistema e não são específicos de um domínio. *(baseline reutilizável — ajuste conforme a stack)*
 
 | Código de erro | HTTP | Situação |
 |---|---|---|
@@ -44,8 +43,7 @@ e não são específicos de um domínio. *(baseline reutilizável — ajuste con
 
 ## Como adicionar novos erros
 
-Ao criar ou atualizar um N3 e identificar a necessidade de um código
-não listado acima, adicione-o à tabela do domínio correspondente:
+Ao criar ou atualizar um N3 e identificar a necessidade de um código não listado acima, adicione-o à tabela do domínio correspondente:
 
 ```markdown
 | `[DOMINIO]_[NOME]` | [HTTP] | [Situação que dispara o erro] |

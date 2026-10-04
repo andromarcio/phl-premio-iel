@@ -1,4 +1,4 @@
-<!-- docqui: 2.23.0 | prompt: MASTER | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: MASTER | atualizado: 2026-10-04 -->
 # MASTER.md
 > Arquivo de contexto global, independente do módulo ou nível em trabalho.
 > No Claude Code é carregado automaticamente a cada sessão via o `CLAUDE.md` da
@@ -167,83 +167,81 @@ Projeto_Premio_IEL_Talentos_Frontend/
 
 ---
 
+## Integrações externas
+
+<!-- Sistemas de que este depende ou com que troca dados, na ótica do negócio: o que vem de cada um e como (integração via API, arquivo, referência digitada). Vale nos dois perfis — é daqui que saem as AIE da contagem (global/ALI-AIE-MAP.md) e as fontes `externo: [Sistema]` dos N3. -->
+
+- **Portal corporativo do Sistema Indústria (SSO · BASI/AD)** — fornece a identidade do usuário, o perfil (`PIT.1`…`PIT.4`) e o menu, e recebe a pesquisa, a criação e o vínculo de usuários feitos pelo sistema; integração via API. É a fonte `externo: Portal corporativo` dos N3 de Acesso e Gestão.
+- **Azure OpenAI** — gera a proposta de devolutiva consolidada a partir dos pareceres dos avaliadores, sempre revisada por uma pessoa antes do envio; integração via API. ⚠️ *(recurso em evolução — depende de custo e aprovação)*
+- **Servidor de e-mail corporativo (SMTP)** — entrega os e-mails de notificação a participantes, administradores e avaliadores; integração via SMTP. ⚠️ *(infraestrutura de envio — não é fonte de dados de negócio)*
+
+---
+
 ## Identificadores únicos (IDs)
 
-Cada nível da hierarquia de documentação possui um ID único para rastreabilidade
-entre ferramentas externas (Jira, Azure DevOps, etc.).
+Cada nível da hierarquia de documentação possui um ID único para rastreabilidade entre ferramentas externas (Jira, Azure DevOps, etc.).
 
 | Nível | Formato | Exemplo |
 |---|---|---|
-| Demanda de origem (entrada) | chave da **ferramenta de origem** — externa, **não gerada aqui**; é a fonte de verdade da demanda. Tipos suportados: `servicenow` (`STRY…`), `issue` (`ISSUE-…`), `experimento` (`EXP-…`) — ver *Origem da demanda* abaixo | `STRY0012345` · `ISSUE-482` · `EXP-2026-003` |
-| Domínio (N1) | `[SIGLA]` — sigla do domínio (sempre 3 letras maiúsculas) definida na criação do domínio | `CRM` |
+| Ticket de origem (entrada) | chave da **ferramenta de origem** — externa, **não gerada aqui**; é a fonte de verdade do ticket. Tipos suportados: `servicenow` (`STRY…`), `issue` (`ISSUE-…`), `experimento` (`EXP-…`) — ver *Origem do ticket* abaixo | `STRY0012345` · `ISSUE-482` · `EXP-2026-003` |
+| Major Feature Set (N1) | `[SIGLA]` — sigla do domínio (sempre 3 letras maiúsculas) definida na criação do domínio | `CRM` |
 | Feature Set (N2) | `[SIGLA]-[SFS]` — sigla do domínio + sigla do Feature Set (sempre 3 letras maiúsculas) | `CRM-CLI` |
 | Feature (N3) | `[SIGLA]-[SFS]-[NN]` — 2 dígitos sequenciais dentro do Feature Set | `CRM-CLI-01` |
 
 **Regras:**
-- A demanda entra pela ferramenta de origem; o framework **referencia** a chave (nunca cria ID próprio para a demanda) e a registra na seção `## Origem` do N3
+- O ticket entra pela ferramenta de origem; o framework **referencia** a chave (nunca cria ID próprio para o ticket), abre a AIM do ticket em `analise-impacto/AIM-<CHAVE>.md` e registra a chave na seção `## Origem` do N3
 - A sigla do domínio é definida uma única vez na criação do N1 e nunca alterada
 - A sigla do Feature Set é definida **no N1** (ao listar os Feature Sets do domínio) e **reutilizada** pelo N2; é única dentro do domínio e nunca reutilizada após exclusão; deriva do nome do Feature Set (ex.: Usuários → `USR`)
 - A numeração de Features é sequencial dentro do Feature Set e não reutilizada após exclusão
 - O ID fica no cabeçalho de cada artefato, logo abaixo da linha `**Nível X**`
 
-### Origem da demanda (plugável)
+### Origem do ticket (plugável)
 
 <!--
-  A ferramenta de onde vêm as demandas varia por organização: ServiceNow num time de
+  A ferramenta de onde vêm os tickets varia por organização: ServiceNow num time de
   produto corporativo, issues (GitHub/GitLab/Jira) num time OSS, registro de
   experimentos num time de pesquisa. Declare aqui a origem padrão desta instância;
   o front-matter de cada N3 registra `origem: { tipo, chave }` (o campo legado
   `servicenow:` de instâncias ≤1.5.x continua aceito pelos scripts).
-  Os formatos de chave são fixos por tipo — os scripts de rastreabilidade os
-  reconhecem por prefixo: STRY\d+ | ISSUE-\d+ | EXP-<id>.
+  Os scripts de rastreabilidade reconhecem a chave pelo prefixo (STRY\d+ | ISSUE-\d+ |
+  EXP-<id>) ou, em qualquer formato, pelo link da AIM (`AIM-<CHAVE>.md`).
 -->
 
-- **Origem padrão desta instância**: `issue`, em **duas chaves que convivem**. A demanda nasce como **História de Usuário** em `.docx` (`arquivos/HU-0NN_*.docx`), catalogada em `demandas/`, e é planejada e acompanhada como **item de trabalho no Jira**, no board `PDTIC25093`. As duas chaves são registradas: a HU diz **o que** foi pedido e é o elo com a spec; o item do Jira diz **em que sprint** entrou e qual o estado da entrega, e é o elo com a contagem por sprint.
-- **Qual usar onde**: nos N3 e no `modules/INDEX.md`, a chave é a **HU** — é ela que carrega os critérios de aceite. Na análise de impacto e na contagem por sprint, aparecem **as duas**, porque a auditoria confere pelo item do Jira. Um item do Jira pode cobrir mais de uma HU, e uma HU pode ser fatiada em mais de um item.
+- **Origem padrão desta instância**: `issue`, em **duas chaves que convivem**. A necessidade nasce como **História de Usuário** em `.docx` (acervo em `hus/`, catalogado em `hus/INDEX.md`; originais em `arquivos/`) e é planejada e acompanhada como **item de trabalho no Jira**, no board `PDTIC25093`. A HU diz **o que** foi pedido e carrega os critérios de aceite numerados; o item do Jira diz **em que sprint** entrou e é o ticket que abre a AIM em `analise-impacto/AIM-PDTIC25093-NN.md`.
+- **Qual usar onde**: na `## Origem` do N3 entram **as duas** — a HU, com link para o `.docx` em `hus/` e os `CA-n` que a feature cobre, e cada item do Jira que criou ou alterou a feature, com link para a AIM. O `origem.chave` do front-matter é a HU de criação (ou o item do Jira, quando não há HU). No `modules/INDEX.md`, a coluna *Ticket (AIM)* traz uma linha por par item do Jira ↔ feature, com a HU ao lado. Os scripts de rastreabilidade reconhecem a chave do Jira (`PDTIC25093-NN`); a linha da HU é informativa para eles. Um item do Jira pode cobrir mais de uma HU, e uma HU pode ser fatiada em mais de um item.
 - **Formato da chave do Jira**: `PDTIC25093-` + número (ex.: `PDTIC25093-49`). O título do item costuma trazer a HU correspondente — é o elo mais confiável entre os dois mundos. ⚠️ Nem todo item do Jira nomeia uma HU: itens de melhoria sem documento ("Avisos") existem e ficam sem HU; nesses casos a rastreabilidade é só pela chave do Jira.
 
-| Tipo | Formato da chave | Arquivo em `demandas/` | Exemplo |
+| Tipo | Formato da chave | AIM em `analise-impacto/` | Exemplo |
 |---|---|---|---|
-| `servicenow` | `STRY` + dígitos | `stry0012345.md` | `STRY0012345` |
-| `issue` | `ISSUE-` + número | `issue-482.md` | `ISSUE-482` |
-| `experimento` | `EXP-` + identificador | `exp-2026-003.md` | `EXP-2026-003` |
+| `servicenow` | `STRY` + dígitos | `AIM-STRY0012345.md` | `STRY0012345` |
+| `issue` | `ISSUE-` + número | `AIM-ISSUE-482.md` | `ISSUE-482` |
+| `experimento` | `EXP-` + identificador | `AIM-EXP-2026-003.md` | `EXP-2026-003` |
 
-**Nesta instância**, a chave `issue` é o nome da HU e o item do Jira é a chave de sprint que a acompanha:
+**Nesta instância**, a chave `issue` tem duas faces — a HU, que é a fonte dos critérios de aceite, e o item do Jira, que é o ticket com AIM:
 
 | Chave | Formato | Onde é a fonte | Exemplo |
 |---|---|---|---|
-| História de Usuário | `HU-0NN_Titulo_Com_Underscore` | `arquivos/HU-0NN_*.docx` — traz os critérios de aceite | `HU-018_Analisar_Validar_Inscricao` |
-| Item do Jira | `PDTIC25093-` + número | board `PDTIC25093` — traz sprint, estado e responsável | `PDTIC25093-68` |
+| História de Usuário | `HU-0NN_Titulo_Com_Underscore` | `hus/HU-0NN_*.docx` — traz os critérios de aceite numerados | `HU-018_Analisar_Validar_Inscricao` |
+| Item do Jira | `PDTIC25093-` + número | board `PDTIC25093` — traz sprint, estado e responsável; a AIM fica em `analise-impacto/AIM-PDTIC25093-NN.md` | `PDTIC25093-68` |
 
-### Rastreabilidade ponta a ponta (demanda → spec → código)
+### Rastreabilidade ponta a ponta (ticket → spec → código)
 
-Todo desenvolvimento começa por uma demanda na ferramenta de origem e é
-rastreável até o código pela cadeia de IDs:
+Todo desenvolvimento começa por um ticket na ferramenta de origem e é rastreável até o código pela cadeia de IDs:
 
 ```
-Demanda ([tipo] [chave] — ex.: ServiceNow STRYxxxxxxx, issue ISSUE-123, experimento EXP-…)
-   └─ N3 Feature (SIGLA-SFS-NN)  ← seção "Origem" guarda a chave da demanda
-        └─ Código (commit/PR)    ← referencia ambos os IDs
+Ticket ([tipo] [chave] — nesta instância, o item do Jira PDTIC25093-NN e a HU que ele realiza)
+   └─ AIM (analise-impacto/AIM-<CHAVE>.md)  ← o que o ticket pede, vai mudar e mudou
+        └─ N3 Feature (SIGLA-SFS-NN)  ← seção "Origem" guarda a HU, a chave e o link da AIM
+             └─ Código (commit/PR)    ← referencia a feature e o ticket
 ```
 
-- **Demanda → N3**: a chave de origem é registrada na seção `## Origem` de
-  cada feature; o elo recíproco fica em `demandas/[chave].md`. Cada
-  critério de aceite é analisado e vira uma regra de negócio, um `## Cenário`
-  (Gherkin) ou ambos — rastreabilidade semântica, não só por ID.
-- **Critério de aceite → N3** *(quando a fonte numera)*: a coluna `Critérios
-  cobertos` do `## Origem` abre com as referências `CA-n`, no mesmo número que a
-  ferramenta de origem usa. É o elo que a **contagem por sprint** exige: cada
-  feature impactada sai com a chave da demanda **e** o número do critério. Quando a
-  fonte não numera os critérios, a coluna sai `—` e a rastreabilidade fica só pela
-  chave — não se inventa número.
-- **N3 → código**: seção `## Implementação` do N3 — a coluna **Repositório** é
-  definida já no 3B (nomes do inventário `repos/INDEX.md`), dizendo em qual repo
-  (MFE, microsserviço, back, front) cada parte da feature vive; caminho/branch
-  entram após o dev — + coluna na tabela `Rastreabilidade` do `modules/INDEX.md`.
-- **Convenção de commit/PR** *(fecha a cadeia no git)*:
-  `tipo([SIGLA]-[SFS]-[NN]): [resumo] ([origem] [chave])` — ex.:
-  `feat(CRM-CLI-01): cadastro de cliente (ServiceNow STRY0012345)`
+- **Ticket → N3**: a chave de origem é registrada na seção `## Origem` de cada feature, com o link da AIM; o elo recíproco é a `## Features` da AIM (`analise-impacto/AIM-<CHAVE>.md`). Cada critério de aceite é analisado e vira uma regra de negócio, um `## Cenário` (Gherkin) ou ambos — rastreabilidade semântica, não só por ID.
+- **Critério de aceite → N3** *(quando a fonte numera)*: a coluna `Critérios cobertos` do `## Origem` abre com as referências `CA-n`, no mesmo número que a ferramenta de origem usa — nesta instância, a numeração dos *Critérios de Aceitação* da HU. É o elo que a **contagem por sprint** exige: cada feature impactada sai com a chave do ticket **e** o número do critério. Quando a fonte não numera os critérios, a coluna sai `—` e a rastreabilidade fica só pela chave — não se inventa número.
+<!-- perfil:completo -->
+- **N3 → código**: seção `## Implementação` do N3 — a coluna **Repositório** é definida já no 3B (nomes do inventário `repos/INDEX.md`), dizendo em qual repo (MFE, microsserviço, back, front) cada parte da feature vive; caminho/branch entram após o dev — + coluna na tabela `Rastreabilidade` do `modules/INDEX.md`.
+- **Convenção de commit/PR** *(fecha a cadeia no git)*: `tipo([SIGLA]-[SFS]-[NN]): [resumo] ([origem] [chave])` — ex.: `feat(CRM-CLI-01): cadastro de cliente (ServiceNow STRY0012345)`
 
+<!-- /perfil:completo -->
 ---
 
 ## Nomenclatura de features

@@ -1,4 +1,4 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
 # DATA-MODEL.md
 > **Índice e fonte de verdade** para nomenclatura e mapeamento de campos. Os modelos detalhados estão fragmentados por domínio em `global/data-models/` — cole apenas o fragmento do domínio em trabalho, não o arquivo inteiro.
 >
@@ -160,6 +160,7 @@ Pontos levantados na extração do schema que pedem confirmação de negócio/m�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Índice e fragmentos carimbados com o engine 4.1.0 e conferidos pelo `validate-doc`. ⚠️ Mantido o formato **técnico** (Label Dev, campo banco, tipo SQL e contagem de ALI/AIE): no perfil `requisitos` a 4.1.0 prevê o modelo negocial, sem camada física, mas converter apagaria o mapeamento conciliado com o código e a contagem das funções de dados — decisão do PO/arquitetura |
 | 2026-10-04 | Migrações da Sprint 6 (docqui) | Conciliação com as migrações | **V00034** e **V00035** registradas: nova entidade *Disparo de Feedback* (`TB_DISPARO_FEEDBACK`), quatro colunas de ligação em `TB_AUDITORIA_EMAIL`, cinco colunas da desclassificação em *Apuração por Etapa* com a constraint `CK_APROV_ETAPA_PART_DESCLASSIF`, e o valor `FEEDBACK_ETAPA_DISPONIVEL` no enum `TipoEmailEnum`. 61 → 62 entidades. Os ALIs **Auditoria de E-mails** (RLR 2→3, DER 20→36) e **Avaliação de Inscrição** (DER 38→43) seguem Média, **10 PF cada — sem Δ PF** |
 | 2026-08-28 | Conferência doc × código (docqui) | Conciliação com o código | 144 Label Dev corrigidos a partir das entidades JPA; valores reais de 18 enums; 2 entidades acrescentadas (`TB_PESSOA`, `TB_DOWNLOAD_ARQUIVO`); achados de `FL_STORED`, `TL_LOG_AUDITORIA` e AIE do diretório corporativo registrados. Ver `global/CONFORMIDADE-CODIGO.md` |
 | 2026-08-28 | Revisão da contagem (docqui) | PF corrigido | Coluna PF passa a reproduzir o PF Bruto do baseline: a equipe de métricas confirmou que a coluna PF Fábrica de Software estava com falha de preenchimento (Q1). Total dos ALIs de 92,5 para 117 PF |

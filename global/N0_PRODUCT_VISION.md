@@ -1,8 +1,15 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_N0 | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_N0 | atualizado: 2026-10-04 -->
 # Visão de Produto: Prêmio IEL de Talentos
 > **Nível 0** - Visão de Produto - `PIEL`
 
-> O documento de referência mais alto do sistema: define **por que** o produto existe, para **quem** e **que valor** entrega. Os níveis N1–N3 são confrontados contra ele para garantir que não extrapolam o escopo nem contradizem os objetivos.
+> O documento de referência mais alto do sistema: define **por que** o produto existe, para **quem** e **que valor** entrega. Os níveis N1–N3 são confrontados contra ele para garantir que não extrapolam o escopo nem contradizem os objetivos do produto. O N0 dá a direção; não detalha funcionalidades, telas ou campos.
+>
+> **Identidade**: o nome e a sigla vêm de `global/MASTER.md` → *Identificação do sistema*, a fonte única — aqui eles só se repetem (o `validate-doc` reprova sigla divergente).
+>
+> **Quem mantém**: PO / Liderança de Produto
+> **Atualização**: revisado quando a estratégia do produto muda — não a cada feature.
+
+---
 
 ## Propósito
 
@@ -76,11 +83,11 @@ Um único sistema parametrizável que conduz todo o ciclo da premiação com tra
 
 ---
 
-## Domínios previstos (N1)
+## Major Feature Sets previstos (N1)
 
 > Visão preliminar das grandes áreas que comporão o sistema. Cada uma será detalhada em seu próprio N1. Mantenha esta lista alinhada com `modules/INDEX.md`. As siglas já são as usadas no modelo de dados (`global/data-models/`).
 
-| Domínio | SIGLA | O que cuida |
+| Major Feature Set | SIGLA | O que cuida |
 |---|---|---|
 | Configuração da Premiação | CFG | Montar a edição: categorias, modalidades, tipos de participante, formulários, questionários, etapas, e-mails e critérios |
 | Inscrição | INS | Inscrição do participante, anexos, equipe, acompanhamento e notificações |
@@ -119,6 +126,7 @@ Um único sistema parametrizável que conduz todo o ciclo da premiação com tra
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, cabeçalho com Identidade, Quem mantém e Atualização, e a seção *Domínios previstos* renomeada para *Major Feature Sets previstos (N1)*. Conteúdo de visão sem alteração |
 | 2026-08-25 | Engenharia reversa (docqui) | N0 criado | Visão de produto inicial — derivada das transcrições, HUs e modelo de dados |
 
 ---

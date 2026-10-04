@@ -1,4 +1,4 @@
-<!-- docqui: 2.16.0 | prompt: — | atualizado: 2026-09-30 -->
+<!-- docqui: 4.1.0 | prompt: — | atualizado: 2026-10-04 -->
 # Registro de mudanças para replicação
 
 > Ledger das mudanças feitas **primeiro aqui** (`premio-iel`) que precisam ser **replicadas depois** nas outras instâncias docqui que usam a mesma solução — `portal-compras` e `transparencia-web`. Cada entrada diz o que mudou, onde e como aplicar no destino; a **matriz de status** mostra o que já foi replicado e o que ainda falta. O fluxo é sempre *fazer tudo aqui → registrar → replicar nos outros → marcar o status* — nunca os três ao mesmo tempo.
@@ -36,7 +36,7 @@ As instâncias **divergem** entre si — a mesma seção existe numa com um nome
 
 | ID | Data | Mudança | Rota | `portal-compras` | `transparencia-web` |
 |---|---|---|---|:---:|:---:|
-| — | — | *(nenhuma mudança originada aqui ainda)* | — | — | — |
+| REP-001 | 2026-10-04 | Geradores de `.docx` leem o título `Major Feature Set:` do N1 e do N2 | Local entre instâncias (manual) | ⬜ | ⬜ |
 
 ---
 
@@ -87,4 +87,15 @@ Aplicadas em 2026-10-01 na cópia de trabalho e conferidas no navegador contra o
 
 > Append-only: uma entrada nunca é reescrita para "corrigir" o que a mudança foi — se algo evoluir depois, abre-se **nova** entrada. O que se atualiza é a **matriz** (⬜ → ✅) quando a replicação é feita.
 
-*(nenhuma entrada originada nesta instância ainda)*
+### REP-001 — Geradores de `.docx` leem o título `Major Feature Set:` (2026-10-04)
+
+**O que mudou.** Na regeneração dos artefatos com o engine 4.1.0, o N1 passou a se intitular `# Major Feature Set: <Nome>` e o subtítulo do N2 a dizer `> **Nível 2** - Major Feature Set: <Nome> - \`SIGLA-SFS\``, como mandam o `PROMPT_1A` e o `PROMPT_2A` desde a 3.0.0. Dois geradores só reconheciam o legado `Domínio:` e passariam a sair com o domínio vazio:
+
+- `scripts/gera-docx.py`, função `fs_meta` — o nome do domínio lido do título do N1;
+- `scripts/gera-doc-n2.js` — o nome do domínio e o código do Feature Set lidos do subtítulo do N2 (`blocoN2`), e o nome do domínio lido do título do N1.
+
+As três expressões passaram a aceitar `(?:Major Feature Set|Domínio):`, de modo que N1/N2 no formato novo e no legado funcionam. O texto que o documento exibe ("Domínio: …") não mudou.
+
+**Como conferir.** As expressões foram testadas com as duas formas (casam) e com uma terceira (não casa). O `index.html`, o `gera-mapa-features.mjs`, o `gera-planilha-contagem.py`, o `generate-trace-index.mjs` e o `valida-citacoes-dicionario.mjs` já aceitavam as duas formas — não precisaram de mudança.
+
+**Como aplicar no destino.** Procure no destino as expressões que leem `Domínio:` do N1 ou do N2 (`grep -rn "Dom[íi]nio:" scripts/`) e estenda cada uma para `(?:Major Feature Set|Domínio):` — não troque uma pela outra, porque o destino pode ter N1/N2 nos dois formatos. Só é urgente no destino que for regenerar os N1/N2 para o título novo.

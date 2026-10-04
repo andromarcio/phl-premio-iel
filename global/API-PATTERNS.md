@@ -1,4 +1,4 @@
-<!-- docqui: {{VERSION}} | prompt: {{PROMPT_ID}} | atualizado: {{YYYY-MM-DD}} -->
+<!-- docqui: 4.1.0 | prompt: init-instance | atualizado: 2026-10-04 -->
 # API-PATTERNS.md
 > Padrões globais de API do sistema. Todo endpoint gerado deve seguir este arquivo.
 > Em caso de conflito entre este arquivo e um N3, este arquivo prevalece.
@@ -186,10 +186,7 @@ GET /api/v1/contacts?search=joão&tag=cliente&ownerId=uuid&cursor=...
 - Retorna o objeto atualizado completo com HTTP 200
 
 ### Campos imutáveis após criação
-Alguns campos não podem ser alterados via PATCH após a criação.
-O N3 de cada feature deve listar explicitamente quais são.
-Exemplos comuns: `createdAt`, `id`, e a chave de negócio (ex.: `isin`).
-Tentativa de alterar campo imutável retorna HTTP 422 com `code: FIELD_IMMUTABLE`.
+Alguns campos não podem ser alterados via PATCH após a criação. O N3 de cada feature deve listar explicitamente quais são. Exemplos comuns: `createdAt`, `id`, e a chave de negócio (ex.: `isin`). Tentativa de alterar campo imutável retorna HTTP 422 com `code: FIELD_IMMUTABLE`.
 
 ---
 
@@ -207,8 +204,7 @@ Se ausente ou inválido → HTTP 401:
 ```
 
 ### Autorização por role
-Cada endpoint declara no N3 quais roles têm acesso.
-Acesso negado → HTTP 403:
+Cada endpoint declara no N3 quais roles têm acesso. Acesso negado → HTTP 403:
 ```json
 {
   "data": null,
@@ -245,16 +241,13 @@ Formato: `DOMINIO_DESCRICAO` em screaming_snake_case.
 | TASK_ALREADY_COMPLETED  | 409  | Work         | Tarefa já foi concluída                 |
 | FORM_SLUG_TAKEN         | 409  | Capture      | Slug do formulário já em uso            |
 
-**Regra**: cada N3 define e documenta os códigos de erro específicos da sua feature.
-O índice do domínio (gerado na Etapa 5 do prompt de criação) consolida todos os códigos.
+**Regra**: cada N3 define e documenta os códigos de erro específicos da sua feature. O índice do domínio (gerado na Etapa 5 do prompt de criação) consolida todos os códigos.
 
 ---
 
 ## 10. Webhooks e eventos internos
 
-Quando uma ação deve disparar efeitos em outros módulos (ex: criação de contato
-via formulário dispara notificação para o responsável), o padrão é **evento interno**
-— nunca chamada direta entre módulos.
+Quando uma ação deve disparar efeitos em outros módulos (ex: criação de contato via formulário dispara notificação para o responsável), o padrão é **evento interno** — nunca chamada direta entre módulos.
 
 ```typescript
 // Publicar evento (lib/events.ts)
@@ -294,12 +287,9 @@ Ao atingir o limite, retornar HTTP 429 com o header `Retry-After: {segundos}`.
 ## 12. Versionamento
 
 - Versão atual: `v1` (prefixo `/api/v1/`)
-- Uma nova versão (`v2`) só é criada quando há **breaking change** impossível de
-  fazer de forma retrocompatível
-- Adição de campos opcionais, novos endpoints e novos valores de enum
-  **não** constituem breaking change — não exigem nova versão
-- Remoção de campos, alteração de tipos e mudança de comportamento de campos
-  existentes **constituem** breaking change
+- Uma nova versão (`v2`) só é criada quando há **breaking change** impossível de fazer de forma retrocompatível
+- Adição de campos opcionais, novos endpoints e novos valores de enum **não** constituem breaking change — não exigem nova versão
+- Remoção de campos, alteração de tipos e mudança de comportamento de campos existentes **constituem** breaking change
 - Versões antigas são mantidas por mínimo 6 meses após lançamento da nova
 
 ---
@@ -321,13 +311,10 @@ Ao atingir o limite, retornar HTTP 429 com o header `Retry-After: {segundos}`.
 - **CORS**: permitir apenas origens da própria organização (subdomínio configurado)
 - **CSRF**: não aplicável (autenticação via cookie httpOnly + SameSite=lax)
 - **SQL Injection**: usar sempre queries parametrizadas (prepared statements / ORM) — nunca interpolação
-- **Logs**: nunca logar body de requisições que contenham campos sensíveis
-  (senha, token, dados de cartão). Logar sempre: método, rota, status, duração, `userId`
+- **Logs**: nunca logar body de requisições que contenham campos sensíveis (senha, token, dados de cartão). Logar sempre: método, rota, status, duração, `userId`
 - **Stack trace**: nunca expor em respostas de produção. Usar `INTERNAL_ERROR` genérico
-- **Campos sensíveis**: nunca retornar `password`, `passwordHash`, `refreshToken`
-  em nenhuma resposta, mesmo em rotas admin
+- **Campos sensíveis**: nunca retornar `password`, `passwordHash`, `refreshToken` em nenhuma resposta, mesmo em rotas admin
 
 ---
 
-*Todo novo endpoint deve ser revisado contra este arquivo antes de ir para review.
-Divergências devem ser justificadas no PR e, se aprovadas, incorporadas aqui.*
+*Todo novo endpoint deve ser revisado contra este arquivo antes de ir para review. Divergências devem ser justificadas no PR e, se aprovadas, incorporadas aqui.*

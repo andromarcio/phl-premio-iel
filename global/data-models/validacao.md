@@ -1,4 +1,4 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
 # Data Model: Validação
 > Fragmento do DATA-MODEL.md — cole apenas este arquivo nas sessões que envolvam o domínio Validação.
 >

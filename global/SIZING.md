@@ -1,4 +1,4 @@
-<!-- docqui: 2.19.1 | prompt: PROMPT_CONTAGEM | atualizado: 2026-09-02 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_CONTAGEM | atualizado: 2026-10-04 -->
 # SIZING.md
 > Convenções de medição de tamanho funcional do sistema.
 > Fonte única de critérios para contagem APF e COSMIC.
@@ -15,7 +15,10 @@
 | Método | Norma | Versão |
 |---|---|---|
 | APF | IFPUG CPM | 4.3.1 |
+| APF — regras do contrato | Guia de Métricas da STI | 1.3 (dez/2025) |
 | COSMIC | COSMIC FSM | 5.0 |
+
+**Precedência**: as regras do **Guia de Métricas da STI** se sobrepõem às definições do CPM *(decisão do usuário, 2026-10-04)*. Onde o Guia dispõe, vale o Guia; onde ele cala, vale o CPM. O texto integral está na skill `apf-cpm` (`references/guia-metricas-sti/`, com o índice do que ele decide diferente do manual em `00-indice.md`), e a memória de cálculo cita a seção quando a regra vem dele.
 
 > ⚠️ Registre aqui a versão exata adotada pela organização antes de iniciar qualquer contagem.
 
@@ -36,13 +39,15 @@
 
 | Elemento APF | Definição | Onde identificar nesta estrutura |
 |---|---|---|
-| ALI (Arquivo Lógico Interno) | Grupo de dados mantido pelo sistema | `global/DATA-MODEL.md` — uma entidade principal = um ALI candidato |
-| AIE (Arquivo de Interface Externa) | Grupo de dados de sistema externo usado mas não mantido | `global/API-PATTERNS.md` + seção "Integrações" do N1 |
-| EE (Entrada Externa) | Transação que processa dados de fora para dentro | `## API` do N3 — verbos POST / PUT / PATCH / DELETE **expostos além da fronteira lógica do sistema** |
-| SE (Saída Externa) | Transação que envia dados com lógica de processamento | `## API` do N3 — GET com cálculo, relatório ou transformação **exposto além da fronteira lógica** |
-| CE (Consulta Externa) | Transação que recupera dados sem lógica adicional | `## API` do N3 — GET simples de listagem ou detalhe **exposto além da fronteira lógica** |
+| ALI (Arquivo Lógico Interno) | Grupo de dados mantido pelo sistema | `global/DATA-MODEL.md` — uma entidade principal = um ALI candidato; registro em `global/ALI-AIE-MAP.md` |
+| AIE (Arquivo de Interface Externa) | Grupo de dados de sistema externo usado mas não mantido | `global/DATA-MODEL.md` (tabela de AIEs) e `global/ALI-AIE-MAP.md`; as candidatas surgem da seção "Integrações" do N1, do `global/API-PATTERNS.md` e dos campos `externo: [Sistema]` do N3 |
+| EE (Entrada Externa) | Transação que processa dados de fora para dentro — intenção primária: **manter** ALI ou **alterar o comportamento** do sistema | a feature (N3) inteira, front + BFF (ver *Arquitetura BFF*); no perfil `completo`, o `## API` confere — verbos POST / PUT / PATCH / DELETE |
+| SE (Saída Externa) | Transação que envia dados com lógica de processamento — cálculo, dado derivado, manutenção de ALI ou alteração de comportamento | a feature (N3) inteira; no perfil `completo`, o `## API` confere — GET com cálculo, relatório ou transformação |
+| CE (Consulta Externa) | Transação que recupera dados de ALI/AIE sem lógica adicional | a feature (N3) inteira; no perfil `completo`, o `## API` confere — GET simples de listagem ou detalhe |
 
-> **Todo número contado vem com memória de cálculo.** Cada linha — de transação ou de função de dados — registra a **quantidade e a descrição** dos seus ALR e DER: cada arquivo lógico nomeado com o motivo da leitura, cada campo nomeado e agrupado, e o que ficou de fora com o porquê. Número sem memória não é auditável (não dá para dizer se o ALR esqueceu um arquivo ou se o DER contou o mesmo campo duas vezes) nem comparável entre recontagens (não dá para saber o que mudou). A memória mora junto do número: na `## Métricas de tamanho` do N3, para transações, e no `CONTAGEM-PF.md`, para funções de dados.
+> **A transação se classifica pela intenção primária**, com as formas de lógica da skill `apf-cpm` — não pelo verbo HTTP nem pela exposição do endpoint. Uma feature atendida só pelo BFF interno conta se for processo elementar (ver *Arquitetura BFF*), e um GET que calcula totais é SE. O `## API` só existe no perfil `completo` e serve de conferência; no perfil `requisitos`, a classificação sai das seções negociais do N3.
+
+> **Todo número contado vem com memória de cálculo.** Cada linha — de transação ou de função de dados — registra a **quantidade e a descrição** dos seus ALR e DER: cada arquivo lógico nomeado com o motivo da leitura, cada campo nomeado e agrupado, e o que ficou de fora com o porquê. Número sem memória não é auditável (não dá para dizer se o ALR esqueceu um arquivo ou se o DER contou o mesmo campo duas vezes) nem comparável entre recontagens (não dá para saber o que mudou). A memória mora junto do número: na `## Métricas de tamanho` do N3, para transações, e no `CONTAGEM-PF.md`, para funções de dados. Na transação, a enumeração de ALR e DER é um bloco ```json por processo elementar (`{"pe", "alr", "der"}`), só com nomes; o motivo de cada leitura fica em prosa, fora dele.
 
 ### Critério de complexidade — Funções de Dados (ALI / AIE)
 
@@ -54,8 +59,7 @@
 
 > **RLR** (Registro Lógico Referenciado) = IFPUG RET · **DER** (Dado Elementar Referenciado) = IFPUG DET. Ver glossário.
 
-**Como contar DER**: cada campo da tabela `## Campos` do N3 = 1 DER.
-Campos automáticos do sistema (createdAt, updatedAt, organizationId) = **não contam**. **O identificador (`id`) conta como 1 DER, mas uma única vez por ALI** — não por tabela: quando o ALI agrupa mais de uma entidade (1:N com a filha dependente), o `id` da entidade-mãe **não** conta de novo como chave estrangeira na filha, porque é o mesmo dado reconhecido pelo usuário. Chave estrangeira que aponta para **outro** ALI continua valendo 1 DER (relacionamento requerido pelo usuário — CPM 5.4.4c).
+**Como contar DER**: cada campo das entidades que formam o ALI/AIE, no fragmento `global/data-models/[dominio].md` = 1 DER — a função de dados se conta pelo data-model, não pela tela de uma feature. Campos globais técnicos (createdAt, updatedAt, deletedAt) e organizationId = **não contam**. **O identificador (`id`) conta como 1 DER, mas uma única vez por ALI** — não por tabela: quando o ALI agrupa mais de uma entidade (1:N com a filha dependente), o `id` da entidade-mãe **não** conta de novo como chave estrangeira na filha, porque é o mesmo dado reconhecido pelo usuário. Chave estrangeira que aponta para **outro** ALI continua valendo 1 DER (relacionamento requerido pelo usuário — CPM 5.4.4c).
 **Como contar RLR**: subgrupos lógicos dentro da entidade. Na ausência de subgrupos explícitos, considerar RLR = 1.
 
 ### Critério de complexidade — Funções de Transação
@@ -83,7 +87,7 @@ O CPM tem **duas** tabelas de complexidade para transações, com faixas diferen
 > ⚠️ **Correção de 2026-08-29.** Até esta data havia aqui **uma tabela só** para os três tipos, que combinava as faixas de DER da EE (1–4 / 5–15 / 16+) com as faixas de ALR da SE/CE (0–1 / 2–3 / 4+) — errada para os dois lados. **Contagens fechadas antes desta data precisam ser reconferidas**: pela tabela única, EE com 3 ALR caía na linha do meio e ficava uma faixa **abaixo** do devido, e SE/CE com 6 a 19 DER subiam uma faixa **acima**.
 
 **Como contar ALR**: número de ALIs ou AIEs lidos ou mantidos pela transação, apurado em **quatro fontes**: (a) a coluna **Entidade** da tabela `## Campos` do N3 — as entidades distintas ali são arquivos lógicos referenciados; (b) as **entidades-fonte** dos campos calculados em `## Derivações`; (c) a seção **`## Dados lidos e gravados`**; (d) uma **varredura de `## Regras de negócio` e `## Campos automáticos`** atrás de entidade citada que não apareça nas três primeiras. As fontes (a)–(c) traduzem-se assim: nome de entidade = ALI · `externo: [Sistema]` = AIE · **`dado de código` não conta** (lista de valores fixos, sem cadastro por trás — CPM 5.4.2d) · `derivado ↓` = as entidades citadas em `## Derivações`. A quarta fonte existe porque as outras são **ancoradas em campo**: a tabela de campos descreve *a tela*, o ALR descreve *a transação* — entidade que a feature toca sem exibir campo algum (o registro de execução que recebe o status, o cronograma que define a janela válida) só aparece nas regras. Achou uma lá? Declare-a em `## Dados lidos e gravados` antes de contar — o número tem de estar sustentado pela fonte. Confronte com o data-model; nas instâncias de perfil `completo`, a seção `## Dependências` (libs/serviços) e o `## API` servem só de conferência — **nenhuma das duas declara arquivo lógico**, e no perfil `requisitos` elas nem existem no artefato.
-**Como contar DER**: campos no body/query da requisição + campos na resposta de sucesso. Conte cada campo distinto **uma vez** (entrada ∪ saída) e some **+1 DER para a capacidade de mensagens** (erro/confirmação) e **+1 DER para a ação/comando** que dispara a transação (padrão IFPUG). Campos de controle (HTTP status, organizationId, cursor de paginação) = **não contam**.
+**Como contar DER**: campos que cruzam a fronteira — os que entram (informados na tela, no comando ou no body/query da requisição) e os que saem (exibidos, ou devolvidos na resposta de sucesso), rastreáveis a `## Campos`, `## Campos automáticos` e `## Colunas do resultado` do N3. Conte cada campo distinto **uma vez** (entrada ∪ saída) e some **+1 DER para a capacidade de mensagens** (erro/confirmação) e **+1 DER para a ação/comando** que dispara a transação (padrão IFPUG). Campos de controle (HTTP status, organizationId, cursor de paginação) = **não contam**. O **+1 da mensagem** só existe quando o processo exibe mensagem (erro, confirmação, aviso): a **lista consultada** — combo, autocomplete, carrossel, botões — não exibe, e conta só o +1 da ação *(decisão do PO, 2026-10-02)*. Cada DER é uma informação que o usuário vê ou informa, nomeada com o rótulo da tela: a opção de lista que mostra número do contrato, tipo de material e fornecedor juntos são **três** DER, e o que a tela não mostra não é DER daquele processo. **O mesmo atributo no filtro e na coluna do resultado é um DER só** — é a união, não a soma. E **atributo diferente com o mesmo rótulo ganha nome pelo contexto**: o `Email` do fornecedor e o do gestor são `Email` e `Email do gestor`; o `Código` do item e o do rateio, `Código` e `Código do rateio` — no bloco, nome repetido se lê como o mesmo campo contado duas vezes, e o validador reprova *(retro de 2026-10-04: a contagem oficial do portal-compras trazia os dois casos)*. Na memória de cálculo, o bloco ```json do processo elementar leva só esses nomes — é ele que vai à coluna Descrição da planilha de entrega (gate F11, `valida-enumeracao-contagem.mjs`).
 
 ### Tabela de pontos por complexidade
 
@@ -103,6 +107,8 @@ O CPM tem **duas** tabelas de complexidade para transações, com faixas diferen
 > de documentação deste template (N1, N3, fronteira BFF, `DATA-MODEL.md`).
 > Origem: *Guia de Orientação de Métricas* — Capítulo 2, "Medição de Serviços em APF".
 > Estas regras **prevalecem sobre o critério genérico** das seções anteriores quando houver conflito.
+>
+> ⚠️ Elas vêm do guia de outro contratante. Nas contagens entregues à STI, valem **só onde o Guia de Métricas da STI cala** (ver *Normas adotadas*): em conflito, vale o Guia da STI. É o caso do item 9 — o Guia parte do *multiple instance*, com as exceções da seção 5.1 dele.
 
 ### 1. Fronteira da aplicação e escopo
 
@@ -183,6 +189,8 @@ Migração pressupõe um sistema/funcionalidade novo substituindo um existente, 
 
 > **Evidência no baseline do Prêmio IEL**: `Relatório de Inscrições Paradas` e `Exportar Relatório de Inscrições Paradas para Excel` têm **ALR 5 e DER 37 idênticos** — listas de DER conferidas elemento a elemento — e ainda assim contam 7 PF cada. Em qualquer instância que seguisse o CPM à risca, esse par seria **um PE só**.
 
+> ⚠️ **A conferir contra o Guia de Métricas da STI, que prevalece** (ver *Normas adotadas*). O Guia parte do *multiple instance*, mas abre exceções (seção 5.1): consulta em `.pdf`, `.doc` e `.xls` e consulta idêntica em tela e papel são **uma** função; relatório em mais de um formato conta por formato só quando a equipe desenvolve cada um — se a ferramenta gera os formatos, conta uma vez. A convenção local acima conta por formato em todos os casos. Mantida como está na regeneração 4.1.0 (2026-10-04), porque mudá-la altera PF já contados; a decisão é da equipe de métricas.
+
 ### 10. Desenvolvimento em múltiplas camadas (mainframe, web)
 
 - Quando a **mesma transação** é disponibilizada em duas plataformas (ex.: mainframe e web), há **um único processo elementar** sob a APF — ambas implementam a mesma funcionalidade. **Não adotar *Multiple Media*.**
@@ -247,28 +255,18 @@ Migração pressupõe um sistema/funcionalidade novo substituindo um existente, 
 
 ## Convenções de registro no N3
 
-Toda feature especificada no N3 deve ter a seção `## Métricas de tamanho` preenchida
-**após** a aprovação do N3 negocial e **antes** do início do desenvolvimento.
+Toda feature especificada no N3 deve ter a seção `## Métricas de tamanho` preenchida **após** a aprovação do N3 negocial e **antes** do início do desenvolvimento.
 
-A contagem é responsabilidade do Dev, revisada pelo Tech Lead, e pode ser auditada
-pelo PO com base nos campos e endpoints documentados no mesmo N3.
+A contagem é responsabilidade do Dev, revisada pelo Tech Lead, e pode ser auditada pelo PO com base nos campos e endpoints documentados no mesmo N3.
 
 ### Arquitetura BFF (Java + Angular) — a unidade de contagem é a feature, não o endpoint
 
-A fronteira da aplicação (CPM) é a interface conceitual entre o sistema e seus
-**usuários** — **não** a divisão técnica entre o Angular e o Java. Nesta arquitetura, o
-frontend Angular e o backend BFF são **camadas internas de uma mesma feature**: o BFF é
-apenas o backend.
+A fronteira da aplicação (CPM) é a interface conceitual entre o sistema e seus **usuários** — **não** a divisão técnica entre o Angular e o Java. Nesta arquitetura, o frontend Angular e o backend BFF são **camadas internas de uma mesma feature**: o BFF é apenas o backend.
 
-Por isso, **a unidade de análise é a feature (N3) inteira**, não o endpoint isolado. Uma
-feature começa na interação do usuário no front, percorre o BFF e devolve um resultado —
-isso é **uma transação completa** que cruza a fronteira usuário↔sistema. Logo, **cada
-feature (N3) é candidata a um processo elementar (PE)** e, se qualificada, conta como
-EE, SE ou CE.
+Por isso, **a unidade de análise é a feature (N3) inteira**, não o endpoint isolado. Uma feature começa na interação do usuário no front, percorre o BFF e devolve um resultado — isso é **uma transação completa** que cruza a fronteira usuário↔sistema. Logo, **cada feature (N3) é candidata a um processo elementar (PE)** e, se qualificada, conta como EE, SE ou CE.
 
 - ✅ **Correto:** avaliar a feature (front + BFF) como um PE candidato.
-- ❌ **Errado:** olhar o endpoint do BFF isoladamente e descartá-lo por ser "interno". O
-  BFF sozinho não é um PE — mas isso **não zera** a feature que ele atende.
+- ❌ **Errado:** olhar o endpoint do BFF isoladamente e descartá-lo por ser "interno". O BFF sozinho não é um PE — mas isso **não zera** a feature que ele atende.
 
 | Situação | Conta? |
 |---|---|
@@ -280,14 +278,11 @@ EE, SE ou CE.
 > **Importante:** ter o backend em BFF interno **não** é, por si só, motivo para não
 > contar. O que decide é se a **feature** satisfaz as regras de PE do CPM.
 
-**Funções de Dados (ALI / AIE)** não são registradas na seção `## Métricas de tamanho`
-do N3 — vivem centralmente em `global/DATA-MODEL.md` e nos fragmentos
-`global/data-models/[dominio].md`. Ver seção *Como manter o registro de ALIs sincronizado*.
+**Funções de Dados (ALI / AIE)** não são registradas na seção `## Métricas de tamanho` do N3 — vivem centralmente em `global/DATA-MODEL.md` e nos fragmentos `global/data-models/[dominio].md`. Ver seção *Como manter o registro de ALIs sincronizado*.
 
 ### O que contar e o que não contar no N3
 
-Cada artefato N3 corresponde a uma única funcionalidade. Registre nele apenas
-as funções de transação geradas por essa funcionalidade:
+Cada artefato N3 corresponde a uma única funcionalidade. Registre nele apenas as funções de transação geradas por essa funcionalidade:
 
 | O que encontrar no N3 | Contar? | Como contar |
 |---|---|---|
@@ -298,11 +293,17 @@ as funções de transação geradas por essa funcionalidade:
 | Endpoint exposto a sistema externo (GET simples) | **Sim** | CE |
 | Feature 100% atendida por BFF interno (sem exposição externa) | **Sim, se for PE** | EE/SE/CE pelo tipo — BFF interno não zera a feature |
 | Componente que apresenta uma lista lida de um ALI ou AIE — combo, dropdown, autocomplete, carrossel, botões de categoria, chips | **Sim** | CE (sem lógica) ou SE (com lógica de filtro ou transformação) — ver *Regra da lista consultada* |
-| Consulta *implícita* — a leitura que abre o formulário de edição preenchido | **Depende** | CE/SE **se** o formulário trouxer dado que a pesquisa não mostrava; **não conta** se a lista já exibia tudo
+| Consulta *implícita* — a leitura que abre o formulário de edição preenchido | **Depende** | CE/SE **se** o formulário trouxer dado que a pesquisa não mostrava; **não conta** se a lista já exibia tudo |
 
-> **Regra da lista consultada** *(antes chamada "Regra do combobox" — o nome mudou porque a combo é o exemplo, não a regra)*: sempre que um componente apresenta ao usuário uma **lista de valores lida de uma entidade marcada como ALI ou AIE**, essa recuperação é um **processo elementar** — tem início (o disparo), meio (a consulta ao arquivo lógico) e fim (a lista apresentada), e entrega valor ao usuário. O componente não importa: combo, dropdown, autocomplete, lookup, um **carrossel** que recupera e exibe uma lista, **botões de categoria** que, ao clicar, filtram outra lista, chips, árvore ou menu carregado de dados. O que decide é a **origem dos valores** — uma consulta a ALI/AIE —, não a forma de exibi-los; vale ainda que a leitura venha por endpoint BFF interno. Classifique como **CE** (sem lógica) ou **SE** (com filtro, cálculo ou transformação) e conte **uma vez por entidade consultada, por tela onde ocorre**. *(definição do PO, 2026-09-03)*
+> **Regra da lista consultada** *(antes chamada "Regra do combobox" — o nome mudou porque a combo é o exemplo, não a regra)*: sempre que um componente apresenta ao usuário uma **lista de valores lida de uma entidade marcada como ALI ou AIE**, essa recuperação é um **processo elementar** — tem início (o disparo), meio (a consulta ao arquivo lógico) e fim (a lista apresentada), e entrega valor ao usuário. O componente não importa: combo, dropdown, autocomplete, lookup, um **carrossel** que recupera e exibe uma lista, **botões de categoria** que, ao clicar, filtram outra lista, chips, árvore ou menu carregado de dados. O que decide é a **origem dos valores** — uma consulta a ALI/AIE —, não a forma de exibi-los; vale ainda que a leitura venha por endpoint BFF interno. Classifique como **CE** (sem lógica) ou **SE** (com filtro, cálculo ou transformação) e conte **uma vez na aplicação** — registrada na feature **dona da tela** onde ela foi contada primeiro (Superfície *Tela própria* ou *Modal* — o modal com conteúdo próprio: detalhe de um registro, consulta ou formulário que não é subformulário de outro), nunca numa feature de *Ação em tela*, que não tem formulário próprio. A mesma lista noutra tela não conta de novo: a linha **referencia** o PE contado (ver *PE reutilizado*, abaixo). Conferência: `node scripts/valida-acessorio-tela.mjs`. *(definição do PO, 2026-09-03; dona da tela, 2026-09-23; uma vez na aplicação, 2026-09-27)*
 >
-> **Nome do PE**: `Consultar <Nome da Entidade> (<componente>)` — o nome da **entidade consultada**, não o da tela que a exibe; o componente entre parênteses (`combo`, `carrossel`, `botões`) é só marcação de conferência. Ex.: `Consultar Comprador (combo)`, `Consultar Categorias (botões)`. Lista alimentada por valores fixos no código, por enum ou por valores já presentes na própria tela **não** consulta ALI/AIE e **não** é PE; e o clique que só filtra, em memória, o que já está em tela também não — nada atravessa a fronteira (ver *Regra da consulta implícita*). Se o clique dispara nova consulta ao arquivo lógico com o filtro, esse é o PE da própria lista filtrada, não um segundo PE dos botões.
+> **Nome do PE**: `Consultar <rótulo do campo> (<componente>)` — o **rótulo que a tela mostra** para a lista (o Label PO do campo na tabela `## Campos` do N3), não o nome da entidade consultada nem o da tela que a exibe; o componente entre parênteses (`combo`, `carrossel`, `botões`) é só marcação de conferência — `combo` serve para **qualquer** lista de valores lida de ALI/AIE, seja qual for o componente da tela, e o PE não se renomeia quando o componente real se revela outro (uma lista de filtros com contagem, por exemplo) *(PO, 2026-10-02)*. Ex.: `Consultar Ata sob minha gestão (combo)`, `Consultar Categorias (botões)`. A entidade lida fica no ALR da memória de cálculo e na `Observação` do consolidado. *(decisão do PO, 2026-09-23 — até então o nome era o da entidade)*: duas listas sobre a mesma entidade com filtros diferentes — as atas vigentes com item elegível numa tela, as atas sob gestão do usuário noutra — saíam com o mesmo nome, e nome igual se lê como o mesmo PE. Com o rótulo, nome igual passa a dizer **a mesma lista** (mesmo rótulo, mesmo filtro), que é o que a conferência de duplicidade do CPM 4.3.1 (5.5.1) procura — e o `valida-acessorio-tela` confere: o mesmo nome contado em duas features é erro (ver *PE reutilizado*). Rótulo igual com filtro diferente é exceção: as duas contam, a diferença vai para a `Observação` do consolidado, e uma delas a declara na memória de cálculo — `> Distinto de <ID> · <PE>: <o que difere>`. Linhas `acessório` vindas de baseline externo mantêm o nome da planilha de origem; o `principal` leva o nome da feature (ver *Papel do PE em relação à feature*). Lista alimentada por valores fixos no código, por enum ou por valores já presentes na própria tela **não** consulta ALI/AIE e **não** é PE; e o clique que só filtra, em memória, o que já está em tela também não — nada atravessa a fronteira (ver *Regra da consulta implícita*). Se o clique dispara nova consulta ao arquivo lógico com o filtro, esse é o PE da própria lista filtrada, não um segundo PE dos botões.
+
+> **PE reutilizado** *(decisão do PO, 2026-09-27)*: um processo elementar conta **uma vez na aplicação** — pelo CPM, os mesmos DER, os mesmos arquivos lógicos e a mesma lógica são o mesmo PE, em quantas telas ele aparecer. A feature que usa um PE já contado noutra — a mesma lista noutra tela, o mesmo relatório por outro caminho — grava a linha na sua `## Métricas de tamanho` com o **nome do PE contado** e, na coluna Tipo, `↪` seguido do ID da feature onde ele conta, **com link para o N3 dela** (caminho relativo a este N3: quem lê chega ao PE contado num clique; sem o link, ou com link para outro arquivo, o `valida-acessorio-tela` reprova e diz o link a gravar); ALR, DER, Complexidade e PF ficam `—`, e a memória de cálculo não se repete:
+>
+> `| Consultar Empresa (combo) | — | ↪ [CRM-CTT-01](../[feature-set]/[feature].md) | — | — | — | — | 2026-09-27 |`
+>
+> O componente entre parênteses não entra na comparação: a mesma lista em combo numa tela e em autocomplete noutra é o mesmo PE. **A alteração vai para o PE:** a mudança na lista, venha do ticket de qualquer feature que a usa, é feita na linha contada — a recontagem, a `## Origem` e o Changelog são da feature onde o PE conta, que fica com a contagem pendente —, e as features que o reutilizam entram na AIM como regressão (o `generate-impact-draft` segue o `↪` nos dois sentidos). Se a mudança vale só para uma das telas, as listas deixam de ser iguais: a que mudou passa a contar a sua e declara a diferença (`> Distinto de …`). Se a feature onde o PE conta for deprecada, a contagem passa para uma das que o reutilizam. **Para saber se um PE já é contado:** `node scripts/valida-acessorio-tela.mjs --pe "<nome do PE>"` responde onde ele conta e quem o reutiliza; sem o `--pe`, a mesma checagem reprova o PE contado duas vezes e a referência que não acha o PE contado.
 
 > **Regra da consulta implícita**: um processo elementar exige que os dados
 > **atravessem a fronteira da aplicação**. Ao acionar *Editar* em uma linha da
@@ -311,19 +312,52 @@ as funções de transação geradas por essa funcionalidade:
 > mostrava**; quando a lista tem poucas colunas e já exibe tudo o que o formulário
 > edita, **nada cruza a fronteira de novo e não há o que contar**. O nome
 > *(implícita)* na planilha marca a linha para conferência, nunca decide o
-> resultado: no baseline do Prêmio IEL, 14 das 15 linhas assim marcadas foram
-> contadas (3 a 7 PF) e apenas *Consultar Etapa (implícita)* ficou zerada.
-> Registre a decisão na coluna **Observação** do `CONTAGEM-PF.md` — uma linha com
-> 0 PF sem justificativa é indistinguível de linha por preencher.
-> *(critério da equipe de métricas, 2026-09-02)*
+> resultado. Registre a decisão na coluna **Observação** do `CONTAGEM-PF.md` — uma
+> linha com 0 PF sem justificativa é indistinguível de linha por preencher.
+> *(critério informado por equipe de métricas, 2026-09-02)*
+> **Fica sempre com a feature Editar** *(decisão do PO, 2026-09-23)*: é a leitura que abre o formulário de edição preenchido, e conta-se em `Editar <Entidade>` mesmo quando o Editar abre sobre a pesquisa, num *Modal* — nunca na Cadastrar, que abre o formulário vazio, nem na Pesquisar ou Visualizar que só a hospeda; sem feature Editar no Feature Set, vale a regra geral (dona da tela). `scripts/valida-acessorio-tela.mjs` confere.
+
+
+### Papel do PE em relação à feature — `principal` × `acessório`
+
+*(decisão do PO, 2026-09-28 — trazida do portal-compras, REP-030 e REP-053 do ledger de replicação de lá)*
+
+A tabela de `## Métricas de tamanho` do N3 traz a coluna **Papel**, logo depois do nome do PE, que diz o que cada processo elementar é **em relação à feature**:
+
+| Papel | O que é | Exemplo |
+|---|---|---|
+| `principal` | O PE que **realiza** a feature — mesma intenção primária e mesmo objeto que o nome dela. Contam como principais também as variantes do **mesmo** processo por canal (tela e API) ou por tipo do objeto (PJ, PF, estrangeiro): é a mesma função cruzando a fronteira por outro caminho. | `Pesquisar Contato`, em `CRM-CTT-01` — Pesquisar Contato |
+| `acessório` | PE com intenção primária **própria**, que a feature apenas hospeda ou consome: lista consultada (combo, autocomplete, carrossel), consulta implícita que carrega a tela, exportação/impressão do mesmo conteúdo, ação vizinha na mesma tela — **desde que a ação vizinha seja principal da feature dona dela** (a tela não é a unidade: uma tela atende várias features). | `Consultar Empresa (combo)` e `Exportar Contatos Excel`, em `CRM-CTT-01` — Pesquisar Contato |
+
+**Para que serve.** Quando a feature muda, a análise de impacto mede **os principais por padrão**. Os acessórios entram na medição **só quando o analista de métricas apontar** que aquele PE foi tocado — é ele quem identifica, caso a caso, o acessório atingido. Sem a coluna, cada análise refaz essa separação a partir do nome do PE, e o mesmo conjunto sai medido de um jeito numa sprint e de outro na seguinte.
+
+**O papel não muda a contagem.** Ele classifica PE **já contados**: o total da feature soma principais e acessórios, como sempre. Papel responde *o que medir quando algo muda* — não *quanto vale*.
+
+**Regras de preenchimento:**
+
+- Toda linha **medida** (PF numérico, inclusive 0) diz `principal` ou `acessório`. A linha `↪` (PE reutilizado) e a ainda não medida (PF `—`) levam `—`: a primeira conta noutra feature, a segunda ainda não tem papel a declarar.
+- Toda feature com PE contado tem **ao menos um** `principal`. Feature sem principal é sinal de que o PE que a realiza não foi contado — registre a lacuna com ⚠️ em vez de promover um acessório a principal.
+- Pode haver **mais de um** principal: quando o mesmo processo aparece em mais de um canal ou variante, ou quando a tela serve a dois objetos (uma pesquisa que lista Pedidos **e** Itens, os dois principais).
+- O papel é do PE **naquela feature**: o mesmo PE pode ser principal numa e acessório noutra.
+- **O `principal` leva o mesmo nome da feature, sem alteração nem variação** *(decisão do PO, 2026-10-04)*: o título do N3, letra por letra — sem sufixo de componente (`(lista)`, `(combo)`), sem sinônimo do verbo (`Incluir` por `Cadastrar`), sem singular por plural. Vale também para o PE vindo de baseline externo: a planilha de origem dá o número, não o nome. Com **mais de um** principal — um por formato de exportação, um por canal, um por tipo do objeto —, cada um é o nome da feature e a variante entre parênteses: `Exportar Convênios (XLSX)`, `Exportar Convênios (ODS)`. O acessório tem nome próprio (ver *Nome do PE*, acima). O `valida-enumeracao-contagem` reprova a diferença, e é gate do hook (F11).
+- **Ação vizinha é acessório só se for principal de outra feature.** Um EE com verbo próprio, "pronto" próprio e mudança de estado própria passa nos testes do `engine/FEATURE-DEFINITION.md` (teste 3: grava, atualiza ou cancela dado de negócio); se nenhuma feature o tem como principal, o que falta é a feature — ou o papel está errado —, não o registro como acessório. **EE acessório é cheiro**: o acessório legítimo é quase sempre SE ou CE (lista consultada, consulta implícita, exportação).
+- **Variante por completude também é principal.** Salvar rascunho da mesma tela, com validação relaxada, tem o mesmo objeto e a mesma intenção primária (manter o ALI) do PE principal; quando a feature o especifica (regra de retomada, cenário de rascunho), ela o realiza — classifique-o principal, como as variantes por canal e por tipo do objeto.
+- **O acessório mora na feature dona da tela** — ver a *Regra da lista consultada* acima e o `scripts/valida-acessorio-tela.mjs`.
+
+**Consolidado.** O `global/CONTAGEM-PF.md` espelha a coluna em `## 1. Funções de Transação`; PE que não pertence a feature nenhuma (workflow, integração, notificação) sai com `—`.
+
+**Conferência** — `node scripts/valida-contagem-consolidada.mjs`: **reprova** o N3 cuja tabela não tem a coluna Papel, a linha medida sem `principal` ou `acessório`, o consolidado sem a coluna e a feature cuja soma de PF dos principais diverge entre o N3 e o consolidado; **avisa** a feature contada sem nenhum `principal` (a lacuna se resolve com a equipe de métricas, não editando o arquivo) e o EE `acessório` que não é principal em feature nenhuma.
 
 ### Quem conta e quando
 
 | Etapa | Responsável | Momento |
 |---|---|---|
+| Estimativa do ticket | PO / Analista de Requisitos, na AIM | Na análise do ticket, antes do aval do escopo (PROMPT_AIM, passo 5) |
 | Contagem inicial | Dev que especificou o N3 técnico | Após PROMPT_3B |
 | Revisão | Tech Lead do domínio | Antes de mover para `🔄 Em desenvolvimento` |
 | Auditoria | Papel externo (se contratual) | Pontual, baseado nos N3 com status `✅ Implementado` |
+
+A **estimativa do ticket** não é contagem deste documento: é a contagem estimada da AIM (`## Contagem estimada`), feita só com a função e o tipo, pelo peso fixo da aba "AFP - Estimativa" do modelo do cliente — EE 4 · CE 4 · SE 5 · ALI 7 · AIE 5. Ela fica na AIM, vai à planilha estimada (`…_PF_CE.xlsx`) e **nunca** entra no N3, no `CONTAGEM-PF.md` nem no `modules/INDEX.md`: para lá só vai a contagem detalhada, feita pelas regras acima. Quando a detalhada fecha, a AIM troca o `(E)` pelo número do N3 e guarda a estimativa ao lado, com a diferença.
 
 ---
 
@@ -332,6 +366,8 @@ as funções de transação geradas por essa funcionalidade:
 > Rastreabilidade entre as **features (N3)** desta instância e os **processos elementares (PE)** medidos no baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB** — 647 PF: 117 de funções de dados e 530 de transações). A coluna **Processo elementar (planilha)** traz o nome do PE exatamente como consta na contagem, para auditoria cruzada.
 >
 > **Regra de ouro**: a planilha é a fonte da medição; esta tabela apenas registra a qual feature cada PE corresponde. Ao criar ou renomear uma feature, atualize a linha; ao recontar, reconcilie os nomes.
+
+> **Nome do PE nesta tabela × no N3 (4.1.0)**: aqui a coluna traz o nome **da planilha**, para a auditoria cruzada com o baseline. Na `## Métricas de tamanho` do N3, o processo elementar `principal` leva o nome da feature (ver *Papel do PE em relação à feature*), com uma nota que registra o nome da planilha; os acessórios mantêm o nome de origem.
 
 ### A relação não é 1:1 — e não deveria ser
 
@@ -516,9 +552,7 @@ O `modules/INDEX.md` deve manter os totais acumulados por feature, domínio e si
 | [Feature] | [Domínio] | ✅ Implementado | 12 | 18 |
 ```
 
-Totais de domínio e sistema são calculados por soma das features com status
-`📋 Especificado`, `🔄 Em desenvolvimento` e `✅ Implementado`.
-Features `❌ Deprecadas` são excluídas do total vigente mas mantidas no histórico.
+Totais de domínio e sistema são calculados por soma das features com status `📋 Especificado`, `🔄 Em desenvolvimento` e `✅ Implementado`. Features `❌ Deprecadas` são excluídas do total vigente mas mantidas no histórico.
 
 ---
 
@@ -553,8 +587,7 @@ Features `❌ Deprecadas` são excluídas do total vigente mas mantidas no hist�
 
 ## Como manter o registro de ALIs sincronizado
 
-O registro central de ALIs vive em `global/DATA-MODEL.md → ## Arquivos Lógicos (APF)`.
-A fonte de cálculo vive nos fragmentos `global/data-models/[dominio].md → ## Arquivos Lógicos deste domínio`.
+O registro central de ALIs vive em `global/DATA-MODEL.md → ## Arquivos Lógicos (APF)`. A fonte de cálculo vive nos fragmentos `global/data-models/[dominio].md → ## Arquivos Lógicos deste domínio`.
 
 Fluxo de atualização:
 
@@ -570,5 +603,4 @@ Nova entidade criada (PROMPT_3B)
           └─→ Atualizar linha correspondente em DATA-MODEL.md → ## Arquivos Lógicos (APF)
 ```
 
-Regra de ouro: **DATA-MODEL.md é o índice; os fragmentos são a fonte de cálculo.**
-Nunca atualizar um sem atualizar o outro.
+Regra de ouro: **DATA-MODEL.md é o índice; os fragmentos são a fonte de cálculo.** Nunca atualizar um sem atualizar o outro.

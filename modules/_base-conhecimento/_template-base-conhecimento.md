@@ -6,8 +6,8 @@
 <!--
   Este arquivo NÃO é um nível de spec (N0–N3). É o INSUMO de extração: o
   "Raw Spec Document" que organiza material desestruturado para alimentar os
-  PROMPTS 1A / 2A / 3A. Vive em `modules/_base-conhecimento/` — análogo a
-  `demandas/`, não é um domínio do sistema.
+  PROMPTS 1A / 2A / 3A. Vive em `modules/_base-conhecimento/` — como
+  `analise-impacto/`, não é um domínio do sistema.
 
   Nome do arquivo: kebab-case do assunto central — ex.: `gestao-de-fundos.md`.
   É descartável e regenerável: ao avançar para os N1/N2/N3, a verdade migra
@@ -32,7 +32,7 @@
 
 ---
 
-## Árvore de Funcionalidades (Domínios → Feature Sets → Features)
+## Árvore de Funcionalidades (Major Feature Sets → Feature Sets → Features)
 
 <!--
   Árvore NUMERADA (1., 1.1, 1.1.1) para que cada item seja referenciável com

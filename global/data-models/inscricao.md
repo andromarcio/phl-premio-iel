@@ -1,4 +1,4 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
 # Data Model: Inscrição
 > Fragmento do DATA-MODEL.md — cole apenas este arquivo nas sessões que envolvam o domínio Inscrição.
 >
