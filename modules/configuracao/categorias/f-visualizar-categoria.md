@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-CAT-04
 feature_set: CFG-CAT
 dominio: CFG
 entidade: Categoria
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-004_Cadastrar_Categorias
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Visualizar Categoria
-> **Nível 3** - Feature Set: Categorias — Domínio: Configuração da Premiação - `CFG-CAT-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Categorias — Major Feature Set: Configuração da Premiação - `CFG-CAT-04`
 
 ## Descrição
 Permite ao administrador consultar os dados de uma categoria e a lista de prêmios aos quais ela está vinculada, com a situação de cada vínculo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
 
 ---
 
@@ -48,24 +61,26 @@ Permite ao administrador consultar os dados de uma categoria e a lista de prêmi
 ## Cenários
 
 ```gherkin
-# ── Caminho feliz ──────────────────────────────────────────────
+Feature: Visualizar Categoria
 
-Scenario: Ver os dados de uma categoria
-  Given que selecionei uma categoria no catálogo
-  When abro o detalhe da categoria
-  Then o sistema exibe o nome, a descrição e a situação da categoria
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Ver os vínculos da categoria com prêmios
-  Given que estou no detalhe de uma categoria
-  When acesso a aba "Vínculos"
-  Then o sistema exibe a lista de prêmios vinculados e a situação de cada vínculo
+  Scenario: Ver os dados de uma categoria
+    Given que selecionei uma categoria no catálogo
+    When abro o detalhe da categoria
+    Then o sistema exibe o nome, a descrição e a situação da categoria
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Ver os vínculos da categoria com prêmios
+    Given que estou no detalhe de uma categoria
+    When acesso a aba "Vínculos"
+    Then o sistema exibe a lista de prêmios vinculados e a situação de cada vínculo
 
-Scenario: Categoria sem vínculos
-  Given que a categoria não está vinculada a nenhum prêmio
-  When acesso a aba "Vínculos"
-  Then o sistema exibe "Nenhum registro encontrado."
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Categoria sem vínculos
+    Given que a categoria não está vinculada a nenhum prêmio
+    When acesso a aba "Vínculos"
+    Then o sistema exibe "Nenhum registro encontrado."
 ```
 
 ---
@@ -137,12 +152,13 @@ Página de detalhe em `/categorias/:id/visualizar`, com a aba "Dados Gerais" (no
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-25 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-004 |
 
 ---
 
-*Feature Set: Categorias · Domínio: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,30 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-07
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Termo de Confidencialidade
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#termo-de-confidencialidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-029_Termo_Confidencialidade_Avaliador
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Termo de Confidencialidade
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-07`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-07`
 
 ## Descrição
 Permite ao administrador cadastrar, substituir ou desativar o termo de confidencialidade — em texto ou arquivo — exigido do avaliador na premiação.
 
 > ⚠️ Feature derivada do modelo de dados (`Termo de Confidencialidade`) e do N2; a HU específica do termo (HU-029) não faz parte deste lote — validar o conteúdo quando disponível.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — |
 
 ---
 
@@ -53,46 +66,48 @@ Permite ao administrador cadastrar, substituir ou desativar o termo de confidenc
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Termo de Confidencialidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar termo de confidencialidade em texto
-  Given que a premiação não tem termo de confidencialidade ativo
-  When escolho o tipo Texto, informo o conteúdo do termo e salvo
-  Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Cadastrar termo de confidencialidade como arquivo
-  Given que a premiação não tem termo de confidencialidade ativo
-  When escolho o tipo Arquivo, anexo o documento do termo e salvo
-  Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
+  Scenario: Cadastrar termo de confidencialidade em texto
+    Given que a premiação não tem termo de confidencialidade ativo
+    When escolho o tipo Texto, informo o conteúdo do termo e salvo
+    Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Cadastrar termo de confidencialidade como arquivo
+    Given que a premiação não tem termo de confidencialidade ativo
+    When escolho o tipo Arquivo, anexo o documento do termo e salvo
+    Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
 
-Scenario: Substituir o termo ativo
-  Given que a premiação já tem um termo de confidencialidade ativo
-  When cadastro um novo termo e salvo
-  Then o sistema desativa o termo anterior e passa o novo a vigorar como termo ativo
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Desativar o termo de confidencialidade
-  Given que a premiação tem um termo de confidencialidade ativo
-  When desativo o termo
-  Then o sistema deixa a premiação sem termo de confidencialidade ativo
+  Scenario: Substituir o termo ativo
+    Given que a premiação já tem um termo de confidencialidade ativo
+    When cadastro um novo termo e salvo
+    Then o sistema desativa o termo anterior e passa o novo a vigorar como termo ativo
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Desativar o termo de confidencialidade
+    Given que a premiação tem um termo de confidencialidade ativo
+    When desativo o termo
+    Then o sistema deixa a premiação sem termo de confidencialidade ativo
 
-Scenario: Arquivo do termo acima do tamanho permitido
-  Given que seleciono um arquivo de termo maior que o tamanho máximo
-  When tento salvar
-  Then o sistema rejeita e exibe "Arquivo excede o tamanho máximo de [tamanho]."
-  # ← RULES-DICTIONARY: Arquivo com tamanho máximo
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Arquivo do termo acima do tamanho permitido
+    Given que seleciono um arquivo de termo maior que o tamanho máximo
+    When tento salvar
+    Then o sistema rejeita e exibe "Arquivo excede o tamanho máximo de [tamanho]."
+    # ← RULES-DICTIONARY: Arquivo com tamanho máximo
 
-Scenario: Usuário sem permissão de configuração
-  Given que meu perfil não tem permissão para configurar o termo de confidencialidade
-  When tento salvar o termo
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de configuração
+    Given que meu perfil não tem permissão para configurar o termo de confidencialidade
+    When tento salvar o termo
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -162,11 +177,12 @@ Página do termo de confidencialidade em `/configuracao-premiacao/premiacoes/:pr
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do modelo de dados e do N2 (HU-029 fora deste lote) |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

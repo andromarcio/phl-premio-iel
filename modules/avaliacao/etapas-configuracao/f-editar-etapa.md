@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-03
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Etapa
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-024_Configurar_Etapas_de_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Etapa
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-03`
 
 ## Descrição
 Permite ao administrador alterar o nome, o período, os perfis autorizados e os cortes de classificação e de premiação de uma etapa ainda aberta, sem mover a sua posição na sequência da premiação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
+| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — |
 
 ---
 
@@ -56,79 +70,81 @@ Permite ao administrador alterar o nome, o período, os perfis autorizados e os 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar nome, período e perfis de uma etapa aberta
-  Given que selecionei uma etapa na situação Aberta
-  When altero o nome, o período e os perfis autorizados e clico em "Salvar etapa"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Alterar os cortes de uma etapa aberta
-  Given que selecionei uma etapa na situação Aberta com 3 em Quantidade de classificados
-  When altero Quantidade de classificados para 5 e Quantidade de premiados para 2 e clico em "Salvar etapa"
-  Then o sistema grava os novos cortes e exibe "Registro salvo com sucesso."
+  Scenario: Editar nome, período e perfis de uma etapa aberta
+    Given que selecionei uma etapa na situação Aberta
+    When altero o nome, o período e os perfis autorizados e clico em "Salvar etapa"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-Scenario: Remover o corte de premiação de uma etapa aberta
-  Given que selecionei uma etapa aberta que premia 2 participantes por grupo
-  When apago o campo Quantidade de premiados e clico em "Salvar etapa"
-  Then o sistema grava a etapa sem corte de premiação e exibe "Registro salvo com sucesso."
+  Scenario: Alterar os cortes de uma etapa aberta
+    Given que selecionei uma etapa na situação Aberta com 3 em Quantidade de classificados
+    When altero Quantidade de classificados para 5 e Quantidade de premiados para 2 e clico em "Salvar etapa"
+    Then o sistema grava os novos cortes e exibe "Registro salvo com sucesso."
 
-Scenario: Tornar a etapa regional
-  Given que selecionei uma etapa aberta cujo corte vale por grupo
-  When torno a etapa regional e clico em "Salvar etapa"
-  Then o sistema grava a etapa e o cartão passa a apresentar os selos de classificados e de premiados com a abrangência por estado × grupo
+  Scenario: Remover o corte de premiação de uma etapa aberta
+    Given que selecionei uma etapa aberta que premia 2 participantes por grupo
+    When apago o campo Quantidade de premiados e clico em "Salvar etapa"
+    Then o sistema grava a etapa sem corte de premiação e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Tornar a etapa regional
+    Given que selecionei uma etapa aberta cujo corte vale por grupo
+    When torno a etapa regional e clico em "Salvar etapa"
+    Then o sistema grava a etapa e o cartão passa a apresentar os selos de classificados e de premiados com a abrangência por estado × grupo
 
-Scenario: Nome da etapa apagado na edição
-  Given que estou editando uma etapa
-  When apago o campo Nome da etapa e clico em "Salvar etapa"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_SEM_PERFIL
-Scenario: Todos os perfis autorizados removidos
-  Given que estou editando uma etapa
-  When desmarco todos os perfis autorizados e clico em "Salvar etapa"
-  Then o sistema não grava e exibe "Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada."
+  Scenario: Nome da etapa apagado na edição
+    Given que estou editando uma etapa
+    When apago o campo Nome da etapa e clico em "Salvar etapa"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_LIBERACAO_INVALIDA
-Scenario: Liberação do feedback anterior ao novo fim da etapa
-  Given que antecipo a data de término para antes da data de liberação do feedback já gravada
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "A data de liberação do feedback deve ser igual ou posterior à data de fim da etapa."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_SEM_PERFIL
+  Scenario: Todos os perfis autorizados removidos
+    Given que estou editando uma etapa
+    When desmarco todos os perfis autorizados e clico em "Salvar etapa"
+    Then o sistema não grava e exibe "Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada."
 
-Scenario: Apagar a data de liberação do feedback
-  Given que a etapa tem data de liberação do feedback informada
-  When apago o campo e salvo
-  Then o sistema registra a etapa e o feedback volta a ser liberado assim que a consolidação for feita
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_LIBERACAO_INVALIDA
+  Scenario: Liberação do feedback anterior ao novo fim da etapa
+    Given que antecipo a data de término para antes da data de liberação do feedback já gravada
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "A data de liberação do feedback deve ser igual ou posterior à data de fim da etapa."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_CLASSIFICADOS_INVALIDO
-Scenario: Quantidade de classificados zerada na edição
-  Given que estou editando uma etapa aberta
-  When apago o valor do campo Quantidade de classificados e clico em "Salvar etapa"
-  Then o sistema não grava e exibe "Informe ao menos 1 classificado por grupo."
+  Scenario: Apagar a data de liberação do feedback
+    Given que a etapa tem data de liberação do feedback informada
+    When apago o campo e salvo
+    Then o sistema registra a etapa e o feedback volta a ser liberado assim que a consolidação for feita
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_PREMIADOS_INVALIDO
-Scenario: Quantidade de premiados alterada para menos de um
-  Given que estou editando uma etapa aberta que premia
-  When informo zero no campo Quantidade de premiados e clico em "Salvar etapa"
-  Then o sistema não grava e exibe "A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_CLASSIFICADOS_INVALIDO
+  Scenario: Quantidade de classificados zerada na edição
+    Given que estou editando uma etapa aberta
+    When apago o valor do campo Quantidade de classificados e clico em "Salvar etapa"
+    Then o sistema não grava e exibe "Informe ao menos 1 classificado por grupo."
 
-# ── Estados especiais ──────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_PREMIADOS_INVALIDO
+  Scenario: Quantidade de premiados alterada para menos de um
+    Given que estou editando uma etapa aberta que premia
+    When informo zero no campo Quantidade de premiados e clico em "Salvar etapa"
+    Then o sistema não grava e exibe "A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_FECHADA_EDICAO
-Scenario: Tentar editar uma etapa fechada
-  Given que a etapa está na situação Fechada
-  When tento abrir a etapa para edição
-  Then o sistema impede a edição e exibe "Etapa fechada não pode ser editada."
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_CORTE_BLOQUEADO
-Scenario: Tentar alterar os cortes de uma etapa fechada
-  Given que a etapa está na situação Fechada e teve os cortes materializados no resultado
-  When tento alterar Quantidade de classificados ou Quantidade de premiados
-  Then o sistema mantém os cortes aplicados e exibe "Os cortes desta etapa já foram aplicados no resultado. Reabra a etapa para alterá-los."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_FECHADA_EDICAO
+  Scenario: Tentar editar uma etapa fechada
+    Given que a etapa está na situação Fechada
+    When tento abrir a etapa para edição
+    Then o sistema impede a edição e exibe "Etapa fechada não pode ser editada."
+
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_CORTE_BLOQUEADO
+  Scenario: Tentar alterar os cortes de uma etapa fechada
+    Given que a etapa está na situação Fechada e teve os cortes materializados no resultado
+    When tento alterar Quantidade de classificados ou Quantidade de premiados
+    Then o sistema mantém os cortes aplicados e exibe "Os cortes desta etapa já foram aplicados no resultado. Reabra a etapa para alterá-los."
 ```
 
 ---
@@ -226,6 +242,7 @@ O cartão da etapa, de onde parte a edição, exibe os selos "Classificados" e "
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Contagem APF (docqui) | Memória complementada | A memória de `Consultar Etapa (implícita)` passa a dizer **por que** sai com ALR e DER zerados — critério de fronteira informado pela equipe de métricas. Antes a linha era indistinguível de contagem por preencher |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/etapas-configuracao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -238,6 +255,6 @@ O cartão da etapa, de onde parte a edição, exibe os selos "Classificados" e "
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

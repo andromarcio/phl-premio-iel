@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-13
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Questão de Avaliação
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#questão-de-avaliação
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-010_Questoes_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Questão
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-13`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-13`
 
 ## Descrição
 Permite ao administrador cadastrar uma questão — discursiva ou objetiva — no questionário de avaliação do tipo de participante, com enunciado e peso, para padronizar a pontuação das inscrições pelos avaliadores.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-010_Questoes_Tipo_Participante`](../../../hus/HU-010_Questoes_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,40 +64,42 @@ Permite ao administrador cadastrar uma questão — discursiva ou objetiva — n
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Questão
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar questão discursiva
-  Given que acesso o cadastro de questão do questionário de um tipo de participante
-  When seleciono o tipo "Discursiva", informo o enunciado e o peso 10 e salvo
-  Then o sistema adiciona a questão ao questionário e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Cadastrar questão objetiva com alternativas
-  Given que estou no cadastro de questão
-  When seleciono o tipo "Objetiva", informo o enunciado e duas ou mais alternativas e salvo
-  Then o sistema adiciona a questão objetiva com suas alternativas
+  Scenario: Cadastrar questão discursiva
+    Given que acesso o cadastro de questão do questionário de um tipo de participante
+    When seleciono o tipo "Discursiva", informo o enunciado e o peso 10 e salvo
+    Then o sistema adiciona a questão ao questionário e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar questão objetiva com alternativas
+    Given que estou no cadastro de questão
+    When seleciono o tipo "Objetiva", informo o enunciado e duas ou mais alternativas e salvo
+    Then o sistema adiciona a questão objetiva com suas alternativas
 
-Scenario: Enunciado em branco
-  Given que estou no cadastro de questão
-  When deixo o enunciado em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Enunciado em branco
+    Given que estou no cadastro de questão
+    When deixo o enunciado em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Questão informativa com peso zero
-  Given que informo o enunciado e o peso 0
-  When clico em "Salvar"
-  Then o sistema aceita a questão como informativa, sem pontuação
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Questão informativa com peso zero
+    Given que informo o enunciado e o peso 0
+    When clico em "Salvar"
+    Then o sistema aceita a questão como informativa, sem pontuação
 
-Scenario: Usuário sem permissão para cadastrar questão
-  Given que meu perfil não tem permissão para cadastrar questões
-  When tento acessar o cadastro de questão
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para cadastrar questão
+    Given que meu perfil não tem permissão para cadastrar questões
+    When tento acessar o cadastro de questão
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -175,12 +190,13 @@ Diálogo de questão aberto pelo Construtor de Questionário (`/configuracao-pre
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-010 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

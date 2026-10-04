@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-04
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Etapa
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-024_Configurar_Etapas_de_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Excluir Etapa
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-04`
 
 ## Descrição
 Permite ao administrador remover uma etapa da premiação quando não há avaliadores alocados nela, preservando o histórico por exclusão lógica.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
 
 ---
 
@@ -49,36 +62,38 @@ Permite ao administrador remover uma etapa da premiação quando não há avalia
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Excluir Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Excluir etapa sem avaliadores alocados
-  Given que a etapa não possui avaliadores alocados
-  When aciono a exclusão da etapa e confirmo
-  Then o sistema remove a etapa e exibe "Registro excluído com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Excluir etapa sem avaliadores alocados
+    Given que a etapa não possui avaliadores alocados
+    When aciono a exclusão da etapa e confirmo
+    Then o sistema remove a etapa e exibe "Registro excluído com sucesso."
 
-Scenario: Confirmação antes de excluir
-  Given que aciono a exclusão de uma etapa
-  When o sistema solicita confirmação
-  Then o sistema exibe "Deseja realmente excluir este registro?"
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Confirmação antes de excluir
+    Given que aciono a exclusão de uma etapa
+    When o sistema solicita confirmação
+    Then o sistema exibe "Deseja realmente excluir este registro?"
 
-Scenario: Excluir etapa com avaliadores alocados
-  Given que a etapa possui avaliadores alocados ativos
-  When tento excluí-la
-  Then o sistema impede a exclusão e exibe "Não é possível excluir: existem avaliadores alocados vinculados a este registro."
-  # ← RULES-DICTIONARY: Registro vinculado não pode ser excluído
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Excluir etapa com avaliadores alocados
+    Given que a etapa possui avaliadores alocados ativos
+    When tento excluí-la
+    Then o sistema impede a exclusão e exibe "Não é possível excluir: existem avaliadores alocados vinculados a este registro."
+    # ← RULES-DICTIONARY: Registro vinculado não pode ser excluído
 
-Scenario: Usuário sem permissão de exclusão
-  Given que meu perfil não tem permissão para excluir etapas
-  When tento acionar a exclusão da etapa
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de exclusão
+    Given que meu perfil não tem permissão para excluir etapas
+    When tento acionar a exclusão da etapa
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -153,12 +168,13 @@ Ação "Remover" no card da etapa, na aba "Avaliação & Etapas" (`/configuracao
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-024 |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

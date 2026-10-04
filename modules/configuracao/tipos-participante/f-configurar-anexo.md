@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-12
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Configuração de Anexo
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#configuração-de-anexo
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-009_Anexo_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Anexos Exigidos
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-12`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-12`
 
 ## Descrição
 Permite ao administrador configurar os documentos que o candidato deve enviar na inscrição de um tipo de participante, definindo nome, obrigatoriedade, extensões aceitas e tamanho máximo de cada anexo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-009_Anexo_Tipo_Participante`](../../../hus/HU-009_Anexo_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,47 +64,49 @@ Permite ao administrador configurar os documentos que o candidato deve enviar na
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Anexos Exigidos
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Configurar anexo obrigatório
-  Given que acesso a configuração de anexos de um tipo de participante
-  When informo o nome, marco como obrigatório, informo as extensões ".pdf" e ".docx" e o tamanho máximo de 5 MB e salvo
-  Then o sistema registra o documento exigido e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Configurar anexo obrigatório
+    Given que acesso a configuração de anexos de um tipo de participante
+    When informo o nome, marco como obrigatório, informo as extensões ".pdf" e ".docx" e o tamanho máximo de 5 MB e salvo
+    Then o sistema registra o documento exigido e exibe "Registro salvo com sucesso."
 
-Scenario: Nome do documento em branco
-  Given que estou na configuração de um anexo
-  When deixo o campo Nome em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Salvar sem nenhuma extensão
-  Given que preenchi o nome mas não informei nenhuma extensão
-  When clico em "Salvar"
-  Then o sistema não registra e exibe "Informe ao menos uma extensão de arquivo."
-  # ← MESSAGE-DICTIONARY: CFG_ANEXO_SEM_EXTENSAO
+  Scenario: Nome do documento em branco
+    Given que estou na configuração de um anexo
+    When deixo o campo Nome em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Tamanho máximo fora do intervalo
-  Given que informo um tamanho máximo menor que 1 MB ou maior que 100 MB
-  When clico em "Salvar"
-  Then o sistema não registra e exibe "O tamanho máximo deve ser entre 1 MB e 100 MB."
-  # ← MESSAGE-DICTIONARY: CFG_ANEXO_TAMANHO_INTERVALO
+  Scenario: Salvar sem nenhuma extensão
+    Given que preenchi o nome mas não informei nenhuma extensão
+    When clico em "Salvar"
+    Then o sistema não registra e exibe "Informe ao menos uma extensão de arquivo."
+    # ← MESSAGE-DICTIONARY: CFG_ANEXO_SEM_EXTENSAO
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Tamanho máximo fora do intervalo
+    Given que informo um tamanho máximo menor que 1 MB ou maior que 100 MB
+    When clico em "Salvar"
+    Then o sistema não registra e exibe "O tamanho máximo deve ser entre 1 MB e 100 MB."
+    # ← MESSAGE-DICTIONARY: CFG_ANEXO_TAMANHO_INTERVALO
 
-Scenario: Remover documento exigido
-  Given que existe um documento exigido configurado
-  When removo o documento
-  Then o sistema deixa de solicitá-lo ao candidato e preserva o registro
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Remover documento exigido
+    Given que existe um documento exigido configurado
+    When removo o documento
+    Then o sistema deixa de solicitá-lo ao candidato e preserva o registro
 
-Scenario: Usuário sem permissão para configurar anexos
-  Given que meu perfil não tem permissão para configurar anexos
-  When tento acessar a configuração de anexos
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para configurar anexos
+    Given que meu perfil não tem permissão para configurar anexos
+    When tento acessar a configuração de anexos
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -205,12 +220,13 @@ Tela de Anexos Exigidos do tipo de participante (`/configuracao-premiacao/premia
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (5 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-009 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

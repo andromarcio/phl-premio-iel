@@ -1,31 +1,44 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-12
 feature_set: AVL-APU
 dominio: AVL
 entidade: Fechamento de Etapa por UF
-prioridade: P1
-mvp: false
 data_model_ref: data-models/avaliacao.md#fechamento-de-etapa-por-uf
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-03]
+origem:
+  tipo: issue
+  chave: HU-030_Fechar_Etapa_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Reabrir Etapa por UF
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-12`
-> **Prioridade**: P1 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-12`
 
 ## Descrição
 Permite ao administrador devolver à apuração um estado cuja etapa já foi encerrada, desfazendo o fechamento daquele escopo para que o corte de classificação e o de premiação sejam recalculados.
 
 A reabertura parte do próprio bloco do estado na tela de fechamento da etapa, onde o estado já encerrado apresenta a ação de reabrir; ao confirmar, o estado volta a figurar como nunca fechado e a etapa, se estava encerrada, volta à situação Aberta.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| `HU-030_Fechar_Etapa_Avaliacao` ⚠️ *(sem documento em `hus/`)* | Criação | — |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Criação | — |
 
 ---
 
@@ -58,56 +71,58 @@ A reabertura parte do próprio bloco do estado na tela de fechamento da etapa, o
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Reabrir Etapa por UF
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Reabrir a etapa em um estado
-  Given que a etapa está encerrada em um estado e nenhuma etapa posterior foi encerrada
-  When reabro a etapa naquele estado
-  Then o sistema desfaz o fechamento do estado, devolve-o à apuração e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reabertura devolve a etapa à situação Aberta
-  Given que a etapa inteira estava encerrada
-  When reabro a etapa em um dos seus estados
-  Then o sistema apresenta a etapa na situação Aberta
+  Scenario: Reabrir a etapa em um estado
+    Given que a etapa está encerrada em um estado e nenhuma etapa posterior foi encerrada
+    When reabro a etapa naquele estado
+    Then o sistema desfaz o fechamento do estado, devolve-o à apuração e exibe "Registro salvo com sucesso."
 
-Scenario: Reabertura preserva o feedback consolidado
-  Given que reabri a etapa em um estado
-  When abro o feedback consolidado de uma inscrição daquele estado
-  Then o sistema apresenta o texto consolidado preservado e novamente editável
+  Scenario: Reabertura devolve a etapa à situação Aberta
+    Given que a etapa inteira estava encerrada
+    When reabro a etapa em um dos seus estados
+    Then o sistema apresenta a etapa na situação Aberta
 
-Scenario: Reabertura desfaz o desempate do escopo reaberto
-  Given que a etapa tem desempates registrados em dois estados e reabro apenas um deles
-  When consulto os desempates da etapa
-  Then o sistema desfez os desempates do estado reaberto e manteve os do outro estado
+  Scenario: Reabertura preserva o feedback consolidado
+    Given que reabri a etapa em um estado
+    When abro o feedback consolidado de uma inscrição daquele estado
+    Then o sistema apresenta o texto consolidado preservado e novamente editável
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reabertura desfaz o desempate do escopo reaberto
+    Given que a etapa tem desempates registrados em dois estados e reabro apenas um deles
+    When consulto os desempates da etapa
+    Then o sistema desfez os desempates do estado reaberto e manteve os do outro estado
 
-Scenario: Estado que não está encerrado
-  Given que a etapa não foi encerrada naquele estado
-  When observo o bloco do estado
-  Then o sistema não oferece a ação de reabrir
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Fechamento anterior não fica registrado
-  Given que reabri a etapa em um estado já fechado antes
-  When consulto o estado
-  Then o sistema o apresenta como nunca fechado, sem responsável, data nem observação do fechamento desfeito
+  Scenario: Estado que não está encerrado
+    Given que a etapa não foi encerrada naquele estado
+    When observo o bloco do estado
+    Then o sistema não oferece a ação de reabrir
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Fechamento anterior não fica registrado
+    Given que reabri a etapa em um estado já fechado antes
+    When consulto o estado
+    Then o sistema o apresenta como nunca fechado, sem responsável, data nem observação do fechamento desfeito
 
-# ← MESSAGE-DICTIONARY: AVL_REABERTURA_ETAPA_POSTERIOR
-Scenario: Etapa posterior já encerrada
-  Given que uma etapa posterior da premiação já foi encerrada
-  When tento reabrir a etapa em um estado
-  Then o sistema não reabre e exibe "Há etapa posterior já encerrada nesta premiação. Reabra as etapas seguintes antes de reabrir este estado."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_REABERTURA_ETAPA_POSTERIOR
+  Scenario: Etapa posterior já encerrada
+    Given que uma etapa posterior da premiação já foi encerrada
+    When tento reabrir a etapa em um estado
+    Then o sistema não reabre e exibe "Há etapa posterior já encerrada nesta premiação. Reabra as etapas seguintes antes de reabrir este estado."
 
-Scenario: Usuário sem permissão de reabertura
-  Given que meu perfil não tem permissão para reabrir a etapa
-  When tento reabrir a etapa no estado
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de reabertura
+    Given que meu perfil não tem permissão para reabrir a etapa
+    When tento reabrir a etapa no estado
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -204,6 +219,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o bloco 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do que a reabertura faz com a desclassificação. *Antes* a reabertura desfazia o fechamento e os desempates do estado e preservava o feedback consolidado — a desclassificação não existia, logo nada dizia sobre ela. *Agora* a RN9 fixa que a reabertura **preserva** a desclassificação, e desfazê-la exige a reversão própria. Sem Δ DER — é lógica de processamento |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **4 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -212,6 +228,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o bloco 
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-09-01*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-09-01*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

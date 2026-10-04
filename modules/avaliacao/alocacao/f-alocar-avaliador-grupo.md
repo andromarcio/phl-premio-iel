@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-02
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#alocação-de-avaliadores
 endpoints: []
 error_codes: []
 depende_de: ["AVL-ALO-01"]
+origem:
+  tipo: issue
+  chave: HU-025_Alocar_Avaliadores
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Alocar Avaliador ao Grupo
-> **Nível 3** - Feature Set: Alocação de Avaliadores — Domínio: Avaliação - `AVL-ALO-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Alocação de Avaliadores — Major Feature Set: Avaliação - `AVL-ALO-02`
 
 ## Descrição
 Permite ao administrador compor e salvar o pool de avaliadores aptos a avaliar um grupo de categoria, modalidade, tipo de participante e submodalidade em uma etapa, servindo de base para a alocação por inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
 
 ---
 
@@ -52,34 +65,36 @@ Permite ao administrador compor e salvar o pool de avaliadores aptos a avaliar u
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Alocar Avaliador ao Grupo
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Adicionar avaliador ao pool e salvar
-  Given que consulto os grupos de uma etapa
-  When incluo um avaliador do cadastro corporativo no pool de um grupo e salvo
-  Then o sistema registra o pool e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Adicionar avaliador ao pool e salvar
+    Given que consulto os grupos de uma etapa
+    When incluo um avaliador do cadastro corporativo no pool de um grupo e salvo
+    Then o sistema registra o pool e exibe "Registro salvo com sucesso."
 
-Scenario: Salvar grupo sem avaliadores
-  Given que um grupo está sem avaliadores no pool
-  When salvo o pool sem incluir avaliadores
-  Then o sistema mantém o grupo com o pool vazio
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Remover avaliador sem avaliações
-  Given que um avaliador do pool não possui avaliações no grupo e etapa
-  When removo o avaliador do pool e salvo
-  Then o sistema registra o pool sem o avaliador
+  Scenario: Salvar grupo sem avaliadores
+    Given que um grupo está sem avaliadores no pool
+    When salvo o pool sem incluir avaliadores
+    Then o sistema mantém o grupo com o pool vazio
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Remover avaliador sem avaliações
+    Given que um avaliador do pool não possui avaliações no grupo e etapa
+    When removo o avaliador do pool e salvo
+    Then o sistema registra o pool sem o avaliador
 
-Scenario: Remover avaliador com avaliação ativa
-  Given que um avaliador do pool possui avaliação em andamento no grupo
-  When tento removê-lo do pool
-  Then o sistema mantém o avaliador no pool e exibe "Não é possível remover o avaliador: há avaliações em andamento ou finalizadas."
-  # ← MESSAGE-DICTIONARY: AVL_REMOCAO_AVALIADOR_BLOQUEADA
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  Scenario: Remover avaliador com avaliação ativa
+    Given que um avaliador do pool possui avaliação em andamento no grupo
+    When tento removê-lo do pool
+    Then o sistema mantém o avaliador no pool e exibe "Não é possível remover o avaliador: há avaliações em andamento ou finalizadas."
+    # ← MESSAGE-DICTIONARY: AVL_REMOCAO_AVALIADOR_BLOQUEADA
 ```
 
 ---
@@ -156,6 +171,7 @@ Na tela Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`), o seletor de 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A tela de Alocação por Grupo, que o fluxo já desenhava como contexto, passa a ser atribuída a esta feature — é nela que a alocação ao pool acontece. Fidelidade **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Grupo corrigido | A **submodalidade** passa a compor o grupo, convergindo com `AVL-ALO-04` Alocar Avaliador à Inscrição, cuja definição foi conferida contra o código. Antes as duas leituras conviviam e mostravam grupos diferentes para a mesma premiação |
@@ -164,6 +180,6 @@ Na tela Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`), o seletor de 
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

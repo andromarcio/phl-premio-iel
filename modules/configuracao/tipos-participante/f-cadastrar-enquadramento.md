@@ -1,30 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-10
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Enquadramento
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#enquadramento
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-008_Enquadramento_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Enquadramento
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-10`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-10`
 
 ## Descrição
 
 > ℹ️ **Rótulo na interface** (conferência com o código, 2026-08-28): o enquadramento aparece para o administrador como **“Sub Modalidade”** — a aba *Sub Modalidades* do Tipo de Participante lista exatamente esta entidade. Ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
 Permite ao administrador cadastrar um enquadramento — subdivisão classificatória de um tipo de participante (ex.: "1º Ano", "2º Ano") — que passa a estar disponível como opção de classificação na inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,36 +64,38 @@ Permite ao administrador cadastrar um enquadramento — subdivisão classificat�
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Enquadramento
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar enquadramento
-  Given que acesso o cadastro de enquadramento de um tipo de participante
-  When informo o nome "1º Ano" e salvo
-  Then o sistema registra o enquadramento e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar enquadramento
+    Given que acesso o cadastro de enquadramento de um tipo de participante
+    When informo o nome "1º Ano" e salvo
+    Then o sistema registra o enquadramento e exibe "Registro salvo com sucesso."
 
-Scenario: Nome em branco
-  Given que estou no cadastro de enquadramento
-  When deixo o campo Nome em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome em branco
+    Given que estou no cadastro de enquadramento
+    When deixo o campo Nome em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Nome duplicado no mesmo tipo de participante
-  Given que já existe o enquadramento "1º Ano" neste tipo de participante
-  When tento criar outro enquadramento com o mesmo nome neste tipo
-  Then o sistema não registra e exibe "Já existe um enquadramento com este nome para este tipo de participante."
-  # ← MESSAGE-DICTIONARY: CFG_ENQUADRAMENTO_NOME_DUPLICADO
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Nome duplicado no mesmo tipo de participante
+    Given que já existe o enquadramento "1º Ano" neste tipo de participante
+    When tento criar outro enquadramento com o mesmo nome neste tipo
+    Then o sistema não registra e exibe "Já existe um enquadramento com este nome para este tipo de participante."
+    # ← MESSAGE-DICTIONARY: CFG_ENQUADRAMENTO_NOME_DUPLICADO
 
-Scenario: Usuário sem permissão para cadastrar enquadramento
-  Given que meu perfil não tem permissão para cadastrar enquadramentos
-  When tento acessar o cadastro de enquadramento
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para cadastrar enquadramento
+    Given que meu perfil não tem permissão para cadastrar enquadramentos
+    When tento acessar o cadastro de enquadramento
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -145,11 +160,12 @@ Diálogo de cadastro aberto pela tela de Enquadramentos do tipo de participante 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-008 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-07
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#rascunho-autossalvo
 endpoints: []
 error_codes: []
 depende_de: [INS-PAR-01]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Retomar Inscrição
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-07`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-07`
 
 ## Descrição
 Permite ao participante reabrir um rascunho salvo e retomar o preenchimento da inscrição do ponto em que havia parado.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -50,29 +63,31 @@ Permite ao participante reabrir um rascunho salvo e retomar o preenchimento da i
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Retomar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Retomar rascunho salvo
-  Given que tenho uma inscrição em rascunho salva automaticamente
-  When retomo a inscrição
-  Then o sistema recupera o último conteúdo salvo
-  And o participante continua o preenchimento do ponto em que parou
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Retomar rascunho salvo
+    Given que tenho uma inscrição em rascunho salva automaticamente
+    When retomo a inscrição
+    Then o sistema recupera o último conteúdo salvo
+    And o participante continua o preenchimento do ponto em que parou
 
-Scenario: Retomar inscrição em ajuste
-  Given que minha inscrição está aguardando ajuste
-  When retomo a inscrição
-  Then o sistema recupera o conteúdo para correção dos itens apontados
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Retomar inscrição em ajuste
+    Given que minha inscrição está aguardando ajuste
+    When retomo a inscrição
+    Then o sistema recupera o conteúdo para correção dos itens apontados
 
-Scenario: Inscrição de outro participante
-  Given que a inscrição pertence a outro participante
-  When tento retomá-la
-  Then o sistema não permite o acesso à inscrição
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Inscrição de outro participante
+    Given que a inscrição pertence a outro participante
+    When tento retomá-la
+    Then o sistema não permite o acesso à inscrição
 ```
 
 ---
@@ -137,11 +152,12 @@ A retomada parte do dashboard do participante em `/participante/dashboard`, onde
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

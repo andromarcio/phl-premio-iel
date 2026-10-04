@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-FIL-02
 feature_set: VAL-FIL
 dominio: VAL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-023_Dashboard_Gerencial_Validacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Acompanhar Painel de Validação
-> **Nível 3** - Feature Set: Fila e Painel de Validação — Domínio: Validação - `VAL-FIL-02`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Fila e Painel de Validação — Major Feature Set: Validação - `VAL-FIL-02`
 
 ## Descrição
 Permite ao validador acompanhar as métricas de validação de uma premiação, com a distribuição das inscrições por situação e a comparação por categoria ou por unidade federativa.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-023_Dashboard_Gerencial_Validacao`](../../../hus/HU-023_Dashboard_Gerencial_Validacao.docx) | Criação | — |
+| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Alteração | — |
 
 ---
 
@@ -50,31 +64,33 @@ Permite ao validador acompanhar as métricas de validação de uma premiação, 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Acompanhar Painel de Validação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Acompanhar a distribuição por situação
-  Given que selecionei uma premiação no dashboard
-  When as métricas são carregadas
-  Then o sistema exibe a distribuição das inscrições por situação de validação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Comparar por categoria ou por unidade
-  Given que estou acompanhando as métricas de uma premiação
-  When alterno a comparação entre "Por Categoria" e "Por UF"
-  Then o sistema exibe as inscrições agrupadas pela dimensão escolhida
+  Scenario: Acompanhar a distribuição por situação
+    Given que selecionei uma premiação no dashboard
+    When as métricas são carregadas
+    Then o sistema exibe a distribuição das inscrições por situação de validação
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Comparar por categoria ou por unidade
+    Given que estou acompanhando as métricas de uma premiação
+    When alterno a comparação entre "Por Categoria" e "Por UF"
+    Then o sistema exibe as inscrições agrupadas pela dimensão escolhida
 
-Scenario: Restrição por período
-  Given que informo uma data de início e uma data de fim
-  When as métricas são recalculadas
-  Then o sistema considera apenas as inscrições dentro do período informado
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Sem premiação selecionada
-  Given que nenhuma premiação está selecionada
-  When acesso o dashboard
-  Then o sistema não carrega os gráficos e exibe "Nenhum registro encontrado."
+  Scenario: Restrição por período
+    Given que informo uma data de início e uma data de fim
+    When as métricas são recalculadas
+    Then o sistema considera apenas as inscrições dentro do período informado
+
+  Scenario: Sem premiação selecionada
+    Given que nenhuma premiação está selecionada
+    When acesso o dashboard
+    Then o sistema não carrega os gráficos e exibe "Nenhum registro encontrado."
 
 ```
 
@@ -156,6 +172,7 @@ Página própria em `/validacao-inscricao/dashboard` (Dashboard Gerencial de Val
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/fila-validacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Especificação (docqui) | Exportação separada | A exportação do histórico saiu desta feature e virou `VAL-FIL-03` **Exportar Histórico do Painel de Validação**, conforme a decisão de produto de 2026-09-01. As regras 4 a 7, os cenários da exportação, os campos automáticos e os critérios SC-03 a SC-05 foram para lá; aqui ficou o ponteiro. A contagem desta feature não muda: os 7 PF são do `Consultar Dashboard Gerencial` |
@@ -166,6 +183,6 @@ Página própria em `/validacao-inscricao/dashboard` (Dashboard Gerencial de Val
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

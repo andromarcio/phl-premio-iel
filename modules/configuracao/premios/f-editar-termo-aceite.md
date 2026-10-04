@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-10
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Termo de Aceite
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#termo-de-aceite
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-002_Cadastrar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Termo de Aceite
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-10`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-10`
 
 ## Descrição
 Permite ao administrador alterar o título, o texto ou a obrigatoriedade de um termo de aceite já registrado na edição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
 
 ---
 
@@ -48,26 +61,28 @@ Permite ao administrador alterar o título, o texto ou a obrigatoriedade de um t
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Termo de Aceite
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Alterar o texto de um termo
-  Given que selecionei um termo de aceite existente
-  When altero o texto e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Alterar a obrigatoriedade de um termo
-  Given que selecionei um termo de aceite existente
-  When altero a marcação de obrigatório e salvo
-  Then o sistema grava a nova marcação de obrigatoriedade do termo
+  Scenario: Alterar o texto de um termo
+    Given que selecionei um termo de aceite existente
+    When altero o texto e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Alterar a obrigatoriedade de um termo
+    Given que selecionei um termo de aceite existente
+    When altero a marcação de obrigatório e salvo
+    Then o sistema grava a nova marcação de obrigatoriedade do termo
 
-Scenario: Título apagado na edição
-  Given que estou editando um termo de aceite
-  When apago o campo Título e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Título apagado na edição
+    Given que estou editando um termo de aceite
+    When apago o campo Título e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 ```
 
 ---
@@ -153,12 +168,13 @@ Diálogo de edição do termo na tela Termos de Aceite do Prêmio (`/configuraca
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

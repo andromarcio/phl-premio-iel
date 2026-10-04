@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-06
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#aceite-de-termo-do-participante
 endpoints: []
 error_codes: []
 depende_de: [INS-PAR-01]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Aceitar Termo
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-06`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-06`
 
 ## Descrição
 Permite ao participante registrar o aceite dos termos obrigatórios e opcionais da premiação, condição necessária para concluir a inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -50,27 +63,29 @@ Permite ao participante registrar o aceite dos termos obrigatórios e opcionais 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Aceitar Termo
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Aceitar termo obrigatório
-  Given que a inscrição apresenta um termo obrigatório
-  When registro o aceite do termo
-  Then o sistema registra o aceite com a data e a origem
-  And o termo passa a constar como aceito
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Aceitar termo opcional
-  Given que a inscrição apresenta um termo opcional
-  When registro o aceite do termo opcional
-  Then o sistema registra o aceite do termo opcional
+  Scenario: Aceitar termo obrigatório
+    Given que a inscrição apresenta um termo obrigatório
+    When registro o aceite do termo
+    Then o sistema registra o aceite com a data e a origem
+    And o termo passa a constar como aceito
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Aceitar termo opcional
+    Given que a inscrição apresenta um termo opcional
+    When registro o aceite do termo opcional
+    Then o sistema registra o aceite do termo opcional
 
-Scenario: Termo obrigatório não aceito impede a finalização
-  Given que existe um termo obrigatório ainda não aceito
-  When consulto a situação da inscrição para finalização
-  Then o sistema mantém a finalização indisponível até o aceite do termo
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Termo obrigatório não aceito impede a finalização
+    Given que existe um termo obrigatório ainda não aceito
+    When consulto a situação da inscrição para finalização
+    Then o sistema mantém a finalização indisponível até o aceite do termo
 ```
 
 ---
@@ -147,12 +162,13 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: cada termo e
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

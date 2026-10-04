@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-02
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Etapa
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-024_Configurar_Etapas_de_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Etapa
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-02`
 
 ## Descrição
 Permite ao administrador criar uma etapa eliminatória de avaliação com nome, período, perfis autorizados e os cortes de classificação e de premiação que ela aplica, posicionando-a ao final da sequência da premiação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
+| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — |
 
 ---
 
@@ -57,81 +71,83 @@ Permite ao administrador criar uma etapa eliminatória de avaliação com nome, 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Criar etapa com dados válidos
-  Given que a premiação tem menos de cinco etapas
-  When informo nome, data de início, data de término e ao menos um perfil autorizado e salvo
-  Then o sistema registra a etapa ao final da sequência e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Criar etapa que também premia
-  Given que estou criando uma etapa e informo 3 em Quantidade de classificados
-  When informo 1 em Quantidade de premiados e salvo
-  Then o sistema registra a etapa com os dois cortes e exibe "Registro salvo com sucesso."
+  Scenario: Criar etapa com dados válidos
+    Given que a premiação tem menos de cinco etapas
+    When informo nome, data de início, data de término e ao menos um perfil autorizado e salvo
+    Then o sistema registra a etapa ao final da sequência e exibe "Registro salvo com sucesso."
 
-Scenario: Criar etapa que apenas classifica
-  Given que estou criando uma etapa e informo 5 em Quantidade de classificados
-  When deixo Quantidade de premiados em branco e salvo
-  Then o sistema registra a etapa sem corte de premiação e exibe "Registro salvo com sucesso."
+  Scenario: Criar etapa que também premia
+    Given que estou criando uma etapa e informo 3 em Quantidade de classificados
+    When informo 1 em Quantidade de premiados e salvo
+    Then o sistema registra a etapa com os dois cortes e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Criar etapa que apenas classifica
+    Given que estou criando uma etapa e informo 5 em Quantidade de classificados
+    When deixo Quantidade de premiados em branco e salvo
+    Then o sistema registra a etapa sem corte de premiação e exibe "Registro salvo com sucesso."
 
-Scenario: Nome da etapa em branco
-  Given que estou criando uma etapa
-  When deixo o campo Nome da etapa em branco e clico em "Salvar etapa"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_PERIODO_INVALIDO
-Scenario: Data de término anterior à data de início
-  Given que informo uma data de término anterior à data de início
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "Data de fim deve ser maior ou igual à data de início."
+  Scenario: Nome da etapa em branco
+    Given que estou criando uma etapa
+    When deixo o campo Nome da etapa em branco e clico em "Salvar etapa"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_SEM_PERFIL
-Scenario: Nenhum perfil autorizado selecionado
-  Given que desmarco todos os perfis autorizados
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_PERIODO_INVALIDO
+  Scenario: Data de término anterior à data de início
+    Given que informo uma data de término anterior à data de início
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "Data de fim deve ser maior ou igual à data de início."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_CLASSIFICADOS_INVALIDO
-Scenario: Quantidade de classificados menor que um
-  Given que informo zero no campo Quantidade de classificados
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "Informe ao menos 1 classificado por grupo."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_SEM_PERFIL
+  Scenario: Nenhum perfil autorizado selecionado
+    Given que desmarco todos os perfis autorizados
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_PREMIADOS_INVALIDO
-Scenario: Quantidade de premiados informada menor que um
-  Given que informo zero no campo Quantidade de premiados
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_CLASSIFICADOS_INVALIDO
+  Scenario: Quantidade de classificados menor que um
+    Given que informo zero no campo Quantidade de classificados
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "Informe ao menos 1 classificado por grupo."
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_LIBERACAO_INVALIDA
-Scenario: Liberação do feedback anterior ao fim da etapa
-  Given que informo uma data de liberação do feedback anterior à data de término
-  When clico em "Salvar etapa"
-  Then o sistema não registra e exibe "A data de liberação do feedback deve ser igual ou posterior à data de fim da etapa."
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_PREMIADOS_INVALIDO
+  Scenario: Quantidade de premiados informada menor que um
+    Given que informo zero no campo Quantidade de premiados
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia."
 
-Scenario: Etapa sem data de liberação do feedback
-  Given que estou preenchendo a etapa
-  When deixo Liberação do feedback em branco e salvo
-  Then o sistema registra a etapa e o feedback passa a ser liberado ao participante assim que a consolidação for feita
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_LIBERACAO_INVALIDA
+  Scenario: Liberação do feedback anterior ao fim da etapa
+    Given que informo uma data de liberação do feedback anterior à data de término
+    When clico em "Salvar etapa"
+    Then o sistema não registra e exibe "A data de liberação do feedback deve ser igual ou posterior à data de fim da etapa."
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Etapa sem data de liberação do feedback
+    Given que estou preenchendo a etapa
+    When deixo Liberação do feedback em branco e salvo
+    Then o sistema registra a etapa e o feedback passa a ser liberado ao participante assim que a consolidação for feita
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_LIMITE
-Scenario: Limite de cinco etapas atingido
-  Given que a premiação já possui cinco etapas
-  When tento adicionar mais uma etapa
-  Then o sistema impede a criação e exibe "Esta premiação já atingiu o limite de cinco etapas."
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_LIMITE
+  Scenario: Limite de cinco etapas atingido
+    Given que a premiação já possui cinco etapas
+    When tento adicionar mais uma etapa
+    Then o sistema impede a criação e exibe "Esta premiação já atingiu o limite de cinco etapas."
 
-Scenario: Usuário sem permissão de criação
-  Given que meu perfil não tem permissão para cadastrar etapas
-  When tento abrir o editor de nova etapa
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de criação
+    Given que meu perfil não tem permissão para cadastrar etapas
+    When tento abrir o editor de nova etapa
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -219,6 +235,7 @@ Diálogo "Editor de Etapa" aberto pela ação "Nova etapa" na aba "Avaliação &
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/etapas-configuracao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Critério da abrangência trocado | A abrangência do corte passa a derivar da **natureza da etapa** — nacional apura entre todos os inscritos, regional apura por estado — e não mais da lista de perfis autorizados. A visibilidade da etapa por perfil passa a ser matriz do N2. ⚠️ Falta um campo que declare a natureza da etapa; hoje ela é lida dos perfis autorizados |
@@ -229,6 +246,6 @@ Diálogo "Editor de Etapa" aberto pela ação "Nova etapa" na aba "Avaliação &
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,31 +1,43 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_3A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-14
 feature_set: AVL-APU
 dominio: AVL
 entidade: Disparo de Feedback
-prioridade: P1
-mvp: false
 data_model_ref: data-models/avaliacao.md#disparo-de-feedback
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-03, AVL-PAI-03]
+origem:
+  tipo: issue
+  chave: PDTIC25093-69
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Enviar Feedback ao Participante
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-14`
-> **Prioridade**: P1 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-14`
 
 ## Descrição
 Permite ao Administrador Nacional avisar por e-mail os participantes de uma etapa encerrada de que a devolutiva já está disponível, conferindo antes quem vai receber e acompanhando depois o que foi enviado.
 
 Até aqui a devolutiva ficava à espera de o participante voltar ao sistema e procurá-la: a liberação era um estado que ele tinha de ir conferir. O envio fecha essa lacuna sem automatizar nada — quem decide o momento é o administrador, e o e-mail leva o participante de volta ao sistema, onde a devolutiva é lida com o contexto da etapa.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Criação | — |
 
 ---
 
@@ -62,59 +74,61 @@ Até aqui a devolutiva ficava à espera de o participante voltar ao sistema e pr
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Enviar Feedback ao Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Conferir quem vai receber antes de enviar
-  Given que sou Administrador Nacional e a etapa está encerrada com a devolutiva liberada
-  When escolho a premiação e a etapa
-  Then o sistema apresenta os participantes que receberão o aviso, com a situação de cada um
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Enviar o aviso de feedback disponível
-  Given que confiro a relação de participantes da etapa
-  When aciono o envio
-  Then o sistema enfileira um aviso para cada participante selecionado
-  And registra o envio com o responsável, a data e as quantidades de selecionados, enfileirados e sem e-mail
+  Scenario: Conferir quem vai receber antes de enviar
+    Given que sou Administrador Nacional e a etapa está encerrada com a devolutiva liberada
+    When escolho a premiação e a etapa
+    Then o sistema apresenta os participantes que receberão o aviso, com a situação de cada um
 
-Scenario: Reenfileirar os avisos que falharam
-  Given que alguns avisos daquele envio estão com situação de falha
-  When aciono o reenfileiramento das falhas
-  Then o sistema devolve à fila apenas os avisos que falharam
+  Scenario: Enviar o aviso de feedback disponível
+    Given que confiro a relação de participantes da etapa
+    When aciono o envio
+    Then o sistema enfileira um aviso para cada participante selecionado
+    And registra o envio com o responsável, a data e as quantidades de selecionados, enfileirados e sem e-mail
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reenfileirar os avisos que falharam
+    Given que alguns avisos daquele envio estão com situação de falha
+    When aciono o reenfileiramento das falhas
+    Then o sistema devolve à fila apenas os avisos que falharam
 
-Scenario: Etapa com apenas um estado encerrado
-  Given que a etapa tem um estado encerrado e outros ainda abertos
-  When escolho essa etapa
-  Then o sistema não permite o envio e informa que a etapa ainda não está encerrada
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Etapa encerrada com a devolutiva ainda não liberada
-  Given que a etapa está encerrada e a devolutiva daquela etapa ainda não foi liberada
-  When escolho essa etapa
-  Then o sistema não permite o envio e informa que a devolutiva ainda não foi liberada
+  Scenario: Etapa com apenas um estado encerrado
+    Given que a etapa tem um estado encerrado e outros ainda abertos
+    When escolho essa etapa
+    Then o sistema não permite o envio e informa que a etapa ainda não está encerrada
 
-Scenario: Participante que já recebeu o aviso
-  Given que um participante já recebeu o aviso daquela etapa
-  When escolho a premiação e a etapa
-  Then o sistema o apresenta fora da seleção proposta
+  Scenario: Etapa encerrada com a devolutiva ainda não liberada
+    Given que a etapa está encerrada e a devolutiva daquela etapa ainda não foi liberada
+    When escolho essa etapa
+    Then o sistema não permite o envio e informa que a devolutiva ainda não foi liberada
 
-Scenario: Participante sem e-mail cadastrado
-  Given que um participante da etapa não tem e-mail cadastrado
-  When envio o aviso
-  Then o sistema contabiliza aquele participante como falha de envio
+  Scenario: Participante que já recebeu o aviso
+    Given que um participante já recebeu o aviso daquela etapa
+    When escolho a premiação e a etapa
+    Then o sistema o apresenta fora da seleção proposta
 
-Scenario: Inscrição desclassificada não recebe o aviso
-  Given que uma inscrição da etapa foi desclassificada
-  When escolho a premiação e a etapa
-  Then o sistema não apresenta aquele participante entre os que receberão
+  Scenario: Participante sem e-mail cadastrado
+    Given que um participante da etapa não tem e-mail cadastrado
+    When envio o aviso
+    Then o sistema contabiliza aquele participante como falha de envio
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Inscrição desclassificada não recebe o aviso
+    Given que uma inscrição da etapa foi desclassificada
+    When escolho a premiação e a etapa
+    Then o sistema não apresenta aquele participante entre os que receberão
 
-Scenario: Administrador Regional tenta enviar
-  Given que sou Administrador Regional
-  When acesso o painel de avaliações
-  Then o sistema não oferece o envio do feedback
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Administrador Regional tenta enviar
+    Given que sou Administrador Regional
+    When acesso o painel de avaliações
+    Then o sistema não oferece o envio do feedback
 ```
 
 ---
@@ -244,11 +258,12 @@ A tela abre com a escolha da premiação e da etapa. Escolhida a etapa, apresent
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature criada | N3 negocial do envio do feedback ao participante, derivado do resumo de entrega da Sprint 6 (entrega de 2026-10-01, migração **V00034**). Funcionalidade inédita: não existia antes da Sprint 6. A tela do produto se chama *Disparo de Feedback*; a feature usa o verbo canônico `enviar`, porque `envio` é nominalização bloqueada pelo `engine/FEATURE-DEFINITION.md`. Três processos elementares contados sobre este N3 — **17 PF** (SE 4×12, EE 5×10 e EE 2×5). ⚠️ Pendente de validação pela equipe de métricas |
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-10-04*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

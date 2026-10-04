@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ADM-03
 feature_set: ACS-ADM
 dominio: ACS
 entidade: Usuário
-prioridade: P2
-mvp: false
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-020_Cadastrar_Admin_Regionais
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Administrador Regional
-> **Nível 3** - Feature Set: Administradores Regionais — Domínio: Acesso e Gestão - `ACS-ADM-03`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Administradores Regionais — Major Feature Set: Acesso e Gestão - `ACS-ADM-03`
 
 ## Descrição
 Permite ao administrador nacional alterar os dados editáveis de um administrador regional, como o e-mail de contato, mantendo o cadastro atualizado.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — |
 
 ---
 
@@ -48,29 +61,31 @@ Permite ao administrador nacional alterar os dados editáveis de um administrado
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
-# ← FIELD-DICTIONARY: E-mail
+Feature: Editar Administrador Regional
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
+  # ← FIELD-DICTIONARY: E-mail
 
-Scenario: Editar o e-mail de contato
-  Given que selecionei um administrador regional existente
-  When altero o e-mail de contato e clico em "Salvar"
-  Then o sistema grava a alteração e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Editar o e-mail de contato
+    Given que selecionei um administrador regional existente
+    When altero o e-mail de contato e clico em "Salvar"
+    Then o sistema grava a alteração e exibe "Registro salvo com sucesso."
 
-Scenario: E-mail em formato inválido
-  Given que estou editando um administrador regional
-  When informo um e-mail sem "@" ou sem domínio e clico em "Salvar"
-  Then o sistema não grava e exibe "E-mail inválido."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: E-mail em formato inválido
+    Given que estou editando um administrador regional
+    When informo um e-mail sem "@" ou sem domínio e clico em "Salvar"
+    Then o sistema não grava e exibe "E-mail inválido."
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para editar administradores
-  When tento editar um administrador regional
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para editar administradores
+    When tento editar um administrador regional
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -154,12 +169,13 @@ Formulário do administrador em `/administracao-usuario/:login`: o usuário de o
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-020 e do inventário APF (módulo Usuário) |
 
 ---
 
-*Feature Set: Administradores Regionais · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

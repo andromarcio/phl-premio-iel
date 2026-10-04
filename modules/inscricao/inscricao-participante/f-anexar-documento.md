@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-05
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#documento-da-inscricao
 endpoints: []
 error_codes: []
 depende_de: [INS-PAR-01]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Anexar Documento
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-05`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-05`
 
 ## Descrição
 Permite ao participante enviar os documentos obrigatórios e opcionais exigidos pela configuração de anexos da premiação, vinculando cada arquivo à inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -50,36 +63,38 @@ Permite ao participante enviar os documentos obrigatórios e opcionais exigidos 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Anexar Documento
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Anexar documento obrigatório
-  Given que a inscrição exige um documento obrigatório
-  When envio um arquivo dentro das extensões e do tamanho permitidos
-  Then o sistema vincula o documento à inscrição
-  And o item de anexo passa a constar como enviado
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Anexar documento obrigatório
+    Given que a inscrição exige um documento obrigatório
+    When envio um arquivo dentro das extensões e do tamanho permitidos
+    Then o sistema vincula o documento à inscrição
+    And o item de anexo passa a constar como enviado
 
-Scenario: Arquivo acima do tamanho máximo
-  Given que o ponto de anexo tem um tamanho máximo definido
-  When envio um arquivo maior que o permitido
-  Then o sistema não anexa o documento e exibe "O arquivo excede o tamanho máximo permitido."
-  # ← MESSAGE-DICTIONARY: INS_ANEXO_TAMANHO_EXCEDIDO
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Extensão de arquivo não permitida
-  Given que o ponto de anexo aceita apenas determinadas extensões
-  When envio um arquivo com extensão não permitida
-  Then o sistema não anexa o documento e exibe "Tipo de arquivo não permitido."
-  # ← MESSAGE-DICTIONARY: INS_ANEXO_EXTENSAO_INVALIDA
+  Scenario: Arquivo acima do tamanho máximo
+    Given que o ponto de anexo tem um tamanho máximo definido
+    When envio um arquivo maior que o permitido
+    Then o sistema não anexa o documento e exibe "O arquivo excede o tamanho máximo permitido."
+    # ← MESSAGE-DICTIONARY: INS_ANEXO_TAMANHO_EXCEDIDO
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Extensão de arquivo não permitida
+    Given que o ponto de anexo aceita apenas determinadas extensões
+    When envio um arquivo com extensão não permitida
+    Then o sistema não anexa o documento e exibe "Tipo de arquivo não permitido."
+    # ← MESSAGE-DICTIONARY: INS_ANEXO_EXTENSAO_INVALIDA
 
-Scenario: Substituir documento já anexado
-  Given que já existe um documento anexado a um ponto de anexo
-  When envio um novo arquivo para o mesmo ponto
-  Then o sistema substitui o documento anterior pelo novo
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Substituir documento já anexado
+    Given que já existe um documento anexado a um ponto de anexo
+    When envio um novo arquivo para o mesmo ponto
+    Then o sistema substitui o documento anterior pelo novo
 ```
 
 ---
@@ -148,11 +163,12 @@ Capítulo de anexos do formulário de inscrição em `/inscricao/formulario/:ins
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-02
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Categoria
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#premiacao--categoria-vinculo
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Vincular Categoria
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-02`
 
 ## Descrição
 Permite ao administrador associar uma categoria do catálogo à edição do prêmio, ou registrar uma nova categoria e vinculá-la num único passo, montando o primeiro nível abaixo da premiação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
 
 ---
 
@@ -50,40 +63,42 @@ Permite ao administrador associar uma categoria do catálogo à edição do prê
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Vincular Categoria
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Vincular categoria existente do catálogo à edição
-  Given que estou na estrutura de um prêmio e escolho vincular uma categoria ao nó da premiação
-  When seleciono uma categoria disponível no catálogo e confirmo
-  Then o sistema cria o vínculo e a categoria passa a integrar a estrutura da edição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Criar e vincular uma nova categoria num único passo
-  Given que estou vinculando uma categoria à edição
-  When informo o nome de uma nova categoria e confirmo criar e vincular
-  Then o sistema registra a categoria no catálogo e a vincula à edição na mesma operação
+  Scenario: Vincular categoria existente do catálogo à edição
+    Given que estou na estrutura de um prêmio e escolho vincular uma categoria ao nó da premiação
+    When seleciono uma categoria disponível no catálogo e confirmo
+    Then o sistema cria o vínculo e a categoria passa a integrar a estrutura da edição
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Criar e vincular uma nova categoria num único passo
+    Given que estou vinculando uma categoria à edição
+    When informo o nome de uma nova categoria e confirmo criar e vincular
+    Then o sistema registra a categoria no catálogo e a vincula à edição na mesma operação
 
-Scenario: Categoria já vinculada à edição
-  Given que a categoria "Categoria Estudantil" já está vinculada à edição
-  When tento vinculá-la novamente à mesma edição
-  Then o sistema não cria um novo vínculo e mantém apenas o existente
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Categoria já vinculada à edição
+    Given que a categoria "Categoria Estudantil" já está vinculada à edição
+    When tento vinculá-la novamente à mesma edição
+    Then o sistema não cria um novo vínculo e mantém apenas o existente
 
-Scenario: Cancelar a vinculação
-  Given que iniciei a vinculação de uma categoria
-  When cancelo a operação
-  Then o sistema não cria nenhum vínculo e a estrutura permanece como estava
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Cancelar a vinculação
+    Given que iniciei a vinculação de uma categoria
+    When cancelo a operação
+    Then o sistema não cria nenhum vínculo e a estrutura permanece como estava
 
-Scenario: Usuário sem permissão para vincular
-  Given que meu perfil não tem permissão para vincular categorias
-  When tento vincular uma categoria à edição
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para vincular
+    Given que meu perfil não tem permissão para vincular categorias
+    When tento vincular uma categoria à edição
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -169,12 +184,13 @@ Ação disparada do nó da premiação na Árvore de Configuração do Prêmio (
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

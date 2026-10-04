@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-04
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#avaliação-de-inscrição
 endpoints: []
 error_codes: []
 depende_de: ["AVL-AVA-03", "AVL-AVA-01"]
+origem:
+  tipo: issue
+  chave: HU-028_Avaliar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Finalizar Avaliação
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-04`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-04`
 
 ## Descrição
 Permite ao avaliador finalizar a avaliação depois de pontuar todas as questões e registrar o parecer, encerrando o registro em modo somente leitura e abrindo em seguida a próxima avaliação pendente da sua fila.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
+| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — |
 
 ---
 
@@ -54,52 +68,54 @@ Permite ao avaliador finalizar a avaliação depois de pontuar todas as questõe
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Finalizar Avaliação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Finalizar avaliação completa
-  Given que pontuei todas as questões e o parecer tem ao menos 50 caracteres
-  When confirmo a finalização
-  Then o sistema conclui a avaliação e deixa o registro somente leitura
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Seguir para a próxima avaliação pendente
-  Given que acabei de finalizar uma avaliação e ainda tenho avaliações não finalizadas no recorte vigente
-  When aciono "Próxima pendente"
-  Then o sistema abre a primeira avaliação não finalizada da minha fila, sem passar pelo Painel do Avaliador
+  Scenario: Finalizar avaliação completa
+    Given que pontuei todas as questões e o parecer tem ao menos 50 caracteres
+    When confirmo a finalização
+    Then o sistema conclui a avaliação e deixa o registro somente leitura
 
-Scenario: Salto restrito ao recorte vigente
-  Given que restringi minhas avaliações a uma premiação e a uma etapa e finalizo uma avaliação desse recorte
-  When aciono "Próxima pendente"
-  Then o sistema abre a próxima avaliação não finalizada do mesmo recorte e nunca uma avaliação fora dele
+  Scenario: Seguir para a próxima avaliação pendente
+    Given que acabei de finalizar uma avaliação e ainda tenho avaliações não finalizadas no recorte vigente
+    When aciono "Próxima pendente"
+    Then o sistema abre a primeira avaliação não finalizada da minha fila, sem passar pelo Painel do Avaliador
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Salto restrito ao recorte vigente
+    Given que restringi minhas avaliações a uma premiação e a uma etapa e finalizo uma avaliação desse recorte
+    When aciono "Próxima pendente"
+    Then o sistema abre a próxima avaliação não finalizada do mesmo recorte e nunca uma avaliação fora dele
 
-# ← MESSAGE-DICTIONARY: AVL_FINALIZACAO_INCOMPLETA
-Scenario: Finalizar sem pontuar todas as questões
-  Given que ainda há questões sem nota
-  When tento finalizar a avaliação
-  Then o sistema não finaliza e exibe "Pontue todas as questões antes de finalizar a avaliação."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_PARECER_MINIMO
-Scenario: Parecer abaixo do mínimo
-  Given que pontuei todas as questões mas o parecer tem menos de 50 caracteres
-  When tento finalizar a avaliação
-  Then o sistema não finaliza e exibe "O parecer deve ter no mínimo 50 caracteres."
+  # ← MESSAGE-DICTIONARY: AVL_FINALIZACAO_INCOMPLETA
+  Scenario: Finalizar sem pontuar todas as questões
+    Given que ainda há questões sem nota
+    When tento finalizar a avaliação
+    Then o sistema não finaliza e exibe "Pontue todas as questões antes de finalizar a avaliação."
 
-# ── Estados especiais ──────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_PARECER_MINIMO
+  Scenario: Parecer abaixo do mínimo
+    Given que pontuei todas as questões mas o parecer tem menos de 50 caracteres
+    When tento finalizar a avaliação
+    Then o sistema não finaliza e exibe "O parecer deve ter no mínimo 50 caracteres."
 
-# ← MESSAGE-DICTIONARY: AVL_SEM_PENDENTES
-Scenario: Nenhuma avaliação pendente restante
-  Given que a avaliação que finalizei era a última não finalizada do recorte vigente
-  When aciono "Próxima pendente"
-  Then o sistema não abre outra avaliação e exibe "Não há mais avaliações pendentes."
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_ETAPA_FECHADA
-Scenario: Etapa já encerrada
-  Given que a etapa da inscrição está fechada
-  When tento finalizar a avaliação
-  Then o sistema não finaliza e exibe "A etapa foi encerrada; a avaliação não pode mais ser finalizada."
+  # ← MESSAGE-DICTIONARY: AVL_SEM_PENDENTES
+  Scenario: Nenhuma avaliação pendente restante
+    Given que a avaliação que finalizei era a última não finalizada do recorte vigente
+    When aciono "Próxima pendente"
+    Then o sistema não abre outra avaliação e exibe "Não há mais avaliações pendentes."
+
+  # ← MESSAGE-DICTIONARY: AVL_ETAPA_FECHADA
+  Scenario: Etapa já encerrada
+    Given que a etapa da inscrição está fechada
+    When tento finalizar a avaliação
+    Then o sistema não finaliza e exibe "A etapa foi encerrada; a avaliação não pode mais ser finalizada."
 ```
 
 ---
@@ -179,6 +195,7 @@ Na tela Avaliação da Inscrição (`/avaliacao/:alocacaoId`), o comando de fina
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Fila confirmada | O produto confirmou que a fila do salto "Próxima pendente" é **a do painel** — mesmo recorte e mesma ordem de protocolo que o acompanhamento apresenta. A regra deixa de ser suposição |
@@ -188,6 +205,6 @@ Na tela Avaliação da Inscrição (`/avaliacao/:alocacaoId`), o comando de fina
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

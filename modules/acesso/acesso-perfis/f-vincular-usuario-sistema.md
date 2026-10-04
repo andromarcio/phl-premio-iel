@@ -1,11 +1,9 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ACE-03
 feature_set: ACS-ACE
 dominio: ACS
 entidade: Usuário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Vincular Usuário ao Sistema
-> **Nível 3** - Feature Set: Acesso e Perfis — Domínio: Acesso e Gestão - `ACS-ACE-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Acesso e Perfis — Major Feature Set: Acesso e Gestão - `ACS-ACE-03`
 
 ## Descrição
 Dá acesso à premiação, com o perfil Participante, a quem já tem conta no Sistema Indústria mas ainda não está habilitado nesta plataforma — evitando que a pessoa fique presa na mensagem de acesso não permitido ao tentar entrar pelo link público.
@@ -52,33 +53,35 @@ Dá acesso à premiação, com o perfil Participante, a quem já tem conta no Si
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Vincular Usuário ao Sistema
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Liberar acesso a quem já é do Sistema Indústria
-  Given que tenho conta no Sistema Indústria e nunca acessei a premiação
-  When tento entrar pelo link público e o acesso é recusado
-  Then o sistema me vincula à premiação com o perfil Participante
-  And consigo entrar com a minha senha atual
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Liberar acesso a quem já é do Sistema Indústria
+    Given que tenho conta no Sistema Indústria e nunca acessei a premiação
+    When tento entrar pelo link público e o acesso é recusado
+    Then o sistema me vincula à premiação com o perfil Participante
+    And consigo entrar com a minha senha atual
 
-Scenario: Quem já tinha acesso
-  Given que já tenho acesso à premiação
-  When o vínculo é tentado novamente
-  Then nada é alterado no meu acesso
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: E-mail sem conta no Sistema Indústria
-  Given que meu e-mail não tem conta no Sistema Indústria
-  When o vínculo é tentado
-  Then o sistema informa que o usuário não foi localizado e não cria vínculo
+  Scenario: Quem já tinha acesso
+    Given que já tenho acesso à premiação
+    When o vínculo é tentado novamente
+    Then nada é alterado no meu acesso
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: E-mail sem conta no Sistema Indústria
+    Given que meu e-mail não tem conta no Sistema Indústria
+    When o vínculo é tentado
+    Then o sistema informa que o usuário não foi localizado e não cria vínculo
 
-Scenario: E-mail em formato inválido
-  When o vínculo é tentado com um e-mail sem formato válido
-  Then o sistema não executa o vínculo e aponta o e-mail como inválido
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: E-mail em formato inválido
+    When o vínculo é tentado com um e-mail sem formato válido
+    Then o sistema não executa o vínculo e aponta o e-mail como inválido
 ```
 
 ---
@@ -144,11 +147,12 @@ Não tem tela própria. É disparada pela Página do Link Público (`/inscricao/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (normalização de acesso de usuário corporativo já existente) — capacidade implementada e até então não especificada |
 
 ---
 
-*Feature Set: Acesso e Perfis · Domínio: Acesso e Gestão · Última revisão: 2026-08-28*
+*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-06
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Premiação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-003_Exportar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Importar Prêmios
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-06`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-06`
 
 ## Descrição
 Permite ao administrador criar uma nova edição a partir de uma planilha preenchida, apresentando o resumo das estruturas criadas ao final.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-003_Exportar_Premios`](../../../hus/HU-003_Exportar_Premios.docx) | Criação | — |
 
 ---
 
@@ -49,28 +62,30 @@ Permite ao administrador criar uma nova edição a partir de uma planilha preenc
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Importar Prêmios
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Importar uma planilha válida
-  Given que seleciono uma planilha válida para importação
-  When confirmo a importação
-  Then o sistema cria uma nova edição e apresenta o resumo com a contagem de premiação, categorias, modalidades e tipos de participante criados
-  And a nova edição passa a constar na lista de Prêmios
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Baixar o modelo de planilha
-  Given que estou na lista de Prêmios
-  When aciono o download do modelo de planilha
-  Then o sistema disponibiliza uma planilha com os cabeçalhos das abas e sem dados
+  Scenario: Importar uma planilha válida
+    Given que seleciono uma planilha válida para importação
+    When confirmo a importação
+    Then o sistema cria uma nova edição e apresenta o resumo com a contagem de premiação, categorias, modalidades e tipos de participante criados
+    And a nova edição passa a constar na lista de Prêmios
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Baixar o modelo de planilha
+    Given que estou na lista de Prêmios
+    When aciono o download do modelo de planilha
+    Then o sistema disponibiliza uma planilha com os cabeçalhos das abas e sem dados
 
-Scenario: Planilha em formato ou estrutura inválidos
-  Given que seleciono um arquivo com formato ou estrutura de abas inválidos
-  When confirmo a importação
-  Then o sistema não cria nenhuma edição e exibe "Arquivo inválido: verifique o formato e a estrutura da planilha."
-  # ← MESSAGE-DICTIONARY: CFG_IMPORT_ARQUIVO_INVALIDO
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Planilha em formato ou estrutura inválidos
+    Given que seleciono um arquivo com formato ou estrutura de abas inválidos
+    When confirmo a importação
+    Then o sistema não cria nenhuma edição e exibe "Arquivo inválido: verifique o formato e a estrutura da planilha."
+    # ← MESSAGE-DICTIONARY: CFG_IMPORT_ARQUIVO_INVALIDO
 ```
 
 ---
@@ -137,11 +152,12 @@ Ação disparada na Lista de Prêmios (`/configuracao-premiacao/premiacoes`): um
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-003 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

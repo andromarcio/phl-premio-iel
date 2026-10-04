@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-05
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Ativar/Inativar Tipo de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-05`
 
 ## Descrição
 Permite ao administrador alternar a situação ativa/inativa de um tipo de participante (exclusão lógica), sem afetar as sub-configurações de inscrição e avaliação já montadas.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -49,38 +62,40 @@ Permite ao administrador alternar a situação ativa/inativa de um tipo de parti
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Ativar/Inativar Tipo de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Inativar tipo de participante
-  Given que identifico um tipo de participante ativo
-  When clico em "Desativar" e confirmo
-  Then o sistema passa o tipo de participante para a situação inativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reativar tipo de participante
-  Given que identifico um tipo de participante inativo
-  When clico em "Ativar" e confirmo
-  Then o sistema passa o tipo de participante para a situação ativa
+  Scenario: Inativar tipo de participante
+    Given que identifico um tipo de participante ativo
+    When clico em "Desativar" e confirmo
+    Then o sistema passa o tipo de participante para a situação inativa
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reativar tipo de participante
+    Given que identifico um tipo de participante inativo
+    When clico em "Ativar" e confirmo
+    Then o sistema passa o tipo de participante para a situação ativa
 
-Scenario: Inativação preserva a estrutura configurada
-  Given que o tipo de participante possui formulário, enquadramentos e questionário configurados
-  When inativo o tipo de participante
-  Then as sub-configurações permanecem preservadas e inalteradas
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Tipo inativo fora da inscrição pública
-  Given que o tipo de participante está inativo
-  When um participante acessa o fluxo público de inscrição
-  Then o tipo inativo não é apresentado como opção
+  Scenario: Inativação preserva a estrutura configurada
+    Given que o tipo de participante possui formulário, enquadramentos e questionário configurados
+    When inativo o tipo de participante
+    Then as sub-configurações permanecem preservadas e inalteradas
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Tipo inativo fora da inscrição pública
+    Given que o tipo de participante está inativo
+    When um participante acessa o fluxo público de inscrição
+    Then o tipo inativo não é apresentado como opção
 
-Scenario: Usuário sem permissão para inativar
-  Given que meu perfil não tem permissão para inativar tipos de participante
-  When tento inativar um tipo de participante
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para inativar
+    Given que meu perfil não tem permissão para inativar tipos de participante
+    When tento inativar um tipo de participante
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -155,12 +170,13 @@ Ação disparada da linha do tipo no Catálogo de Tipos de Participante (`/tipos
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

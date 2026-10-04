@@ -1,7 +1,11 @@
-<!-- docqui: 2.23.0 | prompt: analise-impacto | atualizado: 2026-10-04 -->
-# Análise Impacto SP06
-
 ---
+tipo: sprint
+sprint: SP06
+entrega: ""
+estado: concluído
+---
+
+# AIM SP06
 
 ## Sumário
 
@@ -26,8 +30,6 @@
 
 > **A primeira onda coincide com a conferência de código.** Os PRs da onda de 28/08 foram abertos **no mesmo dia** em que a spec foi conferida contra o código, e é isso que explica duas coisas que, vistas de longe, pareciam contradição: as features `AVL-ALO-05` — Consultar Panorama do Avaliador e `AVL-ALO-07` — Exportar Relatório de Alocação **já nasceram** daquela conferência, derivadas de um código entregue dois dias antes; e o encerramento dos cards `PDTIC25093-64` e `-65` no board, em **2026-09-24 às 16:30 e 16:31**, é varredura administrativa, não data de entrega. As análises por item de 2026-10-02 inferiram isso da diferença de 37 segundos entre os dois encerramentos; o resumo de entrega confirma.
 
----
-
 ### Classificação por item da entrega
 
 | # | Funcionalidade | A entrega declara | Na spec docqui é | Migração |
@@ -39,8 +41,6 @@
 | 5 | Tela "Avaliações" do administrador | ALTERADA | **Alteração** de `AVL-PAI-01` Acompanhar Painel de Avaliações | nenhuma |
 
 As duas reclassificações têm o mesmo motivo e direções opostas. No item 1, a entrega descreve uma tela que já existia e por isso a chama de alterada — mas o que ela ganhou, a desclassificação, é um processo elementar que não existia em lugar nenhum, e tratá-lo como alteração esconderia 12 PF. No item 4, a entrega chama de alteração o que, do ponto de vista da contagem, são duas funções **incluídas**: os N3 existem desde agosto porque a conferência com o código os derivou, não porque a capacidade fosse antiga.
-
----
 
 ### Itens do Jira na Sprint 6
 
@@ -54,9 +54,7 @@ As duas reclassificações têm o mesmo motivo e direções opostas. No item 1, 
 
 ⚠️ **Dois desencontros entre o board e a entrega.** O `PDTIC25093-69` consta como *In Progress*, mas o resumo de entrega descreve as suas três linhas como **entregues em 2026-10-01** — inclusive a tela nova. E a **desclassificação manual**, que é a maior novidade funcional da sprint, **não tem item identificado** no board: é a mesma lacuna de rastreabilidade que o "Aviso 4" abriu na SP05. A contagem por sprint exige a chave da demanda ao lado de cada feature impactada; sem ela, 12 PF ficam sem origem.
 
----
-
-## 1. Detalhe por item da entrega
+## Detalhe por ticket
 
 ### 1 · Fechar Etapa de Avaliação — dois deltas em datas diferentes
 
@@ -96,27 +94,33 @@ O resumo também nomeia as colunas, o que corrigiu as duas memórias de cálculo
 
 A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card pedia: o Administrador Regional só recebe etapas regionais, e a etapa nacional não apresenta consolidação por estado. O resumo de entrega acrescenta três detalhes que faltavam: a seleção de etapa só é habilitada **depois** da premiação, cada opção identifica a etapa por **ordem, nome e situação** (Aberta ou Fechada), e o recorte alcança **também os indicadores** do topo, não apenas a lista. Trocar ou limpar a premiação limpa a etapa. É também nesta tela que vive o acesso ao Disparo de Feedback, só para o Administrador Nacional.
 
----
+## Tickets da sprint
 
-## 2. Alterações aplicadas na spec, por Feature Set
+| Ticket | AIM | Features | Resumo |
+|---|---|---|---|
+| `PDTIC25093-64` | [AIM-PDTIC25093-64](AIM-PDTIC25093-64.md) | `AVL-APU-09` **Exportar Relatório da Etapa** | — |
+| `PDTIC25093-65` | [AIM-PDTIC25093-65](AIM-PDTIC25093-65.md) | `AVL-ALO-07` **Exportar Relatório de Alocação** · `AVL-ALO-05` **Consultar Panorama do Avaliador** · `AVL-PAI-01` **Acompanhar Painel de Avaliações** | — |
+| `PDTIC25093-69` | [AIM-PDTIC25093-69](AIM-PDTIC25093-69.md) | `AVL-APU-14` **Enviar Feedback ao Participante** · `INS-ACO-01` **Acompanhar Inscrição** · `INS-ACO-02` **Visualizar Devolutiva** · `INS-NOT-01` **Consultar Notificações** · `CFG-EMA-01` **Consultar Modelos de E-mail** · `CFG-EMA-02` **Editar Modelo de E-mail** | — |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Apuração e Devolutiva (`AVL-APU`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
-| `AVL-APU-13` **Desclassificar Inscrição na Etapa** | ⚠️ sem item | incluída | **Feature incluída.** Retirar uma inscrição da disputa de uma etapa, com justificativa obrigatória de até 100 caracteres, responsável e data, e devolvê-la enquanto o estado está aberto. A inscrição perde a colocação, vai ao fim do bloco e as duas linhas de corte são recalculadas na hora; no fechamento é gravada como não classificada; dispensa feedback consolidado; não recebe o e-mail de feedback; sobrevive à reabertura. Exclusiva do Administrador Nacional e invisível ao participante | — | — | 12 | 12 |
+| `AVL-APU-13` **Desclassificar Inscrição na Etapa** | ⚠️ sem ticket | incluída | **Feature incluída.** Retirar uma inscrição da disputa de uma etapa, com justificativa obrigatória de até 100 caracteres, responsável e data, e devolvê-la enquanto o estado está aberto. A inscrição perde a colocação, vai ao fim do bloco e as duas linhas de corte são recalculadas na hora; no fechamento é gravada como não classificada; dispensa feedback consolidado; não recebe o e-mail de feedback; sobrevive à reabertura. Exclusiva do Administrador Nacional e invisível ao participante | — | — | 12 | 12 |
 | `AVL-APU-14` **Enviar Feedback ao Participante** | `PDTIC25093-69` | incluída | **Feature incluída.** Tela própria em que o Administrador Nacional escolhe premiação e etapa, confere quem receberá, envia por ação própria e acompanha a situação de cada aviso, com reenfileiramento das falhas. Liberada só com a etapa inteiramente encerrada e a devolutiva liberada; sem envio automático e sem duplicidade; o aviso leva o link do sistema, não o texto da devolutiva | — | — | 17 | 17 |
 | `AVL-APU-09` **Exportar Relatório da Etapa** | `PDTIC25093-64` | alterada | **Inclusão** da colocação e **correção** da origem. *Antes* a planilha era descrita sem nenhuma regra sobre colocação — ela aparecia só na descrição e num cenário, sem estar enumerada como DER —, e a origem registrada era a Consulta de Ranking da Etapa. *Agora* três regras fixam a coluna (vem do ranking sem recálculo, fica vazia em estado aberto, sai como número ordenável), uma quarta registra que a planilha reflete a desclassificação, e a origem é a tela de **Fechamento de Etapa** | +4 | +2 | 7 | 3,5 |
-| `AVL-APU-01` **Apurar Resultado da Etapa** | ⚠️ sem item | alterada | **Inclusão** do efeito da desclassificação. *Antes* toda inscrição com avaliação finalizada entrava na disputa do bloco e recebia colocação — não havia como retirar uma do resultado. *Agora* a desclassificada sai da disputa, fica sem colocação e ao fim do bloco, e a ação recalcula na hora as colocações e as duas linhas de corte | +2 | +0 | 7 | 3,5 |
-| `AVL-APU-08` **Consultar Ranking da Etapa** | ⚠️ sem item | alterada | **Inclusão** da marca de desclassificada e da sua justificativa no resultado. *Antes* o ranking trazia colocação, média, Coleta e os selos de classificado e premiado. *Agora* a inscrição desclassificada aparece marcada, com a justificativa, e o N3 registra que as ações de desclassificar e reverter **não** vivem aqui, porque a consulta é somente leitura | +1 | +0 | 7 | 3,5 |
-| `AVL-APU-03` **Encerrar Etapa por UF** | ⚠️ sem item | alterada | **Restrição aliviada.** *Antes* a regra 5 exigia feedback consolidado de **todas** as inscrições do estado, sem exceção — uma inscrição retirada da disputa ainda travava o fechamento. *Agora* a desclassificada está dispensada e não gera pendência, e o fechamento a grava como não classificada seja qual fosse a sua colocação | +1 | +0 | 6 | 3 |
-| `AVL-APU-12` **Reabrir Etapa por UF** | ⚠️ sem item | alterada | **Inclusão** do que a reabertura faz com a desclassificação. *Antes* a reabertura desfazia o fechamento e os desempates do estado e preservava o feedback consolidado; a desclassificação não existia, logo nada dizia sobre ela. *Agora* fica fixado que a reabertura a **preserva**, e que só a reversão a desfaz | +1 | +0 | 4 | 2 |
+| `AVL-APU-01` **Apurar Resultado da Etapa** | ⚠️ sem ticket | alterada | **Inclusão** do efeito da desclassificação. *Antes* toda inscrição com avaliação finalizada entrava na disputa do bloco e recebia colocação — não havia como retirar uma do resultado. *Agora* a desclassificada sai da disputa, fica sem colocação e ao fim do bloco, e a ação recalcula na hora as colocações e as duas linhas de corte | +2 | +0 | 7 | 3,5 |
+| `AVL-APU-08` **Consultar Ranking da Etapa** | ⚠️ sem ticket | alterada | **Inclusão** da marca de desclassificada e da sua justificativa no resultado. *Antes* o ranking trazia colocação, média, Coleta e os selos de classificado e premiado. *Agora* a inscrição desclassificada aparece marcada, com a justificativa, e o N3 registra que as ações de desclassificar e reverter **não** vivem aqui, porque a consulta é somente leitura | +1 | +0 | 7 | 3,5 |
+| `AVL-APU-03` **Encerrar Etapa por UF** | ⚠️ sem ticket | alterada | **Restrição aliviada.** *Antes* a regra 5 exigia feedback consolidado de **todas** as inscrições do estado, sem exceção — uma inscrição retirada da disputa ainda travava o fechamento. *Agora* a desclassificada está dispensada e não gera pendência, e o fechamento a grava como não classificada seja qual fosse a sua colocação | +1 | +0 | 6 | 3 |
+| `AVL-APU-12` **Reabrir Etapa por UF** | ⚠️ sem ticket | alterada | **Inclusão** do que a reabertura faz com a desclassificação. *Antes* a reabertura desfazia o fechamento e os desempates do estado e preservava o feedback consolidado; a desclassificação não existia, logo nada dizia sobre ela. *Agora* fica fixado que a reabertura a **preserva**, e que só a reversão a desfaz | +1 | +0 | 4 | 2 |
 
 **Subtotal: 7 features · 60 PFB · 44,5 PFL.**
 
 ### Avaliação › Alocação (`AVL-ALO`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-ALO-07` **Exportar Relatório de Alocação** | `PDTIC25093-65` | incluída | **Origem confirmada e enumeração corrigida.** *Antes* a memória de cálculo supunha três colunas na aba por avaliador e duas na por estado, e não via que a coluna **Grupo** referencia o grupo competitivo — ALR 4, DER 9. *Agora* as colunas das duas abas estão nomeadas uma a uma, o ALR é 7 e o DER 16, e a regra 6 registra a inscrição sem UF como *Nacional*. Mesma célula da tabela de SE: **7 PF inalterados** | +1 | +0 | 7 | 7 |
 | `AVL-ALO-05` **Consultar Panorama do Avaliador** | `PDTIC25093-65` | incluída | **Origem confirmada e enumeração corrigida.** *Antes* os quatro totais eram só quantidade, o seletor de etapa não dizia a situação, a lista tinha três colunas e nada registrava o filtro por clique — DER 14. *Agora* cada total traz quantidade **e** percentual, acionar um total filtra a lista, o seletor indica Aberta ou Fechada, cada grupo mostra a sua quantidade e a lista traz cinco colunas — DER 22, **7 PF inalterados** | +2 | +0 | 7 | 7 |
@@ -125,7 +129,7 @@ A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card
 
 ### Avaliação › Painel Administrativo de Avaliações (`AVL-PAI`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-PAI-01` **Acompanhar Painel de Avaliações** | `PDTIC25093-65` | alterada | **Restrição** pela natureza da etapa e **inclusão** do detalhe do filtro. *Antes* a seleção de etapa não distinguia perfil, o andamento da consolidação por estado era apurado em toda etapa — inclusive na nacional, em que a disputa não é por estado —, nada dizia que a seleção depende da premiação nem que o recorte alcança os indicadores do topo. *Agora* o Regional recebe só etapas regionais, a etapa nacional não traz consolidação por estado, cada opção identifica a etapa por ordem, nome e situação, o recorte alcança a lista **e** os indicadores, trocar a premiação limpa a etapa, e o acesso ao envio do feedback vive aqui, só para o Nacional | +6 | +4 | 7 | 3,5 |
 
@@ -133,7 +137,7 @@ A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card
 
 ### Inscrição › Acompanhamento (`INS-ACO`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `INS-ACO-01` **Acompanhar Inscrição** | `PDTIC25093-69` | alterada | **Inclusão** do acesso condicionado à devolutiva. *Antes* o painel não dizia como o participante chega à devolutiva — o caminho era entrar na inscrição e procurar a aba. *Agora* o acesso é oferecido no painel **apenas** quando existe devolutiva liberada para aquela inscrição | +1 | +0 | 7 | 3,5 |
 | `INS-ACO-02` **Visualizar Devolutiva** | `PDTIC25093-69` | alterada | **Remoção** do anúncio da etapa pendente e da marca de IA. *Antes* a tela listava **todas** as etapas avaliadas: a liberada com o texto, a pendente com o cartão "disponível a partir de…" e a data prevista — e o texto vinha com a etiqueta "Gerado por I.A.". *Agora* só a etapa já liberada aparece; a existência de devolutiva não liberada não é revelada, nem a data; e a etiqueta de IA saiu da tela | +1 | +0 | — ⚠️ | — ⚠️ |
@@ -142,7 +146,7 @@ A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card
 
 ### Inscrição › Notificações (`INS-NOT`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `INS-NOT-01` **Consultar Notificações** | `PDTIC25093-69` | alterada | **Inclusão** do destino da notificação de devolutiva. *Antes* a regra 4 dizia que o evento gera notificação e nada dizia sobre o que acontece ao abri-la. *Agora* fica fixado que ela leva direto à devolutiva da inscrição. **0 PF**: navegação entre telas não é lógica de processamento nem dado que atravesse a fronteira — o processo elementar é o mesmo | +1 | +0 | 0 | 0 |
 
@@ -150,7 +154,7 @@ A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card
 
 ### Configuração da Premiação › Modelos de E-mail (`CFG-EMA`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `CFG-EMA-01` **Consultar Modelos de E-mail** | `PDTIC25093-69` | alterada | **Inclusão** do quinto tipo. *Antes* eram **quatro** tipos configuráveis, todos do fluxo de validação, e o N3 dizia "quatro" em sete lugares. *Agora* são cinco, com *feedback disponível*. **0 PF**: o número de tipos é quantidade de linhas de dados, não DER — o processo elementar é o mesmo | +0 | +0 | 0 | 0 |
 | `CFG-EMA-02` **Editar Modelo de E-mail** | `PDTIC25093-69` | alterada | **Inclusão** do marcador `{{link_sistema}}` e do quinto tipo editável. *Antes* eram oito marcadores e quatro tipos. *Agora* são nove e cinco — a regra 2 foi **reescrita**, não acrescentada, e por isso a contagem de regras não se move. **0 PF**: o marcador é valor substituído dentro de um DER que já existe, o corpo do modelo | +0 | +0 | 0 | 0 |
@@ -177,9 +181,7 @@ A análise de `PDTIC25093-65` já havia aplicado as duas restrições que o card
 
 `AVL-APU-02` — Registrar Desempate, `AVL-APU-04` — Gerar Devolutiva com IA, `AVL-APU-05` — Revisar Devolutiva e `AVL-PAI-03` — Consolidar Avaliação foram confrontadas com a entrega e não mudam. A desclassificação não toca o desempate (a inscrição sai da disputa antes de disputar a linha de corte, e o empate que ela deixaria de causar é efeito da reapuração, não regra nova), e a remoção da etiqueta "Gerado por I.A." é da tela do participante — `AVL-APU-04`, que **produz** a devolutiva com apoio de IA, segue registrando `FL_FEEDBACK_GERADO_POR_IA` como antes.
 
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 As duas migrações são scripts manuais, executados uma única vez por ambiente: cada uma registra o próprio nome em `TB_MIGRACAO_MANUAL` e aborta se já tiver sido aplicada. Nenhuma apaga nem altera dado existente — os registros anteriores recebem os valores padrão.
 
@@ -239,9 +241,7 @@ Os 29 PF dos cinco processos elementares novos entram **integralmente** no PFL, 
 
 ⚠️ **Dois números desta seção podem cair**, e as duas perguntas são da métrica: se a alternância da desclassificação for um processo elementar só, o apurável vai a **102 PFB · 69,5 PFL**; se `AVL-APU-09` — Exportar Relatório da Etapa pertencer ao mesmo período de medição de `PDTIC25093-49`, que a contou integralmente na SP05, saem outros 3,5 PFL. Ver a seção 5.
 
----
-
-## 4. Impacto em dicionários
+## Impacto em dicionários
 
 **Nenhuma mensagem, regra ou campo canônico novo.** As duas features novas usam o baseline de mensagens — "Campo obrigatório.", "Registro salvo com sucesso.", "Ocorreu um erro. Tente novamente.", "Nenhum registro encontrado." e "Você não tem permissão para esta ação." —, com uma exceção a conferir: *"Máximo de 100 caracteres."*, usada na validação da justificativa. ⚠️ Confirmar se o `global/MESSAGE-DICTIONARY.md` já traz a mensagem de limite de tamanho com o número parametrizado; se traz, a citação é por referência e nada entra.
 
@@ -249,9 +249,11 @@ Os 29 PF dos cinco processos elementares novos entram **integralmente** no PFL, 
 
 **Nenhum código de erro novo.** O `global/ERROR-DICTIONARY.md` segue sem contrapartida no código, como o `MASTER.md` registra.
 
----
+## Metodologia
 
-## 5. Decisões de produto pendentes
+Cruzamento do resumo de entrega da Sprint 6 — recebido em 2026-10-04, com as duas migrações, as telas, as regras e os arquivos de código de cada item — com os N3 publicados dos seis Feature Sets alcançados, o `global/DATA-MODEL.md` e os fragmentos de Avaliação, Validação e Configuração, o `global/CONTAGEM-PF.md`, o `global/SIZING.md`, o `engine/FEATURE-DEFINITION.md` (granularidade e vocabulário) e as quatro análises por item de 2026-10-02 (`PDTIC25093-62`, `-64`, `-65`, `-69`), que esta consolida. O "antes" de cada delta foi extraído do N3 publicado e do seu `## Changelog`, não do sistema em produção. Os dois N3 novos foram escritos a partir do resumo de entrega, com preflight de ID (`scripts/preflight-spec.mjs`) e aprovação dos quatro validadores da instância. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. ⚠️ Os repositórios de código não estão ao alcance desta sessão — os nomes de componente, controller e serviço citados no resumo não foram verificados, e a rota da tela de Disparo de Feedback está registrada com ⚠️ *a conferir*.
+
+## Decisões de produto pendentes
 
 > **Seis decisões saíram desta lista com a entrega**, e ficam registradas aqui porque o que foi considerado importa a quem audita. De `PDTIC25093-64`: o Relatório da Etapa é acionado na tela de **Fechamento**, não na de Ranking — a origem da spec estava errada e foi corrigida; e a colocação **só** é preenchida para estados fechados, ficando vazia no estado aberto. De `PDTIC25093-69`: o aviso **não** é automático, sai por ação do Administrador Nacional, com etapa inteiramente encerrada e devolutiva liberada; o e-mail leva o **link**, não o texto, o que dissolve o conflito com a regra 6 de `INS-ACO-02` — Visualizar Devolutiva; o envio é **feature própria** com tela e tabela próprias, não uma regra de `INS-ACO-02`; e a notificação in-app continua existindo ao lado do e-mail, levando à aba de Feedbacks. De `PDTIC25093-65`: está **confirmado** que o card é a origem de `AVL-ALO-05` — Consultar Panorama do Avaliador e `AVL-ALO-07` — Exportar Relatório de Alocação.
 
@@ -295,16 +297,8 @@ Os 29 PF dos cinco processos elementares novos entram **integralmente** no PFL, 
 
 **Decide** — produto, com conferência no board. **Alcança** — `AVL-APU-13` — Desclassificar Inscrição na Etapa e as quatro features de `AVL-APU` que ela alcança.
 
----
-
-## Metodologia
-
-Cruzamento do resumo de entrega da Sprint 6 — recebido em 2026-10-04, com as duas migrações, as telas, as regras e os arquivos de código de cada item — com os N3 publicados dos seis Feature Sets alcançados, o `global/DATA-MODEL.md` e os fragmentos de Avaliação, Validação e Configuração, o `global/CONTAGEM-PF.md`, o `global/SIZING.md`, o `engine/FEATURE-DEFINITION.md` (granularidade e vocabulário) e as quatro análises por item de 2026-10-02 (`PDTIC25093-62`, `-64`, `-65`, `-69`), que esta consolida. O "antes" de cada delta foi extraído do N3 publicado e do seu `## Changelog`, não do sistema em produção. Os dois N3 novos foram escritos a partir do resumo de entrega, com preflight de ID (`scripts/preflight-spec.mjs`) e aprovação dos quatro validadores da instância. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. ⚠️ Os repositórios de código não estão ao alcance desta sessão — os nomes de componente, controller e serviço citados no resumo não foram verificados, e a rota da tela de Disparo de Feedback está registrada com ⚠️ *a conferir*.
-
----
-
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Análise de impacto (docqui) | Documento criado | Consolidado da Sprint 6 a partir do resumo de entrega, cobrindo as 5 funcionalidades e as 2 migrações. Duas features novas criadas (`AVL-APU-13` — Desclassificar Inscrição na Etapa, `AVL-APU-14` — Enviar Feedback ao Participante, 29 PF em 5 processos elementares) e 11 alteradas; o data-model passou a 62 entidades, com `TB_DISPARO_FEEDBACK` nova e 9 colunas acrescentadas, sem Δ PF nos ALIs. Apurável **108 PFB · 75,5 PFL**. Seis decisões das análises por item foram respondidas pela entrega; cinco seguem pendentes. Duas reclassificações em relação ao que a entrega declara |
+| 2026-10-04 | migra-aim | AIM da sprint migrada | relatório agregado `arquivos/demandas/ANALISE_IMPACTO_SP06.md` → AIM da sprint |

@@ -1,29 +1,41 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-08
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-01, AVL-APU-03]
+origem:
+  tipo: issue
+  chave: PDTIC25093-66
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Ranking da Etapa
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-08`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-08`
 
 ## Descrição
 Apresenta em tela própria, somente para leitura, o resultado já apurado de uma etapa — a colocação de cada inscrição dentro do seu bloco de disputa, a média e os selos de classificado e de premiado — para consulta depois do fechamento.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-66`](../../../analise-impacto/AIM-PDTIC25093-66.md) | Criação | — |
 
 ---
 
@@ -55,38 +67,40 @@ A desclassificação e a sua reversão não são acionáveis aqui — a consulta
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Ranking da Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar o resultado de uma etapa encerrada
-  Given que a etapa Regional está encerrada e apurada
-  When escolho a premiação e a etapa na consulta de ranking
-  Then vejo os blocos de disputa com a colocação, o protocolo, o participante, a média e os selos de classificado e premiado de cada inscrição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Abrir o ranking já com a etapa escolhida
-  Given que vim de outra tela indicando a etapa
-  When a consulta de ranking abre
-  Then a etapa já vem selecionada e o resultado é apresentado
+  Scenario: Consultar o resultado de uma etapa encerrada
+    Given que a etapa Regional está encerrada e apurada
+    When escolho a premiação e a etapa na consulta de ranking
+    Then vejo os blocos de disputa com a colocação, o protocolo, o participante, a média e os selos de classificado e premiado de cada inscrição
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Abrir o ranking já com a etapa escolhida
+    Given que vim de outra tela indicando a etapa
+    When a consulta de ranking abre
+    Then a etapa já vem selecionada e o resultado é apresentado
 
-Scenario: Etapa sem resultado apurado
-  Given que a etapa ainda não foi apurada
-  When abro a lista de etapas da consulta
-  Then essa etapa não é oferecida para seleção
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Recorte de unidade federativa sem resultado
-  Given que estou autenticado como Administrador Regional vinculado a uma unidade federativa sem inscrições apuradas na etapa
-  When seleciono a etapa
-  Then o sistema informa que não há resultado para o meu recorte
+  Scenario: Etapa sem resultado apurado
+    Given que a etapa ainda não foi apurada
+    When abro a lista de etapas da consulta
+    Then essa etapa não é oferecida para seleção
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Recorte de unidade federativa sem resultado
+    Given que estou autenticado como Administrador Regional vinculado a uma unidade federativa sem inscrições apuradas na etapa
+    When seleciono a etapa
+    Then o sistema informa que não há resultado para o meu recorte
 
-Scenario: Avaliador tenta consultar o ranking
-  Given que estou autenticado como Avaliador
-  When tento abrir a consulta de ranking
-  Then o sistema nega o acesso
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Avaliador tenta consultar o ranking
+    Given que estou autenticado como Avaliador
+    When tento abrir a consulta de ranking
+    Then o sistema nega o acesso
 ```
 
 ---
@@ -176,6 +190,7 @@ Página própria em `/avaliacao-admin/ranking-etapa`, com os seletores de premia
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do selo de desclassificada e da sua justificativa na consulta. *Antes* o ranking apresentava colocação, média, Coleta e os selos de classificado e premiado — a desclassificação não existia. *Agora* a inscrição desclassificada aparece com o selo e a justificativa (RN6), e a RN7 registra que a consulta **não** oferece as ações de desclassificar e reverter, que são da tela de fechamento. DER 16 → 18, sem mover o PF |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Decisões de produto (docqui) | Regra ampliada | A visibilidade passa a derivar da natureza da etapa: confirmado o recorte por UF do Administrador Regional na etapa regional, e acrescentado que a **etapa nacional não é apresentada** a ele. A matriz completa está no N2 |
@@ -184,6 +199,6 @@ Página própria em `/avaliacao-admin/ranking-etapa`, com os seletores de premia
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

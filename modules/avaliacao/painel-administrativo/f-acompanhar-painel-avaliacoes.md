@@ -1,29 +1,42 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-PAI-01
 feature_set: AVL-PAI
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-027_Painel_Administrativo_Avaliacoes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Acompanhar Painel de Avaliações
-> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Domínio: Avaliação - `AVL-PAI-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Major Feature Set: Avaliação - `AVL-PAI-01`
 
 ## Descrição
 Permite ao administrador acompanhar as avaliações em andamento da premiação, organizadas por inscrição e etapa e recortáveis por estado, com indicadores agregados, busca e o andamento da consolidação de cada estado, para saber o que já pode ser consolidado e quais estados ainda faltam.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — |
+| [`PDTIC25093-65`](../../../analise-impacto/AIM-PDTIC25093-65.md) | Alteração | — |
 
 ---
 
@@ -62,89 +75,91 @@ Permite ao administrador acompanhar as avaliações em andamento da premiação,
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Acompanhar Painel de Avaliações
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Acompanhar as avaliações da premiação
-  Given que existem avaliações em andamento na premiação
-  When acesso a lista de avaliações
-  Then o sistema apresenta as inscrições com sua premiação, categoria, modalidade, a relação de avaliações finalizadas sobre alocadas e o status de consolidação de cada etapa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Consultar os indicadores agregados
-  Given que acompanho as avaliações da premiação
-  When observo os indicadores no topo
-  Then o sistema apresenta os totais de avaliadores alocados, avaliações em andamento, avaliações concluídas, prontas para consolidação, consolidadas e sem avaliadores
+  Scenario: Acompanhar as avaliações da premiação
+    Given que existem avaliações em andamento na premiação
+    When acesso a lista de avaliações
+    Then o sistema apresenta as inscrições com sua premiação, categoria, modalidade, a relação de avaliações finalizadas sobre alocadas e o status de consolidação de cada etapa
 
-Scenario: Consultar o andamento da consolidação por estado
-  Given que a premiação tem inscrições de participantes de vários estados
-  When observo o andamento da consolidação por estado
-  Then o sistema apresenta cada estado com a quantidade de inscrições consolidadas sobre o total da etapa e a indicação de concluído ou pendente
+  Scenario: Consultar os indicadores agregados
+    Given que acompanho as avaliações da premiação
+    When observo os indicadores no topo
+    Then o sistema apresenta os totais de avaliadores alocados, avaliações em andamento, avaliações concluídas, prontas para consolidação, consolidadas e sem avaliadores
 
-Scenario: Estado com a consolidação concluída
-  Given que todas as inscrições do estado de Goiás na etapa têm feedback consolidado
-  When observo o andamento da consolidação por estado
-  Then o sistema apresenta Goiás como concluído
+  Scenario: Consultar o andamento da consolidação por estado
+    Given que a premiação tem inscrições de participantes de vários estados
+    When observo o andamento da consolidação por estado
+    Then o sistema apresenta cada estado com a quantidade de inscrições consolidadas sobre o total da etapa e a indicação de concluído ou pendente
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Estado com a consolidação concluída
+    Given que todas as inscrições do estado de Goiás na etapa têm feedback consolidado
+    When observo o andamento da consolidação por estado
+    Then o sistema apresenta Goiás como concluído
 
-Scenario: Filtrar o acompanhamento por etapa
-  Given que a premiação tem uma etapa regional e uma etapa nacional
-  When seleciono a etapa regional
-  Then o sistema apresenta apenas as avaliações daquela etapa
-  And recalcula os indicadores agregados para aquela etapa
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Trocar a premiação limpa a etapa
-  Given que selecionei uma premiação e uma etapa
-  When troco a premiação
-  Then o sistema limpa a etapa selecionada
+  Scenario: Filtrar o acompanhamento por etapa
+    Given que a premiação tem uma etapa regional e uma etapa nacional
+    When seleciono a etapa regional
+    Then o sistema apresenta apenas as avaliações daquela etapa
+    And recalcula os indicadores agregados para aquela etapa
 
-Scenario: Etapa nacional sem consolidação por estado
-  Given que selecionei uma etapa de natureza nacional
-  When acompanho as avaliações daquela etapa
-  Then o sistema não apresenta o andamento da consolidação por estado
+  Scenario: Trocar a premiação limpa a etapa
+    Given que selecionei uma premiação e uma etapa
+    When troco a premiação
+    Then o sistema limpa a etapa selecionada
 
-Scenario: Filtrar por status de consolidação
-  Given que existem etapas em diferentes status de consolidação
-  When seleciono o status "Pronta para consolidação"
-  Then o sistema apresenta apenas as etapas prontas para consolidação
+  Scenario: Etapa nacional sem consolidação por estado
+    Given que selecionei uma etapa de natureza nacional
+    When acompanho as avaliações daquela etapa
+    Then o sistema não apresenta o andamento da consolidação por estado
 
-Scenario: Filtrar as avaliações por estado
-  Given que existem inscrições de participantes de vários estados
-  When seleciono o estado "Minas Gerais"
-  Then o sistema apresenta apenas as inscrições de participantes de Minas Gerais
+  Scenario: Filtrar por status de consolidação
+    Given que existem etapas em diferentes status de consolidação
+    When seleciono o status "Pronta para consolidação"
+    Then o sistema apresenta apenas as etapas prontas para consolidação
 
-Scenario: Selecionar o escopo Nacional
-  Given que existem inscrições sem estado definido
-  When seleciono "Nacional" na seleção de estado
-  Then o sistema apresenta apenas as inscrições sem estado definido
+  Scenario: Filtrar as avaliações por estado
+    Given que existem inscrições de participantes de vários estados
+    When seleciono o estado "Minas Gerais"
+    Then o sistema apresenta apenas as inscrições de participantes de Minas Gerais
 
-Scenario: Buscar por protocolo
-  Given que existe a inscrição de protocolo "2026-IEL-00123"
-  When informo "2026-IEL-00123" na busca
-  Then o sistema apresenta a inscrição correspondente
+  Scenario: Selecionar o escopo Nacional
+    Given que existem inscrições sem estado definido
+    When seleciono "Nacional" na seleção de estado
+    Then o sistema apresenta apenas as inscrições sem estado definido
 
-Scenario: Busca sem resultados
-  Given que nenhuma inscrição corresponde ao termo buscado
-  When realizo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Buscar por protocolo
+    Given que existe a inscrição de protocolo "2026-IEL-00123"
+    When informo "2026-IEL-00123" na busca
+    Then o sistema apresenta a inscrição correspondente
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Busca sem resultados
+    Given que nenhuma inscrição corresponde ao termo buscado
+    When realizo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 
-Scenario: Administrador Regional só alcança etapas regionais
-  Given que sou Administrador Regional
-  When abro a seleção de etapa
-  Then o sistema oferece apenas as etapas de natureza regional
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Administrador Regional restrito aos seus estados
-  Given que sou Administrador Regional vinculado apenas a Minas Gerais e ao Espírito Santo
-  When acesso a lista de avaliações
-  Then o sistema apresenta apenas as inscrições de Minas Gerais e do Espírito Santo e oferece somente esses estados na seleção de estado e no andamento da consolidação
+  Scenario: Administrador Regional só alcança etapas regionais
+    Given que sou Administrador Regional
+    When abro a seleção de etapa
+    Then o sistema oferece apenas as etapas de natureza regional
 
-Scenario: Usuário sem permissão de acompanhamento
-  Given que meu perfil não tem permissão para acompanhar avaliações
-  When tento acessar a lista de avaliações
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  Scenario: Administrador Regional restrito aos seus estados
+    Given que sou Administrador Regional vinculado apenas a Minas Gerais e ao Espírito Santo
+    When acesso a lista de avaliações
+    Then o sistema apresenta apenas as inscrições de Minas Gerais e do Espírito Santo e oferece somente esses estados na seleção de estado e no andamento da consolidação
+
+  Scenario: Usuário sem permissão de acompanhamento
+    Given que meu perfil não tem permissão para acompanhar avaliações
+    When tento acessar a lista de avaliações
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -237,6 +252,7 @@ Página própria em `/avaliacao-admin/avaliacoes`: uma árvore com a inscrição
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do detalhe da seleção de etapa e do acesso ao disparo de feedback, conciliados com o resumo de entrega da Sprint 6. *Antes* o delta de 2026-10-02 registrou que a etapa restringe o acompanhamento, sem dizer que a seleção depende da premiação, que cada opção identifica a etapa por ordem, nome e situação, nem que o recorte alcança **também os indicadores** do topo. *Agora* as RN12 a RN14 fixam isso, e a RN15 registra que o acesso ao disparo do feedback vive nesta tela, só para o Administrador Nacional. +4 regras, +1 cenário, +1 critério. DER 20 já estava no topo da faixa — sem Δ PF |
 | 2026-10-02 | Análise de impacto `PDTIC25093-65` (docqui) | Feature alterada | **Restrição** do acompanhamento pela natureza da etapa, item 3 do card. *Antes* a seleção de etapa não distinguia perfil — o Administrador Regional recebia também as etapas nacionais — e o andamento da consolidação por estado era apurado em toda etapa, inclusive na nacional, em que a disputa não é por estado. *Agora* a seleção oferece ao Regional apenas as etapas regionais (RN10) e a consolidação por estado só aparece nas etapas regionais (RN11). +2 regras, +3 cenários, +1 critério de sucesso. A contagem não se move: DER já estava em 20, no topo da faixa |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/painel-administrativo/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -246,6 +262,6 @@ Página própria em `/avaliacao-admin/avaliacoes`: uma árvore com a inscrição
 
 ---
 
-*Feature Set: Painel Administrativo de Avaliações · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

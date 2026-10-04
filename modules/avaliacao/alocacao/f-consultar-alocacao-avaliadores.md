@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-01
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#alocação-de-avaliadores
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-025_Alocar_Avaliadores
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Alocação de Avaliadores
-> **Nível 3** - Feature Set: Alocação de Avaliadores — Domínio: Avaliação - `AVL-ALO-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Alocação de Avaliadores — Major Feature Set: Avaliação - `AVL-ALO-01`
 
 ## Descrição
 Permite ao administrador consultar, por premiação e etapa, cada grupo de avaliação — categoria, modalidade, tipo de participante e submodalidade — com a quantidade de inscrições e o pool de avaliadores já autorizado, situando o trabalho de alocação daquela etapa.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
 
 ---
 
@@ -49,31 +62,33 @@ Permite ao administrador consultar, por premiação e etapa, cada grupo de avali
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Alocação de Avaliadores
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar os grupos de uma etapa
-  Given que existem grupos com inscrições na premiação
-  When seleciono a premiação e a etapa
-  Then o sistema apresenta os grupos com a quantidade de inscrições e o pool atual de cada grupo
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Consultar os grupos de uma etapa
+    Given que existem grupos com inscrições na premiação
+    When seleciono a premiação e a etapa
+    Then o sistema apresenta os grupos com a quantidade de inscrições e o pool atual de cada grupo
 
-Scenario: Grupo ainda sem avaliadores no pool
-  Given que um grupo da etapa não tem nenhum avaliador autorizado
-  When consulto a etapa
-  Then o grupo é apresentado com o pool vazio
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Escopo do administrador regional
-  Given que sou administrador regional vinculado a determinadas UFs
-  When consulto a alocação de uma premiação
-  Then o sistema apresenta apenas os grupos das UFs vinculadas ao meu perfil
+  Scenario: Grupo ainda sem avaliadores no pool
+    Given que um grupo da etapa não tem nenhum avaliador autorizado
+    When consulto a etapa
+    Then o grupo é apresentado com o pool vazio
 
-Scenario: Consulta sem resultados
-  Given que nenhum grupo corresponde à premiação e etapa selecionadas
-  When realizo a consulta
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Escopo do administrador regional
+    Given que sou administrador regional vinculado a determinadas UFs
+    When consulto a alocação de uma premiação
+    Then o sistema apresenta apenas os grupos das UFs vinculadas ao meu perfil
+
+  Scenario: Consulta sem resultados
+    Given que nenhum grupo corresponde à premiação e etapa selecionadas
+    When realizo a consulta
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -164,6 +179,7 @@ Página própria em `/avaliacao-admin/alocacao-matriz` (Alocação por Grupo): s
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/alocacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Grupo corrigido | A **submodalidade** passa a compor o grupo, convergindo com `AVL-ALO-04` Alocar Avaliador à Inscrição, cuja definição foi conferida contra o código. Antes as duas leituras conviviam e mostravam grupos diferentes para a mesma premiação |
@@ -172,6 +188,6 @@ Página própria em `/avaliacao-admin/alocacao-matriz` (Alocação por Grupo): s
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

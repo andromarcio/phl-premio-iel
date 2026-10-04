@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-04
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Validação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/validacao.md#validacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-ANA-01, VAL-ANA-02]
+origem:
+  tipo: issue
+  chave: HU-018_Analisar_Validar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Rejeitar Inscrição
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-04`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-04`
 
 ## Descrição
 Permite ao validador concluir a validação rejeitando a inscrição, mediante parecer obrigatório, de modo que ela passe à situação Rejeitada e seja encerrada.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -51,33 +64,35 @@ Permite ao validador concluir a validação rejeitando a inscrição, mediante p
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Rejeitar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Rejeitar a inscrição com parecer
-  Given que a inscrição está na situação Em Validação
-  When rejeito a inscrição informando o parecer
-  Then a inscrição passa para a situação Rejeitada
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Rejeitar a inscrição com parecer
+    Given que a inscrição está na situação Em Validação
+    When rejeito a inscrição informando o parecer
+    Then a inscrição passa para a situação Rejeitada
 
-Scenario: Rejeitar sem parecer
-  Given que a inscrição está na situação Em Validação
-  When confirmo a rejeição sem preencher o parecer
-  Then o sistema não conclui a rejeição e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Parecer abaixo do mínimo
-  Given que informo um parecer com menos de 10 caracteres
-  When confirmo a rejeição
-  Then o sistema não conclui a rejeição e exibe "Mínimo de 10 caracteres."
+  Scenario: Rejeitar sem parecer
+    Given que a inscrição está na situação Em Validação
+    When confirmo a rejeição sem preencher o parecer
+    Then o sistema não conclui a rejeição e exibe "Campo obrigatório."
 
-# ── Restrições de situação ─────────────────────────────────────
+  Scenario: Parecer abaixo do mínimo
+    Given que informo um parecer com menos de 10 caracteres
+    When confirmo a rejeição
+    Then o sistema não conclui a rejeição e exibe "Mínimo de 10 caracteres."
 
-Scenario: Rejeitar inscrição ainda não assumida
-  Given que a inscrição está na situação Finalizada
-  When tento rejeitar a inscrição
-  Then o sistema não permite rejeitar antes de iniciar a validação
+  # ── Restrições de situação ─────────────────────────────────────
+
+  Scenario: Rejeitar inscrição ainda não assumida
+    Given que a inscrição está na situação Finalizada
+    When tento rejeitar a inscrição
+    Then o sistema não permite rejeitar antes de iniciar a validação
 ```
 
 ---
@@ -146,12 +161,13 @@ Ação disparada pelo botão "Rejeitar" no Detalhe da Inscrição (`/validacao-i
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-018 |
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

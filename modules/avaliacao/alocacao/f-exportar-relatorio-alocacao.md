@@ -1,29 +1,41 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-07
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#alocacao-de-avaliadores
 endpoints: []
 error_codes: []
 depende_de: [AVL-ALO-01]
+origem:
+  tipo: issue
+  chave: PDTIC25093-65
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Relatório de Alocação
-> **Nível 3** - Feature Set: Alocação — Domínio: Avaliação - `AVL-ALO-07`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Alocação — Major Feature Set: Avaliação - `AVL-ALO-07`
 
 ## Descrição
 Entrega em planilha o retrato da alocação de uma etapa — quantos projetos cada avaliador recebeu e, nas etapas regionais, como a alocação se distribui por estado — para conferência e acompanhamento fora do sistema.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-65`](../../../analise-impacto/AIM-PDTIC25093-65.md) | Criação | — |
 
 ---
 
@@ -53,33 +65,35 @@ Entrega em planilha o retrato da alocação de uma etapa — quantos projetos ca
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Relatório de Alocação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar a alocação de uma etapa regional
-  Given que estou na alocação por grupo de uma etapa operada pelo Administrador Regional
-  When aciono "Relatório de alocação (XLSX)"
-  Then o sistema entrega uma planilha com a distribuição por estado e a distribuição por avaliador
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Exportar a alocação de uma etapa nacional
-  Given que estou na alocação por grupo de uma etapa operada apenas pelo Administrador Nacional
-  When aciono "Relatório de alocação (XLSX)"
-  Then o sistema entrega uma planilha apenas com a distribuição por avaliador
+  Scenario: Exportar a alocação de uma etapa regional
+    Given que estou na alocação por grupo de uma etapa operada pelo Administrador Regional
+    When aciono "Relatório de alocação (XLSX)"
+    Then o sistema entrega uma planilha com a distribuição por estado e a distribuição por avaliador
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Exportar a alocação de uma etapa nacional
+    Given que estou na alocação por grupo de uma etapa operada apenas pelo Administrador Nacional
+    When aciono "Relatório de alocação (XLSX)"
+    Then o sistema entrega uma planilha apenas com a distribuição por avaliador
 
-Scenario: Etapa sem nenhuma alocação
-  Given que a etapa ainda não tem avaliadores designados
-  When exporto o relatório de alocação
-  Then a planilha é entregue sem linhas de avaliador
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Etapa sem nenhuma alocação
+    Given que a etapa ainda não tem avaliadores designados
+    When exporto o relatório de alocação
+    Then a planilha é entregue sem linhas de avaliador
 
-Scenario: Exportação por administrador regional
-  Given que estou autenticado como Administrador Regional vinculado à Bahia
-  When exporto o relatório de alocação da etapa
-  Then a planilha traz apenas as alocações dentro do meu escopo
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Exportação por administrador regional
+    Given que estou autenticado como Administrador Regional vinculado à Bahia
+    When exporto o relatório de alocação da etapa
+    Then a planilha traz apenas as alocações dentro do meu escopo
 ```
 
 ---
@@ -154,6 +168,7 @@ Botão "Relatório de alocação (XLSX)" no cabeçalho da Alocação por Grupo (
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Colunas conciliadas · memória corrigida | **Correção** da enumeração a partir do resumo de entrega da Sprint 6, que nomeia as colunas das duas abas. *Antes* a memória supunha três colunas na aba por avaliador e duas na por estado, e não via que a coluna **Grupo** referencia o grupo competitivo. *Agora* ALR 7 (entram Avaliação de Inscrição, Categoria, Modalidade e Tipo de Participante) e DER 16, com as colunas nomeadas uma a uma. A RN6 registra a inscrição sem UF como Nacional. **7 PF inalterados** — mesma célula da tabela de SE |
 | 2026-10-02 | Análise de impacto `PDTIC25093-65` (docqui) | Contagem realizada · origem identificada | Processo elementar contado sobre este N3 — **7 PF** (SE, ALR 4, DER 9), com a memória de cálculo. A premissa de "sem PE correspondente" era efeito, não causa: a capacidade foi pedida em `PDTIC25093-65`, de 2026-08-26, depois do baseline de 2026-02-28. ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -161,6 +176,6 @@ Botão "Relatório de alocação (XLSX)" no cabeçalho da Alocação por Grupo (
 
 ---
 
-*Feature Set: Alocação · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Alocação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

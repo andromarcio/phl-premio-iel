@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-01
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-018_Analisar_Validar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Detalhar Inscrição
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-01`
 
 ## Descrição
 Permite ao validador detalhar uma inscrição em modo leitura, reunindo os dados do formulário, o questionário, os documentos, a equipe, os termos e o histórico de validação para embasar a decisão.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
+| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Alteração | — |
 
 ---
 
@@ -56,48 +70,50 @@ Permite ao validador detalhar uma inscrição em modo leitura, reunindo os dados
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Detalhar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Abrir o detalhe completo da inscrição
-  Given que selecionei uma inscrição na Fila de Validação
-  When abro o detalhe da inscrição
-  Then o sistema exibe os dados do formulário, o questionário, os documentos, a equipe, os termos e o histórico de validação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Fazer o download de um documento anexado
-  Given que estou no detalhe de uma inscrição a que tenho direito e que possui documentos
-  When aciono o download de um documento
-  Then o sistema confere o meu direito à inscrição e disponibiliza o arquivo pelo endereço individual daquele documento
+  Scenario: Abrir o detalhe completo da inscrição
+    Given que selecionei uma inscrição na Fila de Validação
+    When abro o detalhe da inscrição
+    Then o sistema exibe os dados do formulário, o questionário, os documentos, a equipe, os termos e o histórico de validação
 
-Scenario: Endereço individual por documento anexado
-  Given que a inscrição possui mais de um documento anexado
-  When consulto a relação de documentos
-  Then cada documento é endereçado por um link de download próprio
+  Scenario: Fazer o download de um documento anexado
+    Given que estou no detalhe de uma inscrição a que tenho direito e que possui documentos
+    When aciono o download de um documento
+    Then o sistema confere o meu direito à inscrição e disponibiliza o arquivo pelo endereço individual daquele documento
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Endereço individual por documento anexado
+    Given que a inscrição possui mais de um documento anexado
+    When consulto a relação de documentos
+    Then cada documento é endereçado por um link de download próprio
 
-Scenario: Ações disponíveis para inscrição finalizada
-  Given que a inscrição está na situação Finalizada
-  When abro o detalhe da inscrição
-  Then o início da validação fica disponível e as ações de aprovar e rejeitar não
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Veredito de inscrição já decidida
-  Given que a inscrição está na situação Validada
-  When abro o detalhe da inscrição
-  Then o sistema apresenta o parecer e a data da decisão
+  Scenario: Ações disponíveis para inscrição finalizada
+    Given que a inscrição está na situação Finalizada
+    When abro o detalhe da inscrição
+    Then o início da validação fica disponível e as ações de aprovar e rejeitar não
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Veredito de inscrição já decidida
+    Given que a inscrição está na situação Validada
+    When abro o detalhe da inscrição
+    Then o sistema apresenta o parecer e a data da decisão
 
-Scenario: Inscrição de outra unidade federativa
-  Given que a inscrição pertence a uma unidade a que não estou vinculado
-  When tento abrir o detalhe da inscrição
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Download de documento por quem não tem direito à inscrição
-  Given que tenho o link de download de um documento de uma inscrição a que não tenho direito
-  When aciono esse link
-  Then o sistema bloqueia o download e exibe "Você não tem permissão para esta ação."
+  Scenario: Inscrição de outra unidade federativa
+    Given que a inscrição pertence a uma unidade a que não estou vinculado
+    When tento abrir o detalhe da inscrição
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+
+  Scenario: Download de documento por quem não tem direito à inscrição
+    Given que tenho o link de download de um documento de uma inscrição a que não tenho direito
+    When aciono esse link
+    Then o sistema bloqueia o download e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -177,6 +193,7 @@ Página própria em `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (Deta
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Impacto SP05 (docqui) | Feature alterada | Download de documento por endereço individual e seguro, conferido a cada acesso a quem tem direito à inscrição — mesmo mecanismo que habilita o download de anexo pelo avaliador (`AVL-AVA-03`) |
@@ -184,6 +201,6 @@ Página própria em `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (Deta
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

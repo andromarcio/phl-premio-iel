@@ -1,29 +1,41 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-01
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: PDTIC25093-49
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Apurar Resultado da Etapa
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-01`
 
 ## Descrição
 Permite ao administrador apurar o resultado de uma etapa: a média ponderada de cada inscrição, a colocação dentro de cada bloco de estado e grupo de disputa e os cortes de classificação e de premiação que a etapa aplica.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
 
 ---
 
@@ -60,73 +72,75 @@ Permite ao administrador apurar o resultado de uma etapa: a média ponderada de 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Apurar Resultado da Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Apurar o resultado da etapa por estado e grupo
-  Given que a etapa é regional e as avaliações estão finalizadas
-  When aciono a apuração da etapa
-  Then o sistema calcula a média ponderada de cada inscrição e organiza a colocação em blocos de estado e grupo de disputa, recomeçando a colocação em 1 a cada bloco
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Apurar o resultado da etapa apenas por grupo
-  Given que a etapa é nacional e as avaliações estão finalizadas
-  When aciono a apuração da etapa
-  Then o sistema organiza a colocação apenas por grupo de disputa, sem separar os blocos por estado
+  Scenario: Apurar o resultado da etapa por estado e grupo
+    Given que a etapa é regional e as avaliações estão finalizadas
+    When aciono a apuração da etapa
+    Then o sistema calcula a média ponderada de cada inscrição e organiza a colocação em blocos de estado e grupo de disputa, recomeçando a colocação em 1 a cada bloco
 
-Scenario: Aplicar o corte de classificação automático
-  Given que a etapa define 3 como quantidade de classificados e o bloco tem 8 inscrições apuradas
-  When aciono a apuração da etapa
-  Then o sistema marca como classificadas as três primeiras colocadas do bloco e como não classificadas as demais, sem pedir decisão por inscrição
+  Scenario: Apurar o resultado da etapa apenas por grupo
+    Given que a etapa é nacional e as avaliações estão finalizadas
+    When aciono a apuração da etapa
+    Then o sistema organiza a colocação apenas por grupo de disputa, sem separar os blocos por estado
 
-Scenario: Aplicar o corte de premiação
-  Given que a etapa define 2 como quantidade de premiados
-  When aciono a apuração da etapa
-  Then o sistema marca como premiadas as duas primeiras colocadas de cada bloco
+  Scenario: Aplicar o corte de classificação automático
+    Given que a etapa define 3 como quantidade de classificados e o bloco tem 8 inscrições apuradas
+    When aciono a apuração da etapa
+    Then o sistema marca como classificadas as três primeiras colocadas do bloco e como não classificadas as demais, sem pedir decisão por inscrição
 
-Scenario: Etapa sem corte de premiação
-  Given que a etapa está com a quantidade de premiados em branco
-  When aciono a apuração da etapa
-  Then o sistema apura o corte de classificação e não marca nenhuma inscrição como premiada
+  Scenario: Aplicar o corte de premiação
+    Given que a etapa define 2 como quantidade de premiados
+    When aciono a apuração da etapa
+    Then o sistema marca como premiadas as duas primeiras colocadas de cada bloco
 
-Scenario: Premiação independente da classificação
-  Given que a etapa define 1 como quantidade de classificados e 3 como quantidade de premiados
-  When aciono a apuração da etapa
-  Then o sistema marca a segunda e a terceira colocadas como premiadas sem marcá-las como classificadas
+  Scenario: Etapa sem corte de premiação
+    Given que a etapa está com a quantidade de premiados em branco
+    When aciono a apuração da etapa
+    Then o sistema apura o corte de classificação e não marca nenhuma inscrição como premiada
 
-Scenario: Acompanhar os indicadores da apuração
-  Given que a etapa foi apurada
-  When abro o resultado da etapa
-  Then o sistema apresenta o total no ranking, os estados fechados sobre o total de estados, a quantidade que classifica, os empates na linha de corte, as vagas de premiação e os empates no corte de premiação
+  Scenario: Premiação independente da classificação
+    Given que a etapa define 1 como quantidade de classificados e 3 como quantidade de premiados
+    When aciono a apuração da etapa
+    Then o sistema marca a segunda e a terceira colocadas como premiadas sem marcá-las como classificadas
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Acompanhar os indicadores da apuração
+    Given que a etapa foi apurada
+    When abro o resultado da etapa
+    Then o sistema apresenta o total no ranking, os estados fechados sobre o total de estados, a quantidade que classifica, os empates na linha de corte, as vagas de premiação e os empates no corte de premiação
 
-Scenario: Inscrições sem estado no bloco Nacional
-  Given que há inscrições apuradas sem estado definido
-  When aciono a apuração da etapa
-  Then o sistema reúne essas inscrições no bloco Nacional e as classifica entre si
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Empate na linha de corte de classificação
-  Given que duas inscrições do mesmo bloco têm a mesma média ponderada na colocação da linha de corte
-  When apuro o resultado da etapa
-  Then o sistema mantém as inscrições empatadas e sinaliza a necessidade de desempate de classificação
+  Scenario: Inscrições sem estado no bloco Nacional
+    Given que há inscrições apuradas sem estado definido
+    When aciono a apuração da etapa
+    Then o sistema reúne essas inscrições no bloco Nacional e as classifica entre si
 
-Scenario: Empate fora da linha de corte
-  Given que duas inscrições do mesmo bloco empatam em colocação abaixo dos dois cortes da etapa
-  When apuro o resultado da etapa
-  Then o sistema mantém o empate sinalizado e não exige desempate para a etapa prosseguir
+  Scenario: Empate na linha de corte de classificação
+    Given que duas inscrições do mesmo bloco têm a mesma média ponderada na colocação da linha de corte
+    When apuro o resultado da etapa
+    Then o sistema mantém as inscrições empatadas e sinaliza a necessidade de desempate de classificação
 
-Scenario: Avaliações pendentes na etapa
-  Given que há inscrições com avaliação ainda não finalizada
-  When aciono a apuração da etapa
-  Then o sistema apura apenas as inscrições com avaliações finalizadas e indica as pendentes
+  Scenario: Empate fora da linha de corte
+    Given que duas inscrições do mesmo bloco empatam em colocação abaixo dos dois cortes da etapa
+    When apuro o resultado da etapa
+    Then o sistema mantém o empate sinalizado e não exige desempate para a etapa prosseguir
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Avaliações pendentes na etapa
+    Given que há inscrições com avaliação ainda não finalizada
+    When aciono a apuração da etapa
+    Then o sistema apura apenas as inscrições com avaliações finalizadas e indica as pendentes
 
-Scenario: Usuário sem permissão de apuração
-  Given que meu perfil não tem permissão para apurar a etapa
-  When tento apurar o resultado
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de apuração
+    Given que meu perfil não tem permissão para apurar a etapa
+    When tento apurar o resultado
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -224,6 +238,7 @@ Tela de fechamento em `/avaliacao-admin/fechamento-etapa/:etapaId`: após escolh
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do efeito da desclassificação manual na apuração. *Antes* todas as inscrições com avaliação finalizada entravam na disputa do bloco e recebiam colocação; não havia como retirar uma do resultado. *Agora* a inscrição desclassificada sai da disputa, fica sem colocação e ao fim do bloco (RN11), e a desclassificação recalcula na hora as colocações e as duas linhas de corte (RN12). DER 17 → 19, sem mover o PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -236,6 +251,6 @@ Tela de fechamento em `/avaliacao-admin/fechamento-etapa/:etapaId`: após escolh
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

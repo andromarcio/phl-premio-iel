@@ -1,29 +1,42 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-EMA-01
 feature_set: CFG-EMA
 dominio: CFG
 entidade: Configuração de E-mail da Premiação
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#configuracao-de-e-mail-da-premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-021_Configurar_Templates_Email
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Modelos de E-mail
-> **Nível 3** - Feature Set: Modelos de E-mail — Domínio: Configuração da Premiação - `CFG-EMA-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Modelos de E-mail — Major Feature Set: Configuração da Premiação - `CFG-EMA-01`
 
 ## Descrição
 Permite ao administrador consultar os cinco tipos de e-mail transacional da edição, cada um com sua severidade e situação, como ponto de partida para editar e pré-visualizar o modelo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
 
 ---
 
@@ -50,26 +63,28 @@ Permite ao administrador consultar os cinco tipos de e-mail transacional da edi�
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Modelos de E-mail
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar os modelos de e-mail da edição
-  Given que acesso a seção de modelos de e-mail de uma edição
-  When a seção é carregada
-  Then o sistema exibe os cinco tipos de e-mail com o rótulo, a severidade e a situação de cada um
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Identificar o tipo pela severidade
-  Given que estou na lista de modelos de e-mail
-  When observo o tipo "Inscrição rejeitada"
-  Then o sistema exibe a severidade "perigo" associada a esse tipo
+  Scenario: Listar os modelos de e-mail da edição
+    Given que acesso a seção de modelos de e-mail de uma edição
+    When a seção é carregada
+    Then o sistema exibe os cinco tipos de e-mail com o rótulo, a severidade e a situação de cada um
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Identificar o tipo pela severidade
+    Given que estou na lista de modelos de e-mail
+    When observo o tipo "Inscrição rejeitada"
+    Then o sistema exibe a severidade "perigo" associada a esse tipo
 
-Scenario: Selecionar um tipo para edição
-  Given que estou na lista de modelos de e-mail
-  When seleciono o tipo "Ajuste solicitado"
-  Then o sistema abre o modelo desse tipo para edição
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Selecionar um tipo para edição
+    Given que estou na lista de modelos de e-mail
+    When seleciono o tipo "Ajuste solicitado"
+    Then o sistema abre o modelo desse tipo para edição
 ```
 
 ---
@@ -154,6 +169,7 @@ Seção própria em `/configuracao-premiacao/premiacoes/:premiacaoId/configurar`
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do tipo **Feedback disponível** entre os modelos configuráveis. *Antes* eram quatro tipos, todos do fluxo de validação (ajuste solicitado, inscrição aprovada, inscrição rejeitada, devolução ao administrador) — o e-mail da devolutiva não existia. *Agora* são **cinco**: o novo `FEEDBACK_ETAPA_DISPONIVEL`, criado pela migração V00034 em cada premiação ativa, é editável como os demais. O número de tipos é quantidade de linhas, não DER — sem Δ PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -161,6 +177,6 @@ Seção própria em `/configuracao-premiacao/premiacoes/:premiacaoId/configurar`
 
 ---
 
-*Feature Set: Modelos de E-mail · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

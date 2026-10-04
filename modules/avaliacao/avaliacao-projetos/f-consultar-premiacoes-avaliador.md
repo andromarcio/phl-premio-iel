@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-07
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#alocacao-de-avaliadores
 endpoints: []
 error_codes: []
 depende_de: [ACS-ACE-01]
+origem:
+  tipo: issue
+  chave: HU-033_Painel_Avaliacao_Avaliador
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Premiações do Avaliador
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-07`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-07`
 
 ## Descrição
 Apresenta ao avaliador, logo ao entrar, as premiações em que ele tem projetos para avaliar, com quanto já avançou em cada uma e o aviso de qual delas ainda exige o aceite do termo de confidencialidade.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-033_Painel_Avaliacao_Avaliador`](../../../hus/HU-033_Painel_Avaliacao_Avaliador.docx) | Criação | — |
 
 ---
 
@@ -52,40 +64,42 @@ Apresenta ao avaliador, logo ao entrar, as premiações em que ele tem projetos 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Premiações do Avaliador
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Entrar e escolher em qual premiação avaliar
-  Given que tenho projetos designados em duas premiações
-  When entro na área do avaliador
-  Then vejo um cartão por premiação, com quantos projetos tenho a iniciar, em andamento e finalizados
-  And ao escolher uma premiação sou levado à minha lista de projetos daquela premiação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Premiação com termo pendente
-  Given que tenho projetos numa premiação cujo termo de confidencialidade ainda não aceitei
-  When entro na área do avaliador
-  Then o cartão dessa premiação aparece como pendente de aceite, sem os contadores
-  And ao escolhê-la sou levado à leitura e ao aceite do termo
+  Scenario: Entrar e escolher em qual premiação avaliar
+    Given que tenho projetos designados em duas premiações
+    When entro na área do avaliador
+    Then vejo um cartão por premiação, com quantos projetos tenho a iniciar, em andamento e finalizados
+    And ao escolher uma premiação sou levado à minha lista de projetos daquela premiação
 
-Scenario: Premiação sem termo cadastrado
-  Given que a premiação não tem termo de confidencialidade cadastrado
-  When escolho essa premiação
-  Then sou levado direto à minha lista de projetos
+  Scenario: Premiação com termo pendente
+    Given que tenho projetos numa premiação cujo termo de confidencialidade ainda não aceitei
+    When entro na área do avaliador
+    Then o cartão dessa premiação aparece como pendente de aceite, sem os contadores
+    And ao escolhê-la sou levado à leitura e ao aceite do termo
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Premiação sem termo cadastrado
+    Given que a premiação não tem termo de confidencialidade cadastrado
+    When escolho essa premiação
+    Then sou levado direto à minha lista de projetos
 
-Scenario: Avaliador sem projetos designados
-  Given que não tenho nenhum projeto designado
-  When entro na área do avaliador
-  Then o sistema informa que ainda não há projetos para avaliar
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Avaliador sem projetos designados
+    Given que não tenho nenhum projeto designado
+    When entro na área do avaliador
+    Then o sistema informa que ainda não há projetos para avaliar
 
-Scenario: Participante tenta acessar a área do avaliador
-  Given que estou autenticado como Participante
-  When tento abrir a área do avaliador
-  Then o sistema nega o acesso
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Participante tenta acessar a área do avaliador
+    Given que estou autenticado como Participante
+    When tento abrir a área do avaliador
+    Then o sistema nega o acesso
 ```
 
 ---
@@ -165,11 +179,12 @@ Página própria em `/avaliacao`, primeira tela do perfil Avaliador. Traz uma sa
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (seleção de premiação, porta de entrada do avaliador) — tela citada no N2 e até então sem feature própria |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-FIL-01
 feature_set: VAL-FIL
 dominio: VAL
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-017_Listar_Inscricoes_Validacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Pesquisar Inscrições para Validação
-> **Nível 3** - Feature Set: Fila e Painel de Validação — Domínio: Validação - `VAL-FIL-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Fila e Painel de Validação — Major Feature Set: Validação - `VAL-FIL-01`
 
 ## Descrição
 Permite ao validador pesquisar as inscrições submetidas para validação por unidade federativa, premiação, categoria, modalidade, tipo de participante e situação, listando os resultados para conferência e análise.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-017_Listar_Inscricoes_Validacao`](../../../hus/HU-017_Listar_Inscricoes_Validacao.docx) | Criação | — |
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — |
 
 ---
 
@@ -50,49 +64,51 @@ Permite ao validador pesquisar as inscrições submetidas para validação por u
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Pesquisar Inscrições para Validação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar as inscrições submetidas para validação
-  Given que existem inscrições submetidas nas unidades a que estou vinculado
-  When acesso a Fila de Validação
-  Then o sistema exibe as inscrições com protocolo, premiação, categoria, modalidade, tipo de participante, UF, situação e data
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Pesquisar por premiação e situação
-  Given que estou na Fila de Validação
-  When seleciono uma premiação e as situações "Finalizada" e "Aguardando Ajuste"
-  Then o sistema exibe apenas as inscrições daquela premiação nessas situações
+  Scenario: Listar as inscrições submetidas para validação
+    Given que existem inscrições submetidas nas unidades a que estou vinculado
+    When acesso a Fila de Validação
+    Then o sistema exibe as inscrições com protocolo, premiação, categoria, modalidade, tipo de participante, UF, situação e data
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Pesquisar por premiação e situação
+    Given que estou na Fila de Validação
+    When seleciono uma premiação e as situações "Finalizada" e "Aguardando Ajuste"
+    Then o sistema exibe apenas as inscrições daquela premiação nessas situações
 
-Scenario: Recorte por unidade única aplicado automaticamente
-  Given que estou vinculado a uma única unidade federativa
-  When acesso a Fila de Validação
-  Then o sistema exibe apenas as inscrições daquela unidade sem exigir a escolha da UF
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Inscrição sem unidade federativa
-  Given que existe uma inscrição não vinculada a nenhuma unidade federativa
-  When ela consta no resultado
-  Then o sistema apresenta a UF como "Nacional"
+  Scenario: Recorte por unidade única aplicado automaticamente
+    Given que estou vinculado a uma única unidade federativa
+    When acesso a Fila de Validação
+    Then o sistema exibe apenas as inscrições daquela unidade sem exigir a escolha da UF
 
-Scenario: Pesquisa sem resultados
-  Given que nenhuma inscrição corresponde ao recorte informado
-  When realizo a pesquisa
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Inscrição sem unidade federativa
+    Given que existe uma inscrição não vinculada a nenhuma unidade federativa
+    When ela consta no resultado
+    Then o sistema apresenta a UF como "Nacional"
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Pesquisa sem resultados
+    Given que nenhuma inscrição corresponde ao recorte informado
+    When realizo a pesquisa
+    Then o sistema exibe "Nenhum resultado para a busca."
 
-# O conteúdo do Relatório Geral de Inscrições é especificado em AVL-APU-10 — está fora do escopo desta feature.
-Scenario: Abrir o Relatório Geral de Inscrições a partir da fila
-  Given que meu perfil tem acesso aos relatórios administrativos
-  When aciono "Relatório de Inscrições" na Fila de Validação
-  Then o sistema abre o Relatório Geral de Inscrições
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Perfil sem acesso aos relatórios administrativos
-  Given que meu perfil não tem acesso aos relatórios administrativos
-  When acesso a Fila de Validação
-  Then o sistema não oferece as ações "Relatório de Inscrições" e "Inscrições Paradas"
+  # O conteúdo do Relatório Geral de Inscrições é especificado em AVL-APU-10 — está fora do escopo desta feature.
+  Scenario: Abrir o Relatório Geral de Inscrições a partir da fila
+    Given que meu perfil tem acesso aos relatórios administrativos
+    When aciono "Relatório de Inscrições" na Fila de Validação
+    Then o sistema abre o Relatório Geral de Inscrições
+
+  Scenario: Perfil sem acesso aos relatórios administrativos
+    Given que meu perfil não tem acesso aos relatórios administrativos
+    When acesso a Fila de Validação
+    Then o sistema não oferece as ações "Relatório de Inscrições" e "Inscrições Paradas"
 ```
 
 ---
@@ -183,6 +199,7 @@ Página própria em `/validacao-inscricao/inscricoes` (Fila de Validação): fil
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/fila-validacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Impacto SP05 (docqui) | Feature alterada | Ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22) |
@@ -190,6 +207,6 @@ Página própria em `/validacao-inscricao/inscricoes` (Fila de Validação): fil
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

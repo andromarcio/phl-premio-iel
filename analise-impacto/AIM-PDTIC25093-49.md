@@ -1,9 +1,21 @@
-<!-- docqui: 2.16.0 | prompt: analise-impacto | atualizado: 2026-09-01 -->
-# Análise Impacto PDTIC25093-49
-
+---
+tipo: ticket
+ticket: PDTIC25093-49
+ferramenta: ""
+link: ""
+titulo: ""
+estado: concluído
+aberta-na-entrega: true
+sprint: SP05
+avalizado-por: ""
+aberta-em: 2026-10-04
 ---
 
+# AIM PDTIC25093-49
+
 ## Sumário
+
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-49.md`.
 
 | Indicador | Valor |
 |---|---|
@@ -18,9 +30,9 @@
 
 > **Linha do tempo.** O baseline APF foi contado em **2026-02-28**, antes desta sprint — é o "antes" da contagem. Os N3 foram escritos entre **2026-08-25 e 27**, por engenharia reversa do código **pós-sprint**: logo o "antes" de cada delta é o N3 como publicado, não o sistema em produção. O item aparece encerrado na listagem mais recente do board. ⚠️ Não há SQL anterior à sprint nem os arquivos de migração no acervo — as alterações de modelo abaixo são as **declaradas** pela demanda e confirmadas no modelo atual, não as **verificadas no script**.
 
----
+## Detalhe do item
 
-## 1. Detalhe do item
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-49.md`.
 
 **`PDTIC25093-49` — Fechamento da Etapa de Avaliação · HU-030 — Fechar Etapa de Avaliação**
 
@@ -30,27 +42,53 @@ O item concentra a maior parte do delta da sprint e é o único que cria feature
 
 > **Critérios de aceite não numerados.** A HU chega como `.docx` e não numera os critérios. Pela regra da instância, a coluna `CA-n` sai `—` e a rastreabilidade fica pela chave da demanda. Numerar por conta própria produziria referências que não existem na ferramenta do cliente.
 
----
+## Critérios de aceite
 
-## 2. Alterações aplicadas na spec, por Feature Set
+> ⚠️ Migrada sem o registro do ticket: transcreva aqui os critérios de aceite da ferramenta de origem.
+
+## Features
+
+| Feature (N3) | Domínio · Feature Set | Operação | Critérios cobertos | Status |
+|---|---|---|---|---|
+| [`AVL-APU-01`: Apurar Resultado da Etapa](../modules/avaliacao/apuracao-devolutiva/f-apurar-resultado-etapa.md) | Avaliação · Apuração e Devolutiva | Alteração | — | ✏️ Rascunho |
+| [`AVL-APU-02`: Registrar Desempate](../modules/avaliacao/apuracao-devolutiva/f-registrar-desempate.md) | Avaliação · Apuração e Devolutiva | Alteração | — | ✏️ Rascunho |
+| [`AVL-APU-03`: Encerrar Etapa por UF](../modules/avaliacao/apuracao-devolutiva/f-encerrar-etapa-uf.md) | Avaliação · Apuração e Devolutiva | Alteração | — | ✏️ Rascunho |
+| [`AVL-APU-12`: Reabrir Etapa por UF](../modules/avaliacao/apuracao-devolutiva/f-reabrir-etapa-uf.md) | Avaliação · Apuração e Devolutiva | Criação | — | ✏️ Rascunho |
+| [`AVL-APU-09`: Exportar Relatório da Etapa](../modules/avaliacao/apuracao-devolutiva/f-exportar-relatorio-etapa.md) | Avaliação · Apuração e Devolutiva | Criação | — | ✏️ Rascunho |
+| [`AVL-PAI-03`: Consolidar Avaliação](../modules/avaliacao/painel-administrativo/f-consolidar-avaliacao.md) | Avaliação · Painel Administrativo de Avaliações | Alteração | — | ✏️ Rascunho |
+
+## Artefatos impactados
+
+| Artefato | Tipo | Operação | Seção | Natureza | O quê | Proveniência |
+|---|---|---|---|---|---|---|
+| `modules/avaliacao/apuracao-devolutiva/f-apurar-resultado-etapa.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-registrar-desempate.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-encerrar-etapa-uf.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-reabrir-etapa-uf.md` | N3 | criar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-exportar-relatorio-etapa.md` | N3 | criar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/painel-administrativo/f-consolidar-avaliacao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/painel-administrativo/f-consolidar-avaliacao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/painel-administrativo/f-consolidar-avaliacao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Apuração e Devolutiva (`AVL-APU`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-APU-01` **Apurar Resultado da Etapa** | `PDTIC25093-49` · HU-030 | — | alterada | **Alteração** do agrupamento do ranking e **inclusão** do corte automático. Antes as inscrições competiam por grupo de oferta × enquadramento e a classificação era apenas a ordem por média — nada marcava quem passava. Agora o ranking é em blocos estado→grupo com colocação por bloco, o corte de classificação é aplicado automaticamente pela quantidade definida na etapa e existe um corte de premiação independente dele; as inscrições sem estado formam o bloco Nacional | +10 | +10 | 7 | 7 |
-| `AVL-APU-02` **Registrar Desempate** | `PDTIC25093-49` · HU-030 | — | alterada | **Alteração** do escopo do desempate. Antes qualquer empate dentro do grupo exigia decisão manual, com um único tipo de corte (Classificação) e justificativa de tamanho livre. Agora só o empate que atravessa a linha de corte precisa de decisão, o corte pode ser de classificação ou de premiação, a comparação é questão a questão e a justificativa tem de 30 a 1.000 caracteres | +8 | +7 | 6 | 6 |
-| `AVL-APU-03` **Encerrar Etapa por UF** | `PDTIC25093-49` · HU-030 | — | alterada | **Inclusão** da pré-condição de feedback consolidado e do encerramento automático; **correção** da regra de avanço. Antes bastavam apuração concluída e empates resolvidos para fechar a UF, e a RN4 dizia que "as premiadas avançam". Agora o fechamento exige todas as inscrições do estado com feedback consolidado, lista as pendências por participante, encerra a etapa sozinho quando o último estado fecha, e quem avança é o **classificado** | +10 | +8 | 6 | 6 |
-| `AVL-APU-12` **Reabrir Etapa por UF** | `PDTIC25093-49` · HU-030 | — | incluída | **Feature incluída.** Devolve um estado já encerrado à apuração: recalcula o corte, preserva o feedback consolidado e desfaz apenas as decisões de corte e desempate daquele escopo; reabrir a etapa inteira exige as etapas posteriores abertas. Exclusiva do Administrador Nacional. Não existia — na spec o encerramento por UF era irreversível | — | — | 4 | 4 |
-| `AVL-APU-09` **Exportar Relatório da Etapa** | `PDTIC25093-49` · HU-030 | — | incluída | **Feature incluída.** Planilha XLSX com uma aba Resumo (uma linha por UF × grupo) e uma aba por tipo de participante, consolidando respostas do formulário, notas por avaliador, feedback consolidado e decisão de corte. O Administrador Regional recebe o recorte das suas UFs. Compartilha o mesmo serviço de montagem com o Ranking da Etapa | — | — | 7 | 7 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-APU-01` **Apurar Resultado da Etapa** | — | alterada | **Alteração** do agrupamento do ranking e **inclusão** do corte automático. Antes as inscrições competiam por grupo de oferta × enquadramento e a classificação era apenas a ordem por média — nada marcava quem passava. Agora o ranking é em blocos estado→grupo com colocação por bloco, o corte de classificação é aplicado automaticamente pela quantidade definida na etapa e existe um corte de premiação independente dele; as inscrições sem estado formam o bloco Nacional | +10 | +10 | 7 | 7 |
+| `AVL-APU-02` **Registrar Desempate** | — | alterada | **Alteração** do escopo do desempate. Antes qualquer empate dentro do grupo exigia decisão manual, com um único tipo de corte (Classificação) e justificativa de tamanho livre. Agora só o empate que atravessa a linha de corte precisa de decisão, o corte pode ser de classificação ou de premiação, a comparação é questão a questão e a justificativa tem de 30 a 1.000 caracteres | +8 | +7 | 6 | 6 |
+| `AVL-APU-03` **Encerrar Etapa por UF** | — | alterada | **Inclusão** da pré-condição de feedback consolidado e do encerramento automático; **correção** da regra de avanço. Antes bastavam apuração concluída e empates resolvidos para fechar a UF, e a RN4 dizia que "as premiadas avançam". Agora o fechamento exige todas as inscrições do estado com feedback consolidado, lista as pendências por participante, encerra a etapa sozinho quando o último estado fecha, e quem avança é o **classificado** | +10 | +8 | 6 | 6 |
+| `AVL-APU-12` **Reabrir Etapa por UF** | — | incluída | **Feature incluída.** Devolve um estado já encerrado à apuração: recalcula o corte, preserva o feedback consolidado e desfaz apenas as decisões de corte e desempate daquele escopo; reabrir a etapa inteira exige as etapas posteriores abertas. Exclusiva do Administrador Nacional. Não existia — na spec o encerramento por UF era irreversível | — | — | 4 | 4 |
+| `AVL-APU-09` **Exportar Relatório da Etapa** | — | incluída | **Feature incluída.** Planilha XLSX com uma aba Resumo (uma linha por UF × grupo) e uma aba por tipo de participante, consolidando respostas do formulário, notas por avaliador, feedback consolidado e decisão de corte. O Administrador Regional recebe o recorte das suas UFs. Compartilha o mesmo serviço de montagem com o Ranking da Etapa | — | — | 7 | 7 |
 
 **Subtotal: 5 features · 30 PFB · 30 PFL** — contadas em 2026-09-01; antes eram 21 (E).
 
 ### Avaliação › Painel Administrativo (`AVL-PAI`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-PAI-03` **Consolidar Avaliação** | `PDTIC25093-49` · HU-030 | — | alterada | **Inclusão** da trava pelo fechamento. Antes o texto consolidado podia ser substituído a qualquer momento — uma nova consolidação sobrescrevia a anterior sem limite de prazo. Agora, com o estado já fechado, a consolidação é recusada; a consolidação completa do estado vira pré-requisito do fechamento e a reabertura do estado devolve o texto à edição | +4 | +3 | 6 | 3 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-PAI-03` **Consolidar Avaliação** | — | alterada | **Inclusão** da trava pelo fechamento. Antes o texto consolidado podia ser substituído a qualquer momento — uma nova consolidação sobrescrevia a anterior sem limite de prazo. Agora, com o estado já fechado, a consolidação é recusada; a consolidação completa do estado vira pré-requisito do fechamento e a reabertura do estado devolve o texto à edição | +4 | +3 | 6 | 3 |
 
 **Subtotal: 1 feature · 6 PFB · 3 PFL.**
 
@@ -71,9 +109,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 
 ✅ **5 features contadas em 2026-09-01, fora do baseline** — `AVL-APU-01` **Apurar Resultado da Etapa**, `AVL-APU-02` **Registrar Desempate**, `AVL-APU-03` **Encerrar Etapa por UF**, `AVL-APU-12` **Reabrir Etapa por UF**, `AVL-APU-09` **Exportar Relatório da Etapa**. O PFB dessas linhas é **estimativa** `(E)`: não estavam na contagem de fevereiro.
 
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 ### ALI: Avaliação de Inscrição — RLR 3 → 4 · DER 38 → 42 · Média
 
@@ -91,9 +127,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 | ALI Avaliação de Inscrição | alterada · 50% | 10 | 5 |
 | **Apurável do item** | — | **36** | **33** |
 
----
-
-## 4. Impacto em dicionários
+## Impacto em dicionários
 
 | Chave | Texto | Onde é usada |
 |---|---|---|
@@ -102,9 +136,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 
 Nenhuma regra ou campo canônico novo.
 
----
-
-## 5. Decisões de produto pendentes
+## Decisões de produto pendentes
 
 > Três decisões deste item foram respondidas em 2026-09-01 e já estão aplicadas na spec: **avança o classificado** (RN4 de `AVL-APU-03` **Encerrar Etapa por UF**) e **a reabertura apaga a linha de fechamento**, sem trilha do fechamento anterior — o que confirma as 3 alterações de modelo do item, sem a quarta que estava em estudo. A terceira era a confirmação dos PFB estimados: os cinco processos elementares foram **contados** em 2026-09-01 — as três de fechamento passaram de 4 (E) para 7, 6 e 6 PF, e o item subiu de 27 (E) para 36 PFB. Saíram desta lista; os números **1**, **2** e **3** anteriores não foram reaproveitados.
 
@@ -118,18 +150,18 @@ Nenhuma regra ou campo canônico novo.
 
 **Decide** — equipe de métricas. **Alcança** — `AVL-APU-12` **Reabrir Etapa por UF**.
 
----
-
 ## Metodologia
 
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-49.md`.
+
 Cruzamento do item `PDTIC25093-49` com os N3 publicados dos Feature Sets alcançados, o `global/DATA-MODEL.md`, o `global/CONTAGEM-PF.md` e o baseline APF `arquivos/PIEL_BASELINE_PF_CD.xlsx`. O "antes" de cada delta foi extraído das linhas removidas no diff dos N3, não do arquivo atual. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. Este documento é o recorte por item da análise agregada da sprint, em `ANALISE_IMPACTO_SP05.md` — os números dos dois devem sempre fechar.
+
+## Reconciliação
+
+Aberta na entrega — migrada do relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-49.md`: não houve escopo prévio a reconciliar.
 
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-09-01 | Contagem APF (docqui) | Estimativas substituídas por contagem | Os processos elementares que faltavam foram contados sobre os N3, com ALR e DER nomeados. O apurável do item passa de **27 (E) · 24 (E)** para **36 · 33 PF**. ⚠️ Pendente de validação pela equipe de métricas |
-| 2026-09-01 | Especificação (docqui) | Feature especificada | `AVL-APU-12` **Reabrir Etapa por UF** ganhou N3; a pendência deixa de ser a spec e passa a ser a contagem do processo elementar |
-| 2026-09-01 | Decisões de produto (docqui) | Decisões respondidas | O produto respondeu as decisões pendentes deste documento; elas foram aplicadas na spec e saíram da lista da seção 5. Os números das que ficaram não foram reaproveitados |
-| 2026-09-01 | Decisão 3 da sprint (docqui) | Numeração reconciliada | `Reabrir Etapa por UF` passa de `AVL-APU-08` (numeração proposta, que colidia com `Consultar Ranking da Etapa` na árvore) para `AVL-APU-12`, o próximo ID livre depois dos aposentados pela decisão 6. Decisões reescritas com mais detalhe e acrescida a pendência do N3 da reabertura |
-| 2026-09-01 | Análise de impacto (docqui) | Documento criado | Impacto do item `PDTIC25093-49` sobre a spec, derivado da análise agregada da SP05 |
+| 2026-10-04 | migra-aim | AIM migrada | relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-49.md` → AIM única |

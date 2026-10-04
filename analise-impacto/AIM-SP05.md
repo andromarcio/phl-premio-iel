@@ -1,59 +1,13 @@
-<!-- docqui: análise de impacto | fonte: ANALISE_SP05_novas_vs_alteradas.md | gerado: 2026-08-27 -->
-# Relatório de Impacto — Sprint 5 sobre a especificação do Prêmio IEL
-
+---
+tipo: sprint
+sprint: SP05
+entrega: ""
+estado: concluído
 ---
 
-## Sumário executivo
+# AIM SP05
 
-**O que a SP05 move.** No modelo, seis alterações — uma tabela nova e cinco colunas — que tocam três ALIs e valem **40 PFB — 20 PFL** pela regra de 50% da função alterada. Fora do modelo, onde está o grosso do trabalho: o **comportamento dos N3** (escritos por engenharia reversa das HUs anteriores à sprint) e as **permissões (N2)**. E vários itens que a demanda classifica como "NOVA" são, na spec, **alteração de feature já existente** — porque "novo para o negócio" (primeiro envio à área negocial) não é "novo para a spec".
-
-> **Premissa desta análise.** O modelo físico disponível (`arquivos/modelo_dados.sql`) é um retrato **posterior** à sprint, então as colunas e a tabela listadas na seção 3 (tabelas por função de dados) já aparecem nele. Esta análise as trata como **alterações a realizar**, que é a leitura correta para dimensionar a evolução: o baseline APF é **anterior** à SP05, e é contra ele que o delta se mede. Não foi possível confirmar por comparação que a lista está completa — não há SQL anterior à sprint disponível; ela reproduz o que as migrações V00030 a V00033 declaram.
-
-| Indicador | Valor |
-|---|---|
-| Features existentes que mudam de comportamento | 15 |
-| Features novas a criar | 7 (+1 opcional) |
-| N2 com matriz de permissões a ajustar | 3 |
-| Alterações de modelo a realizar | 6 — 1 tabela + 5 colunas |
-| PF de funções de dados na evolução | 40 (CHGA) |
-| **PF apurável da sprint** | **202 PFB · 136,5 PFL** — sem estimativa desde 2026-09-01 |
-| Decisões de produto pendentes | nenhuma — as 11 foram respondidas em 2026-09-01 |
-| Itens do Jira na Sprint 5 | 8 — todos mapeados, 2 features sem item identificado |
-
-### Classificação por item da demanda
-
-| Item | Jira | Demanda diz | Na spec docqui é |
-|---|---|---|---|
-| HU-024 Configurar Etapas | `PDTIC25093-67` | ALTERADA | Alteração de `AVL-ETA-02` **Cadastrar Etapa** e `AVL-ETA-03` **Editar Etapa** (campos classificados/premiados) |
-| HU-030 Fechar Etapa | `PDTIC25093-49` | NOVA (1º envio) | **Alteração** de `AVL-APU-01/02/03` + `AVL-PAI-03` **Consolidar Avaliação** + 2 features novas (Reabrir Etapa por UF, Exportar Relatório da Etapa) |
-| HU-036 Relatório Geral | `PDTIC25093-56` | NOVA | Feature nova `AVL-APU-10` **Gerar Relatório de Inscrições** (tela e planilha) + restrição de permissão em `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** |
-| HU-036 Relatório do dashboard | `PDTIC25093-58` | sem documento | Alteração de `VAL-FIL-02` **Acompanhar Painel de Validação** — a exportação do histórico, que não estava especificada |
-| HU-038 Ranking por Etapa | `PDTIC25093-66` | NOVA | Feature nova `AVL-APU-08` **Consultar Ranking da Etapa** (irmã somente-leitura do Fechamento) |
-| HU-018 Validar Inscrições | `PDTIC25093-68` | ALTERADA | Alteração de `VAL-ANA-01` **Detalhar Inscrição** + 1 feature nova (`VAL-ANA-05` **Editar Inscrição Validada**) |
-| HU-025 Alocação | `PDTIC25093-60` | sem documento | Alteração de `AVL-ALO-04` **Alocar Avaliador à Inscrição** — detalhe do projeto e recortes |
-| HU-028 Avaliação | `PDTIC25093-61` | sem documento | Alteração de `AVL-AVA-01`, `AVL-AVA-03` e `AVL-AVA-04` — fila de pendentes, download por link e salto "Próxima pendente" |
-| Avisos 4 | ⚠️ sem item identificado | sem documento | Altera `AVL-PAI-01` **Acompanhar Painel de Avaliações** + nova `AVL-PAI-04` **Exportar Relatório de Avaliadores** |
-
-### Itens da sprint no Jira
-
-Os oito itens do board `PDTIC25093` na Sprint 5, com o que cada um alcança nesta análise. O título do item costuma nomear a HU — é o elo entre a ferramenta e a spec.
-
-| Item | Título no Jira | HU | Alcança nesta análise |
-|---|---|---|---|
-| `PDTIC25093-49` | Fechamento da Etapa de Avaliação | HU-030 | `AVL-APU-01` **Apurar Resultado da Etapa**, `AVL-APU-02` **Registrar Desempate**, `AVL-APU-03` **Encerrar Etapa por UF**, `AVL-PAI-03` **Consolidar Avaliação** + novas `AVL-APU-12` **Reabrir Etapa por UF**, `AVL-APU-09` **Exportar Relatório da Etapa** |
-| `PDTIC25093-56` | Relatório de inscrições | HU-036 | nova `AVL-APU-10` **Gerar Relatório de Inscrições** + restrição em `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** e ponto de entrada em `VAL-FIL-01` **Pesquisar Inscrições para Validação** |
-| `PDTIC25093-58` | Alteração no relatório do dashboard | HU-036 | `VAL-FIL-02` **Acompanhar Painel de Validação** + nova `VAL-FIL-03` **Exportar Histórico do Painel de Validação** |
-| `PDTIC25093-60` | Melhorias na alocação | HU-025 | `AVL-ALO-04` **Alocar Avaliador à Inscrição** |
-| `PDTIC25093-61` | Melhorias na Avaliação | HU-028 | `AVL-AVA-01`, `AVL-AVA-03`, `AVL-AVA-04` |
-| `PDTIC25093-66` | Ranking por Etapa | HU-038 | nova `AVL-APU-08` **Consultar Ranking da Etapa** |
-| `PDTIC25093-67` | Melhorias na configuração | HU-024 | `AVL-ETA-02` **Cadastrar Etapa**, `AVL-ETA-03` **Editar Etapa** |
-| `PDTIC25093-68` | Melhorias na Validação de Inscrições | HU-018 | `VAL-ANA-01` **Detalhar Inscrição** + nova `VAL-ANA-05` **Editar Inscrição Validada** |
-
-⚠️ **Duas features desta análise não têm item identificado nesta lista**: `AVL-PAI-01` **Acompanhar Painel de Avaliações** e `AVL-PAI-04` **Exportar Relatório de Avaliadores**, ambas vindas do Aviso 4 (consolidação administrativa por estado), que chegou sem documento. Ou o item existe no board e não apareceu no recorte consultado, ou a entrega foi absorvida por outro item — confirmar antes de fechar a contagem, porque as duas somam **14 PFB** e **10,5 PFL**.
-
----
-
-## 1. Detalhe por item da demanda
+## Detalhe por ticket
 
 ### `PDTIC25093-67` · HU-024 — Configurar Etapas de Avaliação (alteração)
 
@@ -81,13 +35,24 @@ Na spec: mistura — download por UUID e "próxima pendente"/drawer alteram N3 e
 
 Na spec: filtros/consolidação por estado alteram `AVL-PAI-01`; o Relatório de Avaliadores é novo (`AVL-PAI-04`); a restrição de permissão e as colunas incidem sobre um export de dashboard que não está especificado. Delta: tela "Avaliações" ganha filtro por UF, visão de consolidação por estado e o novo Relatório de Avaliadores (XLSX, 2 abas); botões "Inscrições Paradas" e "Exportar Excel" restritos ao Admin Nacional; colunas "Nome do Participante" e "Telefone" no Excel de histórico.
 
----
+## Tickets da sprint
 
-## 2. Alterações aplicadas na spec, por Feature Set
+| Ticket | AIM | Features | Resumo |
+|---|---|---|---|
+| `PDTIC25093-49` | [AIM-PDTIC25093-49](AIM-PDTIC25093-49.md) | `AVL-APU-01` **Apurar Resultado da Etapa** · `AVL-APU-02` **Registrar Desempate** · `AVL-APU-03` **Encerrar Etapa por UF** · `AVL-APU-09` **Exportar Relatório da Etapa** · `AVL-APU-12` **Reabrir Etapa por UF** · `AVL-PAI-03` **Consolidar Avaliação** | — |
+| `PDTIC25093-56` | [AIM-PDTIC25093-56](AIM-PDTIC25093-56.md) | `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** · `AVL-APU-10` **Gerar Relatório de Inscrições** · `VAL-FIL-01` **Pesquisar Inscrições para Validação** | — |
+| `PDTIC25093-58` | [AIM-PDTIC25093-58](AIM-PDTIC25093-58.md) | `VAL-FIL-02` **Acompanhar Painel de Validação** · `VAL-FIL-03` **Exportar Histórico do Painel de Validação** | — |
+| `PDTIC25093-60` | [AIM-PDTIC25093-60](AIM-PDTIC25093-60.md) | `AVL-ALO-04` **Alocar Avaliador à Inscrição** | — |
+| `PDTIC25093-61` | [AIM-PDTIC25093-61](AIM-PDTIC25093-61.md) | `AVL-AVA-01` **Acompanhar Minhas Avaliações** · `AVL-AVA-03` **Avaliar Inscrição** · `AVL-AVA-04` **Finalizar Avaliação** | — |
+| `PDTIC25093-66` | [AIM-PDTIC25093-66](AIM-PDTIC25093-66.md) | `AVL-APU-08` **Consultar Ranking da Etapa** | — |
+| `PDTIC25093-67` | [AIM-PDTIC25093-67](AIM-PDTIC25093-67.md) | `AVL-ETA-02` **Cadastrar Etapa** · `AVL-ETA-03` **Editar Etapa** | — |
+| `PDTIC25093-68` | [AIM-PDTIC25093-68](AIM-PDTIC25093-68.md) | `VAL-ANA-01` **Detalhar Inscrição** · `VAL-ANA-05` **Editar Inscrição Validada** | — |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Etapas e Configuração da Avaliação (`AVL-ETA`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-ETA-02` **Cadastrar Etapa** | `PDTIC25093-67` | alterada | **Inclusão** dos campos *Quantidade de classificados* (obrigatório, mínimo 1) e *Quantidade de premiados* (opcional). Antes o editor capturava apenas nome, período e perfis autorizados — quantos participantes avançam de etapa não era informado em lugar nenhum | +4 | +4 | 3 | 1,5 |
 | `AVL-ETA-03` **Editar Etapa** | `PDTIC25093-67` | alterada | **Inclusão** dos mesmos dois campos em edição, **restrição** do corte enquanto a etapa está fechada e **inclusão** dos selos "Classificados" e "Premiados" no cartão. Antes a edição alcançava nome, período e perfis, e a etapa fechada recusava qualquer alteração em bloco | +8 | +6 | 3 | 1,5 |
@@ -96,7 +61,7 @@ Mensagens acrescentadas ao dicionário: `AVL_ETAPA_CLASSIFICADOS_INVALIDO`, `AVL
 
 ### Avaliação › Apuração e Devolutiva (`AVL-APU`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-APU-01` **Apurar Resultado da Etapa** | `PDTIC25093-49` | alterada | **Alteração** do agrupamento do ranking e **inclusão** do corte automático. Antes as inscrições competiam por grupo de oferta × enquadramento e a classificação era apenas a ordem por média — nada marcava quem passava. Agora o ranking é em blocos estado→grupo com colocação por bloco, o corte de classificação é aplicado automaticamente pela quantidade definida na etapa e existe um corte de premiação independente dele; as inscrições sem estado formam o bloco Nacional | +10 | +10 | 7 | 7 |
 | `AVL-APU-02` **Registrar Desempate** | `PDTIC25093-49` | alterada | **Alteração** do escopo do desempate. Antes qualquer empate dentro do grupo exigia decisão manual, com um único tipo de corte (Classificação) e justificativa de tamanho livre. Agora só o empate que atravessa a linha de corte precisa de decisão, o corte pode ser de classificação ou de premiação, a comparação é questão a questão e a justificativa tem de 30 a 1.000 caracteres | +8 | +7 | 6 | 6 |
@@ -111,17 +76,17 @@ Mensagens acrescentadas: `AVL_FECHAMENTO_PENDENCIAS`, `AVL_FECHAMENTO_EMPATE_COR
 
 ### Avaliação › Painel Administrativo (`AVL-PAI`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
-| `AVL-PAI-01` **Acompanhar Painel de Avaliações** | ⚠️ sem item | alterada | **Inclusão** do recorte por estado e do andamento da consolidação. Antes o painel mostrava a árvore inscrição → etapa → avaliadores de toda a premiação, com indicadores agregados, busca e seletor de status de consolidação — **não havia nenhum filtro por UF**, e o Administrador Regional via exatamente o mesmo que o Nacional. Agora há seleção de estado com escopo de perfil (o Regional enxerga só os seus, o Nacional tem a opção Nacional) e uma visão de quais estados já concluíram a consolidação | +4 | +5 | 7 | 3,5 |
+| `AVL-PAI-01` **Acompanhar Painel de Avaliações** | ⚠️ sem ticket | alterada | **Inclusão** do recorte por estado e do andamento da consolidação. Antes o painel mostrava a árvore inscrição → etapa → avaliadores de toda a premiação, com indicadores agregados, busca e seletor de status de consolidação — **não havia nenhum filtro por UF**, e o Administrador Regional via exatamente o mesmo que o Nacional. Agora há seleção de estado com escopo de perfil (o Regional enxerga só os seus, o Nacional tem a opção Nacional) e uma visão de quais estados já concluíram a consolidação | +4 | +5 | 7 | 3,5 |
 | `AVL-PAI-03` **Consolidar Avaliação** | `PDTIC25093-49` | alterada | **Inclusão** da trava pelo fechamento. Antes o texto consolidado podia ser substituído a qualquer momento — uma nova consolidação sobrescrevia a anterior sem limite de prazo. Agora, com o estado já fechado, a consolidação é recusada; a consolidação completa do estado vira pré-requisito do fechamento e a reabertura do estado devolve o texto à edição | +4 | +3 | 6 | 3 |
-| `AVL-PAI-04` **Exportar Relatório de Avaliadores** | ⚠️ sem item | **incluída** | **Feature incluída.** Planilha XLSX com duas abas — resumo por avaliador e a relação das avaliações. Não existe nem na spec nem no sistema: é a única das features novas que não tem nenhum código correspondente hoje | — | — | 7 | 7 |
+| `AVL-PAI-04` **Exportar Relatório de Avaliadores** | ⚠️ sem ticket | **incluída** | **Feature incluída.** Planilha XLSX com duas abas — resumo por avaliador e a relação das avaliações. Não existe nem na spec nem no sistema: é a única das features novas que não tem nenhum código correspondente hoje | — | — | 7 | 7 |
 
 Mensagem acrescentada: `AVL_CONSOLIDACAO_ESTADO_FECHADO`. **Matriz N2 alterada**: recorte por estado do Administrador Regional e trava de consolidação após o fechamento. **Subtotal: 3 features · 20 PFB · 13,5 PFL** — sem estimativa: `AVL-PAI-04` **Exportar Relatório de Avaliadores** foi contada em 2026-09-01 e vale 7 PF, não os 5 arbitrados.
 
 ### Avaliação › Avaliação de Projetos (`AVL-AVA`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-AVA-01` **Acompanhar Minhas Avaliações** | `PDTIC25093-61` | alterada | **Inclusão** do papel de fila. Antes o painel do avaliador era só uma tela de consulta — cartões das inscrições alocadas, com seletores de premiação, etapa e status. Agora ele também define a sequência e o recorte das avaliações pendentes que o salto "Próxima pendente" consome | +2 | +1 | 7 | 3,5 |
 | `AVL-AVA-03` **Avaliar Inscrição** | `PDTIC25093-61` | alterada | **Alteração** da forma de baixar o anexo. Antes a tela apenas listava os anexos para download, sem dizer como o acesso era conferido. Agora cada documento tem endereço individual e o direito é verificado a cada acesso, contra a inscrição designada ao avaliador | +2 | +2 | 10 | 5 |
@@ -131,7 +96,7 @@ Mensagem acrescentada: `AVL_SEM_PENDENTES`. **Subtotal: 3 features · 20 PFB · 
 
 ### Avaliação › Alocação (`AVL-ALO`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `AVL-ALO-04` **Alocar Avaliador à Inscrição** | `PDTIC25093-60` | alterada | **Inclusão** do detalhe do projeto e de três recortes; **correção** da elegibilidade. Antes a tela listava as inscrições elegíveis com a designação de avaliadores e a etiqueta de situação, sem nenhum filtro e sem como ver o conteúdo do projeto, e as elegíveis das etapas seguintes eram "as aprovadas na etapa anterior". Agora o projeto é consultável em modo somente leitura, há recortes por grupo, estado (com Nacional) e situação da alocação, e quem passa para a etapa seguinte é o classificado | +5 | +7 | 17 | 8,5 |
 
@@ -139,7 +104,7 @@ Mensagem acrescentada: `AVL_SEM_PENDENTES`. **Subtotal: 3 features · 20 PFB · 
 
 ### Validação › Fila de Validação (`VAL-FIL`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `VAL-FIL-01` **Pesquisar Inscrições para Validação** | `PDTIC25093-56` | alterada | **Inclusão** do ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22). Filtros em cascata, cards KPI e tabela paginada seguem como estavam | — | +2 | 7 | 3,5 |
 | `VAL-FIL-02` **Acompanhar Painel de Validação** | `PDTIC25093-58` | alterada | **Inclusão** da exportação do histórico, que não estava especificada. Antes o N3 descrevia apenas os gráficos do dashboard — distribuição por situação e comparação por categoria ou UF. Agora a exportação em planilha é ação da feature, restrita ao Administrador Nacional, com Nome do Participante e Telefone resolvidos dos rótulos do formulário da inscrição | +4 | +4 | 7 | 3,5 |
@@ -149,7 +114,7 @@ Mensagem acrescentada: `AVL_SEM_PENDENTES`. **Subtotal: 3 features · 20 PFB · 
 
 ### Validação › Análise e Decisão (`VAL-ANA`)
 
-| Feature | Item do Jira | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|---|
 | `VAL-ANA-01` **Detalhar Inscrição** | `PDTIC25093-68` | alterada | **Alteração** da forma de baixar o documento. Antes o detalhe "disponibilizava o arquivo do documento", sem dizer como o acesso era controlado. Agora cada documento tem endereço individual, conferido a cada acesso a quem tem direito à inscrição — o mesmo mecanismo que habilita o anexo do avaliador em `AVL-AVA-03` | +3 | +2 | 7 | 3,5 |
 | `VAL-ANA-05` **Editar Inscrição Validada** | `PDTIC25093-68` | **incluída** | **Feature incluída.** Permite ao Administrador Nacional editar uma inscrição já validada: correção dos dados do membro da equipe com máscara de CPF e telefone, e inclusão do primeiro membro quando a equipe está vazia. Não existia na spec até a conferência com o código: o N2 registrava a edição administrativa como deferida, e o N3 foi escrito em 2026-08-28 — a lotação em `VAL-ANA`, dentro da tela de validação da inscrição, foi confirmada em 2026-09-01 | — | — | 6 | 6 |
@@ -171,7 +136,7 @@ Todas as 22 features têm um número **medido** — o total deixou de carregar `
 
 Alterações aplicadas na mesma passagem, mas que **não vêm da SP05**: nasceram da conferência da spec contra as telas do sistema. Estão aqui para que a auditoria da sprint não as conte como delta da demanda — e por isso **não somam PFB nem PFL**.
 
-| Feature | Item do Jira | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+| Feature | Ticket | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
 |---|---|---|---|---|---|---|
 | `AVL-ETA-02` **Cadastrar Etapa** | — | **Inclusão** do campo *Liberação do feedback*, que existia no editor e no modelo mas não fora capturado da HU-024 — a spec simplesmente não tinha o campo | +2 | +2 | — *(mesma feature já contada acima)* | — |
 | `AVL-ETA-03` **Editar Etapa** | — | **Inclusão** do mesmo campo em edição, incluindo o caso de antecipar o término depois de a liberação já estar gravada | +2 | +2 | — *(mesma feature já contada acima)* | — |
@@ -185,10 +150,7 @@ Features conferidas contra a demanda e que **não** absorveram delta — registr
 
 **Sem impacto material (apenas confirmar/reusar):** `AVL-ETA-01`, `AVL-ETA-06`, `AVL-PAI-02` (a "auditoria de notas" já existe aqui), `CFG-TIP-15`, `AVL-ALO-01`, `AVL-APU-04/05`. **Opcional, mesmo gap da edição admin:** `VAL-ANA-06` Excluir Inscrição (administrativa).
 
-
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 As seis alterações físicas declaradas pelas migrações V00030 a V00033, agrupadas pela função de dados (ALI) a que cada tabela pertence. A regra de contagem é a mesma das features: como as três funções são **alteradas** — nenhuma é incluída —, o **PFL é 50% do PFB**. O baseline não tem AIE.
 
@@ -258,10 +220,55 @@ Os 40 PFB entram na fórmula do projeto de melhoria como **CHGA** — nenhum ADD
 - **`VAL-FIL-03` Exportar Histórico do Painel de Validação — PE a contar** *(resíduo da decisão de separar a exportação, tomada em 2026-09-01)*: o N3 foi escrito em 2026-09-01; o processo elementar não está no baseline, porque nunca foi especificado nem contado, então entra como **função incluída a 100%**, com PFB **a arbitrar** com a métrica. Até lá o número desta análise segue o atual — o `0 (E)` é piso, não valor: por analogia com `Consultar Dashboard Gerencial` (SE, ALR 4, DER 12, Complexo, 7 PFB), a exportação pode valer entre **4 e 7 PFB**.
 - **`AVL-APU-12` Reabrir Etapa por UF — PE a contar**: o N3 foi escrito em 2026-09-01 e nenhuma feature nova da sprint ficou sem spec. O processo elementar não está no baseline — é entrega da SP05 — e precisa ser contado. O ID é `12` porque `AVL-APU-07` e `AVL-APU-11` foram aposentados pela unificação de gerar+exportar e não são reutilizados.
 
+## Sumário executivo
 
----
+**O que a SP05 move.** No modelo, seis alterações — uma tabela nova e cinco colunas — que tocam três ALIs e valem **40 PFB — 20 PFL** pela regra de 50% da função alterada. Fora do modelo, onde está o grosso do trabalho: o **comportamento dos N3** (escritos por engenharia reversa das HUs anteriores à sprint) e as **permissões (N2)**. E vários itens que a demanda classifica como "NOVA" são, na spec, **alteração de feature já existente** — porque "novo para o negócio" (primeiro envio à área negocial) não é "novo para a spec".
 
-## 4. Impacto em dicionários
+> **Premissa desta análise.** O modelo físico disponível (`arquivos/modelo_dados.sql`) é um retrato **posterior** à sprint, então as colunas e a tabela listadas na seção 3 (tabelas por função de dados) já aparecem nele. Esta análise as trata como **alterações a realizar**, que é a leitura correta para dimensionar a evolução: o baseline APF é **anterior** à SP05, e é contra ele que o delta se mede. Não foi possível confirmar por comparação que a lista está completa — não há SQL anterior à sprint disponível; ela reproduz o que as migrações V00030 a V00033 declaram.
+
+| Indicador | Valor |
+|---|---|
+| Features existentes que mudam de comportamento | 15 |
+| Features novas a criar | 7 (+1 opcional) |
+| N2 com matriz de permissões a ajustar | 3 |
+| Alterações de modelo a realizar | 6 — 1 tabela + 5 colunas |
+| PF de funções de dados na evolução | 40 (CHGA) |
+| **PF apurável da sprint** | **202 PFB · 136,5 PFL** — sem estimativa desde 2026-09-01 |
+| Decisões de produto pendentes | nenhuma — as 11 foram respondidas em 2026-09-01 |
+| Itens do Jira na Sprint 5 | 8 — todos mapeados, 2 features sem item identificado |
+
+### Classificação por item da demanda
+
+| Item | Jira | Demanda diz | Na spec docqui é |
+|---|---|---|---|
+| HU-024 Configurar Etapas | `PDTIC25093-67` | ALTERADA | Alteração de `AVL-ETA-02` **Cadastrar Etapa** e `AVL-ETA-03` **Editar Etapa** (campos classificados/premiados) |
+| HU-030 Fechar Etapa | `PDTIC25093-49` | NOVA (1º envio) | **Alteração** de `AVL-APU-01/02/03` + `AVL-PAI-03` **Consolidar Avaliação** + 2 features novas (Reabrir Etapa por UF, Exportar Relatório da Etapa) |
+| HU-036 Relatório Geral | `PDTIC25093-56` | NOVA | Feature nova `AVL-APU-10` **Gerar Relatório de Inscrições** (tela e planilha) + restrição de permissão em `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** |
+| HU-036 Relatório do dashboard | `PDTIC25093-58` | sem documento | Alteração de `VAL-FIL-02` **Acompanhar Painel de Validação** — a exportação do histórico, que não estava especificada |
+| HU-038 Ranking por Etapa | `PDTIC25093-66` | NOVA | Feature nova `AVL-APU-08` **Consultar Ranking da Etapa** (irmã somente-leitura do Fechamento) |
+| HU-018 Validar Inscrições | `PDTIC25093-68` | ALTERADA | Alteração de `VAL-ANA-01` **Detalhar Inscrição** + 1 feature nova (`VAL-ANA-05` **Editar Inscrição Validada**) |
+| HU-025 Alocação | `PDTIC25093-60` | sem documento | Alteração de `AVL-ALO-04` **Alocar Avaliador à Inscrição** — detalhe do projeto e recortes |
+| HU-028 Avaliação | `PDTIC25093-61` | sem documento | Alteração de `AVL-AVA-01`, `AVL-AVA-03` e `AVL-AVA-04` — fila de pendentes, download por link e salto "Próxima pendente" |
+| Avisos 4 | ⚠️ sem item identificado | sem documento | Altera `AVL-PAI-01` **Acompanhar Painel de Avaliações** + nova `AVL-PAI-04` **Exportar Relatório de Avaliadores** |
+
+### Itens da sprint no Jira
+
+Os oito itens do board `PDTIC25093` na Sprint 5, com o que cada um alcança nesta análise. O título do item costuma nomear a HU — é o elo entre a ferramenta e a spec.
+
+| Item | Título no Jira | HU | Alcança nesta análise |
+|---|---|---|---|
+| `PDTIC25093-49` | Fechamento da Etapa de Avaliação | HU-030 | `AVL-APU-01` **Apurar Resultado da Etapa**, `AVL-APU-02` **Registrar Desempate**, `AVL-APU-03` **Encerrar Etapa por UF**, `AVL-PAI-03` **Consolidar Avaliação** + novas `AVL-APU-12` **Reabrir Etapa por UF**, `AVL-APU-09` **Exportar Relatório da Etapa** |
+| `PDTIC25093-56` | Relatório de inscrições | HU-036 | nova `AVL-APU-10` **Gerar Relatório de Inscrições** + restrição em `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** e ponto de entrada em `VAL-FIL-01` **Pesquisar Inscrições para Validação** |
+| `PDTIC25093-58` | Alteração no relatório do dashboard | HU-036 | `VAL-FIL-02` **Acompanhar Painel de Validação** + nova `VAL-FIL-03` **Exportar Histórico do Painel de Validação** |
+| `PDTIC25093-60` | Melhorias na alocação | HU-025 | `AVL-ALO-04` **Alocar Avaliador à Inscrição** |
+| `PDTIC25093-61` | Melhorias na Avaliação | HU-028 | `AVL-AVA-01`, `AVL-AVA-03`, `AVL-AVA-04` |
+| `PDTIC25093-66` | Ranking por Etapa | HU-038 | nova `AVL-APU-08` **Consultar Ranking da Etapa** |
+| `PDTIC25093-67` | Melhorias na configuração | HU-024 | `AVL-ETA-02` **Cadastrar Etapa**, `AVL-ETA-03` **Editar Etapa** |
+| `PDTIC25093-68` | Melhorias na Validação de Inscrições | HU-018 | `VAL-ANA-01` **Detalhar Inscrição** + nova `VAL-ANA-05` **Editar Inscrição Validada** |
+
+⚠️ **Duas features desta análise não têm item identificado nesta lista**: `AVL-PAI-01` **Acompanhar Painel de Avaliações** e `AVL-PAI-04` **Exportar Relatório de Avaliadores**, ambas vindas do Aviso 4 (consolidação administrativa por estado), que chegou sem documento. Ou o item existe no board e não apareceu no recorte consultado, ou a entrega foi absorvida por outro item — confirmar antes de fechar a contagem, porque as duas somam **14 PFB** e **10,5 PFL**.
+
+## Impacto em dicionários
 
 Poucas mensagens novas; nenhum código de erro é obrigatório no perfil `requisitos` (códigos são artefato do 3B técnico).
 
@@ -271,9 +278,11 @@ Poucas mensagens novas; nenhum código de erro é obrigatório no perfil `requis
 
 **ERROR-DICTIONARY:** `FechamentoEstadoBloqueadoException` → código de erro futuro (`AVL_FECHAMENTO_ESTADO_BLOQUEADO`, 409/422), registrado como pendência técnica de 3B.
 
----
+## Metodologia
 
-## 5. Decisões de produto
+Leitura direta da demanda e do SQL/data-models, e 5 análises paralelas cruzando cada item da SP05 com os N3 reais dos domínios Avaliação e Validação (inventário de 34 features), os dicionários e as matrizes de permissão dos N2. Escopo do perfil `requisitos`: as recomendações param no negocial + data-model; códigos de erro e endpoints ficam para o 3B técnico. A seção 1 traduz cada item da demanda para o vocabulário da spec e foi produzida antes de qualquer alteração; as seções 2 e 3 registram o que a atualização dos N3 e do modelo efetivamente aplicou, pelo preflight de especificação.
+
+## Decisões de produto pendentes
 
 ✅ **Nenhuma pendente.** As oito decisões que este relatório registrava e as três que vinham dos relatórios por item foram todas respondidas — as últimas em 2026-09-01. Cada uma foi aplicada nos N3, nos N2 e, quando alcançava o modelo, no data-model; o que foi decidido está no `## Changelog` deste documento e no de cada artefato alterado.
 
@@ -287,27 +296,8 @@ As três últimas, para registro:
 
 O que **ainda falta** não é decisão de produto: é especificação e contagem, listado em *Definições ainda em aberto*, ao final da seção 3, e nas seções 5 dos relatórios por item.
 
----
-
-## Metodologia
-
-Leitura direta da demanda e do SQL/data-models, e 5 análises paralelas cruzando cada item da SP05 com os N3 reais dos domínios Avaliação e Validação (inventário de 34 features), os dicionários e as matrizes de permissão dos N2. Escopo do perfil `requisitos`: as recomendações param no negocial + data-model; códigos de erro e endpoints ficam para o 3B técnico. A seção 1 traduz cada item da demanda para o vocabulário da spec e foi produzida antes de qualquer alteração; as seções 2 e 3 registram o que a atualização dos N3 e do modelo efetivamente aplicou, pelo preflight de especificação.
-
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-09-02 | Análise de impacto (docqui) | Correção de número | O alerta das duas features sem item no Jira dizia **12 PFB / 8,5 PFL**; a tabela do Feature Set e o subtotal dizem **7 + 7 = 14 PFB** e **3,5 + 7 = 10,5 PFL**. Prevalece a tabela — o alerta subestimava em 2 PFB e 2 PFL justamente o que precisa ser conciliado |
-| 2026-09-01 | Contagem APF (docqui) | Resíduos de contagem fechados | As duas pendências de "PE a contar" saíram de *Definições ainda em aberto* — os processos elementares foram contados. No lugar entrou a única coisa que resta: a validação da métrica, com as duas classificações que merecem conferência |
-| 2026-09-01 | Contagem APF (docqui) | Estimativas substituídas por contagem | Os 12 processos elementares que faltavam foram contados sobre os N3, com ALR e DER nomeados. O apurável da sprint passa de **172 (E) · 106,5 (E)** para **202 · 136,5 PF**, sem nenhuma estimativa. As arbitragens estavam 30 PFB abaixo do medido. ⚠️ Contagem própria, pendente de validação pela equipe de métricas |
-| 2026-09-01 | Especificação (docqui) | Textos conciliados | Removidas as três menções remanescentes a features "sem N3" — `AVL-APU-12` na regra 10 de `AVL-APU-03`, `VAL-ANA-05` no detalhe do item `-68` e `VAL-FIL-03` na tabela do Feature Set. Todas as três têm N3 escrito |
-| 2026-09-01 | Especificação (docqui) | Duas features especificadas | `AVL-APU-12` **Reabrir Etapa por UF** e `VAL-FIL-03` **Exportar Histórico do Painel de Validação** ganharam N3. Eram as duas entregas da SP05 sem spec; nenhuma feature da sprint fica sem especificação. As duas pendências passam de "N3 a escrever" para apenas "PE a contar" |
-| 2026-09-01 | Decisões de produto (docqui) | Últimas três respondidas | O grupo de disputa passa a **incluir a submodalidade**; a resolução de nome e telefone por rótulo é **limitação aceita** pelo produto; e a fila do "Próxima pendente" é **a do painel**, confirmando o que a spec já dizia. Aplicadas em seis features. A seção 5 fica sem nenhuma decisão de produto pendente |
-| 2026-09-01 | Análise de impacto (docqui) | Lista consolidada | Três decisões de produto que só existiam nos relatórios por item — o grupo de disputa com ou sem submodalidade, a resolução de nome e telefone por rótulo, e a ordenação da fila do "Próxima pendente" — sobem para a lista do agregado. A lista dizia "nenhuma pendente" enquanto elas estavam abertas |
-| 2026-09-01 | Decisões de produto (docqui) | Última decisão respondida | A abrangência do corte passa a derivar da **natureza da etapa**: nacional apura entre todos os inscritos, regional apura por estado; e a visibilidade sai da mesma natureza — o Administrador Regional não enxerga etapa nacional e, na regional, só os seus estados. Aplicada em `AVL-APU-01`, `AVL-ETA-02`, `AVL-ETA-03` e `AVL-APU-08`, com a matriz de visibilidade no N2. A seção 5 fica sem decisões pendentes; o resíduo — não há campo que declare a natureza da etapa — foi para *Definições ainda em aberto* |
-| 2026-09-01 | Decisões de produto (docqui) | Quatro decisões respondidas | O produto respondeu: **avança o classificado**; a **edição administrativa mora dentro da tela de validação da inscrição** (fica em `VAL-ANA`, confirmando a spec); a **reabertura apaga a linha de fechamento**, sem trilha do fechamento anterior e sem a sétima alteração de modelo; e o **drawer "Projeto" reaproveita** `VAL-ANA-01` **Detalhar Inscrição**. Aplicadas nos N3 e no data-model, saíram da lista da seção 5 — resta apenas a decisão 8 |
-| 2026-09-01 | Análise de impacto (docqui) | Decisões resolvidas removidas | As decisões já tomadas saíram da lista da seção 5 — o registro do que foi decidido fica no changelog, e o trabalho que sobrou delas foi para onde é acompanhado. Os números das que ficaram não foram reaproveitados |
-| 2026-09-01 | Decisões 3 e 6 (docqui) | Decisões aplicadas e seção 5 reescrita | Removida a decisão sobre a restrição dos relatórios ao Administrador Nacional — confirmada, deixa de ser pendência, e os ⚠️ correspondentes saíram dos N3, N2 e protótipos. Aplicada a decisão 6: `AVL-APU-07` incorporada a `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** e `AVL-APU-11` a `AVL-APU-10` **Gerar Relatório de Inscrições**, sem alterar um único PF. Numeração de `AVL-APU` reconciliada com a árvore de arquivos (Ranking `08`, Reabrir `12`). Seção 5 reescrita: cada decisão traz o que está na spec hoje, as opções com o custo de cada uma, o que trava e quem decide; todas as features citadas com código **e** nome |
-| 2026-09-01 | Análise de impacto (docqui) | Roteiro reestruturado | Relatório remontado no roteiro de 5 seções: saíram as três de diagnóstico que duplicavam o registro do delta (features que mudam, features novas, alterações de modelo) e a ordem passou a detalhe por item · alterações aplicadas · tabelas por função de dados · dicionários · decisões pendentes. Nada de conteúdo se perdeu: o inventário das examinadas sem impacto foi para a seção 2 e as definições de modelo em aberto para a seção 3 |
-| 2026-08-28 | Análise de impacto (docqui) | Seções acrescentadas | Seção 7 — alterações efetivamente aplicadas aos N3, por Feature Set e por feature, com o comportamento anterior e as colunas PFB/PFL; seção 8 — tabelas alteradas agrupadas por função de dados, com a mesma regra de contagem |
-| 2026-08-27 | Análise de impacto (docqui) | Relatório criado | Impacto da demanda SP05 sobre a spec — derivado da análise "novas vs alteradas", do data-model e dos N3 de Avaliação/Validação |
+| 2026-10-04 | migra-aim | AIM da sprint migrada | relatório agregado `arquivos/demandas/ANALISE_IMPACTO_SP05.md` → AIM da sprint |

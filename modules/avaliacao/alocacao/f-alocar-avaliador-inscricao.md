@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-04
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#avaliação-de-inscrição
 endpoints: []
 error_codes: []
 depende_de: ["AVL-ALO-02"]
+origem:
+  tipo: issue
+  chave: HU-025_Alocar_Avaliadores
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Alocar Avaliador à Inscrição
-> **Nível 3** - Feature Set: Alocação de Avaliadores — Domínio: Avaliação - `AVL-ALO-04`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Alocação de Avaliadores — Major Feature Set: Avaliação - `AVL-ALO-04`
 
 ## Descrição
 Permite ao administrador designar, a partir do pool do grupo, os avaliadores específicos de cada inscrição elegível de uma etapa, registrando a alocação de quem avaliará cada projeto.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
+| [`PDTIC25093-60`](../../../analise-impacto/AIM-PDTIC25093-60.md) | Alteração | — |
 
 ---
 
@@ -56,68 +70,70 @@ Permite ao administrador designar, a partir do pool do grupo, os avaliadores esp
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Alocar Avaliador à Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Designar avaliadores a uma inscrição
-  Given que a inscrição é elegível e o pool do grupo tem avaliadores
-  When designo avaliadores do pool para a inscrição e salvo
-  Then o sistema registra a alocação e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Consultar o detalhe do projeto durante a alocação
-  Given que estou na lista de inscrições elegíveis da etapa
-  When abro o detalhe do projeto de uma inscrição
-  Then o sistema apresenta a identificação, as respostas do participante, os anexos e a equipe da inscrição sem sair da lista de alocação
+  Scenario: Designar avaliadores a uma inscrição
+    Given que a inscrição é elegível e o pool do grupo tem avaliadores
+    When designo avaliadores do pool para a inscrição e salvo
+    Then o sistema registra a alocação e exibe "Registro salvo com sucesso."
 
-Scenario: Recortar a lista por grupo
-  Given que a etapa tem inscrições de mais de um grupo
-  When seleciono um ou mais grupos no recorte
-  Then o sistema apresenta apenas as inscrições dos grupos selecionados
+  Scenario: Consultar o detalhe do projeto durante a alocação
+    Given que estou na lista de inscrições elegíveis da etapa
+    When abro o detalhe do projeto de uma inscrição
+    Then o sistema apresenta a identificação, as respostas do participante, os anexos e a equipe da inscrição sem sair da lista de alocação
 
-Scenario: Recortar a lista pelas inscrições sem unidade federativa
-  Given que a etapa tem inscrições sem unidade federativa vinculada
-  When seleciono Nacional no recorte por estado
-  Then o sistema apresenta apenas as inscrições sem unidade federativa
+  Scenario: Recortar a lista por grupo
+    Given que a etapa tem inscrições de mais de um grupo
+    When seleciono um ou mais grupos no recorte
+    Then o sistema apresenta apenas as inscrições dos grupos selecionados
 
-Scenario: Recortar a lista por situação da alocação
-  Given que a etapa tem inscrições com e sem avaliadores designados
-  When seleciono a situação Sem avaliadores no recorte
-  Then o sistema apresenta apenas as inscrições sem nenhum avaliador designado
+  Scenario: Recortar a lista pelas inscrições sem unidade federativa
+    Given que a etapa tem inscrições sem unidade federativa vinculada
+    When seleciono Nacional no recorte por estado
+    Then o sistema apresenta apenas as inscrições sem unidade federativa
 
-Scenario: Combinar recortes de grupo, estado e situação
-  Given que selecionei um grupo, um estado e uma situação da alocação
-  When aplico os critérios selecionados
-  Then o sistema apresenta apenas as inscrições que atendem a todos os critérios e mantém visíveis os critérios aplicados
+  Scenario: Recortar a lista por situação da alocação
+    Given que a etapa tem inscrições com e sem avaliadores designados
+    When seleciono a situação Sem avaliadores no recorte
+    Then o sistema apresenta apenas as inscrições sem nenhum avaliador designado
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Combinar recortes de grupo, estado e situação
+    Given que selecionei um grupo, um estado e uma situação da alocação
+    When aplico os critérios selecionados
+    Then o sistema apresenta apenas as inscrições que atendem a todos os critérios e mantém visíveis os critérios aplicados
 
-Scenario: Sobre-alocação acima do esperado
-  Given que a premiação espera dois avaliadores por inscrição
-  When designo três avaliadores para a inscrição e salvo
-  Then o sistema registra a alocação mesmo acima da quantidade esperada
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Inscrições elegíveis na primeira etapa
-  Given que estou na primeira etapa da premiação
-  When abro a alocação por inscrição
-  Then o sistema apresenta como elegíveis as inscrições validadas
+  Scenario: Sobre-alocação acima do esperado
+    Given que a premiação espera dois avaliadores por inscrição
+    When designo três avaliadores para a inscrição e salvo
+    Then o sistema registra a alocação mesmo acima da quantidade esperada
 
-Scenario: Recorte sem inscrições correspondentes
-  Given que nenhuma inscrição elegível corresponde aos critérios selecionados
-  When aplico os critérios
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Inscrições elegíveis na primeira etapa
+    Given que estou na primeira etapa da premiação
+    When abro a alocação por inscrição
+    Then o sistema apresenta como elegíveis as inscrições validadas
 
-Scenario: Detalhe do projeto sem alteração da inscrição
-  Given que abri o detalhe do projeto de uma inscrição
-  When consulto os dados apresentados
-  Then o detalhe permanece em modo leitura e os dados informados pelo participante seguem inalterados
+  Scenario: Recorte sem inscrições correspondentes
+    Given que nenhuma inscrição elegível corresponde aos critérios selecionados
+    When aplico os critérios
+    Then o sistema exibe "Nenhum resultado para a busca."
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Detalhe do projeto sem alteração da inscrição
+    Given que abri o detalhe do projeto de uma inscrição
+    When consulto os dados apresentados
+    Then o detalhe permanece em modo leitura e os dados informados pelo participante seguem inalterados
 
-Scenario: Remover avaliador que já registrou notas
-  Given que confirmo a remoção de um avaliador que já pontuou a inscrição
-  When salvo a alocação sem esse avaliador
-  Then o sistema remove o avaliador e desativa as notas que ele havia registrado na inscrição
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  Scenario: Remover avaliador que já registrou notas
+    Given que confirmo a remoção de um avaliador que já pontuou a inscrição
+    When salvo a alocação sem esse avaliador
+    Then o sistema remove o avaliador e desativa as notas que ele havia registrado na inscrição
 ```
 
 ---
@@ -233,6 +249,7 @@ Página própria em `/avaliacao-admin/alocacao-participante` (Alocação por Ins
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/alocacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Regra confirmada | Decidido que o drawer "Projeto" **reaproveita** a visão de `VAL-ANA-01` Detalhar Inscrição: a RN10 passa a referenciá-la como definição única do detalhe da inscrição, em vez de descrever um conteúdo paralelo |
@@ -242,6 +259,6 @@ Página própria em `/avaliacao-admin/alocacao-participante` (Alocação por Ins
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-08
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: [CFG-PRE-07]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Registrar Pré-cadastro
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-08`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-08`
 
 ## Descrição
 Permite a quem chega pelo link público informar nome e e-mail para obter acesso ao Sistema Indústria e já ter a inscrição daquela oferta criada, sem depender de um cadastro prévio.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -55,51 +67,53 @@ Permite a quem chega pelo link público informar nome e e-mail para obter acesso
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Registrar Pré-cadastro
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Primeiro acesso de quem ainda não tem conta
-  Given que abri um link público de inscrição vigente
-  And que meu e-mail ainda não tem conta no Sistema Indústria
-  When informo meu nome e meu e-mail e confirmo
-  Then o sistema cria minha conta, envia a senha temporária para o meu e-mail e cria a inscrição em Rascunho
-  And a página me orienta a verificar o e-mail antes de entrar
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Pré-cadastro de quem já tem conta
-  Given que abri um link público de inscrição vigente
-  And que meu e-mail já tem conta no Sistema Indústria
-  When informo meu nome e meu e-mail e confirmo
-  Then o sistema cria a inscrição em Rascunho e me orienta a entrar com a senha que já possuo
+  Scenario: Primeiro acesso de quem ainda não tem conta
+    Given que abri um link público de inscrição vigente
+    And que meu e-mail ainda não tem conta no Sistema Indústria
+    When informo meu nome e meu e-mail e confirmo
+    Then o sistema cria minha conta, envia a senha temporária para o meu e-mail e cria a inscrição em Rascunho
+    And a página me orienta a verificar o e-mail antes de entrar
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Pré-cadastro de quem já tem conta
+    Given que abri um link público de inscrição vigente
+    And que meu e-mail já tem conta no Sistema Indústria
+    When informo meu nome e meu e-mail e confirmo
+    Then o sistema cria a inscrição em Rascunho e me orienta a entrar com a senha que já possuo
 
-Scenario: E-mail em formato inválido
-  When informo um e-mail sem formato válido e confirmo
-  Then o sistema não registra o pré-cadastro e aponta o e-mail como inválido
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Nome curto demais
-  When informo um nome com menos de 3 caracteres e confirmo
-  Then o sistema não registra o pré-cadastro e aponta o nome como inválido
+  Scenario: E-mail em formato inválido
+    When informo um e-mail sem formato válido e confirmo
+    Then o sistema não registra o pré-cadastro e aponta o e-mail como inválido
 
-# ── Conflitos com dados existentes ────────────────────────────
+  Scenario: Nome curto demais
+    When informo um nome com menos de 3 caracteres e confirmo
+    Then o sistema não registra o pré-cadastro e aponta o nome como inválido
 
-Scenario: Segunda tentativa para a mesma oferta
-  Given que já iniciei uma inscrição nesta oferta com o mesmo e-mail
-  When informo novamente meu nome e meu e-mail
-  Then o sistema não cria uma segunda inscrição e me avisa que já existe uma inscrição em andamento
+  # ── Conflitos com dados existentes ────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Segunda tentativa para a mesma oferta
+    Given que já iniciei uma inscrição nesta oferta com o mesmo e-mail
+    When informo novamente meu nome e meu e-mail
+    Then o sistema não cria uma segunda inscrição e me avisa que já existe uma inscrição em andamento
 
-Scenario: Link expirado
-  Given que o link público está expirado
-  When tento registrar o pré-cadastro
-  Then o sistema informa que o link está indisponível e não cria a inscrição
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Fora do período de inscrição
-  Given que o período de inscrição da oferta ainda não começou
-  When abro o link público
-  Then a página informa as datas de início e de encerramento e não oferece o pré-cadastro
+  Scenario: Link expirado
+    Given que o link público está expirado
+    When tento registrar o pré-cadastro
+    Then o sistema informa que o link está indisponível e não cria a inscrição
+
+  Scenario: Fora do período de inscrição
+    Given que o período de inscrição da oferta ainda não começou
+    When abro o link público
+    Then a página informa as datas de início e de encerramento e não oferece o pré-cadastro
 ```
 
 ---
@@ -170,11 +184,12 @@ Primeiro passo da Página do Link Público (`/inscricao/:token`), no bloco "Insc
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (pré-cadastro público a partir do link, com criação de conta no diretório corporativo) — capacidade implementada e até então citada apenas de passagem em INS-PAR-01. ⚠️ Confronta o não-objetivo do N0 "não gerir identidade" — ver `global/CONFORMIDADE-CODIGO.md` § 7 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-28*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

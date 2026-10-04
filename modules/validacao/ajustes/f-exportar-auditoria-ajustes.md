@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-AJU-03
 feature_set: VAL-AJU
 dominio: VAL
 entidade: Snapshot da Inscrição
-prioridade: P3
-mvp: false
 data_model_ref: data-models/inscricao.md#snapshot-da-inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-AJU-01, VAL-AJU-02]
+origem:
+  tipo: issue
+  chave: HU-026_Auditoria_Ajustes_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Auditoria de Ajustes
-> **Nível 3** - Feature Set: Ajustes da Inscrição — Domínio: Validação - `VAL-AJU-03`
-> **Prioridade**: P3 · **MVP**: não
+> **Nível 3** - Feature Set: Ajustes da Inscrição — Major Feature Set: Validação - `VAL-AJU-03`
 
 ## Descrição
 Permite ao validador exportar em CSV todas as rodadas de ajuste fechadas de uma inscrição, gerando uma linha por alteração para servir de evidência documental.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-026_Auditoria_Ajustes_Inscricao`](../../../hus/HU-026_Auditoria_Ajustes_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -50,26 +63,28 @@ Permite ao validador exportar em CSV todas as rodadas de ajuste fechadas de uma 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Auditoria de Ajustes
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar a auditoria de ajustes
-  Given que a inscrição tem rodadas de ajuste fechadas
-  When aciono a exportação da auditoria
-  Then o sistema gera um arquivo CSV com todas as rodadas fechadas, uma linha por alteração
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Conteúdo do arquivo exportado
-  Given que exportei a auditoria de ajustes
-  When abro o arquivo gerado
-  Then cada linha traz a rodada, a superfície, o registro, o campo, o valor anterior, o valor novo e o tipo de alteração
+  Scenario: Exportar a auditoria de ajustes
+    Given que a inscrição tem rodadas de ajuste fechadas
+    When aciono a exportação da auditoria
+    Then o sistema gera um arquivo CSV com todas as rodadas fechadas, uma linha por alteração
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Conteúdo do arquivo exportado
+    Given que exportei a auditoria de ajustes
+    When abro o arquivo gerado
+    Then cada linha traz a rodada, a superfície, o registro, o campo, o valor anterior, o valor novo e o tipo de alteração
 
-Scenario: Inscrição sem rodada fechada
-  Given que a inscrição não tem nenhuma rodada de ajuste fechada
-  When acesso o detalhe da inscrição
-  Then a exportação da auditoria não fica disponível
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Inscrição sem rodada fechada
+    Given que a inscrição não tem nenhuma rodada de ajuste fechada
+    When acesso o detalhe da inscrição
+    Then a exportação da auditoria não fica disponível
 ```
 
 ---
@@ -146,12 +161,13 @@ Ação disparada pelo botão "Exportar CSV" no popup de Auditoria de Ajustes, ab
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-026 |
 
 ---
 
-*Feature Set: Ajustes da Inscrição · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

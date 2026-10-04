@@ -1,30 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-09
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Oferta
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#oferta-tipo--modalidade--categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Submodalidade
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-09`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-09`
 
 ## Descrição
 
 > ⚠️ **Colisão de terminologia confirmada no código** (2026-08-28). O que esta feature descreve — o vínculo tipo de participante × modalidade × categoria, com parâmetros de equipe e slug — é a **Oferta** (`TB_TIPO_PART_MOD_CAT`), configurada na aba **Geral** do editor de Tipo de Participante. Na interface implementada, o rótulo **“Sub Modalidades”** designa outra coisa: o **Enquadramento** (`TB_ENQUADRAMENTO`, features `CFG-TIP-10`/`CFG-TIP-11`). Renomear esta feature depende de decisão do PO — ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
 Permite ao administrador cadastrar uma submodalidade da edição — a oferta que cruza tipo de participante, modalidade e categoria — como opção de inscrição. ⚠️ *(submodalidade tratada como sinônimo de oferta; equivalência a confirmar)*
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
 
 ---
 
@@ -51,35 +64,37 @@ Permite ao administrador cadastrar uma submodalidade da edição — a oferta qu
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Submodalidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar uma submodalidade da edição
-  Given que a estrutura da edição tem modalidade e categoria vinculadas
-  When informo o tipo de participante e o contexto de modalidade e categoria e salvo
-  Then o sistema registra a submodalidade e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar uma submodalidade da edição
+    Given que a estrutura da edição tem modalidade e categoria vinculadas
+    When informo o tipo de participante e o contexto de modalidade e categoria e salvo
+    Then o sistema registra a submodalidade e exibe "Registro salvo com sucesso."
 
-Scenario: Máximo de membros menor que o mínimo
-  Given que marquei que a submodalidade permite equipe
-  When informo um máximo de membros menor que o mínimo e salvo
-  Then o sistema não registra a submodalidade e aponta a inconsistência entre mínimo e máximo
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Máximo de membros menor que o mínimo
+    Given que marquei que a submodalidade permite equipe
+    When informo um máximo de membros menor que o mínimo e salvo
+    Then o sistema não registra a submodalidade e aponta a inconsistência entre mínimo e máximo
 
-Scenario: Submodalidade já existente para a mesma combinação
-  Given que já existe uma submodalidade para o tipo de participante naquela modalidade e categoria
-  When tento cadastrar a mesma combinação
-  Then o sistema não registra a submodalidade e mantém apenas a existente
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Submodalidade já existente para a mesma combinação
+    Given que já existe uma submodalidade para o tipo de participante naquela modalidade e categoria
+    When tento cadastrar a mesma combinação
+    Then o sistema não registra a submodalidade e mantém apenas a existente
 
-Scenario: Usuário sem permissão para cadastrar
-  Given que meu perfil não tem permissão para cadastrar submodalidades
-  When tento cadastrar uma submodalidade
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para cadastrar
+    Given que meu perfil não tem permissão para cadastrar submodalidades
+    When tento cadastrar uma submodalidade
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -168,12 +183,13 @@ Página própria em `/configuracao-premiacao/premiacoes/:premiacaoId/configurar`
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

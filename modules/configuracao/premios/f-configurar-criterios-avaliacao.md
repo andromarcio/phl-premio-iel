@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-12
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Critério de Avaliação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#criterio-de-avaliacao
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Critérios de Avaliação
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-12`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-12`
 
 ## Descrição
 
@@ -53,26 +55,28 @@ Permite ao administrador definir os critérios de avaliação e seus pesos usado
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Critérios de Avaliação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Definir um critério de avaliação
-  Given que estou nos Critérios de Avaliação de uma edição
-  When informo o nome do critério e o peso e salvo
-  Then o sistema registra o critério e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Peso não informado assume o padrão
-  Given que informo apenas o nome do critério, sem o peso
-  When salvo o critério
-  Then o sistema registra o critério com o peso padrão 1,00
+  Scenario: Definir um critério de avaliação
+    Given que estou nos Critérios de Avaliação de uma edição
+    When informo o nome do critério e o peso e salvo
+    Then o sistema registra o critério e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Peso não informado assume o padrão
+    Given que informo apenas o nome do critério, sem o peso
+    When salvo o critério
+    Then o sistema registra o critério com o peso padrão 1,00
 
-Scenario: Nome do critério em branco
-  Given que estou definindo um critério de avaliação
-  When deixo o campo Nome do critério em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Nome do critério em branco
+    Given que estou definindo um critério de avaliação
+    When deixo o campo Nome do critério em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 ```
 
 ---
@@ -141,11 +145,12 @@ Tela Critérios de Avaliação do Prêmio (⚠️ *sem tela implementada* (o bot
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do data-model (Critério de Avaliação) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

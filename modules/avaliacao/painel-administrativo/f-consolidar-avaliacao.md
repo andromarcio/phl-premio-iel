@@ -1,28 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-PAI-03
 feature_set: AVL-PAI
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: [AVL-PAI-02]
+origem:
+  tipo: issue
+  chave: HU-027_Painel_Administrativo_Avaliacoes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consolidar Avaliação
-> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Domínio: Avaliação - `AVL-PAI-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Major Feature Set: Avaliação - `AVL-PAI-03`
 
 ## Descrição
 Permite ao administrador consolidar os pareceres dos avaliadores de uma inscrição em uma etapa num único texto oficial da banca, que passa a ser divulgado ao participante e se torna definitivo quando o estado da inscrição é fechado na etapa.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — |
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
 
 ---
 
@@ -54,63 +69,65 @@ Permite ao administrador consolidar os pareceres dos avaliadores de uma inscriç
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consolidar Avaliação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consolidar o feedback da etapa
-  Given que todos os avaliadores alocados finalizaram a avaliação
-  When escrevo um texto com 100 caracteres ou mais e confirmo a consolidação
-  Then o sistema registra o feedback consolidado com a data e o autor e o disponibiliza ao participante conforme a data de liberação da etapa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Consolidar o feedback da etapa
+    Given que todos os avaliadores alocados finalizaram a avaliação
+    When escrevo um texto com 100 caracteres ou mais e confirmo a consolidação
+    Then o sistema registra o feedback consolidado com a data e o autor e o disponibiliza ao participante conforme a data de liberação da etapa
 
-Scenario: Texto abaixo do mínimo
-  Given que estou consolidando o feedback
-  When informo um texto com menos de 100 caracteres e confirmo
-  Then o sistema não conclui a consolidação enquanto o texto não atingir o mínimo de 100 caracteres
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Texto abaixo do mínimo
+    Given que estou consolidando o feedback
+    When informo um texto com menos de 100 caracteres e confirmo
+    Then o sistema não conclui a consolidação enquanto o texto não atingir o mínimo de 100 caracteres
 
-Scenario: Avaliadores ainda não finalizaram
-  Given que há avaliadores alocados com avaliação pendente
-  When acesso a consolidação da etapa
-  Then o sistema mantém a consolidação indisponível até que todos os avaliadores finalizem
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Re-consolidar substituindo o texto
-  Given que já existe um feedback consolidado para a inscrição na etapa e o estado da inscrição continua aberto
-  When altero o texto e confirmo novamente a consolidação
-  Then o sistema substitui o texto anterior e atualiza a data e o autor da consolidação
+  Scenario: Avaliadores ainda não finalizaram
+    Given que há avaliadores alocados com avaliação pendente
+    When acesso a consolidação da etapa
+    Then o sistema mantém a consolidação indisponível até que todos os avaliadores finalizem
 
-Scenario: Consolidar a última inscrição pendente do estado
-  Given que resta uma única inscrição sem feedback consolidado no estado
-  When consolido o feedback dessa inscrição
-  Then o sistema registra o feedback e o estado passa a ter todas as inscrições consolidadas, atendendo ao pré-requisito do seu fechamento na etapa
+  Scenario: Re-consolidar substituindo o texto
+    Given que já existe um feedback consolidado para a inscrição na etapa e o estado da inscrição continua aberto
+    When altero o texto e confirmo novamente a consolidação
+    Then o sistema substitui o texto anterior e atualiza a data e o autor da consolidação
 
-Scenario: Reabertura do estado devolve a consolidação à edição
-  Given que o estado da inscrição foi reaberto na etapa depois de fechado
-  When altero o texto e confirmo novamente a consolidação
-  Then o sistema substitui o texto anterior e atualiza a data e o autor da consolidação
+  Scenario: Consolidar a última inscrição pendente do estado
+    Given que resta uma única inscrição sem feedback consolidado no estado
+    When consolido o feedback dessa inscrição
+    Then o sistema registra o feedback e o estado passa a ter todas as inscrições consolidadas, atendendo ao pré-requisito do seu fechamento na etapa
 
-Scenario: Marcar geração com apoio de IA
-  Given que produzi o texto com auxílio de IA
-  When assinalo "Gerado com apoio de IA" e confirmo a consolidação
-  Then o sistema registra o feedback consolidado com a marcação de geração por IA
+  Scenario: Reabertura do estado devolve a consolidação à edição
+    Given que o estado da inscrição foi reaberto na etapa depois de fechado
+    When altero o texto e confirmo novamente a consolidação
+    Then o sistema substitui o texto anterior e atualiza a data e o autor da consolidação
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Marcar geração com apoio de IA
+    Given que produzi o texto com auxílio de IA
+    When assinalo "Gerado com apoio de IA" e confirmo a consolidação
+    Then o sistema registra o feedback consolidado com a marcação de geração por IA
 
-# ← MESSAGE-DICTIONARY: AVL_CONSOLIDACAO_ESTADO_FECHADO
-Scenario: Alterar a consolidação com o estado já fechado
-  Given que o estado da inscrição já foi fechado na etapa
-  When altero o texto e confirmo novamente a consolidação
-  Then o sistema mantém o texto consolidado anterior e exibe "O estado já foi fechado; o feedback consolidado não pode mais ser alterado."
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_CONSOLIDACAO_ESTADO_FECHADO
+  Scenario: Alterar a consolidação com o estado já fechado
+    Given que o estado da inscrição já foi fechado na etapa
+    When altero o texto e confirmo novamente a consolidação
+    Then o sistema mantém o texto consolidado anterior e exibe "O estado já foi fechado; o feedback consolidado não pode mais ser alterado."
 
-Scenario: Usuário sem permissão de consolidação
-  Given que meu perfil não tem permissão para consolidar avaliações
-  When tento consolidar o feedback
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de consolidação
+    Given que meu perfil não tem permissão para consolidar avaliações
+    When tento consolidar o feedback
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -200,6 +217,7 @@ Aba "Consolidação" do detalhe da avaliação em `/avaliacao-admin/avaliacoes/:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/painel-administrativo/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -208,6 +226,6 @@ Aba "Consolidação" do detalhe da avaliação em `/avaliacao-admin/avaliacoes/:
 
 ---
 
-*Feature Set: Painel Administrativo de Avaliações · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

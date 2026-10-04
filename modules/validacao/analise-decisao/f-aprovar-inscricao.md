@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-03
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Validação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/validacao.md#validacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-ANA-01, VAL-ANA-02]
+origem:
+  tipo: issue
+  chave: HU-018_Analisar_Validar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Aprovar Inscrição
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-03`
 
 ## Descrição
 Permite ao validador concluir a validação aprovando a inscrição, com parecer opcional, de modo que ela passe à situação Validada e siga para a etapa de avaliação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -51,41 +64,43 @@ Permite ao validador concluir a validação aprovando a inscrição, com parecer
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Aprovar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Aprovar a inscrição com parecer
-  Given que a inscrição está na situação Em Validação
-  When aprovo a inscrição informando um parecer
-  Then a inscrição passa para a situação Validada e segue para a etapa de avaliação
-  And o participante é avisado da aprovação no painel de acompanhamento e por e-mail
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Aprovar a inscrição com parecer
+    Given que a inscrição está na situação Em Validação
+    When aprovo a inscrição informando um parecer
+    Then a inscrição passa para a situação Validada e segue para a etapa de avaliação
+    And o participante é avisado da aprovação no painel de acompanhamento e por e-mail
 
-Scenario: Aprovar inscrição que voltou de ajuste
-  Given que a inscrição está na situação Ajustes Concluídos
-  When aprovo a inscrição informando um parecer
-  Then a inscrição passa para a situação Validada e segue para a etapa de avaliação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Aprovar com itens de ajuste não conferidos
-  Given que existem itens de ajuste ainda não conferidos
-  When aprovo a inscrição
-  Then o sistema solicita confirmação antes de concluir a aprovação
+  Scenario: Aprovar inscrição que voltou de ajuste
+    Given que a inscrição está na situação Ajustes Concluídos
+    When aprovo a inscrição informando um parecer
+    Then a inscrição passa para a situação Validada e segue para a etapa de avaliação
 
-# ── Restrições de situação ─────────────────────────────────────
+  Scenario: Aprovar com itens de ajuste não conferidos
+    Given que existem itens de ajuste ainda não conferidos
+    When aprovo a inscrição
+    Then o sistema solicita confirmação antes de concluir a aprovação
 
-Scenario: Aprovar inscrição ainda não assumida
-  Given que a inscrição está na situação Finalizada
-  When tento aprovar a inscrição
-  Then o sistema não permite aprovar antes de iniciar a validação
+  # ── Restrições de situação ─────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Aprovar inscrição ainda não assumida
+    Given que a inscrição está na situação Finalizada
+    When tento aprovar a inscrição
+    Then o sistema não permite aprovar antes de iniciar a validação
 
-Scenario: Aprovar com parecer curto demais
-  Given que a inscrição está na situação Em Validação
-  When aprovo a inscrição com um parecer de menos de 10 caracteres
-  Then o sistema aponta o parecer como inválido e não conclui a aprovação
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Aprovar com parecer curto demais
+    Given que a inscrição está na situação Em Validação
+    When aprovo a inscrição com um parecer de menos de 10 caracteres
+    Then o sistema aponta o parecer como inválido e não conclui a aprovação
 ```
 
 ---
@@ -164,6 +179,7 @@ Ação disparada pelo botão "Aprovar" no Detalhe da Inscrição (`/validacao-in
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -172,6 +188,6 @@ Ação disparada pelo botão "Aprovar" no Detalhe da Inscrição (`/validacao-in
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

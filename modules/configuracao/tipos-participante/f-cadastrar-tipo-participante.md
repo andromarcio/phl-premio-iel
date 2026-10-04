@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-02
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Tipo de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-02`
 
 ## Descrição
 Permite ao administrador registrar um novo tipo de participante, com nome e descrição e a opção de inscrição em equipe com tamanho mínimo e máximo de membros.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -52,46 +65,48 @@ Permite ao administrador registrar um novo tipo de participante, com nome e desc
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Tipo de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar tipo individual (sem equipe)
-  Given que acesso o formulário de novo tipo de participante
-  When informo o nome "Estudante Bolsista", mantenho a inscrição em equipe desativada e salvo
-  Then o sistema registra o tipo de participante e exibe "Registro salvo com sucesso."
-  And o tipo fica disponível para configuração da estrutura de inscrição e avaliação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Cadastrar tipo com inscrição em equipe
-  Given que estou no formulário de novo tipo e ativo a inscrição em equipe
-  When informo tamanho mínimo 2 e tamanho máximo 5 e salvo
-  Then o sistema registra o tipo com a inscrição em equipe habilitada
+  Scenario: Cadastrar tipo individual (sem equipe)
+    Given que acesso o formulário de novo tipo de participante
+    When informo o nome "Estudante Bolsista", mantenho a inscrição em equipe desativada e salvo
+    Then o sistema registra o tipo de participante e exibe "Registro salvo com sucesso."
+    And o tipo fica disponível para configuração da estrutura de inscrição e avaliação
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar tipo com inscrição em equipe
+    Given que estou no formulário de novo tipo e ativo a inscrição em equipe
+    When informo tamanho mínimo 2 e tamanho máximo 5 e salvo
+    Then o sistema registra o tipo com a inscrição em equipe habilitada
 
-Scenario: Nome em branco
-  Given que estou no formulário de tipo de participante
-  When deixo o campo Nome em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Tamanho máximo da equipe menor que o mínimo
-  Given que ativo a inscrição em equipe e informo tamanho mínimo 5 e tamanho máximo 2
-  When clico em "Salvar"
-  Then o sistema não registra o tipo, pois o tamanho máximo da equipe deve ser maior ou igual ao mínimo
+  Scenario: Nome em branco
+    Given que estou no formulário de tipo de participante
+    When deixo o campo Nome em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Tamanho máximo da equipe menor que o mínimo
+    Given que ativo a inscrição em equipe e informo tamanho mínimo 5 e tamanho máximo 2
+    When clico em "Salvar"
+    Then o sistema não registra o tipo, pois o tamanho máximo da equipe deve ser maior ou igual ao mínimo
 
-Scenario: Criação rápida pela árvore
-  Given que estou na configuração de um prêmio
-  When aciono a criação rápida de tipo de participante em um nó da árvore
-  Then o sistema cria o tipo com o nome "Novo Tipo" e sem inscrição em equipe
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Criação rápida pela árvore
+    Given que estou na configuração de um prêmio
+    When aciono a criação rápida de tipo de participante em um nó da árvore
+    Then o sistema cria o tipo com o nome "Novo Tipo" e sem inscrição em equipe
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para cadastrar tipos de participante
-  When tento acessar o cadastro de tipo de participante
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para cadastrar tipos de participante
+    When tento acessar o cadastro de tipo de participante
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -174,12 +189,13 @@ Formulário próprio em `/tipos-participante/novo`, aba "Geral" (nome, descriç�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

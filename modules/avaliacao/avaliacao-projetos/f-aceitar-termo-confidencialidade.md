@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-02
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Aceite do Termo de Confidencialidade
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#aceite-do-termo-de-confidencialidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-029_Termo_Confidencialidade_Avaliador
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Aceitar Termo de Confidencialidade
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-02`
 
 ## Descrição
 Permite ao avaliador ler e aceitar o termo de confidencialidade de uma premiação, liberando o acesso aos dados dos participantes; o aceite é registrado uma única vez por avaliador e premiação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — |
 
 ---
 
@@ -52,34 +65,36 @@ Permite ao avaliador ler e aceitar o termo de confidencialidade de uma premiaç�
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Aceitar Termo de Confidencialidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Aceitar o termo da premiação
-  Given que a premiação tem termo ativo e confirmo a leitura
-  When aceito o termo
-  Then o sistema registra o aceite com a data e o IP de origem e libera as avaliações da premiação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Aceitar o termo da premiação
+    Given que a premiação tem termo ativo e confirmo a leitura
+    When aceito o termo
+    Then o sistema registra o aceite com a data e o IP de origem e libera as avaliações da premiação
 
-Scenario: Aceitar sem confirmar a leitura
-  Given que abro o termo mas não marco a confirmação de leitura
-  When tento aceitar
-  Then o sistema não registra o aceite e exibe "Confirme a leitura do termo para continuar."
-  # ← MESSAGE-DICTIONARY: AVL_ACEITE_CONFIRMACAO_OBRIGATORIA
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Aceitar sem confirmar a leitura
+    Given que abro o termo mas não marco a confirmação de leitura
+    When tento aceitar
+    Then o sistema não registra o aceite e exibe "Confirme a leitura do termo para continuar."
+    # ← MESSAGE-DICTIONARY: AVL_ACEITE_CONFIRMACAO_OBRIGATORIA
 
-Scenario: Premiação sem termo configurado
-  Given que a premiação não tem termo ativo
-  When acesso as avaliações da premiação
-  Then o sistema libera o acesso sem exigir aceite
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Termo já aceito anteriormente
-  Given que já aceitei o termo desta premiação
-  When acesso novamente a premiação
-  Then o sistema mantém o acesso às avaliações liberado sem solicitar novo aceite
+  Scenario: Premiação sem termo configurado
+    Given que a premiação não tem termo ativo
+    When acesso as avaliações da premiação
+    Then o sistema libera o acesso sem exigir aceite
+
+  Scenario: Termo já aceito anteriormente
+    Given que já aceitei o termo desta premiação
+    When acesso novamente a premiação
+    Then o sistema mantém o acesso às avaliações liberado sem solicitar novo aceite
 ```
 
 ---
@@ -173,6 +188,7 @@ Página própria em `/avaliacao/premiacao/:premiacaoId/termo` (Aceite do Termo):
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -180,6 +196,6 @@ Página própria em `/avaliacao/premiacao/:premiacaoId/termo` (Aceite do Termo):
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

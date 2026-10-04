@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-PAI-02
 feature_set: AVL-PAI
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#avaliacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [AVL-PAI-01]
+origem:
+  tipo: issue
+  chave: HU-027_Painel_Administrativo_Avaliacoes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Avaliações por Etapa
-> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Domínio: Avaliação - `AVL-PAI-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Painel Administrativo de Avaliações — Major Feature Set: Avaliação - `AVL-PAI-02`
 
 ## Descrição
 Permite ao administrador consultar o detalhe de uma inscrição em uma etapa, reunindo os avaliadores alocados, o parecer individual de cada um e as notas por questão, como base para a consolidação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — |
 
 ---
 
@@ -51,38 +64,40 @@ Permite ao administrador consultar o detalhe de uma inscrição em uma etapa, re
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Avaliações por Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar o detalhe da avaliação
-  Given que selecionei uma inscrição em uma etapa
-  When abro o detalhe da avaliação
-  Then o sistema apresenta os avaliadores alocados com status, datas e média ponderada individual
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Consultar o parecer individual de um avaliador
-  Given que estou no detalhe da avaliação
-  When consulto o avaliador finalizado
-  Then o sistema apresenta o parecer individual escrito por ele e as notas por questão
+  Scenario: Consultar o detalhe da avaliação
+    Given que selecionei uma inscrição em uma etapa
+    When abro o detalhe da avaliação
+    Then o sistema apresenta os avaliadores alocados com status, datas e média ponderada individual
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Consultar o parecer individual de um avaliador
+    Given que estou no detalhe da avaliação
+    When consulto o avaliador finalizado
+    Then o sistema apresenta o parecer individual escrito por ele e as notas por questão
 
-Scenario: Conferir as notas por questão
-  Given que estou no detalhe da avaliação
-  When abro a conferência de notas
-  Then o sistema apresenta, para cada questão, a nota de cada avaliador e o peso da questão
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Consultar avaliação com premiação confidencial
-  Given que a premiação está configurada como confidencial
-  When consulto o detalhe da avaliação
-  Then o sistema apresenta os avaliadores como "Avaliador N" e mantém visíveis os pareceres e as notas
+  Scenario: Conferir as notas por questão
+    Given que estou no detalhe da avaliação
+    When abro a conferência de notas
+    Then o sistema apresenta, para cada questão, a nota de cada avaliador e o peso da questão
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Consultar avaliação com premiação confidencial
+    Given que a premiação está configurada como confidencial
+    When consulto o detalhe da avaliação
+    Then o sistema apresenta os avaliadores como "Avaliador N" e mantém visíveis os pareceres e as notas
 
-Scenario: Usuário sem permissão de consulta
-  Given que meu perfil não tem permissão para consultar avaliações
-  When tento abrir o detalhe da avaliação
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de consulta
+    Given que meu perfil não tem permissão para consultar avaliações
+    When tento abrir o detalhe da avaliação
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -181,6 +196,7 @@ Página de detalhe em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etapaId`:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/painel-administrativo/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -188,6 +204,6 @@ Página de detalhe em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etapaId`:
 
 ---
 
-*Feature Set: Painel Administrativo de Avaliações · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

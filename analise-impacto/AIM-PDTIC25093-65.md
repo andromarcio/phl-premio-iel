@@ -1,9 +1,21 @@
-<!-- docqui: 2.23.0 | prompt: analise-impacto | atualizado: 2026-10-04 -->
-# Análise Impacto PDTIC25093-65
-
+---
+tipo: ticket
+ticket: PDTIC25093-65
+ferramenta: ""
+link: ""
+titulo: ""
+estado: concluído
+aberta-na-entrega: true
+sprint: SP06
+avalizado-por: ""
+aberta-em: 2026-10-04
 ---
 
+# AIM PDTIC25093-65
+
 ## Sumário
+
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md`.
 
 | Indicador | Valor |
 |---|---|
@@ -18,9 +30,9 @@
 
 > **Linha do tempo.** O baseline APF foi contado em **2026-02-28** — nenhuma das três capacidades deste card existia nele. O card foi aberto em **2026-08-26**; os N3 foram escritos por engenharia reversa entre **2026-08-25 e 27** e **conferidos com o código em 2026-08-28**, dois dias depois da abertura do card. É essa conferência que explica o achado central desta análise: duas das três entregas **já estavam especificadas**, derivadas do código, com a origem em branco. O encerramento no board, **2026-09-24 às 16:31** — 37 segundos depois de `PDTIC25093-64` —, é varredura do board e não data de entrega. ⚠️ Os repositórios de código não estão ao alcance desta sessão; a identificação abaixo é por correspondência entre o texto do card e o texto dos N3, não por leitura do código.
 
----
+## Detalhe do item
 
-## 1. Detalhe do item
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md`.
 
 **`PDTIC25093-65` — Melhorias 25/08**
 
@@ -34,24 +46,42 @@ Três melhorias pedidas pela Isabelle, que caem em dois Feature Sets diferentes.
 
 **Item 3 — filtro por etapa nas avaliações** → `AVL-PAI-01` — Acompanhar Painel de Avaliações. Aqui há delta real, e é o único dos três. O filtro por etapa **já existia** na spec: a tabela `## Campos` traz "Etapa — seleção → Etapa — filtra pela etapa da avaliação" e o `## Comportamento de tela` já listava o seletor. O que **não** existia são as duas restrições que o card acrescenta: o Administrador Regional só pode ver as etapas regionais, e a etapa nacional não deve apresentar consolidações por estado. A segunda contradizia o publicado — as regras 8 e 9 apuravam o andamento da consolidação por estado em **toda** etapa, e o cenário "Consultar o andamento da consolidação por estado" não distinguia a natureza da etapa.
 
----
+## Critérios de aceite
 
-## 2. Alterações aplicadas na spec, por Feature Set
+> ⚠️ Migrada sem o registro do ticket: transcreva aqui os critérios de aceite da ferramenta de origem.
+
+## Features
+
+| Feature (N3) | Domínio · Feature Set | Operação | Critérios cobertos | Status |
+|---|---|---|---|---|
+| [`AVL-ALO-07`: Exportar Relatório de Alocação](../modules/avaliacao/alocacao/f-exportar-relatorio-alocacao.md) | Avaliação · Alocação | Criação | — | ✏️ Rascunho |
+| [`AVL-ALO-05`: Consultar Panorama do Avaliador](../modules/avaliacao/alocacao/f-consultar-panorama-avaliador.md) | Avaliação · Alocação | Criação | — | ✏️ Rascunho |
+| [`AVL-PAI-01`: Acompanhar Painel de Avaliações](../modules/avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md) | Avaliação · Painel Administrativo de Avaliações | Alteração | — | ✏️ Rascunho |
+
+## Artefatos impactados
+
+| Artefato | Tipo | Operação | Seção | Natureza | O quê | Proveniência |
+|---|---|---|---|---|---|---|
+| `modules/avaliacao/alocacao/f-exportar-relatorio-alocacao.md` | N3 | criar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/alocacao/f-consultar-panorama-avaliador.md` | N3 | criar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Alocação (`AVL-ALO`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-ALO-07` **Exportar Relatório de Alocação** | `PDTIC25093-65` · item 1 | — | incluída | **Origem identificada e contagem realizada**, sem delta de conteúdo. *Antes* o N3 existia desde 2026-08-28 com a origem em branco e a premissa "sem contagem no baseline APF — **sem processo elementar correspondente**", que descrevia a ausência na planilha sem dizer a causa, e deixava a feature valendo `—`. *Agora* a premissa diz a causa — a capacidade foi pedida em 2026-08-26, seis meses depois do baseline — e o processo elementar está contado: SE, ALR 4, DER 9, complexidade Alta, **7 PF**. As regras 3 e 4 já diziam o que o card pede e não precisaram mudar | +0 | +0 | 7 | 7 |
-| `AVL-ALO-05` **Consultar Panorama do Avaliador** | `PDTIC25093-65` · item 2 | — | incluída | **Origem identificada e contagem realizada**, sem delta de conteúdo. *Antes*, mesma situação: N3 de 2026-08-28, origem em branco, premissa de "sem PE correspondente" e PF `—`. *Agora* a premissa aponta o card como causa e o processo elementar está contado: SE, ALR 8, DER 14, complexidade Alta, **7 PF**. O diálogo abre a partir de duas telas de alocação e conta como **um** processo elementar, porque a lógica de processamento é a mesma | +0 | +0 | 7 | 7 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-ALO-07` **Exportar Relatório de Alocação** | — | incluída | **Origem identificada e contagem realizada**, sem delta de conteúdo. *Antes* o N3 existia desde 2026-08-28 com a origem em branco e a premissa "sem contagem no baseline APF — **sem processo elementar correspondente**", que descrevia a ausência na planilha sem dizer a causa, e deixava a feature valendo `—`. *Agora* a premissa diz a causa — a capacidade foi pedida em 2026-08-26, seis meses depois do baseline — e o processo elementar está contado: SE, ALR 4, DER 9, complexidade Alta, **7 PF**. As regras 3 e 4 já diziam o que o card pede e não precisaram mudar | +0 | +0 | 7 | 7 |
+| `AVL-ALO-05` **Consultar Panorama do Avaliador** | — | incluída | **Origem identificada e contagem realizada**, sem delta de conteúdo. *Antes*, mesma situação: N3 de 2026-08-28, origem em branco, premissa de "sem PE correspondente" e PF `—`. *Agora* a premissa aponta o card como causa e o processo elementar está contado: SE, ALR 8, DER 14, complexidade Alta, **7 PF**. O diálogo abre a partir de duas telas de alocação e conta como **um** processo elementar, porque a lógica de processamento é a mesma | +0 | +0 | 7 | 7 |
 
 **Subtotal: 2 features · 14 PFB · 14 PFL.**
 
 ### Avaliação › Painel Administrativo de Avaliações (`AVL-PAI`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-PAI-01` **Acompanhar Painel de Avaliações** | `PDTIC25093-65` · item 3 | — | alterada | **Restrição** do acompanhamento pela natureza da etapa. *Antes* a seleção de etapa existia mas não distinguia perfil — o Administrador Regional recebia também as etapas nacionais —, e o andamento da consolidação por estado era apurado em toda etapa, inclusive na nacional, em que a disputa não se organiza por estado: as regras 8 e 9 não tinham qualquer condicional e o cenário correspondente apresentava o resumo por estado sem ressalva. *Agora* a RN10 restringe a seleção de etapa do Regional às etapas de natureza regional e a RN11 condiciona o andamento da consolidação por estado às etapas regionais, suprimindo-o na nacional | +2 | +3 | 7 | 3,5 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-PAI-01` **Acompanhar Painel de Avaliações** | — | alterada | **Restrição** do acompanhamento pela natureza da etapa. *Antes* a seleção de etapa existia mas não distinguia perfil — o Administrador Regional recebia também as etapas nacionais —, e o andamento da consolidação por estado era apurado em toda etapa, inclusive na nacional, em que a disputa não se organiza por estado: as regras 8 e 9 não tinham qualquer condicional e o cenário correspondente apresentava o resumo por estado sem ressalva. *Agora* a RN10 restringe a seleção de etapa do Regional às etapas de natureza regional e a RN11 condiciona o andamento da consolidação por estado às etapas regionais, suprimindo-o na nacional | +2 | +3 | 7 | 3,5 |
 
 **Subtotal: 1 feature · 7 PFB · 3,5 PFL.**
 
@@ -61,9 +91,7 @@ Três melhorias pedidas pela Isabelle, que caem em dois Feature Sets diferentes.
 
 ⚠️ **`AVL-PAI-01` — Acompanhar Painel de Avaliações já foi contada como alterada antes.** Na análise da SP05 ela aparece com **7 PFB · 3,5 PFL**, atribuída ao "Aviso 4" (⚠️ sem item identificado), por outro delta: a inclusão do recorte por estado e do andamento da consolidação. Este card a altera de novo, agora para **condicionar** aquele mesmo andamento à natureza da etapa — a sequência é coerente (primeiro se cria a visão por estado, depois se descobre que ela não faz sentido na etapa nacional), mas significa que a mesma função é alterada duas vezes. Ver a seção 5.
 
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 **Nenhuma alteração de modelo.** Os três itens leem o que já existe. A natureza da etapa, de que dependem as duas novas regras, já está no modelo: a Etapa é subgrupo do ALI **Premiação** e os perfis que a operam vivem em `TB_ETAPA_PERFIL_ACESSO`, restrita a `PIT.1` e `PIT.3` — é dela que `AVL-APU-08` — Consultar Ranking da Etapa já deriva a sua regra 4 de visibilidade.
 
@@ -74,17 +102,13 @@ Três melhorias pedidas pela Isabelle, que caem em dois Feature Sets diferentes.
 | Funções de dados — 0 ALI | — | 0 | 0 |
 | **Apurável do item** | — | **21** | **17,5** |
 
----
-
-## 4. Impacto em dicionários
+## Impacto em dicionários
 
 **Nenhuma mensagem, regra ou campo canônico novo.** As duas features contadas já reaproveitavam o baseline de mensagens, e as mensagens de estado vazio que elas usam — "Nenhuma avaliação nesta etapa." e "Nenhuma avaliação com este status nesta etapa." — já estavam registradas nos N3 desde 2026-08-28. A supressão da consolidação por estado na etapa nacional não gera aviso ao usuário: o bloco simplesmente não é apresentado.
 
 ⚠️ Vale uma nota de vocabulário, não de dicionário: a mesma ideia aparece com **três formulações** diferentes na spec — "capability configurada na etapa" (regra 4 de `AVL-PAI-01` — Acompanhar Painel de Avaliações, com ⚠️), "etapa operada também pelo Administrador Regional" (regra 4 de `AVL-ALO-07` — Exportar Relatório de Alocação) e "natureza da etapa" (regra 4 de `AVL-APU-08` — Consultar Ranking da Etapa). As novas regras deste delta adotaram a terceira, que é a mais explícita, mas a divergência permanece nas outras duas. Ver a seção 5.
 
----
-
-## 5. Decisões de produto pendentes
+## Decisões de produto pendentes
 
 > **A decisão 4 foi respondida pelo resumo de entrega da Sprint 6**, recebido em 2026-10-04: *"os itens 4 e 5 e a colocação no Relatório da Etapa são as melhorias solicitadas pela área negocial em **25/08**, entregues em 28/08 (PRs 86452 no front e 86451 no back) e em produção desde o release de 01/09"*. Este card é *Melhorias 25/08*, aberto em 2026-08-26. Está **confirmado** que ele é a origem de `AVL-ALO-05` — Consultar Panorama do Avaliador e de `AVL-ALO-07` — Exportar Relatório de Alocação, e os 14 PF ficam atribuídos a ele. A correspondência de texto que a análise usara em 2026-10-02 era mesmo o elo certo.
 >
@@ -118,17 +142,18 @@ Três melhorias pedidas pela Isabelle, que caem em dois Feature Sets diferentes.
 
 **Decide** — equipe de métricas. **Alcança** — `AVL-PAI-01` — Acompanhar Painel de Avaliações.
 
----
-
 ## Metodologia
+
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md`.
 
 Card lido no Jira em 2026-10-02 (`sistemaindustria.atlassian.net`, board `PDTIC25093`), item por item. Confrontado com os N3 de `AVL-ALO` e `AVL-PAI` publicados, o `global/CONTAGEM-PF.md`, o `global/SIZING.md`, o `global/data-models/avaliacao.md`, o baseline APF `arquivos/PIEL_BASELINE_PF_CD.xlsx` e as análises já existentes — `ANALISE_IMPACTO_SP05.md`, que é onde o Aviso 4 e `AVL-PAI-04` — Exportar Relatório de Avaliadores foram registrados. O "antes" de cada delta foi extraído do N3 publicado e do seu `## Changelog`, não do sistema em produção. A desambiguação entre `AVL-ALO-07` — Exportar Relatório de Alocação e `AVL-PAI-04` — Exportar Relatório de Avaliadores foi feita pela tela de origem e pelo conteúdo das abas, porque os dois nomes se confundem. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. ⚠️ Sem acesso aos repositórios de código nesta sessão.
 
----
+## Reconciliação
+
+Aberta na entrega — migrada do relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md`: não houve escopo prévio a reconciliar.
 
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Análise de impacto SP06 (docqui) | Decisão respondida · memórias corrigidas | O resumo de entrega da Sprint 6 **confirma** que este card é a origem de `AVL-ALO-05` — Consultar Panorama do Avaliador e `AVL-ALO-07` — Exportar Relatório de Alocação: os itens 4 e 5 são "as melhorias solicitadas pela área negocial em 25/08", entregues em 28/08. A decisão 4 sai da lista. O resumo nomeia as colunas e corrigiu as duas memórias de cálculo — `AVL-ALO-07` de ALR 4×DER 9 para ALR 7×DER 16, `AVL-ALO-05` de DER 14 para 22 —, **sem mover PF**. A decisão 1 ganhou evidência a favor do vocabulário de *natureza da etapa*, mas segue aberta quanto ao modelo. Apurável inalterado: **21 PFB · 17,5 PFL** |
-| 2026-10-02 | Análise de impacto (docqui) | Documento criado | Análise do card `PDTIC25093-65` — Melhorias 25/08. Os itens 1 e 2 são a origem que faltava a `AVL-ALO-07` — Exportar Relatório de Alocação e `AVL-ALO-05` — Consultar Panorama do Avaliador, criadas pela conferência com o código em 2026-08-28 sem demanda de origem; as duas foram contadas sobre os N3, **7 PF** cada. O item 3 alterou `AVL-PAI-01` — Acompanhar Painel de Avaliações com +2 regras e +3 cenários: a etapa nacional deixa de apresentar consolidação por estado e o Administrador Regional passa a receber só as etapas regionais. Apurável do item **21 PFB · 17,5 PFL**. Quatro decisões registradas |
+| 2026-10-04 | migra-aim | AIM migrada | relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md` → AIM única |

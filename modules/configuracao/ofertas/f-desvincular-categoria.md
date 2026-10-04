@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-03
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Categoria
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#premiacao--categoria-vinculo
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Desvincular Categoria
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-03`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-03`
 
 ## Descrição
 Permite ao administrador desfazer o vínculo de uma categoria com a edição do prêmio por exclusão lógica, retirando-a da estrutura sem apagá-la do catálogo nem de outras edições.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
 
 ---
 
@@ -49,33 +62,35 @@ Permite ao administrador desfazer o vínculo de uma categoria com a edição do 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Desvincular Categoria
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Desvincular uma categoria da edição
-  Given que uma categoria está vinculada à edição
-  When escolho remover o vínculo e confirmo
-  Then o sistema desfaz o vínculo e a categoria deixa de integrar a estrutura da edição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Categoria permanece no catálogo após a desvinculação
-  Given que desvinculei a categoria da edição
-  When consulto o catálogo de categorias
-  Then a categoria continua disponível para vínculo a outras edições
+  Scenario: Desvincular uma categoria da edição
+    Given que uma categoria está vinculada à edição
+    When escolho remover o vínculo e confirmo
+    Then o sistema desfaz o vínculo e a categoria deixa de integrar a estrutura da edição
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Categoria permanece no catálogo após a desvinculação
+    Given que desvinculei a categoria da edição
+    When consulto o catálogo de categorias
+    Then a categoria continua disponível para vínculo a outras edições
 
-Scenario: Desistir da desvinculação
-  Given que iniciei a remoção do vínculo de uma categoria
-  When cancelo a confirmação
-  Then o sistema mantém o vínculo e a estrutura permanece como estava
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Desistir da desvinculação
+    Given que iniciei a remoção do vínculo de uma categoria
+    When cancelo a confirmação
+    Then o sistema mantém o vínculo e a estrutura permanece como estava
 
-Scenario: Usuário sem permissão para desvincular
-  Given que meu perfil não tem permissão para desvincular categorias
-  When tento remover o vínculo de uma categoria
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para desvincular
+    Given que meu perfil não tem permissão para desvincular categorias
+    When tento remover o vínculo de uma categoria
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -150,12 +165,13 @@ Ação disparada do nó da categoria na Árvore de Configuração do Prêmio (`/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

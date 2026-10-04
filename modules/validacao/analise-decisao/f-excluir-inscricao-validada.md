@@ -1,11 +1,9 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-06
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Excluir Inscrição Validada
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-06`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-06`
 
 ## Descrição
 Permite ao administrador nacional retirar da premiação uma inscrição já validada, mediante justificativa, mantendo os dados preservados para consulta e auditoria.
@@ -52,36 +53,38 @@ Permite ao administrador nacional retirar da premiação uma inscrição já val
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Excluir Inscrição Validada
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Excluir uma inscrição validada
-  Given que a inscrição está na situação Validada
-  When confirmo a exclusão informando a justificativa
-  Then a inscrição deixa de constar na fila de validação e no ranking da etapa
-  And o histórico registra a exclusão com o responsável e a justificativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Excluir uma inscrição validada
+    Given que a inscrição está na situação Validada
+    When confirmo a exclusão informando a justificativa
+    Then a inscrição deixa de constar na fila de validação e no ranking da etapa
+    And o histórico registra a exclusão com o responsável e a justificativa
 
-Scenario: Excluir sem justificativa
-  Given que a inscrição está na situação Validada
-  When tento confirmar a exclusão sem preencher a justificativa
-  Then o sistema não conclui a exclusão e informa que a justificativa é obrigatória
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Excluir sem justificativa
+    Given que a inscrição está na situação Validada
+    When tento confirmar a exclusão sem preencher a justificativa
+    Then o sistema não conclui a exclusão e informa que a justificativa é obrigatória
 
-Scenario: Excluir inscrição ainda não validada
-  Given que a inscrição está na situação Em Validação
-  When tento excluí-la por esta ação
-  Then o sistema informa que apenas inscrições validadas podem ser excluídas por aqui
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Excluir inscrição ainda não validada
+    Given que a inscrição está na situação Em Validação
+    When tento excluí-la por esta ação
+    Then o sistema informa que apenas inscrições validadas podem ser excluídas por aqui
 
-Scenario: Administrador regional tenta excluir
-  Given que estou autenticado como Administrador Regional
-  When tento excluir uma inscrição validada
-  Then o sistema nega a operação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Administrador regional tenta excluir
+    Given que estou autenticado como Administrador Regional
+    When tento excluir uma inscrição validada
+    Then o sistema nega a operação
 ```
 
 ---
@@ -148,11 +151,12 @@ Diálogo de confirmação aberto pela ação de exclusão no Detalhe da Inscriç
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (exclusão lógica de inscrição validada com justificativa) — capacidade implementada e até então não especificada |
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-05
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Etapa
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-024_Configurar_Etapas_de_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Reordenar Etapas
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-05`
 
 ## Descrição
 Permite ao administrador alterar a ordem relativa das etapas da premiação enquanto nenhuma delas estiver fechada, mantendo a numeração sequencial sem lacunas.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
 
 ---
 
@@ -49,29 +62,31 @@ Permite ao administrador alterar a ordem relativa das etapas da premiação enqu
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Reordenar Etapas
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Mover uma etapa para outra posição
-  Given que nenhuma etapa da premiação está fechada
-  When movo a etapa da posição 3 para a posição 2
-  Then o sistema atualiza a sequência e renumera as etapas de 1 a N sem lacunas
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Mover uma etapa para outra posição
+    Given que nenhuma etapa da premiação está fechada
+    When movo a etapa da posição 3 para a posição 2
+    Then o sistema atualiza a sequência e renumera as etapas de 1 a N sem lacunas
 
-# ← MESSAGE-DICTIONARY: AVL_REORDENACAO_BLOQUEADA
-Scenario: Reordenação bloqueada por etapa fechada
-  Given que ao menos uma etapa da premiação está na situação Fechada
-  When tento reordenar as etapas
-  Then o sistema impede a reordenação e exibe "Há etapas já fechadas nesta premiação. Reordenar etapas agora invalidaria a cadeia de aprovações dos participantes."
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_REORDENACAO_BLOQUEADA
+  Scenario: Reordenação bloqueada por etapa fechada
+    Given que ao menos uma etapa da premiação está na situação Fechada
+    When tento reordenar as etapas
+    Then o sistema impede a reordenação e exibe "Há etapas já fechadas nesta premiação. Reordenar etapas agora invalidaria a cadeia de aprovações dos participantes."
 
-Scenario: Usuário sem permissão de reordenação
-  Given que meu perfil não tem permissão para reordenar etapas
-  When tento reordenar as etapas
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de reordenação
+    Given que meu perfil não tem permissão para reordenar etapas
+    When tento reordenar as etapas
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -146,12 +161,13 @@ Ações de subir e descer no card de cada etapa, na aba "Avaliação & Etapas" (
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-024 |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

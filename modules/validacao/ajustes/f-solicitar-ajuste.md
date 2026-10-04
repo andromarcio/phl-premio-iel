@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-AJU-01
 feature_set: VAL-AJU
 dominio: VAL
 entidade: Item de Ajuste
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#item-de-ajuste
 endpoints: []
 error_codes: []
 depende_de: [VAL-ANA-02]
+origem:
+  tipo: issue
+  chave: HU-019_Solicitar_Ajustes_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Solicitar Ajuste
-> **Nível 3** - Feature Set: Ajustes da Inscrição — Domínio: Validação - `VAL-AJU-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Ajustes da Inscrição — Major Feature Set: Validação - `VAL-AJU-01`
 
 ## Descrição
 Permite ao validador solicitar ao participante correções na inscrição em validação, reunindo de um a dez itens de ajuste e movendo a inscrição para a situação Aguardando Ajuste.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -53,43 +66,45 @@ Permite ao validador solicitar ao participante correções na inscrição em val
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Solicitar Ajuste
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Solicitar ajustes ao participante
-  Given que a inscrição está na situação Em Validação
-  When adiciono itens de ajuste válidos e confirmo a solicitação
-  Then a inscrição passa para a situação Aguardando Ajuste e o participante é notificado por e-mail
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Solicitar ajustes ao participante
+    Given que a inscrição está na situação Em Validação
+    When adiciono itens de ajuste válidos e confirmo a solicitação
+    Then a inscrição passa para a situação Aguardando Ajuste e o participante é notificado por e-mail
 
-Scenario: Solicitação sem itens
-  Given que não informei nenhum item de ajuste
-  When tento confirmar a solicitação
-  Then o sistema não envia e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Item de ajuste abaixo do mínimo
-  Given que informo um item de ajuste com menos de 10 caracteres
-  When tento confirmar a solicitação
-  Then o sistema não envia e exibe "Mínimo de 10 caracteres."
+  Scenario: Solicitação sem itens
+    Given que não informei nenhum item de ajuste
+    When tento confirmar a solicitação
+    Then o sistema não envia e exibe "Campo obrigatório."
 
-Scenario: Item de ajuste acima do máximo
-  Given que informo um item de ajuste com mais de 200 caracteres
-  When tento confirmar a solicitação
-  Then o sistema não envia e exibe "Máximo de 200 caracteres."
+  Scenario: Item de ajuste abaixo do mínimo
+    Given que informo um item de ajuste com menos de 10 caracteres
+    When tento confirmar a solicitação
+    Then o sistema não envia e exibe "Mínimo de 10 caracteres."
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Item de ajuste acima do máximo
+    Given que informo um item de ajuste com mais de 200 caracteres
+    When tento confirmar a solicitação
+    Then o sistema não envia e exibe "Máximo de 200 caracteres."
 
-Scenario: Limite de itens por solicitação
-  Given que já adicionei dez itens de ajuste
-  When tento adicionar mais um item
-  Then o sistema não permite ultrapassar dez itens na mesma solicitação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Itens pendentes de rodadas anteriores
-  Given que há itens de ajuste ainda pendentes de rodadas anteriores
-  When abro a solicitação de ajuste
-  Then o sistema apresenta os itens ainda pendentes
+  Scenario: Limite de itens por solicitação
+    Given que já adicionei dez itens de ajuste
+    When tento adicionar mais um item
+    Then o sistema não permite ultrapassar dez itens na mesma solicitação
+
+  Scenario: Itens pendentes de rodadas anteriores
+    Given que há itens de ajuste ainda pendentes de rodadas anteriores
+    When abro a solicitação de ajuste
+    Then o sistema apresenta os itens ainda pendentes
 ```
 
 ---
@@ -168,12 +183,13 @@ Ação disparada pelo botão "Solicitar Ajuste" no Detalhe da Inscrição (`/val
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-019 |
 
 ---
 
-*Feature Set: Ajustes da Inscrição · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

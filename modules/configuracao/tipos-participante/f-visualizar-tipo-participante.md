@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-04
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Visualizar Tipo de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-04`
 
 ## Descrição
 Permite ao administrador consultar os dados de um tipo de participante, seus vínculos e o resumo dos recursos de inscrição e avaliação já configurados.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -48,24 +61,26 @@ Permite ao administrador consultar os dados de um tipo de participante, seus ví
 ## Cenários
 
 ```gherkin
-# ── Caminho feliz ──────────────────────────────────────────────
+Feature: Visualizar Tipo de Participante
 
-Scenario: Ver os dados de um tipo de participante
-  Given que selecionei um tipo de participante no catálogo
-  When abro o detalhe do tipo
-  Then o sistema exibe o nome, a descrição, a situação e a opção de inscrição em equipe
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Ver o resumo de recursos configurados
-  Given que estou no detalhe de um tipo de participante
-  When acesso a aba "Recursos"
-  Then o sistema exibe o resumo do formulário de inscrição, dos enquadramentos, do questionário e dos anexos exigidos
+  Scenario: Ver os dados de um tipo de participante
+    Given que selecionei um tipo de participante no catálogo
+    When abro o detalhe do tipo
+    Then o sistema exibe o nome, a descrição, a situação e a opção de inscrição em equipe
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Ver o resumo de recursos configurados
+    Given que estou no detalhe de um tipo de participante
+    When acesso a aba "Recursos"
+    Then o sistema exibe o resumo do formulário de inscrição, dos enquadramentos, do questionário e dos anexos exigidos
 
-Scenario: Tipo de participante sem vínculos
-  Given que o tipo de participante não está vinculado a nenhuma modalidade ou categoria
-  When acesso a aba "Vínculos"
-  Then o sistema exibe "Nenhum registro encontrado."
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Tipo de participante sem vínculos
+    Given que o tipo de participante não está vinculado a nenhuma modalidade ou categoria
+    When acesso a aba "Vínculos"
+    Then o sistema exibe "Nenhum registro encontrado."
 ```
 
 ---
@@ -139,11 +154,12 @@ Página de detalhe em `/tipos-participante/:id/visualizar`, com a aba "Dados Ger
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

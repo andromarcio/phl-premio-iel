@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-NOT-02
 feature_set: INS-NOT
 dominio: INS
 entidade: Notificação Participante
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#notificacao-participante
 endpoints: []
 error_codes: []
 depende_de: [INS-NOT-01]
+origem:
+  tipo: issue
+  chave: HU-022_Notificacoes_InApp
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Marcar Notificação como Lida
-> **Nível 3** - Feature Set: Notificações — Domínio: Inscrição - `INS-NOT-02`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Notificações — Major Feature Set: Inscrição - `INS-NOT-02`
 
 ## Descrição
 Permite ao participante marcar uma notificação como lida, atualizando a contagem de avisos ainda não lidos.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — |
 
 ---
 
@@ -50,29 +63,31 @@ Permite ao participante marcar uma notificação como lida, atualizando a contag
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Marcar Notificação como Lida
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Marcar notificação não lida
-  Given que tenho uma notificação não lida
-  When marco a notificação como lida
-  Then o sistema registra a notificação como lida
-  And a contagem de não lidas diminui em uma unidade
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Marcar notificação não lida
+    Given que tenho uma notificação não lida
+    When marco a notificação como lida
+    Then o sistema registra a notificação como lida
+    And a contagem de não lidas diminui em uma unidade
 
-Scenario: Marcar notificação já lida
-  Given que a notificação já está lida
-  When marco a notificação como lida novamente
-  Then o sistema mantém a notificação como lida e não altera a contagem de não lidas
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Marcar notificação já lida
+    Given que a notificação já está lida
+    When marco a notificação como lida novamente
+    Then o sistema mantém a notificação como lida e não altera a contagem de não lidas
 
-Scenario: Notificação de outro participante
-  Given que a notificação pertence a outro participante
-  When tento marcá-la como lida
-  Then o sistema não permite a ação sobre a notificação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Notificação de outro participante
+    Given que a notificação pertence a outro participante
+    When tento marcá-la como lida
+    Then o sistema não permite a ação sobre a notificação
 ```
 
 ---
@@ -148,12 +163,13 @@ A marcação parte do painel de notificações em *(sem rota própria — painel
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-022 |
 
 ---
 
-*Feature Set: Notificações · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

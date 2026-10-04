@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-LIS-01
 feature_set: CFG-LIS
 dominio: CFG
 entidade: Lista do Sistema
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#lista-do-sistema
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-012_Listas_do_Sistema
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Pesquisar Listas
-> **Nível 3** - Feature Set: Listas do Sistema — Domínio: Configuração da Premiação - `CFG-LIS-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Listas do Sistema — Major Feature Set: Configuração da Premiação - `CFG-LIS-01`
 
 ## Descrição
 Permite ao administrador localizar listas de valores por nome e por código, com paginação, para consulta, edição ou configuração de seus itens.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
 
 ---
 
@@ -49,31 +62,33 @@ Permite ao administrador localizar listas de valores por nome e por código, com
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Pesquisar Listas
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar listas ao abrir a tela
-  Given que existem listas cadastradas no sistema
-  When acesso a tela de Listas do Sistema
-  Then o sistema exibe a lista de registros com código e nome
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Filtrar por nome
-  Given que existe a lista "UFs do Brasil"
-  When informo "UF" no campo de filtro por nome e busco
-  Then o sistema exibe a lista "UFs do Brasil" no resultado
+  Scenario: Listar listas ao abrir a tela
+    Given que existem listas cadastradas no sistema
+    When acesso a tela de Listas do Sistema
+    Then o sistema exibe a lista de registros com código e nome
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Filtrar por nome
+    Given que existe a lista "UFs do Brasil"
+    When informo "UF" no campo de filtro por nome e busco
+    Then o sistema exibe a lista "UFs do Brasil" no resultado
 
-Scenario: Filtrar por código
-  Given que existe a lista de código "UF_BRASIL"
-  When informo "UF_BRASIL" no campo de filtro por código e busco
-  Then o sistema exibe a lista correspondente ao código
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Busca sem resultados
-  Given que nenhuma lista corresponde aos filtros informados
-  When realizo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Filtrar por código
+    Given que existe a lista de código "UF_BRASIL"
+    When informo "UF_BRASIL" no campo de filtro por código e busco
+    Then o sistema exibe a lista correspondente ao código
+
+  Scenario: Busca sem resultados
+    Given que nenhuma lista corresponde aos filtros informados
+    When realizo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -158,12 +173,13 @@ Página própria em `/configuracao-premiacao/listas-sistema` (Lista de Listas do
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

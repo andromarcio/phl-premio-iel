@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-04
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-05]
+origem:
+  tipo: issue
+  chave: HU-031_Consolidar_Feedback
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Gerar Devolutiva com IA
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-04`
 
 ## Descrição
 Permite ao administrador gerar, com apoio de Inteligência Artificial, uma sugestão de devolutiva a partir dos pareceres dos avaliadores finalizados, entregue ao editor para revisão humana.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — |
 
 ---
 
@@ -51,33 +64,35 @@ Permite ao administrador gerar, com apoio de Inteligência Artificial, uma suges
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Gerar Devolutiva com IA
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Gerar a sugestão de devolutiva
-  Given que os avaliadores da inscrição na etapa finalizaram suas avaliações
-  When aciono a geração da devolutiva com IA
-  Then o sistema devolve ao editor uma sugestão marcada como gerada com apoio de IA, sem liberá-la ao participante
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Gerar a sugestão de devolutiva
+    Given que os avaliadores da inscrição na etapa finalizaram suas avaliações
+    When aciono a geração da devolutiva com IA
+    Then o sistema devolve ao editor uma sugestão marcada como gerada com apoio de IA, sem liberá-la ao participante
 
-Scenario: Substituir texto existente no editor
-  Given que já há texto no editor da devolutiva
-  When aciono a geração com IA e confirmo a substituição
-  Then o sistema substitui o texto do editor pela nova sugestão marcada como gerada por IA
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Sugestão segue para revisão humana
-  Given que recebi uma sugestão gerada por IA
-  When encerro a geração sem revisar
-  Then o sistema mantém a sugestão apenas no editor, pendente de revisão, sem liberar a devolutiva ao participante
+  Scenario: Substituir texto existente no editor
+    Given que já há texto no editor da devolutiva
+    When aciono a geração com IA e confirmo a substituição
+    Then o sistema substitui o texto do editor pela nova sugestão marcada como gerada por IA
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Sugestão segue para revisão humana
+    Given que recebi uma sugestão gerada por IA
+    When encerro a geração sem revisar
+    Then o sistema mantém a sugestão apenas no editor, pendente de revisão, sem liberar a devolutiva ao participante
 
-Scenario: Usuário sem permissão de geração
-  Given que meu perfil não tem permissão para gerar a devolutiva
-  When tento gerar a sugestão com IA
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de geração
+    Given que meu perfil não tem permissão para gerar a devolutiva
+    When tento gerar a sugestão com IA
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -152,12 +167,13 @@ No Editor de Devolutiva em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etap
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-031 (geração assistida por IA) |
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

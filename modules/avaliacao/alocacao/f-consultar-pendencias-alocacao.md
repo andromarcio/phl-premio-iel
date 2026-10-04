@@ -1,11 +1,9 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-06
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#alocacao-de-avaliadores
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Pendências de Alocação
-> **Nível 3** - Feature Set: Alocação — Domínio: Avaliação - `AVL-ALO-06`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Alocação — Major Feature Set: Avaliação - `AVL-ALO-06`
 
 ## Descrição
 Avisa o administrador de que existem participantes aprovados numa etapa já encerrada que ainda não têm avaliadores designados na etapa seguinte, e leva direto à tela onde a alocação pendente é resolvida.
@@ -55,40 +56,42 @@ Avisa o administrador de que existem participantes aprovados numa etapa já ence
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Pendências de Alocação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Ser avisado de uma etapa sem alocação
-  Given que a etapa Regional está encerrada com dez participantes aprovados
-  And que nenhum avaliador foi designado a eles na etapa Nacional
-  When acesso a área administrativa da premiação
-  Then vejo o aviso de que a etapa Nacional precisa de alocações, com a quantidade de aprovados aguardando
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Ir direto resolver a pendência
-  Given que o aviso de pendência está visível
-  When seleciono a pendência
-  Then sou levado à alocação por inscrição já com a premiação e a etapa pendente aplicadas
+  Scenario: Ser avisado de uma etapa sem alocação
+    Given que a etapa Regional está encerrada com dez participantes aprovados
+    And que nenhum avaliador foi designado a eles na etapa Nacional
+    When acesso a área administrativa da premiação
+    Then vejo o aviso de que a etapa Nacional precisa de alocações, com a quantidade de aprovados aguardando
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Ir direto resolver a pendência
+    Given que o aviso de pendência está visível
+    When seleciono a pendência
+    Then sou levado à alocação por inscrição já com a premiação e a etapa pendente aplicadas
 
-Scenario: Etapa anterior ainda aberta
-  Given que a etapa Regional ainda está aberta
-  When acesso a área administrativa da premiação
-  Then nenhuma pendência é apontada para a etapa Nacional
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Sem pendências
-  Given que todos os aprovados já têm avaliadores designados na etapa seguinte
-  When acesso a área administrativa da premiação
-  Then nenhum aviso de pendência é exibido
+  Scenario: Etapa anterior ainda aberta
+    Given que a etapa Regional ainda está aberta
+    When acesso a área administrativa da premiação
+    Then nenhuma pendência é apontada para a etapa Nacional
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Sem pendências
+    Given que todos os aprovados já têm avaliadores designados na etapa seguinte
+    When acesso a área administrativa da premiação
+    Then nenhum aviso de pendência é exibido
 
-Scenario: Pendência de etapa que o perfil não opera
-  Given que a etapa pendente é operada apenas pelo Administrador Nacional
-  And que estou autenticado como Administrador Regional
-  When acesso a área administrativa da premiação
-  Then essa pendência não aparece para mim
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Pendência de etapa que o perfil não opera
+    Given que a etapa pendente é operada apenas pelo Administrador Nacional
+    And que estou autenticado como Administrador Regional
+    When acesso a área administrativa da premiação
+    Then essa pendência não aparece para mim
 ```
 
 ---
@@ -167,11 +170,12 @@ Aviso apresentado nas telas administrativas da premiação, com uma linha por pe
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (pendências de alocação entre etapas consecutivas) — capacidade implementada no servidor, com o aviso ainda não montado em tela |
 
 ---
 
-*Feature Set: Alocação · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Alocação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-AJU-02
 feature_set: VAL-AJU
 dominio: VAL
 entidade: Snapshot da Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#snapshot-da-inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-AJU-01]
+origem:
+  tipo: issue
+  chave: HU-026_Auditoria_Ajustes_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Auditoria de Ajustes
-> **Nível 3** - Feature Set: Ajustes da Inscrição — Domínio: Validação - `VAL-AJU-02`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Ajustes da Inscrição — Major Feature Set: Validação - `VAL-AJU-02`
 
 ## Descrição
 Permite ao validador consultar, por rodada de ajuste, o que o participante alterou entre a solicitação e o reenvio da inscrição, agrupado por respostas, documentos e equipe.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-026_Auditoria_Ajustes_Inscricao`](../../../hus/HU-026_Auditoria_Ajustes_Inscricao.docx) | Criação | — |
+| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -51,36 +65,38 @@ Permite ao validador consultar, por rodada de ajuste, o que o participante alter
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Auditoria de Ajustes
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar as alterações de uma rodada
-  Given que a inscrição tem uma rodada de ajuste fechada
-  When abro a auditoria e seleciono a rodada
-  Then o sistema exibe as alterações da rodada com o valor anterior e o valor novo de cada registro
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Alternar entre rodadas
-  Given que a inscrição tem mais de uma rodada de ajuste fechada
-  When seleciono outra rodada
-  Then o sistema recalcula e exibe as alterações daquela rodada
+  Scenario: Consultar as alterações de uma rodada
+    Given que a inscrição tem uma rodada de ajuste fechada
+    When abro a auditoria e seleciono a rodada
+    Then o sistema exibe as alterações da rodada com o valor anterior e o valor novo de cada registro
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Alternar entre rodadas
+    Given que a inscrição tem mais de uma rodada de ajuste fechada
+    When seleciono outra rodada
+    Then o sistema recalcula e exibe as alterações daquela rodada
 
-Scenario: Ocultar registros sem alteração
-  Given que estou na auditoria de uma rodada
-  When mantenho ativo o filtro "Apenas alterações"
-  Then o sistema oculta os registros sem alteração
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Rodada sem auditoria disponível
-  Given que a rodada é anterior à disponibilização da auditoria
-  When tento consultá-la
-  Then o sistema indica que a auditoria não está disponível para aquela rodada
+  Scenario: Ocultar registros sem alteração
+    Given que estou na auditoria de uma rodada
+    When mantenho ativo o filtro "Apenas alterações"
+    Then o sistema oculta os registros sem alteração
 
-Scenario: Rodada sem alterações no recorte
-  Given que nenhuma alteração corresponde ao recorte selecionado
-  When consulto a auditoria da rodada
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Rodada sem auditoria disponível
+    Given que a rodada é anterior à disponibilização da auditoria
+    When tento consultá-la
+    Then o sistema indica que a auditoria não está disponível para aquela rodada
+
+  Scenario: Rodada sem alterações no recorte
+    Given que nenhuma alteração corresponde ao recorte selecionado
+    When consulto a auditoria da rodada
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -172,12 +188,13 @@ Popup de Auditoria de Ajustes aberto a partir do Detalhe da Inscrição (`/valid
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado das HU-019 e HU-026 |
 
 ---
 
-*Feature Set: Ajustes da Inscrição · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

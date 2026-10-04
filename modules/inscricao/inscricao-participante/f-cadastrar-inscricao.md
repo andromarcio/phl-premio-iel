@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-01
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Inscrição
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-01`
 
 ## Descrição
 Permite ao participante iniciar uma nova inscrição em rascunho pelo link público da premiação, criando o registro de trabalho onde o preenchimento terá continuidade.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -50,37 +63,39 @@ Permite ao participante iniciar uma nova inscrição em rascunho pelo link públ
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Iniciar inscrição pelo link público válido
-  Given que acesso o link público de inscrição com um token válido
-  When informo meu nome e e-mail e prossigo
-  Then o sistema cria a inscrição em rascunho vinculada à premiação
-  And o participante segue para o preenchimento da inscrição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Iniciar inscrição pelo link público válido
+    Given que acesso o link público de inscrição com um token válido
+    When informo meu nome e e-mail e prossigo
+    Then o sistema cria a inscrição em rascunho vinculada à premiação
+    And o participante segue para o preenchimento da inscrição
 
-Scenario: Nome ou e-mail em branco no pré-cadastro
-  Given que estou no pré-cadastro da inscrição
-  When deixo o nome ou o e-mail em branco e prossigo
-  Then o sistema não cria a inscrição e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome ou e-mail em branco no pré-cadastro
+    Given que estou no pré-cadastro da inscrição
+    When deixo o nome ou o e-mail em branco e prossigo
+    Then o sistema não cria a inscrição e exibe "Campo obrigatório."
 
-Scenario: E-mail já cadastrado
-  Given que informo no pré-cadastro um e-mail já cadastrado no sistema
-  When prossigo
-  Then o sistema conduz o participante para o acesso com o e-mail informado
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: E-mail já cadastrado
+    Given que informo no pré-cadastro um e-mail já cadastrado no sistema
+    When prossigo
+    Then o sistema conduz o participante para o acesso com o e-mail informado
 
-Scenario: Token do link inválido ou expirado
-  Given que acesso um link público com token inválido ou expirado
-  When a inscrição é carregada
-  Then o sistema não concede acesso e exibe "O link de inscrição é inválido ou expirou."
-  # ← MESSAGE-DICTIONARY: INS_TOKEN_INVALIDO
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Token do link inválido ou expirado
+    Given que acesso um link público com token inválido ou expirado
+    When a inscrição é carregada
+    Then o sistema não concede acesso e exibe "O link de inscrição é inválido ou expirou."
+    # ← MESSAGE-DICTIONARY: INS_TOKEN_INVALIDO
 ```
 
 ---
@@ -153,11 +168,12 @@ Landing pública em `/inscricao/:token` com a identidade visual da premiação e
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-LIS-02
 feature_set: CFG-LIS
 dominio: CFG
 entidade: Lista do Sistema
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#lista-do-sistema
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-012_Listas_do_Sistema
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Lista
-> **Nível 3** - Feature Set: Listas do Sistema — Domínio: Configuração da Premiação - `CFG-LIS-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Listas do Sistema — Major Feature Set: Configuração da Premiação - `CFG-LIS-02`
 
 ## Descrição
 Permite ao administrador registrar uma nova lista de valores informando nome e um código único, habilitando em seguida a configuração dos seus itens.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
 
 ---
 
@@ -49,37 +62,39 @@ Permite ao administrador registrar uma nova lista de valores informando nome e u
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Lista
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar lista com nome e código
-  Given que acesso o formulário de nova lista
-  When informo o nome "UFs do Brasil" e o código "UF_BRASIL" e clico em "Salvar Lista"
-  Then o sistema registra a lista e exibe "Registro salvo com sucesso."
-  And a configuração de itens da lista fica disponível
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar lista com nome e código
+    Given que acesso o formulário de nova lista
+    When informo o nome "UFs do Brasil" e o código "UF_BRASIL" e clico em "Salvar Lista"
+    Then o sistema registra a lista e exibe "Registro salvo com sucesso."
+    And a configuração de itens da lista fica disponível
 
-Scenario: Nome ou código em branco
-  Given que estou no formulário de dados da lista
-  When deixo o campo Nome ou o campo Código em branco e clico em "Salvar Lista"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome ou código em branco
+    Given que estou no formulário de dados da lista
+    When deixo o campo Nome ou o campo Código em branco e clico em "Salvar Lista"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-# ← MESSAGE-DICTIONARY: CFG_LISTA_CODIGO_DUPLICADO
-Scenario: Código já usado por outra lista
-  Given que já existe uma lista com o código "UF_BRASIL"
-  When tento criar outra lista com o mesmo código
-  Then o sistema não registra e exibe "Já existe uma lista com este código."
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: CFG_LISTA_CODIGO_DUPLICADO
+  Scenario: Código já usado por outra lista
+    Given que já existe uma lista com o código "UF_BRASIL"
+    When tento criar outra lista com o mesmo código
+    Then o sistema não registra e exibe "Já existe uma lista com este código."
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para cadastrar listas
-  When tento acessar o cadastro de lista
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para cadastrar listas
+    When tento acessar o cadastro de lista
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -156,12 +171,13 @@ Formulário próprio em `/configuracao-premiacao/listas-sistema/novo`, aba "Dado
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

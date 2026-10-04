@@ -1,29 +1,42 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-09
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-08]
+origem:
+  tipo: issue
+  chave: PDTIC25093-49
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Relatório da Etapa
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-09`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-09`
 
 ## Descrição
 Gera a planilha com o resultado completo de uma etapa — um resumo por estado e grupo e, para cada tipo de participante, a lista das inscrições com colocação, média, selos e as notas de cada avaliador — para uso fora do sistema.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Criação | — |
+| [`PDTIC25093-64`](../../../analise-impacto/AIM-PDTIC25093-64.md) | Alteração | — |
 
 ---
 
@@ -57,44 +70,46 @@ Gera a planilha com o resultado completo de uma etapa — um resumo por estado e
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Relatório da Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar o resultado de uma etapa encerrada
-  Given que estou consultando o ranking de uma etapa apurada
-  When aciono "Relatório da etapa (XLSX)"
-  Then o sistema entrega uma planilha com a aba de resumo e uma aba por tipo de participante
-  And cada linha traz colocação, média final, selos de classificado e premiado e as notas por avaliador
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Exportar etapa com avaliação às cegas
-  Given que a premiação está configurada com avaliação às cegas
-  When exporto o relatório da etapa
-  Then os avaliadores aparecem na planilha como apelidos numerados, sem os nomes reais
+  Scenario: Exportar o resultado de uma etapa encerrada
+    Given que estou consultando o ranking de uma etapa apurada
+    When aciono "Relatório da etapa (XLSX)"
+    Then o sistema entrega uma planilha com a aba de resumo e uma aba por tipo de participante
+    And cada linha traz colocação, média final, selos de classificado e premiado e as notas por avaliador
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Exportar etapa com avaliação às cegas
+    Given que a premiação está configurada com avaliação às cegas
+    When exporto o relatório da etapa
+    Then os avaliadores aparecem na planilha como apelidos numerados, sem os nomes reais
 
-Scenario: Colocação em estado ainda aberto
-  Given que o estado da inscrição ainda não foi fechado na etapa
-  When exporto o relatório da etapa
-  Then a planilha traz a inscrição com a coluna de colocação vazia
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Inscrição desclassificada na planilha
-  Given que uma inscrição foi desclassificada na etapa
-  When exporto o relatório da etapa
-  Then a planilha traz a inscrição sem colocação
+  Scenario: Colocação em estado ainda aberto
+    Given que o estado da inscrição ainda não foi fechado na etapa
+    When exporto o relatório da etapa
+    Then a planilha traz a inscrição com a coluna de colocação vazia
 
-Scenario: Etapa sem inscrições no recorte
-  Given que o recorte de unidade federativa não devolve nenhuma inscrição
-  When exporto o relatório da etapa
-  Then a planilha é entregue com o aviso de que não há inscrições para esta etapa
+  Scenario: Inscrição desclassificada na planilha
+    Given que uma inscrição foi desclassificada na etapa
+    When exporto o relatório da etapa
+    Then a planilha traz a inscrição sem colocação
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Etapa sem inscrições no recorte
+    Given que o recorte de unidade federativa não devolve nenhuma inscrição
+    When exporto o relatório da etapa
+    Then a planilha é entregue com o aviso de que não há inscrições para esta etapa
 
-Scenario: Avaliador tenta exportar
-  Given que estou autenticado como Avaliador
-  When tento exportar o relatório da etapa
-  Then o sistema nega a operação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Avaliador tenta exportar
+    Given que estou autenticado como Avaliador
+    When tento exportar o relatório da etapa
+    Then o sistema nega a operação
 ```
 
 ---
@@ -170,6 +185,7 @@ Botão "Relatório da etapa (XLSX)" no topo do Fechamento de Etapa (`/avaliacao-
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Origem corrigida · feature alterada | **Correção** da origem e **inclusão** das regras da colocação. *Antes* a `## Superfície` dizia que o relatório é acionado na Consulta de Ranking da Etapa, e nenhuma regra falava de colocação — ela aparecia só na descrição e num cenário. *Agora* a origem é a tela de **Fechamento de Etapa**, confirmada pelo resumo de entrega da Sprint 6 (o Ranking é somente leitura, sem ações), e três regras novas fixam o comportamento da coluna: vem do ranking sem recálculo (RN7), fica vazia em estado aberto (RN8), sai como número ordenável (RN9). A RN10 registra que a planilha reflete a desclassificação. +4 regras, +2 cenários, +1 critério. Sem Δ PF |
 | 2026-10-02 | Análise de impacto `PDTIC25093-64` (docqui) | Memória de cálculo corrigida | **Inclusão** da colocação no ranking e da média final na enumeração de DER, que é o que o card pede. *Antes* a descrição e o cenário do caminho feliz já diziam que cada linha da planilha traz colocação e média, mas a memória de cálculo não as enumerava — DER 17. *Agora* DER 19, na mesma faixa de 6 a 19: complexidade Alta e **7 PF** inalterados. Registrado em `## Superfície` o ⚠️ de que o card localiza o relatório na tela de fechamento, e não na de ranking |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
@@ -179,6 +195,6 @@ Botão "Relatório da etapa (XLSX)" no topo do Fechamento de Etapa (`/avaliacao-
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-02
 feature_set: AVL-APU
 dominio: AVL
 entidade: Decisão de Desempate
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#decisao-de-desempate
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-01]
+origem:
+  tipo: issue
+  chave: PDTIC25093-49
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Registrar Desempate
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-02`
 
 ## Descrição
 Permite ao administrador resolver o empate que atravessa a linha de corte de classificação ou a de premiação, comparando questão a questão as inscrições empatadas e elegendo a vencedora com justificativa e responsável registrados.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
 
 ---
 
@@ -55,67 +68,69 @@ Permite ao administrador resolver o empate que atravessa a linha de corte de cla
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Registrar Desempate
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Critérios configurados resolvem o empate
-  Given que há inscrições empatadas na etapa
-  When o sistema aplica os critérios de desempate configurados
-  Then o sistema separa as inscrições pela ordem dos critérios sem exigir decisão manual
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Registrar o desempate do corte de classificação
-  Given que duas inscrições empatam na colocação da linha de corte de classificação e os critérios configurados não as separaram
-  When comparo as respostas e as notas questão a questão, escolho a inscrição vencedora e informo uma justificativa de 120 caracteres
-  Then o sistema grava a decisão como corte de Classificação, com a vencedora, a justificativa, o responsável e a data, e exibe "Registro salvo com sucesso."
+  Scenario: Critérios configurados resolvem o empate
+    Given que há inscrições empatadas na etapa
+    When o sistema aplica os critérios de desempate configurados
+    Then o sistema separa as inscrições pela ordem dos critérios sem exigir decisão manual
 
-Scenario: Registrar o desempate do corte de premiação
-  Given que duas inscrições empatam na colocação da linha de corte de premiação
-  When escolho a inscrição vencedora e informo a justificativa
-  Then o sistema grava a decisão como corte de Premiação e mantém a decisão de classificação daquelas inscrições inalterada
+  Scenario: Registrar o desempate do corte de classificação
+    Given que duas inscrições empatam na colocação da linha de corte de classificação e os critérios configurados não as separaram
+    When comparo as respostas e as notas questão a questão, escolho a inscrição vencedora e informo uma justificativa de 120 caracteres
+    Then o sistema grava a decisão como corte de Classificação, com a vencedora, a justificativa, o responsável e a data, e exibe "Registro salvo com sucesso."
 
-Scenario: Empate que atravessa os dois cortes
-  Given que o mesmo empate atravessa a linha de corte de classificação e a de premiação
-  When registro a decisão do corte de classificação
-  Then o sistema mantém o corte de premiação pendente de uma decisão própria
+  Scenario: Registrar o desempate do corte de premiação
+    Given que duas inscrições empatam na colocação da linha de corte de premiação
+    When escolho a inscrição vencedora e informo a justificativa
+    Then o sistema grava a decisão como corte de Premiação e mantém a decisão de classificação daquelas inscrições inalterada
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Empate que atravessa os dois cortes
+    Given que o mesmo empate atravessa a linha de corte de classificação e a de premiação
+    When registro a decisão do corte de classificação
+    Then o sistema mantém o corte de premiação pendente de uma decisão própria
 
-Scenario: Empate que não atravessa nenhum corte
-  Given que duas inscrições empatam em colocação abaixo dos cortes da etapa
-  When abro o resultado da etapa
-  Then o sistema mantém o empate sinalizado e não exige decisão de desempate
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Empate que não atravessa nenhum corte
+    Given que duas inscrições empatam em colocação abaixo dos cortes da etapa
+    When abro o resultado da etapa
+    Then o sistema mantém o empate sinalizado e não exige decisão de desempate
 
-Scenario: Decisão sem justificativa
-  Given que estou registrando a decisão manual de desempate
-  When deixo a justificativa em branco e confirmo
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: MIN_LENGTH (parâmetro: 30)
-Scenario: Justificativa abaixo do mínimo
-  Given que estou registrando a decisão manual de desempate
-  When informo uma justificativa de 20 caracteres e confirmo
-  Then o sistema não registra e exibe "Mínimo de 30 caracteres."
+  Scenario: Decisão sem justificativa
+    Given que estou registrando a decisão manual de desempate
+    When deixo a justificativa em branco e confirmo
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-# ← MESSAGE-DICTIONARY: MAX_LENGTH (parâmetro: 1.000)
-Scenario: Justificativa acima do máximo
-  Given que estou registrando a decisão manual de desempate
-  When informo uma justificativa com mais de 1.000 caracteres e confirmo
-  Then o sistema não registra e exibe "Máximo de 1.000 caracteres."
+  # ← MESSAGE-DICTIONARY: MIN_LENGTH (parâmetro: 30)
+  Scenario: Justificativa abaixo do mínimo
+    Given que estou registrando a decisão manual de desempate
+    When informo uma justificativa de 20 caracteres e confirmo
+    Then o sistema não registra e exibe "Mínimo de 30 caracteres."
 
-Scenario: Decisão sem inscrição vencedora
-  Given que estou comparando as inscrições empatadas
-  When confirmo a decisão sem escolher a inscrição vencedora
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ← MESSAGE-DICTIONARY: MAX_LENGTH (parâmetro: 1.000)
+  Scenario: Justificativa acima do máximo
+    Given que estou registrando a decisão manual de desempate
+    When informo uma justificativa com mais de 1.000 caracteres e confirmo
+    Then o sistema não registra e exibe "Máximo de 1.000 caracteres."
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Decisão sem inscrição vencedora
+    Given que estou comparando as inscrições empatadas
+    When confirmo a decisão sem escolher a inscrição vencedora
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Usuário sem permissão de desempate
-  Given que meu perfil não tem permissão para registrar desempate
-  When tento registrar a decisão
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de desempate
+    Given que meu perfil não tem permissão para registrar desempate
+    When tento registrar a decisão
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -201,6 +216,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o empate
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **6 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -210,6 +226,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o empate
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

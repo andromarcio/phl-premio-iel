@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-08
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Oferta
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#oferta-tipo--modalidade--categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Duplicar Oferta
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-08`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-08`
 
 ## Descrição
 Permite ao administrador duplicar um ramo da estrutura — categoria, modalidade ou oferta — copiando toda a subestrutura abaixo dele, para reaproveitar a montagem entre edições sem refazer nó a nó.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
 
 ---
 
@@ -49,26 +63,28 @@ Permite ao administrador duplicar um ramo da estrutura — categoria, modalidade
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Duplicar Oferta
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Duplicar uma categoria com toda a subestrutura
-  Given que uma categoria da edição tem modalidades e tipos de participante vinculados
-  When duplico o nó da categoria
-  Then o sistema cria uma nova categoria com a mesma subestrutura, independente da original
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Slug da URL não é copiado nas ofertas duplicadas
-  Given que a oferta de origem tem um slug de URL definido
-  When duplico o ramo que contém a oferta
-  Then a oferta copiada é criada sem slug, para receber um slug próprio
+  Scenario: Duplicar uma categoria com toda a subestrutura
+    Given que uma categoria da edição tem modalidades e tipos de participante vinculados
+    When duplico o nó da categoria
+    Then o sistema cria uma nova categoria com a mesma subestrutura, independente da original
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Slug da URL não é copiado nas ofertas duplicadas
+    Given que a oferta de origem tem um slug de URL definido
+    When duplico o ramo que contém a oferta
+    Then a oferta copiada é criada sem slug, para receber um slug próprio
 
-Scenario: Usuário sem permissão para duplicar
-  Given que meu perfil não tem permissão para duplicar ramos da estrutura
-  When tento duplicar um nó
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para duplicar
+    Given que meu perfil não tem permissão para duplicar ramos da estrutura
+    When tento duplicar um nó
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -162,12 +178,13 @@ Ação disparada do nó escolhido na Árvore de Configuração do Prêmio (`/con
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 e da RN5 da HU-004 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

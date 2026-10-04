@@ -1,11 +1,9 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-13
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Branding da Premiação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#branding-da-premiacao
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Carregar Imagem de Configuração
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-13`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-13`
 
 ## Descrição
 Permite ao administrador subir as imagens que compõem a identidade visual da premiação — logotipo, banner e ícone — e obter o endereço público de cada uma, para uso na página de inscrição.
@@ -55,40 +56,42 @@ Permite ao administrador subir as imagens que compõem a identidade visual da pr
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Carregar Imagem de Configuração
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Carregar o logotipo da premiação
-  Given que estou configurando a identidade visual de uma premiação
-  When carrego um arquivo PNG de 800 KB
-  Then o sistema aceita a imagem e devolve o endereço público em que ela pode ser exibida
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Remover uma imagem carregada
-  Given que uma imagem já foi carregada
-  When removo essa imagem
-  Then o endereço público dela deixa de responder
+  Scenario: Carregar o logotipo da premiação
+    Given que estou configurando a identidade visual de uma premiação
+    When carrego um arquivo PNG de 800 KB
+    Then o sistema aceita a imagem e devolve o endereço público em que ela pode ser exibida
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Remover uma imagem carregada
+    Given que uma imagem já foi carregada
+    When removo essa imagem
+    Then o endereço público dela deixa de responder
 
-Scenario: Arquivo acima do tamanho permitido
-  When carrego uma imagem de 8 MB
-  Then o sistema recusa a carga e informa que o limite é de 5 MB
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Formato não aceito
-  When carrego um arquivo em formato diferente de PNG, JPEG, WebP ou SVG
-  Then o sistema recusa a carga e informa quais formatos são aceitos
+  Scenario: Arquivo acima do tamanho permitido
+    When carrego uma imagem de 8 MB
+    Then o sistema recusa a carga e informa que o limite é de 5 MB
 
-Scenario: Arquivo vazio
-  When aciono a carga sem indicar o conteúdo do arquivo
-  Then o sistema recusa a carga e informa que o conteúdo não foi enviado
+  Scenario: Formato não aceito
+    When carrego um arquivo em formato diferente de PNG, JPEG, WebP ou SVG
+    Then o sistema recusa a carga e informa quais formatos são aceitos
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Arquivo vazio
+    When aciono a carga sem indicar o conteúdo do arquivo
+    Then o sistema recusa a carga e informa que o conteúdo não foi enviado
 
-Scenario: Participante tenta carregar imagem
-  Given que estou autenticado como Participante
-  When tento carregar uma imagem de configuração
-  Then o sistema nega a operação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Participante tenta carregar imagem
+    Given que estou autenticado como Participante
+    When tento carregar uma imagem de configuração
+    Then o sistema nega a operação
 ```
 
 ---
@@ -166,11 +169,12 @@ A imagem guardada e o seu endereço público. A referência à imagem passa a va
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (carga e publicação de imagens da identidade visual) — capacidade implementada no servidor, sem tela que a consuma |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-28*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

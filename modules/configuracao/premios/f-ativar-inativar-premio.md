@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-04
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Premiação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-001_Gerenciar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Ativar/Inativar Prêmio
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-04`
 
 ## Descrição
 Permite ao administrador alternar a situação de uma edição entre ativa e inativa, retirando-a dos fluxos públicos sem inativar suas categorias, modalidades e tipos de participante.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | — |
 
 ---
 
@@ -49,27 +62,29 @@ Permite ao administrador alternar a situação de uma edição entre ativa e ina
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Ativar/Inativar Prêmio
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Inativar uma edição
-  Given que identifico uma edição ativa
-  When aciono "Desativar" e confirmo a ação
-  Then o sistema passa a edição para a situação Inativa
-  And as categorias, modalidades e tipos de participante da edição permanecem inalterados
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reativar uma edição inativa
-  Given que identifico uma edição inativa
-  When aciono "Ativar" e confirmo a ação
-  Then o sistema passa a edição para a situação Ativa
+  Scenario: Inativar uma edição
+    Given que identifico uma edição ativa
+    When aciono "Desativar" e confirmo a ação
+    Then o sistema passa a edição para a situação Inativa
+    And as categorias, modalidades e tipos de participante da edição permanecem inalterados
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reativar uma edição inativa
+    Given que identifico uma edição inativa
+    When aciono "Ativar" e confirmo a ação
+    Then o sistema passa a edição para a situação Ativa
 
-Scenario: Cancelar a inativação
-  Given que acionei "Desativar" para uma edição
-  When cancelo a confirmação
-  Then a operação é abortada e a edição permanece com a situação original
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Cancelar a inativação
+    Given que acionei "Desativar" para uma edição
+    When cancelo a confirmação
+    Then a operação é abortada e a edição permanece com a situação original
 ```
 
 ---
@@ -135,11 +150,12 @@ Ação disparada na linha da edição, na Lista de Prêmios (`/configuracao-prem
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-001 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

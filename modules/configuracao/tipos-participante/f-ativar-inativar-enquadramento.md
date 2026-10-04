@@ -1,30 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-11
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Enquadramento
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#enquadramento
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-008_Enquadramento_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Ativar/Inativar Enquadramento
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-11`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-11`
 
 ## Descrição
 
 > ℹ️ **Rótulo na interface** (conferência com o código, 2026-08-28): o enquadramento aparece para o administrador como **“Sub Modalidade”** — a aba *Sub Modalidades* do Tipo de Participante lista exatamente esta entidade. Ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
 Permite ao administrador alternar a situação ativa/inativa de um enquadramento (exclusão lógica), controlando sua oferta como opção de classificação na inscrição sem removê-lo do tipo de participante.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,38 +64,40 @@ Permite ao administrador alternar a situação ativa/inativa de um enquadramento
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Ativar/Inativar Enquadramento
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Inativar enquadramento
-  Given que identifico um enquadramento ativo diferente do "Geral"
-  When clico em "Desativar" e confirmo
-  Then o sistema passa o enquadramento para a situação inativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reativar enquadramento
-  Given que identifico um enquadramento inativo
-  When clico em "Ativar" e confirmo
-  Then o sistema passa o enquadramento para a situação ativa
+  Scenario: Inativar enquadramento
+    Given que identifico um enquadramento ativo diferente do "Geral"
+    When clico em "Desativar" e confirmo
+    Then o sistema passa o enquadramento para a situação inativa
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reativar enquadramento
+    Given que identifico um enquadramento inativo
+    When clico em "Ativar" e confirmo
+    Then o sistema passa o enquadramento para a situação ativa
 
-Scenario: Enquadramento "Geral" protegido
-  Given que o enquadramento é o "Geral"
-  When tento inativá-lo
-  Then o sistema mantém o "Geral" ativo e não conclui a inativação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Enquadramento inativo fora da inscrição pública
-  Given que o enquadramento está inativo
-  When um participante acessa o fluxo público de inscrição
-  Then o enquadramento inativo não é apresentado como opção de classificação
+  Scenario: Enquadramento "Geral" protegido
+    Given que o enquadramento é o "Geral"
+    When tento inativá-lo
+    Then o sistema mantém o "Geral" ativo e não conclui a inativação
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Enquadramento inativo fora da inscrição pública
+    Given que o enquadramento está inativo
+    When um participante acessa o fluxo público de inscrição
+    Then o enquadramento inativo não é apresentado como opção de classificação
 
-Scenario: Usuário sem permissão para inativar enquadramento
-  Given que meu perfil não tem permissão para inativar enquadramentos
-  When tento inativar um enquadramento
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para inativar enquadramento
+    Given que meu perfil não tem permissão para inativar enquadramentos
+    When tento inativar um enquadramento
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -147,11 +162,12 @@ Ação disparada da linha do enquadramento na tela de Enquadramentos (`/configur
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-008 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,29 +1,41 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ALO-05
 feature_set: AVL-ALO
 dominio: AVL
 entidade: Alocação de Avaliadores
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#avaliacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [AVL-ALO-01]
+origem:
+  tipo: issue
+  chave: PDTIC25093-65
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Panorama do Avaliador
-> **Nível 3** - Feature Set: Alocação — Domínio: Avaliação - `AVL-ALO-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Alocação — Major Feature Set: Avaliação - `AVL-ALO-05`
 
 ## Descrição
 Mostra ao administrador quanto trabalho um avaliador já tem numa etapa — quantas avaliações estão alocadas, a iniciar, em andamento e finalizadas, separadas por grupo — para apoiar a decisão de alocar mais projetos a ele.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-65`](../../../analise-impacto/AIM-PDTIC25093-65.md) | Criação | — |
 
 ---
 
@@ -54,34 +66,36 @@ Mostra ao administrador quanto trabalho um avaliador já tem numa etapa — quan
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Panorama do Avaliador
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar a carga de um avaliador antes de alocar
-  Given que estou na alocação de uma etapa e um avaliador aparece na lista
-  When abro o panorama desse avaliador
-  Then vejo os totais de avaliações alocadas, a iniciar, em andamento e finalizadas
-  And vejo essas avaliações separadas por grupo, com o participante e a situação de cada uma
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Filtrar o panorama por situação
-  Given que o panorama do avaliador está aberto
-  When filtro pela situação "Em andamento"
-  Then a lista passa a mostrar apenas as avaliações nessa situação
+  Scenario: Consultar a carga de um avaliador antes de alocar
+    Given que estou na alocação de uma etapa e um avaliador aparece na lista
+    When abro o panorama desse avaliador
+    Then vejo os totais de avaliações alocadas, a iniciar, em andamento e finalizadas
+    And vejo essas avaliações separadas por grupo, com o participante e a situação de cada uma
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Filtrar o panorama por situação
+    Given que o panorama do avaliador está aberto
+    When filtro pela situação "Em andamento"
+    Then a lista passa a mostrar apenas as avaliações nessa situação
 
-Scenario: Panorama visto por administrador regional
-  Given que estou autenticado como Administrador Regional vinculado à Bahia
-  When abro o panorama de um avaliador que também atua em São Paulo
-  Then vejo apenas as avaliações de inscrições da Bahia
+  # ── Restrições de acesso ───────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Panorama visto por administrador regional
+    Given que estou autenticado como Administrador Regional vinculado à Bahia
+    When abro o panorama de um avaliador que também atua em São Paulo
+    Then vejo apenas as avaliações de inscrições da Bahia
 
-Scenario: Avaliador sem avaliações na etapa
-  Given que o avaliador ainda não tem avaliações alocadas na etapa
-  When abro o panorama
-  Then o sistema informa que não há avaliações nesta etapa
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Avaliador sem avaliações na etapa
+    Given que o avaliador ainda não tem avaliações alocadas na etapa
+    When abro o panorama
+    Then o sistema informa que não há avaliações nesta etapa
 ```
 
 ---
@@ -170,6 +184,7 @@ Diálogo aberto pela lupa ao lado do avaliador, nas telas de Alocação por Grup
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Colunas conciliadas · memória corrigida | **Inclusão** do que o resumo de entrega da Sprint 6 detalha e a engenharia reversa não tinha visto. *Antes* os quatro totais eram só quantidade, o seletor de etapa não dizia a situação, a lista tinha três colunas e nada registrava o filtro por clique no total. *Agora* cada total traz quantidade **e** percentual (RN6), acionar um total filtra a lista (RN7), o seletor indica Aberta ou Fechada, cada grupo mostra a sua quantidade e a lista traz Protocolo, Participante, UF, Situação e Finalização. +2 regras. DER 14 → 22, **7 PF inalterados** |
 | 2026-10-02 | Análise de impacto `PDTIC25093-65` (docqui) | Contagem realizada · origem identificada | Processo elementar contado sobre este N3 — **7 PF** (SE, ALR 8, DER 14), com a memória de cálculo. A premissa de "sem PE correspondente" era efeito, não causa: a capacidade foi pedida em `PDTIC25093-65`, de 2026-08-26, depois do baseline de 2026-02-28. ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -177,6 +192,6 @@ Diálogo aberto pela lupa ao lado do avaliador, nas telas de Alocação por Grup
 
 ---
 
-*Feature Set: Alocação · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Alocação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

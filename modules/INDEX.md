@@ -20,9 +20,9 @@
 
 ---
 
-## Rastreabilidade: história → spec → código
+## Rastreabilidade: ticket → spec → código
 
-| História (HU) | Feature | Domínio | Status | PF | CFP | Processo elementar (APF) | Repositórios |
+| Ticket (AIM) | Feature | Domínio | Status | PF | CFP | Processo elementar (APF) | Repositórios |
 |---|---|---|---|---|---|---|---|
 | — | [ACS-ACE-01: Autenticar Usuário](./acesso/acesso-perfis/f-autenticar-usuario.md) | Acesso e Gestão | ✏️ Rascunho | — | — | — *(LOGON não contado)* | — |
 | — | [ACS-ACE-02: Consultar Perfil do Usuário](./acesso/acesso-perfis/f-consultar-perfil-usuario.md) | Acesso e Gestão | ✏️ Rascunho | — | — | — *(sem PE ⚠️)* | — |
@@ -318,7 +318,7 @@
 
 | Item | Nível | Origem | Rota |
 |---|---|---|---|
-| [Cancelar pedido] | N3 | [`STRYxxxxxxx`](../demandas/[chave].md) · N2 [Feature Set] | 3A |
+| [Cancelar pedido] | N3 | [`STRYxxxxxxx`](../analise-impacto/AIM-[CHAVE].md) · N2 [Feature Set] | 3A |
 
 ### Conteúdo (⚠️ em aberto)
 

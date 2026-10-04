@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-05
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#avaliação-de-inscrição
 endpoints: []
 error_codes: []
 depende_de: ["AVL-AVA-04"]
+origem:
+  tipo: issue
+  chave: HU-028_Avaliar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Reabrir Avaliação
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-05`
 
 ## Descrição
 Permite ao Administrador Nacional reabrir uma avaliação já finalizada, revertendo-a para Em andamento e preservando as notas registradas, para devolver o trabalho ao avaliador.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
 
 ---
 
@@ -50,29 +64,31 @@ Permite ao Administrador Nacional reabrir uma avaliação já finalizada, revert
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Reabrir Avaliação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Reabrir avaliação finalizada
-  Given que uma avaliação está finalizada e a etapa da inscrição está aberta
-  When confirmo a reabertura da avaliação
-  Then o sistema reverte a avaliação para Em andamento e preserva as notas registradas
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reabrir avaliação finalizada
+    Given que uma avaliação está finalizada e a etapa da inscrição está aberta
+    When confirmo a reabertura da avaliação
+    Then o sistema reverte a avaliação para Em andamento e preserva as notas registradas
 
-Scenario: Retomar a pontuação após a reabertura
-  Given que reabri uma avaliação finalizada
-  When o avaliador acessa a inscrição
-  Then o sistema permite novamente a pontuação da inscrição pelo avaliador
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Retomar a pontuação após a reabertura
+    Given que reabri uma avaliação finalizada
+    When o avaliador acessa a inscrição
+    Then o sistema permite novamente a pontuação da inscrição pelo avaliador
 
-Scenario: Etapa não está aberta
-  Given que a etapa da inscrição não está aberta
-  When tento reabrir a avaliação
-  Then o sistema não reabre e exibe "A etapa precisa estar aberta para reabrir a avaliação."
-  # ← MESSAGE-DICTIONARY: AVL_REABERTURA_ETAPA_FECHADA
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Etapa não está aberta
+    Given que a etapa da inscrição não está aberta
+    When tento reabrir a avaliação
+    Then o sistema não reabre e exibe "A etapa precisa estar aberta para reabrir a avaliação."
+    # ← MESSAGE-DICTIONARY: AVL_REABERTURA_ETAPA_FECHADA
 ```
 
 ---
@@ -148,12 +164,13 @@ Na tela Alocação por Inscrição (`/avaliacao-admin/alocacao-participante`), o
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-025 |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

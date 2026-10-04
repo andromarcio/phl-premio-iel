@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-05
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Premiação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#premiacao
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Prêmios
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-05`
 
 ## Descrição
 Permite ao administrador gerar uma planilha com toda a hierarquia de uma edição para reaproveitar a estrutura na criação de novas premiações.
@@ -48,22 +50,24 @@ Permite ao administrador gerar uma planilha com toda a hierarquia de uma ediçã
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Prêmios
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar a hierarquia de uma edição
-  Given que identifico uma edição na lista de Prêmios
-  When aciono a exportação da edição
-  Then o sistema gera a planilha com abas para premiação, categorias, modalidades, tipos de participante, enquadramentos, formulários, campos, questionários, questões, alternativas e anexos
-  And o download da planilha inicia automaticamente, sem abrir nova aba
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Exportar a hierarquia de uma edição
+    Given que identifico uma edição na lista de Prêmios
+    When aciono a exportação da edição
+    Then o sistema gera a planilha com abas para premiação, categorias, modalidades, tipos de participante, enquadramentos, formulários, campos, questionários, questões, alternativas e anexos
+    And o download da planilha inicia automaticamente, sem abrir nova aba
 
-Scenario: Falha ao gerar a planilha
-  Given que aciono a exportação de uma edição
-  When ocorre uma falha durante a geração da planilha
-  Then o sistema informa que não foi possível gerar o arquivo e nenhuma edição é alterada
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Falha ao gerar a planilha
+    Given que aciono a exportação de uma edição
+    When ocorre uma falha durante a geração da planilha
+    Then o sistema informa que não foi possível gerar o arquivo e nenhuma edição é alterada
 ```
 
 ---
@@ -128,11 +132,12 @@ Ação disparada na linha da edição, na Lista de Prêmios (`/configuracao-prem
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado das HUs 001 e 003 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

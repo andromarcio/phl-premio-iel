@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-AJU-04
 feature_set: VAL-AJU
 dominio: VAL
 entidade: Item de Ajuste
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#item-de-ajuste
 endpoints: []
 error_codes: []
 depende_de: [VAL-AJU-01]
+origem:
+  tipo: issue
+  chave: HU-018_Analisar_Validar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Conferir Item de Ajuste
-> **Nível 3** - Feature Set: Ajustes — Domínio: Validação - `VAL-AJU-04`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Ajustes — Major Feature Set: Validação - `VAL-AJU-04`
 
 ## Descrição
 Permite ao validador marcar, item a item, quais dos ajustes solicitados ao participante já foram atendidos, deixando visível quanto ainda falta antes de decidir sobre a inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -53,39 +65,41 @@ Permite ao validador marcar, item a item, quais dos ajustes solicitados ao parti
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Conferir Item de Ajuste
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Marcar um item de ajuste como atendido
-  Given que a inscrição está na situação Ajustes Concluídos com três itens de ajuste
-  When marco um item como atendido
-  Then o item passa a constar como conferido, com a data da conferência
-  And o resumo passa a indicar um item conferido de três
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Desmarcar um item conferido por engano
-  Given que um item de ajuste está marcado como atendido
-  When desmarco esse item e confirmo
-  Then o item volta a constar como pendente e a data da conferência é descartada
+  Scenario: Marcar um item de ajuste como atendido
+    Given que a inscrição está na situação Ajustes Concluídos com três itens de ajuste
+    When marco um item como atendido
+    Then o item passa a constar como conferido, com a data da conferência
+    And o resumo passa a indicar um item conferido de três
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Desmarcar um item conferido por engano
+    Given que um item de ajuste está marcado como atendido
+    When desmarco esse item e confirmo
+    Then o item volta a constar como pendente e a data da conferência é descartada
 
-Scenario: Conferir itens de inscrição já decidida
-  Given que a inscrição está na situação Validada
-  When tento marcar um item de ajuste
-  Then o sistema informa que a conferência só vale nas situações Em Validação e Ajustes Concluídos
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Aprovar com itens ainda pendentes
-  Given que restam itens de ajuste não conferidos
-  When aprovo a inscrição
-  Then o sistema pede confirmação antes de concluir a aprovação
+  Scenario: Conferir itens de inscrição já decidida
+    Given que a inscrição está na situação Validada
+    When tento marcar um item de ajuste
+    Then o sistema informa que a conferência só vale nas situações Em Validação e Ajustes Concluídos
 
-# ── Conflitos com dados existentes ────────────────────────────
+  Scenario: Aprovar com itens ainda pendentes
+    Given que restam itens de ajuste não conferidos
+    When aprovo a inscrição
+    Then o sistema pede confirmação antes de concluir a aprovação
 
-Scenario: Conferir item de outra inscrição
-  Given que o item de ajuste pertence a outra inscrição
-  When tento marcá-lo a partir desta inscrição
-  Then o sistema recusa a conferência
+  # ── Conflitos com dados existentes ────────────────────────────
+
+  Scenario: Conferir item de outra inscrição
+    Given que o item de ajuste pertence a outra inscrição
+    When tento marcá-lo a partir desta inscrição
+    Then o sistema recusa a conferência
 ```
 
 ---
@@ -152,11 +166,12 @@ Barra de conferência exibida no Detalhe da Inscrição (`/validacao-inscricao/i
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (conferência item a item dos ajustes solicitados) — comportamento até então descrito apenas de passagem em VAL-ANA-03 |
 
 ---
 
-*Feature Set: Ajustes · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Ajustes · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

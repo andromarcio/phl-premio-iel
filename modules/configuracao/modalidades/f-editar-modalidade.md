@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-MOD-03
 feature_set: CFG-MOD
 dominio: CFG
 entidade: Modalidade
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#modalidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-005_Cadastrar_Modalidades
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Modalidade
-> **Nível 3** - Feature Set: Modalidades — Domínio: Configuração da Premiação - `CFG-MOD-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Modalidades — Major Feature Set: Configuração da Premiação - `CFG-MOD-03`
 
 ## Descrição
 Permite ao administrador alterar o nome, a descrição, o link de regulamento e o período de inscrição de uma modalidade já cadastrada, sem mudá-la de categoria.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
 
 ---
 
@@ -50,35 +63,37 @@ Permite ao administrador alterar o nome, a descrição, o link de regulamento e 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Modalidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar dados e período da modalidade
-  Given que selecionei uma modalidade existente
-  When altero o nome, o link de regulamento e o período de inscrição e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Editar dados e período da modalidade
+    Given que selecionei uma modalidade existente
+    When altero o nome, o link de regulamento e o período de inscrição e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-Scenario: Nome apagado na edição
-  Given que estou editando uma modalidade
-  When apago o campo Nome e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome apagado na edição
+    Given que estou editando uma modalidade
+    When apago o campo Nome e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-# ← MESSAGE-DICTIONARY: CFG_MODALIDADE_PERIODO_INVALIDO
-Scenario: Período de inscrição com fim anterior ao início
-  Given que edito o período e informo o fim das inscrições anterior ao início
-  When clico em "Salvar"
-  Then o sistema não grava e exibe "A data de fim das inscrições deve ser posterior à data de início."
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ← MESSAGE-DICTIONARY: CFG_MODALIDADE_NOME_DUPLICADO
-Scenario: Renomear para um nome já usado na mesma categoria
-  Given que já existe outra modalidade "Individual" na mesma categoria
-  When renomeio a modalidade atual para "Individual"
-  Then o sistema não grava e exibe "Já existe uma modalidade com este nome nesta categoria."
+  # ← MESSAGE-DICTIONARY: CFG_MODALIDADE_PERIODO_INVALIDO
+  Scenario: Período de inscrição com fim anterior ao início
+    Given que edito o período e informo o fim das inscrições anterior ao início
+    When clico em "Salvar"
+    Then o sistema não grava e exibe "A data de fim das inscrições deve ser posterior à data de início."
+
+  # ← MESSAGE-DICTIONARY: CFG_MODALIDADE_NOME_DUPLICADO
+  Scenario: Renomear para um nome já usado na mesma categoria
+    Given que já existe outra modalidade "Individual" na mesma categoria
+    When renomeio a modalidade atual para "Individual"
+    Then o sistema não grava e exibe "Já existe uma modalidade com este nome nesta categoria."
 ```
 
 ---
@@ -166,12 +181,13 @@ Formulário da modalidade em `/modalidades/:id/visualizar`, aba "Dados Gerais"; 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

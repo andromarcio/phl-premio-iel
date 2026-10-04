@@ -1,28 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-01
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#avaliação-de-inscrição
 endpoints: []
 error_codes: []
 depende_de: ["AVL-ALO-04"]
+origem:
+  tipo: issue
+  chave: HU-028_Avaliar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Acompanhar Minhas Avaliações
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-01`
 
 ## Descrição
 Permite ao avaliador acompanhar, em uma tela própria, todas as inscrições que lhe foram alocadas, com indicadores de andamento, prazos e seleção por premiação, etapa e status.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
+| [`HU-033_Painel_Avaliacao_Avaliador`](../../../hus/HU-033_Painel_Avaliacao_Avaliador.docx) | Criação | — |
+| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — |
 
 ---
 
@@ -54,36 +69,38 @@ Permite ao avaliador acompanhar, em uma tela própria, todas as inscrições que
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Acompanhar Minhas Avaliações
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Acompanhar as inscrições alocadas
-  Given que tenho inscrições alocadas em uma premiação
-  When acesso o painel do avaliador
-  Then o sistema apresenta os cartões das inscrições alocadas com o status de cada avaliação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Acompanhar as inscrições alocadas
+    Given que tenho inscrições alocadas em uma premiação
+    When acesso o painel do avaliador
+    Then o sistema apresenta os cartões das inscrições alocadas com o status de cada avaliação
 
-Scenario: Restringir por premiação e status
-  Given que possuo avaliações em mais de uma premiação
-  When seleciono uma premiação e o status "Em andamento"
-  Then o sistema apresenta apenas as avaliações correspondentes à seleção
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Inscrição confidencial no cartão
-  Given que uma inscrição alocada é confidencial
-  When acompanho minhas avaliações
-  Then o cartão oculta o nome do participante e identifica a inscrição pelo protocolo
+  Scenario: Restringir por premiação e status
+    Given que possuo avaliações em mais de uma premiação
+    When seleciono uma premiação e o status "Em andamento"
+    Then o sistema apresenta apenas as avaliações correspondentes à seleção
 
-Scenario: Fila de avaliações pendentes conforme o recorte vigente
-  Given que restrinjo o acompanhamento a uma premiação e a uma etapa
-  When acompanho minhas avaliações
-  Then o sistema mantém como pendentes apenas as avaliações não finalizadas desse recorte, em sequência crescente de protocolo — a mesma fila que indica qual é a próxima avaliação pendente
+  Scenario: Inscrição confidencial no cartão
+    Given que uma inscrição alocada é confidencial
+    When acompanho minhas avaliações
+    Then o cartão oculta o nome do participante e identifica a inscrição pelo protocolo
 
-Scenario: Seleção sem correspondência
-  Given que nenhuma avaliação corresponde à premiação, etapa e status selecionados
-  When aplico a seleção
-  Then o sistema informa que nenhuma avaliação corresponde à seleção
+  Scenario: Fila de avaliações pendentes conforme o recorte vigente
+    Given que restrinjo o acompanhamento a uma premiação e a uma etapa
+    When acompanho minhas avaliações
+    Then o sistema mantém como pendentes apenas as avaliações não finalizadas desse recorte, em sequência crescente de protocolo — a mesma fila que indica qual é a próxima avaliação pendente
+
+  Scenario: Seleção sem correspondência
+    Given que nenhuma avaliação corresponde à premiação, etapa e status selecionados
+    When aplico a seleção
+    Then o sistema informa que nenhuma avaliação corresponde à seleção
 ```
 
 ---
@@ -177,6 +194,7 @@ Página própria em `/avaliacao/premiacao/:premiacaoId` (Painel do Avaliador): c
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Fila confirmada | O produto confirmou que a fila do salto "Próxima pendente" é **a do painel** — mesmo recorte e mesma ordem de protocolo que o acompanhamento apresenta. A regra deixa de ser suposição |
@@ -186,6 +204,6 @@ Página própria em `/avaliacao/premiacao/:premiacaoId` (Painel do Avaliador): c
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

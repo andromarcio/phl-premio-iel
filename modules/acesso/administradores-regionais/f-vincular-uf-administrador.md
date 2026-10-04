@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ADM-04
 feature_set: ACS-ADM
 dominio: ACS
 entidade: Usuário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-020_Cadastrar_Admin_Regionais
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Vincular UF ao Administrador
-> **Nível 3** - Feature Set: Administradores Regionais — Domínio: Acesso e Gestão - `ACS-ADM-04`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Administradores Regionais — Major Feature Set: Acesso e Gestão - `ACS-ADM-04`
 
 ## Descrição
 Permite ao administrador nacional vincular uma ou mais UFs a um administrador regional, definindo o conjunto de inscrições que ele pode enxergar e validar.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — |
 
 ---
 
@@ -50,41 +63,43 @@ Permite ao administrador nacional vincular uma ou mais UFs a um administrador re
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Vincular UF ao Administrador
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Vincular UFs a um administrador
-  Given que selecionei um administrador regional
-  When marco as UFs "SP" e "RJ" e clico em "Salvar"
-  Then o sistema grava o vínculo e exibe "Registro salvo com sucesso."
-  And as inscrições de "SP" e "RJ" passam a ficar visíveis para o administrador
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Vincular UFs a um administrador
+    Given que selecionei um administrador regional
+    When marco as UFs "SP" e "RJ" e clico em "Salvar"
+    Then o sistema grava o vínculo e exibe "Registro salvo com sucesso."
+    And as inscrições de "SP" e "RJ" passam a ficar visíveis para o administrador
 
-Scenario: Salvar sem nenhuma UF
-  Given que estou na configuração de UFs de um administrador
-  When não marco nenhuma UF e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Salvar sem nenhuma UF
+    Given que estou na configuração de UFs de um administrador
+    When não marco nenhuma UF e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-Scenario: Administrador com uma única UF
-  Given que um administrador possui apenas a UF "SP" vinculada
-  When ele acessa a validação de inscrições
-  Then o escopo é limitado automaticamente às inscrições de "SP"
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Alteração de UFs em vigor imediato
-  Given que um administrador estava vinculado apenas à UF "SP"
-  When vinculo também a UF "RJ" e salvo
-  Then o sistema passa a exibir as inscrições de "SP" e "RJ" para o administrador sem novo cadastro
+  Scenario: Administrador com uma única UF
+    Given que um administrador possui apenas a UF "SP" vinculada
+    When ele acessa a validação de inscrições
+    Then o escopo é limitado automaticamente às inscrições de "SP"
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Alteração de UFs em vigor imediato
+    Given que um administrador estava vinculado apenas à UF "SP"
+    When vinculo também a UF "RJ" e salvo
+    Then o sistema passa a exibir as inscrições de "SP" e "RJ" para o administrador sem novo cadastro
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para vincular UFs
-  When tento acessar a configuração de UFs de um administrador
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para vincular UFs
+    When tento acessar a configuração de UFs de um administrador
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -151,11 +166,12 @@ Página própria em `/administracao-usuario/:login` *(campo “UFs de Atuação�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-020 |
 
 ---
 
-*Feature Set: Administradores Regionais · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-LIS-05
 feature_set: CFG-LIS
 dominio: CFG
 entidade: Item da Lista do Sistema
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#item-da-lista-do-sistema
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-012_Listas_do_Sistema
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Itens da Lista
-> **Nível 3** - Feature Set: Listas do Sistema — Domínio: Configuração da Premiação - `CFG-LIS-05`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Listas do Sistema — Major Feature Set: Configuração da Premiação - `CFG-LIS-05`
 
 ## Descrição
 Permite ao administrador manter os itens de uma lista — incluir, reordenar e remover pares de valor e texto — que compõem as opções oferecidas nos campos de seleção dos formulários.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
 
 ---
 
@@ -52,44 +65,46 @@ Permite ao administrador manter os itens de uma lista — incluir, reordenar e r
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Itens da Lista
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Incluir um item na lista
-  Given que estou na configuração de itens de uma lista já salva
-  When informo o valor "SP" e o texto "São Paulo" e clico em "Adicionar"
-  Then o sistema inclui o item ao final e recalcula a ordem dos itens
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Salvar os itens configurados
-  Given que incluí e organizei os itens da lista
-  When clico em "Salvar Itens"
-  Then o sistema grava os itens e exibe "Registro salvo com sucesso."
+  Scenario: Incluir um item na lista
+    Given que estou na configuração de itens de uma lista já salva
+    When informo o valor "SP" e o texto "São Paulo" e clico em "Adicionar"
+    Then o sistema inclui o item ao final e recalcula a ordem dos itens
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Salvar os itens configurados
+    Given que incluí e organizei os itens da lista
+    When clico em "Salvar Itens"
+    Then o sistema grava os itens e exibe "Registro salvo com sucesso."
 
-Scenario: Reordenar um item para cima
-  Given que a lista tem um item que não é o primeiro
-  When aciono "Mover para cima" nesse item
-  Then o sistema troca o item de posição com o anterior e recalcula a ordem
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Remover um item
-  Given que a lista tem itens configurados
-  When aciono "Remover" em um item
-  Then o sistema retira o item e recalcula a ordem dos itens restantes
+  Scenario: Reordenar um item para cima
+    Given que a lista tem um item que não é o primeiro
+    When aciono "Mover para cima" nesse item
+    Then o sistema troca o item de posição com o anterior e recalcula a ordem
 
-Scenario: Tentar incluir item sem valor ou sem texto
-  Given que estou na configuração de itens
-  When aciono "Adicionar" sem preencher o valor ou o texto
-  Then o sistema não inclui o item
+  Scenario: Remover um item
+    Given que a lista tem itens configurados
+    When aciono "Remover" em um item
+    Then o sistema retira o item e recalcula a ordem dos itens restantes
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Tentar incluir item sem valor ou sem texto
+    Given que estou na configuração de itens
+    When aciono "Adicionar" sem preencher o valor ou o texto
+    Then o sistema não inclui o item
 
-# ← MESSAGE-DICTIONARY: CFG_LISTA_SALVAR_ANTES_ITENS
-Scenario: Salvar itens antes de salvar a lista
-  Given que a lista ainda não foi salva
-  When tento salvar os itens
-  Then o sistema não grava e exibe "Salve a lista antes de salvar os itens."
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  # ← MESSAGE-DICTIONARY: CFG_LISTA_SALVAR_ANTES_ITENS
+  Scenario: Salvar itens antes de salvar a lista
+    Given que a lista ainda não foi salva
+    When tento salvar os itens
+    Then o sistema não grava e exibe "Salve a lista antes de salvar os itens."
 ```
 
 ---
@@ -166,12 +181,13 @@ Aba "Itens" do formulário da lista em `/configuracao-premiacao/listas-sistema/:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

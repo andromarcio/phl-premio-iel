@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-08
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Campo do Formulário
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#campo-do-formulário
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-007_Configurar_Formulario_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Campo
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-08`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-08`
 
 ## Descrição
 Permite ao administrador alterar o rótulo, a obrigatoriedade e as demais propriedades de um campo já existente no formulário de inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-007_Configurar_Formulario_Tipo_Participante`](../../../hus/HU-007_Configurar_Formulario_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -49,31 +62,33 @@ Permite ao administrador alterar o rótulo, a obrigatoriedade e as demais propri
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Campo
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Alterar o rótulo de um campo
-  Given que selecionei um campo existente no formulário
-  When altero o rótulo e salvo o formulário
-  Then o sistema grava o novo rótulo do campo
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Tornar um campo obrigatório
-  Given que selecionei um campo opcional no formulário
-  When marco o campo como obrigatório e salvo
-  Then o sistema grava o campo como obrigatório
+  Scenario: Alterar o rótulo de um campo
+    Given que selecionei um campo existente no formulário
+    When altero o rótulo e salvo o formulário
+    Then o sistema grava o novo rótulo do campo
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Tornar um campo obrigatório
+    Given que selecionei um campo opcional no formulário
+    When marco o campo como obrigatório e salvo
+    Then o sistema grava o campo como obrigatório
 
-Scenario: Rótulo apagado na edição
-  Given que estou editando um campo diferente de cabeçalho de seção
-  When apago o rótulo e tento salvar o formulário
-  Then o sistema não conclui a gravação e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Remover todas as opções de um campo de seleção
-  Given que edito um campo de seleção
-  When removo todas as opções e não indico uma lista do sistema e tento salvar
-  Then o sistema não conclui a gravação enquanto o campo de seleção não tiver ao menos uma opção
+  Scenario: Rótulo apagado na edição
+    Given que estou editando um campo diferente de cabeçalho de seção
+    When apago o rótulo e tento salvar o formulário
+    Then o sistema não conclui a gravação e exibe "Campo obrigatório."
+
+  Scenario: Remover todas as opções de um campo de seleção
+    Given que edito um campo de seleção
+    When removo todas as opções e não indico uma lista do sistema e tento salvar
+    Then o sistema não conclui a gravação enquanto o campo de seleção não tiver ao menos uma opção
 ```
 
 ---
@@ -152,11 +167,12 @@ Ação no Construtor de Formulário (`/configuracao-premiacao/premiacoes/:premia
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-007 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

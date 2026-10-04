@@ -1,31 +1,44 @@
-<!-- docqui: 2.16.0 | prompt: PROMPT_3A | atualizado: 2026-09-01 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-FIL-03
 feature_set: VAL-FIL
 dominio: VAL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-FIL-02]
+origem:
+  tipo: issue
+  chave: HU-023_Dashboard_Gerencial_Validacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Histórico do Painel de Validação
-> **Nível 3** - Feature Set: Fila e Painel de Validação — Domínio: Validação - `VAL-FIL-03`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Fila e Painel de Validação — Major Feature Set: Validação - `VAL-FIL-03`
 
 ## Descrição
 Permite ao administrador levar para fora do sistema o histórico das inscrições que sustentam as métricas do painel de validação, em uma planilha com uma linha por inscrição acrescida do nome e do telefone de contato do participante.
 
 A exportação parte do próprio painel gerencial, pela ação "Exportar Excel": o recorte já aplicado nos filtros do painel é o mesmo da planilha, e o arquivo é disponibilizado para download.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-023_Dashboard_Gerencial_Validacao`](../../../hus/HU-023_Dashboard_Gerencial_Validacao.docx) | Criação | — |
+| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Criação | — |
 
 ---
 
@@ -53,48 +66,50 @@ A exportação parte do próprio painel gerencial, pela ação "Exportar Excel":
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Histórico do Painel de Validação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar o histórico das inscrições do painel
-  Given que acompanho as métricas de uma premiação
-  When aciono "Exportar Excel"
-  Then o sistema gera a planilha com uma linha por inscrição do mesmo recorte e a disponibiliza para download
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Nome do participante e telefone no histórico exportado
-  Given que exportei o histórico de uma premiação
-  When abro o arquivo gerado
-  Then cada linha traz o nome do participante e o telefone resolvidos a partir dos rótulos dos campos preenchidos pela inscrição
+  Scenario: Exportar o histórico das inscrições do painel
+    Given que acompanho as métricas de uma premiação
+    When aciono "Exportar Excel"
+    Then o sistema gera a planilha com uma linha por inscrição do mesmo recorte e a disponibiliza para download
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Nome do participante e telefone no histórico exportado
+    Given que exportei o histórico de uma premiação
+    When abro o arquivo gerado
+    Then cada linha traz o nome do participante e o telefone resolvidos a partir dos rótulos dos campos preenchidos pela inscrição
 
-Scenario: Rótulo de contato renomeado na configuração do tipo de participante
-  Given que o rótulo do campo que informa o telefone foi renomeado e nenhum rótulo corresponde mais
-  When exporto o histórico
-  Then o sistema gera a planilha com o telefone vazio nas inscrições afetadas
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Exportação sem premiação selecionada
-  Given que nenhuma premiação está selecionada no painel
-  When observo a exportação
-  Then o sistema mantém a exportação indisponível até que uma premiação seja selecionada
+  Scenario: Rótulo de contato renomeado na configuração do tipo de participante
+    Given que o rótulo do campo que informa o telefone foi renomeado e nenhum rótulo corresponde mais
+    When exporto o histórico
+    Then o sistema gera a planilha com o telefone vazio nas inscrições afetadas
 
-Scenario: Recorte sem inscrições
-  Given que os filtros do painel não devolvem nenhuma inscrição
-  When exporto o histórico
-  Then a planilha é entregue sem linhas de inscrição
+  Scenario: Exportação sem premiação selecionada
+    Given que nenhuma premiação está selecionada no painel
+    When observo a exportação
+    Then o sistema mantém a exportação indisponível até que uma premiação seja selecionada
 
-Scenario: Exportação sem recorte regional
-  Given que acompanho as métricas de uma premiação
-  When exporto o histórico
-  Then a planilha traz as inscrições de todas as unidades federativas da premiação
+  Scenario: Recorte sem inscrições
+    Given que os filtros do painel não devolvem nenhuma inscrição
+    When exporto o histórico
+    Then a planilha é entregue sem linhas de inscrição
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Exportação sem recorte regional
+    Given que acompanho as métricas de uma premiação
+    When exporto o histórico
+    Then a planilha traz as inscrições de todas as unidades federativas da premiação
 
-Scenario: Perfil sem acesso à exportação do histórico
-  Given que meu perfil não tem permissão para exportar o histórico
-  When acompanho as métricas da premiação
-  Then o sistema não oferece a ação "Exportar Excel"
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Perfil sem acesso à exportação do histórico
+    Given que meu perfil não tem permissão para exportar o histórico
+    When acompanho as métricas da premiação
+    Then o sistema não oferece a ação "Exportar Excel"
 ```
 
 ---
@@ -182,12 +197,13 @@ Ação "Exportar Excel" no Dashboard Gerencial de Validação (`/validacao-inscr
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada em `prototypes/validacao/fila-validacao/flow.html`, no fluxo que já cobre a tela onde ela acontece — fidelidade **referência** |
 | 2026-09-01 | Especificação (docqui) | Feature criada | N3 negocial da exportação do histórico do painel de validação, separada de `VAL-FIL-02` **Acompanhar Painel de Validação** pela decisão de produto de 2026-09-01: os dados diferem, e não só de formato — a tela mostra agregados e a planilha traz uma linha por inscrição, com nome e telefone, que a tela não tem. As regras, os cenários e os campos automáticos da exportação vieram daquela feature, que passa a referenciar esta |
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Domínio: Validação · Última revisão: 2026-09-01*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-09-01*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

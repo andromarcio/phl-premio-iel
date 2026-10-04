@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-14
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Questão de Avaliação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#questão-de-avaliação
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-010_Questoes_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Questão
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-14`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-14`
 
 ## Descrição
 Permite ao administrador editar uma questão já cadastrada no questionário de avaliação — alterando enunciado, peso, alternativas, limite de caracteres e posição — para manter o questionário do tipo de participante atualizado.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-010_Questoes_Tipo_Participante`](../../../hus/HU-010_Questoes_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -49,35 +62,37 @@ Permite ao administrador editar uma questão já cadastrada no questionário de 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Questão
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar enunciado e peso
-  Given que selecionei uma questão existente
-  When altero o enunciado e o peso e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Editar enunciado e peso
+    Given que selecionei uma questão existente
+    When altero o enunciado e o peso e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-Scenario: Enunciado apagado na edição
-  Given que estou editando uma questão
-  When apago o enunciado e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Enunciado apagado na edição
+    Given que estou editando uma questão
+    When apago o enunciado e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-Scenario: Mudar de objetiva para discursiva
-  Given que edito uma questão objetiva com alternativas
-  When altero o tipo para "Discursiva" e salvo
-  Then o sistema descarta as alternativas da questão
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Mudar de objetiva para discursiva
+    Given que edito uma questão objetiva com alternativas
+    When altero o tipo para "Discursiva" e salvo
+    Then o sistema descarta as alternativas da questão
 
-Scenario: Usuário sem permissão para editar questão
-  Given que meu perfil não tem permissão para editar questões
-  When tento editar uma questão
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para editar questão
+    Given que meu perfil não tem permissão para editar questões
+    When tento editar uma questão
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -166,12 +181,13 @@ Diálogo de questão aberto pelo Construtor de Questionário (`/configuracao-pre
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-010 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

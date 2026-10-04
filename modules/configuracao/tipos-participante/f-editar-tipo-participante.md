@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-03
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Tipo de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-03`
 
 ## Descrição
 Permite ao administrador alterar os dados gerais e as opções de inscrição em equipe de um tipo de participante já cadastrado, mantendo a estrutura da premiação atualizada.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -50,31 +63,33 @@ Permite ao administrador alterar os dados gerais e as opções de inscrição em
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Tipo de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar nome e descrição
-  Given que selecionei um tipo de participante existente
-  When altero o nome e a descrição e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Ativar inscrição em equipe em um tipo existente
-  Given que edito um tipo de participante sem inscrição em equipe
-  When ativo a inscrição em equipe e informo tamanho mínimo 2 e tamanho máximo 4
-  Then o sistema grava o tipo com a inscrição em equipe habilitada
+  Scenario: Editar nome e descrição
+    Given que selecionei um tipo de participante existente
+    When altero o nome e a descrição e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Ativar inscrição em equipe em um tipo existente
+    Given que edito um tipo de participante sem inscrição em equipe
+    When ativo a inscrição em equipe e informo tamanho mínimo 2 e tamanho máximo 4
+    Then o sistema grava o tipo com a inscrição em equipe habilitada
 
-Scenario: Nome apagado na edição
-  Given que estou editando um tipo de participante
-  When apago o campo Nome e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Tamanho máximo da equipe menor que o mínimo
-  Given que edito um tipo com inscrição em equipe e informo tamanho mínimo 6 e tamanho máximo 3
-  When clico em "Salvar"
-  Then o sistema não grava as alterações, pois o tamanho máximo da equipe deve ser maior ou igual ao mínimo
+  Scenario: Nome apagado na edição
+    Given que estou editando um tipo de participante
+    When apago o campo Nome e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
+
+  Scenario: Tamanho máximo da equipe menor que o mínimo
+    Given que edito um tipo com inscrição em equipe e informo tamanho mínimo 6 e tamanho máximo 3
+    When clico em "Salvar"
+    Then o sistema não grava as alterações, pois o tamanho máximo da equipe deve ser maior ou igual ao mínimo
 ```
 
 ---
@@ -163,12 +178,13 @@ Formulário do tipo em `/tipos-participante/:id/visualizar`, aba "Geral" (nome, 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

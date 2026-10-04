@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-07
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Campo do Formulário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#campo-do-formulário
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-007_Configurar_Formulario_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Campo
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-07`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-07`
 
 ## Descrição
 Permite ao administrador adicionar um campo tipado ao formulário de inscrição, definindo seu rótulo, tipo e regras de preenchimento.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-007_Configurar_Formulario_Tipo_Participante`](../../../hus/HU-007_Configurar_Formulario_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -50,36 +63,38 @@ Permite ao administrador adicionar um campo tipado ao formulário de inscrição
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Campo
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Adicionar um campo de texto curto
-  Given que estou no construtor de formulário com o catálogo de tipos de campo disponível
-  When arrasto um campo de texto curto para o formulário e informo o rótulo "Nome completo"
-  Then o sistema adiciona o campo ao formulário com a ordem definida pela posição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Configurar um campo de texto curto com máscara de CPF
-  Given que adicionei um campo de texto curto e informei o rótulo
-  When defino a máscara "CPF" para o campo
-  Then o sistema registra o campo com a máscara de CPF aplicada ao preenchimento
+  Scenario: Adicionar um campo de texto curto
+    Given que estou no construtor de formulário com o catálogo de tipos de campo disponível
+    When arrasto um campo de texto curto para o formulário e informo o rótulo "Nome completo"
+    Then o sistema adiciona o campo ao formulário com a ordem definida pela posição
 
-Scenario: Configurar um campo de seleção com lista do sistema
-  Given que adicionei um campo de seleção ao formulário
-  When indico que as opções vêm da lista do sistema "UF do Brasil"
-  Then o sistema registra o campo de seleção com as opções da lista escolhida
+  Scenario: Configurar um campo de texto curto com máscara de CPF
+    Given que adicionei um campo de texto curto e informei o rótulo
+    When defino a máscara "CPF" para o campo
+    Then o sistema registra o campo com a máscara de CPF aplicada ao preenchimento
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Configurar um campo de seleção com lista do sistema
+    Given que adicionei um campo de seleção ao formulário
+    When indico que as opções vêm da lista do sistema "UF do Brasil"
+    Then o sistema registra o campo de seleção com as opções da lista escolhida
 
-Scenario: Campo sem rótulo
-  Given que adicionei um campo diferente de cabeçalho de seção
-  When deixo o rótulo em branco e tento salvar o formulário
-  Then o sistema não conclui a gravação e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Campo de seleção sem opções
-  Given que adicionei um campo de seleção sem opções e sem lista do sistema
-  When tento salvar o formulário
-  Then o sistema não conclui a gravação enquanto o campo de seleção não tiver ao menos uma opção
+  Scenario: Campo sem rótulo
+    Given que adicionei um campo diferente de cabeçalho de seção
+    When deixo o rótulo em branco e tento salvar o formulário
+    Then o sistema não conclui a gravação e exibe "Campo obrigatório."
+
+  Scenario: Campo de seleção sem opções
+    Given que adicionei um campo de seleção sem opções e sem lista do sistema
+    When tento salvar o formulário
+    Then o sistema não conclui a gravação enquanto o campo de seleção não tiver ao menos uma opção
 ```
 
 ---
@@ -157,11 +172,12 @@ Ação no Construtor de Formulário (`/configuracao-premiacao/premiacoes/:premia
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-007 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

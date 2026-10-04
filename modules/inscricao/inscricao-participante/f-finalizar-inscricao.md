@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-03
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: [INS-PAR-05, INS-PAR-06]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Finalizar Inscrição
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-03`
 
 ## Descrição
 Permite ao participante submeter a inscrição para validação após a checagem dos itens obrigatórios, gerando o número de protocolo que identifica a inscrição enviada.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,35 +64,37 @@ Permite ao participante submeter a inscrição para validação após a checagem
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Finalizar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Finalizar inscrição completa
-  Given que a inscrição tem todos os itens obrigatórios preenchidos e os termos obrigatórios aceitos
-  When aciono a finalização da inscrição
-  Then o sistema gera o número de protocolo
-  And a inscrição passa ao estado finalizada, encaminhada à validação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Finalizar inscrição completa
+    Given que a inscrição tem todos os itens obrigatórios preenchidos e os termos obrigatórios aceitos
+    When aciono a finalização da inscrição
+    Then o sistema gera o número de protocolo
+    And a inscrição passa ao estado finalizada, encaminhada à validação
 
-Scenario: Itens obrigatórios pendentes
-  Given que a inscrição tem campos, anexos ou questões obrigatórios ainda pendentes
-  When aciono a finalização
-  Then o sistema não finaliza e exibe "Há itens obrigatórios pendentes. Revise os campos, anexos e questões indicados."
-  # ← MESSAGE-DICTIONARY: INS_FINALIZACAO_PENDENCIAS
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Termo obrigatório não aceito
-  Given que existe um termo obrigatório ainda não aceito
-  When tento finalizar a inscrição
-  Then o sistema não finaliza a inscrição
+  Scenario: Itens obrigatórios pendentes
+    Given que a inscrição tem campos, anexos ou questões obrigatórios ainda pendentes
+    When aciono a finalização
+    Then o sistema não finaliza e exibe "Há itens obrigatórios pendentes. Revise os campos, anexos e questões indicados."
+    # ← MESSAGE-DICTIONARY: INS_FINALIZACAO_PENDENCIAS
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Termo obrigatório não aceito
+    Given que existe um termo obrigatório ainda não aceito
+    When tento finalizar a inscrição
+    Then o sistema não finaliza a inscrição
 
-Scenario: Inscrição já finalizada
-  Given que a inscrição já foi finalizada
-  When aciono novamente a finalização
-  Then o sistema mantém a inscrição no estado atual e não gera novo protocolo
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Inscrição já finalizada
+    Given que a inscrição já foi finalizada
+    When aciono novamente a finalização
+    Then o sistema mantém a inscrição no estado atual e não gera novo protocolo
 ```
 
 ---
@@ -158,12 +173,13 @@ Tela de termos e finalização em `/inscricao/termos/:inscricaoId`: após o acei
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

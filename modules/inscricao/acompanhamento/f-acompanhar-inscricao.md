@@ -1,29 +1,42 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-ACO-01
 feature_set: INS-ACO
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-016_Dashboard_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Acompanhar Inscrição
-> **Nível 3** - Feature Set: Acompanhamento — Domínio: Inscrição - `INS-ACO-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Acompanhamento — Major Feature Set: Inscrição - `INS-ACO-01`
 
 ## Descrição
 Permite ao participante acompanhar as próprias inscrições em um painel com indicadores e a situação atual de cada uma, com acesso à ação correspondente ao andamento.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-016_Dashboard_Participante`](../../../hus/HU-016_Dashboard_Participante.docx) | Criação | — |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
 
 ---
 
@@ -52,31 +65,33 @@ Permite ao participante acompanhar as próprias inscrições em um painel com in
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Acompanhar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Acompanhar as próprias inscrições
-  Given que sou um participante com inscrições cadastradas
-  When acesso o painel do participante
-  Then o sistema apresenta os indicadores e a lista das minhas inscrições com categoria, modalidade, tipo de participante e situação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Inscrição editável oferece continuidade
-  Given que tenho uma inscrição em rascunho
-  When acompanho a inscrição no painel
-  Then o sistema disponibiliza a continuidade do preenchimento
+  Scenario: Acompanhar as próprias inscrições
+    Given que sou um participante com inscrições cadastradas
+    When acesso o painel do participante
+    Then o sistema apresenta os indicadores e a lista das minhas inscrições com categoria, modalidade, tipo de participante e situação
 
-Scenario: Inscrição aguardando ajuste mostra o ajuste solicitado
-  Given que tenho uma inscrição aguardando ajuste
-  When acompanho a inscrição no painel
-  Then o sistema apresenta o texto do último ajuste solicitado
+  Scenario: Inscrição editável oferece continuidade
+    Given que tenho uma inscrição em rascunho
+    When acompanho a inscrição no painel
+    Then o sistema disponibiliza a continuidade do preenchimento
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Inscrição aguardando ajuste mostra o ajuste solicitado
+    Given que tenho uma inscrição aguardando ajuste
+    When acompanho a inscrição no painel
+    Then o sistema apresenta o texto do último ajuste solicitado
 
-Scenario: Participante sem inscrições
-  Given que ainda não tenho nenhuma inscrição
-  When acesso o painel do participante
-  Then o sistema exibe "Nenhum registro encontrado."
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Participante sem inscrições
+    Given que ainda não tenho nenhuma inscrição
+    When acesso o painel do participante
+    Then o sistema exibe "Nenhum registro encontrado."
 ```
 
 ---
@@ -166,6 +181,7 @@ Dashboard do participante em `/participante/dashboard`, com saudação personali
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do acesso condicionado à devolutiva. *Antes* o painel não dizia como o participante chega à devolutiva, e o caminho era entrar na inscrição e procurar a aba. *Agora* a RN5 fixa que o acesso é oferecido no painel **apenas** quando existe devolutiva liberada para aquela inscrição. +1 regra. Sem Δ DER — é condição de apresentação de uma ação já existente |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/inscricao/acompanhamento/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -174,6 +190,6 @@ Dashboard do participante em `/participante/dashboard`, com saudação personali
 
 ---
 
-*Feature Set: Acompanhamento · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Acompanhamento · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

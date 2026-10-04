@@ -1,9 +1,21 @@
-<!-- docqui: 2.16.0 | prompt: analise-impacto | atualizado: 2026-09-01 -->
-# Análise Impacto PDTIC25093-61
-
+---
+tipo: ticket
+ticket: PDTIC25093-61
+ferramenta: ""
+link: ""
+titulo: ""
+estado: concluído
+aberta-na-entrega: true
+sprint: SP05
+avalizado-por: ""
+aberta-em: 2026-10-04
 ---
 
+# AIM PDTIC25093-61
+
 ## Sumário
+
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-61.md`.
 
 | Indicador | Valor |
 |---|---|
@@ -18,9 +30,9 @@
 
 > **Linha do tempo.** O baseline APF foi contado em **2026-02-28**, antes desta sprint — é o "antes" da contagem. Os N3 foram escritos entre **2026-08-25 e 27**, por engenharia reversa do código **pós-sprint**: logo o "antes" de cada delta é o N3 como publicado, não o sistema em produção. O item aparece encerrado na listagem mais recente do board. ⚠️ Não há SQL anterior à sprint nem os arquivos de migração no acervo — as alterações de modelo abaixo são as **declaradas** pela demanda e confirmadas no modelo atual, não as **verificadas no script**.
 
----
+## Detalhe do item
 
-## 1. Detalhe do item
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-61.md`.
 
 **`PDTIC25093-61` — Melhorias na Avaliação · HU-028 — Avaliar Inscrição**
 
@@ -30,17 +42,39 @@ O salto é o que tem consequência de projeto: ele obriga `AVL-AVA-01` **Acompan
 
 > **Critérios de aceite não numerados.** A HU chega como `.docx` e não numera os critérios. Pela regra da instância, a coluna `CA-n` sai `—` e a rastreabilidade fica pela chave da demanda. Numerar por conta própria produziria referências que não existem na ferramenta do cliente.
 
----
+## Critérios de aceite
 
-## 2. Alterações aplicadas na spec, por Feature Set
+> ⚠️ Migrada sem o registro do ticket: transcreva aqui os critérios de aceite da ferramenta de origem.
+
+## Features
+
+| Feature (N3) | Domínio · Feature Set | Operação | Critérios cobertos | Status |
+|---|---|---|---|---|
+| [`AVL-AVA-01`: Acompanhar Minhas Avaliações](../modules/avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md) | Avaliação · Avaliação de Projetos | Alteração | — | ✏️ Rascunho |
+| [`AVL-AVA-03`: Avaliar Inscrição](../modules/avaliacao/avaliacao-projetos/f-avaliar-inscricao.md) | Avaliação · Avaliação de Projetos | Alteração | — | ✏️ Rascunho |
+| [`AVL-AVA-04`: Finalizar Avaliação](../modules/avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md) | Avaliação · Avaliação de Projetos | Alteração | — | ✏️ Rascunho |
+
+## Artefatos impactados
+
+| Artefato | Tipo | Operação | Seção | Natureza | O quê | Proveniência |
+|---|---|---|---|---|---|---|
+| `modules/avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-avaliar-inscricao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-avaliar-inscricao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-avaliar-inscricao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Avaliação de Projetos (`AVL-AVA`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-AVA-01` **Acompanhar Minhas Avaliações** | `PDTIC25093-61` · HU-028 | — | alterada | **Inclusão** do papel de fila. Antes o painel do avaliador era só uma tela de consulta — cartões das inscrições alocadas, com seletores de premiação, etapa e status. Agora ele também define a sequência e o recorte das avaliações pendentes que o salto "Próxima pendente" consome | +2 | +1 | 7 | 3,5 |
-| `AVL-AVA-03` **Avaliar Inscrição** | `PDTIC25093-61` · HU-028 | — | alterada | **Alteração** da forma de baixar o anexo. Antes a tela apenas listava os anexos para download, sem dizer como o acesso era conferido. Agora cada documento tem endereço individual e o direito é verificado a cada acesso, contra a inscrição designada ao avaliador | +2 | +2 | 10 | 5 |
-| `AVL-AVA-04` **Finalizar Avaliação** | `PDTIC25093-61` · HU-028 | — | alterada | **Inclusão** do salto para a próxima avaliação. Antes finalizar encerrava o registro em somente leitura e o avaliador voltava ao painel para escolher a próxima inscrição. Agora existe o salto "Próxima pendente", restrito ao recorte vigente do acompanhamento, com aviso quando não resta pendência | +3 | +3 | 3 | 1,5 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-AVA-01` **Acompanhar Minhas Avaliações** | — | alterada | **Inclusão** do papel de fila. Antes o painel do avaliador era só uma tela de consulta — cartões das inscrições alocadas, com seletores de premiação, etapa e status. Agora ele também define a sequência e o recorte das avaliações pendentes que o salto "Próxima pendente" consome | +2 | +1 | 7 | 3,5 |
+| `AVL-AVA-03` **Avaliar Inscrição** | — | alterada | **Alteração** da forma de baixar o anexo. Antes a tela apenas listava os anexos para download, sem dizer como o acesso era conferido. Agora cada documento tem endereço individual e o direito é verificado a cada acesso, contra a inscrição designada ao avaliador | +2 | +2 | 10 | 5 |
+| `AVL-AVA-04` **Finalizar Avaliação** | — | alterada | **Inclusão** do salto para a próxima avaliação. Antes finalizar encerrava o registro em somente leitura e o avaliador voltava ao painel para escolher a próxima inscrição. Agora existe o salto "Próxima pendente", restrito ao recorte vigente do acompanhamento, com aviso quando não resta pendência | +3 | +3 | 3 | 1,5 |
 
 **Subtotal: 3 features · 20 PFB · 10 PFL.**
 
@@ -59,9 +93,7 @@ A contagem é por **processo elementar**, não por feature — uma feature pode 
 
 A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `## Métricas de tamanho` do respectivo N3 e no `global/CONTAGEM-PF.md`.
 
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 ### ALI: Inscrição — RLR 11 · DER 85 → 86 · Alta
 
@@ -79,9 +111,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 | **Apurável do item** | — | **20** | **10** |
 | ALI Inscrição ⚠️ *compartilhado com `PDTIC25093-68`* | alterada · 50% | *(15)* | *(7,5)* |
 
----
-
-## 4. Impacto em dicionários
+## Impacto em dicionários
 
 | Chave | Texto | Onde é usada |
 |---|---|---|
@@ -89,9 +119,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 
 Nenhuma regra ou campo canônico novo.
 
----
-
-## 5. Decisões de produto pendentes
+## Decisões de produto pendentes
 
 > A decisão sobre a fila do "Próxima pendente" foi respondida em 2026-09-01 — **é a do painel**, mesmo recorte e mesma ordem de protocolo do acompanhamento. ⚠️ Esta análise afirmava que a spec não fixava a ordem; **estava errada**: a regra 7 de `AVL-AVA-01` **Acompanhar Minhas Avaliações** já dizia "na sequência crescente de protocolo com que este acompanhamento as apresenta". O que era suposição e caiu foi a **abrangência** do salto, não a ordem. Os ⚠️ correspondentes saíram de `AVL-AVA-01` e de `AVL-AVA-04` **Finalizar Avaliação**. Saiu desta lista; o número **2** não foi reaproveitado.
 
@@ -109,16 +137,18 @@ Nenhuma regra ou campo canônico novo.
 
 **Decide** — equipe de métricas, com o PO. **Alcança** — `PDTIC25093-61`, `PDTIC25093-68` e o ALI **Inscrição**.
 
----
-
 ## Metodologia
 
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-61.md`.
+
 Cruzamento do item `PDTIC25093-61` com os N3 publicados dos Feature Sets alcançados, o `global/DATA-MODEL.md`, o `global/CONTAGEM-PF.md` e o baseline APF `arquivos/PIEL_BASELINE_PF_CD.xlsx`. O "antes" de cada delta foi extraído das linhas removidas no diff dos N3, não do arquivo atual. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. Este documento é o recorte por item da análise agregada da sprint, em `ANALISE_IMPACTO_SP05.md` — os números dos dois devem sempre fechar.
+
+## Reconciliação
+
+Aberta na entrega — migrada do relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-61.md`: não houve escopo prévio a reconciliar.
 
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-09-01 | Decisões de produto (docqui) | Decisão respondida e erro corrigido | A fila do salto é a do painel, confirmando o recorte e a ordem que a spec já registrava. Corrigida a afirmação desta análise de que a spec não fixava a ordem — a regra 7 de `AVL-AVA-01` **Acompanhar Minhas Avaliações** já a fixava por protocolo crescente |
-| 2026-09-01 | Análise de impacto (docqui) | Decisões detalhadas | Seção 5 reescrita: cada decisão passa a trazer o que está na spec hoje, as opções com o custo de cada uma, o que ela trava e quem decide; todas as features citadas com código **e** nome |
-| 2026-09-01 | Análise de impacto (docqui) | Documento criado | Impacto do item `PDTIC25093-61` sobre a spec, derivado da análise agregada da SP05 |
+| 2026-10-04 | migra-aim | AIM migrada | relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-61.md` → AIM única |

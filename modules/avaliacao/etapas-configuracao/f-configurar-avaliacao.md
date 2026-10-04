@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-ETA-01
 feature_set: AVL-ETA
 dominio: AVL
 entidade: Premiação
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#premiação
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-024_Configurar_Etapas_de_Avaliacao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Avaliação
-> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Major Feature Set: Avaliação - `AVL-ETA-01`
 
 ## Descrição
 Permite ao administrador definir o modo de avaliação da edição — confidencial ou aberta —, habilitar a exibição da média de etapas anteriores ao avaliador e fixar a quantidade de avaliadores por inscrição, valores que valem para toda a premiação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
 
 ---
 
@@ -51,38 +64,40 @@ Permite ao administrador definir o modo de avaliação da edição — confidenc
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Avaliação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Salvar o modo de avaliação como confidencial
-  Given que estou na configuração de avaliação da premiação
-  When marco "Avaliação confidencial" e salvo as configurações
-  Then o sistema grava o modo de avaliação e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Salvar o modo de avaliação como confidencial
+    Given que estou na configuração de avaliação da premiação
+    When marco "Avaliação confidencial" e salvo as configurações
+    Then o sistema grava o modo de avaliação e exibe "Registro salvo com sucesso."
 
-Scenario: Alternar do modo confidencial para o aberto
-  Given que a avaliação está marcada como confidencial
-  When marco a opção "Avaliação aberta"
-  Then o sistema mantém apenas "Avaliação aberta" selecionada e desmarca "Avaliação confidencial"
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Habilitar a exibição da média de etapas anteriores
-  Given que estou na configuração de avaliação da premiação
-  When ligo "Mostrar nota agregada de etapas anteriores" e salvo
-  Then o sistema grava a preferência e exibe "Registro salvo com sucesso."
+  Scenario: Alternar do modo confidencial para o aberto
+    Given que a avaliação está marcada como confidencial
+    When marco a opção "Avaliação aberta"
+    Then o sistema mantém apenas "Avaliação aberta" selecionada e desmarca "Avaliação confidencial"
 
-Scenario: Definir a quantidade de avaliadores por inscrição
-  Given que estou na configuração de avaliação da premiação
-  When informo 3 avaliadores por inscrição e salvo
-  Then o sistema passa a designar até 3 avaliadores por inscrição em todas as etapas
+  Scenario: Habilitar a exibição da média de etapas anteriores
+    Given que estou na configuração de avaliação da premiação
+    When ligo "Mostrar nota agregada de etapas anteriores" e salvo
+    Then o sistema grava a preferência e exibe "Registro salvo com sucesso."
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Definir a quantidade de avaliadores por inscrição
+    Given que estou na configuração de avaliação da premiação
+    When informo 3 avaliadores por inscrição e salvo
+    Then o sistema passa a designar até 3 avaliadores por inscrição em todas as etapas
 
-Scenario: Usuário sem permissão de configuração
-  Given que meu perfil não tem permissão para configurar a avaliação
-  When tento acessar a configuração de avaliação
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de configuração
+    Given que meu perfil não tem permissão para configurar a avaliação
+    When tento acessar a configuração de avaliação
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -169,6 +184,7 @@ Bloco de configuração no topo da aba "Avaliação & Etapas" em `/configuracao-
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A tela **Avaliação & Etapas**, que o fluxo já desenhava, passa a ser atribuída a esta feature — é nela que o modo de avaliação e a lista de etapas são configurados. Fidelidade **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -176,6 +192,6 @@ Bloco de configuração no topo da aba "Avaliação & Etapas" em `/configuracao-
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

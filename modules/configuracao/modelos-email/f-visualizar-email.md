@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-EMA-03
 feature_set: CFG-EMA
 dominio: CFG
 entidade: Configuração de E-mail da Premiação
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#configuracao-de-e-mail-da-premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-021_Configurar_Templates_Email
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Visualizar E-mail
-> **Nível 3** - Feature Set: Modelos de E-mail — Domínio: Configuração da Premiação - `CFG-EMA-03`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Modelos de E-mail — Major Feature Set: Configuração da Premiação - `CFG-EMA-03`
 
 ## Descrição
 Permite ao administrador pré-visualizar o corpo do e-mail renderizado antes de salvar, conferindo o assunto e a aparência do modelo sem substituir os marcadores dinâmicos.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — |
 
 ---
 
@@ -48,24 +61,26 @@ Permite ao administrador pré-visualizar o corpo do e-mail renderizado antes de 
 ## Cenários
 
 ```gherkin
-# ── Caminho feliz ──────────────────────────────────────────────
+Feature: Visualizar E-mail
 
-Scenario: Pré-visualizar o e-mail renderizado
-  Given que estou editando um modelo de e-mail
-  When aciono a pré-visualização
-  Then o sistema apresenta o corpo do e-mail renderizado
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Voltar da pré-visualização para a edição
-  Given que estou na pré-visualização do e-mail
-  When saio da pré-visualização
-  Then o sistema volta ao modo de edição com o conteúdo preservado
+  Scenario: Pré-visualizar o e-mail renderizado
+    Given que estou editando um modelo de e-mail
+    When aciono a pré-visualização
+    Then o sistema apresenta o corpo do e-mail renderizado
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Voltar da pré-visualização para a edição
+    Given que estou na pré-visualização do e-mail
+    When saio da pré-visualização
+    Then o sistema volta ao modo de edição com o conteúdo preservado
 
-Scenario: Marcadores não são substituídos na pré-visualização
-  Given que o corpo tem o marcador {{nome_participante}}
-  When abro a pré-visualização
-  Then o marcador {{nome_participante}} aparece como está, sem substituição
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Marcadores não são substituídos na pré-visualização
+    Given que o corpo tem o marcador {{nome_participante}}
+    When abro a pré-visualização
+    Then o marcador {{nome_participante}} aparece como está, sem substituição
 ```
 
 ---
@@ -141,12 +156,13 @@ Modo de pré-visualização dentro do Diálogo de Edição de Modelo (`/configur
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-021 |
 
 ---
 
-*Feature Set: Modelos de E-mail · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

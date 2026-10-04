@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-MOD-05
 feature_set: CFG-MOD
 dominio: CFG
 entidade: Modalidade
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#modalidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-005_Cadastrar_Modalidades
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Ativar/Inativar Modalidade
-> **Nível 3** - Feature Set: Modalidades — Domínio: Configuração da Premiação - `CFG-MOD-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Modalidades — Major Feature Set: Configuração da Premiação - `CFG-MOD-05`
 
 ## Descrição
 Permite ao administrador alternar a situação ativa/inativa de uma modalidade (exclusão lógica) sem afetar os tipos de participante vinculados, controlando a oferta da forma de participação nos fluxos de inscrição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
 
 ---
 
@@ -49,38 +62,40 @@ Permite ao administrador alternar a situação ativa/inativa de uma modalidade (
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Ativar/Inativar Modalidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Inativar modalidade
-  Given que identifico uma modalidade ativa
-  When clico em "Desativar" e confirmo
-  Then o sistema passa a modalidade para a situação inativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reativar modalidade
-  Given que identifico uma modalidade inativa
-  When clico em "Ativar" e confirmo
-  Then o sistema passa a modalidade para a situação ativa
+  Scenario: Inativar modalidade
+    Given que identifico uma modalidade ativa
+    When clico em "Desativar" e confirmo
+    Then o sistema passa a modalidade para a situação inativa
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reativar modalidade
+    Given que identifico uma modalidade inativa
+    When clico em "Ativar" e confirmo
+    Then o sistema passa a modalidade para a situação ativa
 
-Scenario: Inativação não cascateia para os tipos de participante
-  Given que a modalidade possui tipos de participante vinculados ativos
-  When inativo a modalidade
-  Then os tipos de participante vinculados permanecem com a situação que tinham
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Modalidade inativa fora da inscrição pública
-  Given que a modalidade está inativa
-  When um participante acessa o fluxo público de inscrição
-  Then a modalidade inativa não é apresentada como opção
+  Scenario: Inativação não cascateia para os tipos de participante
+    Given que a modalidade possui tipos de participante vinculados ativos
+    When inativo a modalidade
+    Then os tipos de participante vinculados permanecem com a situação que tinham
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Modalidade inativa fora da inscrição pública
+    Given que a modalidade está inativa
+    When um participante acessa o fluxo público de inscrição
+    Then a modalidade inativa não é apresentada como opção
 
-Scenario: Usuário sem permissão para inativar
-  Given que meu perfil não tem permissão para inativar modalidades
-  When tento inativar uma modalidade
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para inativar
+    Given que meu perfil não tem permissão para inativar modalidades
+    When tento inativar uma modalidade
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -155,12 +170,13 @@ Ação disparada da linha da modalidade no Catálogo de Modalidades (`/modalidad
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

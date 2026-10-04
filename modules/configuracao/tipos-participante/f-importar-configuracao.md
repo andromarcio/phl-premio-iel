@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-16
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P3
-mvp: false
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Importar Configuração do Tipo de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-16`
-> **Prioridade**: P3 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-16`
 
 ## Descrição
 Permite ao administrador importar, a partir de uma planilha, a estrutura de inscrição e avaliação de um tipo de participante já existente, aproveitando uma configuração pronta de outra fonte em vez de montá-la do zero.
@@ -50,29 +52,31 @@ Permite ao administrador importar, a partir de uma planilha, a estrutura de insc
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Importar Configuração do Tipo de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Importar configuração a partir de planilha
-  Given que seleciono um tipo de participante existente e uma planilha com a estrutura
-  When confirmo a importação
-  Then o sistema aplica a estrutura ao tipo e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Importar configuração a partir de planilha
+    Given que seleciono um tipo de participante existente e uma planilha com a estrutura
+    When confirmo a importação
+    Then o sistema aplica a estrutura ao tipo e exibe "Registro salvo com sucesso."
 
-Scenario: Planilha em formato inválido
-  Given que seleciono uma planilha fora do formato esperado
-  When confirmo a importação
-  Then o sistema não aplica a estrutura e exibe "Não foi possível processar a planilha informada."
-  # ← MESSAGE-DICTIONARY: CFG_IMPORTACAO_ARQUIVO_INVALIDO
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Planilha em formato inválido
+    Given que seleciono uma planilha fora do formato esperado
+    When confirmo a importação
+    Then o sistema não aplica a estrutura e exibe "Não foi possível processar a planilha informada."
+    # ← MESSAGE-DICTIONARY: CFG_IMPORTACAO_ARQUIVO_INVALIDO
 
-Scenario: Usuário sem permissão para importar
-  Given que meu perfil não tem permissão para importar configuração
-  When tento acessar a importação
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para importar
+    Given que meu perfil não tem permissão para importar configuração
+    When tento acessar a importação
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -142,11 +146,12 @@ Ação de importação disparada do Catálogo de Tipos de Participante (`/tipos-
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do N2 CFG-TIP ⚠️ sem HU dedicada — escopo da importação a confirmar frente à importação da edição em Prêmios |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

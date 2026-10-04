@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-03
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#avaliação-de-inscrição
 endpoints: []
 error_codes: []
 depende_de: ["AVL-AVA-02"]
+origem:
+  tipo: issue
+  chave: HU-028_Avaliar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Avaliar Inscrição
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-03`
 
 ## Descrição
 Permite ao avaliador atribuir a nota de 1 a 5 de cada questão do questionário e registrar o parecer individual da inscrição que lhe foi designada, salvando a pontuação progressivamente.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
+| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — |
 
 ---
 
@@ -56,44 +70,46 @@ Permite ao avaliador atribuir a nota de 1 a 5 de cada questão do questionário 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Avaliar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Atribuir nota a uma questão
-  Given que abro uma inscrição designada a mim
-  When atribuo uma nota de 1 a 5 a uma questão
-  Then o sistema registra a nota e coloca a avaliação em Em andamento na primeira nota registrada
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Pontuar em sessões distintas
-  Given que já registrei parte das notas em uma sessão anterior
-  When retomo a avaliação da inscrição
-  Then o sistema preserva as notas já registradas
+  Scenario: Atribuir nota a uma questão
+    Given que abro uma inscrição designada a mim
+    When atribuo uma nota de 1 a 5 a uma questão
+    Then o sistema registra a nota e coloca a avaliação em Em andamento na primeira nota registrada
 
-Scenario: Baixar anexo da inscrição designada
-  Given que a inscrição designada a mim tem documentos anexados
-  When peço o download de um anexo
-  Then o sistema entrega o documento pelo link individual desse anexo
+  Scenario: Pontuar em sessões distintas
+    Given que já registrei parte das notas em uma sessão anterior
+    When retomo a avaliação da inscrição
+    Then o sistema preserva as notas já registradas
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Baixar anexo da inscrição designada
+    Given que a inscrição designada a mim tem documentos anexados
+    When peço o download de um anexo
+    Then o sistema entrega o documento pelo link individual desse anexo
 
-Scenario: Inscrição confidencial
-  Given que a inscrição é confidencial
-  When avalio a inscrição
-  Then o sistema oculta a identificação do participante e mantém os anexos e as questões acessíveis
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Inscrição confidencial
+    Given que a inscrição é confidencial
+    When avalio a inscrição
+    Then o sistema oculta a identificação do participante e mantém os anexos e as questões acessíveis
 
-Scenario: Anexo de inscrição não designada
-  Given que tenho o link de um anexo de uma inscrição que não me foi designada
-  When peço o download desse anexo
-  Then o sistema nega o download e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Termo de confidencialidade pendente
-  Given que ainda não aceitei o termo ativo da premiação
-  When tento avaliar uma inscrição da premiação
-  Then o sistema impede o acesso à inscrição e exibe "Aceite o termo de confidencialidade para acessar as avaliações desta premiação."
-  # ← MESSAGE-DICTIONARY: AVL_TERMO_PENDENTE
+  Scenario: Anexo de inscrição não designada
+    Given que tenho o link de um anexo de uma inscrição que não me foi designada
+    When peço o download desse anexo
+    Then o sistema nega o download e exibe "Você não tem permissão para esta ação."
+
+  Scenario: Termo de confidencialidade pendente
+    Given que ainda não aceitei o termo ativo da premiação
+    When tento avaliar uma inscrição da premiação
+    Then o sistema impede o acesso à inscrição e exibe "Aceite o termo de confidencialidade para acessar as avaliações desta premiação."
+    # ← MESSAGE-DICTIONARY: AVL_TERMO_PENDENTE
 ```
 
 ---
@@ -173,6 +189,7 @@ Página própria em `/avaliacao/:alocacaoId` (Avaliação da Inscrição): os da
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -181,6 +198,6 @@ Página própria em `/avaliacao/:alocacaoId` (Avaliação da Inscrição): os da
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

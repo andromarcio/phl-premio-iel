@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-CAT-03
 feature_set: CFG-CAT
 dominio: CFG
 entidade: Categoria
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-004_Cadastrar_Categorias
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Categoria
-> **Nível 3** - Feature Set: Categorias — Domínio: Configuração da Premiação - `CFG-CAT-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Categorias — Major Feature Set: Configuração da Premiação - `CFG-CAT-03`
 
 ## Descrição
 Permite ao administrador alterar o nome e a descrição de uma categoria já cadastrada, mantendo o catálogo da premiação atualizado.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
 
 ---
 
@@ -48,29 +61,31 @@ Permite ao administrador alterar o nome e a descrição de uma categoria já cad
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Categoria
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar nome e descrição
-  Given que selecionei uma categoria existente
-  When altero o nome e a descrição e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Editar nome e descrição
+    Given que selecionei uma categoria existente
+    When altero o nome e a descrição e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-Scenario: Nome apagado na edição
-  Given que estou editando uma categoria
-  When apago o campo Nome e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome apagado na edição
+    Given que estou editando uma categoria
+    When apago o campo Nome e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-Scenario: Renomear para um nome já usado no mesmo prêmio
-  Given que já existe outra categoria "Categoria Estudantil" no mesmo prêmio
-  When renomeio a categoria atual para "Categoria Estudantil"
-  Then o sistema não grava e exibe "Já existe uma categoria com este nome neste prêmio."
-  # ← MESSAGE-DICTIONARY: CFG_CATEGORIA_NOME_DUPLICADO
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  Scenario: Renomear para um nome já usado no mesmo prêmio
+    Given que já existe outra categoria "Categoria Estudantil" no mesmo prêmio
+    When renomeio a categoria atual para "Categoria Estudantil"
+    Then o sistema não grava e exibe "Já existe uma categoria com este nome neste prêmio."
+    # ← MESSAGE-DICTIONARY: CFG_CATEGORIA_NOME_DUPLICADO
 ```
 
 ---
@@ -149,6 +164,7 @@ Formulário da categoria em `/categorias/:id/visualizar`, aba "Dados Gerais"; ta
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -156,6 +172,6 @@ Formulário da categoria em `/categorias/:id/visualizar`, aba "Dados Gerais"; ta
 
 ---
 
-*Feature Set: Categorias · Domínio: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,11 +1,9 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_3A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-13
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P1
-mvp: false
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Desclassificar Inscrição na Etapa
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-13`
-> **Prioridade**: P1 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-13`
 
 ## Descrição
 Permite ao Administrador Nacional retirar uma inscrição da disputa de uma etapa, com justificativa registrada, para que ela não avance nem ocupe posição no resultado daquele estado — e devolvê-la à disputa enquanto o estado continuar aberto.
@@ -65,69 +66,71 @@ A necessidade nasce de uma situação concreta da premiação: uma mesma institu
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Desclassificar Inscrição na Etapa
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Desclassificar a inscrição excedente de uma instituição
-  Given que sou Administrador Nacional e a etapa está aberta no estado da inscrição
-  And que a instituição já avança para a etapa nacional por outro estado
-  When desclassifico a inscrição informando a justificativa
-  Then o sistema retira a inscrição da disputa do bloco e a apresenta ao fim dele, sem colocação
-  And recalcula a colocação das demais e as linhas de corte de classificação e de premiação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reverter a desclassificação de uma inscrição
-  Given que uma inscrição do bloco está desclassificada e o estado continua aberto
-  When reverto a desclassificação
-  Then o sistema devolve a inscrição à disputa do bloco, com colocação
-  And recalcula a colocação das demais e as linhas de corte de classificação e de premiação
+  Scenario: Desclassificar a inscrição excedente de uma instituição
+    Given que sou Administrador Nacional e a etapa está aberta no estado da inscrição
+    And que a instituição já avança para a etapa nacional por outro estado
+    When desclassifico a inscrição informando a justificativa
+    Then o sistema retira a inscrição da disputa do bloco e a apresenta ao fim dele, sem colocação
+    And recalcula a colocação das demais e as linhas de corte de classificação e de premiação
 
-Scenario: Consultar a justificativa de uma desclassificação
-  Given que uma inscrição do bloco está desclassificada
-  When consulto a marca de desclassificada daquela inscrição
-  Then o sistema apresenta a justificativa registrada na desclassificação
+  Scenario: Reverter a desclassificação de uma inscrição
+    Given que uma inscrição do bloco está desclassificada e o estado continua aberto
+    When reverto a desclassificação
+    Then o sistema devolve a inscrição à disputa do bloco, com colocação
+    And recalcula a colocação das demais e as linhas de corte de classificação e de premiação
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Consultar a justificativa de uma desclassificação
+    Given que uma inscrição do bloco está desclassificada
+    When consulto a marca de desclassificada daquela inscrição
+    Then o sistema apresenta a justificativa registrada na desclassificação
 
-Scenario: Desclassificar sem justificativa
-  Given que estou desclassificando uma inscrição
-  When confirmo sem informar a justificativa
-  Then o sistema não desclassifica e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Justificativa acima do limite
-  Given que estou desclassificando uma inscrição
-  When informo uma justificativa com mais de 100 caracteres
-  Then o sistema não desclassifica e exibe "Máximo de 100 caracteres."
+  Scenario: Desclassificar sem justificativa
+    Given que estou desclassificando uma inscrição
+    When confirmo sem informar a justificativa
+    Then o sistema não desclassifica e exibe "Campo obrigatório."
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Justificativa acima do limite
+    Given que estou desclassificando uma inscrição
+    When informo uma justificativa com mais de 100 caracteres
+    Then o sistema não desclassifica e exibe "Máximo de 100 caracteres."
 
-Scenario: Estado já fechado
-  Given que o estado da inscrição já foi fechado na etapa
-  When tento desclassificar a inscrição
-  Then o sistema não oferece a desclassificação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Desclassificação preservada pela reabertura
-  Given que uma inscrição foi desclassificada e o estado foi fechado e depois reaberto
-  When consulto o bloco do estado reaberto
-  Then o sistema apresenta a inscrição ainda desclassificada
-  And oferece a reversão da desclassificação
+  Scenario: Estado já fechado
+    Given que o estado da inscrição já foi fechado na etapa
+    When tento desclassificar a inscrição
+    Then o sistema não oferece a desclassificação
 
-Scenario: Fechamento com inscrição desclassificada sem feedback
-  Given que a única inscrição sem feedback consolidado do estado está desclassificada
-  When encerro a etapa naquele estado
-  Then o sistema encerra o estado e grava a inscrição desclassificada como não classificada
+  Scenario: Desclassificação preservada pela reabertura
+    Given que uma inscrição foi desclassificada e o estado foi fechado e depois reaberto
+    When consulto o bloco do estado reaberto
+    Then o sistema apresenta a inscrição ainda desclassificada
+    And oferece a reversão da desclassificação
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Fechamento com inscrição desclassificada sem feedback
+    Given que a única inscrição sem feedback consolidado do estado está desclassificada
+    When encerro a etapa naquele estado
+    Then o sistema encerra o estado e grava a inscrição desclassificada como não classificada
 
-Scenario: Administrador Regional tenta desclassificar
-  Given que sou Administrador Regional
-  When acesso o ranking da etapa no meu estado
-  Then o sistema não oferece a desclassificação
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Participante não enxerga a desclassificação
-  Given que a minha inscrição foi desclassificada na etapa
-  When acompanho a minha inscrição
-  Then o sistema não informa a desclassificação nem a sua justificativa
+  Scenario: Administrador Regional tenta desclassificar
+    Given que sou Administrador Regional
+    When acesso o ranking da etapa no meu estado
+    Then o sistema não oferece a desclassificação
+
+  Scenario: Participante não enxerga a desclassificação
+    Given que a minha inscrição foi desclassificada na etapa
+    When acompanho a minha inscrição
+    Then o sistema não informa a desclassificação nem a sua justificativa
 ```
 
 ---
@@ -234,11 +237,12 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada lin
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature criada | N3 negocial da desclassificação manual e da sua reversão, derivado do resumo de entrega da Sprint 6 (entrega de 2026-10-01, migração **V00035**). Capacidade sem especificação até aqui. As duas direções vivem numa feature só, como **par de alternância** de um estado binário, e o verbo `desclassificar` foi registrado em `global/VOCABULARY-OVERRIDES.md`. Dois processos elementares contados sobre este N3 — **12 PF** (EE 4×8 e EE 3×6, ambos Alta). ⚠️ Pendente de validação pela equipe de métricas, inclusive quanto a serem dois PE ou um |
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-10-04*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

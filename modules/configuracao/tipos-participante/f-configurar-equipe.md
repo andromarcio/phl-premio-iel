@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-15
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Configuração de Membro de Equipe
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#configuração-de-membro-de-equipe
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Equipe
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-15`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-15`
 
 ## Descrição
 Permite ao administrador configurar a inscrição em equipe de um tipo de participante, definindo os tipos de vínculo dos membros (ex.: Líder, Membro) e os campos extras coletados por membro.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -50,33 +63,35 @@ Permite ao administrador configurar a inscrição em equipe de um tipo de partic
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Equipe
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Definir tipo de vínculo de membro
-  Given que o tipo de participante permite inscrição em equipe
-  When cadastro o tipo de vínculo "Líder" e salvo
-  Then o sistema registra o tipo de vínculo e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Adicionar campo extra de membro
-  Given que estou na configuração de equipe do tipo de participante
-  When adiciono o campo extra "Curso", defino-o como obrigatório e salvo
-  Then o sistema passa a coletar o campo extra por membro da equipe
+  Scenario: Definir tipo de vínculo de membro
+    Given que o tipo de participante permite inscrição em equipe
+    When cadastro o tipo de vínculo "Líder" e salvo
+    Then o sistema registra o tipo de vínculo e exibe "Registro salvo com sucesso."
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Adicionar campo extra de membro
+    Given que estou na configuração de equipe do tipo de participante
+    When adiciono o campo extra "Curso", defino-o como obrigatório e salvo
+    Then o sistema passa a coletar o campo extra por membro da equipe
 
-Scenario: Tipo de participante não permite equipe
-  Given que o tipo de participante não permite inscrição em equipe
-  When acesso a configuração de equipe
-  Then o sistema mantém a configuração de equipe indisponível
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Tipo de participante não permite equipe
+    Given que o tipo de participante não permite inscrição em equipe
+    When acesso a configuração de equipe
+    Then o sistema mantém a configuração de equipe indisponível
 
-Scenario: Usuário sem permissão para configurar equipe
-  Given que meu perfil não tem permissão para configurar a equipe
-  When tento acessar a configuração de equipe
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para configurar equipe
+    Given que meu perfil não tem permissão para configurar a equipe
+    When tento acessar a configuração de equipe
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -186,12 +201,13 @@ Tela de Configuração de Equipe do tipo de participante (`/configuracao-premiac
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (5 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 e do data-model (Tipo de Vínculo de Membro, Configuração de Membro de Equipe) ⚠️ HU-006 nomeia a aba Equipe; o detalhe de vínculos e campos extras deriva do data-model e do N2 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

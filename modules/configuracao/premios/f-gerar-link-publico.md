@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-07
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Link Público
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#link-publico
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-002_Cadastrar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Gerar Link Público
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-07`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-07`
 
 ## Descrição
 Permite ao administrador emitir o link público de inscrição de um tipo de participante, disponibilizando o endereço para divulgação aos candidatos.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
 
 ---
 
@@ -49,29 +62,31 @@ Permite ao administrador emitir o link público de inscrição de um tipo de par
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Gerar Link Público
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Emitir o link de um tipo de participante
-  Given que estou nos Links Públicos de uma edição em modo de edição
-  When seleciono Categoria, Modalidade e Tipo de Participante e aciono "Gerar Link"
-  Then o sistema emite o link público e o disponibiliza com opção de cópia do endereço
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Emitir o link de um tipo de participante
+    Given que estou nos Links Públicos de uma edição em modo de edição
+    When seleciono Categoria, Modalidade e Tipo de Participante e aciono "Gerar Link"
+    Then o sistema emite o link público e o disponibiliza com opção de cópia do endereço
 
-Scenario: Tipo de participante ainda não configurado
-  Given que o tipo de participante selecionado não tem formulário ou enquadramento configurado
-  When aciono "Gerar Link"
-  Then o sistema não emite o link e exibe "Configure o formulário e ao menos um enquadramento do tipo de participante antes de gerar o link."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Tipo de participante ainda não configurado
+    Given que o tipo de participante selecionado não tem formulário ou enquadramento configurado
+    When aciono "Gerar Link"
+    Then o sistema não emite o link e exibe "Configure o formulário e ao menos um enquadramento do tipo de participante antes de gerar o link."
 
-Scenario: Link já emitido para o tipo de participante
-  Given que já existe um link público para o tipo de participante nesta edição
-  When aciono "Gerar Link" para o mesmo tipo de participante
-  Then o sistema não emite outro link e exibe "Já existe um link público para este tipo de participante neste prêmio."
-  # ← MESSAGE-DICTIONARY: CFG_LINK_TIPO_DUPLICADO
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  Scenario: Link já emitido para o tipo de participante
+    Given que já existe um link público para o tipo de participante nesta edição
+    When aciono "Gerar Link" para o mesmo tipo de participante
+    Then o sistema não emite outro link e exibe "Já existe um link público para este tipo de participante neste prêmio."
+    # ← MESSAGE-DICTIONARY: CFG_LINK_TIPO_DUPLICADO
 ```
 
 ---
@@ -149,12 +164,13 @@ Diálogo em cascata na tela Links Públicos de Inscrição (`/configuracao-premi
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

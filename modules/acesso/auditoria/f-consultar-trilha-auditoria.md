@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-AUD-01
 feature_set: ACS-AUD
 dominio: ACS
 entidade: Log de Auditoria
-prioridade: P2
-mvp: false
 data_model_ref: data-models/acesso.md#log-de-auditoria
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Trilha de Auditoria
-> **Nível 3** - Feature Set: Auditoria — Domínio: Acesso e Gestão - `ACS-AUD-01`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Auditoria — Major Feature Set: Acesso e Gestão - `ACS-AUD-01`
 
 ## Descrição
 
@@ -51,31 +53,33 @@ Permite ao administrador consultar a trilha de auditoria — o registro append-o
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Trilha de Auditoria
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar registros ao abrir a trilha
-  Given que existem ações críticas registradas na auditoria
-  When acesso a tela de Trilha de Auditoria
-  Then o sistema exibe os registros com entidade auditada, ação, usuário e data e hora
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Filtrar por entidade e ação
-  Given que existem registros de auditoria de entidades e ações diferentes
-  When filtro pela entidade "Validação de Inscrição" e pela ação "Alteração"
-  Then o sistema exibe apenas os registros que correspondem aos filtros
+  Scenario: Listar registros ao abrir a trilha
+    Given que existem ações críticas registradas na auditoria
+    When acesso a tela de Trilha de Auditoria
+    Then o sistema exibe os registros com entidade auditada, ação, usuário e data e hora
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Filtrar por entidade e ação
+    Given que existem registros de auditoria de entidades e ações diferentes
+    When filtro pela entidade "Validação de Inscrição" e pela ação "Alteração"
+    Then o sistema exibe apenas os registros que correspondem aos filtros
 
-Scenario: Filtrar por período
-  Given que existem registros em datas diferentes
-  When informo um período inicial e final
-  Then o sistema exibe apenas os registros ocorridos dentro do período
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Busca sem resultados
-  Given que nenhum registro corresponde aos filtros informados
-  When realizo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Filtrar por período
+    Given que existem registros em datas diferentes
+    When informo um período inicial e final
+    Then o sistema exibe apenas os registros ocorridos dentro do período
+
+  Scenario: Busca sem resultados
+    Given que nenhum registro corresponde aos filtros informados
+    When realizo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -155,11 +159,12 @@ Página própria em ⚠️ *sem tela implementada* (Trilha de Auditoria): filtro
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do data-model (entidade Log de Auditoria) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Auditoria · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Auditoria · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

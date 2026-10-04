@@ -1,29 +1,41 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-03
 feature_set: AVL-APU
 dominio: AVL
 entidade: Fechamento de Etapa por UF
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#fechamento-de-etapa-por-uf
 endpoints: []
 error_codes: []
 depende_de: [AVL-APU-01, AVL-APU-02]
+origem:
+  tipo: issue
+  chave: PDTIC25093-49
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Encerrar Etapa por UF
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-03`
 
 ## Descrição
 Permite ao administrador encerrar oficialmente uma etapa em um estado, registrando responsável, data e observação, e consolidar as inscrições classificadas daquele estado, que são as que avançam para a etapa seguinte.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
 
 ---
 
@@ -59,62 +71,64 @@ Permite ao administrador encerrar oficialmente uma etapa em um estado, registran
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Encerrar Etapa por UF
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Encerrar a etapa em um estado
-  Given que todas as inscrições do estado têm feedback consolidado e não há empate na linha de corte
-  When encerro a etapa naquele estado
-  Then o sistema registra o fechamento com o responsável e a data e consolida as inscrições classificadas do estado, e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Somente as classificadas avançam
-  Given que o estado tem uma inscrição premiada que ficou fora do corte de classificação
-  When encerro a etapa naquele estado
-  Then o sistema libera para a etapa seguinte apenas as inscrições classificadas e mantém a premiada não classificada fora do avanço
+  Scenario: Encerrar a etapa em um estado
+    Given que todas as inscrições do estado têm feedback consolidado e não há empate na linha de corte
+    When encerro a etapa naquele estado
+    Then o sistema registra o fechamento com o responsável e a data e consolida as inscrições classificadas do estado, e exibe "Registro salvo com sucesso."
 
-Scenario: Encerrar a etapa com observação
-  Given que estou encerrando a etapa em um estado
-  When informo uma observação de 200 caracteres e confirmo o fechamento
-  Then o sistema grava a observação junto do fechamento do estado
+  Scenario: Somente as classificadas avançam
+    Given que o estado tem uma inscrição premiada que ficou fora do corte de classificação
+    When encerro a etapa naquele estado
+    Then o sistema libera para a etapa seguinte apenas as inscrições classificadas e mantém a premiada não classificada fora do avanço
 
-Scenario: Encerramento automático da etapa
-  Given que resta um único estado pendente na etapa
-  When encerro a etapa naquele estado
-  Then o sistema encerra a etapa inteira e apresenta a etapa na situação Fechada
+  Scenario: Encerrar a etapa com observação
+    Given que estou encerrando a etapa em um estado
+    When informo uma observação de 200 caracteres e confirmo o fechamento
+    Then o sistema grava a observação junto do fechamento do estado
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Encerramento automático da etapa
+    Given que resta um único estado pendente na etapa
+    When encerro a etapa naquele estado
+    Then o sistema encerra a etapa inteira e apresenta a etapa na situação Fechada
 
-Scenario: Estado já encerrado na etapa
-  Given que a etapa já foi encerrada no estado
-  When tento encerrar novamente a etapa naquele estado
-  Then o sistema mantém o fechamento existente e não cria um segundo fechamento para o estado
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Feedback consolidado bloqueado após o fechamento
-  Given que encerrei a etapa em um estado
-  When abro o feedback consolidado de uma inscrição daquele estado
-  Then o sistema apresenta o feedback bloqueado para edição
+  Scenario: Estado já encerrado na etapa
+    Given que a etapa já foi encerrada no estado
+    When tento encerrar novamente a etapa naquele estado
+    Then o sistema mantém o fechamento existente e não cria um segundo fechamento para o estado
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Feedback consolidado bloqueado após o fechamento
+    Given que encerrei a etapa em um estado
+    When abro o feedback consolidado de uma inscrição daquele estado
+    Then o sistema apresenta o feedback bloqueado para edição
 
-# ← MESSAGE-DICTIONARY: AVL_FECHAMENTO_PENDENCIAS
-Scenario: Estado com pendências de feedback
-  Given que o estado tem inscrições sem avaliadores, com avaliação em andamento ou com feedback não consolidado
-  When tento encerrar a etapa naquele estado
-  Then o sistema não encerra, relaciona as pendências por participante e exibe "Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ← MESSAGE-DICTIONARY: AVL_FECHAMENTO_EMPATE_CORTE
-Scenario: Empate pendente na linha de corte do estado
-  Given que há inscrições empatadas na linha de corte de classificação do estado
-  When tento encerrar a etapa naquele estado
-  Then o sistema não encerra e exibe "Há empate na linha de corte deste estado. Resolva o desempate antes de fechar."
+  # ← MESSAGE-DICTIONARY: AVL_FECHAMENTO_PENDENCIAS
+  Scenario: Estado com pendências de feedback
+    Given que o estado tem inscrições sem avaliadores, com avaliação em andamento ou com feedback não consolidado
+    When tento encerrar a etapa naquele estado
+    Then o sistema não encerra, relaciona as pendências por participante e exibe "Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar."
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: AVL_FECHAMENTO_EMPATE_CORTE
+  Scenario: Empate pendente na linha de corte do estado
+    Given que há inscrições empatadas na linha de corte de classificação do estado
+    When tento encerrar a etapa naquele estado
+    Then o sistema não encerra e exibe "Há empate na linha de corte deste estado. Resolva o desempate antes de fechar."
 
-Scenario: Usuário sem permissão de fechamento
-  Given que meu perfil não tem permissão para encerrar a etapa
-  When tento encerrar a etapa no estado
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de fechamento
+    Given que meu perfil não tem permissão para encerrar a etapa
+    When tento encerrar a etapa no estado
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -200,6 +214,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada blo
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Restrição** aliviada e **inclusão** do destino da inscrição desclassificada. *Antes* a regra 5 exigia feedback consolidado de **todas** as inscrições do estado, sem exceção, de modo que uma inscrição retirada da disputa ainda travava o fechamento. *Agora* a desclassificada está dispensada e não gera pendência (RN5), e o fechamento a grava como não classificada seja qual fosse a sua colocação (RN11 nova; a antiga 11 passa a 12). Sem Δ DER — a dispensa é lógica de processamento |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -212,6 +227,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada blo
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

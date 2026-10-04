@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-05
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-ANA-01, VAL-ANA-03]
+origem:
+  tipo: issue
+  chave: PDTIC25093-68
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Inscrição Validada
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-05`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-05`
 
 ## Descrição
 Permite ao administrador nacional corrigir os dados de uma inscrição que já foi validada — respostas do formulário, respostas do questionário, enquadramento, membros da equipe e anexos — mediante justificativa, guardando o estado antes e depois da correção para consulta posterior.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Criação | — |
 
 ---
 
@@ -53,40 +65,42 @@ Permite ao administrador nacional corrigir os dados de uma inscrição que já f
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Inscrição Validada
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Corrigir uma resposta do formulário após a validação
-  Given que a inscrição está na situação Validada
-  When corrijo uma resposta do formulário e informo a justificativa
-  Then a correção é gravada, a inscrição permanece Validada e o histórico registra a edição com a justificativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Trocar um anexo após a validação
-  Given que a inscrição está na situação Validada
-  When removo um anexo, envio outro em seu lugar e informo a justificativa
-  Then o anexo antigo deixa de constar da inscrição, o novo passa a constar e ambos os estados ficam guardados no histórico
+  Scenario: Corrigir uma resposta do formulário após a validação
+    Given que a inscrição está na situação Validada
+    When corrijo uma resposta do formulário e informo a justificativa
+    Then a correção é gravada, a inscrição permanece Validada e o histórico registra a edição com a justificativa
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Trocar um anexo após a validação
+    Given que a inscrição está na situação Validada
+    When removo um anexo, envio outro em seu lugar e informo a justificativa
+    Then o anexo antigo deixa de constar da inscrição, o novo passa a constar e ambos os estados ficam guardados no histórico
 
-Scenario: Editar sem justificativa
-  Given que a inscrição está na situação Validada
-  When tento salvar a edição sem preencher a justificativa
-  Then o sistema não grava a correção e informa que a justificativa é obrigatória
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Editar sem justificativa
+    Given que a inscrição está na situação Validada
+    When tento salvar a edição sem preencher a justificativa
+    Then o sistema não grava a correção e informa que a justificativa é obrigatória
 
-Scenario: Editar inscrição que ainda não foi validada
-  Given que a inscrição está na situação Em Validação
-  When tento editar a inscrição como administrador
-  Then o sistema informa que apenas inscrições validadas podem ser editadas por esse caminho
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Editar inscrição que ainda não foi validada
+    Given que a inscrição está na situação Em Validação
+    When tento editar a inscrição como administrador
+    Then o sistema informa que apenas inscrições validadas podem ser editadas por esse caminho
 
-Scenario: Administrador regional tenta editar
-  Given que estou autenticado como Administrador Regional
-  When tento editar uma inscrição validada
-  Then o sistema nega a operação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Administrador regional tenta editar
+    Given que estou autenticado como Administrador Regional
+    When tento editar uma inscrição validada
+    Then o sistema nega a operação
 ```
 
 ---
@@ -174,6 +188,7 @@ Painel de edição aberto a partir do Detalhe da Inscrição (`/validacao-inscri
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **6 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -183,6 +198,6 @@ Painel de edição aberto a partir do Detalhe da Inscrição (`/validacao-inscri
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

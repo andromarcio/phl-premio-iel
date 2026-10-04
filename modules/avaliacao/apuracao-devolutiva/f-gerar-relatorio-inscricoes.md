@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-10
 feature_set: AVL-APU
 dominio: AVL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: PDTIC25093-56
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Gerar Relatório de Inscrições
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-10`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-10`
 
 ## Descrição
 Apresenta ao administrador nacional todas as inscrições de uma premiação separadas por tipo de participante, com as respostas de cada uma, filtráveis por unidade federativa, categoria, modalidade, situação e período de início — em tela, com amostra de cada grupo, e em planilha, com o recorte completo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Criação | — |
 
 ---
 
@@ -55,69 +67,71 @@ Apresenta ao administrador nacional todas as inscrições de uma premiação sep
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Gerar Relatório de Inscrições
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar as inscrições de uma premiação
-  Given que sou Administrador Nacional
-  When escolho a premiação e aciono o relatório
-  Then vejo as inscrições agrupadas por tipo de participante, com as respostas de cada uma
-  And cada grupo informa o total de inscrições que atendem aos filtros
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Restringir o relatório por situação e período
-  Given que o relatório de uma premiação está apresentado
-  When seleciono as situações Validada e Rejeitada e um período de início
-  Then a consulta passa a considerar apenas as inscrições que atendem a esses critérios
+  Scenario: Consultar as inscrições de uma premiação
+    Given que sou Administrador Nacional
+    When escolho a premiação e aciono o relatório
+    Then vejo as inscrições agrupadas por tipo de participante, com as respostas de cada uma
+    And cada grupo informa o total de inscrições que atendem aos filtros
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Restringir o relatório por situação e período
+    Given que o relatório de uma premiação está apresentado
+    When seleciono as situações Validada e Rejeitada e um período de início
+    Then a consulta passa a considerar apenas as inscrições que atendem a esses critérios
 
-Scenario: Consultar sem escolher a premiação
-  When aciono o relatório sem escolher a premiação
-  Then o sistema não monta o relatório e aponta a premiação como obrigatória
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Consultar sem escolher a premiação
+    When aciono o relatório sem escolher a premiação
+    Then o sistema não monta o relatório e aponta a premiação como obrigatória
 
-Scenario: Grupo maior que a amostra apresentada
-  Given que um tipo de participante tem mais inscrições do que a amostra apresentada
-  When consulto o relatório
-  Then o sistema informa quantas inscrições estão sendo exibidas do total e orienta a exportar para obter a lista completa
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Nenhuma inscrição no recorte
-  Given que os filtros escolhidos não devolvem nenhuma inscrição
-  When consulto o relatório
-  Then o sistema informa que não há inscrições para os critérios aplicados
+  Scenario: Grupo maior que a amostra apresentada
+    Given que um tipo de participante tem mais inscrições do que a amostra apresentada
+    When consulto o relatório
+    Then o sistema informa quantas inscrições estão sendo exibidas do total e orienta a exportar para obter a lista completa
 
-Scenario: Exportar o relatório completo
-  Given que consultei o relatório de inscrições com filtros aplicados
-  When aciono "Exportar XLSX"
-  Then o sistema entrega uma planilha com todas as inscrições do recorte, separadas por tipo de participante
+  Scenario: Nenhuma inscrição no recorte
+    Given que os filtros escolhidos não devolvem nenhuma inscrição
+    When consulto o relatório
+    Then o sistema informa que não há inscrições para os critérios aplicados
 
-Scenario: Exportar um recorte maior que a amostra
-  Given que um grupo tem mais inscrições do que as apresentadas na consulta
-  When exporto o relatório
-  Then a planilha traz todas as inscrições desse grupo, e não apenas as apresentadas
+  Scenario: Exportar o relatório completo
+    Given que consultei o relatório de inscrições com filtros aplicados
+    When aciono "Exportar XLSX"
+    Then o sistema entrega uma planilha com todas as inscrições do recorte, separadas por tipo de participante
 
-Scenario: Exportar um recorte sem inscrições
-  Given que os filtros escolhidos não devolvem nenhuma inscrição
-  When exporto o relatório
-  Then a planilha é entregue sem linhas de inscrição
+  Scenario: Exportar um recorte maior que a amostra
+    Given que um grupo tem mais inscrições do que as apresentadas na consulta
+    When exporto o relatório
+    Then a planilha traz todas as inscrições desse grupo, e não apenas as apresentadas
 
-Scenario: Exportar sem escolher a premiação
-  When aciono a exportação sem escolher a premiação
-  Then o sistema não gera a planilha e aponta a premiação como obrigatória
+  Scenario: Exportar um recorte sem inscrições
+    Given que os filtros escolhidos não devolvem nenhuma inscrição
+    When exporto o relatório
+    Then a planilha é entregue sem linhas de inscrição
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Exportar sem escolher a premiação
+    When aciono a exportação sem escolher a premiação
+    Then o sistema não gera a planilha e aponta a premiação como obrigatória
 
-Scenario: Administrador regional tenta consultar
-  Given que estou autenticado como Administrador Regional
-  When tento abrir o relatório de inscrições
-  Then o sistema nega o acesso
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Administrador regional tenta exportar
-  Given que estou autenticado como Administrador Regional
-  When tento exportar o relatório de inscrições
-  Then o sistema nega a operação
+  Scenario: Administrador regional tenta consultar
+    Given que estou autenticado como Administrador Regional
+    When tento abrir o relatório de inscrições
+    Then o sistema nega o acesso
+
+  Scenario: Administrador regional tenta exportar
+    Given que estou autenticado como Administrador Regional
+    When tento exportar o relatório de inscrições
+    Then o sistema nega a operação
 ```
 
 ---
@@ -228,6 +242,7 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes`, alcançada a pa
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processos elementares contados sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **14 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -237,6 +252,6 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes`, alcançada a pa
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-PAR-02
 feature_set: INS-PAR
 dominio: INS
 entidade: Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: [INS-PAR-01]
+origem:
+  tipo: issue
+  chave: HU-015_Inscricao_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Inscrição
-> **Nível 3** - Feature Set: Inscrição do Participante — Domínio: Inscrição - `INS-PAR-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Inscrição do Participante — Major Feature Set: Inscrição - `INS-PAR-02`
 
 ## Descrição
 Permite ao participante preencher e alterar os dados da inscrição em andamento — oferta, campos do formulário dinâmico, respostas do questionário e membros da equipe — com salvamento automático a cada alteração.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-015_Inscricao_Participante`](../../../hus/HU-015_Inscricao_Participante.docx) | Criação | — |
 
 ---
 
@@ -52,39 +65,41 @@ Permite ao participante preencher e alterar os dados da inscrição em andamento
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Preencher campos do formulário com salvamento automático
-  Given que estou preenchendo uma inscrição em andamento
-  When altero o valor de um campo do formulário
-  Then o sistema persiste a alteração automaticamente
-  And o percentual de preenchimento é recalculado
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Selecionar a oferta da inscrição
-  Given que a inscrição admite mais de uma oferta
-  When seleciono a oferta desejada
-  Then o sistema apresenta o formulário, o questionário e os anexos correspondentes à oferta
+  Scenario: Preencher campos do formulário com salvamento automático
+    Given que estou preenchendo uma inscrição em andamento
+    When altero o valor de um campo do formulário
+    Then o sistema persiste a alteração automaticamente
+    And o percentual de preenchimento é recalculado
 
-Scenario: Cadastrar membro da equipe
-  Given que a oferta permite inscrição em equipe
-  When informo nome, CPF, e-mail e tipo de vínculo de um membro
-  Then o sistema registra o membro na equipe da inscrição
+  Scenario: Selecionar a oferta da inscrição
+    Given que a inscrição admite mais de uma oferta
+    When seleciono a oferta desejada
+    Then o sistema apresenta o formulário, o questionário e os anexos correspondentes à oferta
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar membro da equipe
+    Given que a oferta permite inscrição em equipe
+    When informo nome, CPF, e-mail e tipo de vínculo de um membro
+    Then o sistema registra o membro na equipe da inscrição
 
-Scenario: CPF de membro inválido
-  Given que estou cadastrando um membro da equipe
-  When informo um CPF inválido
-  Then o sistema não registra o membro e exibe "Formato inválido."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: CPF de membro inválido
+    Given que estou cadastrando um membro da equipe
+    When informo um CPF inválido
+    Then o sistema não registra o membro e exibe "Formato inválido."
 
-Scenario: Inscrição em estado não editável
-  Given que a inscrição já foi finalizada e está em validação
-  When tento alterar os dados da inscrição
-  Then o sistema não permite a edição e mantém os dados inalterados
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Inscrição em estado não editável
+    Given que a inscrição já foi finalizada e está em validação
+    When tento alterar os dados da inscrição
+    Then o sistema não permite a edição e mantém os dados inalterados
 ```
 
 ---
@@ -164,11 +179,12 @@ Formulário de inscrição em `/inscricao/formulario/:inscricaoId`, organizado e
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-015 |
 
 ---
 
-*Feature Set: Inscrição do Participante · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Inscrição do Participante · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

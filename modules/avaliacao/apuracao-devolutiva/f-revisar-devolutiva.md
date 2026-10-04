@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-05
 feature_set: AVL-APU
 dominio: AVL
 entidade: Apuração por Etapa
-prioridade: P1
-mvp: true
 data_model_ref: data-models/avaliacao.md#apuracao-por-etapa
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-031_Consolidar_Feedback
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Revisar Devolutiva
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-05`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-05`
 
 ## Descrição
 Permite ao administrador revisar e editar a devolutiva, tenha ela sido gerada por IA ou escrita à mão, e liberá-la ao participante respeitada a data de liberação da etapa.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — |
 
 ---
 
@@ -51,40 +64,42 @@ Permite ao administrador revisar e editar a devolutiva, tenha ela sido gerada po
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Revisar Devolutiva
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Revisar e liberar a devolutiva
-  Given que há uma devolutiva escrita para a inscrição na etapa
-  When reviso o texto e confirmo a liberação
-  Then o sistema libera a devolutiva ao participante conforme a data de liberação da etapa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Revisar e liberar a devolutiva
+    Given que há uma devolutiva escrita para a inscrição na etapa
+    When reviso o texto e confirmo a liberação
+    Then o sistema libera a devolutiva ao participante conforme a data de liberação da etapa
 
-Scenario: Liberar antes da data de liberação da etapa
-  Given que a data de liberação da etapa ainda não chegou
-  When reviso e confirmo a devolutiva
-  Then o sistema registra a devolutiva e só a torna visível ao participante a partir da data de liberação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Revisar devolutiva gerada por IA
-  Given que a devolutiva foi gerada com apoio de IA
-  When ajusto o texto e confirmo a liberação
-  Then o sistema libera a devolutiva ao participante com a marcação de geração por IA
+  Scenario: Liberar antes da data de liberação da etapa
+    Given que a data de liberação da etapa ainda não chegou
+    When reviso e confirmo a devolutiva
+    Then o sistema registra a devolutiva e só a torna visível ao participante a partir da data de liberação
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Revisar devolutiva gerada por IA
+    Given que a devolutiva foi gerada com apoio de IA
+    When ajusto o texto e confirmo a liberação
+    Then o sistema libera a devolutiva ao participante com a marcação de geração por IA
 
-Scenario: Texto abaixo do mínimo
-  Given que estou revisando a devolutiva
-  When reduzo o texto a menos de 100 caracteres e tento liberar
-  Then o sistema não libera a devolutiva enquanto o texto não atingir o mínimo de 100 caracteres
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Texto abaixo do mínimo
+    Given que estou revisando a devolutiva
+    When reduzo o texto a menos de 100 caracteres e tento liberar
+    Then o sistema não libera a devolutiva enquanto o texto não atingir o mínimo de 100 caracteres
 
-Scenario: Usuário sem permissão de revisão
-  Given que meu perfil não tem permissão para revisar a devolutiva
-  When tento liberar a devolutiva
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de revisão
+    Given que meu perfil não tem permissão para revisar a devolutiva
+    When tento liberar a devolutiva
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -164,6 +179,7 @@ No Editor de Devolutiva em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etap
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **6 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -171,6 +187,6 @@ No Editor de Devolutiva em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etap
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

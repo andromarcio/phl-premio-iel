@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-06
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#oferta-tipo--modalidade--categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Vincular Tipo de Participante
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-06`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-06`
 
 ## Descrição
 Permite ao administrador associar um tipo de participante a uma modalidade da estrutura, formando a oferta que o inscrito escolhe, ou criar o tipo e vinculá-lo no mesmo passo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
 
 ---
 
@@ -50,33 +63,35 @@ Permite ao administrador associar um tipo de participante a uma modalidade da es
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Vincular Tipo de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Vincular tipo de participante existente a uma modalidade
-  Given que uma modalidade já está vinculada na estrutura
-  When seleciono um tipo de participante disponível no catálogo e confirmo
-  Then o sistema forma a oferta e o tipo passa a integrar a modalidade na edição
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Criar e vincular um novo tipo de participante num único passo
-  Given que estou vinculando um tipo de participante à modalidade
-  When informo o nome de um novo tipo e confirmo criar e vincular
-  Then o sistema registra o tipo no catálogo e forma a oferta na mesma operação
+  Scenario: Vincular tipo de participante existente a uma modalidade
+    Given que uma modalidade já está vinculada na estrutura
+    When seleciono um tipo de participante disponível no catálogo e confirmo
+    Then o sistema forma a oferta e o tipo passa a integrar a modalidade na edição
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Criar e vincular um novo tipo de participante num único passo
+    Given que estou vinculando um tipo de participante à modalidade
+    When informo o nome de um novo tipo e confirmo criar e vincular
+    Then o sistema registra o tipo no catálogo e forma a oferta na mesma operação
 
-Scenario: Tipo de participante já vinculado à modalidade
-  Given que o tipo de participante já está vinculado à modalidade
-  When tento vinculá-lo novamente à mesma modalidade
-  Then o sistema não cria um novo vínculo e mantém apenas o existente
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Tipo de participante já vinculado à modalidade
+    Given que o tipo de participante já está vinculado à modalidade
+    When tento vinculá-lo novamente à mesma modalidade
+    Then o sistema não cria um novo vínculo e mantém apenas o existente
 
-Scenario: Usuário sem permissão para vincular
-  Given que meu perfil não tem permissão para vincular tipos de participante
-  When tento vincular um tipo de participante à modalidade
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para vincular
+    Given que meu perfil não tem permissão para vincular tipos de participante
+    When tento vincular um tipo de participante à modalidade
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -158,12 +173,13 @@ Ação disparada do nó de uma modalidade na Árvore de Configuração do Prêmi
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

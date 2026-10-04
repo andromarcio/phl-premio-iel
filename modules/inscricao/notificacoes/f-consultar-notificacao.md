@@ -1,29 +1,42 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: INS-NOT-01
 feature_set: INS-NOT
 dominio: INS
 entidade: Notificação Participante
-prioridade: P1
-mvp: true
 data_model_ref: data-models/inscricao.md#notificacao-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-022_Notificacoes_InApp
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Notificações
-> **Nível 3** - Feature Set: Notificações — Domínio: Inscrição - `INS-NOT-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Notificações — Major Feature Set: Inscrição - `INS-NOT-01`
 
 ## Descrição
 Permite ao participante consultar as próprias notificações sobre o andamento da inscrição e ver quantas ainda não foram lidas.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-022_Notificacoes_InApp`](../../../hus/HU-022_Notificacoes_InApp.docx) | Criação | — |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
 
 ---
 
@@ -52,27 +65,29 @@ Permite ao participante consultar as próprias notificações sobre o andamento 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Notificações
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Consultar as notificações mais recentes
-  Given que tenho notificações sobre as minhas inscrições
-  When abro o painel de notificações
-  Then o sistema apresenta as notificações mais recentes com título, mensagem e data
-  And o sistema informa a quantidade de notificações não lidas
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Consultar as notificações mais recentes
+    Given que tenho notificações sobre as minhas inscrições
+    When abro o painel de notificações
+    Then o sistema apresenta as notificações mais recentes com título, mensagem e data
+    And o sistema informa a quantidade de notificações não lidas
 
-Scenario: Limite de notificações apresentadas
-  Given que tenho mais de quinze notificações
-  When abro o painel de notificações
-  Then o sistema apresenta apenas as quinze notificações mais recentes
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Sem notificações
-  Given que ainda não tenho nenhuma notificação
-  When abro o painel de notificações
-  Then o sistema exibe "Nenhum registro encontrado."
+  Scenario: Limite de notificações apresentadas
+    Given que tenho mais de quinze notificações
+    When abro o painel de notificações
+    Then o sistema apresenta apenas as quinze notificações mais recentes
+
+  Scenario: Sem notificações
+    Given que ainda não tenho nenhuma notificação
+    When abro o painel de notificações
+    Then o sistema exibe "Nenhum registro encontrado."
 ```
 
 ---
@@ -158,6 +173,7 @@ Painel lateral aberto pelo sino de notificações no cabeçalho, na rota *(sem r
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do destino da notificação de devolutiva. *Antes* a regra 4 dizia que o evento gera notificação e nada dizia sobre o que acontece ao abri-la. *Agora* a RN5 fixa que ela leva direto à devolutiva da inscrição. +1 regra. Sem Δ DER |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -165,6 +181,6 @@ Painel lateral aberto pelo sino de notificações no cabeçalho, na rota *(sem r
 
 ---
 
-*Feature Set: Notificações · Domínio: Inscrição · Última revisão: 2026-08-27*
+*Feature Set: Notificações · Major Feature Set: Inscrição · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

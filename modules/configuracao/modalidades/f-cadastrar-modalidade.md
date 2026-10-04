@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-MOD-02
 feature_set: CFG-MOD
 dominio: CFG
 entidade: Modalidade
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#modalidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-005_Cadastrar_Modalidades
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Modalidade
-> **Nível 3** - Feature Set: Modalidades — Domínio: Configuração da Premiação - `CFG-MOD-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Modalidades — Major Feature Set: Configuração da Premiação - `CFG-MOD-02`
 
 ## Descrição
 Permite ao administrador registrar uma nova modalidade sob uma categoria, com descrição, link de regulamento e período de inscrição próprio, deixando-a disponível como forma de participação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
 
 ---
 
@@ -52,50 +65,52 @@ Permite ao administrador registrar uma nova modalidade sob uma categoria, com de
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Modalidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar modalidade com período de inscrição
-  Given que acesso o formulário de nova modalidade em uma categoria
-  When informo o nome "Individual", o período de início e o período de fim e salvo
-  Then o sistema registra a modalidade e exibe "Registro salvo com sucesso."
-  And a modalidade fica disponível como forma de participação da categoria
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar modalidade com período de inscrição
+    Given que acesso o formulário de nova modalidade em uma categoria
+    When informo o nome "Individual", o período de início e o período de fim e salvo
+    Then o sistema registra a modalidade e exibe "Registro salvo com sucesso."
+    And a modalidade fica disponível como forma de participação da categoria
 
-Scenario: Nome em branco
-  Given que estou no formulário de modalidade
-  When deixo o campo Nome em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Nome em branco
+    Given que estou no formulário de modalidade
+    When deixo o campo Nome em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Criação rápida pela árvore
-  Given que estou na configuração de um prêmio, no nó de uma categoria
-  When aciono a criação rápida de modalidade
-  Then o sistema cria a modalidade com o nome 'Nova Modalidade' e abre o editor para renomeação
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Criação rápida pela árvore
+    Given que estou na configuração de um prêmio, no nó de uma categoria
+    When aciono a criação rápida de modalidade
+    Then o sistema cria a modalidade com o nome 'Nova Modalidade' e abre o editor para renomeação
 
-# ← MESSAGE-DICTIONARY: CFG_MODALIDADE_PERIODO_INVALIDO
-Scenario: Período de inscrição com fim anterior ao início
-  Given que informo o início das inscrições em 01/07/2026 e o fim em 30/06/2026
-  When clico em "Salvar"
-  Then o sistema não registra e exibe "A data de fim das inscrições deve ser posterior à data de início."
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ← MESSAGE-DICTIONARY: CFG_MODALIDADE_NOME_DUPLICADO
-Scenario: Nome duplicado na mesma categoria
-  Given que já existe a modalidade "Individual" na categoria
-  When tento criar outra modalidade com o mesmo nome nesta categoria
-  Then o sistema não registra e exibe "Já existe uma modalidade com este nome nesta categoria."
+  # ← MESSAGE-DICTIONARY: CFG_MODALIDADE_PERIODO_INVALIDO
+  Scenario: Período de inscrição com fim anterior ao início
+    Given que informo o início das inscrições em 01/07/2026 e o fim em 30/06/2026
+    When clico em "Salvar"
+    Then o sistema não registra e exibe "A data de fim das inscrições deve ser posterior à data de início."
 
-# ── Restrições de acesso ───────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: CFG_MODALIDADE_NOME_DUPLICADO
+  Scenario: Nome duplicado na mesma categoria
+    Given que já existe a modalidade "Individual" na categoria
+    When tento criar outra modalidade com o mesmo nome nesta categoria
+    Then o sistema não registra e exibe "Já existe uma modalidade com este nome nesta categoria."
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para cadastrar modalidades
-  When tento acessar o cadastro de modalidade
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para cadastrar modalidades
+    When tento acessar o cadastro de modalidade
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -176,12 +191,13 @@ Formulário próprio em `/modalidades/novo` (nome, descrição, regulamento e pe
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

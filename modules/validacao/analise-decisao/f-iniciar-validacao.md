@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: VAL-ANA-02
 feature_set: VAL-ANA
 dominio: VAL
 entidade: Validação de Inscrição
-prioridade: P1
-mvp: true
 data_model_ref: data-models/validacao.md#validacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [VAL-ANA-01]
+origem:
+  tipo: issue
+  chave: HU-018_Analisar_Validar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Iniciar Validação
-> **Nível 3** - Feature Set: Análise e Decisão — Domínio: Validação - `VAL-ANA-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Análise e Decisão — Major Feature Set: Validação - `VAL-ANA-02`
 
 ## Descrição
 Permite ao validador iniciar a validação de uma inscrição finalizada, assumindo-a para análise e movendo a sua situação de Finalizada para Em Validação.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -49,26 +62,28 @@ Permite ao validador iniciar a validação de uma inscrição finalizada, assumi
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Iniciar Validação
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Assumir uma inscrição finalizada para análise
-  Given que a inscrição está na situação Finalizada
-  When inicio a validação
-  Then a inscrição passa para a situação Em Validação e fica sob a minha análise
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Assumir uma inscrição finalizada para análise
+    Given que a inscrição está na situação Finalizada
+    When inicio a validação
+    Then a inscrição passa para a situação Em Validação e fica sob a minha análise
 
-Scenario: Inscrição já em validação
-  Given que a inscrição está na situação Em Validação
-  When tento iniciar a validação novamente
-  Then o sistema mantém a situação atual e não reinicia a validação
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Inscrição já decidida
-  Given que a inscrição está na situação Validada
-  When tento iniciar a validação
-  Then o sistema não permite iniciar a validação de uma inscrição já decidida
+  Scenario: Inscrição já em validação
+    Given que a inscrição está na situação Em Validação
+    When tento iniciar a validação novamente
+    Then o sistema mantém a situação atual e não reinicia a validação
+
+  Scenario: Inscrição já decidida
+    Given que a inscrição está na situação Validada
+    When tento iniciar a validação
+    Then o sistema não permite iniciar a validação de uma inscrição já decidida
 ```
 
 ---
@@ -145,6 +160,7 @@ Ação disparada pelo botão "Iniciar Validação" no Detalhe da Inscrição (`/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -152,6 +168,6 @@ Ação disparada pelo botão "Iniciar Validação" no Detalhe da Inscrição (`/
 
 ---
 
-*Feature Set: Análise e Decisão · Domínio: Validação · Última revisão: 2026-08-27*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

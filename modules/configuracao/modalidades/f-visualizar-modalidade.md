@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-MOD-04
 feature_set: CFG-MOD
 dominio: CFG
 entidade: Modalidade
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#modalidade
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-005_Cadastrar_Modalidades
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Visualizar Modalidade
-> **Nível 3** - Feature Set: Modalidades — Domínio: Configuração da Premiação - `CFG-MOD-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Modalidades — Major Feature Set: Configuração da Premiação - `CFG-MOD-04`
 
 ## Descrição
 Permite ao administrador consultar os dados de uma modalidade e as categorias e prêmios a que ela está vinculada, com o período de inscrição próprio de cada vínculo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
 
 ---
 
@@ -48,24 +61,26 @@ Permite ao administrador consultar os dados de uma modalidade e as categorias e 
 ## Cenários
 
 ```gherkin
-# ── Caminho feliz ──────────────────────────────────────────────
+Feature: Visualizar Modalidade
 
-Scenario: Ver os dados de uma modalidade
-  Given que selecionei uma modalidade no catálogo
-  When abro o detalhe da modalidade
-  Then o sistema exibe o nome, a descrição e a situação da modalidade
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Ver os vínculos da modalidade
-  Given que estou no detalhe de uma modalidade
-  When acesso a aba "Vínculos"
-  Then o sistema exibe as categorias e os prêmios aos quais a modalidade está vinculada
+  Scenario: Ver os dados de uma modalidade
+    Given que selecionei uma modalidade no catálogo
+    When abro o detalhe da modalidade
+    Then o sistema exibe o nome, a descrição e a situação da modalidade
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Ver os vínculos da modalidade
+    Given que estou no detalhe de uma modalidade
+    When acesso a aba "Vínculos"
+    Then o sistema exibe as categorias e os prêmios aos quais a modalidade está vinculada
 
-Scenario: Modalidade sem vínculos
-  Given que a modalidade não está vinculada a nenhuma categoria
-  When acesso a aba "Vínculos"
-  Then o sistema exibe "Nenhum registro encontrado."
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Modalidade sem vínculos
+    Given que a modalidade não está vinculada a nenhuma categoria
+    When acesso a aba "Vínculos"
+    Then o sistema exibe "Nenhum registro encontrado."
 ```
 
 ---
@@ -137,11 +152,12 @@ Página de detalhe em `/modalidades/:id/visualizar`, com a aba "Dados Gerais" (n
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

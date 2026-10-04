@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-06
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Formulário Dinâmico
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#formulário-dinâmico
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-007_Configurar_Formulario_Tipo_Participante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Configurar Formulário de Inscrição
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-06`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-06`
 
 ## Descrição
 Permite ao administrador configurar o formulário de inscrição de um tipo de participante, escolhendo o modo de preenchimento em página única ou em etapas e organizando os campos e seções.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-007_Configurar_Formulario_Tipo_Participante`](../../../hus/HU-007_Configurar_Formulario_Tipo_Participante.docx) | Criação | — |
 
 ---
 
@@ -51,36 +64,38 @@ Permite ao administrador configurar o formulário de inscrição de um tipo de p
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Configurar Formulário de Inscrição
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Configurar formulário em página única
-  Given que estou no construtor de formulário de um tipo de participante com campos adicionados
-  When escolho o modo página única e salvo
-  Then o sistema grava a configuração do formulário e registra uma nova versão
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Configurar formulário em etapas
-  Given que estou no construtor de formulário e escolho o modo em etapas
-  When crio etapas nomeadas e associo campos a cada etapa e salvo
-  Then o sistema grava o formulário com as etapas definidas e registra uma nova versão
+  Scenario: Configurar formulário em página única
+    Given que estou no construtor de formulário de um tipo de participante com campos adicionados
+    When escolho o modo página única e salvo
+    Then o sistema grava a configuração do formulário e registra uma nova versão
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Configurar formulário em etapas
+    Given que estou no construtor de formulário e escolho o modo em etapas
+    When crio etapas nomeadas e associo campos a cada etapa e salvo
+    Then o sistema grava o formulário com as etapas definidas e registra uma nova versão
 
-Scenario: Salvar sem definir o modo de preenchimento
-  Given que ainda não escolhi o modo de preenchimento do formulário
-  When tento salvar
-  Then o sistema não conclui a gravação enquanto o modo de preenchimento não for definido
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Modo em etapas sem nenhuma etapa
-  Given que escolhi o modo em etapas mas não criei nenhuma etapa
-  When tento salvar
-  Then o sistema não conclui a gravação enquanto não houver ao menos uma etapa
+  Scenario: Salvar sem definir o modo de preenchimento
+    Given que ainda não escolhi o modo de preenchimento do formulário
+    When tento salvar
+    Then o sistema não conclui a gravação enquanto o modo de preenchimento não for definido
 
-Scenario: Campo sem rótulo ao salvar
-  Given que existe um campo sem rótulo preenchido no formulário
-  When tento salvar
-  Then o sistema não conclui a gravação enquanto houver campo sem rótulo
+  Scenario: Modo em etapas sem nenhuma etapa
+    Given que escolhi o modo em etapas mas não criei nenhuma etapa
+    When tento salvar
+    Then o sistema não conclui a gravação enquanto não houver ao menos uma etapa
+
+  Scenario: Campo sem rótulo ao salvar
+    Given que existe um campo sem rótulo preenchido no formulário
+    When tento salvar
+    Then o sistema não conclui a gravação enquanto houver campo sem rótulo
 ```
 
 ---
@@ -166,12 +181,13 @@ Construtor de Formulário em `/configuracao-premiacao/premiacoes/:premiacaoId/co
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-007 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

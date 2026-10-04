@@ -1,29 +1,41 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-AVA-06
 feature_set: AVL-AVA
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#avaliacao-de-inscricao
 endpoints: []
 error_codes: []
 depende_de: [AVL-AVA-02, AVL-AVA-03]
+origem:
+  tipo: issue
+  chave: HU-028_Avaliar_Inscricao
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Outros Avaliadores
-> **Nível 3** - Feature Set: Avaliação de Projetos — Domínio: Avaliação - `AVL-AVA-06`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Avaliação de Projetos — Major Feature Set: Avaliação - `AVL-AVA-06`
 
 ## Descrição
 Mostra ao avaliador quantas outras pessoas avaliam o mesmo projeto na mesma etapa e em que pé está cada uma, sem revelar quem são nem que notas atribuíram.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
 
 ---
 
@@ -54,39 +66,41 @@ Mostra ao avaliador quantas outras pessoas avaliam o mesmo projeto na mesma etap
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Outros Avaliadores
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Ver o andamento dos demais avaliadores do projeto
-  Given que estou avaliando um projeto com mais dois avaliadores designados
-  When consulto os demais avaliadores
-  Then vejo três linhas: a minha, com o meu nome, e as outras duas como "Avaliador 1" e "Avaliador 2"
-  And cada linha traz a situação da avaliação e as datas de início e de finalização
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Numeração estável entre consultas
-  Given que já consultei os demais avaliadores deste projeto
-  When consulto novamente
-  Then cada avaliador aparece com o mesmo apelido da consulta anterior
+  Scenario: Ver o andamento dos demais avaliadores do projeto
+    Given que estou avaliando um projeto com mais dois avaliadores designados
+    When consulto os demais avaliadores
+    Then vejo três linhas: a minha, com o meu nome, e as outras duas como "Avaliador 1" e "Avaliador 2"
+    And cada linha traz a situação da avaliação e as datas de início e de finalização
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Numeração estável entre consultas
+    Given que já consultei os demais avaliadores deste projeto
+    When consulto novamente
+    Then cada avaliador aparece com o mesmo apelido da consulta anterior
 
-Scenario: Consultar sem ter aceitado o termo
-  Given que ainda não aceitei o termo de confidencialidade da premiação
-  When tento consultar os demais avaliadores
-  Then o sistema nega a consulta e me leva ao aceite do termo
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Consultar avaliação de outro avaliador
-  Given que a avaliação consultada não é minha
-  When tento consultar os demais avaliadores por ela
-  Then o sistema nega a consulta
+  Scenario: Consultar sem ter aceitado o termo
+    Given que ainda não aceitei o termo de confidencialidade da premiação
+    When tento consultar os demais avaliadores
+    Then o sistema nega a consulta e me leva ao aceite do termo
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Consultar avaliação de outro avaliador
+    Given que a avaliação consultada não é minha
+    When tento consultar os demais avaliadores por ela
+    Then o sistema nega a consulta
 
-Scenario: Único avaliador do projeto
-  Given que sou o único avaliador designado ao projeto nesta etapa
-  When consulto os demais avaliadores
-  Then vejo apenas a minha própria linha
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Único avaliador do projeto
+    Given que sou o único avaliador designado ao projeto nesta etapa
+    When consulto os demais avaliadores
+    Then vejo apenas a minha própria linha
 ```
 
 ---
@@ -164,11 +178,12 @@ Bloco dentro da Avaliação do Projeto (`/avaliacao/:alocacaoId`), ao lado do qu
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (consulta aos demais avaliadores do projeto, com apelido numerado e sem notas) — capacidade implementada e até então não especificada; a HU-028 a mencionava sem detalhamento |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

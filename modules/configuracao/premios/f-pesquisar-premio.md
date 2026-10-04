@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-01
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Premiação
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-001_Gerenciar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Pesquisar Prêmios
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-01`
 
 ## Descrição
 Permite ao administrador localizar edições da premiação por nome e por período de datas, listando os resultados de forma paginada para consulta, configuração ou reaproveitamento.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | — |
 
 ---
 
@@ -50,31 +63,33 @@ Permite ao administrador localizar edições da premiação por nome e por perí
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Pesquisar Prêmios
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar prêmios cadastrados
-  Given que existem edições cadastradas
-  When acesso a lista de Prêmios
-  Then o sistema exibe as edições com nome, categorias vinculadas, período e situação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Pesquisar por nome e período
-  Given que estou na lista de Prêmios
-  When informo parte do nome e um intervalo de datas e confirmo a busca
-  Then o sistema apresenta apenas as edições que correspondem aos critérios informados
+  Scenario: Listar prêmios cadastrados
+    Given que existem edições cadastradas
+    When acesso a lista de Prêmios
+    Then o sistema exibe as edições com nome, categorias vinculadas, período e situação
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Pesquisar por nome e período
+    Given que estou na lista de Prêmios
+    When informo parte do nome e um intervalo de datas e confirmo a busca
+    Then o sistema apresenta apenas as edições que correspondem aos critérios informados
 
-Scenario: Limpar os critérios de busca
-  Given que apliquei critérios de nome e período
-  When aciono a limpeza dos critérios
-  Then o sistema recarrega a lista sem nenhum critério aplicado
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Busca sem resultados
-  Given que nenhuma edição corresponde aos critérios informados
-  When confirmo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Limpar os critérios de busca
+    Given que apliquei critérios de nome e período
+    When aciono a limpeza dos critérios
+    Then o sistema recarrega a lista sem nenhum critério aplicado
+
+  Scenario: Busca sem resultados
+    Given que nenhuma edição corresponde aos critérios informados
+    When confirmo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -164,12 +179,13 @@ Página própria em `/configuracao-premiacao/premiacoes` (Lista de Prêmios): ca
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-001 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

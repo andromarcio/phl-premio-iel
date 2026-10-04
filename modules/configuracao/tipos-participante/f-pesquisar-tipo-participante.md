@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-TIP-01
 feature_set: CFG-TIP
 dominio: CFG
 entidade: Tipo de Participante
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#tipo-de-participante
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-006_Cadastrar_Tipo_Participantes
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Pesquisar Tipos de Participante
-> **Nível 3** - Feature Set: Tipos de Participante — Domínio: Configuração da Premiação - `CFG-TIP-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-01`
 
 ## Descrição
 Permite ao administrador localizar os tipos de participante por nome e situação, listando os resultados para consulta, configuração da estrutura de inscrição ou composição de ofertas.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
 
 ---
 
@@ -49,31 +62,33 @@ Permite ao administrador localizar os tipos de participante por nome e situaçã
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Pesquisar Tipos de Participante
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar tipos de participante ao abrir o catálogo
-  Given que existem tipos de participante cadastrados
-  When acesso a tela de Tipos de Participante
-  Then o sistema exibe a lista de tipos com nome, descrição e situação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Buscar tipo por parte do nome
-  Given que existe o tipo de participante "Estudante Bolsista"
-  When informo "bolsis" no campo de busca por nome
-  Then o sistema exibe o tipo "Estudante Bolsista" no resultado
+  Scenario: Listar tipos de participante ao abrir o catálogo
+    Given que existem tipos de participante cadastrados
+    When acesso a tela de Tipos de Participante
+    Then o sistema exibe a lista de tipos com nome, descrição e situação
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Buscar tipo por parte do nome
+    Given que existe o tipo de participante "Estudante Bolsista"
+    When informo "bolsis" no campo de busca por nome
+    Then o sistema exibe o tipo "Estudante Bolsista" no resultado
 
-Scenario: Filtrar por situação inativa
-  Given que existem tipos de participante ativos e inativos
-  When seleciono a situação "Inativo"
-  Then o sistema exibe apenas os tipos de participante inativos
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Busca sem resultados
-  Given que nenhum tipo de participante corresponde ao termo buscado
-  When realizo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Filtrar por situação inativa
+    Given que existem tipos de participante ativos e inativos
+    When seleciono a situação "Inativo"
+    Then o sistema exibe apenas os tipos de participante inativos
+
+  Scenario: Busca sem resultados
+    Given que nenhum tipo de participante corresponde ao termo buscado
+    When realizo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -154,11 +169,12 @@ Página própria em `/tipos-participante` (Catálogo de Tipos de Participante): 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

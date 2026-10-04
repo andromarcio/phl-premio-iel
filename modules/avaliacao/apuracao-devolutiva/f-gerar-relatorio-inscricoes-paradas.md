@@ -1,28 +1,42 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-APU-06
 feature_set: AVL-APU
 dominio: AVL
 entidade: Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/inscricao.md#inscricao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-037_Relatorio_Inscricoes_Em_Andamento
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Gerar Relatório de Inscrições Paradas
-> **Nível 3** - Feature Set: Apuração e Devolutiva — Domínio: Avaliação - `AVL-APU-06`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Apuração e Devolutiva — Major Feature Set: Avaliação - `AVL-APU-06`
 
 ## Descrição
 Permite ao administrador gerar o relatório das inscrições paradas de uma premiação — as que estão Em Andamento ou Rascunho — segmentado por UF, status e tipo de participante, com o preenchimento de cada inscrição, disponível na tela e em planilha para uso fora do sistema.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-037_Relatorio_Inscricoes_Em_Andamento`](../../../hus/HU-037_Relatorio_Inscricoes_Em_Andamento.docx) | Criação | — |
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — |
 
 ---
 
@@ -54,60 +68,62 @@ Permite ao administrador gerar o relatório das inscrições paradas de uma prem
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Gerar Relatório de Inscrições Paradas
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Gerar o relatório ao selecionar a premiação
-  Given que escolho uma premiação com inscrições paradas
-  When o relatório é gerado
-  Then o sistema apresenta o total de inscrições paradas e os grupos por UF, status e tipo de participante
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Estreitar por UF
-  Given que gerei o relatório de uma premiação
-  When seleciono uma UF
-  Then o sistema apresenta apenas as inscrições paradas daquela UF
+  Scenario: Gerar o relatório ao selecionar a premiação
+    Given que escolho uma premiação com inscrições paradas
+    When o relatório é gerado
+    Then o sistema apresenta o total de inscrições paradas e os grupos por UF, status e tipo de participante
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Estreitar por UF
+    Given que gerei o relatório de uma premiação
+    When seleciono uma UF
+    Then o sistema apresenta apenas as inscrições paradas daquela UF
 
-Scenario: Premiação não selecionada
-  Given que estou na tela do relatório
-  When não seleciono nenhuma premiação
-  Then o sistema não gera o relatório e mantém a seleção da premiação pendente
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Premiação não selecionada
+    Given que estou na tela do relatório
+    When não seleciono nenhuma premiação
+    Then o sistema não gera o relatório e mantém a seleção da premiação pendente
 
-Scenario: Premiação sem inscrições paradas
-  Given que a premiação não tem inscrições Em Andamento nem Rascunho
-  When o relatório é gerado
-  Then o sistema exibe "Nenhum registro encontrado."
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Premiação sem inscrições paradas
+    Given que a premiação não tem inscrições Em Andamento nem Rascunho
+    When o relatório é gerado
+    Then o sistema exibe "Nenhum registro encontrado."
 
-Scenario: Exportar o relatório em planilha
-  Given que gerei o relatório de inscrições paradas de uma premiação
-  When aciono a exportação em XLSX
-  Then o sistema gera a planilha com o resumo por grupo, o total e o detalhamento de cada grupo e a disponibiliza para download
+  # ── Restrições de acesso ───────────────────────────────────────
 
-Scenario: Exportação sem premiação selecionada
-  Given que ainda não selecionei uma premiação
-  When observo a exportação
-  Then o sistema mantém a exportação indisponível até que uma premiação seja selecionada
+  Scenario: Exportar o relatório em planilha
+    Given que gerei o relatório de inscrições paradas de uma premiação
+    When aciono a exportação em XLSX
+    Then o sistema gera a planilha com o resumo por grupo, o total e o detalhamento de cada grupo e a disponibiliza para download
 
-Scenario: Exportação respeita o escopo do relatório
-  Given que gerei o relatório restrito a uma UF
-  When exporto o relatório
-  Then o sistema gera a planilha apenas com as inscrições daquela UF
+  Scenario: Exportação sem premiação selecionada
+    Given que ainda não selecionei uma premiação
+    When observo a exportação
+    Then o sistema mantém a exportação indisponível até que uma premiação seja selecionada
 
-Scenario: Exportação sem recorte regional
-  Given que gerei o relatório sem selecionar nenhuma UF
-  When exporto o relatório
-  Then o sistema gera a planilha com as inscrições paradas de todas as UFs da premiação
+  Scenario: Exportação respeita o escopo do relatório
+    Given que gerei o relatório restrito a uma UF
+    When exporto o relatório
+    Then o sistema gera a planilha apenas com as inscrições daquela UF
 
-Scenario: Usuário sem permissão de acesso ao relatório
-  Given que meu perfil não tem permissão para acessar o relatório
-  When tento gerar o relatório
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  Scenario: Exportação sem recorte regional
+    Given que gerei o relatório sem selecionar nenhuma UF
+    When exporto o relatório
+    Then o sistema gera a planilha com as inscrições paradas de todas as UFs da premiação
+
+  Scenario: Usuário sem permissão de acesso ao relatório
+    Given que meu perfil não tem permissão para acessar o relatório
+    When tento gerar o relatório
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -207,6 +223,7 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes-paradas`: seleç�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-relatorios.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisão 6 (docqui) | Features unificadas | `AVL-APU-07` Exportar Relatório de Inscrições Paradas incorporada: os dois processos elementares têm ALR e DER idênticos, logo é uma ação só do ponto de vista da feature. A contagem não muda — a feature passa a absorver dois PE, 14 PF. O ID `AVL-APU-07` fica aposentado e não será reutilizado |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -215,6 +232,6 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes-paradas`: seleç�
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

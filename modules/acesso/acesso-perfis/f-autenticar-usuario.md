@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ACE-01
 feature_set: ACS-ACE
 dominio: ACS
 entidade: Usuário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Autenticar Usuário
-> **Nível 3** - Feature Set: Acesso e Perfis — Domínio: Acesso e Gestão - `ACS-ACE-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Acesso e Perfis — Major Feature Set: Acesso e Gestão - `ACS-ACE-01`
 
 ## Descrição
 Permite ao usuário entrar no sistema pelo login corporativo do Sistema Indústria (SSO), autenticando a sua identidade para iniciar uma sessão com o perfil correspondente. ⚠️ *(autenticação externa ao produto — a confirmar se figura como feature)*
@@ -49,21 +51,23 @@ Permite ao usuário entrar no sistema pelo login corporativo do Sistema Indústr
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Autenticar Usuário
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Autenticar com a conta corporativa
-  Given que possuo uma conta válida no login corporativo
-  When me autentico pelo SSO
-  Then o sistema inicia a sessão e libera o acesso conforme o meu perfil
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Autenticar com a conta corporativa
+    Given que possuo uma conta válida no login corporativo
+    When me autentico pelo SSO
+    Then o sistema inicia a sessão e libera o acesso conforme o meu perfil
 
-Scenario: Credenciais recusadas pelo login corporativo
-  Given que informo credenciais inválidas no login corporativo
-  When tento me autenticar
-  Then o sistema não inicia a sessão e mantém o usuário no login corporativo
+  # ── Erros de validação ─────────────────────────────────────────
+
+  Scenario: Credenciais recusadas pelo login corporativo
+    Given que informo credenciais inválidas no login corporativo
+    When tento me autenticar
+    Then o sistema não inicia a sessão e mantém o usuário no login corporativo
 ```
 
 ---
@@ -128,11 +132,12 @@ Ponto de entrada em `/login`: o produto redireciona o usuário ao login corporat
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado de `global/AUTHZ.md` e do N0 (login corporativo/SSO) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Acesso e Perfis · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

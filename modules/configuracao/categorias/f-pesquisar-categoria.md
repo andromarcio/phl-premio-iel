@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-CAT-01
 feature_set: CFG-CAT
 dominio: CFG
 entidade: Categoria
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-004_Cadastrar_Categorias
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Pesquisar Categorias
-> **Nível 3** - Feature Set: Categorias — Domínio: Configuração da Premiação - `CFG-CAT-01`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Categorias — Major Feature Set: Configuração da Premiação - `CFG-CAT-01`
 
 ## Descrição
 Permite ao administrador localizar categorias do catálogo por nome e situação, listando os resultados para consulta, edição ou vínculo a um prêmio.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
 
 ---
 
@@ -49,31 +62,33 @@ Permite ao administrador localizar categorias do catálogo por nome e situação
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Pesquisar Categorias
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Listar categorias ao abrir o catálogo
-  Given que existem categorias cadastradas no catálogo
-  When acesso a tela de Categorias
-  Then o sistema exibe a lista de categorias com nome, descrição e situação
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Buscar categoria por parte do nome
-  Given que existe a categoria "Categoria Estudantil"
-  When informo "estud" no campo de busca por nome
-  Then o sistema exibe a categoria "Categoria Estudantil" no resultado
+  Scenario: Listar categorias ao abrir o catálogo
+    Given que existem categorias cadastradas no catálogo
+    When acesso a tela de Categorias
+    Then o sistema exibe a lista de categorias com nome, descrição e situação
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Buscar categoria por parte do nome
+    Given que existe a categoria "Categoria Estudantil"
+    When informo "estud" no campo de busca por nome
+    Then o sistema exibe a categoria "Categoria Estudantil" no resultado
 
-Scenario: Filtrar por situação inativa
-  Given que existem categorias ativas e inativas
-  When seleciono a situação "Inativo"
-  Then o sistema exibe apenas as categorias inativas
+  # ── Estados especiais ──────────────────────────────────────────
 
-Scenario: Busca sem resultados
-  Given que nenhuma categoria corresponde ao termo buscado
-  When realizo a busca
-  Then o sistema exibe "Nenhum resultado para a busca."
+  Scenario: Filtrar por situação inativa
+    Given que existem categorias ativas e inativas
+    When seleciono a situação "Inativo"
+    Then o sistema exibe apenas as categorias inativas
+
+  Scenario: Busca sem resultados
+    Given que nenhuma categoria corresponde ao termo buscado
+    When realizo a busca
+    Then o sistema exibe "Nenhum resultado para a busca."
 ```
 
 ---
@@ -160,6 +175,7 @@ Página própria em `/categorias` (Catálogo de Categorias): campo de busca por 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -167,6 +183,6 @@ Página própria em `/categorias` (Catálogo de Categorias): campo de busca por 
 
 ---
 
-*Feature Set: Categorias · Domínio: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

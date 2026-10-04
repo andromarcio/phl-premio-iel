@@ -1,10 +1,9 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ACE-02
 feature_set: ACS-ACE
 dominio: ACS
 entidade: Usuário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
@@ -15,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Consultar Perfil do Usuário
-> **Nível 3** - Feature Set: Acesso e Perfis — Domínio: Acesso e Gestão - `ACS-ACE-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Acesso e Perfis — Major Feature Set: Acesso e Gestão - `ACS-ACE-02`
 
 ## Descrição
 Consulta e resolve, no acesso do usuário, o seu perfil único e o conjunto de funcionalidades autorizadas que determinam o que ele pode fazer no sistema. ⚠️ *(derivado de AUTHZ/SSO — a confirmar)*
@@ -49,28 +51,30 @@ Consulta e resolve, no acesso do usuário, o seu perfil único e o conjunto de f
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Consultar Perfil do Usuário
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Resolver o perfil e as funcionalidades no acesso
-  Given que sou um usuário autenticado com um perfil definido
-  When acesso o sistema
-  Then o sistema resolve o conjunto de funcionalidades autorizadas do meu perfil e libera apenas essas
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Resolver o perfil e as funcionalidades no acesso
+    Given que sou um usuário autenticado com um perfil definido
+    When acesso o sistema
+    Then o sistema resolve o conjunto de funcionalidades autorizadas do meu perfil e libera apenas essas
 
-Scenario: Funcionalidade não vinculada ao perfil
-  Given que uma funcionalidade não está vinculada ao meu perfil
-  When tento acessá-la
-  Then o sistema nega e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Funcionalidade não vinculada ao perfil
+    Given que uma funcionalidade não está vinculada ao meu perfil
+    When tento acessá-la
+    Then o sistema nega e exibe "Você não tem permissão para esta ação."
 
-Scenario: Vínculo alterado vale no próximo acesso
-  Given que o administrador vinculou uma nova funcionalidade ao meu perfil
-  When acesso o sistema novamente
-  Then o sistema inclui a nova funcionalidade no conjunto autorizado do meu perfil
+  # ── Estados especiais ──────────────────────────────────────────
+
+  Scenario: Vínculo alterado vale no próximo acesso
+    Given que o administrador vinculou uma nova funcionalidade ao meu perfil
+    When acesso o sistema novamente
+    Then o sistema inclui a nova funcionalidade no conjunto autorizado do meu perfil
 ```
 
 ---
@@ -146,11 +150,12 @@ Sem tela dedicada: a resolução ocorre no acesso (origem: Autenticar Usuário) 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado de `global/AUTHZ.md` (controle de acesso por funcionalidade) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Acesso e Perfis · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

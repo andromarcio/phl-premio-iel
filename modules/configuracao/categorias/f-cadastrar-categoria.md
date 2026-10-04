@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-CAT-02
 feature_set: CFG-CAT
 dominio: CFG
 entidade: Categoria
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-004_Cadastrar_Categorias
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Categoria
-> **Nível 3** - Feature Set: Categorias — Domínio: Configuração da Premiação - `CFG-CAT-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Categorias — Major Feature Set: Configuração da Premiação - `CFG-CAT-02`
 
 ## Descrição
 Permite ao administrador registrar uma nova categoria informando nome e descrição, deixando-a disponível no catálogo para ser vinculada a prêmios.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
 
 ---
 
@@ -49,44 +62,46 @@ Permite ao administrador registrar uma nova categoria informando nome e descriç
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Categoria
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Cadastrar categoria no catálogo
-  Given que acesso o formulário de nova categoria
-  When informo o nome "Categoria Estudantil" e salvo
-  Then o sistema registra a categoria e exibe "Registro salvo com sucesso."
-  And a categoria fica disponível para vínculo a prêmios
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Cadastrar categoria no catálogo
+    Given que acesso o formulário de nova categoria
+    When informo o nome "Categoria Estudantil" e salvo
+    Then o sistema registra a categoria e exibe "Registro salvo com sucesso."
+    And a categoria fica disponível para vínculo a prêmios
 
-Scenario: Nome em branco
-  Given que estou no formulário de categoria
-  When deixo o campo Nome em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Nome em branco
+    Given que estou no formulário de categoria
+    When deixo o campo Nome em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Nome duplicado no mesmo prêmio
-  Given que já existe a categoria "Categoria Estudantil" no prêmio
-  When tento criar outra categoria com o mesmo nome neste prêmio
-  Then o sistema não registra e exibe "Já existe uma categoria com este nome neste prêmio."
-  # ← MESSAGE-DICTIONARY: CFG_CATEGORIA_NOME_DUPLICADO
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Nome duplicado no mesmo prêmio
+    Given que já existe a categoria "Categoria Estudantil" no prêmio
+    When tento criar outra categoria com o mesmo nome neste prêmio
+    Then o sistema não registra e exibe "Já existe uma categoria com este nome neste prêmio."
+    # ← MESSAGE-DICTIONARY: CFG_CATEGORIA_NOME_DUPLICADO
 
-Scenario: Criação rápida pela árvore
-  Given que estou na configuração de um prêmio
-  When aciono a criação rápida de categoria no nó raiz
-  Then o sistema cria a categoria com o nome "Nova Categoria" e abre o editor para renomeação
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Criação rápida pela árvore
+    Given que estou na configuração de um prêmio
+    When aciono a criação rápida de categoria no nó raiz
+    Then o sistema cria a categoria com o nome "Nova Categoria" e abre o editor para renomeação
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para cadastrar categorias
-  When tento acessar o cadastro de categoria
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para cadastrar categorias
+    When tento acessar o cadastro de categoria
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -157,12 +172,13 @@ Formulário próprio em `/categorias/novo` (campos Nome e Descrição) e, altern
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-25 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-004 |
 
 ---
 
-*Feature Set: Categorias · Domínio: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

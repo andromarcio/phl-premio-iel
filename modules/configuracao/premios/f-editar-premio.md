@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-PRE-03
 feature_set: CFG-PRE
 dominio: CFG
 entidade: Premiação
-prioridade: P1
-mvp: true
 data_model_ref: data-models/configuracao.md#premiacao
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-002_Cadastrar_Premios
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Editar Prêmio
-> **Nível 3** - Feature Set: Prêmios — Domínio: Configuração da Premiação - `CFG-PRE-03`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Prêmios — Major Feature Set: Configuração da Premiação - `CFG-PRE-03`
 
 ## Descrição
 Permite ao administrador alterar os dados de uma edição já criada — nome, descrição, período e banner — mantendo a configuração da premiação atualizada.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
 
 ---
 
@@ -49,34 +62,36 @@ Permite ao administrador alterar os dados de uma edição já criada — nome, d
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Editar Prêmio
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Editar dados da edição
-  Given que selecionei uma edição existente
-  When altero o nome, a descrição e o período e clico em "Salvar"
-  Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Editar dados da edição
+    Given que selecionei uma edição existente
+    When altero o nome, a descrição e o período e clico em "Salvar"
+    Then o sistema grava as alterações e exibe "Registro salvo com sucesso."
 
-Scenario: Nome apagado na edição
-  Given que estou editando uma edição
-  When apago o campo Nome e clico em "Salvar"
-  Then o sistema não grava e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-Scenario: Período invertido na edição
-  Given que altero a data de término para antes da data de início
-  When clico em "Salvar"
-  Then o sistema não grava e exibe "A data de término deve ser igual ou posterior à data de início."
+  Scenario: Nome apagado na edição
+    Given que estou editando uma edição
+    When apago o campo Nome e clico em "Salvar"
+    Then o sistema não grava e exibe "Campo obrigatório."
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Período invertido na edição
+    Given que altero a data de término para antes da data de início
+    When clico em "Salvar"
+    Then o sistema não grava e exibe "A data de término deve ser igual ou posterior à data de início."
 
-Scenario: Renomear para um nome já usado
-  Given que já existe outra edição "Prêmio IEL de Talentos 2025"
-  When renomeio a edição atual para "Prêmio IEL de Talentos 2025"
-  Then o sistema não grava e exibe "Já existe um prêmio com este nome."
-  # ← MESSAGE-DICTIONARY: CFG_PREMIO_NOME_DUPLICADO
+  # ── Conflitos com dados existentes ─────────────────────────────
+
+  Scenario: Renomear para um nome já usado
+    Given que já existe outra edição "Prêmio IEL de Talentos 2025"
+    When renomeio a edição atual para "Prêmio IEL de Talentos 2025"
+    Then o sistema não grava e exibe "Já existe um prêmio com este nome."
+    # ← MESSAGE-DICTIONARY: CFG_PREMIO_NOME_DUPLICADO
 ```
 
 ---
@@ -146,11 +161,12 @@ Formulário da edição em `/configuracao-premiacao/premiacoes/:premiacaoId/conf
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

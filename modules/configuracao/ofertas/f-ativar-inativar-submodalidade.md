@@ -1,30 +1,43 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: CFG-VIN-11
 feature_set: CFG-VIN
 dominio: CFG
 entidade: Oferta
-prioridade: P2
-mvp: false
 data_model_ref: data-models/configuracao.md#oferta-tipo--modalidade--categoria
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-011_Vincular_Categoria_Modalidade_TipoParticipante
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Ativar/Inativar Submodalidade
-> **Nível 3** - Feature Set: Vínculos e Ofertas — Domínio: Configuração da Premiação - `CFG-VIN-11`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-11`
 
 ## Descrição
 
 > ⚠️ **Colisão de terminologia confirmada no código** (2026-08-28). O que esta feature descreve — o vínculo tipo de participante × modalidade × categoria, com parâmetros de equipe e slug — é a **Oferta** (`TB_TIPO_PART_MOD_CAT`), configurada na aba **Geral** do editor de Tipo de Participante. Na interface implementada, o rótulo **“Sub Modalidades”** designa outra coisa: o **Enquadramento** (`TB_ENQUADRAMENTO`, features `CFG-TIP-10`/`CFG-TIP-11`). Renomear esta feature depende de decisão do PO — ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
 Permite ao administrador alternar a situação ativa/inativa de uma submodalidade (exclusão lógica), controlando se a oferta fica disponível para inscrição sem removê-la da edição.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
 
 ---
 
@@ -51,33 +64,35 @@ Permite ao administrador alternar a situação ativa/inativa de uma submodalidad
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Ativar/Inativar Submodalidade
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Inativar submodalidade
-  Given que identifico uma submodalidade ativa
-  When clico em "Desativar" e confirmo
-  Then o sistema passa a submodalidade para a situação inativa
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Reativar submodalidade
-  Given que identifico uma submodalidade inativa
-  When clico em "Ativar" e confirmo
-  Then o sistema passa a submodalidade para a situação ativa
+  Scenario: Inativar submodalidade
+    Given que identifico uma submodalidade ativa
+    When clico em "Desativar" e confirmo
+    Then o sistema passa a submodalidade para a situação inativa
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Reativar submodalidade
+    Given que identifico uma submodalidade inativa
+    When clico em "Ativar" e confirmo
+    Then o sistema passa a submodalidade para a situação ativa
 
-Scenario: Submodalidade inativa fora da inscrição pública
-  Given que a submodalidade está inativa
-  When um participante acessa o fluxo público de inscrição
-  Then a submodalidade inativa não é apresentada como opção
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Submodalidade inativa fora da inscrição pública
+    Given que a submodalidade está inativa
+    When um participante acessa o fluxo público de inscrição
+    Then a submodalidade inativa não é apresentada como opção
 
-Scenario: Usuário sem permissão para inativar
-  Given que meu perfil não tem permissão para inativar submodalidades
-  When tento inativar uma submodalidade
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão para inativar
+    Given que meu perfil não tem permissão para inativar submodalidades
+    When tento inativar uma submodalidade
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -152,12 +167,13 @@ Ação disparada da linha da submodalidade em Submodalidades da Oferta (`/config
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Domínio: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

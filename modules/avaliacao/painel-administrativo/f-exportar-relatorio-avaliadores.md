@@ -1,11 +1,9 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_3A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: AVL-PAI-04
 feature_set: AVL-PAI
 dominio: AVL
 entidade: Avaliação de Inscrição
-prioridade: P2
-mvp: false
 data_model_ref: data-models/avaliacao.md#avaliacao-de-inscricao
 endpoints: []
 error_codes: []
@@ -16,11 +14,14 @@ gates:
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Exportar Relatório de Avaliadores
-> **Nível 3** - Feature Set: Painel Administrativo — Domínio: Avaliação - `AVL-PAI-04`
-> **Prioridade**: P2 · **MVP**: não
+> **Nível 3** - Feature Set: Painel Administrativo — Major Feature Set: Avaliação - `AVL-PAI-04`
 
 ## Descrição
 Entrega em planilha o acompanhamento das avaliações por avaliador — quantas cada um tem alocadas, a iniciar, em andamento e finalizadas, e a lista de avaliações que sustenta esses números — para cobrança e acompanhamento fora do sistema.
@@ -53,34 +54,36 @@ Entrega em planilha o acompanhamento das avaliações por avaliador — quantas 
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Exportar Relatório de Avaliadores
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Exportar o acompanhamento por avaliador
-  Given que consultei o painel de avaliações com filtros aplicados
-  When aciono a exportação
-  Then o sistema entrega uma planilha com o resumo por avaliador e a lista das avaliações
-  And o resumo traz, por avaliador, as quantidades alocadas, a iniciar, em andamento e finalizadas
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-Scenario: Exportar com avaliação às cegas
-  Given que a premiação está configurada com avaliação às cegas
-  When exporto o relatório de avaliadores
-  Then o identificador de acesso do avaliador não aparece na planilha
+  Scenario: Exportar o acompanhamento por avaliador
+    Given que consultei o painel de avaliações com filtros aplicados
+    When aciono a exportação
+    Then o sistema entrega uma planilha com o resumo por avaliador e a lista das avaliações
+    And o resumo traz, por avaliador, as quantidades alocadas, a iniciar, em andamento e finalizadas
 
-# ── Estados especiais ──────────────────────────────────────────
+  Scenario: Exportar com avaliação às cegas
+    Given que a premiação está configurada com avaliação às cegas
+    When exporto o relatório de avaliadores
+    Then o identificador de acesso do avaliador não aparece na planilha
 
-Scenario: Recorte sem avaliações
-  Given que os filtros escolhidos não devolvem nenhuma avaliação
-  When exporto o relatório
-  Then a planilha é entregue sem linhas de avaliação
+  # ── Estados especiais ──────────────────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Recorte sem avaliações
+    Given que os filtros escolhidos não devolvem nenhuma avaliação
+    When exporto o relatório
+    Then a planilha é entregue sem linhas de avaliação
 
-Scenario: Avaliador tenta exportar
-  Given que estou autenticado como Avaliador
-  When tento exportar o relatório de avaliadores
-  Then o sistema nega a operação
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Avaliador tenta exportar
+    Given que estou autenticado como Avaliador
+    When tento exportar o relatório de avaliadores
+    Then o sistema nega a operação
 ```
 
 ---
@@ -154,6 +157,7 @@ Ação de exportação no Painel de Avaliações (`/avaliacao-admin/avaliacoes`)
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -161,6 +165,6 @@ Ação de exportação no Painel de Avaliações (`/avaliacao-admin/avaliacoes`)
 
 ---
 
-*Feature Set: Painel Administrativo · Domínio: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Painel Administrativo · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

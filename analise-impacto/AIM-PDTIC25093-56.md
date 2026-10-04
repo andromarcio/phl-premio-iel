@@ -1,9 +1,21 @@
-<!-- docqui: 2.16.0 | prompt: analise-impacto | atualizado: 2026-09-01 -->
-# Análise Impacto PDTIC25093-56
-
+---
+tipo: ticket
+ticket: PDTIC25093-56
+ferramenta: ""
+link: ""
+titulo: ""
+estado: concluído
+aberta-na-entrega: true
+sprint: SP05
+avalizado-por: ""
+aberta-em: 2026-10-04
 ---
 
+# AIM PDTIC25093-56
+
 ## Sumário
+
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-56.md`.
 
 | Indicador | Valor |
 |---|---|
@@ -18,9 +30,9 @@
 
 > **Linha do tempo.** O baseline APF foi contado em **2026-02-28**, antes desta sprint — é o "antes" da contagem. Os N3 foram escritos entre **2026-08-25 e 27**, por engenharia reversa do código **pós-sprint**: logo o "antes" de cada delta é o N3 como publicado, não o sistema em produção. O item aparece encerrado na listagem mais recente do board. ⚠️ Não há SQL anterior à sprint nem os arquivos de migração no acervo — as alterações de modelo abaixo são as **declaradas** pela demanda e confirmadas no modelo atual, não as **verificadas no script**.
 
----
+## Detalhe do item
 
-## 1. Detalhe do item
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-56.md`.
 
 **`PDTIC25093-56` — Relatório de inscrições · HU-036 — Relatório Geral de Inscrições**
 
@@ -30,24 +42,45 @@ Na spec: **uma feature nova** — o Relatório Geral de Inscrições, em tela e 
 
 > **Critérios de aceite não numerados.** A HU chega como `.docx` e não numera os critérios. Pela regra da instância, a coluna `CA-n` sai `—` e a rastreabilidade fica pela chave da demanda. Numerar por conta própria produziria referências que não existem na ferramenta do cliente.
 
----
+## Critérios de aceite
 
-## 2. Alterações aplicadas na spec, por Feature Set
+> ⚠️ Migrada sem o registro do ticket: transcreva aqui os critérios de aceite da ferramenta de origem.
+
+## Features
+
+| Feature (N3) | Domínio · Feature Set | Operação | Critérios cobertos | Status |
+|---|---|---|---|---|
+| [`AVL-APU-06`: Gerar Relatório de Inscrições Paradas](../modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md) | Avaliação · Apuração e Devolutiva | Alteração | — | ✏️ Rascunho |
+| [`AVL-APU-10`: Gerar Relatório de Inscrições](../modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes.md) | Avaliação · Apuração e Devolutiva | Criação | — | ✏️ Rascunho |
+| [`VAL-FIL-01`: Pesquisar Inscrições para Validação](../modules/validacao/fila-validacao/f-pesquisar-inscricao.md) | Validação · Fila e Painel de Validação | Alteração | — | ✏️ Rascunho |
+
+## Artefatos impactados
+
+| Artefato | Tipo | Operação | Seção | Natureza | O quê | Proveniência |
+|---|---|---|---|---|---|---|
+| `modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes.md` | N3 | criar | — | funcional | — | migrado: relatório |
+| `modules/validacao/fila-validacao/f-pesquisar-inscricao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+| `modules/validacao/fila-validacao/f-pesquisar-inscricao.md` | N3 | alterar | — | funcional | — | migrado: relatório |
+
+## Alterações na spec, por Feature Set
 
 ### Avaliação › Apuração e Devolutiva (`AVL-APU`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** | `PDTIC25093-56` · HU-036 | — | alterada | **Restrição** de perfil e **ampliação** da abrangência, na tela e na planilha. Antes o relatório alcançava apenas as UFs no escopo do administrador, tinha cenário próprio para quem não tinha UF vinculada, e a planilha exportava o recorte de UF que estivesse em tela. Agora é exclusivo do Administrador Nacional (APIPIT.22) e alcança todas as UFs da premiação, sem recorte regional — o cenário de administrador sem UF deixou de existir e a planilha sai sempre com todas as UFs. ℹ️ Absorveu a antiga `AVL-APU-07` **Exportar Relatório de Inscrições Paradas** (decisão 6) e responde pelos dois processos elementares | +2 | +1 | 14 | 7 |
-| `AVL-APU-10` **Gerar Relatório de Inscrições** | `PDTIC25093-56` · HU-036 | — | incluída | **Feature incluída.** Consolida todas as inscrições da premiação em qualquer situação — difere do Relatório de Inscrições Paradas, que alcança só as em andamento —, em abas por tipo de participante, com 13 colunas fixas mais uma coluna por pergunta do formulário; a planilha sai completa, sem o limite de 50 registros por grupo da prévia em tela. Exclusiva do Administrador Nacional. ℹ️ Nasce unificada (decisão 6): a consulta em tela e a exportação são a mesma feature e valem dois processos elementares | — | — | 14 | 14 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** | — | alterada | **Restrição** de perfil e **ampliação** da abrangência, na tela e na planilha. Antes o relatório alcançava apenas as UFs no escopo do administrador, tinha cenário próprio para quem não tinha UF vinculada, e a planilha exportava o recorte de UF que estivesse em tela. Agora é exclusivo do Administrador Nacional (APIPIT.22) e alcança todas as UFs da premiação, sem recorte regional — o cenário de administrador sem UF deixou de existir e a planilha sai sempre com todas as UFs. ℹ️ Absorveu a antiga `AVL-APU-07` **Exportar Relatório de Inscrições Paradas** (decisão 6) e responde pelos dois processos elementares | +2 | +1 | 14 | 7 |
+| `AVL-APU-10` **Gerar Relatório de Inscrições** | — | incluída | **Feature incluída.** Consolida todas as inscrições da premiação em qualquer situação — difere do Relatório de Inscrições Paradas, que alcança só as em andamento —, em abas por tipo de participante, com 13 colunas fixas mais uma coluna por pergunta do formulário; a planilha sai completa, sem o limite de 50 registros por grupo da prévia em tela. Exclusiva do Administrador Nacional. ℹ️ Nasce unificada (decisão 6): a consulta em tela e a exportação são a mesma feature e valem dois processos elementares | — | — | 14 | 14 |
 
 **Subtotal: 2 features · 28 PFB · 21 PFL** — `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** mantém os 14 PF do baseline; `AVL-APU-10` **Gerar Relatório de Inscrições** passou de 10 (E) para 14 PF contados em 2026-09-01.
 
 ### Validação › Fila de Validação (`VAL-FIL`)
 
-| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
-|---|---|---|---|---|---|---|---|---|
-| `VAL-FIL-01` **Pesquisar Inscrições para Validação** | `PDTIC25093-56` · HU-036 | — | alterada | **Inclusão** do ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22). Filtros em cascata, cards KPI e tabela paginada seguem como estavam | — | +2 | 7 | 3,5 |
+| Feature | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|
+| `VAL-FIL-01` **Pesquisar Inscrições para Validação** | — | alterada | **Inclusão** do ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22). Filtros em cascata, cards KPI e tabela paginada seguem como estavam | — | +2 | 7 | 3,5 |
 
 **Subtotal: 1 feature · 7 PFB · 3,5 PFL.**
 
@@ -71,9 +104,7 @@ A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `##
 
 As duas primeiras linhas da tabela acima mostram por que a unificação não retirou PF: os dois PE do Relatório de Inscrições Paradas têm **ALR e DER idênticos** e hoje pertencem à mesma feature — é exatamente a convenção descrita em `global/SIZING.md` → *Funcionalidades iguais em formatos de saída diferentes*.
 
----
-
-## 3. Tabelas alteradas, por função de dados
+## Funções de dados alteradas
 
 **Nenhuma alteração de modelo.** O item não declara migração: a entrega lê e escreve no que já existia.
 
@@ -82,15 +113,11 @@ As duas primeiras linhas da tabela acima mostram por que a unificação não ret
 | Funções de transação — 3 PE medidos + 2 estimados, em 3 features | alteradas e incluídas | 35 | 24,5 |
 | **Apurável do item** | — | **35** | **24,5** |
 
----
-
-## 4. Impacto em dicionários
+## Impacto em dicionários
 
 **Nenhuma mensagem, regra ou campo canônico novo.** A entrega reaproveita o baseline de mensagens do dicionário.
 
----
-
-## 5. Decisões de produto pendentes
+## Decisões de produto pendentes
 
 > A decisão sobre unificar gerar e exportar foi tomada em 2026-09-01 e já está aplicada na spec — saiu desta lista; o registro está no `## Changelog`. O número **1** não foi reaproveitado.
 
@@ -102,17 +129,18 @@ As duas primeiras linhas da tabela acima mostram por que a unificação não ret
 
 **Decide** — equipe de métricas. **Alcança** — `AVL-APU-10` **Gerar Relatório de Inscrições** e, pela mesma convenção, `AVL-APU-06` **Gerar Relatório de Inscrições Paradas**.
 
----
-
 ## Metodologia
 
+> Migrada de `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-56.md`.
+
 Cruzamento do item `PDTIC25093-56` com os N3 publicados dos Feature Sets alcançados, o `global/DATA-MODEL.md`, o `global/CONTAGEM-PF.md` e o baseline APF `arquivos/PIEL_BASELINE_PF_CD.xlsx`. O "antes" de cada delta foi extraído das linhas removidas no diff dos N3, não do arquivo atual. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. Este documento é o recorte por item da análise agregada da sprint, em `ANALISE_IMPACTO_SP05.md` — os números dos dois devem sempre fechar.
+
+## Reconciliação
+
+Aberta na entrega — migrada do relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-56.md`: não houve escopo prévio a reconciliar.
 
 ## Changelog
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-09-01 | Contagem APF (docqui) | Estimativas substituídas por contagem | Os processos elementares que faltavam foram contados sobre os N3, com ALR e DER nomeados. O apurável do item passa de **31 (E) · 20,5 (E)** para **35 · 24,5 PF**. ⚠️ Pendente de validação pela equipe de métricas |
-| 2026-09-01 | Análise de impacto (docqui) | Decisões resolvidas removidas | As decisões já tomadas saíram da lista da seção 5 — o registro do que foi decidido fica no changelog, e o trabalho que sobrou delas foi para onde é acompanhado. Os números das que ficaram não foram reaproveitados |
-| 2026-09-01 | Decisão 6 (docqui) | Features unificadas | Aplicada a decisão 6 da sprint: `AVL-APU-07` incorporada a `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** e o par novo unificado em `AVL-APU-10` **Gerar Relatório de Inscrições**. O item passa de 5 para 3 features **sem alterar PFB nem PFL**. Numeração reconciliada com a árvore de arquivos; decisões reescritas com mais detalhe |
-| 2026-09-01 | Análise de impacto (docqui) | Documento criado | Impacto do item `PDTIC25093-56` sobre a spec, derivado da análise agregada da SP05 |
+| 2026-10-04 | migra-aim | AIM migrada | relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-56.md` → AIM única |

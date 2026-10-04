@@ -1,28 +1,41 @@
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 ---
 id: ACS-ADM-02
 feature_set: ACS-ADM
 dominio: ACS
 entidade: Usuário
-prioridade: P1
-mvp: true
 data_model_ref: data-models/acesso.md#usuario-vinculo-por-uf
 endpoints: []
 error_codes: []
 depende_de: []
+origem:
+  tipo: issue
+  chave: HU-020_Cadastrar_Admin_Regionais
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
   modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
   testes:       { aprovado: false, por: "", em: "", pr: "" }
   codigo:       { aprovado: false, por: "", em: "", pr: "" }
+contagem:
+  pendente: true
+  revisada_em: ""
+  revisada_ate: ""
 ---
 
 # Cadastrar Administrador Regional
-> **Nível 3** - Feature Set: Administradores Regionais — Domínio: Acesso e Gestão - `ACS-ADM-02`
-> **Prioridade**: P1 · **MVP**: sim
+> **Nível 3** - Feature Set: Administradores Regionais — Major Feature Set: Acesso e Gestão - `ACS-ADM-02`
 
 ## Descrição
 Permite ao administrador nacional cadastrar um usuário existente do login corporativo como administrador regional, deixando-o apto a receber UFs de escopo.
+
+---
+
+## Origem
+
+| Ticket (AIM) | Tipo | Critérios cobertos |
+|---|---|---|
+| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — |
 
 ---
 
@@ -49,35 +62,37 @@ Permite ao administrador nacional cadastrar um usuário existente do login corpo
 ## Cenários
 
 ```gherkin
-# ← MESSAGE-DICTIONARY: BASELINE
+Feature: Cadastrar Administrador Regional
 
-# ── Caminho feliz ──────────────────────────────────────────────
+  # ← MESSAGE-DICTIONARY: BASELINE
 
-Scenario: Designar usuário como administrador regional
-  Given que acesso o formulário de novo administrador
-  When seleciono um usuário do login corporativo e salvo
-  Then o sistema registra o usuário como administrador regional e exibe "Registro salvo com sucesso."
+  # ── Caminho feliz ──────────────────────────────────────────────
 
-# ── Erros de validação ─────────────────────────────────────────
+  Scenario: Designar usuário como administrador regional
+    Given que acesso o formulário de novo administrador
+    When seleciono um usuário do login corporativo e salvo
+    Then o sistema registra o usuário como administrador regional e exibe "Registro salvo com sucesso."
 
-Scenario: Usuário não selecionado
-  Given que estou no formulário de novo administrador
-  When deixo o campo de usuário em branco e clico em "Salvar"
-  Then o sistema não registra e exibe "Campo obrigatório."
+  # ── Erros de validação ─────────────────────────────────────────
 
-# ── Conflitos com dados existentes ─────────────────────────────
+  Scenario: Usuário não selecionado
+    Given que estou no formulário de novo administrador
+    When deixo o campo de usuário em branco e clico em "Salvar"
+    Then o sistema não registra e exibe "Campo obrigatório."
 
-Scenario: Usuário já é administrador regional
-  Given que o usuário selecionado já está cadastrado como administrador regional
-  When tento cadastrá-lo novamente
-  Then o sistema não registra e mantém um único cadastro para o usuário
+  # ── Conflitos com dados existentes ─────────────────────────────
 
-# ── Restrições de acesso ───────────────────────────────────────
+  Scenario: Usuário já é administrador regional
+    Given que o usuário selecionado já está cadastrado como administrador regional
+    When tento cadastrá-lo novamente
+    Then o sistema não registra e mantém um único cadastro para o usuário
 
-Scenario: Usuário sem permissão de escrita
-  Given que meu perfil não tem permissão para cadastrar administradores
-  When tento acessar o cadastro de administrador
-  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+  # ── Restrições de acesso ───────────────────────────────────────
+
+  Scenario: Usuário sem permissão de escrita
+    Given que meu perfil não tem permissão para cadastrar administradores
+    When tento acessar o cadastro de administrador
+    Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
 ```
 
 ---
@@ -153,12 +168,13 @@ Formulário próprio em `/administracao-usuario`: seleção do usuário do login
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-020 e do inventário APF (módulo Usuário) ⚠️ identidade vinda do SSO |
 
 ---
 
-*Feature Set: Administradores Regionais · Domínio: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
