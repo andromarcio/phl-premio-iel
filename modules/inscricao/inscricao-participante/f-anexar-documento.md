@@ -54,7 +54,7 @@ Permite ao participante enviar os documentos obrigatórios e opcionais exigidos 
 ## Regras de negócio
 
 1. Os documentos exigidos e os opcionais são os definidos pela configuração de anexos da premiação para a oferta da inscrição.
-2. Cada arquivo enviado respeita as extensões permitidas e o tamanho máximo definidos na configuração de anexos → ver RULES-DICTIONARY: Arquivo com tamanho máximo.
+2. Cada arquivo enviado respeita as extensões permitidas e o tamanho máximo definidos na configuração de anexos → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo.
 3. Cada documento anexado fica vinculado à inscrição e ao ponto de anexo que o exige.
 4. Um documento anexado pode ser substituído por outro enquanto a inscrição permanece editável.
 
@@ -103,7 +103,7 @@ Feature: Anexar Documento
 
 | Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
 |---|---|---|---|---|---|
-| Arquivo | entrada do usuário | editável | upload de arquivo | conforme configuração | extensões e tamanho máximo conforme a configuração de anexos → ver RULES-DICTIONARY: Arquivo com tamanho máximo |
+| Arquivo | entrada do usuário | editável | upload de arquivo | conforme configuração | extensões e tamanho máximo conforme a configuração de anexos → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo |
 | Nome do arquivo | derivado do upload | somente leitura | texto | sim | nome do arquivo enviado |
 | Configuração de anexo | contexto do ponto de anexo | somente leitura | referência → Configuração de Anexo | não | ponto de anexo que exige o documento |
 

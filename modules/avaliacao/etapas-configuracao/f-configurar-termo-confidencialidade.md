@@ -59,7 +59,7 @@ Permite ao administrador cadastrar, substituir ou desativar o termo de confidenc
 2. O termo é fornecido de uma única forma por vez: texto ou arquivo anexo.
 3. Substituir o termo desativa o termo anterior e passa o novo a ser o termo ativo da premiação.
 4. O termo de confidencialidade ativo é exigido do avaliador antes do início das avaliações da premiação. ⚠️ *(o aceite do termo pelo avaliador é especificado em Avaliação de Projetos — AVL-AVA)*
-5. O arquivo do termo respeita o tamanho e os tipos permitidos. → ver RULES-DICTIONARY: Arquivo com tamanho máximo (parâmetro: tamanho e tipos a confirmar ⚠️).
+5. O arquivo do termo respeita o tamanho e os tipos permitidos. → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo (parâmetro: tamanho e tipos a confirmar ⚠️).
 
 ---
 
@@ -100,7 +100,7 @@ Feature: Configurar Termo de Confidencialidade
     Given que seleciono um arquivo de termo maior que o tamanho máximo
     When tento salvar
     Then o sistema rejeita e exibe "Arquivo excede o tamanho máximo de [tamanho]."
-    # ← RULES-DICTIONARY: Arquivo com tamanho máximo
+    # ← RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo
 
   # ── Restrições de acesso ───────────────────────────────────────
 

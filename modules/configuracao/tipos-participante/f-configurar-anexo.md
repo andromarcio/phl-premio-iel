@@ -54,7 +54,7 @@ Permite ao administrador configurar os documentos que o candidato deve enviar na
 ## Regras de negócio
 
 1. Cada documento exigido aceita ao menos uma extensão de arquivo.
-2. O tamanho máximo de cada documento fica entre 1 MB e 100 MB → ver RULES-DICTIONARY: Arquivo com tamanho máximo (parâmetro: 1 a 100 MB por anexo).
+2. O tamanho máximo de cada documento fica entre 1 MB e 100 MB → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo (parâmetro: 1 a 100 MB por anexo).
 3. Um documento é opcional por padrão e só passa a obrigatório quando o administrador o define assim.
 4. A configuração de anexo pertence a um único tipo de participante e não é compartilhada entre tipos.
 5. Um documento exigido removido deixa de ser solicitado ao candidato, mas seu registro é preservado (exclusão lógica).

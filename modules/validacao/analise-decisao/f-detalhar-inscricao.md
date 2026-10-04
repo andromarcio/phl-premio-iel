@@ -128,7 +128,7 @@ Feature: Detalhar Inscrição
 | Dados do formulário | Inscrição (respostas do formulário) | somente leitura | grupo de respostas do formulário dinâmico | — | — |
 | Questionário | Inscrição (respostas de questão) | somente leitura | grupo de respostas do questionário | — | — |
 | Documentos | Inscrição (documentos) | somente leitura | lista de anexos, cada um com endereço individual de download | — | download restrito a quem tem direito à inscrição |
-| Equipe | Inscrição (membros de equipe) | somente leitura | cards com nome, CPF (→ ver FIELD-DICTIONARY: CPF), e-mail (→ ver FIELD-DICTIONARY: E-mail) e telefone (→ ver FIELD-DICTIONARY: Telefone) | — | — |
+| Equipe | Inscrição (membros de equipe) | somente leitura | cards com nome, CPF, e-mail e telefone; campos canônicos → ver FIELD-DICTIONARY: `CPF` · `E-mail` · `Telefone` | — | — |
 | Termos | Inscrição (aceites de termo) | somente leitura | lista de termos aceitos | — | — |
 | Histórico de validação | Inscrição (histórico) | somente leitura | linha do tempo de transições de situação | — | — |
 

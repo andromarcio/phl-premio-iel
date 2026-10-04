@@ -1,4 +1,4 @@
-<!-- docqui: {{VERSION}} | prompt: {{PROMPT_ID}} | atualizado: {{YYYY-MM-DD}} -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 # RULES-DICTIONARY.md
 > Dicionário de **regras de negócio canônicas** — invariantes que se repetem em
 > várias features (maioridade, registro vinculado não excluível, etc.).
@@ -7,10 +7,15 @@
 > Cada regra aqui descreve a **invariante** ("o quê"); a reação do sistema ("não
 > salva", "exibe mensagem") vive nos **cenários**, não na regra.
 >
+> **Cada regra tem um ID `RC-NN`** — sequencial, **nunca reaproveitado** (a regra removida
+> deixa o número vago). A citação vale **pelo ID**: o nome depois do travessão é só para
+> quem lê; o índice de uso (`generate-usage-index`) e o `valida-citacoes-dicionario` leem
+> apenas o `RC-NN`, e citação sem ID é acusada. Renomear a regra não quebra citação nenhuma.
+>
 > **Como referenciar nos N3**:
-> - Regras de negócio: `→ ver RULES-DICTIONARY: [nome] (parâmetro: [valor])`
-> - Cenários Gherkin: `# ← RULES-DICTIONARY: [nome] (importar cenários)`
-> - Código (DEV): `// → RULES-DICTIONARY: [nome]`
+> - Regras de negócio: `→ ver RULES-DICTIONARY: [RC-NN] — [nome] (parâmetro: [valor])`
+> - Cenários Gherkin: `# ← RULES-DICTIONARY: [RC-NN] — [nome] (importar cenários)`
+> - Código (DEV): `// → RULES-DICTIONARY: [RC-NN] — [nome]`
 >
 > **Regra de uso**:
 > - Modo PO: aplicar automaticamente; perguntar apenas os **parâmetros** em aberto.
@@ -21,17 +26,17 @@
 
 ## Índice
 
-| Regra | Invariante (resumo) | Parâmetros em aberto |
-|---|---|---|
-| Maioridade | A pessoa precisa ter idade mínima | idade mínima |
-| Responsável ativo | O responsável vinculado precisa estar ativo | quem é o "responsável" |
-| Período de vigência | Início ≤ fim; ação válida só dentro da vigência | datas / fuso |
-| Aprovação antes de publicar | Conteúdo só publica após aprovação | quem aprova |
-| Limite por organização | Quantidade máxima de registros por organização | limite |
-| Slug único público | Identificador público é único e estável | escopo da unicidade |
-| Reenvio com cooldown | Reenvio só após intervalo mínimo | janela de cooldown |
-| Arquivo com tamanho máximo | Upload limitado em tamanho/tipo | tamanho e tipos aceitos |
-| Registro vinculado não pode ser excluído | Não excluir registro referenciado por outro | entidade vinculada; ação alternativa |
+| ID | Regra | Invariante (resumo) | Parâmetros em aberto |
+|---|---|---|---|
+| RC-01 | Maioridade | A pessoa precisa ter idade mínima | idade mínima |
+| RC-02 | Responsável ativo | O responsável vinculado precisa estar ativo | quem é o "responsável" |
+| RC-03 | Período de vigência | Início ≤ fim; ação válida só dentro da vigência | datas / fuso |
+| RC-04 | Aprovação antes de publicar | Conteúdo só publica após aprovação | quem aprova |
+| RC-05 | Limite por organização | Quantidade máxima de registros por organização | limite |
+| RC-06 | Slug único público | Identificador público é único e estável | escopo da unicidade |
+| RC-07 | Reenvio com cooldown | Reenvio só após intervalo mínimo | janela de cooldown |
+| RC-08 | Arquivo com tamanho máximo | Upload limitado em tamanho/tipo | tamanho e tipos aceitos |
+| RC-09 | Registro vinculado não pode ser excluído | Não excluir registro referenciado por outro | entidade vinculada; ação alternativa |
 
 ---
 
@@ -39,7 +44,7 @@
 
 > Formato de cada regra. Abaixo, exemplos trabalhados; replique para as demais.
 
-### Maioridade
+### RC-01 — Maioridade
 <!-- usado-em:gerado -->
 > **Usado em:** _(ainda não referenciado em N3)_
 <!-- /usado-em -->
@@ -56,7 +61,33 @@ Scenario: Pessoa abaixo da idade mínima
   Then o sistema rejeita e exibe "É necessário ter no mínimo [idade] anos."
 ```
 
-### Arquivo com tamanho máximo
+### RC-03 — Período de vigência
+<!-- usado-em:gerado -->
+> **Usado em:** `AVL-ETA-02` · `AVL-ETA-03` · `CFG-PRE-02` · `CFG-PRE-03`
+<!-- /usado-em -->
+
+- **Invariante**: a data de início do período não é posterior à data de fim; a ação que depende do período só vale dentro dele.
+- **Parâmetros (por feature)**: as datas que delimitam o período (ex.: início e término da premiação; início e término da etapa); se o limite é inclusivo.
+- **Mensagem**: definida por feature — ex.: "A data de término deve ser igual ou posterior à data de início." ⚠️ *(as features usam textos diferentes para a mesma invariante; unificar é decisão do PO)*
+
+```gherkin
+# ── Regra: Período de vigência ───────────────────────────────────
+Scenario: Fim anterior ao início
+  Given que informo uma data de fim anterior à data de início
+  When tento salvar
+  Then o sistema rejeita e exibe a mensagem de período inválido da feature
+```
+
+### RC-06 — Slug único público
+<!-- usado-em:gerado -->
+> **Usado em:** _(ainda não referenciado em N3)_
+<!-- /usado-em -->
+
+- **Invariante**: o identificador público de um registro é único no seu escopo e não muda depois de divulgado.
+- **Parâmetros (por feature)**: escopo da unicidade (ex.: por premiação, por categoria ou tipo de participante).
+- **Mensagem**: ⚠️ *(nenhuma feature desta instância expõe o conflito ao usuário — o identificador é gerado pelo sistema)*
+
+### RC-08 — Arquivo com tamanho máximo
 <!-- usado-em:gerado -->
 > **Usado em:** `AVL-ETA-07` · `CFG-PRE-06` · `CFG-TIP-12` · `INS-PAR-05`
 <!-- /usado-em -->
@@ -73,7 +104,7 @@ Scenario: Arquivo acima do tamanho permitido
   Then o sistema rejeita e exibe "Arquivo excede o tamanho máximo de [tamanho]."
 ```
 
-### Registro vinculado não pode ser excluído
+### RC-09 — Registro vinculado não pode ser excluído
 <!-- usado-em:gerado -->
 > **Usado em:** `AVL-ETA-04` · `CFG-TIP-09`
 <!-- /usado-em -->
@@ -94,13 +125,11 @@ Scenario: Exclusão de registro com vínculos
 
 ## Como adicionar uma regra canônica
 
-Uma regra vira canônica quando a **mesma invariante** aparece em **2+ features**
-(detectável via auditoria — ver `PROMPT_AUDIT_RULES_DEDUP.md`). Para promovê-la:
+Uma regra vira canônica quando a **mesma invariante** aparece em **2+ features** (detectável via auditoria — ver `PROMPT_AUDIT_RULES_DEDUP.md`). Para promovê-la:
 
-1. Adicione a linha ao **Índice** (nome, invariante, parâmetros em aberto).
-2. Crie a **entrada** (invariante, parâmetros, mensagem, cenários).
-3. Nos N3 que repetiam a regra inline, substitua por
-   `→ ver RULES-DICTIONARY: [nome]` e importe os cenários com o marcador.
+1. Atribua o próximo **`RC-NN`** (o maior já usado + 1 — nunca reaproveite) e adicione a linha ao **Índice** (ID, nome, invariante, parâmetros em aberto).
+2. Crie a **entrada** `### RC-NN — Nome` (invariante, parâmetros, mensagem, cenários).
+3. Nos N3 que repetiam a regra inline, substitua por `→ ver RULES-DICTIONARY: [RC-NN] — [nome]` e importe os cenários com o marcador.
 
 > Regra que vale só para um domínio (não para o sistema todo) **não** é canônica:
 > registre-a nas *Regras transversais* do N1 do domínio.
@@ -110,13 +139,10 @@ Uma regra vira canônica quando a **mesma invariante** aparece em **2+ features*
 ## Instrução para a LLM
 
 Ao especificar regras de negócio em um N3 (PROMPT_3A/3B):
-1. Verifique se a regra é canônica — se for, **não pergunte** sobre o comportamento;
-   aplique e pergunte apenas os parâmetros em aberto.
-2. Referencie `→ ver RULES-DICTIONARY: [nome] (parâmetro: [valor])` e importe os
-   cenários com `# ← RULES-DICTIONARY: [nome]`.
+1. Verifique se a regra é canônica — se for, **não pergunte** sobre o comportamento; aplique e pergunte apenas os parâmetros em aberto.
+2. Referencie `→ ver RULES-DICTIONARY: [RC-NN] — [nome] (parâmetro: [valor])` e importe os cenários com `# ← RULES-DICTIONARY: [RC-NN] — [nome]`.
 3. Regra recorrente ainda não dicionarizada: proponha com ⚠️ e aguarde aprovação.
-4. Se o que foi descrito é uma **qualidade do sistema** (não uma invariante de
-   negócio), encaminhe ao `global/NFR.md`.
+4. Se o que foi descrito é uma **qualidade do sistema** (não uma invariante de negócio), encaminhe ao `global/NFR.md`.
 
 > **Usado em (não escreva à mão)**: abaixo de cada `### <entrada>` há um bloco
 > `> **Usado em:** …` entre `<!-- usado-em:gerado -->` e `<!-- /usado-em -->`,

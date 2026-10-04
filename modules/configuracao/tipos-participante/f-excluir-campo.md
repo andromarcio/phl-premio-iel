@@ -54,7 +54,7 @@ Permite ao administrador excluir um campo do formulário de inscrição do tipo 
 ## Regras de negócio
 
 1. Um campo ainda não utilizado por nenhuma inscrição pode ser excluído definitivamente.
-2. Um campo já respondido em inscrições existentes não é removido fisicamente — passa à situação inativa, mantendo o vínculo com as respostas → ver RULES-DICTIONARY: Registro vinculado não pode ser excluído (entidade vinculada: inscrições; ação alternativa: exclusão lógica).
+2. Um campo já respondido em inscrições existentes não é removido fisicamente — passa à situação inativa, mantendo o vínculo com as respostas → ver RULES-DICTIONARY: RC-09 — Registro vinculado não pode ser excluído (entidade vinculada: inscrições; ação alternativa: exclusão lógica).
 3. A exclusão de um campo preserva as respostas já registradas nas inscrições anteriores.
 
 ---

@@ -56,7 +56,7 @@ Permite ao administrador criar uma etapa eliminatória de avaliação com nome, 
 
 1. Uma premiação comporta no máximo cinco etapas sequenciais de avaliação.
 2. As etapas são numeradas por uma ordem sequencial de 1 a N, atribuída automaticamente como a próxima posição livre na criação.
-3. A data de término de uma etapa é maior ou igual à data de início. → ver RULES-DICTIONARY: Período de vigência (parâmetro: início ≤ término).
+3. A data de término de uma etapa é maior ou igual à data de início. → ver RULES-DICTIONARY: RC-03 — Período de vigência (parâmetro: início ≤ término).
 4. Cada etapa mantém uma lista não vazia de perfis autorizados a operá-la; os valores aceitos são Administrador Nacional e Administrador Regional.
 5. Os perfis Participante e Avaliador não podem constar na lista de perfis autorizados de uma etapa — esses perfis acessam a etapa pelo vínculo de inscrição ou de alocação.
 6. A lista de perfis autorizados de uma etapa vale para toda a sua operação; ela não é alterada pelo fechamento ou pela reabertura da etapa.

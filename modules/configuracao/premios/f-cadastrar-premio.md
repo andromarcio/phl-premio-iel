@@ -54,7 +54,7 @@ Permite ao administrador registrar uma nova edição da premiação com nome, de
 ## Regras de negócio
 
 1. O nome do prêmio é único em todo o sistema.
-2. A data de início não pode ser posterior à data de término. → ver RULES-DICTIONARY: Período de vigência (parâmetro: data de início ≤ data de término)
+2. A data de início não pode ser posterior à data de término. → ver RULES-DICTIONARY: RC-03 — Período de vigência (parâmetro: data de início ≤ data de término)
 3. O banner da edição é opcional.
 
 ---

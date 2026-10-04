@@ -55,7 +55,7 @@ Permite ao administrador criar uma nova edição a partir de uma planilha preenc
 
 1. A importação sempre cria uma nova edição; nunca atualiza uma edição existente.
 2. A importação é atômica: quando a estrutura do arquivo é inválida, nenhuma parte da hierarquia é criada.
-3. O arquivo aceito é uma planilha dentro do tamanho e dos formatos permitidos. → ver RULES-DICTIONARY: Arquivo com tamanho máximo (parâmetro: 10 MB; formatos .xlsx e .xls)
+3. O arquivo aceito é uma planilha dentro do tamanho e dos formatos permitidos. → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo (parâmetro: 10 MB; formatos .xlsx e .xls)
 
 ---
 

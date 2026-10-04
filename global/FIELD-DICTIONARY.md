@@ -1,4 +1,4 @@
-<!-- docqui: {{VERSION}} | prompt: {{PROMPT_ID}} | atualizado: {{YYYY-MM-DD}} -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
 # FIELD-DICTIONARY.md
 > Dicionário de **campos canônicos** — campos que se repetem em várias features
 > com a mesma semântica de validação (CPF, e-mail, telefone…).
@@ -47,7 +47,7 @@
 
 ### CPF
 <!-- usado-em:gerado -->
-> **Usado em:** `AVL-ALO-03` · `CFG-TIP-07` · `CFG-TIP-08` · `INS-PAR-02`
+> **Usado em:** `AVL-ALO-03` · `CFG-TIP-07` · `CFG-TIP-08` · `INS-PAR-02` · `VAL-ANA-01`
 <!-- /usado-em -->
 
 - **Label Dev**: `cpf`
@@ -126,25 +126,98 @@ Scenario: Valor negativo
   Then o sistema rejeita e exibe "Informe um valor válido."
 ```
 
+### CNPJ
+<!-- usado-em:gerado -->
+> **Usado em:** _(ainda não referenciado em N3)_
+<!-- /usado-em -->
+
+- **Label Dev**: `cnpj`
+- **Tipo**: texto (14 dígitos, sem máscara no armazenamento)
+- **Validação**: exatamente 14 dígitos numéricos; dígitos verificadores válidos.
+- **Em aberto (por feature)**: obrigatoriedade; unicidade.
+- **Mensagem**: "CNPJ inválido." ⚠️ *(proposta na regeneração 4.1.0, no padrão da mensagem do CPF — confirmar com o PO)*
+
+```gherkin
+# ── Validação de campo: CNPJ ─────────────────────────────────────
+Scenario: CNPJ com dígitos verificadores inválidos
+  Given que informo um CNPJ com dígito verificador incorreto
+  When tento salvar
+  Then o sistema rejeita e exibe "CNPJ inválido."
+```
+
+### Telefone
+<!-- usado-em:gerado -->
+> **Usado em:** `INS-PAR-02` · `VAL-ANA-01`
+<!-- /usado-em -->
+
+- **Label Dev**: `telefone`
+- **Tipo**: texto
+- **Validação**: DDD + número no formato nacional.
+- **Em aberto (por feature)**: obrigatoriedade; se aceita fixo e celular.
+- **Mensagem**: "Telefone inválido." ⚠️ *(proposta na regeneração 4.1.0 — confirmar com o PO)*
+
+```gherkin
+# ── Validação de campo: Telefone ─────────────────────────────────
+Scenario: Telefone fora do formato nacional
+  Given que informo um telefone sem DDD
+  When tento salvar
+  Then o sistema rejeita e exibe "Telefone inválido."
+```
+
+### Nome de pessoa
+<!-- usado-em:gerado -->
+> **Usado em:** `INS-PAR-01` · `INS-PAR-02` · `INS-PAR-08`
+<!-- /usado-em -->
+
+- **Label Dev**: `nomeCompleto`
+- **Tipo**: texto
+- **Validação**: nome e sobrenome; comprimento mínimo.
+- **Em aberto (por feature)**: obrigatoriedade; comprimento mínimo e máximo.
+- **Mensagem**: "Informe o nome completo." ⚠️ *(proposta na regeneração 4.1.0 — confirmar com o PO)*
+
+```gherkin
+# ── Validação de campo: Nome de pessoa ───────────────────────────
+Scenario: Nome sem sobrenome
+  Given que informo apenas o primeiro nome
+  When tento salvar
+  Then o sistema rejeita e exibe "Informe o nome completo."
+```
+
+### URL
+<!-- usado-em:gerado -->
+> **Usado em:** `CFG-MOD-02` · `CFG-MOD-03` · `CFG-VIN-04` · `CFG-VIN-06` · `CFG-VIN-09` · `CFG-VIN-10`
+<!-- /usado-em -->
+
+- **Label Dev**: `url`
+- **Tipo**: texto
+- **Validação**: formato de URL válido (http/https).
+- **Em aberto (por feature)**: obrigatoriedade; tamanho máximo.
+- **Mensagem**: "Informe um endereço válido, iniciado por http:// ou https://." ⚠️ *(proposta na regeneração 4.1.0 — confirmar com o PO)*
+
+```gherkin
+# ── Validação de campo: URL ──────────────────────────────────────
+Scenario: Endereço sem protocolo
+  Given que informo um endereço sem http:// nem https://
+  When tento salvar
+  Then o sistema rejeita e exibe "Informe um endereço válido, iniciado por http:// ou https://."
+```
+
 ---
 
 ## Como adicionar um campo canônico
 
-Um campo vira canônico quando aparece, com a **mesma semântica de validação**,
-em **2+ features**. Para promovê-lo:
+Um campo vira canônico quando aparece, com a **mesma semântica de validação**, em **2+ features**. Para promovê-lo:
 
 1. Adicione uma linha ao **Índice** (Label PO, Label Dev, Tipo, resumo).
 2. Crie a **entrada** completa (validação, parâmetros em aberto, mensagem, cenários).
-3. Nos N3 que já tratavam o campo inline, substitua a definição por
-   `→ ver FIELD-DICTIONARY: [nome]` e importe os cenários com o marcador.
+3. Nos N3 que já tratavam o campo inline, substitua a definição por `→ ver FIELD-DICTIONARY: [nome]` e importe os cenários com o marcador.
 
 ---
 
 ## Instrução para a LLM
 
 Ao especificar campos em um N3 (PROMPT_3A/3B):
-1. Verifique se o campo é canônico — se for, **não pergunte** sobre suas validações;
-   aplique automaticamente e pergunte apenas obrigatoriedade/unicidade.
+1. Verifique se o campo é canônico — se for, **não pergunte** sobre suas validações; aplique automaticamente e pergunte apenas obrigatoriedade/unicidade.
 2. Na tabela de campos, referencie `→ ver FIELD-DICTIONARY: [nome]`.
 3. Nos cenários, importe com `# ← FIELD-DICTIONARY: [nome]` — não reescreva os cenários daqui.
 4. Campo recorrente ainda não dicionarizado: proponha com ⚠️ e aguarde aprovação antes de promovê-lo.

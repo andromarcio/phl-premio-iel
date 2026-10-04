@@ -54,7 +54,7 @@ Permite ao administrador alterar os dados de uma edição já criada — nome, d
 ## Regras de negócio
 
 1. O nome do prêmio é único em todo o sistema.
-2. A data de início não pode ser posterior à data de término. → ver RULES-DICTIONARY: Período de vigência (parâmetro: data de início ≤ data de término)
+2. A data de início não pode ser posterior à data de término. → ver RULES-DICTIONARY: RC-03 — Período de vigência (parâmetro: data de início ≤ data de término)
 3. A situação (ativa/inativa) da edição não é alterada na edição de dados; sua mudança ocorre apenas pela ação própria de ativação/inativação.
 
 ---

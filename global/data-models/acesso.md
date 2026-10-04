@@ -65,7 +65,7 @@
 | Label PO | Label Dev | Campo banco | Tipo SQL | Obrigatório | Notas |
 |---|---|---|---|---|---|
 | Código CRM | crm | CD_CRM | varchar | não | Identificador no CRM corporativo |
-| Nome completo | nomeCompleto | NM_COMPLETO | varchar | não | → ver FIELD-DICTIONARY: Nome |
+| Nome completo | nomeCompleto | NM_COMPLETO | varchar | não | → ver FIELD-DICTIONARY: Nome de pessoa |
 | Codinome | codinome | NM_CODINOME | varchar | não | |
 | Sexo | sexo | NM_SEXO | varchar | não | enum `SexoEnum`: MASCULINO · FEMININO · NAO_INFORMADO |
 | Cargo | cargo | NM_CARGO | varchar | não | |

@@ -53,7 +53,7 @@ Permite ao administrador remover uma etapa da premiação quando não há avalia
 
 ## Regras de negócio
 
-1. Uma etapa com avaliadores alocados ativos não pode ser excluída enquanto os vínculos existirem. → ver RULES-DICTIONARY: Registro vinculado não pode ser excluído (parâmetro: entidade vinculada = avaliadores alocados; ação alternativa = remover as alocações antes, em Alocação de Avaliadores).
+1. Uma etapa com avaliadores alocados ativos não pode ser excluída enquanto os vínculos existirem. → ver RULES-DICTIONARY: RC-09 — Registro vinculado não pode ser excluído (parâmetro: entidade vinculada = avaliadores alocados; ação alternativa = remover as alocações antes, em Alocação de Avaliadores).
 2. A exclusão de etapa é lógica: a etapa deixa de vigorar na premiação, mas o registro é preservado para histórico. ⚠️ *(exclusão lógica inferida do modelo de dados — a etapa possui indicador de ativo no índice `UQ_ETAPA_PREMIACAO_ORDEM_ATIVO`; confirmar se há exclusão física)*
 3. A exclusão de uma etapa não renumera as demais etapas automaticamente; a reorganização da sequência é feita por reordenação. ⚠️ *(comportamento da numeração após exclusão a confirmar com a liderança do produto)*
 
@@ -86,7 +86,7 @@ Feature: Excluir Etapa
     Given que a etapa possui avaliadores alocados ativos
     When tento excluí-la
     Then o sistema impede a exclusão e exibe "Não é possível excluir: existem avaliadores alocados vinculados a este registro."
-    # ← RULES-DICTIONARY: Registro vinculado não pode ser excluído
+    # ← RULES-DICTIONARY: RC-09 — Registro vinculado não pode ser excluído
 
   # ── Restrições de acesso ───────────────────────────────────────
 

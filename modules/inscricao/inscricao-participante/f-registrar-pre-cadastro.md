@@ -122,7 +122,7 @@ Feature: Registrar Pré-cadastro
 
 | Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
 |---|---|---|---|---|---|
-| Nome completo | entrada do usuário | editável | texto | sim | de 3 a 200 caracteres → ver FIELD-DICTIONARY: Nome |
+| Nome completo | entrada do usuário | editável | texto | sim | de 3 a 200 caracteres → ver FIELD-DICTIONARY: Nome de pessoa |
 | E-mail | entrada do usuário | editável | texto | sim | formato de e-mail válido; no máximo 300 caracteres → ver FIELD-DICTIONARY: E-mail |
 
 *O link público de origem não é digitado pela pessoa: vem do endereço acessado e identifica a oferta em que a inscrição será criada.*

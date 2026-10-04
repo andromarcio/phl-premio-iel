@@ -230,7 +230,7 @@ flowchart TD
 | Nota final / Média | número (decimal) | Média das (3) avaliações; arredondamento (≥ 0,5 sobe; < 0,5 desce) | Inscrição/Avaliação |
 | Feedback consolidado | texto | Gerado por IA; coerente com a média; revisado pelo regional antes do envio | Devolutiva |
 | Nome / Ordem da etapa | texto / número | Etapas ordenadas e pré-definidas; limite inicial de 5 | Etapa |
-| Data de início / fim (etapa) | data | Início ≤ fim | Etapa · → ver RULES-DICTIONARY: Período de vigência |
+| Data de início / fim (etapa) | data | Início ≤ fim | Etapa · → ver RULES-DICTIONARY: RC-03 — Período de vigência |
 | Modo de avaliação | lista de opções | Aberta (vê dados) × Confidencial (só projeto + protocolo) | Premiação/Etapa |
 | Termo de aceite | texto | Ao menos um termo obrigatório na premiação | Premiação |
 | Template de e-mail | texto | Editável na premiação (alocação, etapa encerrada, etapa pronta, aprovação, rejeição) | Premiação |
@@ -254,9 +254,9 @@ flowchart TD
 3. Um tipo de participante já vinculado a uma modalidade não pode ser recriado com o mesmo nome (deve editar).
 4. Só é possível duplicar categorias **não vinculadas** à premiação; a duplicação gera uma cópia (sufixo "cópia").
 5. As etapas são ordenadas e pré-definidas; há um **limite inicial de 5 etapas** por premiação. ⚠️ *(limite a confirmar)*
-6. A data de início da etapa é ≤ data de fim. → ver RULES-DICTIONARY: Período de vigência.
+6. A data de início da etapa é ≤ data de fim. → ver RULES-DICTIONARY: RC-03 — Período de vigência.
 7. Os critérios de desempate são cadastráveis por modalidade/tipo e **ordenáveis** — a ordem é dinâmica (altera o ranking em tempo real); não podem ser fixos em código.
-8. Cada categoria/tipo de participante gera um **link público de inscrição distinto**. → ver RULES-DICTIONARY: Slug único público.
+8. Cada categoria/tipo de participante gera um **link público de inscrição distinto**. → ver RULES-DICTIONARY: RC-06 — Slug único público.
 9. A estrutura da premiação deve ser reaproveitável entre edições/anos (nada fixo que impeça reuso).
 
 ### Inscrição
@@ -264,7 +264,7 @@ flowchart TD
 11. Cada inscrição seleciona **uma** submodalidade; para concorrer em outra, é preciso novo cadastro (pode usar o mesmo login).
 12. No autocadastro do participante, um e-mail já existente bloqueia o novo cadastro. *(reação → cenário)*
 13. A inscrição pode ser salva como rascunho e retomada sem perda de dados.
-14. Upload de anexo respeita tamanho máximo, tipos/extensões permitidas e obrigatoriedade configurados. → ver RULES-DICTIONARY: Arquivo com tamanho máximo.
+14. Upload de anexo respeita tamanho máximo, tipos/extensões permitidas e obrigatoriedade configurados. → ver RULES-DICTIONARY: RC-08 — Arquivo com tamanho máximo.
 15. O e-mail principal (o do login) é o que recebe as comunicações; e-mails adicionais do formulário só refletem no formulário.
 
 ### Validação
@@ -281,7 +281,7 @@ flowchart TD
 24. Só aparecem, na alocação por participante, os avaliadores pré-selecionados no **grupo** correspondente ao tipo/categoria; a alocação só é efetivada ao salvar.
 25. O login de avaliador é único no sistema; cadastro com login existente é bloqueado. *(reação → cenário)*
 26. A exclusão de avaliador é **lógica (soft delete)**: o histórico permanece inativo.
-27. Não é possível remover do grupo um avaliador com avaliação finalizada ou em andamento — antes é preciso retirá-lo das inscrições. → ver RULES-DICTIONARY: Registro vinculado não pode ser excluído.
+27. Não é possível remover do grupo um avaliador com avaliação finalizada ou em andamento — antes é preciso retirá-lo das inscrições. → ver RULES-DICTIONARY: RC-09 — Registro vinculado não pode ser excluído.
 28. Ao remover: não iniciada → remove; finalizada → mantém; em andamento → decisão do regional (não automático).
 29. A nota é gravada incrementalmente (assim que o avaliador a seleciona), sobrevivendo a sair da tela.
 30. IEL e o próprio administrador regional não podem avaliar; um avaliador não avalia projeto/aluno da própria instituição (conflito de interesse) — triagem manual antes de vincular.

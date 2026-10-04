@@ -56,7 +56,7 @@ Permite ao administrador alterar o nome, o período, os perfis autorizados e os 
 
 1. Uma etapa é editável apenas enquanto está na situação Aberta; uma etapa na situação Fechada não aceita alteração de dados.
 2. Os cortes de classificação e de premiação de uma etapa fechada permanecem os que já foram materializados no resultado; alterá-los pressupõe a reabertura administrativa da etapa. → ver `AVL-APU-12` (Reabrir Etapa por UF), que é a feature responsável pela reabertura.
-3. A data de término permanece maior ou igual à data de início após a edição. → ver RULES-DICTIONARY: Período de vigência (parâmetro: início ≤ término).
+3. A data de término permanece maior ou igual à data de início após a edição. → ver RULES-DICTIONARY: RC-03 — Período de vigência (parâmetro: início ≤ término).
 4. A lista de perfis autorizados permanece não vazia após a edição; os valores aceitos continuam sendo Administrador Nacional e Administrador Regional.
 5. A quantidade de classificados — quantos participantes de cada grupo de disputa avançam para a etapa seguinte — permanece com valor mínimo um após a edição.
 6. A quantidade de premiados continua opcional e independente da classificação: quando informada tem valor mínimo um; quando apagada, a etapa deixa de premiar, sem alterar a quantidade de classificados.
