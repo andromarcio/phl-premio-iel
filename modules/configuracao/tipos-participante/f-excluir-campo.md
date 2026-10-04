@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador excluir um campo do formulário de inscrição do tipo de participante — de forma definitiva quando o campo ainda não foi respondido, ou lógica quando já existem inscrições que o utilizaram, preservando o histórico.
 
+No Construtor de Formulário, o administrador aciona a remoção de um campo na área de montagem e confirma a exclusão.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-007_Configurar_Formulario_Tipo_Participante`](../../../hus/HU-007_Configurar_Formulario_Tipo_Participante.docx) | Criação | — |
+| [`HU-007_Configurar_Formulario_Tipo_Participante`](../../../hus/HU-007_Configurar_Formulario_Tipo_Participante.docx) | Criação | `CA-7` — campo já respondido em inscrições existentes recebe exclusão lógica em vez de ser removido |
 
 ---
 
@@ -97,9 +99,9 @@ Feature: Excluir Campo
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Campo | Campo do Formulário | somente leitura | texto | — | campo do formulário sobre o qual a exclusão é aplicada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Campo | Campo do Formulário | exibido do cadastro | somente leitura | texto | — | campo do formulário sobre o qual a exclusão é aplicada |
 
 ---
 
@@ -108,6 +110,14 @@ Feature: Excluir Campo
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação do campo | Inativo (exclusão lógica) | Ao excluir um campo já respondido em inscrições |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê | Verifica se alguma inscrição já respondeu ao campo, o que decide entre a exclusão definitiva e a lógica (regras 1 a 3) |
 
 ---
 
@@ -141,19 +151,24 @@ Ação disparada no Construtor de Formulário (`/configuracao-premiacao/premiaco
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Excluir Campo | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Excluir Campo | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Excluir Campo** — ALR (1): Tipo Participante. DER (3): ID Campo · Ação · Mensagem.
+**Excluir Campo** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Excluir Campo",
  "alr": ["Tipo Participante"],
  "der": ["ID Campo", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Tipo Participante` — a transação remove o campo ou grava nele a situação inativa; o campo é subgrupo do arquivo lógico do tipo de participante
+
+⚠️ A escolha entre a exclusão definitiva e a lógica lê as inscrições (arquivo lógico Inscrição), que a planilha não conta no ALR — a confirmar com a equipe de métricas.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -165,13 +180,13 @@ Ação disparada no Construtor de Formulário (`/configuracao-premiacao/premiaco
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON (o processo elementar principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-007 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

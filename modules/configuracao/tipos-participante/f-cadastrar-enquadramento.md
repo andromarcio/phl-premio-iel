@@ -27,9 +27,11 @@ contagem:
 > **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-10`
 
 ## Descrição
+Permite ao administrador cadastrar um enquadramento — subdivisão classificatória de um tipo de participante (ex.: "1º Ano", "2º Ano") — que passa a estar disponível como opção de classificação na inscrição.
+
+Na aba "Sub Modalidades" do tipo de participante, na árvore de configuração do prêmio, o administrador aciona "Novo Enquadramento", informa o nome no diálogo e salva, sem sair da lista.
 
 > ℹ️ **Rótulo na interface** (conferência com o código, 2026-08-28): o enquadramento aparece para o administrador como **“Sub Modalidade”** — a aba *Sub Modalidades* do Tipo de Participante lista exatamente esta entidade. Ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
-Permite ao administrador cadastrar um enquadramento — subdivisão classificatória de um tipo de participante (ex.: "1º Ano", "2º Ano") — que passa a estar disponível como opção de classificação na inscrição.
 
 ---
 
@@ -37,7 +39,7 @@ Permite ao administrador cadastrar um enquadramento — subdivisão classificat�
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | — |
+| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | `CA-2, CA-3, CA-4, CA-6` — cadastro por diálogo, sem sair da lista; nome obrigatório e único no tipo de participante; lista recarregada após a criação; diálogo com o título próprio da criação ("Novo Enquadramento") |
 
 ---
 
@@ -102,9 +104,9 @@ Feature: Cadastrar Enquadramento
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | único dentro do mesmo tipo de participante; máximo de 200 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Enquadramento | entrada do usuário | editável | texto | sim | único dentro do mesmo tipo de participante; máximo de 200 caracteres |
 
 ---
 
@@ -113,6 +115,14 @@ Feature: Cadastrar Enquadramento
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação | Ativo | Na criação do enquadramento |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Tipo de Participante | lê | O enquadramento nasce dentro do tipo de participante, fixado na criação, e o nome é único nesse tipo (regras 1 e 2) |
 
 ---
 
@@ -146,9 +156,9 @@ Diálogo de cadastro aberto pela tela de Enquadramentos do tipo de participante 
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -160,12 +170,12 @@ Diálogo de cadastro aberto pela tela de Enquadramentos do tipo de participante 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), com a nota sobre o rótulo na interface movida para depois dele (antes ela precedia o contrato de entrega e o absorvia na mesma citação), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel na tabela de `## Métricas de tamanho` (sem processo elementar no baseline, nada a medir). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-008 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

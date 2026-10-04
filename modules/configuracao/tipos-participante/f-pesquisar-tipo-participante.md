@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador localizar os tipos de participante por nome e situação, listando os resultados para consulta, configuração da estrutura de inscrição ou composição de ofertas.
 
+No Catálogo de Tipos de Participante, o administrador digita parte do nome, escolhe a situação — Todas, Ativo ou Inativo — e vê a lista paginada, de onde aciona as ações de cada tipo, como abrir o detalhe, editar ou trocar a situação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — Tela B da HU (catálogo administrativo com a lista paginada e os filtros por nome e por situação); a HU não numera critério para a pesquisa |
 
 ---
 
@@ -95,10 +97,10 @@ Feature: Pesquisar Tipos de Participante
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
-| Situação | entrada do usuário | editável | lista (Todas, Ativo, Inativo) | não | padrão: Todas |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Tipo de Participante | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
+| Situação | dado de código | entrada do usuário | editável | lista (Todas, Ativo, Inativo) | não | padrão: Todas |
 
 ---
 
@@ -118,6 +120,14 @@ Feature: Pesquisar Tipos de Participante
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Oferta | lê | A coluna *Permite equipe* do resultado vem da oferta do tipo (subgrupo do arquivo lógico Tipo de Participante) |
 
 ---
 
@@ -151,13 +161,28 @@ Página própria em `/tipos-participante` (Catálogo de Tipos de Participante): 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Pesquisar Tipo de Participante | SE | 1 | 8 | Simples | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Pesquisar Tipos de Participante | principal | SE | 1 | 8 | Simples | 4 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Pesquisar Tipo de Participante*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Pesquisar Tipo de Participante** — ALR (1): Tipo de Participante. DER (8): Nome · Situação · Descrição · Formulário · Qtd Campos · Situação · Ação · Mensagem.
+**Pesquisar Tipos de Participante** — SE · ALR 1 · DER 8 · Simples · 4 PF
+
+```json
+{"pe": "Pesquisar Tipos de Participante",
+ "alr": ["Tipo de Participante"],
+ "der": ["Nome", "Situação (filtro)", "Descrição", "Formulário", "Qtd Campos", "Situação (coluna)", "Ação", "Mensagem"]}
+```
+
+Por que cada ALR:
+1. `Tipo de Participante` — a lista traz nome, descrição e situação de cada tipo, com o formulário e a quantidade de campos, que são subgrupos do mesmo arquivo lógico
+
+⚠️ A planilha conta *Situação* duas vezes, no filtro e na coluna do resultado. Pelo CPM o mesmo DER conta uma vez; ficou como o baseline contou, a confirmar com a equipe de métricas.
+
+⚠️ A planilha enumera *Formulário* e *Qtd Campos*, que o N3 não traz em `## Colunas do resultado`, e não conta *Permite equipe*, que o N3 traz. A divergência entre a tela documentada e a medida vai à equipe de métricas.
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -169,12 +194,12 @@ Página própria em `/tipos-participante` (Catálogo de Tipos de Participante): 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa da HU na `## Origem` (a HU não numera critério para a pesquisa), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e o DER *Situação* desambiguado entre filtro e coluna. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

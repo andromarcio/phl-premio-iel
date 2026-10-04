@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador cadastrar uma questão — discursiva ou objetiva — no questionário de avaliação do tipo de participante, com enunciado e peso, para padronizar a pontuação das inscrições pelos avaliadores.
 
+No Construtor de Questionário, na aba "Avaliação" do tipo de participante, o administrador aciona "Adicionar Questão", escolhe Discursiva ou Objetiva, informa o enunciado, o peso e — conforme o tipo — o limite de caracteres ou as alternativas, e salva.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-010_Questoes_Tipo_Participante`](../../../hus/HU-010_Questoes_Tipo_Participante.docx) | Criação | — |
+| [`HU-010_Questoes_Tipo_Participante`](../../../hus/HU-010_Questoes_Tipo_Participante.docx) | Criação | `CA-1, CA-2, CA-5, CA-8` — questões discursivas e objetivas criadas por diálogo; questão objetiva com múltiplas alternativas; questionário com ao menos uma questão e enunciado preenchido; peso zero aceito para a questão informativa |
 
 ---
 
@@ -106,14 +108,14 @@ Feature: Cadastrar Questão
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Enunciado | entrada do usuário | editável | texto longo | sim | texto da questão |
-| Tipo de questão | entrada do usuário | editável | lista (Discursiva, Objetiva) | sim | define os demais campos aplicáveis |
-| Peso da nota | entrada do usuário | editável | número decimal | não | maior ou igual a zero; padrão 1 |
-| Obrigatório | entrada do usuário | editável | booleano | não | se o avaliador deve responder |
-| Limite de caracteres | entrada do usuário | editável | número | não | apenas para questão discursiva |
-| Alternativas | entrada do usuário | editável | lista de textos | condicional | apenas para questão objetiva; duas ou mais |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Enunciado | Questão de Avaliação | entrada do usuário | editável | texto longo | sim | texto da questão |
+| Tipo de questão | Tipo de Questão | entrada do usuário | editável | lista (Discursiva, Objetiva) | sim | define os demais campos aplicáveis |
+| Peso da nota | Questão de Avaliação | entrada do usuário | editável | número decimal | não | maior ou igual a zero; padrão 1 |
+| Obrigatório | Questão de Avaliação | entrada do usuário | editável | booleano | não | se o avaliador deve responder |
+| Limite de caracteres | Questão de Avaliação | entrada do usuário | editável | número | não | apenas para questão discursiva |
+| Alternativas | Alternativa da Questão | entrada do usuário | editável | lista de textos | condicional | apenas para questão objetiva; duas ou mais |
 
 ---
 
@@ -124,6 +126,17 @@ Feature: Cadastrar Questão
 | Situação | Ativa | Na criação da questão |
 | Peso da nota | 1 | Quando não informado |
 | Ordem | Próxima posição no questionário | Ao adicionar a questão |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Questionário | lê | A questão entra no questionário do tipo de participante, que contém ao menos uma questão (regra 5 e campo automático *Ordem*) |
+| Premiação | lê | O construtor abre no nó do tipo de participante, dentro da premiação (ALR da consulta das questões) |
+| Categoria | lê | O construtor abre no nó do tipo de participante, sob a categoria (ALR da consulta das questões) |
+| Modalidade | lê | O construtor abre no nó do tipo de participante, sob a modalidade (ALR da consulta das questões) |
 
 ---
 
@@ -158,27 +171,41 @@ Diálogo de questão aberto pelo Construtor de Questionário (`/configuracao-pre
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Questões do Questionário Avaliação | CE | 4 | 6 | Complexo | 6 | 2026-02-28 |
-| Incluir Questão do Questionário Avaliação | EE | 1 | 9 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Questões do Questionário Avaliação | acessório | CE | 4 | 6 | Complexo | 6 | 2026-02-28 |
+| Cadastrar Questão | principal | EE | 1 | 9 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar principal se chama *Incluir Questão do Questionário Avaliação*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Questões do Questionário Avaliação** — ALR (4): Premiação · Categoria · Modalidade · Tipo Participante. DER (6): Título · Tipo · Peso · Tamanho · Qtd Alternativas · Ação.
+**Consultar Questões do Questionário Avaliação** — CE · ALR 4 · DER 6 · Complexo · 6 PF
 
 ```json
 {"pe": "Consultar Questões do Questionário Avaliação",
  "alr": ["Premiação", "Categoria", "Modalidade", "Tipo Participante"],
  "der": ["Título", "Tipo", "Peso", "Tamanho", "Qtd Alternativas", "Ação"]}
 ```
-- **Incluir Questão do Questionário Avaliação** — ALR (1): Tipo Participante. DER (9): Titulo · Enunciado · Descrição · Obrigatória · Peso / Nota · Limite de caracteres · Alternativas · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Premiação` — o construtor abre no nó do tipo de participante, dentro da premiação
+2. `Categoria` — o construtor abre sob a categoria do nó
+3. `Modalidade` — o construtor abre sob a modalidade do nó
+4. `Tipo Participante` — a lista traz as questões do questionário do tipo
+
+**Cadastrar Questão** — EE · ALR 1 · DER 9 · Simples · 3 PF
 
 ```json
-{"pe": "Incluir Questão do Questionário Avaliação",
+{"pe": "Cadastrar Questão",
  "alr": ["Tipo Participante"],
  "der": ["Titulo", "Enunciado", "Descrição", "Obrigatória", "Peso / Nota", "Limite de caracteres", "Alternativas", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Tipo Participante` — a transação grava a questão nova e as suas alternativas no questionário do tipo; questionário, questão e alternativa são subgrupos do mesmo arquivo lógico
+
+⚠️ A planilha conta *Titulo* e *Descrição*, que o N3 não traz em `## Campos`, e não conta o *Tipo de questão*, que o N3 traz. A divergência entre a tela documentada e a medida vai à equipe de métricas.
 
 **Total: 9 PF** (2 processos elementares).
 
@@ -190,13 +217,13 @@ Diálogo de questão aberto pelo Construtor de Questionário (`/configuracao-pre
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-010 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

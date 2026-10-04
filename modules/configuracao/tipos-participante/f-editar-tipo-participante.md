@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar os dados gerais e as opções de inscrição em equipe de um tipo de participante já cadastrado, mantendo a estrutura da premiação atualizada.
 
+No formulário do tipo de participante, aba "Geral", o administrador altera os dados que quiser — como o nome, a descrição ou as opções de inscrição em equipe — e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | `CA-1, CA-2, CA-3` — nome obrigatório também na edição; inscrição em equipe que exibe os tamanhos mínimo e máximo, obrigatórios e com o máximo maior ou igual ao mínimo |
 
 ---
 
@@ -96,15 +98,15 @@ Feature: Editar Tipo de Participante
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | máximo de 200 caracteres; sem unicidade global |
-| Descrição | entrada do usuário | editável | texto longo | não | texto livre |
-| Abrangência | entrada do usuário | editável | lista | não | valores a confirmar ⚠️ |
-| Permite equipe | entrada do usuário | editável | booleano (sim/não) | não | quando sim, exige os tamanhos de equipe |
-| Tamanho mínimo da equipe | entrada do usuário | editável | número | condicional | obrigatório quando permite equipe |
-| Tamanho máximo da equipe | entrada do usuário | editável | número | condicional | obrigatório quando permite equipe; maior ou igual ao mínimo |
-| Modalidade de origem | — | imutável | seleção → Modalidade | — | não pode ser alterada após a criação ⚠️ |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Tipo de Participante | entrada do usuário | editável | texto | sim | máximo de 200 caracteres; sem unicidade global |
+| Descrição | Tipo de Participante | entrada do usuário | editável | texto longo | não | texto livre |
+| Abrangência | dado de código | entrada do usuário | editável | lista | não | valores a confirmar ⚠️ |
+| Permite equipe | Oferta | entrada do usuário | editável | booleano (sim/não) | não | quando sim, exige os tamanhos de equipe |
+| Tamanho mínimo da equipe | Oferta | entrada do usuário | editável | número | condicional | obrigatório quando permite equipe |
+| Tamanho máximo da equipe | Oferta | entrada do usuário | editável | número | condicional | obrigatório quando permite equipe; maior ou igual ao mínimo |
+| Modalidade de origem | Modalidade | exibido do cadastro | imutável | seleção → Modalidade | — | não pode ser alterada após a criação ⚠️ |
 
 ---
 
@@ -113,6 +115,15 @@ Feature: Editar Tipo de Participante
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação | lê | A abertura do formulário traz o prêmio do vínculo do tipo de participante (ALR da consulta implícita) |
+| Categoria | lê | A abertura do formulário traz a categoria do vínculo do tipo de participante (ALR da consulta implícita) |
 
 ---
 
@@ -146,27 +157,41 @@ Formulário do tipo em `/tipos-participante/:id/visualizar`, aba "Geral" (nome, 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consutar Tipo de Participante (implícita) | SE | 4 | 15 | Complexo | 7 | 2026-02-28 |
-| Editar Tipo de Participante | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consutar Tipo de Participante (implícita) | acessório | SE | 4 | 15 | Complexo | 7 | 2026-02-28 |
+| Editar Tipo de Participante | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consutar Tipo de Participante (implícita)** — ALR (4): Tipo Participante · Premiação · Modalidade · Categoria. DER (15): Nome · Descrição · Premiação · Categoria · Modalidade · ID do Vinculo · Situação · Seção · Campo · Sub Modalidades · Equipe · Anexos · Questionário · Qtd questões · Ações.
+**Consutar Tipo de Participante (implícita)** — SE · ALR 4 · DER 15 · Complexo · 7 PF
 
 ```json
 {"pe": "Consutar Tipo de Participante (implícita)",
  "alr": ["Tipo Participante", "Premiação", "Modalidade", "Categoria"],
  "der": ["Nome", "Descrição", "Premiação", "Categoria", "Modalidade", "ID do Vinculo", "Situação", "Seção", "Campo", "Sub Modalidades", "Equipe", "Anexos", "Questionário", "Qtd questões", "Ação"]}
 ```
-- **Editar Tipo de Participante** — ALR (1): Tipo Participante. DER (4): Nome · Descrição · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Tipo Participante` — o formulário abre preenchido com os dados do tipo e o resumo da estrutura configurada (seção, campo, enquadramentos, equipe, anexos e questionário)
+2. `Premiação` — a abertura traz o prêmio do vínculo, que a pesquisa não mostrava
+3. `Modalidade` — a abertura traz a modalidade do vínculo
+4. `Categoria` — a abertura traz a categoria do vínculo
+
+O nome *Consutar* é a grafia da planilha: o acessório mantém o nome do baseline. A planilha escreve a ação como *Ações*; na lista ela é o DER *Ação*.
+
+**Editar Tipo de Participante** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
 {"pe": "Editar Tipo de Participante",
  "alr": ["Tipo Participante"],
  "der": ["Nome", "Descrição", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Tipo Participante` — a transação grava os dados alterados do tipo; a oferta que guarda as opções de equipe é subgrupo do mesmo arquivo lógico
+
+⚠️ A planilha conta só *Nome* e *Descrição*; a abrangência e os campos de inscrição em equipe, que o N3 documenta em `## Campos`, não entram no DER. A divergência vai à equipe de métricas.
 
 **Total: 10 PF** (2 processos elementares).
 
@@ -178,13 +203,13 @@ Formulário do tipo em `/tipos-participante/:id/visualizar`, aba "Geral" (nome, 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON (o processo elementar principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

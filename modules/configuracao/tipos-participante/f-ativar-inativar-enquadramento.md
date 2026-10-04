@@ -27,9 +27,11 @@ contagem:
 > **Nível 3** - Feature Set: Tipos de Participante — Major Feature Set: Configuração da Premiação - `CFG-TIP-11`
 
 ## Descrição
+Permite ao administrador alternar a situação ativa/inativa de um enquadramento (exclusão lógica), controlando sua oferta como opção de classificação na inscrição sem removê-lo do tipo de participante.
+
+Na lista da aba "Sub Modalidades" do tipo de participante, o administrador aciona "Desativar" (ou "Ativar", se o enquadramento estiver inativo) na linha do enquadramento e confirma; para o enquadramento "Geral" a desativação fica indisponível.
 
 > ℹ️ **Rótulo na interface** (conferência com o código, 2026-08-28): o enquadramento aparece para o administrador como **“Sub Modalidade”** — a aba *Sub Modalidades* do Tipo de Participante lista exatamente esta entidade. Ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
-Permite ao administrador alternar a situação ativa/inativa de um enquadramento (exclusão lógica), controlando sua oferta como opção de classificação na inscrição sem removê-lo do tipo de participante.
 
 ---
 
@@ -37,7 +39,7 @@ Permite ao administrador alternar a situação ativa/inativa de um enquadramento
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | — |
+| [`HU-008_Enquadramento_Tipo_Participante`](../../../hus/HU-008_Enquadramento_Tipo_Participante.docx) | Criação | `CA-1, CA-4, CA-5` — enquadramento "Geral" protegido, com a desativação sempre indisponível (a criação automática dele é do `CFG-TIP-02` — Cadastrar Tipo de Participante); lista recarregada após a troca de situação; enquadramento inativo mantido na lista administrativa e fora da inscrição pública |
 
 ---
 
@@ -104,9 +106,9 @@ Feature: Ativar/Inativar Enquadramento
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Enquadramento | Enquadramento | somente leitura | texto | — | enquadramento sobre o qual a ação é aplicada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Enquadramento | Enquadramento | exibido do cadastro | somente leitura | texto | — | enquadramento sobre o qual a ação é aplicada |
 
 ---
 
@@ -148,9 +150,9 @@ Ação disparada da linha do enquadramento na tela de Enquadramentos (`/configur
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -162,12 +164,12 @@ Ação disparada da linha do enquadramento na tela de Enquadramentos (`/configur
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), com a nota sobre o rótulo na interface movida para depois dele (antes ela precedia o contrato de entrega e o absorvia na mesma citação), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel na tabela de `## Métricas de tamanho` (sem processo elementar no baseline, nada a medir). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-008 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

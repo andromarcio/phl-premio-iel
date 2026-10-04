@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador consultar os dados de um tipo de participante, seus vínculos e o resumo dos recursos de inscrição e avaliação já configurados.
 
+A partir do Catálogo de Tipos de Participante, o administrador abre o detalhe de um tipo e alterna entre as abas "Dados Gerais", "Vínculos" e "Recursos", esta com o resumo somente leitura da estrutura configurada.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | — |
+| [`HU-006_Cadastrar_Tipo_Participantes`](../../../hus/HU-006_Cadastrar_Tipo_Participantes.docx) | Criação | `CA-7` — detalhe do catálogo administrativo com os vínculos do tipo e o resumo dos recursos configurados na aba "Recursos" |
 
 ---
 
@@ -87,14 +89,16 @@ Feature: Visualizar Tipo de Participante
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | Tipo de Participante | somente leitura | texto | — | — |
-| Descrição | Tipo de Participante | somente leitura | texto longo | — | — |
-| Situação | Tipo de Participante | somente leitura | lista (Ativo, Inativo) | — | — |
-| Permite equipe | Tipo de Participante | somente leitura | booleano (sim/não) | — | — |
-| Vínculos | derivado | somente leitura | lista (modalidade/categoria/prêmio) | — | — |
-| Resumo de recursos | derivado | somente leitura | resumo (formulário, enquadramentos, questionário, anexos) | — | — |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Tipo de Participante | exibido do cadastro | somente leitura | texto | — | — |
+| Descrição | Tipo de Participante | exibido do cadastro | somente leitura | texto longo | — | — |
+| Situação | Tipo de Participante | exibido do cadastro | somente leitura | lista (Ativo, Inativo) | — | — |
+| Permite equipe | Oferta | exibido do cadastro | somente leitura | booleano (sim/não) | — | — |
+| Vínculos | Oferta | exibido do cadastro | somente leitura | lista (modalidade/categoria/prêmio) | — | — |
+| Resumo de recursos | Formulário Dinâmico | exibido do cadastro | somente leitura | resumo (formulário, enquadramentos, questionário, anexos) | — | — |
+
+*O resumo de recursos lê também os enquadramentos, o questionário e os anexos exigidos, e cada vínculo mostra os nomes da modalidade, da categoria e do prêmio — ver `## Dados lidos e gravados`.*
 
 ---
 
@@ -103,6 +107,19 @@ Feature: Visualizar Tipo de Participante
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Modalidade | lê | Cada vínculo da aba "Vínculos" mostra o nome da modalidade |
+| Categoria | lê | Cada vínculo da aba "Vínculos" mostra o nome da categoria |
+| Premiação | lê | Cada vínculo da aba "Vínculos" mostra o nome do prêmio |
+| Enquadramento | lê | Compõe o resumo de recursos da aba "Recursos" (regra 2) |
+| Questionário | lê | Compõe o resumo de recursos da aba "Recursos" (regra 2) |
+| Configuração de Anexo | lê | Compõe o resumo de recursos da aba "Recursos" (regra 2) |
 
 ---
 
@@ -136,13 +153,22 @@ Página de detalhe em `/tipos-participante/:id/visualizar`, com a aba "Dados Ger
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Detalhar Tipo de Participante | SE | — | — | — | 0 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Visualizar Tipo de Participante | principal | — | — | — | — | 0 | 2026-02-28 |
+
+> No baseline, a linha se chama *Detalhar Tipo de Participante* (tipo SE, sem ALR, DER nem complexidade); aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`.
 
 ### Memória de cálculo
 
-- **Detalhar Tipo de Participante** — ALR (0): —. DER (0): —.
+**Visualizar Tipo de Participante** — 0 PF
+
+```json
+{"pe": "Visualizar Tipo de Participante",
+ "motivo": "zerada no baseline APF sem ALR, DER nem complexidade; o motivo foi perguntado à equipe de métricas (Q7) e ainda não respondido"}
+```
+
+⚠️ Se o zero foi lacuna da planilha, e não descarte, a linha precisa de contagem — ver `arquivos/demandas/QUESTIONAMENTO_METRICAS_BASELINE_APF.md`, Q7.
 
 **Total: 0 PF** (1 processo elementar).
 
@@ -154,12 +180,12 @@ Página de detalhe em `/tipos-participante/:id/visualizar`, com a aba "Dados Ger
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos` (Vínculos e Resumo de recursos, antes *derivado*, passam a nomear a entidade de onde o valor é lido, porque o N3 não descreve cálculo), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com a linha de 0 PF levando o nome da feature e o motivo do zero. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-006 |
 
 ---
 
-*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Tipos de Participante · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
