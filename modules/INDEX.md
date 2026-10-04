@@ -309,7 +309,7 @@
 ## Pendências de especificação
 
 > ⚙️ **Seção gerada pelo PROMPT_PENDENCIAS (PD) — não editar à mão.**
-> Varre as fontes (`demandas/`, READMEs de N2, N3 com ⚠️) e espelha aqui o que está
+> Varre as fontes (AIMs em `analise-impacto/`, READMEs de N2, N3 com ⚠️) e espelha aqui o que está
 > **pendente de especificar**. Edições manuais entre os marcadores são sobrescritas na
 > próxima execução. Reflete o estado em **[AAAA-MM-DD]** — rode o **PD** para atualizar.
 
@@ -389,5 +389,5 @@ Estados da **esteira de checkpoints**, derivados dos `gates` no front-matter de 
 | 📋 | especificado | CP3 (QA) | **Pronto para desenvolvimento** (CP1+CP2+CP3 aprovados) |
 | 🔄 | em-desenvolvimento | — | Implementação em andamento (estado manual) |
 | ✅ | implementado | CP4 (code review) | Em produção, rastreabilidade preenchida |
-| ⚠️ | revisao-necessaria | — | Spec desatualizada em relação ao código |
+| ⚠️ | revisao-necessaria | — | Spec e código (ou spec e ticket) divergem — a spec mudou depois da implementação, o código mudou sem a spec, ou o outro lado de um elo mudou (estado manual; o `suspect-links` também o marca) |
 | ❌ | deprecado | — | Feature removida do sistema |
