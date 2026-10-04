@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao validador detalhar uma inscrição em modo leitura, reunindo os dados do formulário, o questionário, os documentos, a equipe, os termos e o histórico de validação para embasar a decisão.
 
+Na Fila de Validação, o validador aciona o ícone de visualização da inscrição, que abre o detalhe numa nova aba; ali expande as seções — como dados do formulário, documentos e equipe —, pré-visualiza ou baixa os documentos e acompanha o histórico em linha do tempo, com as ações de decisão que a situação da inscrição permite.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
-| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Alteração | — |
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — detalhe com os indicadores de progresso, as seções retráteis (formulário, questionário, documentos com pré-visualização e download, equipe em cards e termos), o histórico em linha do tempo e o banner de veredito com o parecer e a data da decisão |
+| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Alteração | — download de cada documento por endereço individual, conferido a cada acesso a quem tem direito à inscrição |
 
 ---
 
@@ -120,17 +122,17 @@ Feature: Detalhar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Protocolo | Inscrição | somente leitura | texto | — | — |
-| Identificação do participante | Inscrição | somente leitura | texto | — | — |
-| Situação | Inscrição | somente leitura | lista (situações de validação) | — | — |
-| Dados do formulário | Inscrição (respostas do formulário) | somente leitura | grupo de respostas do formulário dinâmico | — | — |
-| Questionário | Inscrição (respostas de questão) | somente leitura | grupo de respostas do questionário | — | — |
-| Documentos | Inscrição (documentos) | somente leitura | lista de anexos, cada um com endereço individual de download | — | download restrito a quem tem direito à inscrição |
-| Equipe | Inscrição (membros de equipe) | somente leitura | cards com nome, CPF, e-mail e telefone; campos canônicos → ver FIELD-DICTIONARY: `CPF` · `E-mail` · `Telefone` | — | — |
-| Termos | Inscrição (aceites de termo) | somente leitura | lista de termos aceitos | — | — |
-| Histórico de validação | Inscrição (histórico) | somente leitura | linha do tempo de transições de situação | — | — |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Protocolo | Inscrição | exibido do cadastro | somente leitura | texto | — | — |
+| Identificação do participante | Inscrição | exibido do cadastro | somente leitura | texto | — | — |
+| Situação | Inscrição | exibido do cadastro | somente leitura | lista (situações de validação) | — | — |
+| Dados do formulário | Resposta de Formulário | exibido do cadastro | somente leitura | grupo de respostas do formulário dinâmico | — | — |
+| Questionário | Resposta de Questão | exibido do cadastro | somente leitura | grupo de respostas do questionário | — | — |
+| Documentos | Documento da Inscrição | exibido do cadastro | somente leitura | lista de anexos, cada um com endereço individual de download | — | download restrito a quem tem direito à inscrição |
+| Equipe | Membro de Equipe da Inscrição | exibido do cadastro | somente leitura | cards com nome, CPF, e-mail e telefone; campos canônicos → ver FIELD-DICTIONARY: `CPF` · `E-mail` · `Telefone` | — | — |
+| Termos | Aceite de Termo do Participante | exibido do cadastro | somente leitura | lista de termos aceitos | — | — |
+| Histórico de validação | Histórico da Inscrição | exibido do cadastro | somente leitura | linha do tempo de transições de situação | — | — |
 
 ---
 
@@ -139,6 +141,18 @@ Feature: Detalhar Inscrição
 | Label PO | Valor | Quando |
 |---|---|---|
 | Identificador público do documento | Identificador próprio do documento, único no sistema | Quando o documento é anexado à inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Validação de Inscrição | lê | O banner de veredito da inscrição já Validada ou Rejeitada traz o parecer e a data da decisão (regra 3) |
+| Premiação | lê | O cabeçalho do detalhe identifica a premiação da inscrição (ALR do baseline) |
+| Categoria | lê | O cabeçalho do detalhe identifica a categoria da inscrição (ALR do baseline) |
+| Modalidade | lê | O cabeçalho do detalhe identifica a modalidade da inscrição (ALR do baseline) |
+| Tipo de Participante | lê | O cabeçalho identifica o tipo de participante, e a seção do questionário traz o título e a obrigatoriedade de cada questão (ALR do baseline) |
 
 ---
 
@@ -175,13 +189,30 @@ Página própria em `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (Deta
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Detalhar Inscrição | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Detalhar Inscrição | principal | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Detalhar Inscrição** — ALR (5): Inscrição · Premiação · Categoria · Modalidade · Tipo de Participante. DER (37): Inscrição · Status · E-mail · Prêmio · Categoria · Modalidade · Tipo de Participante · Percentual Campos Preenchidos · Qtd Premios Preenchidos · Qtd arquivos anexados · Qtd membros cadastrados · Qtd termos aceitos · CPF · Data · UF · Anexo · Termos · E-mail · Número · Qtd Questoes do formulário · Título questão · Obrigatoriedade questão · Resposta questão · Nome arquivo · Tipo arquivo · Data anexo · Tamanho · Equipe · E-mail equipe · Telefone · CPF membro equipe · Número Termo · Data/Hora aceite · Histórico de Status · Data/hora mudança de status · Comentário · Ação.
+**Detalhar Inscrição** — SE · ALR 5 · DER 37 · Complexo · 7 PF
+
+```json
+{"pe": "Detalhar Inscrição",
+ "alr": ["Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante"],
+ "der": ["Inscrição", "Status", "E-mail (cabeçalho)", "Prêmio", "Categoria", "Modalidade", "Tipo de Participante", "Percentual Campos Preenchidos", "Qtd Premios Preenchidos", "Qtd arquivos anexados", "Qtd membros cadastrados", "Qtd termos aceitos", "CPF", "Data", "UF", "Anexo", "Termos", "E-mail (formulário)", "Número", "Qtd Questoes do formulário", "Título questão", "Obrigatoriedade questão", "Resposta questão", "Nome arquivo", "Tipo arquivo", "Data anexo", "Tamanho", "Equipe", "E-mail equipe", "Telefone", "CPF membro equipe", "Número Termo", "Data/Hora aceite", "Histórico de Status", "Data/hora mudança de status", "Comentário", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Inscrição` — o detalhe lê a inscrição e os seus subgrupos: respostas do formulário e do questionário, documentos, membros da equipe, aceites de termo e histórico de situações
+2. `Premiação` — identifica a premiação da inscrição no cabeçalho
+3. `Categoria` — identifica a categoria da inscrição no cabeçalho
+4. `Modalidade` — identifica a modalidade da inscrição no cabeçalho
+5. `Tipo de Participante` — identifica o tipo de participante e traz o título e a obrigatoriedade das questões do questionário
+
+⚠️ A planilha conta *E-mail* duas vezes — no cabeçalho da inscrição e entre os campos do formulário; aqui cada um leva entre parênteses o lugar onde aparece. Pelo CPM o mesmo DER conta uma vez; mantido como o baseline contou, a confirmar com a equipe de métricas.
+
+⚠️ O banner de veredito (regra 3) lê o parecer e a data da decisão na Validação de Inscrição, declarada em `## Dados lidos e gravados`, que a planilha não enumera. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -193,7 +224,7 @@ Página própria em `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (Deta
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU e do ticket na `## Origem` (nenhum dos dois numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos` (o Preenchimento, que trazia o nome da entidade, passa a `exibido do cadastro`), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature, o DER *E-mail* repetido desambiguado e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Impacto SP05 (docqui) | Feature alterada | Download de documento por endereço individual e seguro, conferido a cada acesso a quem tem direito à inscrição — mesmo mecanismo que habilita o download de anexo pelo avaliador (`AVL-AVA-03`) |
@@ -201,6 +232,6 @@ Página própria em `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (Deta
 
 ---
 
-*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

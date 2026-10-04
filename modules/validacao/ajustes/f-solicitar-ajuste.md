@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao validador solicitar ao participante correções na inscrição em validação, reunindo de um a dez itens de ajuste e movendo a inscrição para a situação Aguardando Ajuste.
 
+No Detalhe da Inscrição em validação, o validador aciona "Solicitar Ajuste", escreve no diálogo de um a dez itens com o que o participante precisa corrigir — vendo ali também os itens ainda pendentes de rodadas anteriores — e confirma a solicitação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — |
+| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — solicitação de 1 a 10 itens, de 10 a 200 caracteres cada, a partir do detalhe em validação, com os itens pendentes de ciclos anteriores à vista; a inscrição passa a Aguardando Ajuste e o participante recebe o e-mail "Ajuste Solicitado" |
 
 ---
 
@@ -111,9 +113,9 @@ Feature: Solicitar Ajuste
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Item de ajuste | entrada do usuário | editável | texto longo (lista dinâmica) | sim | de 1 a 10 itens; cada item de 10 a 200 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Item de ajuste | Item de Ajuste | entrada do usuário | editável | texto longo (lista dinâmica) | sim | de 1 a 10 itens; cada item de 10 a 200 caracteres |
 
 ---
 
@@ -125,6 +127,19 @@ Feature: Solicitar Ajuste
 | Rodada de ajuste | próxima sequência da inscrição | Ao abrir a solicitação |
 | Responsável pela solicitação | validador autenticado | Ao confirmar a solicitação |
 | Notificação ao participante | e-mail com o modelo "Ajuste Solicitado" | Ao confirmar a solicitação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê e grava | A solicitação só vale para a inscrição Em Validação, que passa a Aguardando Ajuste ao confirmar (regras 1 e 4) |
+| Histórico da Inscrição | grava | Cada solicitação abre uma rodada auditável no histórico da inscrição, com o responsável, à qual os itens se vinculam (regra 6; campos automáticos) |
+| Snapshot da Inscrição | grava | A rodada preserva o estado da inscrição no momento da solicitação, para ser comparado com o reenvio (regra 6) |
+| Configuração de E-mail da Premiação | lê | A notificação usa o modelo de e-mail "Ajuste Solicitado" configurado na premiação (regra 4) |
+| Auditoria de E-mail | grava | O e-mail ao participante entra na fila de envio auditada (regra 4; ALR do baseline) |
+| Notificação Participante | grava | O participante recebe o aviso da solicitação no painel de notificações (ALR do baseline) |
 
 ---
 
@@ -159,19 +174,26 @@ Ação disparada pelo botão "Solicitar Ajuste" no Detalhe da Inscrição (`/val
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Solicitar Ajuste | EE | 3 | 5 | Complexo | 6 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Solicitar Ajuste | principal | EE | 3 | 5 | Complexo | 6 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Solicitar Ajuste** — ALR (3): Inscrição · Auditoria de E-mail · Notificação Participante. DER (5): Inscrição · Item de Ajuste · Descrição do Ajuste · Ação · Mensagem.
+**Solicitar Ajuste** — EE · ALR 3 · DER 5 · Complexo · 6 PF
 
 ```json
 {"pe": "Solicitar Ajuste",
  "alr": ["Inscrição", "Auditoria de E-mail", "Notificação Participante"],
  "der": ["Inscrição", "Item de Ajuste", "Descrição do Ajuste", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Inscrição` — a transação grava a situação Aguardando Ajuste, os itens de ajuste e a rodada no histórico, com a captura do estado da inscrição (subgrupos do mesmo arquivo lógico)
+2. `Auditoria de E-mail` — registra o e-mail "Ajuste Solicitado" enviado ao participante
+3. `Notificação Participante` — grava o aviso da solicitação no painel do participante
+
+⚠️ A leitura do modelo de e-mail na configuração da premiação (regra 4, declarada em `## Dados lidos e gravados`) não está na conta da planilha. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -183,13 +205,13 @@ Ação disparada pelo botão "Solicitar Ajuste" no Detalhe da Inscrição (`/val
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` (a HU não numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-019 |
 
 ---
 
-*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-08-27*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

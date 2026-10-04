@@ -10,7 +10,7 @@ error_codes: []
 depende_de: [VAL-FIL-02]
 origem:
   tipo: issue
-  chave: HU-023_Dashboard_Gerencial_Validacao
+  chave: PDTIC25093-58
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
@@ -37,8 +37,7 @@ A exportação parte do próprio painel gerencial, pela ação "Exportar Excel":
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-023_Dashboard_Gerencial_Validacao`](../../../hus/HU-023_Dashboard_Gerencial_Validacao.docx) | Criação | — |
-| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Criação | — |
+| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Criação | — exportação do histórico do painel em planilha, uma linha por inscrição do recorte com o nome e o telefone do participante, restrita ao Administrador Nacional |
 
 ---
 
@@ -118,7 +117,7 @@ Feature: Exportar Histórico do Painel de Validação
 
 | Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
 |---|---|---|---|---|---|---|
-| Critérios do painel | Inscrição | seleção → Inscrição | somente leitura | conjunto de critérios | sim | herdados do painel que originou a exportação — premiação, unidade federativa, categoria, modalidade e período —, com a premiação obrigatória |
+| Critérios do painel | Inscrição | entrada do usuário | somente leitura | conjunto de critérios | sim | herdados do painel que originou a exportação — premiação, unidade federativa, categoria, modalidade e período —, com a premiação obrigatória |
 
 ---
 
@@ -136,7 +135,7 @@ Feature: Exportar Histórico do Painel de Validação
 
 | Entidade | Papel | Por que a feature a toca |
 |---|---|---|
-| Inscrição | lê | Cada linha da planilha é uma inscrição do recorte apurado no painel — regras 1 e 2 |
+| Validação de Inscrição | lê | A situação de validação de cada inscrição exportada (ALR da memória de cálculo) |
 | Resposta de Formulário | lê | Origem do nome do participante e do telefone, resolvidos pelos rótulos dos campos preenchidos — regra 3 |
 | Premiação | lê | Delimita o recorte exportado e é pré-requisito da exportação — regra 1 |
 | Unidade Federativa | lê | Compõe o recorte exportado — regra 1 |
@@ -176,16 +175,35 @@ Ação "Exportar Excel" no Dashboard Gerencial de Validação (`/validacao-inscr
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Exportar Histórico do Painel de Validação | SE | 6 | 18 | Alta | 7 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Exportar Histórico do Painel de Validação | principal | SE | 6 | 18 | Alta | 7 | 2026-09-01 |
 
 ### Memória de cálculo
 
-**Exportar Histórico do Painel de Validação** — SE. Formas de lógica: 4 (o recorte do painel), 7, 8, 9 (o nome e o telefone do participante são **criados** a partir dos rótulos dos campos preenchidos — não existem como atributo da Inscrição), 11, 12. É a derivação que exclui CE.
-- **ALR (6)**: Inscrição *(uma linha por inscrição, e as Respostas de Formulário de onde saem nome e telefone)* · Validação Inscrição *(a situação de validação de cada inscrição)* · Premiação · Categoria · Modalidade · Usuário *(a UF do recorte)*.
-- **DER (18)** — entrada (6): Premiação · Unidade federativa · Categoria · Modalidade · Data início · Data fim. Saída (10): Protocolo · Premiação · Categoria · Modalidade · Tipo de participante · UF · Situação · Data · Nome do Participante · Telefone · Mensagem · Ação.
-- **Fora da contagem**: a coluna que sai vazia por rótulo renomeado (regra 3) é o mesmo DER, sem valor.
+**Exportar Histórico do Painel de Validação** — SE · ALR 6 · DER 18 · Alta · 7 PF
+
+```json
+{"pe": "Exportar Histórico do Painel de Validação",
+ "alr": ["Inscrição", "Validação Inscrição", "Premiação", "Categoria", "Modalidade", "Usuário"],
+ "der": ["Premiação (filtro)", "Unidade federativa", "Categoria (filtro)", "Modalidade (filtro)", "Data início", "Data fim", "Protocolo", "Premiação (coluna)", "Categoria (coluna)", "Modalidade (coluna)", "Tipo de participante", "UF", "Situação", "Data", "Nome do Participante", "Telefone", "Mensagem", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Inscrição` — uma linha por inscrição, e as respostas de formulário de onde saem o nome e o telefone do participante
+2. `Validação Inscrição` — a situação de validação de cada inscrição
+3. `Premiação` — delimita o recorte e sai na coluna da planilha
+4. `Categoria` — compõe o recorte e sai na coluna da planilha
+5. `Modalidade` — compõe o recorte e sai na coluna da planilha
+6. `Usuário` — a UF do recorte
+
+Formas de lógica: 4 (o recorte do painel), 7, 8, 9 (o nome e o telefone do participante são **criados** a partir dos rótulos dos campos preenchidos — não existem como atributo da Inscrição), 11, 12. É a derivação que exclui CE.
+
+DER (18) — entrada (6): Premiação · Unidade federativa · Categoria · Modalidade · Data início · Data fim; saída (10): Protocolo · Premiação · Categoria · Modalidade · Tipo de participante · UF · Situação · Data · Nome do Participante · Telefone; mais Mensagem e Ação.
+
+Fora da contagem: a coluna que sai vazia por rótulo renomeado (regra 3) é o mesmo DER, sem valor.
+
+⚠️ A contagem de 2026-09-01 conta *Premiação*, *Categoria* e *Modalidade* duas vezes — no filtro de entrada e na coluna da planilha; aqui cada um leva entre parênteses o lugar onde aparece. O mesmo vale para *Unidade federativa* (filtro) e *UF* (coluna), que têm nomes diferentes mas são a mesma informação. Pelo CPM o mesmo DER conta uma vez; com 14 DER a complexidade continuaria Alta (ALR 6) e o PF seguiria 7. Mantido como foi contado, a confirmar com a equipe de métricas.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -197,13 +215,13 @@ Ação "Exportar Excel" no Dashboard Gerencial de Validação (`/validacao-inscr
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: o segundo parágrafo da Descrição (como se usa) já existia e foi mantido; `## Origem` sem a linha da HU-023, que descreve só os gráficos do painel e não a exportação (a origem passa a ser o ticket `PDTIC25093-58`, também no front-matter), com a prosa do que a feature realiza do ticket (sem critérios numerados: `—`); Preenchimento de `## Campos` corrigido (`seleção → Inscrição` passa a `entrada do usuário`); `## Dados lidos e gravados` sem a linha de Inscrição, já declarada em `## Campos`, e com a Validação de Inscrição lida pela memória de cálculo; coluna Papel e memória de cálculo em bloco JSON, com os DER repetidos desambiguados, o porquê de cada ALR e as explicações anteriores preservadas em prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada em `prototypes/validacao/fila-validacao/flow.html`, no fluxo que já cobre a tela onde ela acontece — fidelidade **referência** |
 | 2026-09-01 | Especificação (docqui) | Feature criada | N3 negocial da exportação do histórico do painel de validação, separada de `VAL-FIL-02` **Acompanhar Painel de Validação** pela decisão de produto de 2026-09-01: os dados diferem, e não só de formato — a tela mostra agregados e a planilha traz uma linha por inscrição, com nome e telefone, que a tela não tem. As regras, os cenários e os campos automáticos da exportação vieram daquela feature, que passa a referenciar esta |
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-09-01*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

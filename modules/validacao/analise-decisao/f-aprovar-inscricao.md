@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao validador concluir a validação aprovando a inscrição, com parecer opcional, de modo que ela passe à situação Validada e siga para a etapa de avaliação.
 
+No Detalhe da Inscrição, o validador aciona "Aprovar", escreve o parecer no Diálogo de Validação — que mostra também o resumo dos itens de ajuste conferidos — e confirma; se restarem itens não conferidos, o sistema pede confirmação antes de concluir.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — botão "Aprovar" e Diálogo de Validação com o parecer, o resumo dos itens de ajuste conferidos e a pergunta de confirmação quando há itens não conferidos; a inscrição passa a Validada |
 
 ---
 
@@ -107,10 +109,10 @@ Feature: Aprovar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Parecer | entrada do usuário | editável | texto longo | sim | mínimo de 10 caracteres |
-| Situação | Inscrição | somente leitura, atualizada pela ação | lista (Em Validação · Aguardando Ajuste · Ajustes Concluídos → Validada) | — | ação disponível nas três situações de origem |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Parecer | Validação de Inscrição | entrada do usuário | editável | texto longo | sim | mínimo de 10 caracteres |
+| Situação | Inscrição | exibido do cadastro | somente leitura, atualizada pela ação | lista (Em Validação · Aguardando Ajuste · Ajustes Concluídos → Validada) | — | ação disponível nas três situações de origem |
 
 ---
 
@@ -121,6 +123,16 @@ Feature: Aprovar Inscrição
 | Situação | Validada | Ao aprovar a inscrição |
 | Usuário validador | validador autenticado | Ao aprovar a inscrição |
 | Data da validação | data e hora da decisão | Ao aprovar a inscrição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Item de Ajuste | lê | O diálogo resume os itens de ajuste conferidos e pede confirmação quando há itens não conferidos (cenário "Aprovar com itens de ajuste não conferidos"; DER do baseline) |
+| Auditoria de E-mail | grava | O participante é avisado da aprovação por e-mail, que entra na fila de envio auditada (cenário "Aprovar a inscrição com parecer"; ALR do baseline) |
+| Notificação Participante | grava | O participante é avisado da aprovação no painel de acompanhamento (cenário "Aprovar a inscrição com parecer"; ALR do baseline) |
 
 ---
 
@@ -155,19 +167,28 @@ Ação disparada pelo botão "Aprovar" no Detalhe da Inscrição (`/validacao-in
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Aceitar / Rejeitar Inscrição | EE | 3 | 7 | Complexo | 6 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Aprovar Inscrição | principal | EE | 3 | 7 | Complexo | 6 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Aceitar / Rejeitar Inscrição* e cobre também a rejeição — `VAL-ANA-04` Rejeitar Inscrição não tem linha própria (correspondência **compartilhado** em `global/SIZING.md`); aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Aceitar / Rejeitar Inscrição** — ALR (3): Inscrição · Auditoria de E-mail · Notificação Participante. DER (7): Total de itens para ajustes · Total de itens conferidos · Numero item · Descrição item · Parecer da aprovação · Ação · Mensagem.
+**Aprovar Inscrição** — EE · ALR 3 · DER 7 · Complexo · 6 PF
 
 ```json
-{"pe": "Aceitar / Rejeitar Inscrição",
+{"pe": "Aprovar Inscrição",
  "alr": ["Inscrição", "Auditoria de E-mail", "Notificação Participante"],
  "der": ["Total de itens para ajustes", "Total de itens conferidos", "Numero item", "Descrição item", "Parecer da aprovação", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Inscrição` — a transação confere a situação de origem, grava a situação Validada e lê os itens de ajuste que o diálogo resume (subgrupo do mesmo arquivo lógico)
+2. `Auditoria de E-mail` — registra o e-mail de aprovação enviado ao participante
+3. `Notificação Participante` — grava o aviso da aprovação no painel do participante
+
+⚠️ O parecer, o validador e a data da decisão são gravados na Validação de Inscrição (coluna Entidade de `## Campos`), arquivo que a planilha não enumera. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -179,7 +200,7 @@ Ação disparada pelo botão "Aprovar" no Detalhe da Inscrição (`/validacao-in
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` (a HU não numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos` (o Preenchimento, que trazia o nome da entidade, passa a `exibido do cadastro`), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature (no baseline, *Aceitar / Rejeitar Inscrição*) e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -188,6 +209,6 @@ Ação disparada pelo botão "Aprovar" no Detalhe da Inscrição (`/validacao-in
 
 ---
 
-*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-27*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

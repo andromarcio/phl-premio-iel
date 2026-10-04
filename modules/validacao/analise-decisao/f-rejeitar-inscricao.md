@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao validador concluir a validação rejeitando a inscrição, mediante parecer obrigatório, de modo que ela passe à situação Rejeitada e seja encerrada.
 
+No Detalhe da Inscrição, o validador aciona "Rejeitar", escreve o parecer obrigatório no Diálogo de Validação e confirma a rejeição.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — botão "Rejeitar" e Diálogo de Validação com o parecer obrigatório; a inscrição passa a Rejeitada |
 
 ---
 
@@ -99,10 +101,10 @@ Feature: Rejeitar Inscrição
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Parecer | entrada do usuário | editável | texto longo | sim | obrigatório na rejeição; mínimo de 10 caracteres |
-| Situação | Inscrição | somente leitura, atualizada pela ação | lista (Em Validação → Rejeitada) | — | ação disponível apenas na situação Em Validação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Parecer | Validação de Inscrição | entrada do usuário | editável | texto longo | sim | obrigatório na rejeição; mínimo de 10 caracteres |
+| Situação | Inscrição | exibido do cadastro | somente leitura, atualizada pela ação | lista (Em Validação → Rejeitada) | — | ação disponível apenas na situação Em Validação |
 
 ---
 
@@ -145,11 +147,11 @@ Ação disparada pelo botão "Rejeitar" no Detalhe da Inscrição (`/validacao-i
 
 ## Métricas de tamanho
 
-> **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
+> **Sem linha própria no baseline APF** — a rejeição é realizada pelo mesmo processo elementar da aprovação, *Aceitar / Rejeitar Inscrição* no baseline, contado em `VAL-ANA-03` Aprovar Inscrição com o nome daquela feature. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar* (correspondência **compartilhado**).
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -161,13 +163,13 @@ Ação disparada pelo botão "Rejeitar" no Detalhe da Inscrição (`/validacao-i
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` (a HU não numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos` (o Preenchimento, que trazia o nome da entidade, passa a `exibido do cadastro`), coluna Papel em `## Métricas de tamanho` (linha não medida) e a nota da seção corrigida: a rejeição não está sem processo elementar, divide com `VAL-ANA-03` o *Aceitar / Rejeitar Inscrição* do baseline, como já registrava o `global/SIZING.md`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/analise-decisao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-018 |
 
 ---
 
-*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-27*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

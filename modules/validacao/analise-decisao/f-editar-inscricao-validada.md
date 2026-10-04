@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador nacional corrigir os dados de uma inscrição que já foi validada — respostas do formulário, respostas do questionário, enquadramento, membros da equipe e anexos — mediante justificativa, guardando o estado antes e depois da correção para consulta posterior.
 
+No Detalhe da Inscrição validada, o administrador nacional abre o painel de edição, corrige o que for preciso — como respostas do formulário, membros da equipe e anexos —, preenche a justificativa e salva.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Criação | — |
+| [`PDTIC25093-68`](../../../analise-impacto/AIM-PDTIC25093-68.md) | Criação | — edição administrativa da inscrição já validada, com justificativa e os retratos antes e depois; o ticket trouxe a correção dos dados dos membros da equipe e a inclusão do primeiro membro quando a equipe está vazia |
 
 ---
 
@@ -107,15 +109,15 @@ Feature: Editar Inscrição Validada
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Justificativa | entrada do usuário | editável | texto longo | sim | não pode ficar em branco |
-| Respostas do formulário | Inscrição | editável | conforme o campo do formulário | não | seguem as validações do próprio campo configurado |
-| Respostas do questionário | Inscrição | editável | conforme a questão | não | seguem as validações da própria questão |
-| Enquadramento | seleção → Enquadramento do tipo de participante | editável | lista de opções | não | apenas enquadramentos do tipo de participante da inscrição |
-| Membros da equipe | Inscrição | editável | lista | não | respeita o mínimo e o máximo de membros da oferta |
-| Anexos removidos | seleção → Documento da Inscrição | editável | lista | não | apenas anexos da própria inscrição |
-| Anexos novos | entrada do usuário | editável | arquivo | não | seguem a configuração de anexos do tipo de participante |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Justificativa | Histórico da Inscrição | entrada do usuário | editável | texto longo | sim | não pode ficar em branco |
+| Respostas do formulário | Resposta de Formulário | entrada do usuário | editável | conforme o campo do formulário | não | seguem as validações do próprio campo configurado |
+| Respostas do questionário | Resposta de Questão | entrada do usuário | editável | conforme a questão | não | seguem as validações da própria questão |
+| Enquadramento | Enquadramento | entrada do usuário | editável | seleção → Enquadramento | não | lista de opções; apenas enquadramentos do tipo de participante da inscrição |
+| Membros da equipe | Membro de Equipe da Inscrição | entrada do usuário | editável | lista | não | respeita o mínimo e o máximo de membros da oferta |
+| Anexos removidos | Documento da Inscrição | entrada do usuário | editável | seleção → Documento da Inscrição | não | lista; apenas anexos da própria inscrição |
+| Anexos novos | Documento da Inscrição | entrada do usuário | editável | arquivo | não | seguem a configuração de anexos do tipo de participante |
 
 ---
 
@@ -127,6 +129,17 @@ Feature: Editar Inscrição Validada
 | Data da edição | data e hora do salvamento | Ao salvar a edição |
 | Retrato anterior | estado completo da inscrição antes da correção | Ao salvar a edição |
 | Retrato posterior | estado completo da inscrição depois da correção | Ao salvar a edição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê e grava | Só a inscrição Validada pode ser editada, a situação não muda e o enquadramento escolhido é gravado nela (regras 1 e 3) |
+| Snapshot da Inscrição | grava | Guarda o retrato anterior e o posterior da inscrição, ambos vinculados ao mesmo registro de histórico (regra 4; campos automáticos) |
+| Tipo de Participante | lê | As respostas seguem as validações dos campos do formulário e das questões, os anexos a configuração de anexos e a equipe o mínimo e o máximo de membros da oferta — configurações do tipo de participante (coluna Validação de `## Campos`; ALR da memória de cálculo) |
+| Validação de Inscrição | lê | A edição exige a inscrição validada (regra 1; ALR da memória de cálculo) |
 
 ---
 
@@ -161,22 +174,30 @@ Painel de edição aberto a partir do Detalhe da Inscrição (`/validacao-inscri
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Editar Inscrição Validada | EE | 3 | 11 | Alta | 6 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Editar Inscrição Validada | principal | EE | 3 | 11 | Alta | 6 | 2026-09-01 |
 
 ### Memória de cálculo
 
-**Editar Inscrição Validada** — EE. Formas de lógica: 1 (situação Validada, justificativa obrigatória, validações do formulário e do questionário, mínimo e máximo de membros, configuração de anexos), 5, 6 (grava a inscrição corrigida e os dois retratos), 7, 12. Intenção primária: manter ALI.
+**Editar Inscrição Validada** — EE · ALR 3 · DER 11 · Alta · 6 PF
 
 ```json
 {"pe": "Editar Inscrição Validada",
  "alr": ["Inscrição", "Tipo de Participante", "Validação Inscrição"],
  "der": ["Justificativa", "Respostas do formulário", "Respostas do questionário", "Enquadramento", "Membros da equipe", "Anexos removidos", "Anexos novos", "Responsável pela edição", "Data da edição", "Mensagem", "Ação"]}
 ```
-- **ALR (3)**: Inscrição *(respostas, membros, anexos e os dois retratos — subgrupos do mesmo ALI)* · Tipo de Participante *(as validações do formulário e do questionário, o enquadramento, a configuração de anexos e a de equipe)* · Validação Inscrição *(a situação Validada exigida pela regra 1)*.
-- **DER (11)** — entrada (7): Justificativa · Respostas do formulário · Respostas do questionário · Enquadramento · Membros da equipe · Anexos removidos · Anexos novos. Saída (2): Responsável pela edição · Data da edição · Mensagem · Ação.
-- **Fora da contagem**: os dois retratos da inscrição são gravados sem cruzar a fronteira — não são DER (CPM 5.5.5, atributos gerados dentro da fronteira).
+
+Por que cada ALR:
+1. `Inscrição` — a transação grava as respostas, os membros, os anexos e os dois retratos da inscrição (subgrupos do mesmo arquivo lógico)
+2. `Tipo de Participante` — lê as validações do formulário e do questionário, o enquadramento, a configuração de anexos e a de equipe
+3. `Validação Inscrição` — lê a situação Validada exigida pela regra 1
+
+Formas de lógica: 1 (situação Validada, justificativa obrigatória, validações do formulário e do questionário, mínimo e máximo de membros, configuração de anexos), 5, 6 (grava a inscrição corrigida e os dois retratos), 7, 12. Intenção primária: manter ALI.
+
+DER (11) — entrada (7): Justificativa · Respostas do formulário · Respostas do questionário · Enquadramento · Membros da equipe · Anexos removidos · Anexos novos; saída (2): Responsável pela edição · Data da edição; mais Mensagem e Ação.
+
+Fora da contagem: os dois retratos da inscrição são gravados sem cruzar a fronteira — não são DER (CPM 5.5.5, atributos gerados dentro da fronteira).
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -188,7 +209,7 @@ Painel de edição aberto a partir do Detalhe da Inscrição (`/validacao-inscri
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios do ticket na `## Origem` (o ticket não numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos` (o Preenchimento, que trazia o nome da entidade ou a seleção, passa a `entrada do usuário`, e a seleção vai para o Tipo), `## Dados lidos e gravados`, coluna Papel e memória de cálculo com o cabeçalho do processo elementar no formato da 4.1.0, o bloco JSON seguido do porquê de cada ALR e as explicações anteriores preservadas em prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **6 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -198,6 +219,6 @@ Painel de edição aberto a partir do Detalhe da Inscrição (`/validacao-inscri
 
 ---
 
-*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

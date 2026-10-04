@@ -24,10 +24,12 @@ contagem:
 ---
 
 # Conferir Item de Ajuste
-> **Nível 3** - Feature Set: Ajustes — Major Feature Set: Validação - `VAL-AJU-04`
+> **Nível 3** - Feature Set: Ajustes da Inscrição — Major Feature Set: Validação - `VAL-AJU-04`
 
 ## Descrição
 Permite ao validador marcar, item a item, quais dos ajustes solicitados ao participante já foram atendidos, deixando visível quanto ainda falta antes de decidir sobre a inscrição.
+
+Na barra de Conferência de Ajustes do Detalhe da Inscrição, o validador marca cada item já atendido — ou desmarca o que marcou por engano, confirmando na própria linha — e acompanha o resumo "Itens conferidos: N de M".
 
 ---
 
@@ -35,7 +37,8 @@ Permite ao validador marcar, item a item, quais dos ajustes solicitados ao parti
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — |
+| [`HU-018_Analisar_Validar_Inscricao`](../../../hus/HU-018_Analisar_Validar_Inscricao.docx) | Criação | — campos da Conferência de Ajustes na tela Detalhe da Inscrição: total de itens para ajuste, total de itens conferidos, número e descrição do item e a marcação "Conferir item" |
+| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — funcionalidade "Conferir Ajustes Concluídos": marcar cada item como conferido e desmarcá-lo com confirmação, com o contador de conferidos sobre o total |
 
 ---
 
@@ -106,9 +109,9 @@ Feature: Conferir Item de Ajuste
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Atendido | entrada do usuário | editável | sim/não | não | uma marcação por item de ajuste |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Atendido | Item de Ajuste | entrada do usuário | editável | sim/não | não | uma marcação por item de ajuste |
 
 ---
 
@@ -118,6 +121,14 @@ Feature: Conferir Item de Ajuste
 |---|---|---|
 | Data da conferência | data e hora da marcação | Ao marcar o item como atendido |
 | Data da conferência | vazia | Ao desmarcar o item |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê | A conferência só vale nas situações Em Validação e Ajustes Concluídos, e só para itens da própria inscrição (regras 1 e 4) |
 
 ---
 
@@ -152,9 +163,9 @@ Barra de conferência exibida no Detalhe da Inscrição (`/validacao-inscricao/i
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -166,12 +177,12 @@ Barra de conferência exibida no Detalhe da Inscrição (`/validacao-inscricao/i
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set* (o Feature Set passa a se chamar *Ajustes da Inscrição*, como no N2), Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios das HUs na `## Origem` (as HUs não numeram critérios: `—` e a prosa do que a feature realiza), com a HU-019 acrescentada por descrever a funcionalidade "Conferir Ajustes Concluídos", coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel em `## Métricas de tamanho` (linha ainda não medida). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (conferência item a item dos ajustes solicitados) — comportamento até então descrito apenas de passagem em VAL-ANA-03 |
 
 ---
 
-*Feature Set: Ajustes · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

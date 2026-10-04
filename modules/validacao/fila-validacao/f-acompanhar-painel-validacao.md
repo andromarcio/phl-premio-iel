@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao validador acompanhar as métricas de validação de uma premiação, com a distribuição das inscrições por situação e a comparação por categoria ou por unidade federativa.
 
+Pelo botão "Dashboard Gerencial" da Fila de Validação, o validador escolhe a premiação e, se quiser, refina o recorte — como UF, categoria e período —, alternando o gráfico de barras entre "Por Categoria" e "Por UF".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-023_Dashboard_Gerencial_Validacao`](../../../hus/HU-023_Dashboard_Gerencial_Validacao.docx) | Criação | — |
-| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Alteração | — |
+| [`HU-023_Dashboard_Gerencial_Validacao`](../../../hus/HU-023_Dashboard_Gerencial_Validacao.docx) | Criação | — painel com filtros em cascata e a premiação obrigatória, o gráfico de distribuição por situação e as barras empilhadas com a alternância entre "Por Categoria" e "Por UF" |
+| [`PDTIC25093-58`](../../../analise-impacto/AIM-PDTIC25093-58.md) | Alteração | — a exportação do histórico entrou no painel e depois virou feature própria (`VAL-FIL-03`); aqui ficam a ação na tela e o mesmo recorte de inscrições (regra 4) |
 
 ---
 
@@ -98,14 +100,14 @@ Feature: Acompanhar Painel de Validação
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| UF | entrada do usuário | editável | lista (unidades federativas) | condicional | obrigatória para o validador regional; restrita às unidades a que está vinculado |
-| Premiação | entrada do usuário | editável | lista (premiações) | sim | obrigatória para carregar as métricas |
-| Categoria | entrada do usuário | editável | lista (categorias da premiação) | não | habilitada após escolher a premiação |
-| Modalidade | entrada do usuário | editável | lista (modalidades da categoria) | não | habilitada após escolher a categoria |
-| Data início | entrada do usuário | editável | data | não | início do período de apuração |
-| Data fim | entrada do usuário | editável | data | não | fim do período de apuração |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| UF | Unidade Federativa | entrada do usuário | editável | lista (unidades federativas) | condicional | obrigatória para o validador regional; restrita às unidades a que está vinculado |
+| Premiação | Premiação | entrada do usuário | editável | lista (premiações) | sim | obrigatória para carregar as métricas |
+| Categoria | Categoria | entrada do usuário | editável | lista (categorias da premiação) | não | habilitada após escolher a premiação |
+| Modalidade | Modalidade | entrada do usuário | editável | lista (modalidades da categoria) | não | habilitada após escolher a categoria |
+| Data início | Inscrição | entrada do usuário | editável | data | não | início do período de apuração |
+| Data fim | Inscrição | entrada do usuário | editável | data | não | fim do período de apuração |
 
 ---
 
@@ -148,19 +150,29 @@ Página própria em `/validacao-inscricao/dashboard` (Dashboard Gerencial de Val
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Dashboard Gerencial | SE | 4 | 12 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Acompanhar Painel de Validação | principal | SE | 4 | 12 | Complexo | 7 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Consultar Dashboard Gerencial*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Dashboard Gerencial** — ALR (4): Premiação · Categoria · Modalidade · Inscrição. DER (12): UF · Premiação · Categoria · Modalidade · Data Inicio · Data Fim · Status · Qtd por Status · Qtd por UF/Status · Qtd por Categoria/Status · Ação · Mensagem.
+**Acompanhar Painel de Validação** — SE · ALR 4 · DER 12 · Complexo · 7 PF
 
 ```json
-{"pe": "Consultar Dashboard Gerencial",
+{"pe": "Acompanhar Painel de Validação",
  "alr": ["Premiação", "Categoria", "Modalidade", "Inscrição"],
  "der": ["UF", "Premiação", "Categoria", "Modalidade", "Data Inicio", "Data Fim", "Status", "Qtd por Status", "Qtd por UF/Status", "Qtd por Categoria/Status", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a premiação obrigatória delimita as inscrições consolidadas
+2. `Categoria` — filtro em cascata e eixo da comparação por categoria
+3. `Modalidade` — filtro em cascata do recorte
+4. `Inscrição` — as inscrições do recorte, contadas por situação, por categoria e por UF
+
+⚠️ A UF do filtro e da comparação por UF vem da Unidade Federativa, do arquivo lógico Usuário (coluna Entidade de `## Campos`), que a planilha não enumera. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -172,7 +184,7 @@ Página própria em `/validacao-inscricao/dashboard` (Dashboard Gerencial de Val
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU e do ticket na `## Origem` (nenhum dos dois numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature (no baseline, *Consultar Dashboard Gerencial*) e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/fila-validacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Especificação (docqui) | Exportação separada | A exportação do histórico saiu desta feature e virou `VAL-FIL-03` **Exportar Histórico do Painel de Validação**, conforme a decisão de produto de 2026-09-01. As regras 4 a 7, os cenários da exportação, os campos automáticos e os critérios SC-03 a SC-05 foram para lá; aqui ficou o ponteiro. A contagem desta feature não muda: os 7 PF são do `Consultar Dashboard Gerencial` |
@@ -183,6 +195,6 @@ Página própria em `/validacao-inscricao/dashboard` (Dashboard Gerencial de Val
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao validador consultar, por rodada de ajuste, o que o participante alterou entre a solicitação e o reenvio da inscrição, agrupado por respostas, documentos e equipe.
 
+No Detalhe da Inscrição, o validador aciona "Ver auditoria de ajustes" — ou clica numa rodada na linha do tempo do histórico —, escolhe a rodada e lê as alterações com o valor anterior e o novo de cada registro, podendo desligar o filtro "Apenas alterações" para ver também o que não mudou.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-026_Auditoria_Ajustes_Inscricao`](../../../hus/HU-026_Auditoria_Ajustes_Inscricao.docx) | Criação | — |
-| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — |
+| [`HU-026_Auditoria_Ajustes_Inscricao`](../../../hus/HU-026_Auditoria_Ajustes_Inscricao.docx) | Criação | — consulta, por rodada fechada, do que o participante alterou entre a solicitação e o reenvio, agrupado por superfície, com o filtro "Apenas alterações" ligado por padrão e as rodadas sem captura indicadas como indisponíveis |
+| [`HU-019_Solicitar_Ajustes_Inscricao`](../../../hus/HU-019_Solicitar_Ajustes_Inscricao.docx) | Criação | — funcionalidade "Consultar Auditoria de Ajustes", acrescentada à HU pela HU-026: o popup aberto pelo detalhe ou por uma rodada da linha do tempo, com as datas de solicitação e reenvio e o total de alterações |
 
 ---
 
@@ -103,10 +105,10 @@ Feature: Consultar Auditoria de Ajustes
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Rodada | entrada do usuário | editável | lista (rodadas de ajuste fechadas) | sim | apenas rodadas com solicitação e reenvio |
-| Apenas alterações | entrada do usuário | editável | opção (ligado/desligado) | não | padrão ligado; quando ligado, oculta os registros sem alteração |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Rodada | Snapshot da Inscrição | entrada do usuário | editável | lista (rodadas de ajuste fechadas) | sim | apenas rodadas com solicitação e reenvio |
+| Apenas alterações | dado de código | entrada do usuário | editável | opção (ligado/desligado) | não | padrão ligado; quando ligado, oculta os registros sem alteração |
 
 ---
 
@@ -130,6 +132,15 @@ Feature: Consultar Auditoria de Ajustes
 | Data da solicitação | data e hora do pedido de ajuste da rodada | Ao selecionar a rodada |
 | Data do reenvio | data e hora do reenvio da inscrição na rodada | Ao selecionar a rodada |
 | Total de alterações | soma das inserções, alterações e remoções da rodada | Ao selecionar a rodada |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Histórico da Inscrição | lê | As rodadas de ajuste são os pares solicitação e reenvio do histórico da inscrição; as anteriores à captura aparecem como indisponíveis (regras 1 e 4) |
+| Tipo de Participante | lê | Os rótulos dos campos do formulário, das questões e dos anexos de cada alteração vêm da configuração do tipo de participante (ALR do baseline) |
 
 ---
 
@@ -164,19 +175,25 @@ Popup de Auditoria de Ajustes aberto a partir do Detalhe da Inscrição (`/valid
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Auditoria de Ajustes | SE | 2 | 13 | Médio | 5 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Auditoria de Ajustes | principal | SE | 2 | 13 | Médio | 5 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consultar Auditoria de Ajustes** — ALR (2): Inscrição · Tipo de Participante. DER (13): Rodada · Apenas alterações · Data solicitação · Data reenvio · Qtd alterações · Tipo de alteração · Qtd alteração por tipo · Status alteração · Item alterado · Valor anterior · Valor atual · Ação · Mensagem.
+**Consultar Auditoria de Ajustes** — SE · ALR 2 · DER 13 · Médio · 5 PF
 
 ```json
 {"pe": "Consultar Auditoria de Ajustes",
  "alr": ["Inscrição", "Tipo de Participante"],
  "der": ["Rodada", "Apenas alterações", "Data solicitação", "Data reenvio", "Qtd alterações", "Tipo de alteração", "Qtd alteração por tipo", "Status alteração", "Item alterado", "Valor anterior", "Valor atual", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Inscrição` — a consulta lê as capturas de antes e depois de cada rodada e as rodadas registradas no histórico (subgrupos do mesmo arquivo lógico)
+2. `Tipo de Participante` — resolve os rótulos dos campos do formulário, das questões e dos anexos alterados
+
+⚠️ A lista de rodadas do campo *Rodada* é, no baseline, o processo elementar *Consultar Rodadas (combo)* (CE, 3 PF), contado na planilha sob a HU-026 e registrado em `global/SIZING.md` entre os PE sem feature. Pela *Regra da lista consultada* seria acessório desta feature, dona da tela; a decisão de trazê-lo para cá é da equipe de métricas.
 
 **Total: 5 PF** (1 processo elementar).
 
@@ -188,13 +205,13 @@ Popup de Auditoria de Ajustes aberto a partir do Detalhe da Inscrição (`/valid
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios das HUs na `## Origem` (as HUs não numeram critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado das HU-019 e HU-026 |
 
 ---
 
-*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-08-27*
+*Feature Set: Ajustes da Inscrição · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

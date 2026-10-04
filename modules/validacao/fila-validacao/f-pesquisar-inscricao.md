@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao validador pesquisar as inscrições submetidas para validação por unidade federativa, premiação, categoria, modalidade, tipo de participante e situação, listando os resultados para conferência e análise.
 
+No menu Premiação › Validação de Inscrições, o validador escolhe os filtros em cascata — como UF, premiação e situação — ou aciona um card de contagem por situação, e na tabela paginada abre o detalhe de cada inscrição numa nova aba.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-017_Listar_Inscricoes_Validacao`](../../../hus/HU-017_Listar_Inscricoes_Validacao.docx) | Criação | — |
-| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — |
+| [`HU-017_Listar_Inscricoes_Validacao`](../../../hus/HU-017_Listar_Inscricoes_Validacao.docx) | Criação | — filtros em cascata com a UF obrigatória para o administrador regional, cards de contagem por situação com filtro rápido, tabela paginada de 10, 20 ou 50 registros, a UF "Nacional" para a inscrição sem UF e o detalhe aberto numa nova aba |
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa os relatórios administrativos |
 
 ---
 
@@ -115,14 +117,14 @@ Feature: Pesquisar Inscrições para Validação
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| UF | entrada do usuário | editável | lista (unidades federativas) | condicional | obrigatória para o validador regional; restrita às unidades a que está vinculado |
-| Premiação | entrada do usuário | editável | lista (premiações) | não | — |
-| Categoria | entrada do usuário | editável | lista (categorias da premiação) | não | habilitada após escolher a premiação |
-| Modalidade | entrada do usuário | editável | lista (modalidades da categoria) | não | habilitada após escolher a categoria |
-| Tipo de participante | entrada do usuário | editável | lista (tipos de participante) | não | — |
-| Situação | entrada do usuário | editável | seleção múltipla (Finalizada, Em Validação, Validada, Rejeitada, Aguardando Ajuste, Ajustes Concluídos) | não | permite selecionar mais de uma situação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| UF | Unidade Federativa | entrada do usuário | editável | lista (unidades federativas) | condicional | obrigatória para o validador regional; restrita às unidades a que está vinculado |
+| Premiação | Premiação | entrada do usuário | editável | lista (premiações) | não | — |
+| Categoria | Categoria | entrada do usuário | editável | lista (categorias da premiação) | não | habilitada após escolher a premiação |
+| Modalidade | Modalidade | entrada do usuário | editável | lista (modalidades da categoria) | não | habilitada após escolher a categoria |
+| Tipo de participante | Tipo de Participante | entrada do usuário | editável | lista (tipos de participante) | não | — |
+| Situação | dado de código | entrada do usuário | editável | seleção múltipla (Finalizada, Em Validação, Validada, Rejeitada, Aguardando Ajuste, Ajustes Concluídos) | não | permite selecionar mais de uma situação |
 
 ---
 
@@ -146,6 +148,14 @@ Feature: Pesquisar Inscrições para Validação
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê | A fila lista as inscrições submetidas em qualquer situação de validação, com protocolo, situação e data, e conta as inscrições por situação nos cards (regras 3 e 4; `## Colunas do resultado`) |
 
 ---
 
@@ -181,13 +191,34 @@ Página própria em `/validacao-inscricao/inscricoes` (Fila de Validação): fil
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Dashboard Validação de Inscrições | SE | 5 | 14 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Pesquisar Inscrições para Validação | principal | SE | 5 | 14 | Complexo | 7 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Consultar Dashboard Validação de Inscrições*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Dashboard Validação de Inscrições** — ALR (5): Inscrição · Premiação · Categoria · Modalidade · Tipo de Participante. DER (14): Qtd Inscrições · Status Inscrição · Percentual Inscritos por Status · UF · Premiação · Categoria · Modalidade · Tipo Participante · Status · Protocolo · UF · Data Finalização · Ação · Mensagem.
+**Pesquisar Inscrições para Validação** — SE · ALR 5 · DER 14 · Complexo · 7 PF
+
+```json
+{"pe": "Pesquisar Inscrições para Validação",
+ "alr": ["Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante"],
+ "der": ["Qtd Inscrições", "Status Inscrição", "Percentual Inscritos por Status", "UF (filtro)", "Premiação", "Categoria", "Modalidade", "Tipo Participante", "Status", "Protocolo", "UF (coluna)", "Data Finalização", "Ação", "Mensagem"]}
+```
+
+Por que cada ALR:
+1. `Inscrição` — a pesquisa lista as inscrições do recorte e conta as inscrições por situação nos cards
+2. `Premiação` — filtro e coluna da premiação da inscrição
+3. `Categoria` — filtro em cascata e coluna da categoria da inscrição
+4. `Modalidade` — filtro em cascata e coluna da modalidade da inscrição
+5. `Tipo de Participante` — filtro e coluna do tipo de participante da inscrição
+
+⚠️ A planilha conta *UF* duas vezes — no filtro e na coluna da tabela; aqui cada um leva entre parênteses o lugar onde aparece. Pelo CPM o mesmo DER conta uma vez; mantido como o baseline contou, a confirmar com a equipe de métricas.
+
+⚠️ A UF do filtro e da coluna vem da Unidade Federativa, do arquivo lógico Usuário (coluna Entidade de `## Campos`), que a planilha não enumera. Ficou o número da planilha; a divergência vai à equipe de métricas.
+
+⚠️ As listas dos filtros Premiação, Categoria, Modalidade e Tipo de participante são, no baseline, processos elementares próprios — *Consultar Premiação (combo)*, *Consultar Categoria por Premiação (combo)*, *Consultar Modalidade por Categoria (combo)* e *Consultar Tipo de Participante por Modalidade (combo)*, 3 PF cada —, contados na planilha sob a HU-017, a desta tela, e registrados em `global/SIZING.md` entre os PE sem feature. Pela *Regra da lista consultada* seriam acessórios desta feature, dona da tela; a decisão de trazê-los para cá é da equipe de métricas.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -199,7 +230,7 @@ Página própria em `/validacao-inscricao/inscricoes` (Fila de Validação): fil
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU e do ticket na `## Origem` (nenhum dos dois numera critérios: `—` e a prosa do que a feature realiza), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature (no baseline, *Consultar Dashboard Validação de Inscrições*), o DER *UF* repetido desambiguado e o porquê de cada ALR. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/validacao/fila-validacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Impacto SP05 (docqui) | Feature alterada | Ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22) |
@@ -207,6 +238,6 @@ Página própria em `/validacao-inscricao/inscricoes` (Fila de Validação): fil
 
 ---
 
-*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Fila e Painel de Validação · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -26,6 +26,8 @@ contagem:
 ## Descrição
 Permite ao administrador nacional retirar da premiação uma inscrição já validada, mediante justificativa, mantendo os dados preservados para consulta e auditoria.
 
+No Detalhe da Inscrição validada, o administrador nacional aciona a exclusão, informa a justificativa no diálogo de confirmação e confirma; a inscrição deixa de constar nas listagens da premiação.
+
 ---
 
 <div class="dev-only">
@@ -91,9 +93,9 @@ Feature: Excluir Inscrição Validada
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Justificativa | entrada do usuário | editável | texto longo | sim | não pode ficar em branco |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Justificativa | Histórico da Inscrição | entrada do usuário | editável | texto longo | sim | não pode ficar em branco |
 
 ---
 
@@ -104,6 +106,14 @@ Feature: Excluir Inscrição Validada
 | Situação do registro | Inativo | Ao confirmar a exclusão |
 | Responsável pela exclusão | administrador autenticado | Ao confirmar a exclusão |
 | Data da exclusão | data e hora da confirmação | Ao confirmar a exclusão |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê e grava | Só a inscrição Validada pode ser excluída, e a exclusão lógica a passa à situação de registro Inativo, com os dados preservados (regras 1 e 3; campo automático Situação do registro) |
 
 ---
 
@@ -137,9 +147,9 @@ Diálogo de confirmação aberto pela ação de exclusão no Detalhe da Inscriç
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -151,12 +161,12 @@ Diálogo de confirmação aberto pela ação de exclusão no Detalhe da Inscriç
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com o bloco `contagem`; sem `origem`, porque o N3 não registra HU nem ticket de origem), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel em `## Métricas de tamanho` (linha ainda não medida). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (exclusão lógica de inscrição validada com justificativa) — capacidade implementada e até então não especificada |
 
 ---
 
-*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-08-28*
+*Feature Set: Análise e Decisão · Major Feature Set: Validação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
