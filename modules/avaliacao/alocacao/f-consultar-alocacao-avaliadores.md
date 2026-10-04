@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador consultar, por premiação e etapa, cada grupo de avaliação — categoria, modalidade, tipo de participante e submodalidade — com a quantidade de inscrições e o pool de avaliadores já autorizado, situando o trabalho de alocação daquela etapa.
 
+No menu Avaliação › Alocação por Grupo, o administrador escolhe a premiação e a etapa e vê a matriz com uma linha por grupo, com informações como as inscrições do grupo, os avaliadores no pool e a situação do pool.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — funcionalidade "Alocar Pool de Avaliadores por Grupo" da HU, que não numera critérios: a consulta, por premiação e etapa, dos grupos com a quantidade de inscrições e o pool atual de cada um |
 
 ---
 
@@ -95,10 +97,10 @@ Feature: Consultar Alocação de Avaliadores
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Premiação | entrada do usuário | editável | seleção → Premiação | sim | premiações ativas; carrega a matriz de grupos ao selecionar |
-| Etapa | entrada do usuário | editável | seleção → Etapa | sim | etapas ativas da premiação selecionada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | sim | premiações ativas; carrega a matriz de grupos ao selecionar |
+| Etapa | Etapa | entrada do usuário | editável | seleção → Etapa | sim | etapas ativas da premiação selecionada |
 
 ---
 
@@ -122,6 +124,19 @@ Feature: Consultar Alocação de Avaliadores
 |---|---|---|
 | Status do pool | Pool ativo | Quando o grupo tem ao menos um avaliador no pool |
 | Status do pool | Sem avaliadores | Quando o pool do grupo está vazio |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Alocação de Avaliadores | lê | O pool de cada grupo na etapa selecionada alimenta a contagem de avaliadores e o status do pool (regra 2) |
+| Categoria | lê | Compõe o grupo de avaliação e a coluna *Categoria* (regra 1) |
+| Modalidade | lê | Compõe o grupo de avaliação e a coluna *Modalidade* (regra 1) |
+| Tipo de Participante | lê | O tipo de participante e a submodalidade da oferta compõem o grupo e a coluna *Tipo de participante* (regra 1) |
+| Inscrição | lê | As inscrições ativas vinculadas ao grupo alimentam a coluna *Inscrições no grupo* (regra 1) |
+| Usuário | lê | As UFs vinculadas ao perfil recortam os grupos que o administrador regional alcança (regra 3); o vínculo por UF também identifica os avaliadores do pool (ALR do baseline) |
 
 ---
 
@@ -155,19 +170,28 @@ Página própria em `/avaliacao-admin/alocacao-matriz` (Alocação por Grupo): s
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Alocação de Avaliadores | SE | 5 | 21 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Alocação de Avaliadores | principal | SE | 5 | 21 | Complexo | 7 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consultar Alocação de Avaliadores** — ALR (5): Premiação · Tipo Participante · Categoria · Modalidade · Usuário. DER (21): Premio · Etapa · Grupo · Categoria · Modalidade · Tipo de Participante · Status das Inscrições · Total por status · Percentual por status · Total de Inscrições · Qtd de Avaliadores · Total avaliadores no pool · Status pool · Nome avaliador · E-mail avaliador · UF · Qtd avaliações alocadas · Qtd avaliações em andamento · Qtd avaliações finalizadas · Ação · Mensagem.
+**Consultar Alocação de Avaliadores** — SE · ALR 5 · DER 21 · Complexo · 7 PF
 
 ```json
 {"pe": "Consultar Alocação de Avaliadores",
  "alr": ["Premiação", "Tipo Participante", "Categoria", "Modalidade", "Usuário"],
  "der": ["Premio", "Etapa", "Grupo", "Categoria", "Modalidade", "Tipo de Participante", "Status das Inscrições", "Total por status", "Percentual por status", "Total de Inscrições", "Qtd de Avaliadores", "Total avaliadores no pool", "Status pool", "Nome avaliador", "E-mail avaliador", "UF", "Qtd avaliações alocadas", "Qtd avaliações em andamento", "Qtd avaliações finalizadas", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a premiação e a etapa selecionadas no cabeçalho (a etapa é subgrupo da Premiação)
+2. `Tipo Participante` — o tipo de participante e a submodalidade da oferta que compõem cada grupo
+3. `Categoria` — a categoria que compõe cada grupo
+4. `Modalidade` — a modalidade que compõe cada grupo
+5. `Usuário` — os avaliadores do pool, com nome, e-mail e UF, e o recorte de UFs do administrador regional
+
+⚠️ A tela também lê o pool (`Alocação Avaliadores`) e conta as inscrições do grupo (`Inscrição`), arquivos declarados em `## Dados lidos e gravados` que a planilha não enumera. Ficou o número da planilha — com ALR 5 a SE já está na faixa mais alta, e os dois arquivos não mudariam a complexidade; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -179,7 +203,7 @@ Página própria em `/avaliacao-admin/alocacao-matriz` (Alocação por Grupo): s
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); `## Origem` com o que a feature realiza da HU, que não numera critérios; coluna Entidade em `## Campos`; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com a enumeração antiga em lista retirada e o porquê de cada ALR em prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/alocacao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Grupo corrigido | A **submodalidade** passa a compor o grupo, convergindo com `AVL-ALO-04` Alocar Avaliador à Inscrição, cuja definição foi conferida contra o código. Antes as duas leituras conviviam e mostravam grupos diferentes para a mesma premiação |
@@ -188,6 +212,6 @@ Página própria em `/avaliacao-admin/alocacao-matriz` (Alocação por Grupo): s
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,15 +29,17 @@ contagem:
 ## Descrição
 Permite ao administrador consolidar os pareceres dos avaliadores de uma inscrição em uma etapa num único texto oficial da banca, que passa a ser divulgado ao participante e se torna definitivo quando o estado da inscrição é fechado na etapa.
 
+No detalhe da avaliação, na aba "Consolidação", o administrador redige o texto com os pareceres individuais ao lado, marca se usou apoio de IA, pré-visualiza como o participante o verá e confirma a publicação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — |
-| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — |
-| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
+| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — consolidação do feedback ao participante, descrita na HU até a versão 4.0, de onde vem o mínimo de 100 caracteres; a versão 5.0 a transferiu para a HU-031 |
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — funcionalidade "Consolidar Feedback da Etapa" da HU, que não numera critérios: redigir, pré-visualizar e publicar o feedback consolidado por inscrição e etapa, com limite de 6.000 caracteres, marcação de geração por IA e visibilidade sujeita à data de liberação |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — trava da consolidação com o estado fechado na etapa, consolidação completa do estado como pré-requisito do fechamento e reabertura que devolve o texto à edição |
 
 ---
 
@@ -134,10 +136,10 @@ Feature: Consolidar Avaliação
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Feedback consolidado | entrada do usuário | texto longo | sim | mínimo de 100 caracteres não-brancos; máximo de 6.000 caracteres; alterável somente enquanto o estado da inscrição estiver aberto na etapa |
-| Gerado com apoio de IA | entrada do usuário | booleano | não | marcação de rastreabilidade da origem do texto |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Feedback consolidado | Apuração por Etapa | entrada do usuário | editável | texto longo | sim | mínimo de 100 caracteres não-brancos; máximo de 6.000 caracteres; alterável somente enquanto o estado da inscrição estiver aberto na etapa |
+| Gerado com apoio de IA | Apuração por Etapa | entrada do usuário | editável | booleano | não | marcação de rastreabilidade da origem do texto |
 
 ---
 
@@ -148,6 +150,17 @@ Feature: Consolidar Avaliação
 | Feedback consolidado em | Data e hora do salvamento | Ao salvar a consolidação |
 | Feedback consolidado por | Autor da consolidação | Ao salvar a consolidação |
 | Status de consolidação | Consolidada | Ao salvar a consolidação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Avaliação de Inscrição | lê | A consolidação só é liberada quando todos os avaliadores alocados concluíram a avaliação, e os pareceres individuais acompanham o editor (regra 2) |
+| Fechamento de Etapa por UF | lê | O estado já fechado na etapa torna o feedback consolidado imutável (regras 6 e 7) |
+| Inscrição | lê | O estado (UF) da inscrição — ou o escopo Nacional, sem estado — define qual fechamento trava a consolidação (regras 6 e 7) |
+| Etapa | lê | A data de liberação configurada na etapa condiciona a visibilidade do texto ao participante (regra 5) |
 
 ---
 
@@ -185,27 +198,38 @@ Aba "Consolidação" do detalhe da avaliação em `/avaliacao-admin/avaliacoes/:
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consolidar Avaliação | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
-| Pré-visualizar Consolidação | CE | 1 | 2 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consolidar Avaliação | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Pré-visualizar Consolidação | acessório | CE | 1 | 2 | Simples | 3 | 2026-02-28 |
+
+> A pré-visualização é acessória: apresenta o mesmo texto que a feature grava, na forma em que o participante o verá.
 
 ### Memória de cálculo
 
-- **Consolidar Avaliação** — ALR (1): Avaliação de Inscrição. DER (3): Texto consolidação · Ação · Mensagem.
+**Consolidar Avaliação** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Consolidar Avaliação",
  "alr": ["Avaliação de Inscrição"],
  "der": ["Texto consolidação", "Ação", "Mensagem"]}
 ```
-- **Pré-visualizar Consolidação** — ALR (1): Avaliação de Inscrição. DER (2): Texto · Ação.
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — a transação grava o feedback consolidado da inscrição na etapa, com a data, o autor e a marcação de IA (a Apuração por Etapa é subgrupo do arquivo), e confere nele se os avaliadores concluíram e se o estado já foi fechado
+
+⚠️ A trava pelo fechamento (regras 6 e 7), que entrou com `PDTIC25093-49` depois do baseline, consulta o estado da inscrição (`Inscrição`), arquivo que a planilha não enumera. Com ALR 2 e DER 3 a EE segue Simples e o PF não se move; a divergência vai à equipe de métricas.
+
+**Pré-visualizar Consolidação** — CE · ALR 1 · DER 2 · Simples · 3 PF
 
 ```json
 {"pe": "Pré-visualizar Consolidação",
  "alr": ["Avaliação de Inscrição"],
  "der": ["Texto", "Ação"]}
 ```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — o texto consolidado, apresentado como o participante o verá
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -217,7 +241,7 @@ Aba "Consolidação" do detalhe da avaliação em `/avaliacao-admin/avaliacoes/:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); `## Origem` com o que a feature realiza das HU, que não numeram critérios, e do ticket; coluna Entidade em `## Campos`, normalizada para as sete colunas do template com a coluna Edição; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com a pré-visualização como acessória e o porquê de cada ALR em prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/painel-administrativo/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -226,6 +250,6 @@ Aba "Consolidação" do detalhe da avaliação em `/avaliacao-admin/avaliacoes/:
 
 ---
 
-*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

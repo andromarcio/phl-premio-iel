@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao administrador acompanhar as avaliações em andamento da premiação, organizadas por inscrição e etapa e recortáveis por estado, com indicadores agregados, busca e o andamento da consolidação de cada estado, para saber o que já pode ser consolidado e quais estados ainda faltam.
 
+No menu Premiação › Avaliações, o administrador recorta a lista por filtros como premiação, etapa e estado, ou busca pelo protocolo, e acompanha a árvore de inscrições, etapas e avaliadores com os indicadores no topo; cada linha leva ao detalhe da avaliação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — |
-| [`PDTIC25093-65`](../../../analise-impacto/AIM-PDTIC25093-65.md) | Alteração | — |
+| [`HU-027_Painel_Administrativo_Avaliacoes`](../../../hus/HU-027_Painel_Administrativo_Avaliacoes.docx) | Criação | — funcionalidade "Acompanhar Avaliações em Andamento" da HU, que não numera critérios: a árvore por inscrição × etapa com os indicadores agregados, os filtros por premiação, etapa e status de consolidação e a busca livre |
+| [`PDTIC25093-65`](../../../analise-impacto/AIM-PDTIC25093-65.md) | Alteração | — item 3 do card: a seleção de etapa restrita às etapas regionais para o Administrador Regional e o andamento da consolidação por estado só nas etapas regionais |
 
 ---
 
@@ -166,13 +168,13 @@ Feature: Acompanhar Painel de Avaliações
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Premiação | entrada do usuário | seleção → Premiação | não | filtra as avaliações da premiação escolhida |
-| Etapa | entrada do usuário | seleção → Etapa | não | habilitada depois da premiação; cada opção traz ordem, nome e situação (Aberta ou Fechada); o Administrador Regional recebe apenas as etapas de natureza regional |
-| Estado (UF) | entrada do usuário | seleção múltipla → Unidade Federativa (inclui Nacional para as inscrições sem estado) | não | limitada aos estados do escopo do usuário |
-| Status de consolidação | entrada do usuário | seleção múltipla (Aguardando avaliadores, Pronta para consolidação, Consolidada, Sem avaliadores) | não | seleção múltipla |
-| Busca | entrada do usuário | texto | não | correspondência por protocolo, identificador da inscrição ou nome do participante |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | não | filtra as avaliações da premiação escolhida |
+| Etapa | Etapa | entrada do usuário | editável | seleção → Etapa | não | habilitada depois da premiação; cada opção traz ordem, nome e situação (Aberta ou Fechada); o Administrador Regional recebe apenas as etapas de natureza regional |
+| Estado (UF) | Unidade Federativa | entrada do usuário | editável | seleção múltipla → Unidade Federativa (inclui Nacional para as inscrições sem estado) | não | limitada aos estados do escopo do usuário |
+| Status de consolidação | dado de código | entrada do usuário | editável | seleção múltipla (Aguardando avaliadores, Pronta para consolidação, Consolidada, Sem avaliadores) | não | seleção múltipla |
+| Busca | Inscrição | entrada do usuário | editável | texto | não | correspondência por protocolo, identificador da inscrição ou nome do participante |
 
 ---
 
@@ -195,6 +197,20 @@ Feature: Acompanhar Painel de Avaliações
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Avaliação de Inscrição | lê | Os avaliadores alocados sob cada etapa e a relação de avaliações finalizadas sobre alocadas, que decide se a etapa está pronta para consolidação (regras 1 e 3) |
+| Alocação de Avaliadores | lê | O indicador de avaliadores alocados no topo (ALR do baseline) |
+| Apuração por Etapa | lê | O feedback consolidado de cada inscrição na etapa, que dá o status de consolidação e o andamento por estado (regras 2 e 8) |
+| Categoria | lê | A coluna *Categoria* da inscrição (ALR do baseline) |
+| Modalidade | lê | A coluna *Modalidade* da inscrição (ALR do baseline) |
+| Usuário | lê | Os estados aos quais o Administrador Regional está vinculado recortam a lista, a seleção de estado e o andamento da consolidação (regras 7 e 9) |
+| Perfil de Acesso à Etapa | lê | Os perfis autorizados em cada etapa e a natureza regional ou nacional da etapa definem o que cada administrador acompanha (regras 4, 10 e 11) |
 
 ---
 
@@ -234,13 +250,30 @@ Página própria em `/avaliacao-admin/avaliacoes`: uma árvore com a inscrição
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Painel de Avaliações | SE | 5 | 20 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Acompanhar Painel de Avaliações | principal | SE | 5 | 20 | Complexo | 7 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Consultar Painel de Avaliações*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Painel de Avaliações** — ALR (5): Premiação · Categoria · Modalidade · Alocação Avaliadores · Avaliação de Inscrição. DER (20): Qtd Avaliadores Alocados · Percentual Avaliadores Alocados · Qtd avaliações em andamento · Percentual avaliações em andamento · Qtd avaliações concluidas · Percentual avaliações concluidas · Qtd avaliações consolidadas · Percentual avaliações consolidadas · Qtd avaliação sem avaliadores · Percentual avaliação sem avaliadores · Número protocolo · Status · Inscrição / Etapa / Avaliador · Premiação · Categoria · Modalidade · Avaliações · Status · Ação · Mensagem.
+**Acompanhar Painel de Avaliações** — SE · ALR 5 · DER 20 · Complexo · 7 PF
+
+```json
+{"pe": "Acompanhar Painel de Avaliações",
+ "alr": ["Premiação", "Categoria", "Modalidade", "Alocação Avaliadores", "Avaliação de Inscrição"],
+ "der": ["Qtd Avaliadores Alocados", "Percentual Avaliadores Alocados", "Qtd avaliações em andamento", "Percentual avaliações em andamento", "Qtd avaliações concluidas", "Percentual avaliações concluidas", "Qtd avaliações consolidadas", "Percentual avaliações consolidadas", "Qtd avaliação sem avaliadores", "Percentual avaliação sem avaliadores", "Número protocolo", "Status (filtro)", "Inscrição / Etapa / Avaliador", "Premiação", "Categoria", "Modalidade", "Avaliações", "Status (coluna)", "Ação", "Mensagem"]}
+```
+
+Por que cada ALR:
+1. `Premiação` — a premiação e a etapa selecionadas, e a coluna *Premiação* (a etapa é subgrupo da Premiação)
+2. `Categoria` — a coluna *Categoria* de cada inscrição
+3. `Modalidade` — a coluna *Modalidade* de cada inscrição
+4. `Alocação Avaliadores` — o indicador de avaliadores alocados
+5. `Avaliação de Inscrição` — os avaliadores sob cada etapa, a relação de avaliações finalizadas sobre alocadas e o status de consolidação
+
+⚠️ A planilha conta *Status* duas vezes — no filtro de status de consolidação e na coluna da árvore. Pelo CPM o mesmo DER conta uma vez; mantido como o baseline contou, com o lugar de cada um entre parênteses, a confirmar com a equipe de métricas. Com ALR 5, um DER a menos (19) não muda a complexidade da SE.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -252,7 +285,7 @@ Página própria em `/avaliacao-admin/avaliacoes`: uma árvore com a inscrição
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); `## Origem` com o que a feature realiza da HU, que não numera critérios, e do ticket; coluna Entidade em `## Campos`, normalizada para as sete colunas do template com a coluna Edição; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e o DER *Status*, contado duas vezes no baseline, desambiguado entre filtro e coluna. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do detalhe da seleção de etapa e do acesso ao disparo de feedback, conciliados com o resumo de entrega da Sprint 6. *Antes* o delta de 2026-10-02 registrou que a etapa restringe o acompanhamento, sem dizer que a seleção depende da premiação, que cada opção identifica a etapa por ordem, nome e situação, nem que o recorte alcança **também os indicadores** do topo. *Agora* as RN12 a RN14 fixam isso, e a RN15 registra que o acesso ao disparo do feedback vive nesta tela, só para o Administrador Nacional. +4 regras, +1 cenário, +1 critério. DER 20 já estava no topo da faixa — sem Δ PF |
 | 2026-10-02 | Análise de impacto `PDTIC25093-65` (docqui) | Feature alterada | **Restrição** do acompanhamento pela natureza da etapa, item 3 do card. *Antes* a seleção de etapa não distinguia perfil — o Administrador Regional recebia também as etapas nacionais — e o andamento da consolidação por estado era apurado em toda etapa, inclusive na nacional, em que a disputa não é por estado. *Agora* a seleção oferece ao Regional apenas as etapas regionais (RN10) e a consolidação por estado só aparece nas etapas regionais (RN11). +2 regras, +3 cenários, +1 critério de sucesso. A contagem não se move: DER já estava em 20, no topo da faixa |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/painel-administrativo/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -262,6 +295,6 @@ Página própria em `/avaliacao-admin/avaliacoes`: uma árvore com a inscrição
 
 ---
 
-*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Painel Administrativo de Avaliações · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

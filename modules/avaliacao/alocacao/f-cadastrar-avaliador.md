@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador cadastrar, sem sair do fluxo de alocação, um novo avaliador no cadastro corporativo, já com o perfil Avaliador e as unidades regionais a que fica vinculado.
 
+Na tela Alocação por Grupo, o administrador aciona "Cadastrar avaliador", informa login, nome e e-mail — e, se quiser, CPF, cargo e as UFs vinculadas —, decide se o convite segue por e-mail e salva.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — ação auxiliar "Cadastrar Avaliador" da HU, que não numera critérios: criar, sem sair da alocação, o usuário com perfil Avaliador no cadastro corporativo, com login único e UFs limitadas ao escopo do administrador |
 
 ---
 
@@ -107,15 +109,15 @@ Feature: Cadastrar Avaliador
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Login | entrada do usuário | editável | texto | sim | único no cadastro corporativo; máximo de 200 caracteres |
-| Nome | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
-| E-mail | entrada do usuário | editável | texto | sim | → ver FIELD-DICTIONARY: E-mail |
-| CPF | entrada do usuário | editável | texto | não | → ver FIELD-DICTIONARY: CPF |
-| Cargo | entrada do usuário | editável | texto | não | texto livre |
-| Enviar convite por e-mail | entrada do usuário | editável | booleano | não | marcado por padrão |
-| UFs vinculadas | entrada do usuário | editável | multi-seleção → Unidade Federativa | não | restrito ao escopo do administrador logado |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Login | externo: Portal corporativo | entrada do usuário | editável | texto | sim | único no cadastro corporativo; máximo de 200 caracteres |
+| Nome | externo: Portal corporativo | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
+| E-mail | externo: Portal corporativo | entrada do usuário | editável | texto | sim | → ver FIELD-DICTIONARY: E-mail |
+| CPF | externo: Portal corporativo | entrada do usuário | editável | texto | não | → ver FIELD-DICTIONARY: CPF |
+| Cargo | externo: Portal corporativo | entrada do usuário | editável | texto | não | texto livre |
+| Enviar convite por e-mail | externo: Portal corporativo | entrada do usuário | editável | booleano | não | marcado por padrão; quando marcado, o cadastro corporativo envia o e-mail de pré-cadastro |
+| UFs vinculadas | Unidade Federativa | entrada do usuário | editável | multi-seleção → Unidade Federativa | não | restrito ao escopo do administrador logado |
 
 ---
 
@@ -124,6 +126,15 @@ Feature: Cadastrar Avaliador
 | Label PO | Valor | Quando |
 |---|---|---|
 | Perfil | Avaliador | Na criação do avaliador |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Usuário | lê e grava | Recebe o vínculo do novo avaliador às UFs escolhidas; as UFs do administrador regional limitam as opções de vínculo (regra 3) |
+| Alocação de Avaliadores | grava | Acionado a partir de um grupo, o cadastro inclui o avaliador criado no pool daquele grupo (regra 4) |
 
 ---
 
@@ -157,19 +168,23 @@ Diálogo "Cadastrar avaliador" aberto a partir da tela Alocação por Grupo (`/a
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Cadastrar Avaliador | EE | 2 | 7 | Médio | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Avaliador | principal | EE | 2 | 7 | Médio | 4 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Cadastrar Avaliador** — ALR (2): Alocação Avaliadores · Usuário. DER (7): Login / E-mail AD · Nome Completo · CPF · Cargo / Instituição · UFs de atuação · Ação · Mensagem.
+**Cadastrar Avaliador** — EE · ALR 2 · DER 7 · Médio · 4 PF
 
 ```json
 {"pe": "Cadastrar Avaliador",
  "alr": ["Alocação Avaliadores", "Usuário"],
  "der": ["Login / E-mail AD", "Nome Completo", "CPF", "Cargo / Instituição", "UFs de atuação", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Alocação Avaliadores` — acionado a partir de um grupo, o avaliador criado entra no pool daquele grupo (regra 4)
+2. `Usuário` — a transação grava o vínculo do avaliador às UFs escolhidas, limitadas ao escopo do administrador (regra 3)
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -181,13 +196,13 @@ Diálogo "Cadastrar avaliador" aberto a partir da tela Alocação por Grupo (`/a
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); `## Origem` com o que a feature realiza da HU, que não numera critérios; coluna Entidade em `## Campos`, com os dados de identificação gravados no portal corporativo; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com a enumeração antiga em lista retirada e o porquê de cada ALR em prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-025 |
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

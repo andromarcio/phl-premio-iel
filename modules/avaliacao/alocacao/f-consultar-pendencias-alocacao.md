@@ -21,10 +21,12 @@ contagem:
 ---
 
 # Consultar Pendências de Alocação
-> **Nível 3** - Feature Set: Alocação — Major Feature Set: Avaliação - `AVL-ALO-06`
+> **Nível 3** - Feature Set: Alocação de Avaliadores — Major Feature Set: Avaliação - `AVL-ALO-06`
 
 ## Descrição
 Avisa o administrador de que existem participantes aprovados numa etapa já encerrada que ainda não têm avaliadores designados na etapa seguinte, e leva direto à tela onde a alocação pendente é resolvida.
+
+O aviso aparece por conta própria nas telas administrativas da premiação, com uma linha por etapa pendente; ao selecionar a linha, o administrador é levado à Alocação por Inscrição com a premiação e a etapa já aplicadas.
 
 ---
 
@@ -96,6 +98,16 @@ Feature: Consultar Pendências de Alocação
 
 ---
 
+## Campos
+
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Pendência selecionada | Etapa | entrada do usuário | somente leitura | seleção → Etapa (linha da lista de pendências) | não | apenas pendências de etapas que o perfil do usuário pode operar |
+
+*A consulta não tem preenchimento: a lista é montada a partir do perfil do usuário autenticado e das premiações ativas.*
+
+---
+
 ## Colunas do resultado
 
 | Coluna (Label PO) | Origem | Ordenação |
@@ -107,21 +119,23 @@ Feature: Consultar Pendências de Alocação
 
 ---
 
-## Campos
-
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Pendência selecionada | seleção → linha da lista de pendências | somente leitura | lista | não | apenas pendências de etapas que o perfil do usuário pode operar |
-
-*A consulta não tem preenchimento: a lista é montada a partir do perfil do usuário autenticado e das premiações ativas.*
-
----
 
 ## Campos automáticos
 
 | Label PO | Valor | Quando |
 |---|---|---|
 | Aprovados sem avaliador | quantidade de aprovados da etapa anterior sem avaliador na etapa pendente | Ao carregar as pendências |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação | lê | Só premiações ativas e com mais de uma etapa geram pendência, e a premiação identifica cada linha do aviso (regras 5 e 6) |
+| Apuração por Etapa | lê | Os participantes aprovados na etapa anterior, base da contagem de pendentes (regra 3) |
+| Avaliação de Inscrição | lê | Os avaliadores designados na etapa seguinte — o aprovado sem nenhum é pendente (regra 3) |
+| Perfil de Acesso à Etapa | lê | Os perfis que operam cada etapa limitam as pendências que o administrador recebe (regra 4) |
 
 ---
 
@@ -156,9 +170,9 @@ Aviso apresentado nas telas administrativas da premiação, com uma linha por pe
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -170,12 +184,12 @@ Aviso apresentado nas telas administrativas da premiação, com uma linha por pe
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); coluna Entidade em `## Campos`, com o Preenchimento corrigido e `## Campos` reposta antes de `## Colunas do resultado`, na ordem do template; `## Dados lidos e gravados`; coluna Papel na tabela de `## Métricas de tamanho`, que segue sem processo elementar contado. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (pendências de alocação entre etapas consecutivas) — capacidade implementada no servidor, com o aviso ainda não montado em tela |
 
 ---
 
-*Feature Set: Alocação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

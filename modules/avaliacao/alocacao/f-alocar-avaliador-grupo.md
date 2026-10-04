@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador compor e salvar o pool de avaliadores aptos a avaliar um grupo de categoria, modalidade, tipo de participante e submodalidade em uma etapa, servindo de base para a alocação por inscrição.
 
+Na tela Alocação por Grupo, o administrador abre o seletor de avaliadores na linha do grupo, inclui ou retira avaliadores do pool — buscando por nome ou e-mail — e aciona "Salvar pool".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — funcionalidade "Alocar Pool de Avaliadores por Grupo" da HU, que não numera critérios: incluir e retirar avaliadores do pool do grupo na etapa e salvar o pool, com o bloqueio da retirada de quem já tem avaliação em andamento ou finalizada |
 
 ---
 
@@ -101,9 +103,9 @@ Feature: Alocar Avaliador ao Grupo
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Avaliadores do pool | entrada do usuário | editável | multi-seleção → Avaliador | não | apenas usuários com perfil Avaliador; busca por nome e e-mail |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Avaliadores do pool | externo: Portal corporativo | entrada do usuário | editável | seleção múltipla (usuários com perfil Avaliador) | não | apenas usuários com perfil Avaliador do cadastro corporativo; busca por nome e e-mail |
 
 ---
 
@@ -114,6 +116,16 @@ Feature: Alocar Avaliador ao Grupo
 | Nome do avaliador | Nome vigente no cadastro corporativo | No momento em que o avaliador é incluído no pool |
 | Login do avaliador | Login vigente no cadastro corporativo | No momento em que o avaliador é incluído no pool |
 | Situação | Ativa | Ao registrar a alocação do avaliador no grupo |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Alocação de Avaliadores | lê e grava | Recebe o pool do grupo na etapa, com o nome, o login e a situação de cada avaliador (regras 1, 3 e 4 e campos automáticos) |
+| Avaliação de Inscrição | lê | As avaliações em andamento ou finalizadas do avaliador no grupo e etapa impedem a retirada dele do pool (regra 5) |
+| Usuário | lê | As UFs vinculadas ao perfil limitam os grupos cujo pool o administrador regional compõe (regra 6) |
 
 ---
 
@@ -147,19 +159,26 @@ Na tela Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`), o seletor de 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Salvar Pool | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Alocar Avaliador ao Grupo | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Salvar Pool*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Salvar Pool** — ALR (1): Alocação Avaliadores. DER (4): ID Avaliador · ID Pool · Ação · Mensagem.
+**Alocar Avaliador ao Grupo** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
-{"pe": "Salvar Pool",
+{"pe": "Alocar Avaliador ao Grupo",
  "alr": ["Alocação Avaliadores"],
  "der": ["ID Avaliador", "ID Pool", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Alocação Avaliadores` — a transação grava a composição do pool do grupo na etapa
+
+⚠️ A retirada consulta as avaliações do avaliador no grupo (`Avaliação de Inscrição`, regra 5) e o escopo de UFs do administrador regional (`Usuário`, regra 6), arquivos declarados em `## Dados lidos e gravados` que a planilha não enumera. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -171,7 +190,7 @@ Na tela Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`), o seletor de 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); `## Origem` com o que a feature realiza da HU, que não numera critérios; coluna Entidade em `## Campos`, com a lista de avaliadores vinda do portal corporativo; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A tela de Alocação por Grupo, que o fluxo já desenhava como contexto, passa a ser atribuída a esta feature — é nela que a alocação ao pool acontece. Fidelidade **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Grupo corrigido | A **submodalidade** passa a compor o grupo, convergindo com `AVL-ALO-04` Alocar Avaliador à Inscrição, cuja definição foi conferida contra o código. Antes as duas leituras conviviam e mostravam grupos diferentes para a mesma premiação |
@@ -180,6 +199,6 @@ Na tela Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`), o seletor de 
 
 ---
 
-*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Alocação de Avaliadores · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
