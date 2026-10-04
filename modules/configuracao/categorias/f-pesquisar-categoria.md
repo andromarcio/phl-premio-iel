@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador localizar categorias do catálogo por nome e situação, listando os resultados para consulta, edição ou vínculo a um prêmio.
 
+No menu de Categorias, o administrador digita parte do nome, escolhe a situação — Todas, Ativo ou Inativo — e vê a lista paginada, de onde abre o detalhe, a edição ou a troca de situação de cada categoria.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | `CA-5` — catálogo administrativo com a lista de categorias filtrada por nome e por situação |
 
 ---
 
@@ -95,10 +97,10 @@ Feature: Pesquisar Categorias
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
-| Situação | entrada do usuário | editável | lista (Todas, Ativo, Inativo) | não | padrão: Todas |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Categoria | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
+| Situação | dado de código | entrada do usuário | editável | lista (Todas, Ativo, Inativo) | não | padrão: Todas |
 
 ---
 
@@ -118,6 +120,14 @@ Feature: Pesquisar Categorias
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação | lê | Os vínculos da categoria com as premiações alimentam a coluna *Modalidades vinculadas* do resultado (ALR do baseline) |
 
 ---
 
@@ -151,19 +161,23 @@ Página própria em `/categorias` (Catálogo de Categorias): campo de busca por 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Pesquisar Categorias | SE | 2 | 6 | Médio | 5 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Pesquisar Categorias | principal | SE | 2 | 6 | Médio | 5 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Pesquisar Categorias** — ALR (2): Categoria · Premiação. DER (6): Nome · Descrição · Qtd Vinculos · Status · Ação · Mensagem.
+**Pesquisar Categorias** — SE · ALR 2 · DER 6 · Médio · 5 PF
 
 ```json
 {"pe": "Pesquisar Categorias",
  "alr": ["Categoria", "Premiação"],
  "der": ["Nome", "Descrição", "Qtd Vinculos", "Status", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Categoria` — a lista traz nome, descrição e situação de cada categoria do catálogo
+2. `Premiação` — a coluna *Modalidades vinculadas* é contada a partir dos vínculos da categoria com as premiações; a planilha do baseline registra o arquivo e o número é o dela
 
 **Total: 5 PF** (1 processo elementar).
 
@@ -175,7 +189,7 @@ Página própria em `/categorias` (Catálogo de Categorias): campo de busca por 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -183,6 +197,6 @@ Página própria em `/categorias` (Catálogo de Categorias): campo de busca por 
 
 ---
 
-*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

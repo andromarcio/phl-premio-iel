@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador consultar os dados de uma categoria e a lista de prêmios aos quais ela está vinculada, com a situação de cada vínculo.
 
+A partir do Catálogo de Categorias, o administrador abre o detalhe de uma categoria e alterna entre a aba "Dados Gerais", com nome, descrição e situação, e a aba "Vínculos", com os prêmios a que ela está ligada.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | — |
+| [`HU-004_Cadastrar_Categorias`](../../../hus/HU-004_Cadastrar_Categorias.docx) | Criação | `CA-6` — aba de vínculos com todos os prêmios a que a categoria está ligada |
 
 ---
 
@@ -87,12 +89,12 @@ Feature: Visualizar Categoria
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | Categoria | somente leitura | texto | — | — |
-| Descrição | Categoria | somente leitura | texto longo | — | — |
-| Situação | Categoria | somente leitura | lista (Ativo, Inativo) | — | — |
-| Prêmios vinculados | derivado | somente leitura | lista (prêmio + situação do vínculo) | — | — |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Categoria | exibido do cadastro | somente leitura | texto | — | — |
+| Descrição | Categoria | exibido do cadastro | somente leitura | texto longo | — | — |
+| Situação | Categoria | exibido do cadastro | somente leitura | lista (Ativo, Inativo) | — | — |
+| Prêmios vinculados | Premiação | exibido do cadastro | somente leitura | lista (prêmio + situação do vínculo) | — | um item por vínculo da categoria, com a situação de cada um |
 
 ---
 
@@ -101,6 +103,14 @@ Feature: Visualizar Categoria
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação × Categoria | lê | A aba "Vínculos" lista cada vínculo da categoria com um prêmio e a situação dele (regra 2) |
 
 ---
 
@@ -134,13 +144,22 @@ Página de detalhe em `/categorias/:id/visualizar`, com a aba "Dados Gerais" (no
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Detalhar Categoria | SE | — | — | — | 0 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Visualizar Categoria | principal | — | — | — | — | 0 | 2026-02-28 |
+
+> No baseline, a linha se chama *Detalhar Categoria* (tipo SE, sem ALR, DER nem complexidade); aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`.
 
 ### Memória de cálculo
 
-- **Detalhar Categoria** — ALR (0): —. DER (0): —.
+**Visualizar Categoria** — 0 PF
+
+```json
+{"pe": "Visualizar Categoria",
+ "motivo": "zerada no baseline APF sem ALR, DER nem complexidade; o motivo foi perguntado à equipe de métricas (Q7) e ainda não respondido"}
+```
+
+⚠️ Se o zero foi lacuna da planilha, e não descarte, a linha precisa de contagem — ver `arquivos/demandas/QUESTIONAMENTO_METRICAS_BASELINE_APF.md`, Q7.
 
 **Total: 0 PF** (1 processo elementar).
 
@@ -152,13 +171,13 @@ Página de detalhe em `/categorias/:id/visualizar`, com a aba "Dados Gerais" (no
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/configuracao/categorias/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-25 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-004 |
 
 ---
 
-*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-25*
+*Feature Set: Categorias · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
