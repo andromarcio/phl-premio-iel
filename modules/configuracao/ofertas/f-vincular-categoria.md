@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador associar uma categoria do catálogo à edição do prêmio, ou registrar uma nova categoria e vinculá-la num único passo, montando o primeiro nível abaixo da premiação.
 
+No nó da premiação, na árvore de configuração do prêmio, o administrador aciona "Vincular" e escolhe uma categoria do catálogo no diálogo, ou aciona "Criar Nova", informa nome e descrição e confirma em "Criar e Vincular".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | `CA-1, CA-2, CA-4, CA-6` — o diálogo lista o catálogo sem as categorias já vinculadas à edição; criar e vincular numa única operação; a árvore recarrega após vincular; o vínculo duplicado é impedido |
 
 ---
 
@@ -105,11 +107,11 @@ Feature: Vincular Categoria
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Categoria | seleção → Categoria | editável | seleção (catálogo) | sim | categoria ainda não vinculada à edição |
-| Nome (nova categoria) | entrada do usuário | editável | texto | condicional | obrigatório ao criar e vincular; máximo de 200 caracteres |
-| Descrição (nova categoria) | entrada do usuário | editável | texto longo | não | texto livre, ao criar e vincular |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Categoria | Categoria | entrada do usuário | editável | seleção → Categoria | sim | escolhida do catálogo; ainda não vinculada à edição |
+| Nome (nova categoria) | Categoria | entrada do usuário | editável | texto | condicional | obrigatório ao criar e vincular; máximo de 200 caracteres |
+| Descrição (nova categoria) | Categoria | entrada do usuário | editável | texto longo | não | texto livre, ao criar e vincular |
 
 ---
 
@@ -119,6 +121,15 @@ Feature: Vincular Categoria
 |---|---|---|
 | Ordem de exibição | Próxima posição na edição | Ao criar o vínculo |
 | Situação do vínculo | Ativo | Ao vincular a categoria à edição |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação × Categoria | grava | Recebe o vínculo da categoria com a edição, com a ordem de exibição e a situação (regras 1 e 3; campos automáticos) |
+| Premiação | lê | A edição que recebe a categoria é o nó de origem da ação (ALR do baseline) |
 
 ---
 
@@ -152,27 +163,40 @@ Ação disparada do nó da premiação na Árvore de Configuração do Prêmio (
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Copiar Categoria | EE | 2 | 3 | Simples | 3 | 2026-02-28 |
-| Criar e Vincular Categoria | EE | 2 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Vincular Categoria (do catálogo) | principal | EE | 2 | 3 | Simples | 3 | 2026-02-28 |
+| Vincular Categoria (criar e vincular) | principal | EE | 2 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, os processos elementares se chamam *Copiar Categoria* e *Criar e Vincular Categoria*; aqui levam o nome da feature, com a variante entre parênteses, como pede o `global/SIZING.md` para o `principal`. Os números são os do baseline.
 
 ### Memória de cálculo
 
-- **Copiar Categoria** — ALR (2): Categoria · Premiação. DER (3): ID · Ação · Mensagem.
+**Vincular Categoria (do catálogo)** — EE · ALR 2 · DER 3 · Simples · 3 PF
 
 ```json
-{"pe": "Copiar Categoria",
+{"pe": "Vincular Categoria (do catálogo)",
  "alr": ["Categoria", "Premiação"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
-- **Criar e Vincular Categoria** — ALR (2): Categoria · Premiação. DER (4): Nome · Descrição · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Categoria` — grava o vínculo da categoria escolhida com a edição (o vínculo é subgrupo do arquivo lógico Categoria)
+2. `Premiação` — lê a edição que recebe a categoria
+
+No legado, associar uma categoria existente do catálogo chamava-se *Copiar*; o DER `ID` é a categoria escolhida no diálogo.
+
+**Vincular Categoria (criar e vincular)** — EE · ALR 2 · DER 4 · Simples · 3 PF
 
 ```json
-{"pe": "Criar e Vincular Categoria",
+{"pe": "Vincular Categoria (criar e vincular)",
  "alr": ["Categoria", "Premiação"],
  "der": ["Nome", "Descrição", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Categoria` — grava a categoria nova no catálogo e, na mesma operação, o vínculo dela com a edição
+2. `Premiação` — lê a edição que recebe a categoria
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -184,13 +208,13 @@ Ação disparada do nó da premiação na Árvore de Configuração do Prêmio (
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com os dois processos elementares principais levando o nome da feature e a variante (do catálogo, criar e vincular). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

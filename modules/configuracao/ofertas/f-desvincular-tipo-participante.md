@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador desfazer uma oferta ao remover, por exclusão lógica, o vínculo de um tipo de participante com uma modalidade, sem excluir o tipo do catálogo.
 
+No nó do tipo de participante, na árvore de configuração do prêmio, o administrador aciona "Remover" e confirma a desvinculação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | `CA-3, CA-4` — desvincular é exclusão lógica da oferta, sem desativar o tipo de participante do catálogo; a árvore recarrega após desvincular |
 
 ---
 
@@ -90,10 +92,10 @@ Feature: Desvincular Tipo de Participante
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Tipo de participante | Tipo de Participante (oferta) | somente leitura | texto | — | tipo cujo vínculo com a modalidade será desfeito |
-| Modalidade da estrutura | Modalidade vinculada | somente leitura | texto | — | modalidade de origem da oferta |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Tipo de participante | Tipo de Participante | exibido do cadastro | somente leitura | texto | — | tipo cujo vínculo com a modalidade será desfeito |
+| Modalidade da estrutura | Modalidade | exibido do cadastro | somente leitura | texto | — | modalidade de origem da oferta, já vinculada na estrutura |
 
 ---
 
@@ -102,6 +104,14 @@ Feature: Desvincular Tipo de Participante
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação da oferta | Inativo | Ao confirmar a desvinculação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Oferta | grava | A oferta — vínculo do tipo com a modalidade e a categoria — passa à situação inativa (regra 1; campo automático) |
 
 ---
 
@@ -135,19 +145,22 @@ Ação disparada do nó do tipo de participante na Árvore de Configuração do 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Desvincular Tipo de Participante | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Desvincular Tipo de Participante | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Desvincular Tipo de Participante** — ALR (1): Tipo Participante. DER (3): ID · Ação · Mensagem.
+**Desvincular Tipo de Participante** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Desvincular Tipo de Participante",
  "alr": ["Tipo Participante"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Tipo Participante` — grava a situação inativa na oferta (a oferta é subgrupo do arquivo lógico Tipo de Participante)
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -159,13 +172,13 @@ Ação disparada do nó do tipo de participante na Árvore de Configuração do 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

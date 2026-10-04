@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador associar um tipo de participante a uma modalidade da estrutura, formando a oferta que o inscrito escolhe, ou criar o tipo e vinculá-lo no mesmo passo.
 
+No nó de uma modalidade, na árvore de configuração do prêmio, o administrador aciona "Vincular" e escolhe um tipo de participante do catálogo no diálogo, ou aciona "Criar Nova", informa os dados do novo tipo e confirma em "Criar e Vincular". No mesmo diálogo informa os parâmetros da oferta, como permissão de equipe, limites de membros e slug da URL.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | `CA-1, CA-2, CA-4, CA-6` — o diálogo lista o catálogo sem os tipos já vinculados à modalidade; criar e vincular numa única operação; a árvore recarrega após vincular; o vínculo duplicado é impedido |
 
 ---
 
@@ -98,15 +100,15 @@ Feature: Vincular Tipo de Participante
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Modalidade da estrutura | seleção → Modalidade vinculada | somente leitura | seleção | sim | modalidade já vinculada que recebe o tipo de participante |
-| Tipo de participante | seleção → Tipo de Participante | editável | seleção (catálogo) | sim | tipo ainda não vinculado à modalidade |
-| Nome (novo tipo) | entrada do usuário | editável | texto | condicional | obrigatório ao criar e vincular; máximo de 200 caracteres |
-| Permite equipe | entrada do usuário | editável | sim/não | não | padrão: não |
-| Mínimo de membros da equipe | entrada do usuário | editável | número | condicional | exigido quando permite equipe |
-| Máximo de membros da equipe | entrada do usuário | editável | número | condicional | maior ou igual ao mínimo, quando permite equipe |
-| Slug da URL | entrada do usuário | editável | texto | não | compõe o link público da oferta → ver FIELD-DICTIONARY: URL |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Modalidade da estrutura | Modalidade | exibido do cadastro | somente leitura | seleção → Modalidade | sim | modalidade já vinculada na estrutura que recebe o tipo de participante |
+| Tipo de participante | Tipo de Participante | entrada do usuário | editável | seleção → Tipo de Participante | sim | escolhido do catálogo; ainda não vinculado à modalidade |
+| Nome (novo tipo) | Tipo de Participante | entrada do usuário | editável | texto | condicional | obrigatório ao criar e vincular; máximo de 200 caracteres |
+| Permite equipe | Oferta | entrada do usuário | editável | sim/não | não | padrão: não |
+| Mínimo de membros da equipe | Oferta | entrada do usuário | editável | número | condicional | exigido quando permite equipe |
+| Máximo de membros da equipe | Oferta | entrada do usuário | editável | número | condicional | maior ou igual ao mínimo, quando permite equipe |
+| Slug da URL | Oferta | entrada do usuário | editável | texto | não | compõe o link público da oferta → ver FIELD-DICTIONARY: URL |
 
 ---
 
@@ -116,6 +118,16 @@ Feature: Vincular Tipo de Participante
 |---|---|---|
 | Ordem | Próxima posição na modalidade | Ao formar a oferta |
 | Situação da oferta | Ativo | Ao vincular o tipo de participante à modalidade |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Modalidade × Categoria | lê | O vínculo da modalidade com a categoria é o nó de origem que recebe o tipo (regra 2) |
+| Categoria | lê | A oferta cruza o tipo com a modalidade e a categoria da edição (regra 3; ALR do baseline) |
+| Premiação | lê | A edição em que a oferta é formada (ALR do baseline) |
 
 ---
 
@@ -149,19 +161,31 @@ Ação disparada do nó de uma modalidade na Árvore de Configuração do Prêmi
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Copiar Tipo de Participante | EE | 4 | 3 | Médio | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Vincular Tipo de Participante | principal | EE | 4 | 3 | Médio | 4 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Copiar Tipo de Participante*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Copiar Tipo de Participante** — ALR (4): Premiação · Tipo de Participante · Categoria · Modalidade. DER (3): ID · Ação · Mensagem.
+**Vincular Tipo de Participante** — EE · ALR 4 · DER 3 · Médio · 4 PF
 
 ```json
-{"pe": "Copiar Tipo de Participante",
+{"pe": "Vincular Tipo de Participante",
  "alr": ["Premiação", "Tipo de Participante", "Categoria", "Modalidade"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — lê a edição em que a oferta é formada
+2. `Tipo de Participante` — grava a oferta, vínculo do tipo escolhido com a modalidade e a categoria (a oferta é subgrupo do arquivo lógico Tipo de Participante)
+3. `Categoria` — lê a categoria do ramo em que a oferta é formada
+4. `Modalidade` — lê o vínculo da modalidade que recebe o tipo
+
+No legado, associar um tipo existente do catálogo chamava-se *Copiar*; o DER `ID` é o tipo escolhido no diálogo.
+
+⚠️ O baseline conta só a vinculação de um tipo existente do catálogo; a variante criar e vincular, que a feature especifica (regra 4), não tem processo elementar na planilha. A lacuna vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -173,13 +197,13 @@ Ação disparada do nó de uma modalidade na Árvore de Configuração do Prêmi
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

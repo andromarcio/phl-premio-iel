@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador desfazer o vínculo de uma categoria com a edição do prêmio por exclusão lógica, retirando-a da estrutura sem apagá-la do catálogo nem de outras edições.
 
+No nó da categoria, na árvore de configuração do prêmio, o administrador aciona "Remover" e confirma a desvinculação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | `CA-3, CA-4` — desvincular é exclusão lógica do vínculo, sem desativar a categoria do catálogo; a árvore recarrega após desvincular |
 
 ---
 
@@ -97,9 +99,9 @@ Feature: Desvincular Categoria
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Categoria | Categoria (vínculo com a edição) | somente leitura | texto | — | categoria cujo vínculo com a edição será desfeito |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Categoria | Categoria | exibido do cadastro | somente leitura | texto | — | categoria cujo vínculo com a edição será desfeito |
 
 ---
 
@@ -108,6 +110,14 @@ Feature: Desvincular Categoria
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação do vínculo | Inativo | Ao confirmar a desvinculação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação × Categoria | grava | O vínculo da categoria com a edição passa à situação inativa (regra 1; campo automático) |
 
 ---
 
@@ -141,19 +151,22 @@ Ação disparada do nó da categoria na Árvore de Configuração do Prêmio (`/
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Desvincular Categoria | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Desvincular Categoria | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Desvincular Categoria** — ALR (1): Categoria. DER (3): ID · Ação · Mensagem.
+**Desvincular Categoria** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Desvincular Categoria",
  "alr": ["Categoria"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Categoria` — grava a situação inativa no vínculo da categoria com a edição (o vínculo é subgrupo do arquivo lógico Categoria)
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -165,13 +178,13 @@ Ação disparada do nó da categoria na Árvore de Configuração do Prêmio (`/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador desfazer o vínculo de uma modalidade com uma categoria da edição por exclusão lógica, retirando aquele ramo sem remover a modalidade do catálogo.
 
+No nó da modalidade, na árvore de configuração do prêmio, o administrador aciona "Remover" e confirma a desvinculação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | `CA-3, CA-4` — desvincular é exclusão lógica do vínculo, sem desativar a modalidade do catálogo; a árvore recarrega após desvincular |
 
 ---
 
@@ -90,10 +92,10 @@ Feature: Desvincular Modalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Modalidade | Modalidade (vínculo com a categoria) | somente leitura | texto | — | modalidade cujo vínculo com a categoria será desfeito |
-| Categoria da edição | Categoria vinculada | somente leitura | texto | — | categoria de origem do vínculo |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Modalidade | Modalidade | exibido do cadastro | somente leitura | texto | — | modalidade cujo vínculo com a categoria será desfeito |
+| Categoria da edição | Categoria | exibido do cadastro | somente leitura | texto | — | categoria de origem do vínculo, já vinculada à edição |
 
 ---
 
@@ -102,6 +104,15 @@ Feature: Desvincular Modalidade
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação do vínculo | Inativo | Ao confirmar a desvinculação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Modalidade × Categoria | grava | O vínculo da modalidade com a categoria passa à situação inativa (regra 1; campo automático) |
+| Premiação | lê | A edição a que pertence o vínculo desfeito (ALR do baseline) |
 
 ---
 
@@ -135,19 +146,23 @@ Ação disparada do nó da modalidade na Árvore de Configuração do Prêmio (`
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Desvincular Modalidade | EE | 2 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Desvincular Modalidade | principal | EE | 2 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Desvincular Modalidade** — ALR (2): Modalidade · Premiação. DER (3): ID · Ação · Mensagem.
+**Desvincular Modalidade** — EE · ALR 2 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Desvincular Modalidade",
  "alr": ["Modalidade", "Premiação"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Modalidade` — grava a situação inativa no vínculo da modalidade com a categoria (o vínculo é subgrupo do arquivo lógico Modalidade)
+2. `Premiação` — lê a edição a que pertence o vínculo desfeito
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -159,13 +174,13 @@ Ação disparada do nó da modalidade na Árvore de Configuração do Prêmio (`
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

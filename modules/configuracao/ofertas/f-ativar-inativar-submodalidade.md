@@ -27,9 +27,11 @@ contagem:
 > **Nível 3** - Feature Set: Vínculos e Ofertas — Major Feature Set: Configuração da Premiação - `CFG-VIN-11`
 
 ## Descrição
+Permite ao administrador alternar a situação ativa/inativa de uma submodalidade (exclusão lógica), controlando se a oferta fica disponível para inscrição sem removê-la da edição.
+
+Na lista de Submodalidades da Oferta (aba "Geral" do nó do tipo de participante), o administrador aciona "Desativar" na linha da submodalidade — ou "Ativar", se ela estiver inativa — e confirma a troca de situação.
 
 > ⚠️ **Colisão de terminologia confirmada no código** (2026-08-28). O que esta feature descreve — o vínculo tipo de participante × modalidade × categoria, com parâmetros de equipe e slug — é a **Oferta** (`TB_TIPO_PART_MOD_CAT`), configurada na aba **Geral** do editor de Tipo de Participante. Na interface implementada, o rótulo **“Sub Modalidades”** designa outra coisa: o **Enquadramento** (`TB_ENQUADRAMENTO`, features `CFG-TIP-10`/`CFG-TIP-11`). Renomear esta feature depende de decisão do PO — ver `global/CONFORMIDADE-CODIGO.md` § 3.2.
-Permite ao administrador alternar a situação ativa/inativa de uma submodalidade (exclusão lógica), controlando se a oferta fica disponível para inscrição sem removê-la da edição.
 
 ---
 
@@ -37,7 +39,7 @@ Permite ao administrador alternar a situação ativa/inativa de uma submodalidad
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — |
+| [`HU-011_Vincular_Categoria_Modalidade_TipoParticipante`](../../../hus/HU-011_Vincular_Categoria_Modalidade_TipoParticipante.docx) | Criação | — a situação da oferta, vínculo tipo × modalidade × categoria definido na HU (RN1 e RN5); a alternância ativa/inativa não tem critério numerado |
 
 ---
 
@@ -99,9 +101,9 @@ Feature: Ativar/Inativar Submodalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Submodalidade | Oferta | somente leitura | texto | — | submodalidade sobre a qual a ação é aplicada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Submodalidade | Oferta | exibido do cadastro | somente leitura | texto | — | submodalidade sobre a qual a ação é aplicada |
 
 ---
 
@@ -143,19 +145,26 @@ Ação disparada da linha da submodalidade em Submodalidades da Oferta (`/config
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Ativar/Desativar Submodalidade | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Ativar/Inativar Submodalidade | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Ativar/Desativar Submodalidade*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Ativar/Desativar Submodalidade** — ALR (1): Tipo Participante. DER (3): ID · Ação · Mensagem.
+**Ativar/Inativar Submodalidade** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
-{"pe": "Ativar/Desativar Submodalidade",
+{"pe": "Ativar/Inativar Submodalidade",
  "alr": ["Tipo Participante"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Tipo Participante` — grava a nova situação da submodalidade (subgrupo do arquivo lógico Tipo de Participante)
+
+⚠️ No documento legado (`hus/LEGADO_PIEL_Configurar_Premio.docx`), *Ativar/Desativar Submodalidade* alterna a situação do enquadramento, que a tela rotula "Sub Modalidades" (ver a nota da Descrição e `global/CONFORMIDADE-CODIGO.md` § 3.2). Ficou o número da planilha; cabe à equipe de métricas dizer se o processo pertence a `CFG-TIP-11` — Ativar/Inativar Enquadramento, hoje sem processo elementar.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -167,13 +176,13 @@ Ação disparada da linha da submodalidade em Submodalidades da Oferta (`/config
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), com a nota de colisão de terminologia movida para depois dele; critérios da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-011 |
 
 ---
 
-*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Vínculos e Ofertas · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
