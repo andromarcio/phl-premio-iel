@@ -22,7 +22,7 @@
 
 ## Rastreabilidade: ticket → spec → código
 
-| Ticket (AIM) | Feature | Domínio | Status | Contagem | PF | CFP | Processo elementar (APF) | Repositórios |
+| Ticket (AIM) | Feature | Domínio | Status | Contagem | PF | CFP | Processo elementar (baseline APF) | Repositórios |
 |---|---|---|---|---|---|---|---|---|
 | — | [ACS-ACE-01: Autenticar Usuário](./acesso/acesso-perfis/f-autenticar-usuario.md) | Acesso e Gestão | ✏️ Rascunho | 📋 | — | — | — *(LOGON não contado)* | — |
 | — | [ACS-ACE-02: Consultar Perfil do Usuário](./acesso/acesso-perfis/f-consultar-perfil-usuario.md) | Acesso e Gestão | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
@@ -52,13 +52,13 @@
 | [`PDTIC25093-49`](../analise-impacto/AIM-PDTIC25093-49.md) · `HU-030_Fechar_Etapa_Avaliacao` | [AVL-APU-12: Reabrir Etapa por UF](./avaliacao/apuracao-devolutiva/f-reabrir-etapa-uf.md) | Avaliação | ✏️ Rascunho | 📋 | 4 | — | Reabrir Etapa por UF | — |
 | — | [AVL-APU-13: Desclassificar Inscrição na Etapa](./avaliacao/apuracao-devolutiva/f-desclassificar-inscricao-etapa.md) | Avaliação | ✏️ Rascunho | 📋 | 12 | — | Desclassificar Inscrição na Etapa (+1) | — |
 | [`PDTIC25093-69`](../analise-impacto/AIM-PDTIC25093-69.md) | [AVL-APU-14: Enviar Feedback ao Participante](./avaliacao/apuracao-devolutiva/f-enviar-feedback-participante.md) | Avaliação | ✏️ Rascunho | 📋 | 17 | — | Consultar Envio de Feedback (+2) | — |
-| [`PDTIC25093-61`](../analise-impacto/AIM-PDTIC25093-61.md) · `HU-028_Avaliar_Inscricao` · `HU-033_Painel_Avaliacao_Avaliador` | [AVL-AVA-01: Acompanhar Minhas Avaliações](./avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md) | Avaliação | ✏️ Rascunho | 📋 | 7 | — | Consultar Painel Minhas Avaliações | — |
+| [`PDTIC25093-61`](../analise-impacto/AIM-PDTIC25093-61.md) · `HU-033_Painel_Avaliacao_Avaliador` | [AVL-AVA-01: Acompanhar Minhas Avaliações](./avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md) | Avaliação | ✏️ Rascunho | 📋 | 7 | — | Consultar Painel Minhas Avaliações | — |
 | `HU-029_Termo_Confidencialidade_Avaliador` | [AVL-AVA-02: Aceitar Termo de Confidencialidade](./avaliacao/avaliacao-projetos/f-aceitar-termo-confidencialidade.md) | Avaliação | ✏️ Rascunho | 📋 | 9 | — | Aceitar Termo de Aceite (+2) | — |
 | [`PDTIC25093-61`](../analise-impacto/AIM-PDTIC25093-61.md) · `HU-028_Avaliar_Inscricao` | [AVL-AVA-03: Avaliar Inscrição](./avaliacao/avaliacao-projetos/f-avaliar-inscricao.md) | Avaliação | ✏️ Rascunho | 📋 | 10 | — | Salvar Avaliação (+1) | — |
 | [`PDTIC25093-61`](../analise-impacto/AIM-PDTIC25093-61.md) · `HU-028_Avaliar_Inscricao` | [AVL-AVA-04: Finalizar Avaliação](./avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md) | Avaliação | ✏️ Rascunho | 📋 | 3 | — | Finalizar Avaliação | — |
-| `HU-028_Avaliar_Inscricao` · `HU-025_Alocar_Avaliadores` | [AVL-AVA-05: Reabrir Avaliação](./avaliacao/avaliacao-projetos/f-reabrir-avaliacao.md) | Avaliação | ✏️ Rascunho | 📋 | 3 | — | Reabrir Avaliação | — |
+| `HU-025_Alocar_Avaliadores` | [AVL-AVA-05: Reabrir Avaliação](./avaliacao/avaliacao-projetos/f-reabrir-avaliacao.md) | Avaliação | ✏️ Rascunho | 📋 | 3 | — | Reabrir Avaliação | — |
 | `HU-028_Avaliar_Inscricao` | [AVL-AVA-06: Consultar Outros Avaliadores](./avaliacao/avaliacao-projetos/f-consultar-outros-avaliadores.md) | Avaliação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
-| `HU-033_Painel_Avaliacao_Avaliador` | [AVL-AVA-07: Consultar Premiações do Avaliador](./avaliacao/avaliacao-projetos/f-consultar-premiacoes-avaliador.md) | Avaliação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
+| `HU-029_Termo_Confidencialidade_Avaliador` | [AVL-AVA-07: Consultar Premiações do Avaliador](./avaliacao/avaliacao-projetos/f-consultar-premiacoes-avaliador.md) | Avaliação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
 | `HU-024_Configurar_Etapas_de_Avaliacao` | [AVL-ETA-01: Configurar Avaliação](./avaliacao/etapas-configuracao/f-configurar-avaliacao.md) | Avaliação | ✏️ Rascunho | 📋 | 8 | — | Alterar Configurações Avaliações e Etapas (+1) | — |
 | [`PDTIC25093-67`](../analise-impacto/AIM-PDTIC25093-67.md) · `HU-024_Configurar_Etapas_de_Avaliacao` | [AVL-ETA-02: Cadastrar Etapa](./avaliacao/etapas-configuracao/f-cadastrar-etapa.md) | Avaliação | ✏️ Rascunho | 📋 | 3 | — | Cadastrar Nova Etapa | — |
 | [`PDTIC25093-67`](../analise-impacto/AIM-PDTIC25093-67.md) · `HU-024_Configurar_Etapas_de_Avaliacao` | [AVL-ETA-03: Editar Etapa](./avaliacao/etapas-configuracao/f-editar-etapa.md) | Avaliação | ✏️ Rascunho | 📋 | 3 | — | Editar Etapa (+1) | — |
@@ -92,7 +92,7 @@
 | `HU-002_Cadastrar_Premios` | [CFG-PRE-02: Cadastrar Prêmio](./configuracao/premios/f-cadastrar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | 3 | — | Incluir Prêmio | — |
 | `HU-002_Cadastrar_Premios` | [CFG-PRE-03: Editar Prêmio](./configuracao/premios/f-editar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
 | `HU-001_Gerenciar_Premios` | [CFG-PRE-04: Ativar/Inativar Prêmio](./configuracao/premios/f-ativar-inativar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
-| — | [CFG-PRE-05: Exportar Prêmios](./configuracao/premios/f-exportar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
+| `HU-003_Exportar_Premios` · `HU-001_Gerenciar_Premios` | [CFG-PRE-05: Exportar Prêmios](./configuracao/premios/f-exportar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
 | `HU-003_Exportar_Premios` | [CFG-PRE-06: Importar Prêmios](./configuracao/premios/f-importar-premio.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
 | `HU-002_Cadastrar_Premios` | [CFG-PRE-07: Gerar Link Público](./configuracao/premios/f-gerar-link-publico.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | 6 | — | Gerar Novo Link | — |
 | `HU-002_Cadastrar_Premios` | [CFG-PRE-08: Consultar Links Públicos](./configuracao/premios/f-consultar-link-publico.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | 3 | — | Consultar Links Públicos de Inscrição | — |
@@ -129,7 +129,7 @@
 | `HU-011_Vincular_Categoria_Modalidade_TipoParticipante` | [CFG-VIN-10: Editar Submodalidade](./configuracao/ofertas/f-editar-submodalidade.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | 7 | — | Editar Submodalidade (+1) | — |
 | `HU-011_Vincular_Categoria_Modalidade_TipoParticipante` | [CFG-VIN-11: Ativar/Inativar Submodalidade](./configuracao/ofertas/f-ativar-inativar-submodalidade.md) | Configuração da Premiação | ✏️ Rascunho | 📋 | 3 | — | Ativar/Desativar Submodalidade | — |
 | [`PDTIC25093-69`](../analise-impacto/AIM-PDTIC25093-69.md) · `HU-016_Dashboard_Participante` | [INS-ACO-01: Acompanhar Inscrição](./inscricao/acompanhamento/f-acompanhar-inscricao.md) | Inscrição | ✏️ Rascunho | 📋 | 7 | — | Consultar Dashboard do Participante | — |
-| [`PDTIC25093-69`](../analise-impacto/AIM-PDTIC25093-69.md) · `HU-016_Dashboard_Participante` | [INS-ACO-02: Visualizar Devolutiva](./inscricao/acompanhamento/f-visualizar-devolutiva.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
+| [`PDTIC25093-69`](../analise-impacto/AIM-PDTIC25093-69.md) · `HU-031_Consolidar_Feedback` | [INS-ACO-02: Visualizar Devolutiva](./inscricao/acompanhamento/f-visualizar-devolutiva.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(sem PE ⚠️)* | — |
 | [`PDTIC25093-69`](../analise-impacto/AIM-PDTIC25093-69.md) · `HU-022_Notificacoes_InApp` | [INS-NOT-01: Consultar Notificações](./inscricao/notificacoes/f-consultar-notificacao.md) | Inscrição | ✏️ Rascunho | 📋 | 4 | — | Consultar Notificações | — |
 | `HU-022_Notificacoes_InApp` | [INS-NOT-02: Marcar Notificação como Lida](./inscricao/notificacoes/f-marcar-notificacao-lida.md) | Inscrição | ✏️ Rascunho | 📋 | 3 | — | Marcar Notificação como Lida | — |
 | `HU-015_Inscricao_Participante` | [INS-PAR-01: Cadastrar Inscrição](./inscricao/inscricao-participante/f-cadastrar-inscricao.md) | Inscrição | ✏️ Rascunho | 📋 | 6 | — | Realizar Inscrição (Rascunho) | — |
@@ -138,12 +138,12 @@
 | `HU-015_Inscricao_Participante` | [INS-PAR-04: Reenviar Inscrição](./inscricao/inscricao-participante/f-reenviar-inscricao.md) | Inscrição | ✏️ Rascunho | 📋 | 3 | — | Reenviar Inscrição (+1) | — |
 | `HU-015_Inscricao_Participante` | [INS-PAR-05: Anexar Documento](./inscricao/inscricao-participante/f-anexar-documento.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(passo de outra feature)* | — |
 | `HU-015_Inscricao_Participante` | [INS-PAR-06: Aceitar Termo](./inscricao/inscricao-participante/f-aceitar-termo.md) | Inscrição | ✏️ Rascunho | 📋 | 3 | — | Consultar Termo de Aceite | — |
-| `HU-015_Inscricao_Participante` | [INS-PAR-07: Retomar Inscrição](./inscricao/inscricao-participante/f-retomar-inscricao.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(passo de outra feature)* | — |
+| `HU-015_Inscricao_Participante` · `HU-016_Dashboard_Participante` | [INS-PAR-07: Retomar Inscrição](./inscricao/inscricao-participante/f-retomar-inscricao.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(passo de outra feature)* | — |
 | `HU-015_Inscricao_Participante` | [INS-PAR-08: Registrar Pré-cadastro](./inscricao/inscricao-participante/f-registrar-pre-cadastro.md) | Inscrição | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
 | `HU-019_Solicitar_Ajustes_Inscricao` | [VAL-AJU-01: Solicitar Ajuste](./validacao/ajustes/f-solicitar-ajuste.md) | Validação | ✏️ Rascunho | 📋 | 6 | — | Solicitar Ajuste | — |
 | `HU-026_Auditoria_Ajustes_Inscricao` · `HU-019_Solicitar_Ajustes_Inscricao` | [VAL-AJU-02: Consultar Auditoria de Ajustes](./validacao/ajustes/f-consultar-auditoria-ajustes.md) | Validação | ✏️ Rascunho | 📋 | 5 | — | Consultar Auditoria de Ajustes | — |
 | `HU-026_Auditoria_Ajustes_Inscricao` | [VAL-AJU-03: Exportar Auditoria de Ajustes](./validacao/ajustes/f-exportar-auditoria-ajustes.md) | Validação | ✏️ Rascunho | 📋 | 4 | — | Exportar Auditoria de Ajustes para CSV | — |
-| `HU-018_Analisar_Validar_Inscricao` | [VAL-AJU-04: Conferir Item de Ajuste](./validacao/ajustes/f-conferir-item-ajuste.md) | Validação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
+| `HU-018_Analisar_Validar_Inscricao` · `HU-019_Solicitar_Ajustes_Inscricao` | [VAL-AJU-04: Conferir Item de Ajuste](./validacao/ajustes/f-conferir-item-ajuste.md) | Validação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
 | [`PDTIC25093-68`](../analise-impacto/AIM-PDTIC25093-68.md) · `HU-018_Analisar_Validar_Inscricao` | [VAL-ANA-01: Detalhar Inscrição](./validacao/analise-decisao/f-detalhar-inscricao.md) | Validação | ✏️ Rascunho | 📋 | 7 | — | Detalhar Inscrição | — |
 | `HU-018_Analisar_Validar_Inscricao` | [VAL-ANA-02: Iniciar Validação](./validacao/analise-decisao/f-iniciar-validacao.md) | Validação | ✏️ Rascunho | 📋 | 3 | — | Iniciar Validação da Inscrição | — |
 | `HU-018_Analisar_Validar_Inscricao` | [VAL-ANA-03: Aprovar Inscrição](./validacao/analise-decisao/f-aprovar-inscricao.md) | Validação | ✏️ Rascunho | 📋 | 6 | — | Aceitar / Rejeitar Inscrição | — |
@@ -152,7 +152,7 @@
 | — | [VAL-ANA-06: Excluir Inscrição Validada](./validacao/analise-decisao/f-excluir-inscricao-validada.md) | Validação | ✏️ Rascunho | 📋 | — | — | — *(a contar ⚠️)* | — |
 | [`PDTIC25093-56`](../analise-impacto/AIM-PDTIC25093-56.md) · `HU-017_Listar_Inscricoes_Validacao` | [VAL-FIL-01: Pesquisar Inscrições para Validação](./validacao/fila-validacao/f-pesquisar-inscricao.md) | Validação | ✏️ Rascunho | 📋 | 7 | — | Consultar Dashboard Validação de Inscrições | — |
 | [`PDTIC25093-58`](../analise-impacto/AIM-PDTIC25093-58.md) · `HU-023_Dashboard_Gerencial_Validacao` | [VAL-FIL-02: Acompanhar Painel de Validação](./validacao/fila-validacao/f-acompanhar-painel-validacao.md) | Validação | ✏️ Rascunho | 📋 | 7 | — | Consultar Dashboard Gerencial | — |
-| [`PDTIC25093-58`](../analise-impacto/AIM-PDTIC25093-58.md) · `HU-023_Dashboard_Gerencial_Validacao` | [VAL-FIL-03: Exportar Histórico do Painel de Validação](./validacao/fila-validacao/f-exportar-historico-painel.md) | Validação | ✏️ Rascunho | 📋 | 7 | — | Exportar Histórico do Painel de Validação | — |
+| [`PDTIC25093-58`](../analise-impacto/AIM-PDTIC25093-58.md) | [VAL-FIL-03: Exportar Histórico do Painel de Validação](./validacao/fila-validacao/f-exportar-historico-painel.md) | Validação | ✏️ Rascunho | 📋 | 7 | — | Exportar Histórico do Painel de Validação | — |
 
 <!-- História: chave do ServiceNow que originou a feature (seção "Origem" do N3). Uma feature pode ter mais de uma história e vice-versa. PF/CFP: preencher após PROMPT_3B (critérios em global/SIZING.md). Totais vigentes excluem features ❌ Deprecadas. Gates desta tabela: `audit-trace-links.mjs` prova o elo história↔feature nos três lugares (## Origem do N3 + ## Rastreabilidade da história + esta linha); `suspect-links.mjs --mark` marca ⚠️ Revisão necessária quando o outro lado do elo muda. -->
 
@@ -171,134 +171,134 @@
 
 | Feature | Origem | Estado | Situação |
 |---|---|---|---|
-| `ACS-ACE-01` ([spec](./modules/acesso/acesso-perfis/f-autenticar-usuario.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ACE-02` ([spec](./modules/acesso/acesso-perfis/f-consultar-perfil-usuario.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ACE-03` ([spec](./modules/acesso/acesso-perfis/f-vincular-usuario-sistema.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ADM-01` ([spec](./modules/acesso/administradores-regionais/f-pesquisar-administrador.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ADM-02` ([spec](./modules/acesso/administradores-regionais/f-cadastrar-administrador-regional.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ADM-03` ([spec](./modules/acesso/administradores-regionais/f-editar-administrador-regional.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-ADM-04` ([spec](./modules/acesso/administradores-regionais/f-vincular-uf-administrador.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `ACS-AUD-01` ([spec](./modules/acesso/auditoria/f-consultar-trilha-auditoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-01` ([spec](./modules/avaliacao/alocacao/f-consultar-alocacao-avaliadores.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-02` ([spec](./modules/avaliacao/alocacao/f-alocar-avaliador-grupo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-03` ([spec](./modules/avaliacao/alocacao/f-cadastrar-avaliador.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-04` ([spec](./modules/avaliacao/alocacao/f-alocar-avaliador-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-05` ([spec](./modules/avaliacao/alocacao/f-consultar-panorama-avaliador.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-06` ([spec](./modules/avaliacao/alocacao/f-consultar-pendencias-alocacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ALO-07` ([spec](./modules/avaliacao/alocacao/f-exportar-relatorio-alocacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-01` ([spec](./modules/avaliacao/apuracao-devolutiva/f-apurar-resultado-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-02` ([spec](./modules/avaliacao/apuracao-devolutiva/f-registrar-desempate.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-03` ([spec](./modules/avaliacao/apuracao-devolutiva/f-encerrar-etapa-uf.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-04` ([spec](./modules/avaliacao/apuracao-devolutiva/f-gerar-devolutiva-ia.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-05` ([spec](./modules/avaliacao/apuracao-devolutiva/f-revisar-devolutiva.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-06` ([spec](./modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-08` ([spec](./modules/avaliacao/apuracao-devolutiva/f-consultar-ranking-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-09` ([spec](./modules/avaliacao/apuracao-devolutiva/f-exportar-relatorio-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-10` ([spec](./modules/avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-12` ([spec](./modules/avaliacao/apuracao-devolutiva/f-reabrir-etapa-uf.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-13` ([spec](./modules/avaliacao/apuracao-devolutiva/f-desclassificar-inscricao-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-APU-14` ([spec](./modules/avaliacao/apuracao-devolutiva/f-enviar-feedback-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-01` ([spec](./modules/avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-02` ([spec](./modules/avaliacao/avaliacao-projetos/f-aceitar-termo-confidencialidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-03` ([spec](./modules/avaliacao/avaliacao-projetos/f-avaliar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-04` ([spec](./modules/avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-05` ([spec](./modules/avaliacao/avaliacao-projetos/f-reabrir-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-06` ([spec](./modules/avaliacao/avaliacao-projetos/f-consultar-outros-avaliadores.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-AVA-07` ([spec](./modules/avaliacao/avaliacao-projetos/f-consultar-premiacoes-avaliador.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-01` ([spec](./modules/avaliacao/etapas-configuracao/f-configurar-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-02` ([spec](./modules/avaliacao/etapas-configuracao/f-cadastrar-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-03` ([spec](./modules/avaliacao/etapas-configuracao/f-editar-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-04` ([spec](./modules/avaliacao/etapas-configuracao/f-excluir-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-05` ([spec](./modules/avaliacao/etapas-configuracao/f-reordenar-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-06` ([spec](./modules/avaliacao/etapas-configuracao/f-configurar-criterios-desempate.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-ETA-07` ([spec](./modules/avaliacao/etapas-configuracao/f-configurar-termo-confidencialidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-PAI-01` ([spec](./modules/avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-PAI-02` ([spec](./modules/avaliacao/painel-administrativo/f-consultar-avaliacoes-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-PAI-03` ([spec](./modules/avaliacao/painel-administrativo/f-consolidar-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `AVL-PAI-04` ([spec](./modules/avaliacao/painel-administrativo/f-exportar-relatorio-avaliadores.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-CAT-01` ([spec](./modules/configuracao/categorias/f-pesquisar-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-CAT-02` ([spec](./modules/configuracao/categorias/f-cadastrar-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-CAT-03` ([spec](./modules/configuracao/categorias/f-editar-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-CAT-04` ([spec](./modules/configuracao/categorias/f-visualizar-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-CAT-05` ([spec](./modules/configuracao/categorias/f-ativar-inativar-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-EMA-01` ([spec](./modules/configuracao/modelos-email/f-consultar-modelo-email.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-EMA-02` ([spec](./modules/configuracao/modelos-email/f-editar-modelo-email.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-EMA-03` ([spec](./modules/configuracao/modelos-email/f-visualizar-email.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-LIS-01` ([spec](./modules/configuracao/listas-sistema/f-pesquisar-lista.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-LIS-02` ([spec](./modules/configuracao/listas-sistema/f-cadastrar-lista.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-LIS-03` ([spec](./modules/configuracao/listas-sistema/f-editar-lista.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-LIS-04` ([spec](./modules/configuracao/listas-sistema/f-excluir-lista.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-LIS-05` ([spec](./modules/configuracao/listas-sistema/f-configurar-itens-lista.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-MOD-01` ([spec](./modules/configuracao/modalidades/f-pesquisar-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-MOD-02` ([spec](./modules/configuracao/modalidades/f-cadastrar-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-MOD-03` ([spec](./modules/configuracao/modalidades/f-editar-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-MOD-04` ([spec](./modules/configuracao/modalidades/f-visualizar-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-MOD-05` ([spec](./modules/configuracao/modalidades/f-ativar-inativar-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-01` ([spec](./modules/configuracao/premios/f-pesquisar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-02` ([spec](./modules/configuracao/premios/f-cadastrar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-03` ([spec](./modules/configuracao/premios/f-editar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-04` ([spec](./modules/configuracao/premios/f-ativar-inativar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-05` ([spec](./modules/configuracao/premios/f-exportar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-06` ([spec](./modules/configuracao/premios/f-importar-premio.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-07` ([spec](./modules/configuracao/premios/f-gerar-link-publico.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-08` ([spec](./modules/configuracao/premios/f-consultar-link-publico.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-09` ([spec](./modules/configuracao/premios/f-cadastrar-termo-aceite.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-10` ([spec](./modules/configuracao/premios/f-editar-termo-aceite.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-11` ([spec](./modules/configuracao/premios/f-excluir-termo-aceite.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-12` ([spec](./modules/configuracao/premios/f-configurar-criterios-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-PRE-13` ([spec](./modules/configuracao/premios/f-carregar-imagem-configuracao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-01` ([spec](./modules/configuracao/tipos-participante/f-pesquisar-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-02` ([spec](./modules/configuracao/tipos-participante/f-cadastrar-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-03` ([spec](./modules/configuracao/tipos-participante/f-editar-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-04` ([spec](./modules/configuracao/tipos-participante/f-visualizar-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-05` ([spec](./modules/configuracao/tipos-participante/f-ativar-inativar-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-06` ([spec](./modules/configuracao/tipos-participante/f-configurar-formulario.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-07` ([spec](./modules/configuracao/tipos-participante/f-cadastrar-campo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-08` ([spec](./modules/configuracao/tipos-participante/f-editar-campo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-09` ([spec](./modules/configuracao/tipos-participante/f-excluir-campo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-10` ([spec](./modules/configuracao/tipos-participante/f-cadastrar-enquadramento.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-11` ([spec](./modules/configuracao/tipos-participante/f-ativar-inativar-enquadramento.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-12` ([spec](./modules/configuracao/tipos-participante/f-configurar-anexo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-13` ([spec](./modules/configuracao/tipos-participante/f-cadastrar-questao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-14` ([spec](./modules/configuracao/tipos-participante/f-editar-questao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-15` ([spec](./modules/configuracao/tipos-participante/f-configurar-equipe.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-TIP-16` ([spec](./modules/configuracao/tipos-participante/f-importar-configuracao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-01` ([spec](./modules/configuracao/ofertas/f-consultar-estrutura-premiacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-02` ([spec](./modules/configuracao/ofertas/f-vincular-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-03` ([spec](./modules/configuracao/ofertas/f-desvincular-categoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-04` ([spec](./modules/configuracao/ofertas/f-vincular-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-05` ([spec](./modules/configuracao/ofertas/f-desvincular-modalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-06` ([spec](./modules/configuracao/ofertas/f-vincular-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-07` ([spec](./modules/configuracao/ofertas/f-desvincular-tipo-participante.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-08` ([spec](./modules/configuracao/ofertas/f-duplicar-oferta.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-09` ([spec](./modules/configuracao/ofertas/f-cadastrar-submodalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-10` ([spec](./modules/configuracao/ofertas/f-editar-submodalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `CFG-VIN-11` ([spec](./modules/configuracao/ofertas/f-ativar-inativar-submodalidade.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-ACO-01` ([spec](./modules/inscricao/acompanhamento/f-acompanhar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-ACO-02` ([spec](./modules/inscricao/acompanhamento/f-visualizar-devolutiva.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-NOT-01` ([spec](./modules/inscricao/notificacoes/f-consultar-notificacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-NOT-02` ([spec](./modules/inscricao/notificacoes/f-marcar-notificacao-lida.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-01` ([spec](./modules/inscricao/inscricao-participante/f-cadastrar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-02` ([spec](./modules/inscricao/inscricao-participante/f-editar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-03` ([spec](./modules/inscricao/inscricao-participante/f-finalizar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-04` ([spec](./modules/inscricao/inscricao-participante/f-reenviar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-05` ([spec](./modules/inscricao/inscricao-participante/f-anexar-documento.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-06` ([spec](./modules/inscricao/inscricao-participante/f-aceitar-termo.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-07` ([spec](./modules/inscricao/inscricao-participante/f-retomar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `INS-PAR-08` ([spec](./modules/inscricao/inscricao-participante/f-registrar-pre-cadastro.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-AJU-01` ([spec](./modules/validacao/ajustes/f-solicitar-ajuste.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-AJU-02` ([spec](./modules/validacao/ajustes/f-consultar-auditoria-ajustes.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-AJU-03` ([spec](./modules/validacao/ajustes/f-exportar-auditoria-ajustes.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-AJU-04` ([spec](./modules/validacao/ajustes/f-conferir-item-ajuste.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-01` ([spec](./modules/validacao/analise-decisao/f-detalhar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-02` ([spec](./modules/validacao/analise-decisao/f-iniciar-validacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-03` ([spec](./modules/validacao/analise-decisao/f-aprovar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-04` ([spec](./modules/validacao/analise-decisao/f-rejeitar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-05` ([spec](./modules/validacao/analise-decisao/f-editar-inscricao-validada.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-ANA-06` ([spec](./modules/validacao/analise-decisao/f-excluir-inscricao-validada.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-FIL-01` ([spec](./modules/validacao/fila-validacao/f-pesquisar-inscricao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-FIL-02` ([spec](./modules/validacao/fila-validacao/f-acompanhar-painel-validacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
-| `VAL-FIL-03` ([spec](./modules/validacao/fila-validacao/f-exportar-historico-painel.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-01` ([spec](./configuracao/premios/f-pesquisar-premio.md)) | HU-001_Gerenciar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-04` ([spec](./configuracao/premios/f-ativar-inativar-premio.md)) | HU-001_Gerenciar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-02` ([spec](./configuracao/premios/f-cadastrar-premio.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-03` ([spec](./configuracao/premios/f-editar-premio.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-07` ([spec](./configuracao/premios/f-gerar-link-publico.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-08` ([spec](./configuracao/premios/f-consultar-link-publico.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-09` ([spec](./configuracao/premios/f-cadastrar-termo-aceite.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-10` ([spec](./configuracao/premios/f-editar-termo-aceite.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-11` ([spec](./configuracao/premios/f-excluir-termo-aceite.md)) | HU-002_Cadastrar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-05` ([spec](./configuracao/premios/f-exportar-premio.md)) | HU-003_Exportar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-06` ([spec](./configuracao/premios/f-importar-premio.md)) | HU-003_Exportar_Premios | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-CAT-01` ([spec](./configuracao/categorias/f-pesquisar-categoria.md)) | HU-004_Cadastrar_Categorias | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-CAT-02` ([spec](./configuracao/categorias/f-cadastrar-categoria.md)) | HU-004_Cadastrar_Categorias | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-CAT-03` ([spec](./configuracao/categorias/f-editar-categoria.md)) | HU-004_Cadastrar_Categorias | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-CAT-04` ([spec](./configuracao/categorias/f-visualizar-categoria.md)) | HU-004_Cadastrar_Categorias | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-CAT-05` ([spec](./configuracao/categorias/f-ativar-inativar-categoria.md)) | HU-004_Cadastrar_Categorias | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-MOD-01` ([spec](./configuracao/modalidades/f-pesquisar-modalidade.md)) | HU-005_Cadastrar_Modalidades | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-MOD-02` ([spec](./configuracao/modalidades/f-cadastrar-modalidade.md)) | HU-005_Cadastrar_Modalidades | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-MOD-03` ([spec](./configuracao/modalidades/f-editar-modalidade.md)) | HU-005_Cadastrar_Modalidades | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-MOD-04` ([spec](./configuracao/modalidades/f-visualizar-modalidade.md)) | HU-005_Cadastrar_Modalidades | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-MOD-05` ([spec](./configuracao/modalidades/f-ativar-inativar-modalidade.md)) | HU-005_Cadastrar_Modalidades | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-01` ([spec](./configuracao/tipos-participante/f-pesquisar-tipo-participante.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-02` ([spec](./configuracao/tipos-participante/f-cadastrar-tipo-participante.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-03` ([spec](./configuracao/tipos-participante/f-editar-tipo-participante.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-04` ([spec](./configuracao/tipos-participante/f-visualizar-tipo-participante.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-05` ([spec](./configuracao/tipos-participante/f-ativar-inativar-tipo-participante.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-15` ([spec](./configuracao/tipos-participante/f-configurar-equipe.md)) | HU-006_Cadastrar_Tipo_Participantes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-06` ([spec](./configuracao/tipos-participante/f-configurar-formulario.md)) | HU-007_Configurar_Formulario_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-07` ([spec](./configuracao/tipos-participante/f-cadastrar-campo.md)) | HU-007_Configurar_Formulario_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-08` ([spec](./configuracao/tipos-participante/f-editar-campo.md)) | HU-007_Configurar_Formulario_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-09` ([spec](./configuracao/tipos-participante/f-excluir-campo.md)) | HU-007_Configurar_Formulario_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-10` ([spec](./configuracao/tipos-participante/f-cadastrar-enquadramento.md)) | HU-008_Enquadramento_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-11` ([spec](./configuracao/tipos-participante/f-ativar-inativar-enquadramento.md)) | HU-008_Enquadramento_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-12` ([spec](./configuracao/tipos-participante/f-configurar-anexo.md)) | HU-009_Anexo_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-13` ([spec](./configuracao/tipos-participante/f-cadastrar-questao.md)) | HU-010_Questoes_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-14` ([spec](./configuracao/tipos-participante/f-editar-questao.md)) | HU-010_Questoes_Tipo_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-01` ([spec](./configuracao/ofertas/f-consultar-estrutura-premiacao.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-02` ([spec](./configuracao/ofertas/f-vincular-categoria.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-03` ([spec](./configuracao/ofertas/f-desvincular-categoria.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-04` ([spec](./configuracao/ofertas/f-vincular-modalidade.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-05` ([spec](./configuracao/ofertas/f-desvincular-modalidade.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-06` ([spec](./configuracao/ofertas/f-vincular-tipo-participante.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-07` ([spec](./configuracao/ofertas/f-desvincular-tipo-participante.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-08` ([spec](./configuracao/ofertas/f-duplicar-oferta.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-09` ([spec](./configuracao/ofertas/f-cadastrar-submodalidade.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-10` ([spec](./configuracao/ofertas/f-editar-submodalidade.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-VIN-11` ([spec](./configuracao/ofertas/f-ativar-inativar-submodalidade.md)) | HU-011_Vincular_Categoria_Modalidade_TipoParticipante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-LIS-01` ([spec](./configuracao/listas-sistema/f-pesquisar-lista.md)) | HU-012_Listas_do_Sistema | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-LIS-02` ([spec](./configuracao/listas-sistema/f-cadastrar-lista.md)) | HU-012_Listas_do_Sistema | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-LIS-03` ([spec](./configuracao/listas-sistema/f-editar-lista.md)) | HU-012_Listas_do_Sistema | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-LIS-04` ([spec](./configuracao/listas-sistema/f-excluir-lista.md)) | HU-012_Listas_do_Sistema | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-LIS-05` ([spec](./configuracao/listas-sistema/f-configurar-itens-lista.md)) | HU-012_Listas_do_Sistema | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-01` ([spec](./inscricao/inscricao-participante/f-cadastrar-inscricao.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-02` ([spec](./inscricao/inscricao-participante/f-editar-inscricao.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-03` ([spec](./inscricao/inscricao-participante/f-finalizar-inscricao.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-04` ([spec](./inscricao/inscricao-participante/f-reenviar-inscricao.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-05` ([spec](./inscricao/inscricao-participante/f-anexar-documento.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-06` ([spec](./inscricao/inscricao-participante/f-aceitar-termo.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-07` ([spec](./inscricao/inscricao-participante/f-retomar-inscricao.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-PAR-08` ([spec](./inscricao/inscricao-participante/f-registrar-pre-cadastro.md)) | HU-015_Inscricao_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-ACO-01` ([spec](./inscricao/acompanhamento/f-acompanhar-inscricao.md)) | HU-016_Dashboard_Participante | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-FIL-01` ([spec](./validacao/fila-validacao/f-pesquisar-inscricao.md)) | HU-017_Listar_Inscricoes_Validacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-AJU-04` ([spec](./validacao/ajustes/f-conferir-item-ajuste.md)) | HU-018_Analisar_Validar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-01` ([spec](./validacao/analise-decisao/f-detalhar-inscricao.md)) | HU-018_Analisar_Validar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-02` ([spec](./validacao/analise-decisao/f-iniciar-validacao.md)) | HU-018_Analisar_Validar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-03` ([spec](./validacao/analise-decisao/f-aprovar-inscricao.md)) | HU-018_Analisar_Validar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-04` ([spec](./validacao/analise-decisao/f-rejeitar-inscricao.md)) | HU-018_Analisar_Validar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-AJU-01` ([spec](./validacao/ajustes/f-solicitar-ajuste.md)) | HU-019_Solicitar_Ajustes_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ADM-01` ([spec](./acesso/administradores-regionais/f-pesquisar-administrador.md)) | HU-020_Cadastrar_Admin_Regionais | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ADM-02` ([spec](./acesso/administradores-regionais/f-cadastrar-administrador-regional.md)) | HU-020_Cadastrar_Admin_Regionais | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ADM-03` ([spec](./acesso/administradores-regionais/f-editar-administrador-regional.md)) | HU-020_Cadastrar_Admin_Regionais | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ADM-04` ([spec](./acesso/administradores-regionais/f-vincular-uf-administrador.md)) | HU-020_Cadastrar_Admin_Regionais | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-EMA-01` ([spec](./configuracao/modelos-email/f-consultar-modelo-email.md)) | HU-021_Configurar_Templates_Email | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-EMA-02` ([spec](./configuracao/modelos-email/f-editar-modelo-email.md)) | HU-021_Configurar_Templates_Email | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-EMA-03` ([spec](./configuracao/modelos-email/f-visualizar-email.md)) | HU-021_Configurar_Templates_Email | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-NOT-01` ([spec](./inscricao/notificacoes/f-consultar-notificacao.md)) | HU-022_Notificacoes_InApp | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-NOT-02` ([spec](./inscricao/notificacoes/f-marcar-notificacao-lida.md)) | HU-022_Notificacoes_InApp | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-FIL-02` ([spec](./validacao/fila-validacao/f-acompanhar-painel-validacao.md)) | HU-023_Dashboard_Gerencial_Validacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-01` ([spec](./avaliacao/etapas-configuracao/f-configurar-avaliacao.md)) | HU-024_Configurar_Etapas_de_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-02` ([spec](./avaliacao/etapas-configuracao/f-cadastrar-etapa.md)) | HU-024_Configurar_Etapas_de_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-03` ([spec](./avaliacao/etapas-configuracao/f-editar-etapa.md)) | HU-024_Configurar_Etapas_de_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-04` ([spec](./avaliacao/etapas-configuracao/f-excluir-etapa.md)) | HU-024_Configurar_Etapas_de_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-05` ([spec](./avaliacao/etapas-configuracao/f-reordenar-etapa.md)) | HU-024_Configurar_Etapas_de_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-01` ([spec](./avaliacao/alocacao/f-consultar-alocacao-avaliadores.md)) | HU-025_Alocar_Avaliadores | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-02` ([spec](./avaliacao/alocacao/f-alocar-avaliador-grupo.md)) | HU-025_Alocar_Avaliadores | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-03` ([spec](./avaliacao/alocacao/f-cadastrar-avaliador.md)) | HU-025_Alocar_Avaliadores | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-04` ([spec](./avaliacao/alocacao/f-alocar-avaliador-inscricao.md)) | HU-025_Alocar_Avaliadores | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-05` ([spec](./avaliacao/avaliacao-projetos/f-reabrir-avaliacao.md)) | HU-025_Alocar_Avaliadores | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-AJU-02` ([spec](./validacao/ajustes/f-consultar-auditoria-ajustes.md)) | HU-026_Auditoria_Ajustes_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-AJU-03` ([spec](./validacao/ajustes/f-exportar-auditoria-ajustes.md)) | HU-026_Auditoria_Ajustes_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-PAI-01` ([spec](./avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md)) | HU-027_Painel_Administrativo_Avaliacoes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-PAI-02` ([spec](./avaliacao/painel-administrativo/f-consultar-avaliacoes-etapa.md)) | HU-027_Painel_Administrativo_Avaliacoes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-PAI-03` ([spec](./avaliacao/painel-administrativo/f-consolidar-avaliacao.md)) | HU-027_Painel_Administrativo_Avaliacoes | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-03` ([spec](./avaliacao/avaliacao-projetos/f-avaliar-inscricao.md)) | HU-028_Avaliar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-04` ([spec](./avaliacao/avaliacao-projetos/f-finalizar-avaliacao.md)) | HU-028_Avaliar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-06` ([spec](./avaliacao/avaliacao-projetos/f-consultar-outros-avaliadores.md)) | HU-028_Avaliar_Inscricao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-02` ([spec](./avaliacao/avaliacao-projetos/f-aceitar-termo-confidencialidade.md)) | HU-029_Termo_Confidencialidade_Avaliador | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-07` ([spec](./avaliacao/avaliacao-projetos/f-consultar-premiacoes-avaliador.md)) | HU-029_Termo_Confidencialidade_Avaliador | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-07` ([spec](./avaliacao/etapas-configuracao/f-configurar-termo-confidencialidade.md)) | HU-029_Termo_Confidencialidade_Avaliador | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-12` ([spec](./avaliacao/apuracao-devolutiva/f-reabrir-etapa-uf.md)) | HU-030_Fechar_Etapa_Avaliacao | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-04` ([spec](./avaliacao/apuracao-devolutiva/f-gerar-devolutiva-ia.md)) | HU-031_Consolidar_Feedback | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-05` ([spec](./avaliacao/apuracao-devolutiva/f-revisar-devolutiva.md)) | HU-031_Consolidar_Feedback | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `INS-ACO-02` ([spec](./inscricao/acompanhamento/f-visualizar-devolutiva.md)) | HU-031_Consolidar_Feedback | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ETA-06` ([spec](./avaliacao/etapas-configuracao/f-configurar-criterios-desempate.md)) | HU-032_Configurar_Criterios_de_Desempate | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-AVA-01` ([spec](./avaliacao/avaliacao-projetos/f-acompanhar-minhas-avaliacoes.md)) | HU-033_Painel_Avaliacao_Avaliador | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-06` ([spec](./avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes-paradas.md)) | HU-037_Relatorio_Inscricoes_Em_Andamento | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-01` ([spec](./avaliacao/apuracao-devolutiva/f-apurar-resultado-etapa.md)) | PDTIC25093-49 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-02` ([spec](./avaliacao/apuracao-devolutiva/f-registrar-desempate.md)) | PDTIC25093-49 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-03` ([spec](./avaliacao/apuracao-devolutiva/f-encerrar-etapa-uf.md)) | PDTIC25093-49 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-09` ([spec](./avaliacao/apuracao-devolutiva/f-exportar-relatorio-etapa.md)) | PDTIC25093-49 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-10` ([spec](./avaliacao/apuracao-devolutiva/f-gerar-relatorio-inscricoes.md)) | PDTIC25093-56 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-FIL-03` ([spec](./validacao/fila-validacao/f-exportar-historico-painel.md)) | PDTIC25093-58 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-05` ([spec](./avaliacao/alocacao/f-consultar-panorama-avaliador.md)) | PDTIC25093-65 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-07` ([spec](./avaliacao/alocacao/f-exportar-relatorio-alocacao.md)) | PDTIC25093-65 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-08` ([spec](./avaliacao/apuracao-devolutiva/f-consultar-ranking-etapa.md)) | PDTIC25093-66 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-05` ([spec](./validacao/analise-decisao/f-editar-inscricao-validada.md)) | PDTIC25093-68 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-14` ([spec](./avaliacao/apuracao-devolutiva/f-enviar-feedback-participante.md)) | PDTIC25093-69 | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ACE-01` ([spec](./acesso/acesso-perfis/f-autenticar-usuario.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ACE-02` ([spec](./acesso/acesso-perfis/f-consultar-perfil-usuario.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-ACE-03` ([spec](./acesso/acesso-perfis/f-vincular-usuario-sistema.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `ACS-AUD-01` ([spec](./acesso/auditoria/f-consultar-trilha-auditoria.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-ALO-06` ([spec](./avaliacao/alocacao/f-consultar-pendencias-alocacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-APU-13` ([spec](./avaliacao/apuracao-devolutiva/f-desclassificar-inscricao-etapa.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `AVL-PAI-04` ([spec](./avaliacao/painel-administrativo/f-exportar-relatorio-avaliadores.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-12` ([spec](./configuracao/premios/f-configurar-criterios-avaliacao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-PRE-13` ([spec](./configuracao/premios/f-carregar-imagem-configuracao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `CFG-TIP-16` ([spec](./configuracao/tipos-participante/f-importar-configuracao.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
+| `VAL-ANA-06` ([spec](./validacao/analise-decisao/f-excluir-inscricao-validada.md)) | — | ✏️ rascunho | aguardando **requisitos** (PO/Negócio) |
 
 **0** de **128** feature(s) prontas para desenvolvimento.
 <!-- GATES:FIM -->
