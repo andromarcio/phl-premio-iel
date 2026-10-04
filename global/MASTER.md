@@ -269,10 +269,7 @@ Features são nomeadas sempre no **infinitivo**, seguindo o padrão:
 
 ## Nomenclatura de entidades e campos
 
-Entidades e campos são nomeados em **português**. A nomenclatura de campos segue
-três camadas com responsabilidades distintas.
-**A única fonte de verdade para Label Dev e campo banco é o `global/DATA-MODEL.md`.**
-Os N3 usam apenas Label PO — nunca duplicam as camadas técnicas.
+Entidades e campos são nomeados em **português**. A nomenclatura de campos segue três camadas com responsabilidades distintas. **A única fonte de verdade para Label Dev e campo banco é o `global/DATA-MODEL.md`.** Os N3 usam apenas Label PO — nunca duplicam as camadas técnicas.
 
 | Camada | Convenção | Exemplo | Onde aparece |
 |---|---|---|---|

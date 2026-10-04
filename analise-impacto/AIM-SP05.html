@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIM SP05</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+/* Identidade AVAL */
+      --brand-blue: #005CA9;
+      --brand-blue-dark: #0A2440;
+      --brand-blue-light: #E5F2FC;
+      --brand-blue-hover: #004B8A;
+      --brand-accent: #0078E0;
+      
+      /* Aviso é Dourado no AVAL (regra: nunca laranja) */
+      --brand-gold: #B45309;
+      --brand-gold-light: #FFFBEB;
+      --brand-gold-border: #FDE68A;
+      
+      /* Superfícies & Bordas */
+      --bg-app: #F6FAFD;
+      --bg-sidebar: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-hover: #EDF3F9;
+      --bg-active: #E3EEF8;
+      --border-color: #D6E3F0;
+      --border-subtle: #E8F0F8;
+      
+      /* Compatibilidade mapa.css */
+      --primary-color: #005CA9;
+      --surface-ground: #F6FAFD;
+      --surface-card: #FFFFFF;
+      --surface-border: #D6E3F0;
+      --surface-hover: #EDF3F9;
+      --text-color: #0A2440;
+      --shadow-1: 0 1px 3px rgba(10, 36, 64, 0.06);
+      --focus-ring: 0 0 0 3px rgba(0, 92, 169, 0.18);
+      --dsc-font-family-1: 'IBM Plex Sans', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-title: 'Archivo', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-mono: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", "Courier New", monospace;
+      --dsc-border-radius-pill: 999px;
+      --dsc-border-radius-medium: 6px;
+      --transition-duration: 0.15s;
+      
+      /* Tipografia & Cores */
+      --text-main: #0A2440;
+      --text-secondary: #2B3A4A;
+      --text-muted: #526981;
+      --text-blue: #005CA9;
+      
+      /* Status & Badges */
+      --badge-success-bg: #ECFDF5;
+      --badge-success-text: #047857;
+      --badge-success-border: #A7F3D0;
+      
+      --badge-warning-bg: #FFFBEB;
+      --badge-warning-text: #B45309;
+      --badge-warning-border: #FDE68A;
+      
+      --badge-info-bg: #EFF6FF;
+      --badge-info-text: #1D4ED8;
+      --badge-info-border: #BFDBFE;
+      
+      --badge-purple-bg: #F5F3FF;
+      --badge-purple-text: #6D28D9;
+      --badge-purple-border: #DDD6FE;
+
+      /* Sombras & Raios */
+      --shadow-sm: 0 1px 2px 0 rgba(10, 36, 64, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(10, 36, 64, 0.08), 0 2px 4px -2px rgba(10, 36, 64, 0.05);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-full: 999px;
+
+      /* Dimensões */
+      --header-height: 60px;
+      --sidebar-width: 320px;
+}
+:root {
+  --_bg: var(--bg-app, #F6FAFD);
+  --_card: var(--bg-card, #FFFFFF);
+  --_borda: var(--border-color, #D6E3F0);
+  --_borda-sutil: var(--border-subtle, #E8F0F8);
+  --_hover: var(--bg-hover, #EDF3F9);
+  --_texto: var(--text-main, var(--text-color, #0A2440));
+  --_texto2: var(--text-secondary, #526981);
+  --_marca: var(--brand-blue, var(--primary-color, #005CA9));
+  --_marca-clara: var(--brand-blue-light, #E5F2FC);
+  --_titulo: var(--dsc-font-title, 'Archivo', 'Segoe UI', system-ui, sans-serif);
+  --_corpo: var(--dsc-font-family-1, 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif);
+  --_mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--_bg); color: var(--_texto); font-family: var(--_corpo); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap { width: 100%; margin: 0; padding: 32px 40px 80px; }
+/* O conteúdo destes documentos é majoritariamente tabela larga — a tela inteira é
+   trabalho útil, não desperdício. A prosa corrida fica com medida de leitura própria
+   para não virar linha de 200 caracteres em monitor grande. */
+@media (max-width: 720px) { .wrap { padding: 24px 16px 60px; } }
+.doc-head { margin-bottom: 26px; }
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--_marca); margin-bottom:10px; }
+h1 { font-family: var(--_titulo); font-size: clamp(24px,3.4vw,32px); font-weight:700; line-height:1.2; margin:0 0 14px; color: var(--_texto); text-wrap: balance; }
+.doc-section { background: var(--_card); border:1px solid var(--_borda); border-radius:10px; padding: 0; margin-bottom:20px; box-shadow: 0 1px 3px rgba(10,36,64,.06); }
+.section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 20px 28px; cursor:pointer; list-style:none; }
+.section-header::-webkit-details-marker { display:none; }
+.section-title { font-family: var(--_titulo); font-size:18px; font-weight:700; color: var(--_texto); display:flex; align-items:center; gap:10px; }
+.section-title svg { color: var(--_marca); flex:none; }
+.chevron { color: var(--_texto2); transition: transform .18s; flex:none; }
+details[open] > .section-header .chevron { transform: rotate(180deg); }
+.section-body { padding: 18px 28px 24px; border-top:1px solid var(--_borda-sutil); }
+.markdown-body > :first-child { margin-top:0; }
+.markdown-body > :last-child { margin-bottom:0; }
+.markdown-body h3 { font-family: var(--_titulo); font-size:15.5px; font-weight:700; margin:26px 0 10px; color: var(--_texto); }
+.markdown-body h4 { font-size:14px; font-weight:700; margin:20px 0 8px; }
+.markdown-body p { margin: 0 0 12px; }
+.markdown-body ul, .markdown-body ol { margin:0 0 12px; padding-left:22px; }
+.markdown-body li { margin-bottom:6px; }
+.markdown-body code { font-family: var(--_mono); font-size:.86em; background: var(--_hover); border:1px solid var(--_borda-sutil); border-radius:4px; padding:1px 5px; overflow-wrap:anywhere; }
+/* caminho de arquivo e chave longa não têm espaço para quebrar: sem isto, um code
+   comprido empurra o corpo inteiro e a página ganha rolagem horizontal no celular */
+.markdown-body { overflow-wrap: break-word; }
+.custom-table .col-id  { white-space: nowrap; width: 1%; }
+.custom-table .col-num { white-space: nowrap; min-width: 5.5rem; }
+.custom-table .col-prosa { min-width: 38rem; }
+.custom-table .col-nome  { min-width: 15rem; max-width: 22rem; }
+.ficha { margin: 2px 0 22px; font-size: 13px; color: var(--_texto2); }
+.ficha blockquote { margin:0; border:0; padding:0; }
+.ficha p { margin: 0; line-height: 1.9; }
+.markdown-body pre { background: var(--_hover); border:1px solid var(--_borda); border-radius:8px; padding:14px 16px; overflow-x:auto; }
+.markdown-body pre code { background:none; border:0; padding:0; }
+.markdown-body blockquote { margin:0 0 14px; padding:12px 18px; border-left:3px solid var(--_marca); background: var(--_bg); border-radius:0 6px 6px 0; color: var(--_texto2); }
+.markdown-body blockquote > :first-child { margin-top:0; } .markdown-body blockquote > :last-child { margin-bottom:0; }
+.markdown-body a { color: var(--_marca); }
+.item-titulo { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:30px 0 12px; font-family: var(--_titulo); font-size:17px; font-weight:700; color: var(--_texto); }
+.item-nome { flex:0 1 auto; min-width:0; }
+.chave { font-family: var(--_mono); font-size:12px; font-weight:600; letter-spacing:.01em; color: var(--_texto2); background: var(--_hover); border:1px solid var(--_borda); border-radius:999px; padding:4px 12px; white-space:nowrap; }
+.badge { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:999px; padding:3px 11px; white-space:nowrap; }
+.badge--alterada { background:#DBEAFE; color:#1D4ED8; }
+.badge--nova     { background:#EDE9FE; color:#6D28D9; }
+.badge--mista    { background:#FEF3C7; color:#B45309; }
+.kpi-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:14px; margin:16px 0 20px; }
+.stat { background: var(--_card); border:1px solid var(--_borda); border-left:4px solid var(--acento, var(--_marca)); border-radius:8px; padding:16px 20px; box-shadow:0 1px 3px rgba(10,36,64,.06); }
+.stat-n { font-family: var(--_titulo); font-size:30px; font-weight:700; line-height:1.05; color: var(--_texto); font-variant-numeric: tabular-nums; }
+.stat-k { margin-top:8px; font-size:13px; color: var(--_texto2); line-height:1.45; }
+.stat-k span { display:block; margin-top:3px; color: var(--_texto2); opacity:.85; }
+.table-container { width:100%; overflow-x:auto; margin: 12px 0; border:1px solid var(--_borda); border-radius:8px; }
+.custom-table { width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+.custom-table th { background: var(--_hover); color: var(--_texto); font-weight:600; font-family: var(--_titulo); padding:12px 16px; border-bottom:1px solid var(--_borda); white-space:nowrap; }
+.custom-table td { padding:12px 16px; border-bottom:1px solid var(--_borda-sutil); color: var(--_texto); vertical-align:top; line-height:1.5; }
+// A primeira coluna costuma ser um ID curto, que não deve partir. Mas quando ela é
+// um NOME ou a própria narrativa, o nowrap faz o texto transbordar por cima da
+// coluna vizinha — 665px de conteúdo numa célula de 304px. Essas ficam de fora.
+.custom-table th:first-child, .custom-table td:first-child:not(.col-nome):not(.col-prosa) { white-space:nowrap; }
+.custom-table tbody tr:last-child td { border-bottom:none; }
+.custom-table tbody tr:hover { background: var(--_hover); }
+.changelog-table td { font-size:12.5px; }
+.changelog-table th:first-child, .changelog-table td:first-child { width:120px; min-width:110px; }
+.req-tag { font-weight:600; color:#E11D48; font-size:11px; background:#FFE4E6; padding:2px 6px; border-radius:4px; display:inline-block; }
+.opt-tag { font-weight:500; color: var(--_texto2); font-size:11px; background: var(--_hover); padding:2px 6px; border-radius:4px; display:inline-block; }
+.rodape { margin-top:34px; padding-top:18px; border-top:1px solid var(--_borda); font-size:12.5px; color: var(--_texto2); }
+@media print { .doc-section { break-inside: avoid; border:1px solid #ccc; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="eyebrow">Análise de impacto</div>
+    <h1>AIM SP05</h1>
+  </header>
+  <div class="ficha markdown-body"><p><strong>Sprint</strong>: SP05<br><strong>Estado</strong>: Concluída  </p>
+</div>
+
+  <details class="doc-section" id="detalhe-por-ticket" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Detalhe por ticket
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<h3 class="item-titulo"><span class="chave">PDTIC25093-67</span><span class="item-nome">HU-024 — Configurar Etapas de Avaliação</span><span class="badge badge--alterada">alterada</span></h3>
+<p>Na spec: alteração pura de <code>AVL-ETA-02</code> e <code>AVL-ETA-03</code> (editor compartilhado). Nenhuma feature nova. O data-model já tem os dois campos — a spec negocial é que está atrás. Delta: Quantidade de classificados (obrigatório, mín. 1, padrão 1) e Quantidade de premiados (opcional; vazio = não premia); selos &quot;Classificados/Premiados&quot; no cartão da etapa; bloqueio de edição do corte com a etapa fechada; abrangência do corte derivada dos perfis autorizados.</p>
+<h3 class="item-titulo"><span class="chave">PDTIC25093-49</span><span class="item-nome">HU-030 — Fechar Etapa de Avaliação</span><span class="badge badge--mista">alterada + nova</span></h3>
+<p>Na spec: mistura com forte predominância de alteração — o cluster de fechamento já existe (<code>AVL-APU-01/02/03</code>, <code>AVL-PAI-03</code>) e o data-model já foi capturado. Genuinamente novo: Reabrir Etapa por UF e Exportar Relatório da Etapa. Delta nos N3 existentes: corte de classificação automático; ranking em baldes estado→grupo; premiação como corte independente; novos KPIs; desempate por corte com justificativa 30–1000; fechamento por estado exige feedback consolidado; trava de consolidação; encerramento automático no último estado. Conflito confirmado: o temido &quot;aprovar/reprovar manual&quot; não está nos N3 (já são automáticos), mas a RN4 de <code>AVL-APU-03</code> (&quot;as premiadas avançam&quot;) contradiz a SP05 — corrigir.</p>
+<h3 class="item-titulo"><span class="chave">PDTIC25093-56</span><span class="item-nome">HU-036 — Relatório Geral de Inscrições</span><span class="badge badge--nova">nova</span></h3>
+<p>Na spec: feature nova em <code>AVL-APU</code> (par Gerar/Exportar), mais alteração de permissão no par gêmeo de Paradas e um botão em <code>VAL-FIL-01</code>. Delta: consolida todas as inscrições em qualquer situação (difere de Paradas = só em andamento); abas por tipo de participante, colunas fixas + uma por pergunta do formulário; prévia de 50/grupo em tela + XLSX completo; exclusivo do Admin Nacional.</p>
+<h3 class="item-titulo"><span class="chave">PDTIC25093-66</span><span class="item-nome">HU-038 — Ranking por Etapa</span><span class="badge badge--nova">nova</span></h3>
+<p>Na spec: feature nova em <code>AVL-APU</code> — a irmã somente-leitura da tela de Fechamento. Compartilha <code>ranking-baldes</code> e <code>RelatorioEtapaService</code>, sem ações de fechar/reabrir/arbitrar. Delta: consulta do resultado consolidado (estado→grupo) com selos &quot;Fechada/Parcial&quot;, deep-link e escopo de UF para o Regional; para etapa encerrada, exibe o resultado gravado no fechamento — não um recálculo.</p>
+<h3 class="item-titulo"><span class="chave">PDTIC25093-68</span><span class="chave">-60</span><span class="chave">-61</span><span class="item-nome">Validar Inscrições + tela do avaliador/alocação</span><span class="badge badge--mista">alterada + nova</span></h3>
+<p>Três itens do Jira cobrem este bloco: <code>PDTIC25093-68</code> (HU-018, validação), <code>PDTIC25093-60</code> (HU-025, alocação) e <code>PDTIC25093-61</code> (HU-028, avaliação). A demanda os tratava como um item só porque compartilham o mecanismo de download por endereço individual.</p>
+<p>Na spec: mistura — download por UUID e &quot;próxima pendente&quot;/drawer alteram N3 existentes; a edição administrativa da inscrição validada é feature nova, <code>VAL-ANA-05</code> <strong>Editar Inscrição Validada</strong>, especificada em 2026-08-28 mas ainda sem contagem. Delta: máscara de CPF/telefone no membro e inclusão do 1º membro na edição admin (carrega a config de equipe); download seguro por UUID (habilita também o avaliador); &quot;Próxima pendente&quot; na tela do avaliador; drawer &quot;Projeto&quot; + filtros na alocação. O aviso 7 (rota quebrada do widget de pendências) é bug técnico, sem N3-alvo.</p>
+<h3 class="item-titulo"><span class="chave">PDTIC25093-58</span><span class="item-nome">⚠️ sem item — Avisos 4–6: consolidação admin, restrição de relatórios, colunas do Excel</span><span class="badge badge--mista">alterada + nova</span></h3>
+<p>Na spec: filtros/consolidação por estado alteram <code>AVL-PAI-01</code>; o Relatório de Avaliadores é novo (<code>AVL-PAI-04</code>); a restrição de permissão e as colunas incidem sobre um export de dashboard que não está especificado. Delta: tela &quot;Avaliações&quot; ganha filtro por UF, visão de consolidação por estado e o novo Relatório de Avaliadores (XLSX, 2 abas); botões &quot;Inscrições Paradas&quot; e &quot;Exportar Excel&quot; restritos ao Admin Nacional; colunas &quot;Nome do Participante&quot; e &quot;Telefone&quot; no Excel de histórico.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="tickets-da-sprint" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Tickets da sprint
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-id">Ticket</th>
+<th>AIM</th>
+<th>Features</th>
+<th>Resumo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td><a href="AIM-PDTIC25093-49.md">AIM-PDTIC25093-49</a></td>
+<td><code>AVL-APU-01</code> <strong>Apurar Resultado da Etapa</strong> · <code>AVL-APU-02</code> <strong>Registrar Desempate</strong> · <code>AVL-APU-03</code> <strong>Encerrar Etapa por UF</strong> · <code>AVL-APU-09</code> <strong>Exportar Relatório da Etapa</strong> · <code>AVL-APU-12</code> <strong>Reabrir Etapa por UF</strong> · <code>AVL-PAI-03</code> <strong>Consolidar Avaliação</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-56</code></td>
+<td><a href="AIM-PDTIC25093-56.md">AIM-PDTIC25093-56</a></td>
+<td><code>AVL-APU-06</code> <strong>Gerar Relatório de Inscrições Paradas</strong> · <code>AVL-APU-10</code> <strong>Gerar Relatório de Inscrições</strong> · <code>VAL-FIL-01</code> <strong>Pesquisar Inscrições para Validação</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-58</code></td>
+<td><a href="AIM-PDTIC25093-58.md">AIM-PDTIC25093-58</a></td>
+<td><code>VAL-FIL-02</code> <strong>Acompanhar Painel de Validação</strong> · <code>VAL-FIL-03</code> <strong>Exportar Histórico do Painel de Validação</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-60</code></td>
+<td><a href="AIM-PDTIC25093-60.md">AIM-PDTIC25093-60</a></td>
+<td><code>AVL-ALO-04</code> <strong>Alocar Avaliador à Inscrição</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-61</code></td>
+<td><a href="AIM-PDTIC25093-61.md">AIM-PDTIC25093-61</a></td>
+<td><code>AVL-AVA-01</code> <strong>Acompanhar Minhas Avaliações</strong> · <code>AVL-AVA-03</code> <strong>Avaliar Inscrição</strong> · <code>AVL-AVA-04</code> <strong>Finalizar Avaliação</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-66</code></td>
+<td><a href="AIM-PDTIC25093-66.md">AIM-PDTIC25093-66</a></td>
+<td><code>AVL-APU-08</code> <strong>Consultar Ranking da Etapa</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-67</code></td>
+<td><a href="AIM-PDTIC25093-67.md">AIM-PDTIC25093-67</a></td>
+<td><code>AVL-ETA-02</code> <strong>Cadastrar Etapa</strong> · <code>AVL-ETA-03</code> <strong>Editar Etapa</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td class="col-id"><code>PDTIC25093-68</code></td>
+<td><a href="AIM-PDTIC25093-68.md">AIM-PDTIC25093-68</a></td>
+<td><code>VAL-ANA-01</code> <strong>Detalhar Inscrição</strong> · <code>VAL-ANA-05</code> <strong>Editar Inscrição Validada</strong></td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+  <details class="doc-section" id="alteracoes-na-spec-por-feature-set" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Alterações na spec, por Feature Set
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<h3>Avaliação › Etapas e Configuração da Avaliação (<code>AVL-ETA</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-ETA-02</code><br><strong>Cadastrar Etapa</strong></td>
+<td class="col-id"><code>PDTIC25093-67</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> dos campos <em>Quantidade de classificados</em> (obrigatório, mínimo 1) e <em>Quantidade de premiados</em> (opcional). Antes o editor capturava apenas nome, período e perfis autorizados — quantos participantes avançam de etapa não era informado em lugar nenhum</td>
+<td class="col-id">+4</td>
+<td class="col-id">+4</td>
+<td class="col-num">3</td>
+<td class="col-num">1,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-ETA-03</code><br><strong>Editar Etapa</strong></td>
+<td class="col-id"><code>PDTIC25093-67</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> dos mesmos dois campos em edição, <strong>restrição</strong> do corte enquanto a etapa está fechada e <strong>inclusão</strong> dos selos &quot;Classificados&quot; e &quot;Premiados&quot; no cartão. Antes a edição alcançava nome, período e perfis, e a etapa fechada recusava qualquer alteração em bloco</td>
+<td class="col-id">+8</td>
+<td class="col-id">+6</td>
+<td class="col-num">3</td>
+<td class="col-num">1,5</td>
+</tr>
+</tbody></table></div>
+<p>Mensagens acrescentadas ao dicionário: <code>AVL_ETAPA_CLASSIFICADOS_INVALIDO</code>, <code>AVL_ETAPA_PREMIADOS_INVALIDO</code>, <code>AVL_ETAPA_CORTE_BLOQUEADO</code>. <strong>Subtotal: 2 features · 6 PFB · 3 PFL.</strong></p>
+<h3>Avaliação › Apuração e Devolutiva (<code>AVL-APU</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-APU-01</code><br><strong>Apurar Resultado da Etapa</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Alteração</strong> do agrupamento do ranking e <strong>inclusão</strong> do corte automático. Antes as inscrições competiam por grupo de oferta × enquadramento e a classificação era apenas a ordem por média — nada marcava quem passava. Agora o ranking é em blocos estado→grupo com colocação por bloco, o corte de classificação é aplicado automaticamente pela quantidade definida na etapa e existe um corte de premiação independente dele; as inscrições sem estado formam o bloco Nacional</td>
+<td class="col-id">+10</td>
+<td class="col-id">+10</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-02</code><br><strong>Registrar Desempate</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Alteração</strong> do escopo do desempate. Antes qualquer empate dentro do grupo exigia decisão manual, com um único tipo de corte (Classificação) e justificativa de tamanho livre. Agora só o empate que atravessa a linha de corte precisa de decisão, o corte pode ser de classificação ou de premiação, a comparação é questão a questão e a justificativa tem de 30 a 1.000 caracteres</td>
+<td class="col-id">+8</td>
+<td class="col-id">+7</td>
+<td class="col-num">6</td>
+<td class="col-num">6</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-03</code><br><strong>Encerrar Etapa por UF</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> da pré-condição de feedback consolidado e do encerramento automático; <strong>correção</strong> da regra de avanço. Antes bastavam apuração concluída e empates resolvidos para fechar a UF, e a RN4 dizia que &quot;as premiadas avançam&quot;. Agora o fechamento exige todas as inscrições do estado com feedback consolidado, lista as pendências por participante, encerra a etapa sozinho quando o último estado fecha, e quem avança é o <strong>classificado</strong></td>
+<td class="col-id">+10</td>
+<td class="col-id">+8</td>
+<td class="col-num">6</td>
+<td class="col-num">6</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-06</code><br><strong>Gerar Relatório de Inscrições Paradas</strong></td>
+<td class="col-id"><code>PDTIC25093-56</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Restrição</strong> de perfil e <strong>ampliação</strong> da abrangência, na tela e na planilha. Antes o relatório alcançava apenas as UFs no escopo do administrador, tinha cenário próprio para quem não tinha UF vinculada, e a planilha exportava o recorte de UF que estivesse em tela. Agora é exclusivo do Administrador Nacional (APIPIT.22) e alcança todas as UFs da premiação, sem recorte regional — o cenário de administrador sem UF deixou de existir e a planilha sai sempre com todas as UFs. ℹ️ Em 2026-09-01 a feature absorveu a antiga <code>AVL-APU-07</code> <strong>Exportar Relatório de Inscrições Paradas</strong> (decisão 6) e passa a responder pelos dois processos elementares</td>
+<td class="col-id">+2</td>
+<td class="col-id">+1</td>
+<td class="col-num">14</td>
+<td class="col-num">7</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-08</code><br><strong>Consultar Ranking da Etapa</strong></td>
+<td class="col-id"><code>PDTIC25093-66</code></td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Consulta somente leitura do resultado consolidado, em blocos estado→grupo, com endereço direto para um bloco; para etapa encerrada apresenta o resultado gravado no fechamento, não um recálculo. Acessível ao Nacional e ao Regional, este restrito às suas UFs. É a irmã de leitura da tela de Fechamento</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-09</code><br><strong>Exportar Relatório da Etapa</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Planilha XLSX com uma aba Resumo (uma linha por UF × grupo) e uma aba por tipo de participante, consolidando respostas do formulário, notas por avaliador, feedback consolidado e decisão de corte. O Administrador Regional recebe o recorte das suas UFs. Compartilha o mesmo serviço de montagem com o Ranking da Etapa</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-10</code><br><strong>Gerar Relatório de Inscrições</strong></td>
+<td class="col-id"><code>PDTIC25093-56</code></td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Consolida todas as inscrições da premiação em qualquer situação — difere do Relatório de Inscrições Paradas, que alcança só as em andamento —, em abas por tipo de participante, com 13 colunas fixas mais uma coluna por pergunta do formulário; a planilha sai completa, sem o limite de 50 registros por grupo da prévia em tela. Exclusiva do Administrador Nacional. ℹ️ Nasce unificada (decisão 6): a consulta em tela e a exportação são a mesma feature e valem dois processos elementares</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">14</td>
+<td class="col-num">14</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-12</code><br><strong>Reabrir Etapa por UF</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Devolve um estado já encerrado à apuração: recalcula o corte, preserva o feedback consolidado e desfaz apenas as decisões de corte e desempate daquele escopo; reabrir a etapa inteira exige as etapas posteriores abertas. Exclusiva do Administrador Nacional. Não existia — na spec o encerramento por UF era irreversível</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">4</td>
+<td class="col-num">4</td>
+</tr>
+</tbody></table></div>
+<p>Mensagens acrescentadas: <code>AVL_FECHAMENTO_PENDENCIAS</code>, <code>AVL_FECHAMENTO_EMPATE_CORTE</code>. <strong>Matriz N2 alterada</strong>: Encerrar Etapa por UF deixa de ser acessível ao Administrador Regional — fechar, reabrir e desempatar passam a exclusivos do Nacional — e os dois relatórios ficam restritos ao Nacional. <strong>Subtotal: 8 features · 65 PFB · 58 PFL</strong> — <strong>sem estimativa</strong>: os seis processos elementares que faltavam foram contados em 2026-09-01 sobre os N3, e o subtotal subiu de 50 para 65 PFB. A unificação de 2026-09-01 (decisão 6) reduziu de 10 para 8 o número de features do Feature Set nesta sprint <strong>sem alterar nenhum PF</strong>: as exportações continuam contadas como processo elementar próprio.</p>
+<h3>Avaliação › Painel Administrativo (<code>AVL-PAI</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-PAI-01</code><br><strong>Acompanhar Painel de Avaliações</strong></td>
+<td class="col-id">⚠️ sem ticket</td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> do recorte por estado e do andamento da consolidação. Antes o painel mostrava a árvore inscrição → etapa → avaliadores de toda a premiação, com indicadores agregados, busca e seletor de status de consolidação — <strong>não havia nenhum filtro por UF</strong>, e o Administrador Regional via exatamente o mesmo que o Nacional. Agora há seleção de estado com escopo de perfil (o Regional enxerga só os seus, o Nacional tem a opção Nacional) e uma visão de quais estados já concluíram a consolidação</td>
+<td class="col-id">+4</td>
+<td class="col-id">+5</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-PAI-03</code><br><strong>Consolidar Avaliação</strong></td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> da trava pelo fechamento. Antes o texto consolidado podia ser substituído a qualquer momento — uma nova consolidação sobrescrevia a anterior sem limite de prazo. Agora, com o estado já fechado, a consolidação é recusada; a consolidação completa do estado vira pré-requisito do fechamento e a reabertura do estado devolve o texto à edição</td>
+<td class="col-id">+4</td>
+<td class="col-id">+3</td>
+<td class="col-num">6</td>
+<td class="col-num">3</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-PAI-04</code><br><strong>Exportar Relatório de Avaliadores</strong></td>
+<td class="col-id">⚠️ sem ticket</td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Planilha XLSX com duas abas — resumo por avaliador e a relação das avaliações. Não existe nem na spec nem no sistema: é a única das features novas que não tem nenhum código correspondente hoje</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+</tbody></table></div>
+<p>Mensagem acrescentada: <code>AVL_CONSOLIDACAO_ESTADO_FECHADO</code>. <strong>Matriz N2 alterada</strong>: recorte por estado do Administrador Regional e trava de consolidação após o fechamento. <strong>Subtotal: 3 features · 20 PFB · 13,5 PFL</strong> — sem estimativa: <code>AVL-PAI-04</code> <strong>Exportar Relatório de Avaliadores</strong> foi contada em 2026-09-01 e vale 7 PF, não os 5 arbitrados.</p>
+<h3>Avaliação › Avaliação de Projetos (<code>AVL-AVA</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-AVA-01</code><br><strong>Acompanhar Minhas Avaliações</strong></td>
+<td class="col-id"><code>PDTIC25093-61</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> do papel de fila. Antes o painel do avaliador era só uma tela de consulta — cartões das inscrições alocadas, com seletores de premiação, etapa e status. Agora ele também define a sequência e o recorte das avaliações pendentes que o salto &quot;Próxima pendente&quot; consome</td>
+<td class="col-id">+2</td>
+<td class="col-id">+1</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-AVA-03</code><br><strong>Avaliar Inscrição</strong></td>
+<td class="col-id"><code>PDTIC25093-61</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Alteração</strong> da forma de baixar o anexo. Antes a tela apenas listava os anexos para download, sem dizer como o acesso era conferido. Agora cada documento tem endereço individual e o direito é verificado a cada acesso, contra a inscrição designada ao avaliador</td>
+<td class="col-id">+2</td>
+<td class="col-id">+2</td>
+<td class="col-num">10</td>
+<td class="col-num">5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-AVA-04</code><br><strong>Finalizar Avaliação</strong></td>
+<td class="col-id"><code>PDTIC25093-61</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> do salto para a próxima avaliação. Antes finalizar encerrava o registro em somente leitura e o avaliador voltava ao painel para escolher a próxima inscrição. Agora existe o salto &quot;Próxima pendente&quot;, restrito ao recorte vigente do acompanhamento, com aviso quando não resta pendência</td>
+<td class="col-id">+3</td>
+<td class="col-id">+3</td>
+<td class="col-num">3</td>
+<td class="col-num">1,5</td>
+</tr>
+</tbody></table></div>
+<p>Mensagem acrescentada: <code>AVL_SEM_PENDENTES</code>. <strong>Subtotal: 3 features · 20 PFB · 10 PFL.</strong></p>
+<h3>Avaliação › Alocação (<code>AVL-ALO</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-ALO-04</code><br><strong>Alocar Avaliador à Inscrição</strong></td>
+<td class="col-id"><code>PDTIC25093-60</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> do detalhe do projeto e de três recortes; <strong>correção</strong> da elegibilidade. Antes a tela listava as inscrições elegíveis com a designação de avaliadores e a etiqueta de situação, sem nenhum filtro e sem como ver o conteúdo do projeto, e as elegíveis das etapas seguintes eram &quot;as aprovadas na etapa anterior&quot;. Agora o projeto é consultável em modo somente leitura, há recortes por grupo, estado (com Nacional) e situação da alocação, e quem passa para a etapa seguinte é o classificado</td>
+<td class="col-id">+5</td>
+<td class="col-id">+7</td>
+<td class="col-num">17</td>
+<td class="col-num">8,5</td>
+</tr>
+</tbody></table></div>
+<p><strong>Subtotal: 1 feature · 17 PFB · 8,5 PFL.</strong></p>
+<h3>Validação › Fila de Validação (<code>VAL-FIL</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>VAL-FIL-01</code><br><strong>Pesquisar Inscrições para Validação</strong></td>
+<td class="col-id"><code>PDTIC25093-56</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> do ponto de entrada do Relatório Geral de Inscrições na fila, oculto para quem não acessa relatórios administrativos (APIPIT.22). Filtros em cascata, cards KPI e tabela paginada seguem como estavam</td>
+<td class="col-id">—</td>
+<td class="col-id">+2</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>VAL-FIL-02</code><br><strong>Acompanhar Painel de Validação</strong></td>
+<td class="col-id"><code>PDTIC25093-58</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Inclusão</strong> da exportação do histórico, que não estava especificada. Antes o N3 descrevia apenas os gráficos do dashboard — distribuição por situação e comparação por categoria ou UF. Agora a exportação em planilha é ação da feature, restrita ao Administrador Nacional, com Nome do Participante e Telefone resolvidos dos rótulos do formulário da inscrição</td>
+<td class="col-id">+4</td>
+<td class="col-id">+4</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>VAL-FIL-03</code><br><strong>Exportar Histórico do Painel de Validação</strong></td>
+<td class="col-id"><code>PDTIC25093-58</code></td>
+<td class="col-id"><strong>incluída</strong> ⚠️</td>
+<td class="col-prosa"><strong>Feature incluída.</strong> A exportação do histórico estava especificada dentro de <code>VAL-FIL-02</code> <strong>Acompanhar Painel de Validação</strong>, com a restrição de perfil e as colunas de Nome e Telefone. Em 2026-09-01 ficou decidido <strong>separá-la</strong>, e o N3 próprio foi escrito na mesma data: os dados diferem, e não só de formato — a tela mostra agregados, a planilha traz uma linha por inscrição, com nome e telefone, que a tela não tem. ✅ Contada em 2026-09-01: SE, ALR 6, DER 18, complexidade Alta — <strong>7 PF</strong>, como função incluída a 100%</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+</tbody></table></div>
+<p><strong>Matriz N2 alterada</strong>: exportação do histórico restrita ao Nacional; registrados os acessos aos relatórios administrativos ocultos ao Regional. <strong>Subtotal: 3 features · 21 PFB · 14 PFL</strong> — <code>VAL-FIL-03</code> <strong>Exportar Histórico do Painel de Validação</strong> deixou o zero provisório: o processo elementar foi contado em 2026-09-01 e vale <strong>7 PF</strong>.</p>
+<h3>Validação › Análise e Decisão (<code>VAL-ANA</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>VAL-ANA-01</code><br><strong>Detalhar Inscrição</strong></td>
+<td class="col-id"><code>PDTIC25093-68</code></td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Alteração</strong> da forma de baixar o documento. Antes o detalhe &quot;disponibilizava o arquivo do documento&quot;, sem dizer como o acesso era controlado. Agora cada documento tem endereço individual, conferido a cada acesso a quem tem direito à inscrição — o mesmo mecanismo que habilita o anexo do avaliador em <code>AVL-AVA-03</code></td>
+<td class="col-id">+3</td>
+<td class="col-id">+2</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td class="col-nome"><code>VAL-ANA-05</code><br><strong>Editar Inscrição Validada</strong></td>
+<td class="col-id"><code>PDTIC25093-68</code></td>
+<td class="col-id"><strong>incluída</strong></td>
+<td class="col-prosa"><strong>Feature incluída.</strong> Permite ao Administrador Nacional editar uma inscrição já validada: correção dos dados do membro da equipe com máscara de CPF e telefone, e inclusão do primeiro membro quando a equipe está vazia. Não existia na spec até a conferência com o código: o N2 registrava a edição administrativa como deferida, e o N3 foi escrito em 2026-08-28 — a lotação em <code>VAL-ANA</code>, dentro da tela de validação da inscrição, foi confirmada em 2026-09-01</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-num">6</td>
+<td class="col-num">6</td>
+</tr>
+</tbody></table></div>
+<p><strong>Subtotal: 2 features · 13 PFB · 9,5 PFL</strong> — <code>VAL-ANA-05</code> <strong>Editar Inscrição Validada</strong> deixou o zero provisório: o processo elementar foi contado em 2026-09-01 e vale <strong>6 PF</strong>.</p>
+<h3>Total</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Recorte</th>
+<th>Features</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-id">Natureza</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Alteradas — medidas</strong> no baseline</td>
+<td>12</td>
+<td class="col-id">+41</td>
+<td class="col-id">+40</td>
+<td class="col-id">alteradas (50%)</td>
+<td class="col-num"><strong>91</strong></td>
+<td class="col-num"><strong>45,5</strong></td>
+</tr>
+<tr>
+<td><strong>Alteradas</strong> — fechamento fora do baseline, contado em 2026-09-01</td>
+<td>3</td>
+<td class="col-id">+28</td>
+<td class="col-id">+25</td>
+<td class="col-id">incluídas (100%)</td>
+<td class="col-num"><strong>19</strong></td>
+<td class="col-num"><strong>19</strong></td>
+</tr>
+<tr>
+<td><strong>Novas</strong> — contadas em 2026-09-01</td>
+<td>7</td>
+<td class="col-id">—</td>
+<td class="col-id">—</td>
+<td class="col-id">incluídas (100%)</td>
+<td class="col-num"><strong>52</strong></td>
+<td class="col-num"><strong>52</strong></td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>22</strong></td>
+<td class="col-id"><strong>+69</strong></td>
+<td class="col-id"><strong>+65</strong></td>
+<td class="col-id">—</td>
+<td class="col-num"><strong>162</strong></td>
+<td class="col-num"><strong>116,5</strong></td>
+</tr>
+</tbody></table></div>
+<p>Todas as 22 features têm um número <strong>medido</strong> — o total deixou de carregar <code>(E)</code> em 2026-09-01, quando os 12 processos elementares que faltavam foram contados sobre os N3 (memória de cálculo em cada um; consolidado em <code>global/CONTAGEM-PF.md</code>, seção 1B). O delta subiu de <strong>132 (E) para 162 PFB</strong> e de <strong>86,5 (E) para 116,5 PFL</strong> — as estimativas estavam <strong>30 PFB abaixo</strong> do medido, principalmente nas três features de fechamento, que ganharam ALR e DER muito além do que 4 PF arbitrados supunham. ⚠️ A contagem é própria e está <strong>pendente de validação pela equipe de métricas</strong>.</p>
+<h3>Fora do delta da SP05 — revisão contra o sistema</h3>
+<p>Alterações aplicadas na mesma passagem, mas que <strong>não vêm da SP05</strong>: nasceram da conferência da spec contra as telas do sistema. Estão aqui para que a auditoria da sprint não as conte como delta da demanda — e por isso <strong>não somam PFB nem PFL</strong>.</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id">Ticket</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-ETA-02</code><br><strong>Cadastrar Etapa</strong></td>
+<td class="col-id">—</td>
+<td class="col-prosa"><strong>Inclusão</strong> do campo <em>Liberação do feedback</em>, que existia no editor e no modelo mas não fora capturado da HU-024 — a spec simplesmente não tinha o campo</td>
+<td class="col-id">+2</td>
+<td class="col-id">+2</td>
+<td class="col-num">— <em>(mesma feature já contada acima)</em></td>
+<td class="col-num">—</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-ETA-03</code><br><strong>Editar Etapa</strong></td>
+<td class="col-id">—</td>
+<td class="col-prosa"><strong>Inclusão</strong> do mesmo campo em edição, incluindo o caso de antecipar o término depois de a liberação já estar gravada</td>
+<td class="col-id">+2</td>
+<td class="col-id">+2</td>
+<td class="col-num">— <em>(mesma feature já contada acima)</em></td>
+<td class="col-num">—</td>
+</tr>
+<tr>
+<td class="col-nome"><code>INS-ACO-02</code><br><strong>Visualizar Devolutiva</strong></td>
+<td class="col-id">—</td>
+<td class="col-prosa"><strong>Inclusão</strong> da regra de liberação. Antes o N3 dizia apenas que a devolutiva aparece &quot;após a liberação pela avaliação&quot;, sem dizer o que causa a liberação. Agora há uma devolutiva por etapa avaliada, disponível quando a consolidação daquela etapa está concluída <strong>e</strong> a data de liberação do feedback da etapa já ocorreu</td>
+<td class="col-id">+8</td>
+<td class="col-id">+5</td>
+<td class="col-num">— <em>(sem PE no baseline)</em></td>
+<td class="col-num">—</td>
+</tr>
+</tbody></table></div>
+<p>Mensagem acrescentada: <code>AVL_ETAPA_LIBERACAO_INVALIDA</code>. Total do bloco: <strong>+12 regras · +9 cenários</strong>.</p>
+<h3>Examinadas sem impacto</h3>
+<p>Features conferidas contra a demanda e que <strong>não</strong> absorveram delta — registradas para que a auditoria saiba que foram olhadas, e não esquecidas.</p>
+<p><strong>Sem impacto material (apenas confirmar/reusar):</strong> <code>AVL-ETA-01</code>, <code>AVL-ETA-06</code>, <code>AVL-PAI-02</code> (a &quot;auditoria de notas&quot; já existe aqui), <code>CFG-TIP-15</code>, <code>AVL-ALO-01</code>, <code>AVL-APU-04/05</code>. <strong>Opcional, mesmo gap da edição admin:</strong> <code>VAL-ANA-06</code> Excluir Inscrição (administrativa).</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="funcoes-de-dados-alteradas" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Funções de dados alteradas
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>As seis alterações físicas declaradas pelas migrações V00030 a V00033, agrupadas pela função de dados (ALI) a que cada tabela pertence. A regra de contagem é a mesma das features: como as três funções são <strong>alteradas</strong> — nenhuma é incluída —, o <strong>PFL é 50% do PFB</strong>. O baseline não tem AIE.</p>
+<blockquote>
+<p><strong>Três níveis, não confundir.</strong> Na <strong>coluna</strong>, são cinco inclusões — nenhuma coluna existente mudou de tipo, tamanho ou semântica. Na <strong>tabela</strong>, quatro são alteradas (ganharam coluna) e uma é incluída. Na <strong>função de dados</strong>, que é o que a APF conta, são <strong>três alteradas e nenhuma incluída</strong>: a tabela nova é entidade dependente e entra como registro lógico de um ALI que já existia. Por isso a regra aplicada é a de <strong>função alterada (50%)</strong>, e não a de incluída (100%). ✅ <strong>Confirmado pela equipe de métricas (2026-08-28)</strong>, em resposta ao item (a) da Q11: <code>TB_FECHAMENTO_ETAPA_UF</code> faz parte de um ALI existente. Tratá-la como ALI próprio acrescentaria de 7 a 10 PF indevidos. A mesma resposta confirmou os outros dois itens da Q11: a inclusão do <code>CD_UUID</code> é <strong>funcional</strong>, então o ALI Inscrição permanece na conta, e a de fechamento é a <strong>única tabela incluída</strong> na sprint.</p>
+</blockquote>
+<h3>ALI: Premiação — RLR 9 · DER 71 → 73 · Alta</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Tabela</th>
+<th class="col-id">Natureza</th>
+<th>Alteração</th>
+<th>Migração</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TB_ETAPA</code></td>
+<td class="col-id">Tabela alterada</td>
+<td><strong>Inclusão da coluna</strong> <code>NR_CLASSIFICADOS</code> (int, não nulo, padrão 1) — quantos participantes de cada grupo de disputa avançam. Antes a etapa não guardava corte nenhum</td>
+<td>V00031</td>
+</tr>
+<tr>
+<td><code>TB_ETAPA</code></td>
+<td class="col-id">Tabela alterada</td>
+<td><strong>Inclusão da coluna</strong> <code>NR_PREMIADOS</code> (int, aceita nulo) — segundo corte, independente do de classificação; nulo significa etapa que não premia</td>
+<td>V00032</td>
+</tr>
+</tbody></table></div>
+<p><strong>PFB 15 · PFL 7,5</strong> — 2 colunas incluídas em 1 tabela alterada. Permanece Alta: 73 DER com 9 RLR não muda a faixa.</p>
+<h3>ALI: Inscrição — RLR 11 · DER 85 → 86 · Alta</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Tabela</th>
+<th class="col-id">Natureza</th>
+<th>Alteração</th>
+<th>Migração</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TB_INSCRICAO_DOCUMENTO</code></td>
+<td class="col-id">Tabela alterada</td>
+<td><strong>Inclusão da coluna</strong> <code>CD_UUID</code> (nvarchar(36), não nulo, único) — endereço individual do documento, base do download conferido a cada acesso. Antes o documento não tinha endereço próprio</td>
+<td>V00030</td>
+</tr>
+</tbody></table></div>
+<p><strong>PFB 15 · PFL 7,5</strong> — 1 coluna incluída em 1 tabela alterada. Permanece Alta. ✅ A inclusão do <code>CD_UUID</code> é <strong>funcional</strong> — necessidade de negócio, não motivação técnica —, confirmado pela equipe de métricas em 2026-08-28 (item (b) da Q11), então este ALI permanece na conta.</p>
+<h3>ALI: Avaliação de Inscrição — RLR 3 → 4 · DER 38 → 42 · Média</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Tabela</th>
+<th class="col-id">Natureza</th>
+<th>Alteração</th>
+<th>Migração</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TB_APROVACAO_ETAPA_PARTICIPANTE</code></td>
+<td class="col-id">Tabela alterada</td>
+<td><strong>Inclusão da coluna</strong> <code>FL_PREMIADO</code> (bit, não nulo, padrão 0) — marca a inscrição premiada. Antes não havia como distinguir a premiada da classificada</td>
+<td>V00032</td>
+</tr>
+<tr>
+<td><code>TB_DESEMPATE_DECISAO</code></td>
+<td class="col-id">Tabela alterada</td>
+<td><strong>Inclusão da coluna</strong> <code>DS_TIPO_CORTE</code> (varchar(15), não nulo, padrão <code>CLASSIFICACAO</code>) — distingue o desempate de classificação do de premiação. Antes toda decisão de desempate era de classificação</td>
+<td>V00032</td>
+</tr>
+<tr>
+<td><code>TB_FECHAMENTO_ETAPA_UF</code></td>
+<td class="col-id"><strong>Tabela incluída</strong></td>
+<td><strong>Criação da tabela</strong> — fechamento da etapa por estado. Antes o fechamento era da etapa inteira, sem recorte por estado. Entra como registro lógico (RLR) do ALI, não como função de dados nova</td>
+<td>V00033</td>
+</tr>
+</tbody></table></div>
+<p><strong>PFB 10 · PFL 5</strong> — 2 colunas incluídas em 2 tabelas alteradas, mais 1 tabela incluída. Dos seis campos da tabela nova, quatro (<code>CD_ETAPA</code>, <code>CD_USUARIO_RESPONSAVEL</code>, <code>NM_USUARIO_RESPONSAVEL</code>, <code>DS_OBSERVACAO</code>) já existiam no grupo: só <code>CD_UF</code> e <code>DT_FECHAMENTO</code> acrescentam DER. Permanece Média — 4 RLR × 42 DER continua na faixa pela Tabela 1 do CPM.</p>
+<h3>Total das funções de dados</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Função de dados</th>
+<th>Tabelas alteradas</th>
+<th>Tabelas incluídas</th>
+<th>Colunas incluídas</th>
+<th>Natureza da <strong>função</strong></th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Premiação</td>
+<td>1</td>
+<td>—</td>
+<td>2</td>
+<td>alterada</td>
+<td class="col-num">15</td>
+<td class="col-num">7,5</td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>1</td>
+<td>—</td>
+<td>1</td>
+<td>alterada</td>
+<td class="col-num">15</td>
+<td class="col-num">7,5</td>
+</tr>
+<tr>
+<td>Avaliação de Inscrição</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>alterada</td>
+<td class="col-num">10</td>
+<td class="col-num">5</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>4</strong></td>
+<td><strong>1</strong></td>
+<td><strong>5</strong></td>
+<td><strong>3 alteradas · 0 incluídas</strong></td>
+<td class="col-num"><strong>40</strong></td>
+<td class="col-num"><strong>20</strong></td>
+</tr>
+</tbody></table></div>
+<p>Os 40 PFB entram na fórmula do projeto de melhoria como <strong>CHGA</strong> — nenhum ADD, nenhum DEL. O CHGA é dimensionado pelo tamanho da função <strong>depois</strong> da alteração, e nenhuma das três muda de faixa: Premiação e Inscrição já estavam no teto (Alta) e Avaliação de Inscrição permanece Média. Ou seja, os 40 PFB são o mesmo que essas três funções já valiam — a evolução muda o conteúdo, não o tamanho. Aplicada a regra de 50%, o valor a considerar é <strong>20 PFL</strong>.</p>
+<h3>Fechamento do dimensionamento da SP05</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Origem</th>
+<th class="col-id">Natureza</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Features com contagem no baseline (seção 2)</td>
+<td class="col-id">alteradas — 50%</td>
+<td class="col-num">91</td>
+<td class="col-num">45,5</td>
+</tr>
+<tr>
+<td>Features de fechamento <code>AVL-APU-01/02/03</code> (seção 2)</td>
+<td class="col-id">incluídas — 100%</td>
+<td class="col-num">19</td>
+<td class="col-num">19</td>
+</tr>
+<tr>
+<td>Features novas — as 7 (seção 2)</td>
+<td class="col-id">incluídas — 100%</td>
+<td class="col-num">52</td>
+<td class="col-num">52</td>
+</tr>
+<tr>
+<td>Funções de dados (seção 3)</td>
+<td class="col-id">alteradas — 50%</td>
+<td class="col-num">40</td>
+<td class="col-num">20</td>
+</tr>
+<tr>
+<td><strong>Total apurável</strong></td>
+<td class="col-id">—</td>
+<td class="col-num"><strong>202</strong></td>
+<td class="col-num"><strong>136,5</strong></td>
+</tr>
+</tbody></table></div>
+<p>✅ <strong>Nenhum dos 202 PFB é estimativa.</strong> Os 12 processos elementares que faltavam foram contados em 2026-09-01 sobre os N3 já escritos, com ALR e DER nomeados na memória de cálculo de cada feature. O dimensionamento da sprint está fechado, à espera apenas da <strong>validação da equipe de métricas</strong> — duas classificações merecem conferência: <code>Consultar Ranking da Etapa</code>, contada como SE por causa das linhas de corte derivadas (seria 6 PF como CE), e o par consulta/exportação do Relatório de Inscrições, contado como dois PE pela convenção destes sistemas. Do lado de dados <strong>não resta pendência</strong>: a Q11 foi respondida nos três itens — a tabela de fechamento é registro lógico de um ALI existente, a inclusão do <code>CD_UUID</code> é funcional e não há outra tabela nova na sprint.</p>
+<h3>Definições ainda em aberto</h3>
+<ul>
+<li>✅ <strong>Reabertura do fechamento — resolvida em 2026-09-01</strong>: reabrir um estado <strong>apaga a linha de fechamento</strong>, em vez de marcá-la com uma situação. Confirma as <strong>6 alterações de modelo</strong> da sprint — a sétima que estava em estudo não existe. Consequência aceita: <strong>não fica trilha dos fechamentos anteriores</strong> de um mesmo estado. Registrada em <code>AVL-APU-03</code> <strong>Encerrar Etapa por UF</strong> (regra 11) e no data-model de Avaliação.</li>
+<li>⚠️ <strong>A natureza da etapa não tem onde ser declarada</strong> <em>(resíduo da decisão sobre a abrangência do corte, tomada em 2026-09-01)</em>: ficou decidido que a <strong>etapa nacional</strong> apura o corte entre todos os inscritos e a <strong>etapa regional</strong> apura por estado, e que a visibilidade sai da mesma natureza — mas <strong>não existe campo em Etapa que diga qual das duas ela é</strong>. Hoje isso só pode ser lido da lista de perfis autorizados (Regional presente ⇒ etapa regional), que é justamente o acoplamento que a decisão quis remover. Declarar a natureza como campo próprio da Etapa seria uma <strong>alteração de modelo nova</strong>, não declarada nas migrações V00030–V00033. Recomendação: campo próprio — enquanto não houver, mexer nos perfis autorizados continua mudando o resultado da apuração.</li>
+<li><strong>Enums a definir</strong>: <code>DS_STATUS</code> da Apuração (classificado / não classificado), o valor <code>PREMIACAO</code> em <code>DS_TIPO_CORTE</code>, <code>FECHADA</code>/<code>REABERTA</code> em <code>DS_SITUACAO</code> <strong>da Etapa</strong> — que segue em aberto, por ser o estado da etapa e não o do fechamento por UF — e a semântica de vencedora/perdedora em <code>DS_STATUS_DECIDIDO</code>.</li>
+<li><strong><code>NR_CLASSIFICADOS</code> é campo de entrada</strong>, obrigatório, mínimo 1 e padrão 1 — não um campo automático do sistema.</li>
+<li><strong>Aviso 6 não é alteração de schema</strong>: a Inscrição não guarda nome nem telefone do inscrito, e o código os resolve &quot;best-effort&quot; a partir dos rótulos do formulário dinâmico (<code>ContatoParticipanteResolver</code>). Isso vira regra de negócio do N3, não coluna nova.</li>
+<li>⚠️ <strong>A contagem de 2026-09-01 aguarda validação da equipe de métricas</strong>: os 12 processos elementares fora do baseline foram contados sobre os N3, com ALR e DER nomeados (<code>global/CONTAGEM-PF.md</code>, seção 1B). Duas leituras merecem conferência — <code>Consultar Ranking da Etapa</code> classificado como <strong>SE</strong> por causa das linhas de corte e da Coleta derivadas, que como <strong>CE</strong> valeria 6 em vez de 7 PF; e o par consulta/exportação do Relatório de Inscrições contado como <strong>dois PE</strong> pela convenção destes sistemas, que diverge da regra geral do CPM e, se revista, tira 7 PF da sprint.</li>
+<li><strong>Enums a definir</strong>: <code>DS_STATUS</code> da Apuração (classificado / não classificado), o valor <code>PREMIACAO</code> em <code>DS_TIPO_CORTE</code>, <code>FECHADA</code>/<code>REABERTA</code> em <code>DS_SITUACAO</code> <strong>da Etapa</strong> — que segue em aberto, por ser o estado da etapa e não o do fechamento por UF — e a semântica de vencedora/perdedora em <code>DS_STATUS_DECIDIDO</code>.</li>
+<li><strong><code>NR_CLASSIFICADOS</code> é campo de entrada</strong>, obrigatório, mínimo 1 e padrão 1 — não um campo automático do sistema.</li>
+<li><strong>Aviso 6 não é alteração de schema</strong>: a Inscrição não guarda nome nem telefone do inscrito, e o código os resolve &quot;best-effort&quot; a partir dos rótulos do formulário dinâmico (<code>ContatoParticipanteResolver</code>). Isso vira regra de negócio do N3, não coluna nova.</li>
+<li><strong><code>VAL-FIL-03</code> Exportar Histórico do Painel de Validação — PE a contar</strong> <em>(resíduo da decisão de separar a exportação, tomada em 2026-09-01)</em>: o N3 foi escrito em 2026-09-01; o processo elementar não está no baseline, porque nunca foi especificado nem contado, então entra como <strong>função incluída a 100%</strong>, com PFB <strong>a arbitrar</strong> com a métrica. Até lá o número desta análise segue o atual — o <code>0 (E)</code> é piso, não valor: por analogia com <code>Consultar Dashboard Gerencial</code> (SE, ALR 4, DER 12, Complexo, 7 PFB), a exportação pode valer entre <strong>4 e 7 PFB</strong>.</li>
+<li><strong><code>AVL-APU-12</code> Reabrir Etapa por UF — PE a contar</strong>: o N3 foi escrito em 2026-09-01 e nenhuma feature nova da sprint ficou sem spec. O processo elementar não está no baseline — é entrega da SP05 — e precisa ser contado. O ID é <code>12</code> porque <code>AVL-APU-07</code> e <code>AVL-APU-11</code> foram aposentados pela unificação de gerar+exportar e não são reutilizados.</li>
+</ul>
+
+    </div>
+  </details>
+  <details class="doc-section" id="sumario-executivo" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Sumário executivo
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>O que a SP05 move.</strong> No modelo, seis alterações — uma tabela nova e cinco colunas — que tocam três ALIs e valem <strong>40 PFB — 20 PFL</strong> pela regra de 50% da função alterada. Fora do modelo, onde está o grosso do trabalho: o <strong>comportamento dos N3</strong> (escritos por engenharia reversa das HUs anteriores à sprint) e as <strong>permissões (N2)</strong>. E vários itens que a demanda classifica como &quot;NOVA&quot; são, na spec, <strong>alteração de feature já existente</strong> — porque &quot;novo para o negócio&quot; (primeiro envio à área negocial) não é &quot;novo para a spec&quot;.</p>
+<blockquote>
+<p><strong>Premissa desta análise.</strong> O modelo físico disponível (<code>arquivos/modelo_dados.sql</code>) é um retrato <strong>posterior</strong> à sprint, então as colunas e a tabela listadas na seção 3 (tabelas por função de dados) já aparecem nele. Esta análise as trata como <strong>alterações a realizar</strong>, que é a leitura correta para dimensionar a evolução: o baseline APF é <strong>anterior</strong> à SP05, e é contra ele que o delta se mede. Não foi possível confirmar por comparação que a lista está completa — não há SQL anterior à sprint disponível; ela reproduz o que as migrações V00030 a V00033 declaram.</p>
+</blockquote>
+    <div class="kpi-grid">
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">15</div>
+        <div class="stat-k">Features existentes que mudam de comportamento</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">7</div>
+        <div class="stat-k">Features novas a criar</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">3</div>
+        <div class="stat-k">N2 com matriz de permissões a ajustar</div>
+      </div>
+      <div class="stat" style="--acento:#047857">
+        <div class="stat-n">6</div>
+        <div class="stat-k">Alterações de modelo a realizar</div>
+      </div>
+      <div class="stat" style="--acento:#B45309">
+        <div class="stat-n">40</div>
+        <div class="stat-k">PF de funções de dados na evolução</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">202</div>
+        <div class="stat-k">PF apurável da sprint</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Decisões de produto pendentes</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">8</div>
+        <div class="stat-k">Itens do Jira na Sprint 5</div>
+      </div>
+    </div>
+<h3>Classificação por item da demanda</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Item</th>
+<th class="col-id">Jira</th>
+<th>Demanda diz</th>
+<th>Na spec docqui é</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HU-024 Configurar Etapas</td>
+<td class="col-id"><code>PDTIC25093-67</code></td>
+<td>ALTERADA</td>
+<td>Alteração de <code>AVL-ETA-02</code> <strong>Cadastrar Etapa</strong> e <code>AVL-ETA-03</code> <strong>Editar Etapa</strong> (campos classificados/premiados)</td>
+</tr>
+<tr>
+<td>HU-030 Fechar Etapa</td>
+<td class="col-id"><code>PDTIC25093-49</code></td>
+<td>NOVA (1º envio)</td>
+<td><strong>Alteração</strong> de <code>AVL-APU-01/02/03</code> + <code>AVL-PAI-03</code> <strong>Consolidar Avaliação</strong> + 2 features novas (Reabrir Etapa por UF, Exportar Relatório da Etapa)</td>
+</tr>
+<tr>
+<td>HU-036 Relatório Geral</td>
+<td class="col-id"><code>PDTIC25093-56</code></td>
+<td>NOVA</td>
+<td>Feature nova <code>AVL-APU-10</code> <strong>Gerar Relatório de Inscrições</strong> (tela e planilha) + restrição de permissão em <code>AVL-APU-06</code> <strong>Gerar Relatório de Inscrições Paradas</strong></td>
+</tr>
+<tr>
+<td>HU-036 Relatório do dashboard</td>
+<td class="col-id"><code>PDTIC25093-58</code></td>
+<td>sem documento</td>
+<td>Alteração de <code>VAL-FIL-02</code> <strong>Acompanhar Painel de Validação</strong> — a exportação do histórico, que não estava especificada</td>
+</tr>
+<tr>
+<td>HU-038 Ranking por Etapa</td>
+<td class="col-id"><code>PDTIC25093-66</code></td>
+<td>NOVA</td>
+<td>Feature nova <code>AVL-APU-08</code> <strong>Consultar Ranking da Etapa</strong> (irmã somente-leitura do Fechamento)</td>
+</tr>
+<tr>
+<td>HU-018 Validar Inscrições</td>
+<td class="col-id"><code>PDTIC25093-68</code></td>
+<td>ALTERADA</td>
+<td>Alteração de <code>VAL-ANA-01</code> <strong>Detalhar Inscrição</strong> + 1 feature nova (<code>VAL-ANA-05</code> <strong>Editar Inscrição Validada</strong>)</td>
+</tr>
+<tr>
+<td>HU-025 Alocação</td>
+<td class="col-id"><code>PDTIC25093-60</code></td>
+<td>sem documento</td>
+<td>Alteração de <code>AVL-ALO-04</code> <strong>Alocar Avaliador à Inscrição</strong> — detalhe do projeto e recortes</td>
+</tr>
+<tr>
+<td>HU-028 Avaliação</td>
+<td class="col-id"><code>PDTIC25093-61</code></td>
+<td>sem documento</td>
+<td>Alteração de <code>AVL-AVA-01</code>, <code>AVL-AVA-03</code> e <code>AVL-AVA-04</code> — fila de pendentes, download por link e salto &quot;Próxima pendente&quot;</td>
+</tr>
+<tr>
+<td>Avisos 4</td>
+<td class="col-id">⚠️ sem item identificado</td>
+<td>sem documento</td>
+<td>Altera <code>AVL-PAI-01</code> <strong>Acompanhar Painel de Avaliações</strong> + nova <code>AVL-PAI-04</code> <strong>Exportar Relatório de Avaliadores</strong></td>
+</tr>
+</tbody></table></div>
+<h3>Itens da sprint no Jira</h3>
+<p>Os oito itens do board <code>PDTIC25093</code> na Sprint 5, com o que cada um alcança nesta análise. O título do item costuma nomear a HU — é o elo entre a ferramenta e a spec.</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Item</th>
+<th>Título no Jira</th>
+<th>HU</th>
+<th>Alcança nesta análise</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PDTIC25093-49</code></td>
+<td>Fechamento da Etapa de Avaliação</td>
+<td>HU-030</td>
+<td><code>AVL-APU-01</code> <strong>Apurar Resultado da Etapa</strong>, <code>AVL-APU-02</code> <strong>Registrar Desempate</strong>, <code>AVL-APU-03</code> <strong>Encerrar Etapa por UF</strong>, <code>AVL-PAI-03</code> <strong>Consolidar Avaliação</strong> + novas <code>AVL-APU-12</code> <strong>Reabrir Etapa por UF</strong>, <code>AVL-APU-09</code> <strong>Exportar Relatório da Etapa</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-56</code></td>
+<td>Relatório de inscrições</td>
+<td>HU-036</td>
+<td>nova <code>AVL-APU-10</code> <strong>Gerar Relatório de Inscrições</strong> + restrição em <code>AVL-APU-06</code> <strong>Gerar Relatório de Inscrições Paradas</strong> e ponto de entrada em <code>VAL-FIL-01</code> <strong>Pesquisar Inscrições para Validação</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-58</code></td>
+<td>Alteração no relatório do dashboard</td>
+<td>HU-036</td>
+<td><code>VAL-FIL-02</code> <strong>Acompanhar Painel de Validação</strong> + nova <code>VAL-FIL-03</code> <strong>Exportar Histórico do Painel de Validação</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-60</code></td>
+<td>Melhorias na alocação</td>
+<td>HU-025</td>
+<td><code>AVL-ALO-04</code> <strong>Alocar Avaliador à Inscrição</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-61</code></td>
+<td>Melhorias na Avaliação</td>
+<td>HU-028</td>
+<td><code>AVL-AVA-01</code>, <code>AVL-AVA-03</code>, <code>AVL-AVA-04</code></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-66</code></td>
+<td>Ranking por Etapa</td>
+<td>HU-038</td>
+<td>nova <code>AVL-APU-08</code> <strong>Consultar Ranking da Etapa</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-67</code></td>
+<td>Melhorias na configuração</td>
+<td>HU-024</td>
+<td><code>AVL-ETA-02</code> <strong>Cadastrar Etapa</strong>, <code>AVL-ETA-03</code> <strong>Editar Etapa</strong></td>
+</tr>
+<tr>
+<td><code>PDTIC25093-68</code></td>
+<td>Melhorias na Validação de Inscrições</td>
+<td>HU-018</td>
+<td><code>VAL-ANA-01</code> <strong>Detalhar Inscrição</strong> + nova <code>VAL-ANA-05</code> <strong>Editar Inscrição Validada</strong></td>
+</tr>
+</tbody></table></div>
+<p>⚠️ <strong>Duas features desta análise não têm item identificado nesta lista</strong>: <code>AVL-PAI-01</code> <strong>Acompanhar Painel de Avaliações</strong> e <code>AVL-PAI-04</code> <strong>Exportar Relatório de Avaliadores</strong>, ambas vindas do Aviso 4 (consolidação administrativa por estado), que chegou sem documento. Ou o item existe no board e não apareceu no recorte consultado, ou a entrega foi absorvida por outro item — confirmar antes de fechar a contagem, porque as duas somam <strong>14 PFB</strong> e <strong>10,5 PFL</strong>.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="impacto-em-dicionarios" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Impacto em dicionários
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Poucas mensagens novas; nenhum código de erro é obrigatório no perfil <code>requisitos</code> (códigos são artefato do 3B técnico).</p>
+<p><strong>MESSAGE-DICTIONARY — novas mensagens prováveis:</strong> trava de consolidação (<code>AVL_CONSOLIDACAO_ESTADO_FECHADO</code>), estado não fecha com pendências (<code>AVL_FECHAMENTO_PENDENCIAS</code>), empate na linha de corte (<code>AVL_FECHAMENTO_EMPATE_CORTE</code>), reabrir exige etapas posteriores abertas, membro indisponível quando a inscrição não admite equipe, &quot;não há mais avaliações pendentes&quot;. A justificativa 30–1000 usa o baseline <code>MIN_LENGTH</code>/<code>MAX_LENGTH</code>.</p>
+<p><strong>FIELD-DICTIONARY:</strong> CPF e Telefone ganham nota de máscara de exibição (<code>000.000.000-00</code>, <code>(00) 00000-0000</code>) — sem campo novo.</p>
+<p><strong>ERROR-DICTIONARY:</strong> <code>FechamentoEstadoBloqueadoException</code> → código de erro futuro (<code>AVL_FECHAMENTO_ESTADO_BLOQUEADO</code>, 409/422), registrado como pendência técnica de 3B.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="metodologia" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Metodologia
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Leitura direta da demanda e do SQL/data-models, e 5 análises paralelas cruzando cada item da SP05 com os N3 reais dos domínios Avaliação e Validação (inventário de 34 features), os dicionários e as matrizes de permissão dos N2. Escopo do perfil <code>requisitos</code>: as recomendações param no negocial + data-model; códigos de erro e endpoints ficam para o 3B técnico. A seção 1 traduz cada item da demanda para o vocabulário da spec e foi produzida antes de qualquer alteração; as seções 2 e 3 registram o que a atualização dos N3 e do modelo efetivamente aplicou, pelo preflight de especificação.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="decisoes-de-produto-pendentes" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Decisões de produto pendentes
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>✅ <strong>Nenhuma pendente.</strong> As oito decisões que este relatório registrava e as três que vinham dos relatórios por item foram todas respondidas — as últimas em 2026-09-01. Cada uma foi aplicada nos N3, nos N2 e, quando alcançava o modelo, no data-model; o que foi decidido está no <code>## Changelog</code> deste documento e no de cada artefato alterado.</p>
+<p>As três últimas, para registro:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Decisão</th>
+<th>Resposta</th>
+<th>O que mudou na spec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>O grupo de disputa inclui a submodalidade?</td>
+<td><strong>Sim</strong></td>
+<td><code>AVL-ALO-01</code> <strong>Consultar Alocação de Avaliadores</strong> e <code>AVL-ALO-02</code> <strong>Alocar Avaliador ao Grupo</strong> passam a incluir a submodalidade, convergindo com <code>AVL-ALO-04</code> <strong>Alocar Avaliador à Inscrição</strong>, cuja definição fora conferida contra o código; <code>AVL-APU-01</code> <strong>Apurar Resultado da Etapa</strong> acrescenta a submodalidade ao grupo de disputa</td>
+</tr>
+<tr>
+<td>Nome e telefone resolvidos por rótulo — aceitar o risco?</td>
+<td><strong>Sim, o produto está ciente</strong></td>
+<td>A regra 6 de <code>VAL-FIL-02</code> <strong>Acompanhar Painel de Validação</strong> deixa de ser suposição a confirmar e passa a registrar a limitação como <strong>conhecida e aceita</strong>: renomear o rótulo esvazia a coluna na planilha, sem erro e sem aviso</td>
+</tr>
+<tr>
+<td>Qual a ordenação da fila do &quot;Próxima pendente&quot;?</td>
+<td><strong>A do painel</strong></td>
+<td>Confirmado o que a spec já dizia — mesmo recorte e mesma ordem de protocolo do acompanhamento. Os ⚠️ de suposição saem de <code>AVL-AVA-01</code> <strong>Acompanhar Minhas Avaliações</strong> e <code>AVL-AVA-04</code> <strong>Finalizar Avaliação</strong></td>
+</tr>
+</tbody></table></div>
+<p>O que <strong>ainda falta</strong> não é decisão de produto: é especificação e contagem, listado em <em>Definições ainda em aberto</em>, ao final da seção 3, e nas seções 5 dos relatórios por item.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="changelog" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Changelog
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table changelog-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Autor</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>04/10/2026</td>
+<td>migra-aim</td>
+<td>AIM da sprint migrada</td>
+<td>relatório agregado <code>arquivos/demandas/ANALISE_IMPACTO_SP05.md</code> → AIM da sprint</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+
+  <footer class="rodape">
+    Gerado de <code>analise-impacto/AIM-SP05.md</code> por <code>scripts/gera-html-impacto.mjs</code>.
+    O <strong>.md é a fonte</strong> — edite lá e regenere; alterações feitas neste HTML se perdem.
+  </footer>
+</div>
+</body>
+</html>

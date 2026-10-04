@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIM PDTIC25093-65</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+/* Identidade AVAL */
+      --brand-blue: #005CA9;
+      --brand-blue-dark: #0A2440;
+      --brand-blue-light: #E5F2FC;
+      --brand-blue-hover: #004B8A;
+      --brand-accent: #0078E0;
+      
+      /* Aviso é Dourado no AVAL (regra: nunca laranja) */
+      --brand-gold: #B45309;
+      --brand-gold-light: #FFFBEB;
+      --brand-gold-border: #FDE68A;
+      
+      /* Superfícies & Bordas */
+      --bg-app: #F6FAFD;
+      --bg-sidebar: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-hover: #EDF3F9;
+      --bg-active: #E3EEF8;
+      --border-color: #D6E3F0;
+      --border-subtle: #E8F0F8;
+      
+      /* Compatibilidade mapa.css */
+      --primary-color: #005CA9;
+      --surface-ground: #F6FAFD;
+      --surface-card: #FFFFFF;
+      --surface-border: #D6E3F0;
+      --surface-hover: #EDF3F9;
+      --text-color: #0A2440;
+      --shadow-1: 0 1px 3px rgba(10, 36, 64, 0.06);
+      --focus-ring: 0 0 0 3px rgba(0, 92, 169, 0.18);
+      --dsc-font-family-1: 'IBM Plex Sans', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-title: 'Archivo', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-mono: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", "Courier New", monospace;
+      --dsc-border-radius-pill: 999px;
+      --dsc-border-radius-medium: 6px;
+      --transition-duration: 0.15s;
+      
+      /* Tipografia & Cores */
+      --text-main: #0A2440;
+      --text-secondary: #2B3A4A;
+      --text-muted: #526981;
+      --text-blue: #005CA9;
+      
+      /* Status & Badges */
+      --badge-success-bg: #ECFDF5;
+      --badge-success-text: #047857;
+      --badge-success-border: #A7F3D0;
+      
+      --badge-warning-bg: #FFFBEB;
+      --badge-warning-text: #B45309;
+      --badge-warning-border: #FDE68A;
+      
+      --badge-info-bg: #EFF6FF;
+      --badge-info-text: #1D4ED8;
+      --badge-info-border: #BFDBFE;
+      
+      --badge-purple-bg: #F5F3FF;
+      --badge-purple-text: #6D28D9;
+      --badge-purple-border: #DDD6FE;
+
+      /* Sombras & Raios */
+      --shadow-sm: 0 1px 2px 0 rgba(10, 36, 64, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(10, 36, 64, 0.08), 0 2px 4px -2px rgba(10, 36, 64, 0.05);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-full: 999px;
+
+      /* Dimensões */
+      --header-height: 60px;
+      --sidebar-width: 320px;
+}
+:root {
+  --_bg: var(--bg-app, #F6FAFD);
+  --_card: var(--bg-card, #FFFFFF);
+  --_borda: var(--border-color, #D6E3F0);
+  --_borda-sutil: var(--border-subtle, #E8F0F8);
+  --_hover: var(--bg-hover, #EDF3F9);
+  --_texto: var(--text-main, var(--text-color, #0A2440));
+  --_texto2: var(--text-secondary, #526981);
+  --_marca: var(--brand-blue, var(--primary-color, #005CA9));
+  --_marca-clara: var(--brand-blue-light, #E5F2FC);
+  --_titulo: var(--dsc-font-title, 'Archivo', 'Segoe UI', system-ui, sans-serif);
+  --_corpo: var(--dsc-font-family-1, 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif);
+  --_mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--_bg); color: var(--_texto); font-family: var(--_corpo); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap { width: 100%; margin: 0; padding: 32px 40px 80px; }
+/* O conteúdo destes documentos é majoritariamente tabela larga — a tela inteira é
+   trabalho útil, não desperdício. A prosa corrida fica com medida de leitura própria
+   para não virar linha de 200 caracteres em monitor grande. */
+@media (max-width: 720px) { .wrap { padding: 24px 16px 60px; } }
+.doc-head { margin-bottom: 26px; }
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--_marca); margin-bottom:10px; }
+h1 { font-family: var(--_titulo); font-size: clamp(24px,3.4vw,32px); font-weight:700; line-height:1.2; margin:0 0 14px; color: var(--_texto); text-wrap: balance; }
+.doc-section { background: var(--_card); border:1px solid var(--_borda); border-radius:10px; padding: 0; margin-bottom:20px; box-shadow: 0 1px 3px rgba(10,36,64,.06); }
+.section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 20px 28px; cursor:pointer; list-style:none; }
+.section-header::-webkit-details-marker { display:none; }
+.section-title { font-family: var(--_titulo); font-size:18px; font-weight:700; color: var(--_texto); display:flex; align-items:center; gap:10px; }
+.section-title svg { color: var(--_marca); flex:none; }
+.chevron { color: var(--_texto2); transition: transform .18s; flex:none; }
+details[open] > .section-header .chevron { transform: rotate(180deg); }
+.section-body { padding: 18px 28px 24px; border-top:1px solid var(--_borda-sutil); }
+.markdown-body > :first-child { margin-top:0; }
+.markdown-body > :last-child { margin-bottom:0; }
+.markdown-body h3 { font-family: var(--_titulo); font-size:15.5px; font-weight:700; margin:26px 0 10px; color: var(--_texto); }
+.markdown-body h4 { font-size:14px; font-weight:700; margin:20px 0 8px; }
+.markdown-body p { margin: 0 0 12px; }
+.markdown-body ul, .markdown-body ol { margin:0 0 12px; padding-left:22px; }
+.markdown-body li { margin-bottom:6px; }
+.markdown-body code { font-family: var(--_mono); font-size:.86em; background: var(--_hover); border:1px solid var(--_borda-sutil); border-radius:4px; padding:1px 5px; overflow-wrap:anywhere; }
+/* caminho de arquivo e chave longa não têm espaço para quebrar: sem isto, um code
+   comprido empurra o corpo inteiro e a página ganha rolagem horizontal no celular */
+.markdown-body { overflow-wrap: break-word; }
+.custom-table .col-id  { white-space: nowrap; width: 1%; }
+.custom-table .col-num { white-space: nowrap; min-width: 5.5rem; }
+.custom-table .col-prosa { min-width: 38rem; }
+.custom-table .col-nome  { min-width: 15rem; max-width: 22rem; }
+.ficha { margin: 2px 0 22px; font-size: 13px; color: var(--_texto2); }
+.ficha blockquote { margin:0; border:0; padding:0; }
+.ficha p { margin: 0; line-height: 1.9; }
+.markdown-body pre { background: var(--_hover); border:1px solid var(--_borda); border-radius:8px; padding:14px 16px; overflow-x:auto; }
+.markdown-body pre code { background:none; border:0; padding:0; }
+.markdown-body blockquote { margin:0 0 14px; padding:12px 18px; border-left:3px solid var(--_marca); background: var(--_bg); border-radius:0 6px 6px 0; color: var(--_texto2); }
+.markdown-body blockquote > :first-child { margin-top:0; } .markdown-body blockquote > :last-child { margin-bottom:0; }
+.markdown-body a { color: var(--_marca); }
+.item-titulo { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:30px 0 12px; font-family: var(--_titulo); font-size:17px; font-weight:700; color: var(--_texto); }
+.item-nome { flex:0 1 auto; min-width:0; }
+.chave { font-family: var(--_mono); font-size:12px; font-weight:600; letter-spacing:.01em; color: var(--_texto2); background: var(--_hover); border:1px solid var(--_borda); border-radius:999px; padding:4px 12px; white-space:nowrap; }
+.badge { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:999px; padding:3px 11px; white-space:nowrap; }
+.badge--alterada { background:#DBEAFE; color:#1D4ED8; }
+.badge--nova     { background:#EDE9FE; color:#6D28D9; }
+.badge--mista    { background:#FEF3C7; color:#B45309; }
+.kpi-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:14px; margin:16px 0 20px; }
+.stat { background: var(--_card); border:1px solid var(--_borda); border-left:4px solid var(--acento, var(--_marca)); border-radius:8px; padding:16px 20px; box-shadow:0 1px 3px rgba(10,36,64,.06); }
+.stat-n { font-family: var(--_titulo); font-size:30px; font-weight:700; line-height:1.05; color: var(--_texto); font-variant-numeric: tabular-nums; }
+.stat-k { margin-top:8px; font-size:13px; color: var(--_texto2); line-height:1.45; }
+.stat-k span { display:block; margin-top:3px; color: var(--_texto2); opacity:.85; }
+.table-container { width:100%; overflow-x:auto; margin: 12px 0; border:1px solid var(--_borda); border-radius:8px; }
+.custom-table { width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+.custom-table th { background: var(--_hover); color: var(--_texto); font-weight:600; font-family: var(--_titulo); padding:12px 16px; border-bottom:1px solid var(--_borda); white-space:nowrap; }
+.custom-table td { padding:12px 16px; border-bottom:1px solid var(--_borda-sutil); color: var(--_texto); vertical-align:top; line-height:1.5; }
+// A primeira coluna costuma ser um ID curto, que não deve partir. Mas quando ela é
+// um NOME ou a própria narrativa, o nowrap faz o texto transbordar por cima da
+// coluna vizinha — 665px de conteúdo numa célula de 304px. Essas ficam de fora.
+.custom-table th:first-child, .custom-table td:first-child:not(.col-nome):not(.col-prosa) { white-space:nowrap; }
+.custom-table tbody tr:last-child td { border-bottom:none; }
+.custom-table tbody tr:hover { background: var(--_hover); }
+.changelog-table td { font-size:12.5px; }
+.changelog-table th:first-child, .changelog-table td:first-child { width:120px; min-width:110px; }
+.req-tag { font-weight:600; color:#E11D48; font-size:11px; background:#FFE4E6; padding:2px 6px; border-radius:4px; display:inline-block; }
+.opt-tag { font-weight:500; color: var(--_texto2); font-size:11px; background: var(--_hover); padding:2px 6px; border-radius:4px; display:inline-block; }
+.rodape { margin-top:34px; padding-top:18px; border-top:1px solid var(--_borda); font-size:12.5px; color: var(--_texto2); }
+@media print { .doc-section { break-inside: avoid; border:1px solid #ccc; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="eyebrow">Análise de impacto</div>
+    <h1>AIM PDTIC25093-65</h1>
+  </header>
+  <div class="ficha markdown-body"><p><strong>Ticket</strong>: <code>PDTIC25093-65</code><br><strong>Sprint</strong>: SP06<br><strong>Estado</strong>: Concluída  </p>
+</div>
+
+  <details class="doc-section" id="sumario" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Sumário
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p>Migrada de <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md</code>.</p>
+</blockquote>
+    <div class="kpi-grid">
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">1</div>
+        <div class="stat-k">Features alteradas</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Features novas</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">2</div>
+        <div class="stat-k">Processos elementares contados nesta análise</div>
+      </div>
+      <div class="stat" style="--acento:#047857">
+        <div class="stat-n">+2</div>
+        <div class="stat-k">Regras de negócio acrescentadas</div>
+      </div>
+      <div class="stat" style="--acento:#B45309">
+        <div class="stat-n">+3</div>
+        <div class="stat-k">Cenários acrescentados</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Mensagens novas no dicionário</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Alterações de modelo</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">21 · 17,5</div>
+        <div class="stat-k">PFB · PFL do item (transações)</div>
+      </div>
+    </div>
+<blockquote>
+<p><strong>Linha do tempo.</strong> O baseline APF foi contado em <strong>2026-02-28</strong> — nenhuma das três capacidades deste card existia nele. O card foi aberto em <strong>2026-08-26</strong>; os N3 foram escritos por engenharia reversa entre <strong>2026-08-25 e 27</strong> e <strong>conferidos com o código em 2026-08-28</strong>, dois dias depois da abertura do card. É essa conferência que explica o achado central desta análise: duas das três entregas <strong>já estavam especificadas</strong>, derivadas do código, com a origem em branco. O encerramento no board, <strong>2026-09-24 às 16:31</strong> — 37 segundos depois de <code>PDTIC25093-64</code> —, é varredura do board e não data de entrega. ⚠️ Os repositórios de código não estão ao alcance desta sessão; a identificação abaixo é por correspondência entre o texto do card e o texto dos N3, não por leitura do código.</p>
+</blockquote>
+
+    </div>
+  </details>
+  <details class="doc-section" id="detalhe-do-item" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Detalhe do item
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p>Migrada de <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md</code>.</p>
+</blockquote>
+<p><strong><code>PDTIC25093-65</code> — Melhorias 25/08</strong></p>
+<p>Três melhorias pedidas pela Isabelle, que caem em dois Feature Sets diferentes. O achado principal é de rastreabilidade: <strong>os itens 1 e 2 são a origem que faltava a duas features órfãs</strong>.</p>
+<p><code>AVL-ALO-05</code> — Consultar Panorama do Avaliador e <code>AVL-ALO-07</code> — Exportar Relatório de Alocação foram criadas em 2026-08-28 pela conferência doc × código, com o rótulo &quot;capacidade implementada e até então não especificada&quot; e a coluna de origem em branco no <code>modules/INDEX.md</code>. Este card, aberto dois dias antes, descreve as duas com precisão suficiente para fechar o elo — inclusive detalhes que não se adivinham, como a lupa existir <strong>nas duas</strong> telas de alocação e a aba por estado <strong>só</strong> aparecer quando a etapa é regional.</p>
+<p><strong>Item 1 — relatório na alocação</strong> → <code>AVL-ALO-07</code> — Exportar Relatório de Alocação. O card pede &quot;um relatório na alocação de avaliadores, explicando por estado (se for regional, se for nacional não faz por estado) e por avaliador&quot;. A regra 3 do N3 diz que &quot;o relatório sempre traz a distribuição por avaliador&quot; e a regra 4 que &quot;a distribuição por estado só integra o relatório quando a etapa é operada também pelo Administrador Regional&quot;. É o mesmo requisito, com a condicional invertida na forma e idêntica no efeito. <strong>Não confundir com <code>AVL-PAI-04</code> — Exportar Relatório de Avaliadores</strong>, que é outro relatório: vive no Painel de Avaliações (<code>/avaliacao-admin/avaliacoes</code>), não tem recorte por estado e já tem origem no Aviso 4 da SP05.</p>
+<p><strong>Item 2 — lupa com o panorama</strong> → <code>AVL-ALO-05</code> — Consultar Panorama do Avaliador. O card pede a lupa &quot;tanto na alocação por pool de grupo ou por participante&quot;, abrindo &quot;em modal&quot;, mostrando &quot;quantos por grupo ela tem, quais por grupo ela tem&quot;, &quot;podendo escolher por etapa (dropdown)&quot;. A <code>## Superfície</code> do N3 registra exatamente as duas origens — <code>/avaliacao-admin/alocacao-matriz</code> e <code>/avaliacao-admin/alocacao-participante</code> —, o <code>## Comportamento de tela</code> descreve o diálogo com o seletor de etapa e os quatro totais, e a regra 2 agrupa as avaliações pelo grupo de alocação. A referência visual do card (&quot;inspirado no visual da validação de inscrição do participante&quot;) é orientação de desenho, não regra, e não gera delta.</p>
+<p><strong>Item 3 — filtro por etapa nas avaliações</strong> → <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações. Aqui há delta real, e é o único dos três. O filtro por etapa <strong>já existia</strong> na spec: a tabela <code>## Campos</code> traz &quot;Etapa — seleção → Etapa — filtra pela etapa da avaliação&quot; e o <code>## Comportamento de tela</code> já listava o seletor. O que <strong>não</strong> existia são as duas restrições que o card acrescenta: o Administrador Regional só pode ver as etapas regionais, e a etapa nacional não deve apresentar consolidações por estado. A segunda contradizia o publicado — as regras 8 e 9 apuravam o andamento da consolidação por estado em <strong>toda</strong> etapa, e o cenário &quot;Consultar o andamento da consolidação por estado&quot; não distinguia a natureza da etapa.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="criterios-de-aceite" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Critérios de aceite
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p>⚠️ Migrada sem o registro do ticket: transcreva aqui os critérios de aceite da ferramenta de origem.</p>
+</blockquote>
+
+    </div>
+  </details>
+  <details class="doc-section" id="features" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Features
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Feature (N3)</th>
+<th>Domínio · Feature Set</th>
+<th class="col-id">Operação</th>
+<th>Critérios cobertos</th>
+<th class="col-id">Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="../modules/avaliacao/alocacao/f-exportar-relatorio-alocacao.md"><code>AVL-ALO-07</code>: Exportar Relatório de Alocação</a></td>
+<td>Avaliação · Alocação</td>
+<td class="col-id">Criação</td>
+<td>—</td>
+<td class="col-id">✏️ Rascunho</td>
+</tr>
+<tr>
+<td><a href="../modules/avaliacao/alocacao/f-consultar-panorama-avaliador.md"><code>AVL-ALO-05</code>: Consultar Panorama do Avaliador</a></td>
+<td>Avaliação · Alocação</td>
+<td class="col-id">Criação</td>
+<td>—</td>
+<td class="col-id">✏️ Rascunho</td>
+</tr>
+<tr>
+<td><a href="../modules/avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md"><code>AVL-PAI-01</code>: Acompanhar Painel de Avaliações</a></td>
+<td>Avaliação · Painel Administrativo de Avaliações</td>
+<td class="col-id">Alteração</td>
+<td>—</td>
+<td class="col-id">✏️ Rascunho</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+  <details class="doc-section" id="artefatos-impactados" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Artefatos impactados
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Artefato</th>
+<th>Tipo</th>
+<th class="col-id">Operação</th>
+<th>Seção</th>
+<th class="col-id">Natureza</th>
+<th>O quê</th>
+<th>Proveniência</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>modules/avaliacao/alocacao/f-exportar-relatorio-alocacao.md</code></td>
+<td>N3</td>
+<td class="col-id">criar</td>
+<td>—</td>
+<td class="col-id">funcional</td>
+<td>—</td>
+<td>migrado: relatório</td>
+</tr>
+<tr>
+<td><code>modules/avaliacao/alocacao/f-consultar-panorama-avaliador.md</code></td>
+<td>N3</td>
+<td class="col-id">criar</td>
+<td>—</td>
+<td class="col-id">funcional</td>
+<td>—</td>
+<td>migrado: relatório</td>
+</tr>
+<tr>
+<td><code>modules/avaliacao/painel-administrativo/f-acompanhar-painel-avaliacoes.md</code></td>
+<td>N3</td>
+<td class="col-id">alterar</td>
+<td>—</td>
+<td class="col-id">funcional</td>
+<td>—</td>
+<td>migrado: relatório</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+  <details class="doc-section" id="alteracoes-na-spec-por-feature-set" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Alterações na spec, por Feature Set
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<h3>Avaliação › Alocação (<code>AVL-ALO</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id"><code>CA-n</code></th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-ALO-07</code><br><strong>Exportar Relatório de Alocação</strong></td>
+<td class="col-id">—</td>
+<td class="col-id">incluída</td>
+<td class="col-prosa"><strong>Origem identificada e contagem realizada</strong>, sem delta de conteúdo. <em>Antes</em> o N3 existia desde 2026-08-28 com a origem em branco e a premissa &quot;sem contagem no baseline APF — <strong>sem processo elementar correspondente</strong>&quot;, que descrevia a ausência na planilha sem dizer a causa, e deixava a feature valendo <code>—</code>. <em>Agora</em> a premissa diz a causa — a capacidade foi pedida em 2026-08-26, seis meses depois do baseline — e o processo elementar está contado: SE, ALR 4, DER 9, complexidade Alta, <strong>7 PF</strong>. As regras 3 e 4 já diziam o que o card pede e não precisaram mudar</td>
+<td class="col-id">+0</td>
+<td class="col-id">+0</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-ALO-05</code><br><strong>Consultar Panorama do Avaliador</strong></td>
+<td class="col-id">—</td>
+<td class="col-id">incluída</td>
+<td class="col-prosa"><strong>Origem identificada e contagem realizada</strong>, sem delta de conteúdo. <em>Antes</em>, mesma situação: N3 de 2026-08-28, origem em branco, premissa de &quot;sem PE correspondente&quot; e PF <code>—</code>. <em>Agora</em> a premissa aponta o card como causa e o processo elementar está contado: SE, ALR 8, DER 14, complexidade Alta, <strong>7 PF</strong>. O diálogo abre a partir de duas telas de alocação e conta como <strong>um</strong> processo elementar, porque a lógica de processamento é a mesma</td>
+<td class="col-id">+0</td>
+<td class="col-id">+0</td>
+<td class="col-num">7</td>
+<td class="col-num">7</td>
+</tr>
+</tbody></table></div>
+<p><strong>Subtotal: 2 features · 14 PFB · 14 PFL.</strong></p>
+<h3>Avaliação › Painel Administrativo de Avaliações (<code>AVL-PAI</code>)</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th class="col-id"><code>CA-n</code></th>
+<th class="col-id">Natureza</th>
+<th class="col-prosa">O que mudou em relação ao comportamento anterior</th>
+<th class="col-id">Regras</th>
+<th class="col-id">Cenários</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-PAI-01</code><br><strong>Acompanhar Painel de Avaliações</strong></td>
+<td class="col-id">—</td>
+<td class="col-id">alterada</td>
+<td class="col-prosa"><strong>Restrição</strong> do acompanhamento pela natureza da etapa. <em>Antes</em> a seleção de etapa existia mas não distinguia perfil — o Administrador Regional recebia também as etapas nacionais —, e o andamento da consolidação por estado era apurado em toda etapa, inclusive na nacional, em que a disputa não se organiza por estado: as regras 8 e 9 não tinham qualquer condicional e o cenário correspondente apresentava o resumo por estado sem ressalva. <em>Agora</em> a RN10 restringe a seleção de etapa do Regional às etapas de natureza regional e a RN11 condiciona o andamento da consolidação por estado às etapas regionais, suprimindo-o na nacional</td>
+<td class="col-id">+2</td>
+<td class="col-id">+3</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+</tbody></table></div>
+<p><strong>Subtotal: 1 feature · 7 PFB · 3,5 PFL.</strong></p>
+<p><strong>Total do item: 3 features · +2 regras · +3 cenários · 21 PFB · 17,5 PFL.</strong></p>
+<p>✅ <strong>2 processos elementares contados em 2026-10-02, fora do baseline</strong> — <code>AVL-ALO-07</code> — Exportar Relatório de Alocação (SE, ALR 4, DER 9, Alta, <strong>7 PF</strong>) e <code>AVL-ALO-05</code> — Consultar Panorama do Avaliador (SE, ALR 8, DER 14, Alta, <strong>7 PF</strong>). As memórias de cálculo, com ALR e DER nomeados, estão nos respectivos N3; o espelho está em <code>global/CONTAGEM-PF.md</code> → seção 1C. ⚠️ Pendente de validação pela equipe de métricas, como os 77 PF da seção 1B. A classificação <strong>SE</strong> está sujeita à conferência descrita na seção 5.</p>
+<p>⚠️ <strong><code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações já foi contada como alterada antes.</strong> Na análise da SP05 ela aparece com <strong>7 PFB · 3,5 PFL</strong>, atribuída ao &quot;Aviso 4&quot; (⚠️ sem item identificado), por outro delta: a inclusão do recorte por estado e do andamento da consolidação. Este card a altera de novo, agora para <strong>condicionar</strong> aquele mesmo andamento à natureza da etapa — a sequência é coerente (primeiro se cria a visão por estado, depois se descobre que ela não faz sentido na etapa nacional), mas significa que a mesma função é alterada duas vezes. Ver a seção 5.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="funcoes-de-dados-alteradas" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Funções de dados alteradas
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>Nenhuma alteração de modelo.</strong> Os três itens leem o que já existe. A natureza da etapa, de que dependem as duas novas regras, já está no modelo: a Etapa é subgrupo do ALI <strong>Premiação</strong> e os perfis que a operam vivem em <code>TB_ETAPA_PERFIL_ACESSO</code>, restrita a <code>PIT.1</code> e <code>PIT.3</code> — é dela que <code>AVL-APU-08</code> — Consultar Ranking da Etapa já deriva a sua regra 4 de visibilidade.</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Origem</th>
+<th class="col-id">Natureza</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Funções de transação — 2 PE incluídos</td>
+<td class="col-id">incluídas</td>
+<td class="col-num">14</td>
+<td class="col-num">14</td>
+</tr>
+<tr>
+<td>Funções de transação — 1 PE alterado</td>
+<td class="col-id">alterada</td>
+<td class="col-num">7</td>
+<td class="col-num">3,5</td>
+</tr>
+<tr>
+<td>Funções de dados — 0 ALI</td>
+<td class="col-id">—</td>
+<td class="col-num">0</td>
+<td class="col-num">0</td>
+</tr>
+<tr>
+<td><strong>Apurável do item</strong></td>
+<td class="col-id">—</td>
+<td class="col-num"><strong>21</strong></td>
+<td class="col-num"><strong>17,5</strong></td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+  <details class="doc-section" id="impacto-em-dicionarios" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Impacto em dicionários
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>Nenhuma mensagem, regra ou campo canônico novo.</strong> As duas features contadas já reaproveitavam o baseline de mensagens, e as mensagens de estado vazio que elas usam — &quot;Nenhuma avaliação nesta etapa.&quot; e &quot;Nenhuma avaliação com este status nesta etapa.&quot; — já estavam registradas nos N3 desde 2026-08-28. A supressão da consolidação por estado na etapa nacional não gera aviso ao usuário: o bloco simplesmente não é apresentado.</p>
+<p>⚠️ Vale uma nota de vocabulário, não de dicionário: a mesma ideia aparece com <strong>três formulações</strong> diferentes na spec — &quot;capability configurada na etapa&quot; (regra 4 de <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações, com ⚠️), &quot;etapa operada também pelo Administrador Regional&quot; (regra 4 de <code>AVL-ALO-07</code> — Exportar Relatório de Alocação) e &quot;natureza da etapa&quot; (regra 4 de <code>AVL-APU-08</code> — Consultar Ranking da Etapa). As novas regras deste delta adotaram a terceira, que é a mais explícita, mas a divergência permanece nas outras duas. Ver a seção 5.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="decisoes-de-produto-pendentes" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Decisões de produto pendentes
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p><strong>A decisão 4 foi respondida pelo resumo de entrega da Sprint 6</strong>, recebido em 2026-10-04: <em>&quot;os itens 4 e 5 e a colocação no Relatório da Etapa são as melhorias solicitadas pela área negocial em <strong>25/08</strong>, entregues em 28/08 (PRs 86452 no front e 86451 no back) e em produção desde o release de 01/09&quot;</em>. Este card é <em>Melhorias 25/08</em>, aberto em 2026-08-26. Está <strong>confirmado</strong> que ele é a origem de <code>AVL-ALO-05</code> — Consultar Panorama do Avaliador e de <code>AVL-ALO-07</code> — Exportar Relatório de Alocação, e os 14 PF ficam atribuídos a ele. A correspondência de texto que a análise usara em 2026-10-02 era mesmo o elo certo.</p>
+<p>O resumo também <strong>corrigiu as duas memórias de cálculo</strong>, ao nomear as colunas das abas e os indicadores: <code>AVL-ALO-07</code> — Exportar Relatório de Alocação passou de ALR 4 × DER 9 para ALR 7 × DER 16 — a coluna <strong>Grupo</strong> referencia o grupo competitivo, o que a engenharia reversa não tinha visto —, e <code>AVL-ALO-05</code> — Consultar Panorama do Avaliador passou de DER 14 para 22, com quantidade <strong>e</strong> percentual em cada indicador. <strong>Nenhuma das duas move PF</strong>: as duas caem na mesma célula da tabela de SE, e o apurável do card segue <strong>21 PFB · 17,5 PFL</strong>.</p>
+<p>A decisão <strong>1</strong>, do vocabulário da natureza da etapa, ganhou evidência mas não resposta: o resumo descreve o comportamento entregue em termos de etapa <strong>regional</strong> e <strong>nacional</strong> (&quot;aba Por estado, gerada só quando a etapa é regional&quot;; &quot;quando a etapa escolhida é nacional&quot;), o que sustenta a formulação adotada — mas não diz se existe campo que declare essa natureza, que é o que a decisão pergunta. A numeração abaixo é preservada.</p>
+</blockquote>
+<h3>1. &quot;Natureza da etapa&quot;, &quot;capability da etapa&quot; e &quot;etapa operada pelo Regional&quot; são a mesma coisa?</h3>
+<p><strong>Onde está a divergência</strong> — três features descrevem o mesmo mecanismo com três vocabulários. <code>AVL-APU-08</code> — Consultar Ranking da Etapa fala de <strong>natureza da etapa</strong> (regional ou nacional); <code>AVL-ALO-07</code> — Exportar Relatório de Alocação fala de etapa <strong>operada também pelo Administrador Regional</strong>; <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações fala de <strong>capability configurada na etapa</strong>, e já traz ⚠️ pedindo confirmação do modelo de escopo. No banco existe uma só estrutura, <code>TB_ETAPA_PERFIL_ACESSO</code>, restrita a <code>PIT.1</code> e <code>PIT.3</code>.</p>
+<p><strong>O que trava</strong> — a redação das regras em quatro features e a matriz de visibilidade do N2. Se há um único mecanismo, as três formulações devem convergir para uma e o ⚠️ de <code>AVL-PAI-01</code> fecha; se &quot;natureza&quot; e &quot;perfis que operam&quot; são atributos independentes — uma etapa nacional que o Regional pode operar, por exemplo —, então as regras novas deste delta estão escritas com a condicional errada e precisam ser reescritas.</p>
+<p><strong>Decide</strong> — produto, com conferência no modelo. <strong>Alcança</strong> — <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações, <code>AVL-ALO-07</code> — Exportar Relatório de Alocação, <code>AVL-APU-08</code> — Consultar Ranking da Etapa e <code>AVL-APU-09</code> — Exportar Relatório da Etapa.</p>
+<h3>2. <code>Consultar Panorama do Avaliador</code> e <code>Exportar Relatório de Alocação</code> são SE ou CE?</h3>
+<p><strong>O que foi contado</strong> — ambos como <strong>SE</strong>, complexidade Alta, 7 PF cada, pelas memórias de cálculo nos N3.</p>
+<p><strong>Onde está a dúvida</strong> — a classificação apoia-se em <strong>dado derivado</strong>: no panorama, os quatro totais (alocadas, a iniciar, em andamento, finalizadas) são contagens apuradas na hora; no relatório, a carga por avaliador e o total por estado também. Nenhum dos dois recalcula nota ou colocação — só conta —, e há leitura possível de que contar não é derivar, o que puxaria para <strong>CE</strong>. É a mesma dúvida já registrada para <code>AVL-APU-08</code> — Consultar Ranking da Etapa.</p>
+<p><strong>O que muda com cada resposta</strong> — mantidos como <strong>SE</strong>, valem 7 PF cada e o item fecha em 21 PFB · 17,5 PFL. Reclassificados como <strong>CE</strong>, valem 6 cada e o item cai para <strong>19 PFB · 15,5 PFL</strong>.</p>
+<p><strong>Decide</strong> — equipe de métricas. <strong>Alcança</strong> — <code>AVL-ALO-05</code> — Consultar Panorama do Avaliador e <code>AVL-ALO-07</code> — Exportar Relatório de Alocação.</p>
+<h3>3. O &quot;Aviso 4&quot; da SP05 e este card estão no mesmo período de medição?</h3>
+<p><strong>O que trava</strong> — os 3,5 PFL de <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações. A função já foi contada como alterada na análise da SP05, atribuída a um aviso sem item identificado. Se os dois deltas caem no mesmo período, a função conta uma vez e estes 3,5 PFL são dedução, levando o item a <strong>21 PFB · 14 PFL</strong>; se caem em períodos distintos, as duas alterações contam.</p>
+<p><strong>O que ajuda a decidir</strong> — este card <strong>não</strong> é o Aviso 4: o Aviso 4 também criou <code>AVL-PAI-04</code> — Exportar Relatório de Avaliadores, que é o relatório do Painel de Avaliações e não aparece em nenhum dos três itens daqui. Então são duas demandas distintas sobre a mesma feature, e a pergunta é só de calendário.</p>
+<p><strong>Decide</strong> — equipe de métricas. <strong>Alcança</strong> — <code>AVL-PAI-01</code> — Acompanhar Painel de Avaliações.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="metodologia" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Metodologia
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p>Migrada de <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md</code>.</p>
+</blockquote>
+<p>Card lido no Jira em 2026-10-02 (<code>sistemaindustria.atlassian.net</code>, board <code>PDTIC25093</code>), item por item. Confrontado com os N3 de <code>AVL-ALO</code> e <code>AVL-PAI</code> publicados, o <code>global/CONTAGEM-PF.md</code>, o <code>global/SIZING.md</code>, o <code>global/data-models/avaliacao.md</code>, o baseline APF <code>arquivos/PIEL_BASELINE_PF_CD.xlsx</code> e as análises já existentes — <code>ANALISE_IMPACTO_SP05.md</code>, que é onde o Aviso 4 e <code>AVL-PAI-04</code> — Exportar Relatório de Avaliadores foram registrados. O &quot;antes&quot; de cada delta foi extraído do N3 publicado e do seu <code>## Changelog</code>, não do sistema em produção. A desambiguação entre <code>AVL-ALO-07</code> — Exportar Relatório de Alocação e <code>AVL-PAI-04</code> — Exportar Relatório de Avaliadores foi feita pela tela de origem e pelo conteúdo das abas, porque os dois nomes se confundem. Escopo do perfil <code>requisitos</code>: a análise para no negocial e no data-model. ⚠️ Sem acesso aos repositórios de código nesta sessão.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="reconciliacao" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Reconciliação
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Aberta na entrega — migrada do relatório <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md</code>: não houve escopo prévio a reconciliar.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="changelog" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Changelog
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table changelog-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Autor</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>04/10/2026</td>
+<td>migra-aim</td>
+<td>AIM migrada</td>
+<td>relatório <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-65.md</code> → AIM única</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+
+  <footer class="rodape">
+    Gerado de <code>analise-impacto/AIM-PDTIC25093-65.md</code> por <code>scripts/gera-html-impacto.mjs</code>.
+    O <strong>.md é a fonte</strong> — edite lá e regenere; alterações feitas neste HTML se perdem.
+  </footer>
+</div>
+</body>
+</html>
