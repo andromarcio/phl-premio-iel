@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador apurar o resultado de uma etapa: a média ponderada de cada inscrição, a colocação dentro de cada bloco de estado e grupo de disputa e os cortes de classificação e de premiação que a etapa aplica.
 
+Na tela de Fechamento de Etapa (Premiação › Avaliação), o administrador escolhe a premiação e a etapa e aciona a apuração; o resultado aparece em blocos de estado e grupo de disputa, com a colocação, a média ponderada e os selos de classificação e de premiação de cada inscrição, acompanhado de indicadores como o total no ranking, os estados fechados e os empates na linha de corte.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — ranking em blocos de estado e grupo com a colocação recomeçando a cada bloco, corte de classificação automático pela quantidade da etapa, corte de premiação independente e bloco Nacional para as inscrições sem estado |
 
 ---
 
@@ -147,10 +149,10 @@ Feature: Apurar Resultado da Etapa
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Premiação | seleção da tela de fechamento | seleção → Premiação | sim | premiação cujo resultado é apurado |
-| Etapa | seleção da tela de fechamento | seleção → Etapa | sim | etapa da premiação selecionada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | sim | premiação cujo resultado é apurado, escolhida na tela de fechamento |
+| Etapa | Etapa | entrada do usuário | editável | seleção → Etapa | sim | etapa da premiação selecionada, escolhida na tela de fechamento |
 
 ---
 
@@ -178,6 +180,25 @@ Feature: Apurar Resultado da Etapa
 | Colocação no bloco | Posição da inscrição no bloco de estado e grupo de disputa, recomeçando em 1 a cada bloco | Ao apurar a etapa |
 | Status da apuração | Classificada quando a colocação alcança o corte de classificação; Não classificada nos demais casos | Ao apurar a etapa ⚠️ *(nomes do enum a confirmar no data-model)* |
 | Premiada | Sim quando a colocação alcança o corte de premiação da etapa; Não quando a etapa não premia ou a colocação não alcança o corte | Ao apurar a etapa |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Apuração por Etapa | lê e grava | Recebe a média calculada, a colocação, a classificação e a condição de premiada de cada inscrição (campos automáticos) e informa as inscrições desclassificadas, que saem da disputa do bloco (regras 11 e 12) |
+| Avaliação de Inscrição | lê | Diz quais avaliações da etapa estão finalizadas e quantos avaliadores estão alocados a cada inscrição (regras 1 e 2) |
+| Nota de Avaliação | lê | Fornece as notas por questão de cada avaliador para a média ponderada (regra 1) |
+| Questão de Avaliação | lê | Fornece o peso de cada questão usado na média ponderada (regras 1 e 1a) |
+| Inscrição | lê | Traz identificador, protocolo, enquadramento e estado de cada inscrição, que a colocam no bloco de disputa (regras 3 a 5) |
+| Oferta | lê | Define o grupo de disputa — tipo de participante × modalidade × categoria × submodalidade (regra 3) |
+| Categoria | lê | Nomeia o grupo de disputa (regra 3) |
+| Modalidade | lê | Nomeia o grupo de disputa (regra 3) |
+| Tipo de Participante | lê | Nomeia o grupo de disputa (regra 3) |
+| Enquadramento | lê | Compõe o grupo de disputa junto com a oferta (regra 3) |
+| Unidade Federativa | lê | Dá o estado que forma o bloco de disputa em etapa regional (regras 4 e 5) |
+| Fechamento de Etapa por UF | lê | Alimenta o indicador de estados fechados sobre o total de estados (cenário "Acompanhar os indicadores da apuração") |
 
 ---
 
@@ -217,16 +238,34 @@ Tela de fechamento em `/avaliacao-admin/fechamento-etapa/:etapaId`: após escolh
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Apurar Resultado da Etapa | SE | 7 | 19 | Alta | 7 | 2026-10-04 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Apurar Resultado da Etapa | principal | SE | 7 | 19 | Alta | 7 | 2026-10-04 |
 
 ### Memória de cálculo
 
-**Apurar Resultado da Etapa** — SE. Formas de lógica: 2 (média ponderada e depois aritmética), 6 (grava a apuração da etapa), 7, 8, 9 (colocação, classificação e premiação derivadas do corte), 11, 12, 13. Intenção primária: apresentar o ranking apurado; a presença de cálculo e de dado derivado exclui CE.
-- **ALR (7)**: Avaliação de Inscrição *(lê as notas dos avaliadores finalizados e grava a apuração — média, colocação, status e premiada)* · Inscrição *(identificador, protocolo, enquadramento)* · Premiação *(a Etapa e os cortes de classificação e de premiação)* · Categoria · Modalidade · Tipo de Participante *(o grupo de disputa: oferta × submodalidade)* · Usuário *(a UF que forma o bloco de estado)*.
-- **DER (19)** — entrada (2): Premiação · Etapa. Saída (15): Estado · Grupo de disputa · Enquadramento · Colocação · Identificador · Protocolo · Média ponderada · Avaliações finalizadas · Avaliadores alocados · Classificação · Premiada · **Desclassificada** · **Justificativa da desclassificação** · Quantidade de classificados · Quantidade de premiados · Mensagem · Ação. Os dois últimos entraram em 2026-10-04 com a desclassificação manual, na mesma faixa de 6 a 19 DET — complexidade Alta e **7 PF** inalterados.
-- **Fora da contagem**: as inscrições sem estado formam o bloco Nacional — é o mesmo DER Estado, sem valor; a ordenação (forma 13) não afeta tipo nem unicidade.
+**Apurar Resultado da Etapa** — SE · ALR 7 · DER 19 · Alta · 7 PF
+
+```json
+{"pe": "Apurar Resultado da Etapa",
+ "alr": ["Avaliação de Inscrição", "Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante", "Usuário"],
+ "der": ["Premiação", "Etapa", "Estado", "Grupo de disputa", "Enquadramento", "Colocação", "Identificador", "Protocolo", "Média ponderada", "Avaliações finalizadas", "Avaliadores alocados", "Classificação", "Premiada", "Desclassificada", "Justificativa da desclassificação", "Quantidade de classificados", "Quantidade de premiados", "Mensagem", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — lê as notas dos avaliadores finalizados e grava a apuração: média, colocação, status e premiada
+2. `Inscrição` — identificador, protocolo e enquadramento
+3. `Premiação` — a etapa e os cortes de classificação e de premiação
+4. `Categoria` — compõe o grupo de disputa (oferta × submodalidade)
+5. `Modalidade` — compõe o grupo de disputa (oferta × submodalidade)
+6. `Tipo de Participante` — compõe o grupo de disputa (oferta × submodalidade)
+7. `Usuário` — a UF que forma o bloco de estado
+
+Classificação SE. Formas de lógica: 2 (média ponderada e depois aritmética), 6 (grava a apuração da etapa), 7, 8, 9 (colocação, classificação e premiação derivadas do corte), 11, 12, 13. Intenção primária: apresentar o ranking apurado; a presença de cálculo e de dado derivado exclui CE.
+
+Dos 19 DER, 2 são de entrada (Premiação e Etapa) e 15 de saída, mais Mensagem e Ação. *Desclassificada* e *Justificativa da desclassificação* entraram em 2026-10-04 com a desclassificação manual, na mesma faixa de 6 a 19 DET — complexidade Alta e 7 PF inalterados.
+
+Fora da contagem: as inscrições sem estado formam o bloco Nacional — é o mesmo DER Estado, sem valor; a ordenação (forma 13) não afeta tipo nem unicidade.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -238,7 +277,7 @@ Tela de fechamento em `/avaliacao-admin/fechamento-etapa/:etapaId`: após escolh
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com a anotação sobre os DER da desclassificação levada da lista para a prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do efeito da desclassificação manual na apuração. *Antes* todas as inscrições com avaliação finalizada entravam na disputa do bloco e recebiam colocação; não havia como retirar uma do resultado. *Agora* a inscrição desclassificada sai da disputa, fica sem colocação e ao fim do bloco (RN11), e a desclassificação recalcula na hora as colocações e as duas linhas de corte (RN12). DER 17 → 19, sem mover o PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -251,6 +290,6 @@ Tela de fechamento em `/avaliacao-admin/fechamento-etapa/:etapaId`: após escolh
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

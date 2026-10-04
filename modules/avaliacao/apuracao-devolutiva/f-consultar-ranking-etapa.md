@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Apresenta em tela própria, somente para leitura, o resultado já apurado de uma etapa — a colocação de cada inscrição dentro do seu bloco de disputa, a média e os selos de classificado e de premiado — para consulta depois do fechamento.
 
+Na tela Ranking por Etapa, o administrador seleciona a premiação e a etapa — ou chega com a etapa já escolhida — e consulta os blocos de disputa com a lista ordenada, com as linhas de corte de classificação e de premiação destacadas em cada bloco.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-66`](../../../analise-impacto/AIM-PDTIC25093-66.md) | Criação | — |
+| [`PDTIC25093-66`](../../../analise-impacto/AIM-PDTIC25093-66.md) | Criação | — consulta somente leitura do resultado consolidado em blocos de estado e grupo, com endereço direto para um bloco; para etapa encerrada, o resultado gravado no fechamento; Administrador Regional restrito às suas UFs |
 
 ---
 
@@ -120,10 +122,10 @@ Feature: Consultar Ranking da Etapa
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Premiação | seleção → Premiação | editável | lista de opções | sim | apenas premiações ativas |
-| Etapa | seleção → Etapa da premiação | editável | lista de opções | sim | apenas etapas com resultado apurado |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | sim | apenas premiações ativas |
+| Etapa | Etapa | entrada do usuário | editável | seleção → Etapa | sim | apenas etapas da premiação selecionada com resultado apurado |
 
 ---
 
@@ -134,6 +136,22 @@ Feature: Consultar Ranking da Etapa
 | Situação da etapa | Aberta ou Fechada, exibida junto da seleção | Ao selecionar a etapa |
 | Linha de corte de classificação | posição correspondente à quantidade de classificados da etapa | Ao apresentar cada bloco |
 | Linha de corte de premiação | posição correspondente à quantidade de premiados da etapa, quando a etapa premia | Ao apresentar cada bloco |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Apuração por Etapa | lê | Fornece o resultado gravado — média, colocação, selos de classificada e de premiada, avaliadores finalizados e alocados, desclassificação e justificativa (regras 1, 3 e 6) |
+| Inscrição | lê | Fornece protocolo, participante ou projeto e o estado de cada inscrição do bloco |
+| Oferta | lê | Compõe o grupo de disputa que organiza os blocos (regra 3) |
+| Categoria | lê | Nomeia o grupo de disputa (regra 3) |
+| Modalidade | lê | Nomeia o grupo de disputa (regra 3) |
+| Tipo de Participante | lê | Nomeia o grupo de disputa (regra 3) |
+| Unidade Federativa | lê | Dá o estado de cada bloco em etapa regional (regra 4) |
+| Usuário | lê | O vínculo do Administrador Regional às UFs recorta os blocos que ele enxerga (regras 4 e 5) |
+| Perfil de Acesso à Etapa | lê | Na falta de campo próprio, a natureza da etapa — nacional ou regional — é lida dos perfis autorizados a operá-la (regra 4 e N2, *Visibilidade da etapa por perfil*) |
 
 ---
 
@@ -168,17 +186,36 @@ Página própria em `/avaliacao-admin/ranking-etapa`, com os seletores de premia
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Ranking da Etapa | SE | 7 | 18 | Alta | 7 | 2026-10-04 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Ranking da Etapa | principal | SE | 7 | 18 | Alta | 7 | 2026-10-04 |
 
 ### Memória de cálculo
 
-**Consultar Ranking da Etapa** — SE. Formas de lógica: 4 (recorte por UF conforme o perfil), 7, 8, 9 (a Coleta é contagem derivada, e as duas linhas de corte são posições derivadas das quantidades da etapa), 11, 13. A consulta não recalcula a apuração (regra 2), mas **cria dados derivados** para apresentar — o que exclui CE.
-- **ALR (7)**: Avaliação de Inscrição *(a apuração gravada: média, colocação, selos)* · Inscrição *(protocolo, participante/projeto)* · Premiação *(a Etapa, a sua situação e as quantidades de classificados e premiados)* · Categoria · Modalidade · Tipo de Participante *(o grupo de disputa)* · Usuário *(o vínculo por UF que recorta o que o Regional enxerga, regra 4)*.
-- **DER (18)** — entrada (3): Premiação · Etapa · Bloco endereçado. Saída (13): Situação da etapa · Estado · Grupo de disputa · Colocação · Protocolo · Participante/Projeto · Média · Coleta · Classificação · **Selo de desclassificada** · **Justificativa da desclassificação** · Linha de corte de classificação · Linha de corte de premiação · Mensagem · Ação. Os dois entraram em 2026-10-04, na mesma faixa de 6 a 19 DET — complexidade Alta e **7 PF** inalterados.
-- **Fora da contagem**: a etapa sem bloco no recorte do usuário (regra 5) é estado de tela, não DER próprio.
-- ⚠️ **Classificação a confirmar**: se a equipe de métricas entender que as linhas de corte e a Coleta são recuperação e não derivação, o PE cai para **CE** e vale 6 PF em vez de 7.
+**Consultar Ranking da Etapa** — SE · ALR 7 · DER 18 · Alta · 7 PF
+
+```json
+{"pe": "Consultar Ranking da Etapa",
+ "alr": ["Avaliação de Inscrição", "Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante", "Usuário"],
+ "der": ["Premiação", "Etapa", "Bloco endereçado", "Situação da etapa", "Estado", "Grupo de disputa", "Colocação", "Protocolo", "Participante/Projeto", "Média", "Coleta", "Classificação", "Selo de desclassificada", "Justificativa da desclassificação", "Linha de corte de classificação", "Linha de corte de premiação", "Mensagem", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — a apuração gravada: média, colocação e selos
+2. `Inscrição` — protocolo e participante ou projeto
+3. `Premiação` — a etapa, a sua situação e as quantidades de classificados e de premiados
+4. `Categoria` — compõe o grupo de disputa
+5. `Modalidade` — compõe o grupo de disputa
+6. `Tipo de Participante` — compõe o grupo de disputa
+7. `Usuário` — o vínculo por UF que recorta o que o Administrador Regional enxerga (regra 4)
+
+Classificação SE. Formas de lógica: 4 (recorte por UF conforme o perfil), 7, 8, 9 (a Coleta é contagem derivada, e as duas linhas de corte são posições derivadas das quantidades da etapa), 11, 13. A consulta não recalcula a apuração (regra 2), mas **cria dados derivados** para apresentar — o que exclui CE.
+
+Dos 18 DER, 3 são de entrada (Premiação, Etapa e Bloco endereçado) e 13 de saída, mais Mensagem e Ação. *Selo de desclassificada* e *Justificativa da desclassificação* entraram em 2026-10-04, na mesma faixa de 6 a 19 DET — complexidade Alta e 7 PF inalterados.
+
+Fora da contagem: a etapa sem bloco no recorte do usuário (regra 5) é estado de tela, não DER próprio.
+
+⚠️ **Classificação a confirmar**: se a equipe de métricas entender que as linhas de corte e a Coleta são recuperação e não derivação, o PE cai para **CE** e vale 6 PF em vez de 7.
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -190,7 +227,7 @@ Página própria em `/avaliacao-admin/ranking-etapa`, com os seletores de premia
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos` (a seleção sai do Preenchimento e vai para o Tipo), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com a anotação sobre os DER da desclassificação levada da lista para a prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do selo de desclassificada e da sua justificativa na consulta. *Antes* o ranking apresentava colocação, média, Coleta e os selos de classificado e premiado — a desclassificação não existia. *Agora* a inscrição desclassificada aparece com o selo e a justificativa (RN6), e a RN7 registra que a consulta **não** oferece as ações de desclassificar e reverter, que são da tela de fechamento. DER 16 → 18, sem mover o PF |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **7 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
 | 2026-09-01 | Decisões de produto (docqui) | Regra ampliada | A visibilidade passa a derivar da natureza da etapa: confirmado o recorte por UF do Administrador Regional na etapa regional, e acrescentado que a **etapa nacional não é apresentada** a ele. A matriz completa está no N2 |
@@ -199,6 +236,6 @@ Página própria em `/avaliacao-admin/ranking-etapa`, com os seletores de premia
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

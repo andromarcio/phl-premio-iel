@@ -37,8 +37,8 @@ A reabertura parte do próprio bloco do estado na tela de fechamento da etapa, o
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| `HU-030_Fechar_Etapa_Avaliacao` ⚠️ *(sem documento em `hus/`)* | Criação | — |
-| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Criação | — |
+| `HU-030_Fechar_Etapa_Avaliacao` ⚠️ *(sem documento em `hus/`)* | Criação | — reabertura de um estado já encerrado, pedida na HU "Fechar Etapa de Avaliação"; sem o documento, os critérios de aceite não puderam ser conferidos |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Criação | — devolve um estado já encerrado à apuração: recalcula os cortes, preserva o feedback consolidado e desfaz só os desempates daquele escopo; recusa enquanto houver etapa posterior encerrada |
 
 ---
 
@@ -131,7 +131,7 @@ Feature: Reabrir Etapa por UF
 
 | Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
 |---|---|---|---|---|---|---|
-| Estado | UF | seleção → UF | somente leitura | seleção → UF | sim | o estado é o do bloco de onde a reabertura parte; ausência de estado corresponde ao bloco Nacional ⚠️ |
+| Estado | Unidade Federativa | entrada do usuário | somente leitura | seleção → Unidade Federativa | sim | o estado é o do bloco de onde a reabertura parte; ausência de estado corresponde ao bloco Nacional ⚠️ |
 
 ⚠️ *A reabertura não registra justificativa nem observação: como a regra 2 apaga o registro do fechamento e nenhuma outra entidade guarda a reabertura, não há onde gravá-la. Se o produto quiser motivo registrado, é preciso decidir onde persistir — o que reabre a definição de modelo apontada em `arquivos/demandas/ANALISE_IMPACTO_SP05.md`.*
 
@@ -153,7 +153,7 @@ Feature: Reabrir Etapa por UF
 | Etapa | lê e grava | Devolve a etapa encerrada à situação Aberta — regra 6 e o campo automático correspondente |
 | Premiação | lê | Verifica se há etapa posterior já encerrada, que impede a reabertura — regra 7 |
 | Apuração por Etapa | grava | Devolve o estado à apuração: os cortes de classificação e de premiação daquele escopo voltam a ser recalculados — regra 3 |
-| Critério/Decisão de Desempate | grava | Desfaz as decisões de desempate do escopo reaberto — regra 4 |
+| Decisão de Desempate | grava | Desfaz as decisões de desempate do escopo reaberto — regra 4 |
 | Inscrição | lê | Identifica as inscrições do estado reaberto cuja desclassificação é preservada — regra 9 |
 
 ---
@@ -191,23 +191,30 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o bloco 
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Reabrir Etapa por UF | EE | 3 | 4 | Média | 4 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Reabrir Etapa por UF | principal | EE | 3 | 4 | Média | 4 | 2026-09-01 |
 
 ### Memória de cálculo
 
-**Reabrir Etapa por UF** — EE. Formas de lógica: 1 (recusa quando há etapa posterior encerrada), 5, 6 (apaga o registro do fechamento, devolve a apuração ao recálculo e desfaz os desempates do escopo), 7, 12. Intenção primária: manter ALI.
+**Reabrir Etapa por UF** — EE · ALR 3 · DER 4 · Média · 4 PF
 
 ```json
 {"pe": "Reabrir Etapa por UF",
  "alr": ["Avaliação de Inscrição", "Premiação", "Usuário"],
  "der": ["Estado", "Situação da etapa", "Mensagem", "Ação"]}
 ```
-- **ALR (3)**: Avaliação de Inscrição *(o Fechamento de Etapa por UF apagado, a Apuração por Etapa devolvida ao recálculo e as Decisões de Desempate desfeitas são todos subgrupos deste ALI — contam uma vez)* · Premiação *(a Etapa que volta a Aberta e as etapas posteriores conferidas)* · Usuário *(a UF do estado reaberto)*.
-- **DER (4)** — entrada (1): Estado. Saída (1): Situação da etapa · Mensagem · Ação.
-- **Fora da contagem**: a preservação da desclassificação na reabertura (regra 9, 2026-10-04) é forma de lógica de processamento, não DER — o PE segue com 4 DER e **4 PF**.
-- **Fora da contagem**: a reabertura não registra justificativa nem observação — a regra 2 apaga o registro do fechamento e não há onde gravá-la; o feedback consolidado é preservado sem cruzar a fronteira.
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — o Fechamento de Etapa por UF apagado, a Apuração por Etapa devolvida ao recálculo e as Decisões de Desempate desfeitas são todos subgrupos deste ALI e contam uma vez
+2. `Premiação` — a etapa que volta a Aberta e as etapas posteriores conferidas
+3. `Usuário` — a UF do estado reaberto
+
+Classificação EE. Formas de lógica: 1 (recusa quando há etapa posterior encerrada), 5, 6 (apaga o registro do fechamento, devolve a apuração ao recálculo e desfaz os desempates do escopo), 7, 12. Intenção primária: manter ALI.
+
+Dos 4 DER, 1 é de entrada (Estado) e 1 de saída (Situação da etapa), mais Mensagem e Ação.
+
+Fora da contagem: a preservação da desclassificação na reabertura (regra 9, 2026-10-04) é forma de lógica de processamento, não DER — o PE segue com 4 DER e **4 PF**. A reabertura também não registra justificativa nem observação — a regra 2 apaga o registro do fechamento e não há onde gravá-la; o feedback consolidado é preservado sem cruzar a fronteira.
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -219,7 +226,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o bloco 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: prosa do que a feature realiza da HU (sem documento em `hus/`) e do ticket na `## Origem`; em `## Campos`, a coluna Entidade com o nome do data-model (`Unidade Federativa`) e o Preenchimento no vocabulário do padrão; em `## Dados lidos e gravados`, a linha *Critério/Decisão de Desempate* passa a *Decisão de Desempate*, a entidade que a regra 4 desfaz; coluna Papel e memória de cálculo com o cabeçalho do processo elementar e a lista dos ALR no formato do engine. A Descrição já tinha o parágrafo de como se usa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do que a reabertura faz com a desclassificação. *Antes* a reabertura desfazia o fechamento e os desempates do estado e preservava o feedback consolidado — a desclassificação não existia, logo nada dizia sobre ela. *Agora* a RN9 fixa que a reabertura **preserva** a desclassificação, e desfazê-la exige a reversão própria. Sem Δ DER — é lógica de processamento |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **4 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -228,6 +235,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o bloco 
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-09-01*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

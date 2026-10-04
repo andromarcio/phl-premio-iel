@@ -29,6 +29,8 @@ contagem:
 ## Descrição
 Permite ao Administrador Nacional avisar por e-mail os participantes de uma etapa encerrada de que a devolutiva já está disponível, conferindo antes quem vai receber e acompanhando depois o que foi enviado.
 
+Pela ação no Painel de Avaliações, o administrador abre a tela de Disparo de Feedback, escolhe a premiação e a etapa, confere a relação de quem receberá o aviso e aciona o envio; depois acompanha a situação de cada aviso e devolve à fila os que falharam.
+
 Até aqui a devolutiva ficava à espera de o participante voltar ao sistema e procurá-la: a liberação era um estado que ele tinha de ir conferir. O envio fecha essa lacuna sem automatizar nada — quem decide o momento é o administrador, e o e-mail leva o participante de volta ao sistema, onde a devolutiva é lida com o contexto da etapa.
 
 ---
@@ -37,7 +39,7 @@ Até aqui a devolutiva ficava à espera de o participante voltar ao sistema e pr
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Criação | — |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Criação | — tela própria em que o Administrador Nacional escolhe premiação e etapa, confere quem receberá o aviso, envia por ação própria e acompanha a situação de cada envio, com reenfileiramento das falhas; aviso só com a etapa inteiramente encerrada e a devolutiva liberada, sem duplicidade e com o link do sistema no lugar do texto |
 
 ---
 
@@ -164,9 +166,8 @@ Feature: Enviar Feedback ao Participante
 |---|---|---|
 | Disparo de Feedback | grava | Guarda o registro de cada envio: recorte, responsável, data e quantidades — regra 8 |
 | Auditoria de E-mail | lê e grava | Enfileira um aviso por participante, guarda a situação de cada um e é o que diz quem já recebeu — regras 6, 9 e 13 |
-| Inscrição | lê | Identifica os participantes da etapa e os seus e-mails — regras 2 e 10 |
 | Avaliação de Inscrição | lê | Confere a devolutiva consolidada da etapa e exclui as inscrições desclassificadas — regras 4 e 7 |
-| Premiação | lê | A Etapa e a sua situação, a liberação da devolutiva e o modelo de e-mail do tipo feedback disponível — regras 3, 4 e 12 |
+| Configuração de E-mail da Premiação | lê | Fornece o modelo de e-mail do tipo feedback disponível, de que vem o conteúdo do aviso — regra 12 |
 | Usuário | lê | Resolve o perfil que autoriza o envio e o responsável registrado — regras 1 e 8 |
 
 ---
@@ -207,46 +208,74 @@ A tela abre com a escolha da premiação e da etapa. Escolhida a etapa, apresent
 
 > Contagem realizada em 2026-10-04 sobre este N3, para processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade foi entregue em 2026-10-01, na Sprint 6. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios; o Disparo de Feedback é subgrupo do ALI Auditoria de E-mails). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Envio de Feedback | SE | 4 | 12 | Alta | 7 | 2026-10-04 |
-| Enviar Feedback da Etapa | EE | 5 | 10 | Alta | 6 | 2026-10-04 |
-| Reenfileirar Falhas de Envio | EE | 2 | 5 | Média | 4 | 2026-10-04 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Envio de Feedback | acessório | SE | 4 | 12 | Alta | 7 | 2026-10-04 |
+| Enviar Feedback ao Participante (envio) | principal | EE | 5 | 10 | Alta | 6 | 2026-10-04 |
+| Enviar Feedback ao Participante (reenvio das falhas) | principal | EE | 2 | 5 | Média | 4 | 2026-10-04 |
+
+> Na contagem de 2026-10-04, os dois processos elementares principais se chamam *Enviar Feedback da Etapa* e *Reenfileirar Falhas de Envio*; aqui levam o nome da feature com a variante entre parênteses, como pede o `global/SIZING.md` quando há mais de um `principal` — o reenvio das falhas tem o mesmo objeto e a mesma intenção do envio. O acessório *Consultar Envio de Feedback*, a consulta que carrega a tela, mantém o nome. Os números são os daquela contagem.
 
 ### Memória de cálculo
 
-**Consultar Envio de Feedback** — SE. Formas de lógica: 3 (exclui quem já recebeu, quem está na fila e as desclassificadas), 4, 7, 8, 9 (apura as condições de etapa encerrada e devolutiva liberada), 11, 12. Intenção primária: apresentar, com dado derivado.
+**Consultar Envio de Feedback** — SE · ALR 4 · DER 12 · Alta · 7 PF
 
 ```json
 {"pe": "Consultar Envio de Feedback",
  "alr": ["Inscrição", "Avaliação de Inscrição", "Premiação", "Auditoria de E-mails"],
  "der": ["Premiação", "Etapa", "Participante", "Protocolo", "E-mail do participante", "Situação do aviso", "Etapa inteiramente encerrada", "Devolutiva liberada", "Motivo do impedimento", "Marcação de selecionado", "Mensagem", "Ação"]}
 ```
-- **ALR (4)**: Inscrição *(os participantes da etapa e os seus e-mails)* · Avaliação de Inscrição *(a devolutiva consolidada e a desclassificação)* · Premiação *(a Etapa, a sua situação e a liberação da devolutiva)* · Auditoria de E-mails *(o que já foi enviado ou está na fila, e os disparos anteriores)*.
-- **DER (12)** — entrada (2): Premiação · Etapa. Saída (8): Participante · Protocolo · E-mail do participante · Situação do aviso · Etapa inteiramente encerrada · Devolutiva liberada · Motivo do impedimento · Marcação de selecionado. Padrão (2): Mensagem · Ação.
-- **Fora da contagem**: a exclusão de quem já recebeu (regra 6) é forma de lógica de processamento, não DER.
 
-**Enviar Feedback da Etapa** — EE. Formas de lógica: 1 (condições de etapa encerrada e devolutiva liberada), 2, 3, 5, 6 (grava o Disparo de Feedback e enfileira os avisos), 8, 9 (apura selecionados, enfileirados e sem e-mail), 10. Intenção primária: manter ALI.
+Por que cada ALR:
+1. `Inscrição` — os participantes da etapa e os seus e-mails
+2. `Avaliação de Inscrição` — a devolutiva consolidada e a desclassificação
+3. `Premiação` — a etapa, a sua situação e a liberação da devolutiva
+4. `Auditoria de E-mails` — o que já foi enviado ou está na fila, e os disparos anteriores
+
+Classificação SE. Formas de lógica: 3 (exclui quem já recebeu, quem está na fila e as desclassificadas), 4, 7, 8, 9 (apura as condições de etapa encerrada e devolutiva liberada), 11, 12. Intenção primária: apresentar, com dado derivado.
+
+Dos 12 DER, 2 são de entrada (Premiação e Etapa), 8 de saída (de Participante a Marcação de selecionado) e 2 padrão (Mensagem e Ação).
+
+Fora da contagem: a exclusão de quem já recebeu (regra 6) é forma de lógica de processamento, não DER.
+
+**Enviar Feedback ao Participante (envio)** — EE · ALR 5 · DER 10 · Alta · 6 PF
 
 ```json
-{"pe": "Enviar Feedback da Etapa",
+{"pe": "Enviar Feedback ao Participante (envio)",
  "alr": ["Auditoria de E-mails", "Inscrição", "Avaliação de Inscrição", "Premiação", "Usuário"],
  "der": ["Premiação", "Etapa", "Participantes selecionados", "Data do disparo", "Responsável", "Selecionados", "Enfileirados", "Sem e-mail", "Mensagem", "Ação"]}
 ```
-- **ALR (5)**: Auditoria de E-mails *(grava o registro do disparo e enfileira um aviso por participante — o Disparo de Feedback é subgrupo deste ALI)* · Inscrição *(os destinatários e os seus e-mails)* · Avaliação de Inscrição *(a devolutiva referida e a exclusão das desclassificadas)* · Premiação *(a Etapa e o modelo de e-mail do tipo feedback disponível, subgrupo deste ALI)* · Usuário *(o responsável gravado no disparo)*.
-- **DER (10)** — entrada (3): Premiação · Etapa · Participantes selecionados. Saída (5): Data do disparo · Responsável · Selecionados · Enfileirados · Sem e-mail. Padrão (2): Mensagem · Ação.
-- **Fora da contagem**: a observação do disparo é campo do registro e não condiciona o envio; o corpo do e-mail vem do modelo e não é dado informado nesta transação.
 
-**Reenfileirar Falhas de Envio** — EE. Formas de lógica: 3 (alcança apenas as falhas), 5, 6 (devolve os avisos à fila), 8. Intenção primária: manter ALI.
+Por que cada ALR:
+1. `Auditoria de E-mails` — grava o registro do disparo e enfileira um aviso por participante; o Disparo de Feedback é subgrupo deste ALI
+2. `Inscrição` — os destinatários e os seus e-mails
+3. `Avaliação de Inscrição` — a devolutiva referida e a exclusão das desclassificadas
+4. `Premiação` — a etapa e o modelo de e-mail do tipo feedback disponível, subgrupo deste ALI
+5. `Usuário` — o responsável gravado no disparo
+
+Classificação EE. Formas de lógica: 1 (condições de etapa encerrada e devolutiva liberada), 2, 3, 5, 6 (grava o Disparo de Feedback e enfileira os avisos), 8, 9 (apura selecionados, enfileirados e sem e-mail), 10. Intenção primária: manter ALI.
+
+Dos 10 DER, 3 são de entrada (Premiação, Etapa e Participantes selecionados), 5 de saída (Data do disparo, Responsável, Selecionados, Enfileirados e Sem e-mail) e 2 padrão (Mensagem e Ação).
+
+Fora da contagem: a observação do disparo é campo do registro e não condiciona o envio; o corpo do e-mail vem do modelo e não é dado informado nesta transação.
+
+**Enviar Feedback ao Participante (reenvio das falhas)** — EE · ALR 2 · DER 5 · Média · 4 PF
 
 ```json
-{"pe": "Reenfileirar Falhas de Envio",
+{"pe": "Enviar Feedback ao Participante (reenvio das falhas)",
  "alr": ["Auditoria de E-mails", "Inscrição"],
  "der": ["Disparo", "Situação do aviso", "Avisos reenfileirados", "Mensagem", "Ação"]}
 ```
-- **ALR (2)**: Auditoria de E-mails *(lê a situação de falha e devolve o aviso à fila)* · Inscrição *(o destinatário do aviso reenfileirado)*.
-- **DER (5)** — entrada (1): Disparo. Saída (2): Situação do aviso · Avisos reenfileirados. Padrão (2): Mensagem · Ação.
-- **Fora da contagem**: o reenfileiramento não altera o registro do disparo — as quantidades gravadas são as do envio original.
+
+Por que cada ALR:
+1. `Auditoria de E-mails` — lê a situação de falha e devolve o aviso à fila
+2. `Inscrição` — o destinatário do aviso reenfileirado
+
+Classificação EE. Formas de lógica: 3 (alcança apenas as falhas), 5, 6 (devolve os avisos à fila), 8. Intenção primária: manter ALI.
+
+Dos 5 DER, 1 é de entrada (Disparo), 2 de saída (Situação do aviso e Avisos reenfileirados) e 2 padrão (Mensagem e Ação).
+
+Fora da contagem: o reenfileiramento não altera o registro do disparo — as quantidades gravadas são as do envio original.
 
 **Total: 17 PF** (3 processos elementares).
 
@@ -258,7 +287,7 @@ A tela abre com a escolha da premiação e da etapa. Escolhida a etapa, apresent
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), mantido depois dele o parágrafo de contexto; prosa do que a feature realiza do ticket na `## Origem`; em `## Dados lidos e gravados`, saem as linhas de *Inscrição* e *Premiação*, que já constam na coluna Entidade de `## Campos`, e entra *Configuração de E-mail da Premiação*, a entidade do modelo de e-mail que a regra 12 lê; coluna Papel — a consulta que carrega a tela é `acessório` — e memória de cálculo com o cabeçalho de cada processo elementar e a lista dos ALR no formato do engine, com os dois processos elementares principais levando o nome da feature e a variante (envio e reenvio das falhas). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature criada | N3 negocial do envio do feedback ao participante, derivado do resumo de entrega da Sprint 6 (entrega de 2026-10-01, migração **V00034**). Funcionalidade inédita: não existia antes da Sprint 6. A tela do produto se chama *Disparo de Feedback*; a feature usa o verbo canônico `enviar`, porque `envio` é nominalização bloqueada pelo `engine/FEATURE-DEFINITION.md`. Três processos elementares contados sobre este N3 — **17 PF** (SE 4×12, EE 5×10 e EE 2×5). ⚠️ Pendente de validação pela equipe de métricas |
 

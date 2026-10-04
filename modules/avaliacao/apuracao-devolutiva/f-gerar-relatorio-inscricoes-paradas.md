@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao administrador gerar o relatório das inscrições paradas de uma premiação — as que estão Em Andamento ou Rascunho — segmentado por UF, status e tipo de participante, com o preenchimento de cada inscrição, disponível na tela e em planilha para uso fora do sistema.
 
+Em Premiação › Relatórios › Inscrições Paradas — também alcançada pela ação "Inscrições Paradas" da Fila de Validação —, o administrador seleciona a premiação e, se quiser, uma UF; o relatório aparece na tela, agrupado por UF, status e tipo de participante, e a ação "Exportar XLSX" entrega o mesmo conteúdo em planilha.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-037_Relatorio_Inscricoes_Em_Andamento`](../../../hus/HU-037_Relatorio_Inscricoes_Em_Andamento.docx) | Criação | — |
-| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — |
+| [`HU-037_Relatorio_Inscricoes_Em_Andamento`](../../../hus/HU-037_Relatorio_Inscricoes_Em_Andamento.docx) | Criação | — relatório da HU, em tela e em planilha XLSX multi-abas: inscrições Em Andamento ou Rascunho agrupadas por UF, status e tipo de participante, com colunas fixas e dinâmicas, dias parado e aba de resumo (a HU não numera critérios de aceite) |
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Alteração | — restrição ao Administrador Nacional (APIPIT.22) e abrangência de todas as UFs da premiação, na tela e na planilha, sem recorte regional |
 
 ---
 
@@ -130,10 +132,10 @@ Feature: Gerar Relatório de Inscrições Paradas
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Premiação | entrada do usuário | seleção → Premiação | sim | seleção com filtro por nome; gera o relatório ao escolher |
-| UF | entrada do usuário | seleção → UF | não | filtro opcional; lista todas as UFs da premiação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | sim | seleção com filtro por nome; gera o relatório ao escolher |
+| UF | Unidade Federativa | entrada do usuário | editável | seleção → Unidade Federativa | não | filtro opcional; lista todas as UFs da premiação |
 
 ---
 
@@ -165,6 +167,20 @@ Feature: Gerar Relatório de Inscrições Paradas
 | Total de inscrições paradas | Contagem das inscrições Em Andamento e Rascunho | Ao gerar o relatório |
 | Dias Parado | Diferença entre hoje e a última atividade da inscrição | Ao gerar o relatório |
 | Nome do arquivo | inscricoes-paradas.xlsx | Ao exportar o relatório |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição | lê | Fornece as inscrições Em Andamento ou Rascunho e as colunas fixas de cada uma (regras 1 e 4) |
+| Resposta de Formulário | lê | Fornece os valores preenchidos que formam as colunas dinâmicas de cada grupo (regra 3) |
+| Campo do Formulário | lê | Dá o rótulo de cada coluna dinâmica, por tipo de participante (regras 2 e 3) |
+| Categoria | lê | Coluna fixa *Categoria* |
+| Modalidade | lê | Coluna fixa *Modalidade* |
+| Tipo de Participante | lê | Coluna fixa e agrupador do relatório (regra 2) |
+| Enquadramento | lê | Coluna fixa *Enquadramento* |
 
 ---
 
@@ -202,14 +218,50 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes-paradas`: seleç�
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Relatório de Inscrições Paradas | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
-| Exportar Relatório de Inscrições Paradas para Excel | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Gerar Relatório de Inscrições Paradas (tela) | principal | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
+| Gerar Relatório de Inscrições Paradas (XLSX) | principal | SE | 5 | 37 | Complexo | 7 | 2026-02-28 |
+
+> No baseline, os processos elementares se chamam *Relatório de Inscrições Paradas* e *Exportar Relatório de Inscrições Paradas para Excel*; aqui levam o nome da feature com a variante entre parênteses, como pede o `global/SIZING.md` quando há mais de um `principal`. Os números são os do baseline.
 
 ### Memória de cálculo
 
-- **Relatório de Inscrições Paradas** — ALR (5): Premiação · Modalidade · Categoria · Tipo de Participante · Inscrição. DER (37): Protocolo · Identificação · E-mail · Categoria · Modalidade · Tipo Participante · Enquadramento · UF · Status · % Preenchimento · Dias Parado · Data Início · Última Atualização · CNPJ · Razão social · Nome fantasia · Estado · Cidade · CEP · Endereço · Site · Redes sociais · Setor · CPF · Nome completo · E-mail · Gênero · Estado · Cidade · CEP · Endereço · Data de nascimento · Telefone · Telefone · Área · Cargo · Ação.
+**Gerar Relatório de Inscrições Paradas (tela)** — SE · ALR 5 · DER 37 · Complexo · 7 PF
+
+```json
+{"pe": "Gerar Relatório de Inscrições Paradas (tela)",
+ "alr": ["Premiação", "Modalidade", "Categoria", "Tipo de Participante", "Inscrição"],
+ "der": ["Protocolo", "Identificação", "E-mail (coluna fixa)", "Categoria", "Modalidade", "Tipo Participante", "Enquadramento", "UF", "Status", "% Preenchimento", "Dias Parado", "Data Início", "Última Atualização", "CNPJ", "Razão social", "Nome fantasia", "Estado (formulário com CNPJ)", "Cidade (formulário com CNPJ)", "CEP (formulário com CNPJ)", "Endereço (formulário com CNPJ)", "Site", "Redes sociais", "Setor", "CPF", "Nome completo", "E-mail (formulário com CPF)", "Gênero", "Estado (formulário com CPF)", "Cidade (formulário com CPF)", "CEP (formulário com CPF)", "Endereço (formulário com CPF)", "Data de nascimento", "Telefone (primeiro)", "Telefone (segundo)", "Área", "Cargo", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Premiação` — a premiação selecionada, que delimita as inscrições do relatório
+2. `Modalidade` — coluna fixa *Modalidade*
+3. `Categoria` — coluna fixa *Categoria*
+4. `Tipo de Participante` — agrupador e coluna fixa; dá também os campos do formulário que viram colunas dinâmicas
+5. `Inscrição` — as inscrições Em Andamento ou Rascunho, com as colunas fixas e os valores preenchidos
+
+Dos 37 DER, 13 são as colunas fixas, 23 os campos dinâmicos que a planilha do baseline enumera — o primeiro grupo de um formulário com CNPJ, o segundo de um formulário com CPF — e 1 a Ação; a lista não tem Mensagem.
+
+⚠️ A planilha do baseline repete rótulos na enumeração: *E-mail* (coluna fixa e campo do formulário com CPF), *Estado*, *Cidade*, *CEP* e *Endereço* (um em cada formulário) e *Telefone* (dois campos do formulário com CPF). Aqui cada um leva entre parênteses onde aparece. Pelo CPM o mesmo DER conta uma vez; mantido como o baseline contou, a confirmar com a equipe de métricas.
+
+**Gerar Relatório de Inscrições Paradas (XLSX)** — SE · ALR 5 · DER 37 · Complexo · 7 PF
+
+```json
+{"pe": "Gerar Relatório de Inscrições Paradas (XLSX)",
+ "alr": ["Premiação", "Modalidade", "Categoria", "Tipo de Participante", "Inscrição"],
+ "der": ["Protocolo", "Identificação", "E-mail (coluna fixa)", "Categoria", "Modalidade", "Tipo Participante", "Enquadramento", "UF", "Status", "% Preenchimento", "Dias Parado", "Data Início", "Última Atualização", "CNPJ", "Razão social", "Nome fantasia", "Estado (formulário com CNPJ)", "Cidade (formulário com CNPJ)", "CEP (formulário com CNPJ)", "Endereço (formulário com CNPJ)", "Site", "Redes sociais", "Setor", "CPF", "Nome completo", "E-mail (formulário com CPF)", "Gênero", "Estado (formulário com CPF)", "Cidade (formulário com CPF)", "CEP (formulário com CPF)", "Endereço (formulário com CPF)", "Data de nascimento", "Telefone (primeiro)", "Telefone (segundo)", "Área", "Cargo", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Premiação` — a premiação selecionada, que delimita as inscrições da planilha
+2. `Modalidade` — coluna fixa *Modalidade*
+3. `Categoria` — coluna fixa *Categoria*
+4. `Tipo de Participante` — define as abas por grupo e os campos do formulário que viram colunas dinâmicas
+5. `Inscrição` — as inscrições Em Andamento ou Rascunho, com as colunas fixas e os valores preenchidos
+
+A planilha do baseline dá a esta linha os mesmos ALR e DER da consulta em tela, e a enumeração é a mesma — inclusive os rótulos repetidos, desambiguados como acima, com a mesma ⚠️ para a equipe de métricas.
 
 **Total: 14 PF** (2 processos elementares).
 
@@ -223,7 +275,7 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes-paradas`: seleç�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza da HU (que não numera critérios de aceite) e do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos` (o Tipo da UF passa a nomear a entidade, `seleção → Unidade Federativa`), `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON — um por processo elementar, com os DER repetidos pela planilha desambiguados entre parênteses —, com os dois processos elementares principais levando o nome da feature e a variante (tela e XLSX). Sem mudança de regra, cenário ou número de PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-relatorios.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisão 6 (docqui) | Features unificadas | `AVL-APU-07` Exportar Relatório de Inscrições Paradas incorporada: os dois processos elementares têm ALR e DER idênticos, logo é uma ação só do ponto de vista da feature. A contagem não muda — a feature passa a absorver dois PE, 14 PF. O ID `AVL-APU-07` fica aposentado e não será reutilizado |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -232,6 +284,6 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes-paradas`: seleç�
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

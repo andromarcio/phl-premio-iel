@@ -26,6 +26,8 @@ contagem:
 ## Descrição
 Permite ao Administrador Nacional retirar uma inscrição da disputa de uma etapa, com justificativa registrada, para que ela não avance nem ocupe posição no resultado daquele estado — e devolvê-la à disputa enquanto o estado continuar aberto.
 
+Na tela de Fechamento de Etapa, o administrador aciona "Desclassificar" na linha da inscrição no ranking e informa a justificativa, de até 100 caracteres; na inscrição já desclassificada, a mesma linha oferece "Reverter desclassificação", que a devolve à disputa.
+
 A desclassificação é um **estado binário reversível**: a mesma linha do ranking oferece a ação de desclassificar quando a inscrição está em disputa e a de reverter quando está desclassificada. Por isso as duas vivem nesta feature, como par de alternância — ver `engine/FEATURE-DEFINITION.md`, *Pares de alternância (toggle)*.
 
 A necessidade nasce de uma situação concreta da premiação: uma mesma instituição de ensino pode concorrer em vários estados, mas só pode seguir **uma vez** para a etapa nacional. Sem um meio de retirar a inscrição excedente, o resultado de um estado levaria adiante um concorrente repetido. A desclassificação resolve isso sem apagar a inscrição nem a sua avaliação: a inscrição continua existindo, com as notas que recebeu, apenas fora da disputa.
@@ -139,7 +141,7 @@ Feature: Desclassificar Inscrição na Etapa
 
 | Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
 |---|---|---|---|---|---|---|
-| Inscrição | Inscrição | seleção → linha do ranking | somente leitura | seleção → Inscrição | sim | a inscrição é a da linha de onde a ação parte |
+| Inscrição | Inscrição | entrada do usuário | somente leitura | seleção → Inscrição | sim | a inscrição é a da linha do ranking de onde a ação parte |
 | Justificativa da desclassificação | Apuração por Etapa | entrada do usuário | editável | texto | sim na desclassificação | até 100 caracteres; a reversão não pede justificativa |
 
 ---
@@ -159,8 +161,6 @@ Feature: Desclassificar Inscrição na Etapa
 
 | Entidade | Papel | Por que a feature a toca |
 |---|---|---|
-| Apuração por Etapa | grava | Guarda a desclassificação, a justificativa, a data e o responsável — regras 3 e 4 |
-| Inscrição | lê | Identifica a inscrição retirada da disputa — regra 5 |
 | Fechamento de Etapa por UF | lê | Confere se o estado da inscrição ainda está aberto — regra 2 |
 | Premiação | lê | Dona da Etapa em que a inscrição é desclassificada — regra 2 |
 | Etapa | lê | Confere se a etapa ainda está aberta — regra 2 |
@@ -202,28 +202,55 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada lin
 
 > Contagem realizada em 2026-10-04 sobre este N3, para um processo elementar que **não existe no baseline APF** de 2026-02-28 — a capacidade foi entregue em 2026-10-01, na Sprint 6. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Desclassificar Inscrição na Etapa | EE | 4 | 8 | Alta | 6 | 2026-10-04 |
-| Reverter Desclassificação da Inscrição | EE | 3 | 6 | Alta | 6 | 2026-10-04 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Desclassificar Inscrição na Etapa (desclassificação) | principal | EE | 4 | 8 | Alta | 6 | 2026-10-04 |
+| Desclassificar Inscrição na Etapa (reversão) | principal | EE | 3 | 6 | Alta | 6 | 2026-10-04 |
+
+> Na contagem de 2026-10-04, os processos elementares se chamam *Desclassificar Inscrição na Etapa* e *Reverter Desclassificação da Inscrição*; aqui levam o nome da feature com a variante entre parênteses, como pede o `global/SIZING.md` quando há mais de um `principal` — as duas direções do par de alternância realizam a feature. Os números são os daquela contagem.
 
 ### Memória de cálculo
 
-**Desclassificar Inscrição na Etapa** — EE. Formas de lógica: 1 (justificativa obrigatória e limite de 100 caracteres), 2, 3 (só Nacional, só com etapa e estado abertos), 5, 6 (grava a desclassificação em *Apuração por Etapa*), 8, 9 (recalcula colocações e linhas de corte), 10. Intenção primária: manter ALI.
+**Desclassificar Inscrição na Etapa (desclassificação)** — EE · ALR 4 · DER 8 · Alta · 6 PF
 
 ```json
-{"pe": "Desclassificar Inscrição na Etapa",
+{"pe": "Desclassificar Inscrição na Etapa (desclassificação)",
  "alr": ["Avaliação de Inscrição", "Inscrição", "Premiação", "Usuário"],
  "der": ["Inscrição", "Justificativa da desclassificação", "Marca de desclassificada", "Colocação recalculada", "Linha de corte de classificação", "Linha de corte de premiação", "Mensagem", "Ação"]}
 ```
-- **ALR (4)**: Avaliação de Inscrição *(grava o subgrupo Apuração por Etapa e lê o Fechamento de Etapa por UF para conferir o estado aberto — contam uma vez)* · Inscrição *(a inscrição retirada da disputa)* · Premiação *(a Etapa e a sua situação)* · Usuário *(o perfil que autoriza e o responsável gravado)*.
-- **DER (8)** — entrada (2): Inscrição · Justificativa da desclassificação. Saída (4): Marca de desclassificada · Colocação recalculada · Linha de corte de classificação · Linha de corte de premiação. Padrão (2): Mensagem · Ação.
-- **Fora da contagem**: a justificativa é o mesmo DER na entrada e na apresentação ao apontar a marca, e conta uma vez; a data e o responsável são campos automáticos do mesmo PE, não dados que o usuário informe; a dispensa de feedback consolidado no fechamento (regra 7) é lógica de `AVL-APU-03` (Encerrar Etapa por UF), não DER desta transação.
 
-**Reverter Desclassificação da Inscrição** — EE. Formas de lógica: 1 (só com o estado aberto), 2, 3, 5, 6 (apaga a desclassificação em *Apuração por Etapa*), 8, 9 (recalcula colocações e linhas de corte), 10. Intenção primária: manter ALI.
-- **ALR (3)**: Avaliação de Inscrição *(apaga a desclassificação no subgrupo Apuração por Etapa e lê o Fechamento de Etapa por UF para conferir o estado aberto)* · Inscrição *(a inscrição devolvida à disputa)* · Premiação *(a Etapa)*. Não referencia Usuário: a reversão **não** grava responsável — ela apaga o da desclassificação (regra 13).
-- **DER (6)** — entrada (1): Inscrição. Saída (3): Colocação restituída · Linha de corte de classificação · Linha de corte de premiação. Padrão (2): Mensagem · Ação.
-- **Fora da contagem**: a reversão não pede justificativa, então o DER da justificativa não entra; apagar data e responsável é efeito do mesmo PE, não dado que atravesse a fronteira.
+Por que cada ALR:
+1. `Avaliação de Inscrição` — grava o subgrupo Apuração por Etapa e lê o Fechamento de Etapa por UF para conferir o estado aberto; contam uma vez
+2. `Inscrição` — a inscrição retirada da disputa
+3. `Premiação` — a etapa e a sua situação
+4. `Usuário` — o perfil que autoriza e o responsável gravado
+
+Classificação EE. Formas de lógica: 1 (justificativa obrigatória e limite de 100 caracteres), 2, 3 (só Nacional, só com etapa e estado abertos), 5, 6 (grava a desclassificação em *Apuração por Etapa*), 8, 9 (recalcula colocações e linhas de corte), 10. Intenção primária: manter ALI.
+
+Dos 8 DER, 2 são de entrada (Inscrição e Justificativa da desclassificação), 4 de saída (Marca de desclassificada, Colocação recalculada e as duas linhas de corte) e 2 padrão (Mensagem e Ação).
+
+Fora da contagem: a justificativa é o mesmo DER na entrada e na apresentação ao apontar a marca, e conta uma vez; a data e o responsável são campos automáticos do mesmo PE, não dados que o usuário informe; a dispensa de feedback consolidado no fechamento (regra 7) é lógica de `AVL-APU-03` (Encerrar Etapa por UF), não DER desta transação.
+
+**Desclassificar Inscrição na Etapa (reversão)** — EE · ALR 3 · DER 6 · Alta · 6 PF
+
+```json
+{"pe": "Desclassificar Inscrição na Etapa (reversão)",
+ "alr": ["Avaliação de Inscrição", "Inscrição", "Premiação"],
+ "der": ["Inscrição", "Colocação restituída", "Linha de corte de classificação", "Linha de corte de premiação", "Mensagem", "Ação"]}
+```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — apaga a desclassificação no subgrupo Apuração por Etapa e lê o Fechamento de Etapa por UF para conferir o estado aberto
+2. `Inscrição` — a inscrição devolvida à disputa
+3. `Premiação` — a etapa
+
+Não referencia Usuário: a reversão **não** grava responsável — ela apaga o da desclassificação (regra 13).
+
+Classificação EE. Formas de lógica: 1 (só com o estado aberto), 2, 3, 5, 6 (apaga a desclassificação em *Apuração por Etapa*), 8, 9 (recalcula colocações e linhas de corte), 10. Intenção primária: manter ALI.
+
+Dos 6 DER, 1 é de entrada (Inscrição), 3 de saída (Colocação restituída e as duas linhas de corte) e 2 padrão (Mensagem e Ação).
+
+Fora da contagem: a reversão não pede justificativa, então o DER da justificativa não entra; apagar data e responsável é efeito do mesmo PE, não dado que atravesse a fronteira.
 
 **Total: 12 PF** (2 processos elementares).
 
@@ -237,7 +264,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada lin
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), mantidos depois dele os parágrafos de explicação e de contexto; `Preenchimento` da inscrição no vocabulário do padrão em `## Campos`; em `## Dados lidos e gravados`, saem as linhas de *Apuração por Etapa* e *Inscrição*, que já constam na coluna Entidade de `## Campos`; coluna Papel e memória de cálculo em bloco JSON — o da reversão, que faltava, montado com a anotação sobre o Usuário levada para a prosa —, com os dois processos elementares principais levando o nome da feature e a variante (desclassificação e reversão). A feature segue sem `## Origem`: não há HU nem ticket identificado (ver `analise-impacto/AIM-SP06.md`). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature criada | N3 negocial da desclassificação manual e da sua reversão, derivado do resumo de entrega da Sprint 6 (entrega de 2026-10-01, migração **V00035**). Capacidade sem especificação até aqui. As duas direções vivem numa feature só, como **par de alternância** de um estado binário, e o verbo `desclassificar` foi registrado em `global/VOCABULARY-OVERRIDES.md`. Dois processos elementares contados sobre este N3 — **12 PF** (EE 4×8 e EE 3×6, ambos Alta). ⚠️ Pendente de validação pela equipe de métricas, inclusive quanto a serem dois PE ou um |
 

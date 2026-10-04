@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador gerar, com apoio de Inteligência Artificial, uma sugestão de devolutiva a partir dos pareceres dos avaliadores finalizados, entregue ao editor para revisão humana.
 
+No Editor de Devolutiva, aberto a partir da inscrição na etapa na lista de avaliações, o administrador aciona "Gerar com IA" e, se já houver texto no editor, confirma a substituição; a sugestão volta preenchida no editor, marcada como gerada com apoio de IA, para ele revisar.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — |
+| [`HU-031_Consolidar_Feedback`](../../../hus/HU-031_Consolidar_Feedback.docx) | Criação | — geração assistida da HU: o botão "Gerar com I.A." devolve ao editor uma sugestão consolidando os pareceres dos avaliadores finalizados, não gravada automaticamente, marcada como gerada por I.A. e com confirmação antes de substituir texto existente (a HU não numera critérios de aceite) |
 
 ---
 
@@ -99,9 +101,9 @@ Feature: Gerar Devolutiva com IA
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Sugestão de devolutiva | gerada pela IA | texto longo | não | proposta editável, não gravada automaticamente |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Sugestão de devolutiva | externo: serviço de Inteligência Artificial | externo: serviço de Inteligência Artificial | editável | texto longo | não | proposta editável, não gravada automaticamente |
 
 ---
 
@@ -110,6 +112,15 @@ Feature: Gerar Devolutiva com IA
 | Label PO | Valor | Quando |
 |---|---|---|
 | Gerado com apoio de IA | Sim | Ao devolver a sugestão ao editor |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Avaliação de Inscrição | lê | Fornece os pareceres dos avaliadores com avaliação finalizada, de que a sugestão é gerada (regra 3) |
+| Premiação | lê | Arquivo lógico que o baseline APF conta nesta geração; a planilha não diz qual dado é lido ⚠️ |
 
 ---
 
@@ -143,19 +154,25 @@ No Editor de Devolutiva em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etap
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Gerar com IA | SE | 2 | 3 | Simples | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Gerar Devolutiva com IA | principal | SE | 2 | 3 | Simples | 4 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Gerar com IA*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Gerar com IA** — ALR (2): Premiação · Avaliação de Inscrição. DER (3): Texto consolidação · Ação · Mensagem.
+**Gerar Devolutiva com IA** — SE · ALR 2 · DER 3 · Simples · 4 PF
 
 ```json
-{"pe": "Gerar com IA",
+{"pe": "Gerar Devolutiva com IA",
  "alr": ["Premiação", "Avaliação de Inscrição"],
  "der": ["Texto consolidação", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — contado pela planilha do baseline; a planilha não diz qual dado a geração lê ⚠️
+2. `Avaliação de Inscrição` — os pareceres dos avaliadores com avaliação finalizada, de que a sugestão é gerada
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -167,13 +184,13 @@ No Editor de Devolutiva em `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etap
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza da HU na `## Origem` (a HU não numera critérios de aceite), coluna Entidade e as sete colunas do padrão em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-031 (geração assistida por IA) |
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

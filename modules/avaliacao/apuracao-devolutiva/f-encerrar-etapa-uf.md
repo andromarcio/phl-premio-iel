@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador encerrar oficialmente uma etapa em um estado, registrando responsável, data e observação, e consolidar as inscrições classificadas daquele estado, que são as que avançam para a etapa seguinte.
 
+Na tela de Fechamento de Etapa, o administrador confere no bloco de cada estado as pendências por participante, informa, se quiser, uma observação e aciona o encerramento daquele estado; quando o último estado pendente é fechado, a etapa passa à situação Fechada.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — fechamento do estado condicionado ao feedback consolidado de todas as inscrições, com as pendências listadas por participante; encerramento automático da etapa no último estado; avanço do classificado, não do premiado |
 
 ---
 
@@ -135,10 +137,10 @@ Feature: Encerrar Etapa por UF
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Estado | entrada do usuário | seleção → UF | não | ausência de estado representa o bloco Nacional ⚠️ |
-| Observação | entrada do usuário | texto | não | máximo de 500 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Estado | Unidade Federativa | entrada do usuário | editável | seleção → Unidade Federativa | não | ausência de estado representa o bloco Nacional ⚠️ |
+| Observação | Fechamento de Etapa por UF | entrada do usuário | editável | texto | não | máximo de 500 caracteres |
 
 ---
 
@@ -149,6 +151,18 @@ Feature: Encerrar Etapa por UF
 | Data do fechamento | Data e hora do encerramento | Ao encerrar a etapa no estado |
 | Responsável | Autor do fechamento | Ao encerrar a etapa no estado |
 | Situação da etapa | Fechada | Quando o último estado pendente da etapa é fechado |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Apuração por Etapa | lê e grava | Lê a classificação e o feedback consolidado de cada inscrição do estado e grava a desclassificada como não classificada (regras 4, 5 e 11) |
+| Avaliação de Inscrição | lê | Aponta as pendências de inscrição sem avaliadores alocados e de avaliação ainda em andamento (regra 6) |
+| Inscrição | lê | Identifica o participante de cada pendência (regra 6) |
+| Decisão de Desempate | lê | Confere se resta empate atravessando a linha de corte de classificação ou de premiação do estado (regra 7) |
+| Etapa | lê e grava | Recebe a situação Fechada quando o último estado pendente é fechado (regra 9 e campo automático *Situação da etapa*) |
 
 ---
 
@@ -187,22 +201,31 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada blo
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Encerrar Etapa por UF | EE | 4 | 10 | Alta | 6 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Encerrar Etapa por UF | principal | EE | 4 | 10 | Alta | 6 | 2026-09-01 |
 
 ### Memória de cálculo
 
-**Encerrar Etapa por UF** — EE. Formas de lógica: 1 (pendências de feedback e empates na linha de corte), 5, 6 (grava o fechamento e consolida as classificadas), 7, 8, 11 (relaciona as pendências por participante), 12. Intenção primária: manter ALI.
+**Encerrar Etapa por UF** — EE · ALR 4 · DER 10 · Alta · 6 PF
 
 ```json
 {"pe": "Encerrar Etapa por UF",
  "alr": ["Avaliação de Inscrição", "Inscrição", "Premiação", "Usuário"],
  "der": ["Estado", "Observação", "Data do fechamento", "Responsável", "Situação da etapa", "Participante com pendência", "Natureza da pendência", "Estados fechados sobre o total", "Mensagem", "Ação"]}
 ```
-- **ALR (4)**: Avaliação de Inscrição *(grava o fechamento do estado; lê a apuração, os empates e o feedback consolidado)* · Inscrição *(as pendências são apuradas por participante)* · Premiação *(a Etapa e a sua situação, que passa a Fechada no último estado)* · Usuário *(a UF do estado fechado e o responsável)*.
-- **DER (10)** — entrada (2): Estado · Observação. Saída (6): Data do fechamento · Responsável · Situação da etapa · Participante com pendência · Natureza da pendência · Estados fechados sobre o total · Mensagem · Ação.
-- **Fora da contagem**: as três naturezas de pendência são valores de um mesmo DER, não três; o encerramento automático da etapa é efeito do mesmo PE, não um processo à parte. A dispensa de feedback consolidado para a inscrição desclassificada (regra 5, 2026-10-04) é forma de lógica de processamento, não DER — o PE segue com 10 DER e **6 PF**.
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — grava o fechamento do estado; lê a apuração, os empates e o feedback consolidado
+2. `Inscrição` — as pendências são apuradas por participante
+3. `Premiação` — a etapa e a sua situação, que passa a Fechada no último estado
+4. `Usuário` — a UF do estado fechado e o responsável
+
+Classificação EE. Formas de lógica: 1 (pendências de feedback e empates na linha de corte), 5, 6 (grava o fechamento e consolida as classificadas), 7, 8, 11 (relaciona as pendências por participante), 12. Intenção primária: manter ALI.
+
+Dos 10 DER, 2 são de entrada (Estado e Observação) e 6 de saída (Data do fechamento, Responsável, Situação da etapa, Participante com pendência, Natureza da pendência e Estados fechados sobre o total), mais Mensagem e Ação.
+
+Fora da contagem: as três naturezas de pendência são valores de um mesmo DER, não três; o encerramento automático da etapa é efeito do mesmo PE, não um processo à parte. A dispensa de feedback consolidado para a inscrição desclassificada (regra 5, 2026-10-04) é forma de lógica de processamento, não DER — o PE segue com 10 DER e **6 PF**.
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -214,7 +237,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada blo
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos` (o Tipo do estado passa a nomear a entidade, `seleção → Unidade Federativa`), `## Dados lidos e gravados`, coluna Papel e memória de cálculo com o cabeçalho do processo elementar e a lista dos ALR no formato do engine. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Restrição** aliviada e **inclusão** do destino da inscrição desclassificada. *Antes* a regra 5 exigia feedback consolidado de **todas** as inscrições do estado, sem exceção, de modo que uma inscrição retirada da disputa ainda travava o fechamento. *Agora* a desclassificada está dispensada e não gera pendência (RN5), e o fechamento a grava como não classificada seja qual fosse a sua colocação (RN11 nova; a antiga 11 passa a 12). Sem Δ DER — a dispensa é lógica de processamento |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -227,6 +250,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, cada blo
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

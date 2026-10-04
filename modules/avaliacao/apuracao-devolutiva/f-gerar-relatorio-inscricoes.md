@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Apresenta ao administrador nacional todas as inscrições de uma premiação separadas por tipo de participante, com as respostas de cada uma, filtráveis por unidade federativa, categoria, modalidade, situação e período de início — em tela, com amostra de cada grupo, e em planilha, com o recorte completo.
 
+Em Premiação › Relatórios › Inscrições, o administrador escolhe a premiação e, se quiser, restringe o recorte por critérios como unidade federativa, categoria e situação; o relatório aparece em um bloco por tipo de participante, com a amostra de cada grupo, e a ação "Exportar XLSX" entrega o recorte completo em planilha.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Criação | — |
+| [`PDTIC25093-56`](../../../analise-impacto/AIM-PDTIC25093-56.md) | Criação | — relatório geral das inscrições da premiação em qualquer situação, agrupadas por tipo de participante com as colunas de identificação e uma coluna por pergunta do formulário; a planilha sai completa, sem o limite da amostra em tela; exclusivo do Administrador Nacional |
 
 ---
 
@@ -149,15 +151,15 @@ Feature: Gerar Relatório de Inscrições
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Premiação | seleção → Premiação | editável | lista de opções | sim | apenas premiações ativas |
-| Unidade federativa | seleção → Unidade Federativa | editável | lista de opções | não | vazio significa todas |
-| Categoria | seleção → Categoria da premiação | editável | lista de opções | não | apenas categorias vinculadas à premiação escolhida |
-| Modalidade | seleção → Modalidade da categoria | editável | lista de opções | não | apenas modalidades da categoria escolhida |
-| Situação | entrada do usuário | editável | lista de opções (múltipla) | não | vazio significa todas as situações |
-| Início a partir de | entrada do usuário | editável | data | não | menor ou igual a "Início até" |
-| Início até | entrada do usuário | editável | data | não | maior ou igual a "Início a partir de" |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção → Premiação | sim | apenas premiações ativas |
+| Unidade federativa | Unidade Federativa | entrada do usuário | editável | seleção → Unidade Federativa | não | vazio significa todas |
+| Categoria | Categoria | entrada do usuário | editável | seleção → Categoria | não | apenas categorias vinculadas à premiação escolhida |
+| Modalidade | Modalidade | entrada do usuário | editável | seleção → Modalidade | não | apenas modalidades da categoria escolhida |
+| Situação | dado de código | entrada do usuário | editável | lista de opções (múltipla) | não | vazio significa todas as situações |
+| Início a partir de | Inscrição | entrada do usuário | editável | data | não | menor ou igual a "Início até" |
+| Início até | Inscrição | entrada do usuário | editável | data | não | maior ou igual a "Início a partir de" |
 
 ---
 
@@ -168,6 +170,18 @@ Feature: Gerar Relatório de Inscrições
 | Total de inscrições do grupo | quantidade de inscrições do tipo de participante que atendem aos filtros | Ao montar o relatório |
 | Separação por tipo de participante | uma aba por tipo de participante com inscrições no recorte | Ao gerar a planilha |
 | Nome do arquivo | identificação do relatório de inscrições | Ao entregar a planilha |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Tipo de Participante | lê | Agrupa as inscrições do relatório, em bloco na tela e em aba na planilha (regras 3 e 8) |
+| Campo do Formulário | lê | Cada campo configurado para o tipo de participante vira uma coluna do grupo (nota de `## Colunas do resultado`) |
+| Resposta de Formulário | lê | Fornece as respostas de cada inscrição, exibidas nas colunas do grupo |
+| Premiação × Categoria | lê | Restringe o filtro de categoria às categorias vinculadas à premiação escolhida |
+| Modalidade × Categoria | lê | Restringe o filtro de modalidade às modalidades da categoria escolhida |
 
 ---
 
@@ -203,34 +217,58 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes`, alcançada a pa
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Relatório de Inscrições | SE | 6 | 14 | Alta | 7 | 2026-09-01 |
-| Exportar Relatório de Inscrições | SE | 6 | 13 | Alta | 7 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Gerar Relatório de Inscrições (tela) | principal | SE | 6 | 14 | Alta | 7 | 2026-09-01 |
+| Gerar Relatório de Inscrições (XLSX) | principal | SE | 6 | 13 | Alta | 7 | 2026-09-01 |
+
+> Na contagem de 2026-09-01, os processos elementares se chamavam *Consultar Relatório de Inscrições* e *Exportar Relatório de Inscrições*; aqui levam o nome da feature com a variante entre parênteses, como pede o `global/SIZING.md` quando há mais de um `principal`. Os números são os daquela contagem.
 
 ### Memória de cálculo
 
-**Consultar Relatório de Inscrições** — SE. Formas de lógica: 4 (os cinco filtros), 7, 8, 9 (o total de inscrições do grupo, independente da amostra apresentada, e o aviso de amostra), 11, 12, 13. Intenção primária: apresentar, com dado derivado.
+**Gerar Relatório de Inscrições (tela)** — SE · ALR 6 · DER 14 · Alta · 7 PF
 
 ```json
-{"pe": "Consultar Relatório de Inscrições",
+{"pe": "Gerar Relatório de Inscrições (tela)",
  "alr": ["Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante", "Usuário"],
  "der": ["Premiação", "Unidade federativa", "Categoria", "Modalidade", "Situação", "Início a partir de", "Início até", "Tipo de participante", "Colunas de identificação da inscrição", "Colunas das respostas", "Total de inscrições do grupo", "Aviso de amostra", "Mensagem", "Ação"]}
 ```
-- **ALR (6)**: Inscrição *(as inscrições e as respostas de cada uma)* · Premiação · Categoria · Modalidade · Tipo de Participante *(uma coluna por campo configurado para o tipo)* · Usuário *(a UF do filtro)*.
-- **DER (14)** — entrada (7): Premiação · Unidade federativa · Categoria · Modalidade · Situação · Início a partir de · Início até. Saída (5): Tipo de participante · Colunas de identificação da inscrição · Colunas das respostas · Total de inscrições do grupo · Aviso de amostra · Mensagem · Ação.
-- **Fora da contagem**: as colunas variam com o tipo de participante — são um DER de agrupamento cada, não uma por campo configurado, porque o conjunto é o mesmo atributo lógico repetido.
 
-**Exportar Relatório de Inscrições** — SE. Mesmos dados e mesmo recorte da consulta, sem o corte de amostra e com uma aba por tipo de participante. Formas de lógica: 4, 7, 8, 9, 11, 12. É PE distinto pela convenção de contrato destes sistemas — ver `global/SIZING.md` → *Funcionalidades iguais em formatos de saída diferentes*.
+Por que cada ALR:
+1. `Inscrição` — as inscrições e as respostas de cada uma
+2. `Premiação` — a premiação escolhida, que delimita o relatório
+3. `Categoria` — o filtro de categoria
+4. `Modalidade` — o filtro de modalidade
+5. `Tipo de Participante` — o agrupamento, com uma coluna por campo configurado para o tipo
+6. `Usuário` — a UF do filtro
+
+Classificação SE. Formas de lógica: 4 (os cinco filtros), 7, 8, 9 (o total de inscrições do grupo, independente da amostra apresentada, e o aviso de amostra), 11, 12, 13. Intenção primária: apresentar, com dado derivado.
+
+Dos 14 DER, 7 são de entrada (de Premiação a Início até) e 5 de saída (Tipo de participante, Colunas de identificação da inscrição, Colunas das respostas, Total de inscrições do grupo e Aviso de amostra), mais Mensagem e Ação.
+
+Fora da contagem: as colunas variam com o tipo de participante — são um DER de agrupamento cada, não uma por campo configurado, porque o conjunto é o mesmo atributo lógico repetido.
+
+**Gerar Relatório de Inscrições (XLSX)** — SE · ALR 6 · DER 13 · Alta · 7 PF
 
 ```json
-{"pe": "Exportar Relatório de Inscrições",
+{"pe": "Gerar Relatório de Inscrições (XLSX)",
  "alr": ["Inscrição", "Premiação", "Categoria", "Modalidade", "Tipo de Participante", "Usuário"],
  "der": ["Premiação", "Unidade federativa", "Categoria", "Modalidade", "Situação", "Início a partir de", "Início até", "Separação por tipo de participante", "Colunas de identificação", "Colunas das respostas", "Nome do arquivo", "Mensagem", "Ação"]}
 ```
-- **ALR (6)**: Inscrição · Premiação · Categoria · Modalidade · Tipo de Participante · Usuário *(os mesmos da consulta)*.
-- **DER (13)** — entrada (7), herdada da consulta: Premiação · Unidade federativa · Categoria · Modalidade · Situação · Início a partir de · Início até. Saída (4): Separação por tipo de participante · Colunas de identificação · Colunas das respostas · Nome do arquivo · Mensagem · Ação.
-- **Fora da contagem**: o aviso de amostra e o total do grupo não vão para a planilha — a exportação traz o recorte inteiro.
+
+Por que cada ALR (os mesmos da consulta em tela):
+1. `Inscrição` — as inscrições e as respostas de cada uma
+2. `Premiação` — a premiação escolhida, que delimita a planilha
+3. `Categoria` — o filtro de categoria
+4. `Modalidade` — o filtro de modalidade
+5. `Tipo de Participante` — uma aba por tipo, com uma coluna por campo configurado
+6. `Usuário` — a UF do filtro
+
+Classificação SE. Mesmos dados e mesmo recorte da consulta, sem o corte de amostra e com uma aba por tipo de participante. Formas de lógica: 4, 7, 8, 9, 11, 12. É PE distinto pela convenção de contrato destes sistemas — ver `global/SIZING.md` → *Funcionalidades iguais em formatos de saída diferentes*.
+
+Dos 13 DER, 7 são de entrada, herdados da consulta (de Premiação a Início até), e 4 de saída (Separação por tipo de participante, Colunas de identificação, Colunas das respostas e Nome do arquivo), mais Mensagem e Ação.
+
+Fora da contagem: o aviso de amostra e o total do grupo não vão para a planilha — a exportação traz o recorte inteiro.
 
 **Total: 14 PF** (2 processos elementares).
 
@@ -242,7 +280,7 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes`, alcançada a pa
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos` (a seleção sai do Preenchimento e vai para o Tipo; a situação é `dado de código`), `## Dados lidos e gravados`, coluna Papel e memória de cálculo com o cabeçalho de cada processo elementar e a lista dos ALR no formato do engine, com os dois processos elementares principais levando o nome da feature e a variante (tela e XLSX). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Protótipo vinculado | A feature passa a estar desenhada — fidelidade **referência**. Era uma das cinco da SP05 sem protótipo |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processos elementares contados sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **14 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -252,6 +290,6 @@ Página própria em `/validacao-inscricao/relatorio-inscricoes`, alcançada a pa
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

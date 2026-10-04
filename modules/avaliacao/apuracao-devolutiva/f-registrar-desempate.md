@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador resolver o empate que atravessa a linha de corte de classificação ou a de premiação, comparando questão a questão as inscrições empatadas e elegendo a vencedora com justificativa e responsável registrados.
 
+Na tela de Fechamento de Etapa, o administrador abre o desempate no empate sinalizado na linha de corte — de classificação ou de premiação —, compara lado a lado as respostas e as notas de cada questão das inscrições empatadas, escolhe a vencedora e registra a justificativa.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — |
+| [`PDTIC25093-49`](../../../analise-impacto/AIM-PDTIC25093-49.md) | Alteração | — decisão manual só para o empate que atravessa a linha de corte, de classificação ou de premiação, com comparação questão a questão, escolha da vencedora e justificativa de 30 a 1.000 caracteres |
 
 ---
 
@@ -137,10 +139,10 @@ Feature: Registrar Desempate
 
 ## Campos
 
-| Label PO | Preenchimento | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|
-| Inscrição vencedora | entrada do usuário | seleção → Inscrição empatada | sim | exatamente uma inscrição entre as empatadas no corte |
-| Justificativa | entrada do usuário | texto longo | sim | mínimo de 30 e máximo de 1.000 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Inscrição vencedora | Inscrição | entrada do usuário | editável | seleção → Inscrição | sim | uma das inscrições empatadas no corte; exatamente uma vencedora |
+| Justificativa | Decisão de Desempate | entrada do usuário | editável | texto longo | sim | mínimo de 30 e máximo de 1.000 caracteres |
 
 ---
 
@@ -152,6 +154,19 @@ Feature: Registrar Desempate
 | Status decidido | Vencedora para a inscrição eleita; Perdedora para as demais inscrições da decisão | Ao registrar o desempate ⚠️ *(nomes do enum a confirmar no data-model)* |
 | Responsável | Autor da decisão | Ao registrar o desempate |
 | Data da decisão | Data e hora do registro | Ao registrar o desempate |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Inscrição da Decisão de Desempate | grava | Recebe cada inscrição abrangida pela decisão com o status decidido dela (regra 4 e campo automático *Status decidido*) |
+| Apuração por Etapa | lê | Fornece as médias e as colocações que situam o empate na linha de corte (regras 2 e 5) |
+| Critério de Desempate | lê | Ordem dos critérios configurados, aplicados questão a questão antes da decisão manual (regra 1) |
+| Questão de Avaliação | lê | As questões comparadas uma a uma (regras 1 e 8) |
+| Nota de Avaliação | lê | As notas de cada questão das inscrições empatadas, comparadas lado a lado (regra 8) |
+| Resposta de Questão | lê | As respostas de cada questão das inscrições empatadas, comparadas lado a lado (regra 8) |
 
 ---
 
@@ -189,22 +204,30 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o empate
 
 > Contagem realizada em 2026-09-01 sobre este N3, para os processos elementares que **não existem no baseline APF** de 2026-02-28 — a capacidade não existia quando o baseline foi levantado. Regras do IFPUG CPM 4.3.1; as convenções de ALR seguem as do próprio baseline (Categoria, Modalidade e Tipo de Participante contam separado; UF vive no ALI Usuário; Etapa, Apuração por Etapa, Fechamento por UF e Desempate são subgrupos dos ALIs Premiação e Avaliação de Inscrição, não arquivos próprios). ⚠️ **Pendente de validação pela equipe de métricas.**
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Registrar Desempate | EE | 3 | 8 | Alta | 6 | 2026-09-01 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Registrar Desempate | principal | EE | 3 | 8 | Alta | 6 | 2026-09-01 |
 
 ### Memória de cálculo
 
-**Registrar Desempate** — EE. Formas de lógica: 1 (justificativa de 30 a 1.000 caracteres, exatamente uma vencedora), 5 (qual corte a decisão resolve), 6 (grava a decisão e as inscrições da decisão), 7, 8, 12. Intenção primária: manter ALI, com dados recebidos de fora da fronteira.
+**Registrar Desempate** — EE · ALR 3 · DER 8 · Alta · 6 PF
 
 ```json
 {"pe": "Registrar Desempate",
  "alr": ["Avaliação de Inscrição", "Inscrição", "Tipo de Participante"],
  "der": ["Inscrição vencedora", "Justificativa", "Tipo de corte", "Status decidido", "Responsável", "Data da decisão", "Mensagem", "Ação"]}
 ```
-- **ALR (3)**: Avaliação de Inscrição *(lê a apuração e as notas por questão; grava a decisão de desempate e as inscrições abrangidas — todos subgrupos deste ALI)* · Inscrição *(identifica as empatadas)* · Tipo de Participante *(as questões comparadas uma a uma, regras 1 e 8)*.
-- **DER (8)** — entrada (2): Inscrição vencedora · Justificativa. Saída (4): Tipo de corte · Status decidido · Responsável · Data da decisão · Mensagem · Ação.
-- **Fora da contagem**: os critérios de desempate configurados são lidos de subgrupo do mesmo ALI já contado; a comparação questão a questão é lógica interna do mesmo PE, não um segundo processo elementar.
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — lê a apuração e as notas por questão; grava a decisão de desempate e as inscrições abrangidas, todos subgrupos deste ALI
+2. `Inscrição` — identifica as inscrições empatadas
+3. `Tipo de Participante` — as questões comparadas uma a uma (regras 1 e 8)
+
+Classificação EE. Formas de lógica: 1 (justificativa de 30 a 1.000 caracteres, exatamente uma vencedora), 5 (qual corte a decisão resolve), 6 (grava a decisão e as inscrições da decisão), 7, 8, 12. Intenção primária: manter ALI, com dados recebidos de fora da fronteira.
+
+Dos 8 DER, 2 são de entrada (Inscrição vencedora e Justificativa) e 4 de saída (Tipo de corte, Status decidido, Responsável e Data da decisão), mais Mensagem e Ação.
+
+Fora da contagem: os critérios de desempate configurados são lidos de subgrupo do mesmo ALI já contado; a comparação questão a questão é lógica interna do mesmo PE, não um segundo processo elementar.
 
 **Total: 6 PF** (1 processo elementar).
 
@@ -216,7 +239,7 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o empate
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos` (o Tipo da inscrição vencedora passa a nomear a entidade, `seleção → Inscrição`, e o "empatada" vai para a Validação), `## Dados lidos e gravados`, coluna Papel e memória de cálculo com o cabeçalho do processo elementar e a lista dos ALR no formato do engine. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Contagem APF (docqui) | Contagem realizada | Processo elementar contado sobre este N3 — fora do baseline de 2026-02-28, porque a capacidade não existia então. **6 PF**, com a memória de cálculo (ALR e DER nomeados). ⚠️ Pendente de validação pela equipe de métricas |
@@ -226,6 +249,6 @@ No fechamento da etapa em `/avaliacao-admin/fechamento-etapa/:etapaId`, o empate
 
 ---
 
-*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Apuração e Devolutiva · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
