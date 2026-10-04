@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Painel Administrativo de Avaliações
-> **Nível 2** - Domínio: Avaliação - `AVL-PAI`
+> **Nível 2** - Major Feature Set: Avaliação - `AVL-PAI`
 
 ## Descrição
 
@@ -12,12 +12,12 @@ Dá ao administrador a visão consolidada das avaliações em andamento e o espa
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Acompanhar Painel de Avaliações**](f-acompanhar-painel-avaliacoes.md) <small>AVL-PAI-01</small> | **P1** | Consultar a árvore de avaliações por inscrição × etapa, com KPIs agregados, filtros por premiação, etapa, estado (UF) e status de consolidação, busca e o andamento da consolidação por estado. |
-| [**Consultar Avaliações por Etapa**](f-consultar-avaliacoes-etapa.md) <small>AVL-PAI-02</small> | **P1** | Ver o detalhe de uma inscrição em uma etapa: avaliadores, status, notas por questão (auditoria) e o parecer individual de cada avaliador. |
-| [**Consolidar Avaliação**](f-consolidar-avaliacao.md) <small>AVL-PAI-03</small> | **P1** | Redigir e salvar o feedback consolidado da inscrição na etapa, com pré-visualização e marcação de rastreabilidade de apoio de IA; bloqueado depois de fechado o estado da inscrição na etapa. |
-| [**Exportar Relatório de Avaliadores**](f-exportar-relatorio-avaliadores.md) <small>AVL-PAI-04</small> | **P2** | Gerar em planilha o acompanhamento por avaliador — totais por situação e a lista das avaliações do recorte consultado. |
+| Feature | Descrição |
+|---|---|
+| [**Acompanhar Painel de Avaliações**](f-acompanhar-painel-avaliacoes.md) <small>AVL-PAI-01</small> | Consultar a árvore de avaliações por inscrição × etapa, com KPIs agregados, filtros por premiação, etapa, estado (UF) e status de consolidação, busca e o andamento da consolidação por estado. |
+| [**Consultar Avaliações por Etapa**](f-consultar-avaliacoes-etapa.md) <small>AVL-PAI-02</small> | Ver o detalhe de uma inscrição em uma etapa: avaliadores, status, notas por questão (auditoria) e o parecer individual de cada avaliador. |
+| [**Consolidar Avaliação**](f-consolidar-avaliacao.md) <small>AVL-PAI-03</small> | Redigir e salvar o feedback consolidado da inscrição na etapa, com pré-visualização e marcação de rastreabilidade de apoio de IA; bloqueado depois de fechado o estado da inscrição na etapa. |
+| [**Exportar Relatório de Avaliadores**](f-exportar-relatorio-avaliadores.md) <small>AVL-PAI-04</small> | Gerar em planilha o acompanhamento por avaliador — totais por situação e a lista das avaliações do recorte consultado. |
 
 ---
 
@@ -27,6 +27,8 @@ Dá ao administrador a visão consolidada das avaliações em andamento e o espa
 flowchart TD
     A(["Administrador acessa Avaliações"]) --> B["Acompanhar Painel de Avaliações"]
     B --> C["Consultar Avaliações por Etapa"]
+    B -.-> X["Exportar Relatório de Avaliadores"]
+    X --> W(["Acompanhamento por avaliador exportado"])
     C --> D{"Todos os avaliadores finalizaram?"}
     D -->|Não| Y(["Aguardando finalizações"])
     D -->|Sim| E["Consolidar Avaliação"]
@@ -38,6 +40,7 @@ flowchart TD
 ## Dependências entre features
 
 - Consultar Avaliações por Etapa parte de uma linha selecionada em Acompanhar Painel de Avaliações.
+- Exportar Relatório de Avaliadores parte do mesmo painel e leva para a planilha o recorte que estiver consultado.
 - Consolidar Avaliação só é habilitada quando todos os avaliadores alocados para a inscrição na etapa estão com a avaliação finalizada em Avaliação de Projetos.
 - A visibilidade do painel é regida pela capability de cada etapa definida em Etapas e Configuração da Avaliação: o Regional só vê as inscrições das etapas em que seu perfil está autorizado.
 - Sobre essa visibilidade incide o recorte geográfico: o Regional alcança apenas as inscrições dos estados (UFs) aos quais está vinculado, tanto na seleção de estado quanto no andamento da consolidação por estado.
@@ -52,6 +55,7 @@ flowchart TD
 |---|---|---|---|---|
 | Lista de Avaliações | Premiação › Avaliações | `/avaliacao-admin/avaliacoes` | **Acompanhar Painel de Avaliações** <small>AVL-PAI-01</small> | Árvore inscrição × etapa com KPIs, filtros (inclusive por estado), resumo de consolidação por estado e ações por linha |
 | Detalhe da Avaliação | — | `/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etapaId` | **Consultar Avaliações por Etapa** <small>AVL-PAI-02</small> · **Consolidar Avaliação** <small>AVL-PAI-03</small> | Abas por avaliador, drawer de auditoria de notas e editor de consolidação |
+
 ---
 
 ## Permissões por perfil
@@ -75,10 +79,11 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-09-01 | Especificação (docqui) | Referência atualizada | A reabertura por estado deixa de constar como feature prevista e não especificada — `AVL-APU-12` **Reabrir Etapa por UF** ganhou N3 nesta data |
 | 2026-08-28 | Impacto SP05 (docqui) | N2 alterado | Recorte por estado (UF) do Administrador Regional, andamento da consolidação por estado e trava de consolidação após o fechamento do estado |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, das HUs e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Avaliação](../README.md) · [INDEX geral](../../INDEX.md)*

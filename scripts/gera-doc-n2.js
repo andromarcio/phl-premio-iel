@@ -107,7 +107,8 @@ function blocoN2(arquivo, pastaFluxos, avisos) {
   const md = fs.readFileSync(arquivo, 'utf8');
   const slug = path.basename(path.dirname(arquivo));
   const nome = (/^#\s+Feature Set:\s*(.+)$/m.exec(md) || [, slug])[1].trim();
-  const meta = /^>\s*\*\*Nível 2\*\*\s*-\s*Domínio:\s*([^-]+)-\s*`([^`]+)`/m.exec(md);
+  // O N2 diz `Major Feature Set:` desde a 3.0.0; o legado `Domínio:` segue valendo.
+  const meta = /^>\s*\*\*Nível 2\*\*\s*-\s*(?:Major Feature Set|Domínio):\s*([^-]+)-\s*`([^`]+)`/m.exec(md);
   const dominio = meta ? meta[1].trim() : '';
   const codigo = meta ? meta[2].trim() : '';
   const sec = secoes(md);
@@ -251,7 +252,7 @@ function main() {
 
   const n1 = fs.existsSync(path.join(base, 'README.md'))
     ? fs.readFileSync(path.join(base, 'README.md'), 'utf8') : '';
-  const nomeDominio = (/^#\s+(?:Domínio:\s*)?(.+)$/m.exec(n1) || [, dominio])[1].trim();
+  const nomeDominio = (/^#\s+(?:(?:Major Feature Set|Domínio):\s*)?(.+)$/m.exec(n1) || [, dominio])[1].trim();
 
   const avisos = [];
   const corpo = [];

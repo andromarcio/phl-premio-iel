@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Acompanhamento
-> **Nível 2** - Domínio: Inscrição - `INS-ACO`
+> **Nível 2** - Major Feature Set: Inscrição - `INS-ACO`
 
 ## Descrição
 
@@ -12,10 +12,10 @@ Reúne o painel do participante para acompanhar as suas inscrições e a avalia�
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Acompanhar Inscrição**](f-acompanhar-inscricao.md) <small>INS-ACO-01</small> | **P1** | Visualizar o painel do participante com estatísticas e a lista das inscrições, cada uma com categoria, modalidade, tipo de participante e status. |
-| [**Visualizar Devolutiva**](f-visualizar-devolutiva.md) <small>INS-ACO-02</small> | **P2** | Consultar a devolutiva consolidada da avaliação de uma inscrição, após liberação pela Avaliação. |
+| Feature | Descrição |
+|---|---|
+| [**Acompanhar Inscrição**](f-acompanhar-inscricao.md) <small>INS-ACO-01</small> | Visualizar o painel do participante com estatísticas e a lista das inscrições, cada uma com categoria, modalidade, tipo de participante e status. |
+| [**Visualizar Devolutiva**](f-visualizar-devolutiva.md) <small>INS-ACO-02</small> | Consultar a devolutiva consolidada da avaliação de uma inscrição, após liberação pela Avaliação. |
 
 ---
 
@@ -47,6 +47,7 @@ flowchart TD
 |---|---|---|---|---|
 | Dashboard do Participante | ⚠️ a conferir | `/participante/dashboard` | **Acompanhar Inscrição** <small>INS-ACO-01</small> | Saudação personalizada, cards estatísticos e lista de cards de inscrição com status e ação |
 | Devolutiva da Inscrição | ⚠️ a conferir | `/inscricao/minha/:inscricaoId?tab=feedbacks` | **Visualizar Devolutiva** <small>INS-ACO-02</small> | Feedback consolidado da avaliação, exibido somente após a revisão humana e a liberação |
+
 ---
 
 ## Permissões por perfil
@@ -67,8 +68,9 @@ Perfis: **Participante** `PIT.2`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-016 e do inventário APF (módulo Inscrição) |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Inscrição](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Tipos de Participante
-> **Nível 2** - Domínio: Configuração da Premiação - `CFG-TIP`
+> **Nível 2** - Major Feature Set: Configuração da Premiação - `CFG-TIP`
 
 ## Descrição
 
@@ -12,24 +12,24 @@ Concentra o cadastro do tipo de participante — o quarto nível da estrutura, o
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Pesquisar Tipos de Participante**](f-pesquisar-tipo-participante.md) <small>CFG-TIP-01</small> | **P1** | Localizar tipos de participante por nome e situação. |
-| [**Cadastrar Tipo de Participante**](f-cadastrar-tipo-participante.md) <small>CFG-TIP-02</small> | **P1** | Registrar um novo tipo, com opção de inscrição em equipe. |
-| [**Editar Tipo de Participante**](f-editar-tipo-participante.md) <small>CFG-TIP-03</small> | **P1** | Alterar os dados gerais e as opções de equipe do tipo. |
-| [**Visualizar Tipo de Participante**](f-visualizar-tipo-participante.md) <small>CFG-TIP-04</small> | **P2** | Ver os dados, os vínculos e o resumo dos recursos configurados. |
-| [**Ativar/Inativar Tipo de Participante**](f-ativar-inativar-tipo-participante.md) <small>CFG-TIP-05</small> | **P2** | Alternar a situação do tipo (exclusão lógica), sem cascata para as sub-configurações. |
-| [**Configurar Formulário de Inscrição**](f-configurar-formulario.md) <small>CFG-TIP-06</small> | **P1** | Montar o formulário dinâmico do tipo, no modo simples ou em etapas. |
-| [**Cadastrar Campo**](f-cadastrar-campo.md) <small>CFG-TIP-07</small> | **P1** | Adicionar um campo tipado ao formulário, com suas regras. |
-| [**Editar Campo**](f-editar-campo.md) <small>CFG-TIP-08</small> | **P2** | Alterar rótulo, obrigatoriedade e demais propriedades de um campo. |
-| [**Excluir Campo**](f-excluir-campo.md) <small>CFG-TIP-09</small> | **P2** | Remover um campo do formulário (exclusão lógica quando já há inscrições). |
-| [**Cadastrar Enquadramento**](f-cadastrar-enquadramento.md) <small>CFG-TIP-10</small> | **P1** | Registrar uma subdivisão classificatória do tipo (ex.: ano/série). |
-| [**Ativar/Inativar Enquadramento**](f-ativar-inativar-enquadramento.md) <small>CFG-TIP-11</small> | **P2** | Alternar a situação de um enquadramento; o enquadramento "Geral" é protegido. |
-| [**Configurar Anexos Exigidos**](f-configurar-anexo.md) <small>CFG-TIP-12</small> | **P1** | Definir os documentos exigidos, com formato, tamanho e obrigatoriedade. |
-| [**Cadastrar Questão**](f-cadastrar-questao.md) <small>CFG-TIP-13</small> | **P1** | Adicionar uma questão (discursiva ou objetiva) ao questionário de avaliação. |
-| [**Editar Questão**](f-editar-questao.md) <small>CFG-TIP-14</small> | **P2** | Alterar enunciado, peso, alternativas e ordem de uma questão. |
-| [**Configurar Equipe**](f-configurar-equipe.md) <small>CFG-TIP-15</small> | **P2** | Definir os tipos de vínculo e os campos extras dos membros da equipe. |
-| [**Importar Configuração do Tipo de Participante**](f-importar-configuracao.md) <small>CFG-TIP-16</small> | **P3** | Trazer a estrutura de inscrição/avaliação de outra fonte via planilha. ⚠️ *(escopo da importação a confirmar frente à importação da edição em Prêmios)* |
+| Feature | Descrição |
+|---|---|
+| [**Pesquisar Tipos de Participante**](f-pesquisar-tipo-participante.md) <small>CFG-TIP-01</small> | Localizar tipos de participante por nome e situação. |
+| [**Cadastrar Tipo de Participante**](f-cadastrar-tipo-participante.md) <small>CFG-TIP-02</small> | Registrar um novo tipo, com opção de inscrição em equipe. |
+| [**Editar Tipo de Participante**](f-editar-tipo-participante.md) <small>CFG-TIP-03</small> | Alterar os dados gerais e as opções de equipe do tipo. |
+| [**Visualizar Tipo de Participante**](f-visualizar-tipo-participante.md) <small>CFG-TIP-04</small> | Ver os dados, os vínculos e o resumo dos recursos configurados. |
+| [**Ativar/Inativar Tipo de Participante**](f-ativar-inativar-tipo-participante.md) <small>CFG-TIP-05</small> | Alternar a situação do tipo (exclusão lógica), sem cascata para as sub-configurações. |
+| [**Configurar Formulário de Inscrição**](f-configurar-formulario.md) <small>CFG-TIP-06</small> | Montar o formulário dinâmico do tipo, no modo simples ou em etapas. |
+| [**Cadastrar Campo**](f-cadastrar-campo.md) <small>CFG-TIP-07</small> | Adicionar um campo tipado ao formulário, com suas regras. |
+| [**Editar Campo**](f-editar-campo.md) <small>CFG-TIP-08</small> | Alterar rótulo, obrigatoriedade e demais propriedades de um campo. |
+| [**Excluir Campo**](f-excluir-campo.md) <small>CFG-TIP-09</small> | Remover um campo do formulário (exclusão lógica quando já há inscrições). |
+| [**Cadastrar Enquadramento**](f-cadastrar-enquadramento.md) <small>CFG-TIP-10</small> | Registrar uma subdivisão classificatória do tipo (ex.: ano/série). |
+| [**Ativar/Inativar Enquadramento**](f-ativar-inativar-enquadramento.md) <small>CFG-TIP-11</small> | Alternar a situação de um enquadramento; o enquadramento "Geral" é protegido. |
+| [**Configurar Anexos Exigidos**](f-configurar-anexo.md) <small>CFG-TIP-12</small> | Definir os documentos exigidos, com formato, tamanho e obrigatoriedade. |
+| [**Cadastrar Questão**](f-cadastrar-questao.md) <small>CFG-TIP-13</small> | Adicionar uma questão (discursiva ou objetiva) ao questionário de avaliação. |
+| [**Editar Questão**](f-editar-questao.md) <small>CFG-TIP-14</small> | Alterar enunciado, peso, alternativas e ordem de uma questão. |
+| [**Configurar Equipe**](f-configurar-equipe.md) <small>CFG-TIP-15</small> | Definir os tipos de vínculo e os campos extras dos membros da equipe. |
+| [**Importar Configuração do Tipo de Participante**](f-importar-configuracao.md) <small>CFG-TIP-16</small> | Trazer a estrutura de inscrição/avaliação de outra fonte via planilha. ⚠️ *(escopo da importação a confirmar frente à importação da edição em Prêmios)* |
 
 ---
 
@@ -92,6 +92,7 @@ flowchart TD
 | Anexos Exigidos | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Tipo de Participante → aba **Anexos**)* | **Configurar Anexos Exigidos** <small>CFG-TIP-12</small> | Configuração dos documentos exigidos e preview |
 | Construtor de Questionário | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Tipo de Participante → aba **Avaliação**)* | **Cadastrar Questão** <small>CFG-TIP-13</small> · **Editar Questão** <small>CFG-TIP-14</small> | Construtor de questões, pesos e alternativas |
 | Configuração de Equipe | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Tipo de Participante → aba **Equipe**)* | **Configurar Equipe** <small>CFG-TIP-15</small> | Tipos de vínculo e campos extras dos membros |
+
 ---
 
 ## Permissões por perfil
@@ -114,8 +115,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, das HUs 006 a 010 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Configuração da Premiação](../README.md) · [INDEX geral](../../INDEX.md)*

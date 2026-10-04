@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Avaliação de Projetos
-> **Nível 2** - Domínio: Avaliação - `AVL-AVA`
+> **Nível 2** - Major Feature Set: Avaliação - `AVL-AVA`
 
 ## Descrição
 
@@ -12,15 +12,15 @@
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Acompanhar Minhas Avaliações**](f-acompanhar-minhas-avaliacoes.md) <small>AVL-AVA-01</small> | **P1** | Ver as premiações alocadas e o grid de inscrições a avaliar, com indicadores, prazos e filtros por premiação, etapa e status. |
-| [**Aceitar Termo de Confidencialidade**](f-aceitar-termo-confidencialidade.md) <small>AVL-AVA-02</small> | **P1** | Ler e aceitar o termo da premiação antes de acessar os dados dos participantes; registro único por avaliador e premiação. |
-| [**Avaliar Inscrição**](f-avaliar-inscricao.md) <small>AVL-AVA-03</small> | **P1** | Atribuir nota de 1 a 5 por questão (salva progressivamente) e redigir o parecer individual da inscrição designada. |
-| [**Finalizar Avaliação**](f-finalizar-avaliacao.md) <small>AVL-AVA-04</small> | **P1** | Concluir a avaliação após pontuar todas as questões e registrar o parecer, deixando o registro somente leitura. |
-| [**Reabrir Avaliação**](f-reabrir-avaliacao.md) <small>AVL-AVA-05</small> | **P2** | Reverter uma avaliação finalizada para Em andamento, preservando as notas, para devolver o trabalho ao avaliador. |
-| [**Consultar Outros Avaliadores**](f-consultar-outros-avaliadores.md) <small>AVL-AVA-06</small> | **P2** | Ver quantos outros avaliam o mesmo projeto e em que pé está cada um, sob apelido numerado e sem revelar notas. |
-| [**Consultar Premiações do Avaliador**](f-consultar-premiacoes-avaliador.md) <small>AVL-AVA-07</small> | **P1** | Ver, ao entrar, as premiações em que há projetos a avaliar, o avanço em cada uma e o aviso de termo pendente. |
+| Feature | Descrição |
+|---|---|
+| [**Acompanhar Minhas Avaliações**](f-acompanhar-minhas-avaliacoes.md) <small>AVL-AVA-01</small> | Ver as premiações alocadas e o grid de inscrições a avaliar, com indicadores, prazos e filtros por premiação, etapa e status. |
+| [**Aceitar Termo de Confidencialidade**](f-aceitar-termo-confidencialidade.md) <small>AVL-AVA-02</small> | Ler e aceitar o termo da premiação antes de acessar os dados dos participantes; registro único por avaliador e premiação. |
+| [**Avaliar Inscrição**](f-avaliar-inscricao.md) <small>AVL-AVA-03</small> | Atribuir nota de 1 a 5 por questão (salva progressivamente) e redigir o parecer individual da inscrição designada. |
+| [**Finalizar Avaliação**](f-finalizar-avaliacao.md) <small>AVL-AVA-04</small> | Concluir a avaliação após pontuar todas as questões e registrar o parecer, deixando o registro somente leitura. |
+| [**Reabrir Avaliação**](f-reabrir-avaliacao.md) <small>AVL-AVA-05</small> | Reverter uma avaliação finalizada para Em andamento, preservando as notas, para devolver o trabalho ao avaliador. |
+| [**Consultar Outros Avaliadores**](f-consultar-outros-avaliadores.md) <small>AVL-AVA-06</small> | Ver quantos outros avaliam o mesmo projeto e em que pé está cada um, sob apelido numerado e sem revelar notas. |
+| [**Consultar Premiações do Avaliador**](f-consultar-premiacoes-avaliador.md) <small>AVL-AVA-07</small> | Ver, ao entrar, as premiações em que há projetos a avaliar, o avanço em cada uma e o aviso de termo pendente. |
 
 ---
 
@@ -28,12 +28,15 @@
 
 ```mermaid
 flowchart TD
-    A(["Avaliador acessa o módulo de avaliação"]) --> B["Acompanhar Minhas Avaliações"]
+    A(["Avaliador acessa o módulo de avaliação"]) --> P["Consultar Premiações do Avaliador"]
+    P --> B["Acompanhar Minhas Avaliações"]
     B --> C{"Termo pendente?"}
     C -->|Sim| D["Aceitar Termo de Confidencialidade"]
     C -->|Não| E["Avaliar Inscrição"]
     D --> E
     E --> F["Finalizar Avaliação"]
+    E -.-> O["Consultar Outros Avaliadores"]
+    O --> F
     F --> Z(["Avaliação concluída (somente leitura)"])
     R(["Administrador Nacional devolve o trabalho"]) --> G["Reabrir Avaliação"]
     G --> E
@@ -43,6 +46,8 @@ flowchart TD
 
 ## Dependências entre features
 
+- Consultar Premiações do Avaliador é a porta de entrada do perfil: mostra as premiações em que o avaliador tem projetos, o avanço em cada uma e qual ainda exige o termo, e leva a Acompanhar Minhas Avaliações.
+- Consultar Outros Avaliadores é consulta de apoio dentro da avaliação do projeto: mostra quantos outros avaliam a mesma inscrição na etapa e a situação de cada um, sem revelar quem são nem as notas.
 - Acompanhar Minhas Avaliações lista apenas as inscrições alocadas ao avaliador em Alocação de Avaliadores; sem alocação não há o que avaliar.
 - Aceitar Termo de Confidencialidade é um gate: enquanto o termo ativo da premiação estiver pendente, Avaliar Inscrição fica bloqueada; premiação sem termo (ou com termo desativado) libera o acesso direto.
 - Finalizar Avaliação exige todas as questões pontuadas e o parecer com o mínimo de caracteres, e é bloqueada quando a etapa está fechada.
@@ -59,6 +64,7 @@ flowchart TD
 | Painel do Avaliador | Minhas Avaliações | `/avaliacao/premiacao/:premiacaoId` | **Acompanhar Minhas Avaliações** <small>AVL-AVA-01</small> | Grid de cartões das inscrições alocadas, com indicadores e filtros |
 | Avaliação da Inscrição | — | `/avaliacao/:alocacaoId` | **Avaliar Inscrição** <small>AVL-AVA-03</small> · **Finalizar Avaliação** <small>AVL-AVA-04</small> · **Consultar Outros Avaliadores** <small>AVL-AVA-06</small> | Pontuação por questão, parecer, anexos, histórico da própria avaliação e andamento dos demais avaliadores do projeto |
 | Alocação por Inscrição | — | `/avaliacao-admin/alocacao-participante` | **Reabrir Avaliação** <small>AVL-AVA-05</small> | Ação de desfinalizar a alocação (Administrador Nacional, etapa Aberta) |
+
 ---
 
 ## Permissões por perfil
@@ -81,8 +87,9 @@ Perfis: **Avaliador** `PIT.4`, **Administrador Nacional** `PIT.1`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, das HUs e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Avaliação](../README.md) · [INDEX geral](../../INDEX.md)*

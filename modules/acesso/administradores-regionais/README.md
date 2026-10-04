@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Administradores Regionais
-> **Nível 2** - Domínio: Acesso e Gestão - `ACS-ADM`
+> **Nível 2** - Major Feature Set: Acesso e Gestão - `ACS-ADM`
 
 ## Descrição
 Concentra o cadastro dos administradores regionais e o vínculo de cada um às UFs sob sua responsabilidade. O vínculo por UF define o escopo regional — quais inscrições o administrador enxerga e pode validar. A gestão é feita pelo Administrador Nacional.
@@ -11,12 +11,12 @@ Concentra o cadastro dos administradores regionais e o vínculo de cada um às U
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Pesquisar Administradores**](f-pesquisar-administrador.md) <small>ACS-ADM-01</small> | **P1** | Localizar administradores regionais para consulta, edição ou vínculo de UF. |
-| [**Cadastrar Administrador Regional**](f-cadastrar-administrador-regional.md) <small>ACS-ADM-02</small> | **P1** | Registrar um usuário como administrador regional. ⚠️ *(identidade vem do SSO — a confirmar se é seleção de usuário existente)* |
-| [**Editar Administrador Regional**](f-editar-administrador-regional.md) <small>ACS-ADM-03</small> | **P2** | Alterar os dados do administrador regional. |
-| [**Vincular UF ao Administrador**](f-vincular-uf-administrador.md) <small>ACS-ADM-04</small> | **P1** | Atribuir uma ou mais UFs ao administrador regional, definindo seu escopo de validação. |
+| Feature | Descrição |
+|---|---|
+| [**Pesquisar Administradores**](f-pesquisar-administrador.md) <small>ACS-ADM-01</small> | Localizar administradores regionais para consulta, edição ou vínculo de UF. |
+| [**Cadastrar Administrador Regional**](f-cadastrar-administrador-regional.md) <small>ACS-ADM-02</small> | Registrar um usuário como administrador regional. ⚠️ *(identidade vem do SSO — a confirmar se é seleção de usuário existente)* |
+| [**Editar Administrador Regional**](f-editar-administrador-regional.md) <small>ACS-ADM-03</small> | Alterar os dados do administrador regional. |
+| [**Vincular UF ao Administrador**](f-vincular-uf-administrador.md) <small>ACS-ADM-04</small> | Atribuir uma ou mais UFs ao administrador regional, definindo seu escopo de validação. |
 
 ---
 
@@ -50,6 +50,7 @@ flowchart TD
 | Lista de Administradores | ⚠️ a conferir | `/administracao-usuarios` | **Pesquisar Administradores** <small>ACS-ADM-01</small> | Lista com busca dos administradores regionais |
 | Formulário de Administrador | ⚠️ a conferir | `/administracao-usuario` | **Cadastrar Administrador Regional** <small>ACS-ADM-02</small> · **Editar Administrador Regional** <small>ACS-ADM-03</small> | Formulário de dados do administrador regional |
 | Configuração de UFs do Administrador | ⚠️ a conferir | `/administracao-usuario/:login` *(campo “UFs de Atuação”)* | **Vincular UF ao Administrador** <small>ACS-ADM-04</small> | Seleção múltipla de UFs (sigla e nome) por administrador |
+
 ---
 
 ## Permissões por perfil
@@ -70,8 +71,9 @@ Perfis: **Administrador Nacional** `PIT.1`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-020 e do inventário APF (módulo Usuário) |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Acesso e Gestão](../README.md) · [INDEX geral](../../INDEX.md)*

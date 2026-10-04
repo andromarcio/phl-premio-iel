@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Auditoria
-> **Nível 2** - Domínio: Acesso e Gestão - `ACS-AUD`
+> **Nível 2** - Major Feature Set: Acesso e Gestão - `ACS-AUD`
 
 ## Descrição
 Reúne a consulta à trilha de auditoria do sistema — o registro append-only das ações críticas (quem fez, o que mudou e quando), alimentado por todos os domínios a cada validação, ajuste, avaliação ou configuração. ⚠️ *Feature Set sem HU dedicada — derivado do data-model (entidade Log de Auditoria); a confirmar.*
@@ -11,9 +11,9 @@ Reúne a consulta à trilha de auditoria do sistema — o registro append-only d
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Consultar Trilha de Auditoria**](f-consultar-trilha-auditoria.md) <small>ACS-AUD-01</small> | **P2** | Consultar o registro append-only das ações críticas por entidade, ação, usuário e data. ⚠️ *(escopo, filtros e perfil a confirmar)* |
+| Feature | Descrição |
+|---|---|
+| [**Consultar Trilha de Auditoria**](f-consultar-trilha-auditoria.md) <small>ACS-AUD-01</small> | Consultar o registro append-only das ações críticas por entidade, ação, usuário e data. ⚠️ *(escopo, filtros e perfil a confirmar)* |
 
 ---
 
@@ -38,6 +38,7 @@ flowchart TD
 | Tela | Caminho de menu | Rota (implementada) | Features atendidas | Descrição |
 |---|---|---|---|---|
 | Trilha de Auditoria | ⚠️ a conferir | ⚠️ *sem tela implementada* | **Consultar Trilha de Auditoria** <small>ACS-AUD-01</small> | Lista consultável do log de auditoria (entidade auditada, ação, usuário, data e hora) ⚠️ |
+
 ---
 
 ## Permissões por perfil
@@ -59,8 +60,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Derivado do N1 e do data-model (entidade Log de Auditoria) — sem HU dedicada ⚠️ |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Acesso e Gestão](../README.md) · [INDEX geral](../../INDEX.md)*

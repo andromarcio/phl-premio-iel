@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Vínculos e Ofertas
-> **Nível 2** - Domínio: Configuração da Premiação - `CFG-VIN`
+> **Nível 2** - Major Feature Set: Configuração da Premiação - `CFG-VIN`
 
 ## Descrição
 
@@ -12,19 +12,19 @@ Monta a estrutura da edição cruzando tipo de participante × modalidade × cat
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Consultar Estrutura da Premiação**](f-consultar-estrutura-premiacao.md) <small>CFG-VIN-01</small> | **P1** | Navegar a árvore Premiação > Categorias > Modalidades > Tipos de Participante. |
-| [**Vincular Categoria**](f-vincular-categoria.md) <small>CFG-VIN-02</small> | **P1** | Associar uma categoria à edição, ou criá-la e vinculá-la num só passo. |
-| [**Desvincular Categoria**](f-desvincular-categoria.md) <small>CFG-VIN-03</small> | **P2** | Remover o vínculo da categoria com a edição (exclusão lógica do vínculo). |
-| [**Vincular Modalidade**](f-vincular-modalidade.md) <small>CFG-VIN-04</small> | **P1** | Associar uma modalidade à categoria da edição, ou criá-la e vinculá-la. |
-| [**Desvincular Modalidade**](f-desvincular-modalidade.md) <small>CFG-VIN-05</small> | **P2** | Remover o vínculo da modalidade com a categoria (exclusão lógica do vínculo). |
-| [**Vincular Tipo de Participante**](f-vincular-tipo-participante.md) <small>CFG-VIN-06</small> | **P1** | Associar um tipo de participante à modalidade, compondo a oferta. |
-| [**Desvincular Tipo de Participante**](f-desvincular-tipo-participante.md) <small>CFG-VIN-07</small> | **P2** | Remover o vínculo do tipo com a modalidade (exclusão lógica do vínculo). |
-| [**Duplicar Oferta**](f-duplicar-oferta.md) <small>CFG-VIN-08</small> | **P2** | Copiar um ramo da estrutura (categoria, modalidade ou tipo) com toda a subestrutura. |
-| [**Cadastrar Submodalidade**](f-cadastrar-submodalidade.md) <small>CFG-VIN-09</small> | **P2** | Registrar uma submodalidade (oferta) da estrutura. ⚠️ *(relação submodalidade ↔ oferta a confirmar)* |
-| [**Editar Submodalidade**](f-editar-submodalidade.md) <small>CFG-VIN-10</small> | **P2** | Alterar os dados de uma submodalidade. ⚠️ *(a confirmar)* |
-| [**Ativar/Inativar Submodalidade**](f-ativar-inativar-submodalidade.md) <small>CFG-VIN-11</small> | **P2** | Alternar a situação de uma submodalidade (exclusão lógica). |
+| Feature | Descrição |
+|---|---|
+| [**Consultar Estrutura da Premiação**](f-consultar-estrutura-premiacao.md) <small>CFG-VIN-01</small> | Navegar a árvore Premiação > Categorias > Modalidades > Tipos de Participante. |
+| [**Vincular Categoria**](f-vincular-categoria.md) <small>CFG-VIN-02</small> | Associar uma categoria à edição, ou criá-la e vinculá-la num só passo. |
+| [**Desvincular Categoria**](f-desvincular-categoria.md) <small>CFG-VIN-03</small> | Remover o vínculo da categoria com a edição (exclusão lógica do vínculo). |
+| [**Vincular Modalidade**](f-vincular-modalidade.md) <small>CFG-VIN-04</small> | Associar uma modalidade à categoria da edição, ou criá-la e vinculá-la. |
+| [**Desvincular Modalidade**](f-desvincular-modalidade.md) <small>CFG-VIN-05</small> | Remover o vínculo da modalidade com a categoria (exclusão lógica do vínculo). |
+| [**Vincular Tipo de Participante**](f-vincular-tipo-participante.md) <small>CFG-VIN-06</small> | Associar um tipo de participante à modalidade, compondo a oferta. |
+| [**Desvincular Tipo de Participante**](f-desvincular-tipo-participante.md) <small>CFG-VIN-07</small> | Remover o vínculo do tipo com a modalidade (exclusão lógica do vínculo). |
+| [**Duplicar Oferta**](f-duplicar-oferta.md) <small>CFG-VIN-08</small> | Copiar um ramo da estrutura (categoria, modalidade ou tipo) com toda a subestrutura. |
+| [**Cadastrar Submodalidade**](f-cadastrar-submodalidade.md) <small>CFG-VIN-09</small> | Registrar uma submodalidade (oferta) da estrutura. ⚠️ *(relação submodalidade ↔ oferta a confirmar)* |
+| [**Editar Submodalidade**](f-editar-submodalidade.md) <small>CFG-VIN-10</small> | Alterar os dados de uma submodalidade. ⚠️ *(a confirmar)* |
+| [**Ativar/Inativar Submodalidade**](f-ativar-inativar-submodalidade.md) <small>CFG-VIN-11</small> | Alternar a situação de uma submodalidade (exclusão lógica). |
 
 ---
 
@@ -73,6 +73,7 @@ flowchart TD
 | Árvore de Configuração do Prêmio | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(árvore de estrutura, à esquerda)* | **Consultar Estrutura da Premiação** <small>CFG-VIN-01</small> · **Desvincular Categoria** <small>CFG-VIN-03</small> · **Desvincular Modalidade** <small>CFG-VIN-05</small> · **Desvincular Tipo de Participante** <small>CFG-VIN-07</small> · **Duplicar Oferta** <small>CFG-VIN-08</small> | Sidebar com a árvore da hierarquia e ações por nó |
 | Diálogo de Vínculo | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(árvore de estrutura, à esquerda)* (modal) | **Vincular Categoria** <small>CFG-VIN-02</small> · **Vincular Modalidade** <small>CFG-VIN-04</small> · **Vincular Tipo de Participante** <small>CFG-VIN-06</small> | Lista o catálogo disponível e permite criar e vincular no mesmo passo |
 | Submodalidades da Oferta | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Tipo de Participante → aba **Geral**)* | **Cadastrar Submodalidade** <small>CFG-VIN-09</small> · **Editar Submodalidade** <small>CFG-VIN-10</small> · **Ativar/Inativar Submodalidade** <small>CFG-VIN-11</small> | Manutenção das submodalidades (ofertas) da estrutura |
+
 ---
 
 ## Permissões por perfil
@@ -95,8 +96,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-011 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Configuração da Premiação](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Etapas e Configuração da Avaliação
-> **Nível 2** - Domínio: Avaliação - `AVL-ETA`
+> **Nível 2** - Major Feature Set: Avaliação - `AVL-ETA`
 
 ## Descrição
 
@@ -12,15 +12,15 @@ Concentra a montagem do subsistema de avaliação de uma edição: o modo de ava
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Configurar Avaliação**](f-configurar-avaliacao.md) <small>AVL-ETA-01</small> | **P1** | Definir o modo de avaliação da edição: confidencial ou aberta, exibição da média de etapas anteriores e quantidade de avaliadores por inscrição. |
-| [**Cadastrar Etapa**](f-cadastrar-etapa.md) <small>AVL-ETA-02</small> | **P1** | Criar uma etapa eliminatória com nome, período e perfis autorizados a operá-la. |
-| [**Editar Etapa**](f-editar-etapa.md) <small>AVL-ETA-03</small> | **P1** | Alterar os dados de uma etapa ainda não fechada. |
-| [**Excluir Etapa**](f-excluir-etapa.md) <small>AVL-ETA-04</small> | **P2** | Remover uma etapa da premiação quando não há alocações ativas nela. |
-| [**Reordenar Etapas**](f-reordenar-etapa.md) <small>AVL-ETA-05</small> | **P2** | Alterar a ordem relativa das etapas enquanto nenhuma etapa estiver fechada. |
-| [**Configurar Critérios de Desempate**](f-configurar-criterios-desempate.md) <small>AVL-ETA-06</small> | **P1** | Definir, por tipo de participante, a lista ordenada de questões aplicada para quebrar empates de média (modelo lexicográfico). |
-| [**Configurar Termo de Confidencialidade**](f-configurar-termo-confidencialidade.md) <small>AVL-ETA-07</small> | **P2** | Cadastrar, substituir ou desativar o termo de confidencialidade (texto ou anexo) exigido do avaliador na premiação. |
+| Feature | Descrição |
+|---|---|
+| [**Configurar Avaliação**](f-configurar-avaliacao.md) <small>AVL-ETA-01</small> | Definir o modo de avaliação da edição: confidencial ou aberta, exibição da média de etapas anteriores e quantidade de avaliadores por inscrição. |
+| [**Cadastrar Etapa**](f-cadastrar-etapa.md) <small>AVL-ETA-02</small> | Criar uma etapa eliminatória com nome, período e perfis autorizados a operá-la. |
+| [**Editar Etapa**](f-editar-etapa.md) <small>AVL-ETA-03</small> | Alterar os dados de uma etapa ainda não fechada. |
+| [**Excluir Etapa**](f-excluir-etapa.md) <small>AVL-ETA-04</small> | Remover uma etapa da premiação quando não há alocações ativas nela. |
+| [**Reordenar Etapas**](f-reordenar-etapa.md) <small>AVL-ETA-05</small> | Alterar a ordem relativa das etapas enquanto nenhuma etapa estiver fechada. |
+| [**Configurar Critérios de Desempate**](f-configurar-criterios-desempate.md) <small>AVL-ETA-06</small> | Definir, por tipo de participante, a lista ordenada de questões aplicada para quebrar empates de média (modelo lexicográfico). |
+| [**Configurar Termo de Confidencialidade**](f-configurar-termo-confidencialidade.md) <small>AVL-ETA-07</small> | Cadastrar, substituir ou desativar o termo de confidencialidade (texto ou anexo) exigido do avaliador na premiação. |
 
 ---
 
@@ -62,6 +62,7 @@ flowchart TD
 | Editor de Etapa | — | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Premiação → aba **Avaliação & Etapas**)* (diálogo) | **Cadastrar Etapa** <small>AVL-ETA-02</small> · **Editar Etapa** <small>AVL-ETA-03</small> | Diálogo que captura nome, período e perfis autorizados |
 | Critérios de Desempate | — | `/premiacoes/:id/avaliacao-etapas#criterios` | **Configurar Critérios de Desempate** <small>AVL-ETA-06</small> | Seleção e reordenação lexicográfica das questões por tipo de participante |
 | Termo de Confidencialidade | — | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(aba **Avaliação & Etapas** → “Termo de Confidencialidade do Avaliador”)* | **Configurar Termo de Confidencialidade** <small>AVL-ETA-07</small> | Cadastro, substituição e desativação do termo (texto ou anexo) |
+
 ---
 
 ## Permissões por perfil
@@ -84,8 +85,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, das HUs e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Avaliação](../README.md) · [INDEX geral](../../INDEX.md)*

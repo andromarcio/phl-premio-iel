@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Modalidades
-> **Nível 2** - Domínio: Configuração da Premiação - `CFG-MOD`
+> **Nível 2** - Major Feature Set: Configuração da Premiação - `CFG-MOD`
 
 ## Descrição
 
@@ -12,13 +12,13 @@ Concentra o cadastro e a manutenção das modalidades da premiação — o terce
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Pesquisar Modalidades**](f-pesquisar-modalidade.md) <small>CFG-MOD-01</small> | **P1** | Localizar modalidades por nome e situação no catálogo administrativo. |
-| [**Cadastrar Modalidade**](f-cadastrar-modalidade.md) <small>CFG-MOD-02</small> | **P1** | Registrar uma nova modalidade com período de inscrição e regulamento. |
-| [**Editar Modalidade**](f-editar-modalidade.md) <small>CFG-MOD-03</small> | **P1** | Alterar dados, período de inscrição e link de regulamento da modalidade. |
-| [**Visualizar Modalidade**](f-visualizar-modalidade.md) <small>CFG-MOD-04</small> | **P2** | Ver os detalhes da modalidade e as categorias e prêmios vinculados. |
-| [**Ativar/Inativar Modalidade**](f-ativar-inativar-modalidade.md) <small>CFG-MOD-05</small> | **P2** | Alternar a situação ativa/inativa da modalidade (exclusão lógica). |
+| Feature | Descrição |
+|---|---|
+| [**Pesquisar Modalidades**](f-pesquisar-modalidade.md) <small>CFG-MOD-01</small> | Localizar modalidades por nome e situação no catálogo administrativo. |
+| [**Cadastrar Modalidade**](f-cadastrar-modalidade.md) <small>CFG-MOD-02</small> | Registrar uma nova modalidade com período de inscrição e regulamento. |
+| [**Editar Modalidade**](f-editar-modalidade.md) <small>CFG-MOD-03</small> | Alterar dados, período de inscrição e link de regulamento da modalidade. |
+| [**Visualizar Modalidade**](f-visualizar-modalidade.md) <small>CFG-MOD-04</small> | Ver os detalhes da modalidade e as categorias e prêmios vinculados. |
+| [**Ativar/Inativar Modalidade**](f-ativar-inativar-modalidade.md) <small>CFG-MOD-05</small> | Alternar a situação ativa/inativa da modalidade (exclusão lógica). |
 
 ---
 
@@ -54,6 +54,7 @@ flowchart TD
 | Catálogo de Modalidades | ⚠️ a conferir | `/modalidades` | **Pesquisar Modalidades** <small>CFG-MOD-01</small> · **Ativar/Inativar Modalidade** <small>CFG-MOD-05</small> | Lista paginada com busca por nome e situação e ação de situação |
 | Formulário de Modalidade | ⚠️ a conferir | `/modalidades/novo` | **Cadastrar Modalidade** <small>CFG-MOD-02</small> · **Editar Modalidade** <small>CFG-MOD-03</small> | Formulário com nome, descrição, regulamento e período de inscrição |
 | Detalhe da Modalidade | ⚠️ a conferir | `/modalidades/:id/visualizar` | **Visualizar Modalidade** <small>CFG-MOD-04</small> | Exibição dos dados e da aba de vínculos com categorias e prêmios |
+
 ---
 
 ## Permissões por perfil
@@ -76,8 +77,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-005 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Configuração da Premiação](../README.md) · [INDEX geral](../../INDEX.md)*

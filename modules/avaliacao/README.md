@@ -1,5 +1,5 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_1A | atualizado: 2026-08-25 -->
-# Domínio: Avaliação
+<!-- docqui: 4.1.0 | prompt: PROMPT_1A | atualizado: 2026-10-04 -->
+# Major Feature Set: Avaliação
 > **Nível 1** - Visão estratégica do domínio - `AVL`
 
 ## Descrição
@@ -20,10 +20,10 @@ Responde por toda a avaliação dos projetos — da configuração das etapas e 
 | Feature Set | Descrição | Features |
 |---|---|---|
 | [**Etapas e Configuração da Avaliação**](./etapas-configuracao/README.md) <small>AVL-ETA</small> | Definir etapas, modo de avaliação, critérios de desempate e termo de confidencialidade da edição | 7 |
-| [**Alocação de Avaliadores**](./alocacao/README.md) <small>AVL-ALO</small> | Cadastrar avaliadores e alocá-los a grupos e a inscrições por etapa | 4 |
-| [**Avaliação de Projetos**](./avaliacao-projetos/README.md) <small>AVL-AVA</small> | Registrar notas por questão e parecer, com aceite do termo de confidencialidade e avaliação às cegas quando configurada | 5 |
-| [**Painel Administrativo de Avaliações**](./painel-administrativo/README.md) <small>AVL-PAI</small> | Acompanhar e consolidar as avaliações de cada etapa e inscrição | 3 |
-| [**Apuração e Devolutiva**](./apuracao-devolutiva/README.md) <small>AVL-APU</small> | Apurar médias, classificar, aplicar desempate, fechar etapa por UF e consolidar a devolutiva (apoio de IA + revisão humana) | 7 |
+| [**Alocação de Avaliadores**](./alocacao/README.md) <small>AVL-ALO</small> | Cadastrar avaliadores e alocá-los a grupos e a inscrições por etapa | 7 |
+| [**Avaliação de Projetos**](./avaliacao-projetos/README.md) <small>AVL-AVA</small> | Registrar notas por questão e parecer, com aceite do termo de confidencialidade e avaliação às cegas quando configurada | 7 |
+| [**Painel Administrativo de Avaliações**](./painel-administrativo/README.md) <small>AVL-PAI</small> | Acompanhar e consolidar as avaliações de cada etapa e inscrição | 4 |
+| [**Apuração e Devolutiva**](./apuracao-devolutiva/README.md) <small>AVL-APU</small> | Apurar médias, classificar, aplicar desempate, fechar etapa por UF e consolidar a devolutiva (apoio de IA + revisão humana) | 12 |
 
 ---
 
@@ -78,10 +78,11 @@ Responde por toda a avaliação dos projetos — da configuração das etapas e 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, título `# Major Feature Set:`, contagem de features por Feature Set conferida com os N3 existentes (alocacao 4→7, avaliacao-projetos 5→7, painel-administrativo 3→4, apuracao-devolutiva 7→12) e rodapé com os links dos Feature Sets. Seções técnicas do 1B (dependências externas, regras de acesso consolidadas) seguem fora do escopo do perfil `requisitos` |
 | 2026-08-25 | Engenharia reversa (docqui) | N1 negocial criado | Domínio derivado do N0, das HUs e do data-model |
 
 ---
 
-*Última revisão: 2026-08-25*
+*Última revisão: 2026-10-04*
 
-*Links: Etapas e Configuração da Avaliação `AVL-ETA` · Alocação de Avaliadores `AVL-ALO` · Avaliação de Projetos `AVL-AVA` · Painel Administrativo de Avaliações `AVL-PAI` · Apuração e Devolutiva `AVL-APU` · [INDEX geral](../INDEX.md)*
+*Links: [Etapas e Configuração da Avaliação](./etapas-configuracao/README.md) `AVL-ETA` · [Alocação de Avaliadores](./alocacao/README.md) `AVL-ALO` · [Avaliação de Projetos](./avaliacao-projetos/README.md) `AVL-AVA` · [Painel Administrativo de Avaliações](./painel-administrativo/README.md) `AVL-PAI` · [Apuração e Devolutiva](./apuracao-devolutiva/README.md) `AVL-APU` · [INDEX geral](../INDEX.md)*

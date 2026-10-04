@@ -818,7 +818,7 @@ def fs_meta(fs_dir):
     n2=rd(os.path.join(fs_dir,"README.md"))
     nome=(re.search(r'^#\s*Feature Set:\s*(.+)$',n2,re.M) or [None,os.path.basename(fs_dir)])[1].strip()
     sigla=(re.search(r'Nível 2[^`]*`([A-Z][A-Z-]+)`',n2) or [None,"N2"])[1]
-    dom=(re.search(r'^#\s*Domínio:\s*(.+)$', rd(os.path.join(os.path.dirname(fs_dir),"README.md")), re.M) or [None,""])[1].strip()
+    dom=(re.search(r'^#\s*(?:Major Feature Set|Domínio):\s*(.+)$', rd(os.path.join(os.path.dirname(fs_dir),"README.md")), re.M) or [None,""])[1].strip()
     return sigla, {"nome":nome,"dominio":dom,"nfeat":len(glob.glob(os.path.join(fs_dir,"f-*.md")))}
 
 def read_pendencias():

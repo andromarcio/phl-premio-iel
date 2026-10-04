@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Categorias
-> **Nível 2** - Domínio: Configuração da Premiação - `CFG-CAT`
+> **Nível 2** - Major Feature Set: Configuração da Premiação - `CFG-CAT`
 
 ## Descrição
 
@@ -12,13 +12,13 @@ Concentra o cadastro e a manutenção das categorias da premiação — o segund
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Pesquisar Categorias**](f-pesquisar-categoria.md) <small>CFG-CAT-01</small> | **P1** | Localizar categorias por nome e situação no catálogo administrativo. |
-| [**Cadastrar Categoria**](f-cadastrar-categoria.md) <small>CFG-CAT-02</small> | **P1** | Registrar uma nova categoria, no catálogo ou por criação rápida na árvore. |
-| [**Editar Categoria**](f-editar-categoria.md) <small>CFG-CAT-03</small> | **P1** | Alterar nome e descrição de uma categoria. |
-| [**Visualizar Categoria**](f-visualizar-categoria.md) <small>CFG-CAT-04</small> | **P2** | Ver os detalhes de uma categoria e os prêmios a que está vinculada. |
-| [**Ativar/Inativar Categoria**](f-ativar-inativar-categoria.md) <small>CFG-CAT-05</small> | **P2** | Alternar a situação ativa/inativa da categoria (exclusão lógica). |
+| Feature | Descrição |
+|---|---|
+| [**Pesquisar Categorias**](f-pesquisar-categoria.md) <small>CFG-CAT-01</small> | Localizar categorias por nome e situação no catálogo administrativo. |
+| [**Cadastrar Categoria**](f-cadastrar-categoria.md) <small>CFG-CAT-02</small> | Registrar uma nova categoria, no catálogo ou por criação rápida na árvore. |
+| [**Editar Categoria**](f-editar-categoria.md) <small>CFG-CAT-03</small> | Alterar nome e descrição de uma categoria. |
+| [**Visualizar Categoria**](f-visualizar-categoria.md) <small>CFG-CAT-04</small> | Ver os detalhes de uma categoria e os prêmios a que está vinculada. |
+| [**Ativar/Inativar Categoria**](f-ativar-inativar-categoria.md) <small>CFG-CAT-05</small> | Alternar a situação ativa/inativa da categoria (exclusão lógica). |
 
 ---
 
@@ -54,6 +54,7 @@ flowchart TD
 | Catálogo de Categorias | ⚠️ a conferir | `/categorias` | **Pesquisar Categorias** <small>CFG-CAT-01</small> · **Ativar/Inativar Categoria** <small>CFG-CAT-05</small> | Lista paginada com busca por nome e situação e ação de situação |
 | Formulário de Categoria | ⚠️ a conferir | `/categorias/novo` | **Cadastrar Categoria** <small>CFG-CAT-02</small> · **Editar Categoria** <small>CFG-CAT-03</small> | Formulário de dados gerais (nome, descrição) |
 | Detalhe da Categoria | ⚠️ a conferir | `/categorias/:id/visualizar` | **Visualizar Categoria** <small>CFG-CAT-04</small> | Exibição dos dados e da aba de vínculos com prêmios |
+
 ---
 
 ## Permissões por perfil
@@ -76,8 +77,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-004 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Configuração da Premiação](../README.md) · [INDEX geral](../../INDEX.md)*

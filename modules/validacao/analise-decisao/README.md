@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Análise e Decisão
-> **Nível 2** - Domínio: Validação - `VAL-ANA`
+> **Nível 2** - Major Feature Set: Validação - `VAL-ANA`
 
 ## Descrição
 
@@ -12,14 +12,14 @@ Concentra a análise detalhada da inscrição e a decisão do administrador sobr
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Detalhar Inscrição**](f-detalhar-inscricao.md) <small>VAL-ANA-01</small> | **P1** | Abrir o detalhe completo da inscrição em modo leitura: KPIs de progresso, seções retráteis (formulário, questionário, documentos, equipe, termos) e o histórico de validação em timeline. |
-| [**Iniciar Validação**](f-iniciar-validacao.md) <small>VAL-ANA-02</small> | **P1** | Assumir para análise uma inscrição finalizada, mudando a situação de Finalizada para Em Validação. |
-| [**Aprovar Inscrição**](f-aprovar-inscricao.md) <small>VAL-ANA-03</small> | **P1** | Concluir a validação aprovando a inscrição, com parecer opcional; a inscrição passa a Validada e segue para a avaliação. |
-| [**Rejeitar Inscrição**](f-rejeitar-inscricao.md) <small>VAL-ANA-04</small> | **P1** | Concluir a validação rejeitando a inscrição, com parecer obrigatório; a inscrição passa a Rejeitada. |
-| [**Editar Inscrição Validada**](f-editar-inscricao-validada.md) <small>VAL-ANA-05</small> | **P2** | Corrigir os dados de uma inscrição já validada mediante justificativa, guardando o estado antes e depois da correção. |
-| [**Excluir Inscrição Validada**](f-excluir-inscricao-validada.md) <small>VAL-ANA-06</small> | **P2** | Retirar da premiação uma inscrição já validada mediante justificativa, com os dados preservados para auditoria. |
+| Feature | Descrição |
+|---|---|
+| [**Detalhar Inscrição**](f-detalhar-inscricao.md) <small>VAL-ANA-01</small> | Abrir o detalhe completo da inscrição em modo leitura: KPIs de progresso, seções retráteis (formulário, questionário, documentos, equipe, termos) e o histórico de validação em timeline. |
+| [**Iniciar Validação**](f-iniciar-validacao.md) <small>VAL-ANA-02</small> | Assumir para análise uma inscrição finalizada, mudando a situação de Finalizada para Em Validação. |
+| [**Aprovar Inscrição**](f-aprovar-inscricao.md) <small>VAL-ANA-03</small> | Concluir a validação aprovando a inscrição, com parecer opcional; a inscrição passa a Validada e segue para a avaliação. |
+| [**Rejeitar Inscrição**](f-rejeitar-inscricao.md) <small>VAL-ANA-04</small> | Concluir a validação rejeitando a inscrição, com parecer obrigatório; a inscrição passa a Rejeitada. |
+| [**Editar Inscrição Validada**](f-editar-inscricao-validada.md) <small>VAL-ANA-05</small> | Corrigir os dados de uma inscrição já validada mediante justificativa, guardando o estado antes e depois da correção. |
+| [**Excluir Inscrição Validada**](f-excluir-inscricao-validada.md) <small>VAL-ANA-06</small> | Retirar da premiação uma inscrição já validada mediante justificativa, com os dados preservados para auditoria. |
 
 ---
 
@@ -33,7 +33,12 @@ flowchart TD
     D -->|Aprovar| E["Aprovar Inscrição"]
     D -->|Rejeitar| F["Rejeitar Inscrição"]
     D -->|Pedir ajuste| G(["Segue para Ajustes da Inscrição"])
-    E --> H(["Inscrição validada"])
+    E --> V{"Correção administrativa?"}
+    V -->|Não| H(["Inscrição validada"])
+    V -->|Corrigir dados| EV["Editar Inscrição Validada"]
+    V -->|Retirar da premiação| XV["Excluir Inscrição Validada"]
+    EV --> H
+    XV --> XR(["Inscrição retirada da premiação"])
     F --> I(["Inscrição rejeitada"])
 ```
 
@@ -44,7 +49,7 @@ flowchart TD
 - Iniciar Validação, Aprovar Inscrição e Rejeitar Inscrição exigem a inscrição aberta por Detalhar Inscrição.
 - Iniciar Validação só se aplica a inscrições com situação Finalizada; Aprovar e Rejeitar só ficam disponíveis após Iniciar Validação (situação Em Validação).
 - A partir do detalhe, o administrador também pode Solicitar Ajuste (VAL-AJU) em vez de decidir; após os ajustes atendidos, retorna a este Feature Set para aprovar ou rejeitar.
-- ⚠️ O inventário APF lista, sob a validação, transações administrativas de Editar Inscrição e Excluir Inscrição (origem PIEL_Validar_Inscricoes) sem HU dedicada; por ora ficam fora do escopo destes Feature Sets (editar/excluir a inscrição pertence a Inscrição) — confirmar se são ações de override do administrador.
+- Editar Inscrição Validada e Excluir Inscrição Validada são correções do Administrador Nacional sobre uma inscrição já validada, feitas no próprio Detalhe da Inscrição e sempre com justificativa: a edição guarda o estado antes e depois; a exclusão preserva os dados para consulta e auditoria. Viraram features na conferência com o código de 2026-08-28 (o inventário APF as listava sob a validação, origem PIEL_Validar_Inscricoes).
 
 ---
 
@@ -56,6 +61,7 @@ flowchart TD
 | Diálogo de Validação | — | `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (diálogo) | **Aprovar Inscrição** <small>VAL-ANA-03</small> · **Rejeitar Inscrição** <small>VAL-ANA-04</small> | Diálogo de confirmação com parecer obrigatório de no mínimo 10 caracteres nas duas decisões e resumo dos itens de ajuste conferidos |
 | Edição Administrativa da Inscrição | — | `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (painel) | **Editar Inscrição Validada** <small>VAL-ANA-05</small> | Painel que reabre respostas, enquadramento, equipe e anexos em modo editável, com justificativa obrigatória |
 | Diálogo de Exclusão da Inscrição | — | `/validacao-inscricao/inscricoes/:inscricaoId/detalhe` (diálogo) | **Excluir Inscrição Validada** <small>VAL-ANA-06</small> | Confirmação da retirada da inscrição da premiação, com justificativa obrigatória |
+
 ---
 
 ## Permissões por perfil
@@ -78,8 +84,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU 018 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Validação](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -1,6 +1,6 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Apuração e Devolutiva
-> **Nível 2** - Domínio: Avaliação - `AVL-APU`
+> **Nível 2** - Major Feature Set: Avaliação - `AVL-APU`
 
 ## Descrição
 
@@ -12,20 +12,20 @@ Fecha o ciclo de avaliação de cada etapa: apura a média ponderada e o ranking
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Apurar Resultado da Etapa**](f-apurar-resultado-etapa.md) <small>AVL-APU-01</small> | **P1** | Calcular a média ponderada e a colocação das inscrições da etapa em blocos de estado e grupo de disputa, aplicando os cortes de classificação e de premiação da etapa. |
-| [**Registrar Desempate**](f-registrar-desempate.md) <small>AVL-APU-02</small> | **P1** | Aplicar os critérios lexicográficos e, quando o empate persiste na linha de corte de classificação ou de premiação, registrar a decisão manual com a vencedora, a justificativa e o responsável. |
-| [**Encerrar Etapa por UF**](f-encerrar-etapa-uf.md) <small>AVL-APU-03</small> | **P1** | Oficializar o fechamento da etapa por UF, registrando responsável e data e liberando quem avança para a etapa seguinte. |
-| [**Gerar Devolutiva com IA**](f-gerar-devolutiva-ia.md) <small>AVL-APU-04</small> | **P2** | Produzir, com apoio de IA, uma sugestão de devolutiva a partir dos pareceres dos avaliadores finalizados, para revisão. |
-| [**Revisar Devolutiva**](f-revisar-devolutiva.md) <small>AVL-APU-05</small> | **P1** | Revisar e editar a devolutiva (gerada por IA ou escrita à mão) e liberá-la ao participante, respeitada a data de liberação da etapa. |
-| [**Gerar Relatório de Inscrições Paradas**](f-gerar-relatorio-inscricoes-paradas.md) <small>AVL-APU-06</small> | **P2** | Montar o relatório das inscrições Em Andamento ou Rascunho da premiação, segmentado por UF, status e tipo de participante, em tela e em planilha XLSX multi-abas com aba de resumo e uma aba por grupo. |
-| [**Reabrir Etapa por UF**](f-reabrir-etapa-uf.md) <small>AVL-APU-12</small> | **P1** | Devolver à apuração um estado cuja etapa já foi encerrada, desfazendo o fechamento daquele escopo para que os cortes sejam recalculados. |
-| [**Consultar Ranking da Etapa**](f-consultar-ranking-etapa.md) <small>AVL-APU-08</small> | **P2** | Consultar em tela própria, somente leitura, o resultado já apurado de uma etapa. |
-| [**Exportar Relatório da Etapa**](f-exportar-relatorio-etapa.md) <small>AVL-APU-09</small> | **P2** | Gerar em planilha o resultado completo da etapa, com resumo por estado e grupo e detalhe por tipo de participante. |
-| [**Desclassificar Inscrição na Etapa**](f-desclassificar-inscricao-etapa.md) <small>AVL-APU-13</small> | **P1** | Retirar uma inscrição da disputa de uma etapa, com justificativa registrada, e devolvê-la à disputa enquanto o estado está aberto. |
-| [**Enviar Feedback ao Participante**](f-enviar-feedback-participante.md) <small>AVL-APU-14</small> | **P1** | Avisar por e-mail os participantes de uma etapa encerrada de que a devolutiva está disponível, conferindo antes quem recebe e acompanhando depois o envio. |
-| [**Gerar Relatório de Inscrições**](f-gerar-relatorio-inscricoes.md) <small>AVL-APU-10</small> | **P2** | Montar o relatório de todas as inscrições da premiação, agrupadas por tipo de participante, com filtros de UF, categoria, modalidade, situação e período — em tela, com amostra por grupo, e em planilha, com o recorte completo. |
+| Feature | Descrição |
+|---|---|
+| [**Apurar Resultado da Etapa**](f-apurar-resultado-etapa.md) <small>AVL-APU-01</small> | Calcular a média ponderada e a colocação das inscrições da etapa em blocos de estado e grupo de disputa, aplicando os cortes de classificação e de premiação da etapa. |
+| [**Registrar Desempate**](f-registrar-desempate.md) <small>AVL-APU-02</small> | Aplicar os critérios lexicográficos e, quando o empate persiste na linha de corte de classificação ou de premiação, registrar a decisão manual com a vencedora, a justificativa e o responsável. |
+| [**Encerrar Etapa por UF**](f-encerrar-etapa-uf.md) <small>AVL-APU-03</small> | Oficializar o fechamento da etapa por UF, registrando responsável e data e liberando quem avança para a etapa seguinte. |
+| [**Gerar Devolutiva com IA**](f-gerar-devolutiva-ia.md) <small>AVL-APU-04</small> | Produzir, com apoio de IA, uma sugestão de devolutiva a partir dos pareceres dos avaliadores finalizados, para revisão. |
+| [**Revisar Devolutiva**](f-revisar-devolutiva.md) <small>AVL-APU-05</small> | Revisar e editar a devolutiva (gerada por IA ou escrita à mão) e liberá-la ao participante, respeitada a data de liberação da etapa. |
+| [**Gerar Relatório de Inscrições Paradas**](f-gerar-relatorio-inscricoes-paradas.md) <small>AVL-APU-06</small> | Montar o relatório das inscrições Em Andamento ou Rascunho da premiação, segmentado por UF, status e tipo de participante, em tela e em planilha XLSX multi-abas com aba de resumo e uma aba por grupo. |
+| [**Reabrir Etapa por UF**](f-reabrir-etapa-uf.md) <small>AVL-APU-12</small> | Devolver à apuração um estado cuja etapa já foi encerrada, desfazendo o fechamento daquele escopo para que os cortes sejam recalculados. |
+| [**Consultar Ranking da Etapa**](f-consultar-ranking-etapa.md) <small>AVL-APU-08</small> | Consultar em tela própria, somente leitura, o resultado já apurado de uma etapa. |
+| [**Exportar Relatório da Etapa**](f-exportar-relatorio-etapa.md) <small>AVL-APU-09</small> | Gerar em planilha o resultado completo da etapa, com resumo por estado e grupo e detalhe por tipo de participante. |
+| [**Desclassificar Inscrição na Etapa**](f-desclassificar-inscricao-etapa.md) <small>AVL-APU-13</small> | Retirar uma inscrição da disputa de uma etapa, com justificativa registrada, e devolvê-la à disputa enquanto o estado está aberto. |
+| [**Enviar Feedback ao Participante**](f-enviar-feedback-participante.md) <small>AVL-APU-14</small> | Avisar por e-mail os participantes de uma etapa encerrada de que a devolutiva está disponível, conferindo antes quem recebe e acompanhando depois o envio. |
+| [**Gerar Relatório de Inscrições**](f-gerar-relatorio-inscricoes.md) <small>AVL-APU-10</small> | Montar o relatório de todas as inscrições da premiação, agrupadas por tipo de participante, com filtros de UF, categoria, modalidade, situação e período — em tela, com amostra por grupo, e em planilha, com o recorte completo. |
 
 ---
 
@@ -34,15 +34,27 @@ Fecha o ciclo de avaliação de cada etapa: apura a média ponderada e o ranking
 ```mermaid
 flowchart TD
     A(["Administrador conduz o fechamento da etapa"]) --> B["Apurar Resultado da Etapa"]
-    B --> C{"Empate persiste?"}
+    B --> X{"Inscrição a retirar da disputa?"}
+    X -->|Sim| DQ["Desclassificar Inscrição na Etapa"]
+    X -->|Não| C{"Empate persiste?"}
+    DQ --> C
     C -->|Sim| D["Registrar Desempate"]
     C -->|Não| E["Encerrar Etapa por UF"]
     D --> E
+    B -.-> XL["Exportar Relatório da Etapa"]
     E --> F["Gerar Devolutiva com IA"]
     F --> G["Revisar Devolutiva"]
-    G --> Z(["Devolutiva liberada ao participante"])
+    G --> EF["Enviar Feedback ao Participante"]
+    EF --> Z(["Devolutiva liberada ao participante"])
+    E -.-> RA["Reabrir Etapa por UF"]
+    RA -.->|itera: o estado reaberto volta à apuração| B
+    E --> RK["Consultar Ranking da Etapa"]
+    RK --> W(["Resultado da etapa consultado"])
+    XL --> W
     R(["Administrador acompanha o andamento"]) --> H["Gerar Relatório de Inscrições Paradas"]
-    H --> Y(["Relatório em tela e em planilha"])
+    R --> H2["Gerar Relatório de Inscrições"]
+    H --> Y(["Relatórios em tela e em planilha"])
+    H2 --> Y
 ```
 
 ---
@@ -53,6 +65,11 @@ flowchart TD
 - Registrar Desempate só entra quando a apuração acusa empate de média; aplica primeiro os critérios lexicográficos configurados em Etapas e Configuração da Avaliação e, esgotados eles, exige a decisão manual.
 - Encerrar Etapa por UF pressupõe a apuração concluída, os empates da linha de corte resolvidos e o feedback consolidado de todas as inscrições do estado (Consolidar Avaliação, em Painel Administrativo de Avaliações); o fechamento define as inscrições classificadas que avançam e ficam elegíveis à alocação da etapa seguinte (cascata) em Alocação de Avaliadores, e bloqueia a edição do feedback consolidado daquele estado.
 - Revisar Devolutiva é o gate humano obrigatório: a devolutiva gerada em Gerar Devolutiva com IA nunca é liberada ao participante sem revisão de uma pessoa; a sugestão da IA não é persistida automaticamente. O registro de feedback é o mesmo trabalhado em Painel Administrativo de Avaliações (Consolidar Avaliação). ⚠️ *(fronteira consolidação × devolutiva a confirmar com o produto)*
+- Desclassificar Inscrição na Etapa retira uma inscrição da disputa do seu bloco enquanto o estado está aberto, com justificativa, e recalcula a colocação e as linhas de corte da apuração; a reversão desfaz a retirada no mesmo período.
+- Reabrir Etapa por UF desfaz o fechamento de um estado já encerrado e devolve aquele escopo à apuração, para que os cortes sejam recalculados.
+- Consultar Ranking da Etapa apresenta, só para leitura, o resultado apurado depois do fechamento; Exportar Relatório da Etapa leva para planilha o resultado completo da etapa a partir da tela de fechamento.
+- Enviar Feedback ao Participante avisa por e-mail, depois da devolutiva revisada, os participantes de uma etapa encerrada; inscrição desclassificada não recebe o aviso.
+- Gerar Relatório de Inscrições apresenta todas as inscrições da premiação por tipo de participante, com as respostas, em tela e em planilha.
 - Gerar Relatório de Inscrições Paradas — na tela e na planilha — é independente do fechamento e apoiam a condução nacional da premiação (desde a SP05 o par é exclusivo do Administrador Nacional — ver Permissões por perfil).
 - O comportamento das telas de apuração, desempate manual e fechamento por UF veio do data-model e, desde a SP05, da demanda da HU "Fechar Etapa de Avaliação"; ⚠️ o layout segue sem protótipo — a confirmar no N3.
 
@@ -68,6 +85,7 @@ flowchart TD
 | Ranking por Etapa | — | `/avaliacao-admin/ranking-etapa` | **Consultar Ranking da Etapa** <small>AVL-APU-08</small> | Consulta somente leitura do resultado apurado, em blocos de estado e grupo, com exportação em planilha |
 | Disparo de Feedback | Premiação › Avaliação › Disparo de Feedback ⚠️ *a conferir* | `/avaliacao-admin/disparo-feedback` ⚠️ *a conferir* | **Enviar Feedback ao Participante** <small>AVL-APU-14</small> | Seleção de premiação e etapa, prévia dos participantes que receberão o aviso, envio por ação do administrador e acompanhamento da situação de cada envio, com reenfileiramento das falhas. Alcançada por ação no Painel de Avaliações, só para o Administrador Nacional. |
 | Relatório de Inscrições | Premiação › Relatórios › Inscrições | `/validacao-inscricao/relatorio-inscricoes` | **Gerar Relatório de Inscrições** <small>AVL-APU-10</small> | Inscrições da premiação agrupadas por tipo de participante, com filtros e exportação em planilha |
+
 ---
 
 ## Permissões por perfil
@@ -104,6 +122,7 @@ O que cada perfil enxerga de uma etapa deriva da **natureza da etapa**, não da 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature Set ampliado | Duas features novas da Sprint 6: `AVL-APU-13` — Desclassificar Inscrição na Etapa (entrega de 2026-10-01, migração V00035) e `AVL-APU-14` — Enviar Feedback ao Participante (entrega de 2026-10-01, migração V00034), ambas exclusivas do Administrador Nacional. Tela nova **Disparo de Feedback**. O Relatório da Etapa sai da tela de Ranking por Etapa e passa à de **Fechamento de Etapa**, que é onde o resumo de entrega o situa — o Ranking é somente leitura, sem ações |
 | 2026-09-01 | Especificação (docqui) | Fluxo corrigido | O Fluxo Principal ainda passava por "Exportar Relatório de Inscrições Paradas", absorvida por `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** na unificação de 2026-09-01. A tela e a planilha são a mesma feature |
 | 2026-09-01 | Especificação (docqui) | Referência corrigida | A reabertura era citada como `AVL-APU-08`, que na árvore é **Consultar Ranking da Etapa** — o ID certo é `AVL-APU-12` **Reabrir Etapa por UF**, e ela já tem N3 |
@@ -116,4 +135,4 @@ O que cada perfil enxerga de uma etapa deriva da **natureza da etapa**, não da 
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Avaliação](../README.md) · [INDEX geral](../../INDEX.md)*

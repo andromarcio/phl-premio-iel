@@ -1,5 +1,5 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_1A | atualizado: 2026-08-25 -->
-# Domínio: Validação
+<!-- docqui: 4.1.0 | prompt: PROMPT_1A | atualizado: 2026-10-04 -->
+# Major Feature Set: Validação
 > **Nível 1** - Visão estratégica do domínio - `VAL`
 
 ## Descrição
@@ -19,9 +19,9 @@ Responde pela conferência e pela decisão sobre as inscrições recebidas em ca
 
 | Feature Set | Descrição | Features |
 |---|---|---|
-| [**Fila e Painel de Validação**](./fila-validacao/README.md) <small>VAL-FIL</small> | Listar e filtrar as inscrições a validar e acompanhar o andamento consolidado | 2 |
-| [**Análise e Decisão**](./analise-decisao/README.md) <small>VAL-ANA</small> | Analisar a inscrição, conferir dados/documentos/termos e aprovar ou rejeitar | 4 |
-| [**Ajustes da Inscrição**](./ajustes/README.md) <small>VAL-AJU</small> | Solicitar ajustes ao participante e auditar as rodadas de ajuste | 3 |
+| [**Fila e Painel de Validação**](./fila-validacao/README.md) <small>VAL-FIL</small> | Listar e filtrar as inscrições a validar e acompanhar o andamento consolidado | 3 |
+| [**Análise e Decisão**](./analise-decisao/README.md) <small>VAL-ANA</small> | Analisar a inscrição, conferir dados/documentos/termos e aprovar ou rejeitar | 6 |
+| [**Ajustes da Inscrição**](./ajustes/README.md) <small>VAL-AJU</small> | Solicitar ajustes ao participante e auditar as rodadas de ajuste | 4 |
 
 ---
 
@@ -73,10 +73,11 @@ Responde pela conferência e pela decisão sobre as inscrições recebidas em ca
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, título `# Major Feature Set:`, contagem de features por Feature Set conferida com os N3 existentes (fila-validacao 2→3, analise-decisao 4→6, ajustes 3→4) e rodapé com os links dos Feature Sets. Seções técnicas do 1B (dependências externas, regras de acesso consolidadas) seguem fora do escopo do perfil `requisitos` |
 | 2026-08-25 | Engenharia reversa (docqui) | N1 negocial criado | Domínio derivado do N0, das HUs e do data-model |
 
 ---
 
-*Última revisão: 2026-08-25*
+*Última revisão: 2026-10-04*
 
-*Links: Fila e Painel de Validação `VAL-FIL` · Análise e Decisão `VAL-ANA` · Ajustes da Inscrição `VAL-AJU` · [INDEX geral](../INDEX.md)*
+*Links: [Fila e Painel de Validação](./fila-validacao/README.md) `VAL-FIL` · [Análise e Decisão](./analise-decisao/README.md) `VAL-ANA` · [Ajustes da Inscrição](./ajustes/README.md) `VAL-AJU` · [INDEX geral](../INDEX.md)*

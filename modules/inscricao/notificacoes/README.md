@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-25 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Notificações
-> **Nível 2** - Domínio: Inscrição - `INS-NOT`
+> **Nível 2** - Major Feature Set: Inscrição - `INS-NOT`
 
 ## Descrição
 
@@ -12,10 +12,10 @@ Entrega ao participante os avisos in-app sobre o andamento da sua inscrição �
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Consultar Notificações**](f-consultar-notificacao.md) <small>INS-NOT-01</small> | **P1** | Abrir o painel com as últimas notificações do participante e ver a contagem de não lidas no sino. |
-| [**Marcar Notificação como Lida**](f-marcar-notificacao-lida.md) <small>INS-NOT-02</small> | **P2** | Marcar um aviso como lido, atualizando o painel e o badge de não lidas. |
+| Feature | Descrição |
+|---|---|
+| [**Consultar Notificações**](f-consultar-notificacao.md) <small>INS-NOT-01</small> | Abrir o painel com as últimas notificações do participante e ver a contagem de não lidas no sino. |
+| [**Marcar Notificação como Lida**](f-marcar-notificacao-lida.md) <small>INS-NOT-02</small> | Marcar um aviso como lido, atualizando o painel e o badge de não lidas. |
 
 > ⚠️ O verbo *Marcar* (INS-NOT-02) está fora da lista de verbos canônicos do framework; foi mantido por fidelidade à HU-022 e ao inventário APF ("Marcar Notificação como Lida"). No N3, reconciliar o verbo ou adotá-lo via `VOCABULARY-OVERRIDES`.
 
@@ -46,6 +46,7 @@ flowchart TD
 | Tela | Caminho de menu | Rota (implementada) | Features atendidas | Descrição |
 |---|---|---|---|---|
 | Sino e Painel de Notificações | ⚠️ a conferir | *(sem rota própria — painel lateral aberto pelo sino no cabeçalho da área do participante)* | **Consultar Notificações** <small>INS-NOT-01</small> · **Marcar Notificação como Lida** <small>INS-NOT-02</small> | Painel lateral aberto pelo sino, com as últimas 15 notificações, badge de não lidas e marcação de leitura |
+
 ---
 
 ## Permissões por perfil
@@ -66,8 +67,9 @@ Perfis: **Participante** `PIT.2`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-022 e do inventário APF (módulo Inscrição) |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Inscrição](../README.md) · [INDEX geral](../../INDEX.md)*

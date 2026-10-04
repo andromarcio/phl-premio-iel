@@ -1,5 +1,5 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_1A | atualizado: 2026-08-25 -->
-# Domínio: Configuração da Premiação
+<!-- docqui: 4.1.0 | prompt: PROMPT_1A | atualizado: 2026-10-04 -->
+# Major Feature Set: Configuração da Premiação
 > **Nível 1** - Visão estratégica do domínio - `CFG`
 
 ## Descrição
@@ -19,7 +19,7 @@ Responde por toda a montagem e a parametrização de uma edição da premiação
 
 | Feature Set | Descrição | Features |
 |---|---|---|
-| [**Prêmios**](./premios/README.md) <small>CFG-PRE</small> | Criar e manter a edição da premiação: dados, identidade visual, links públicos, termos de aceite e critérios de avaliação | 12 |
+| [**Prêmios**](./premios/README.md) <small>CFG-PRE</small> | Criar e manter a edição da premiação: dados, identidade visual, links públicos, termos de aceite e critérios de avaliação | 13 |
 | [**Categorias**](./categorias/README.md) <small>CFG-CAT</small> | Cadastrar e manter categorias e vinculá-las às edições | 5 |
 | [**Modalidades**](./modalidades/README.md) <small>CFG-MOD</small> | Cadastrar e manter modalidades e vinculá-las às categorias da edição | 5 |
 | [**Tipos de Participante**](./tipos-participante/README.md) <small>CFG-TIP</small> | Cadastrar o tipo de participante e sua estrutura de inscrição: formulário dinâmico, enquadramentos, anexos exigidos, questionário de avaliação e configuração de equipe | 16 |
@@ -82,10 +82,11 @@ Responde por toda a montagem e a parametrização de uma edição da premiação
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, título `# Major Feature Set:`, contagem de features por Feature Set conferida com os N3 existentes (premios 12→13) e rodapé com os links dos Feature Sets. Seções técnicas do 1B (dependências externas, regras de acesso consolidadas) seguem fora do escopo do perfil `requisitos` |
 | 2026-08-25 | Engenharia reversa (docqui) | N1 negocial criado | Domínio derivado do N0, das HUs e do data-model |
 
 ---
 
-*Última revisão: 2026-08-25*
+*Última revisão: 2026-10-04*
 
-*Links: Prêmios `CFG-PRE` · Categorias `CFG-CAT` · Modalidades `CFG-MOD` · Tipos de Participante `CFG-TIP` · Vínculos e Ofertas `CFG-VIN` · Listas do Sistema `CFG-LIS` · Modelos de E-mail `CFG-EMA` · [INDEX geral](../INDEX.md)*
+*Links: [Prêmios](./premios/README.md) `CFG-PRE` · [Categorias](./categorias/README.md) `CFG-CAT` · [Modalidades](./modalidades/README.md) `CFG-MOD` · [Tipos de Participante](./tipos-participante/README.md) `CFG-TIP` · [Vínculos e Ofertas](./ofertas/README.md) `CFG-VIN` · [Listas do Sistema](./listas-sistema/README.md) `CFG-LIS` · [Modelos de E-mail](./modelos-email/README.md) `CFG-EMA` · [INDEX geral](../INDEX.md)*

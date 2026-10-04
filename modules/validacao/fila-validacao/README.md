@@ -1,6 +1,6 @@
-<!-- docqui: 2.8.0 | prompt: PROMPT_2A | atualizado: 2026-08-28 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Fila e Painel de Validação
-> **Nível 2** - Domínio: Validação - `VAL-FIL`
+> **Nível 2** - Major Feature Set: Validação - `VAL-FIL`
 
 ## Descrição
 
@@ -12,11 +12,11 @@ Reúne a porta de entrada da validação: a fila das inscrições submetidas em 
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Pesquisar Inscrições para Validação**](f-pesquisar-inscricao.md) <small>VAL-FIL-01</small> | **P1** | Localizar inscrições por UF, premiação, categoria, modalidade, tipo de participante e status, com cards KPI de filtro rápido e tabela paginada. |
-| [**Exportar Histórico do Painel de Validação**](f-exportar-historico-painel.md) <small>VAL-FIL-03</small> | **P2** | Levar para fora do sistema, em planilha, o histórico das inscrições que sustentam as métricas do painel — uma linha por inscrição, com nome e telefone do participante. |
-| [**Acompanhar Painel de Validação**](f-acompanhar-painel-validacao.md) <small>VAL-FIL-02</small> | **P2** | Acompanhar as métricas de validação de uma premiação em gráficos de distribuição por status e por categoria ou UF. |
+| Feature | Descrição |
+|---|---|
+| [**Pesquisar Inscrições para Validação**](f-pesquisar-inscricao.md) <small>VAL-FIL-01</small> | Localizar inscrições por UF, premiação, categoria, modalidade, tipo de participante e status, com cards KPI de filtro rápido e tabela paginada. |
+| [**Exportar Histórico do Painel de Validação**](f-exportar-historico-painel.md) <small>VAL-FIL-03</small> | Levar para fora do sistema, em planilha, o histórico das inscrições que sustentam as métricas do painel — uma linha por inscrição, com nome e telefone do participante. |
+| [**Acompanhar Painel de Validação**](f-acompanhar-painel-validacao.md) <small>VAL-FIL-02</small> | Acompanhar as métricas de validação de uma premiação em gráficos de distribuição por status e por categoria ou UF. |
 
 ---
 
@@ -28,7 +28,10 @@ flowchart TD
     B --> C{"Ação?"}
     C -->|Analisar inscrição| D(["Segue para Análise e Decisão"])
     C -->|Acompanhar métricas| E["Acompanhar Painel de Validação"]
-    E --> F(["Visão consolidada obtida"])
+    E --> X{"Levar o histórico para fora?"}
+    X -->|Sim| H["Exportar Histórico do Painel de Validação"]
+    X -->|Não| F(["Visão consolidada obtida"])
+    H --> F
 ```
 
 ---
@@ -48,6 +51,7 @@ flowchart TD
 |---|---|---|---|---|
 | Fila de Validação | Premiação › Validação de Inscrições | `/validacao-inscricao/inscricoes` | **Pesquisar Inscrições para Validação** <small>VAL-FIL-01</small> | Filtros em cascata, cards KPI por status, tabela paginada (10/20/50) e os acessos aos relatórios administrativos |
 | Dashboard Gerencial de Validação | — | `/validacao-inscricao/dashboard` | **Acompanhar Painel de Validação** <small>VAL-FIL-02</small> | Gráfico de distribuição por status, barras empilhadas por categoria ou UF e a exportação do histórico em planilha |
+
 ---
 
 ## Permissões por perfil
@@ -72,10 +76,11 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-09-01 | Especificação (docqui) | Feature acrescentada | `VAL-FIL-03` **Exportar Histórico do Painel de Validação** ganha N3 próprio, separada de `VAL-FIL-02` **Acompanhar Painel de Validação** pela decisão de produto de 2026-09-01. O Feature Set passa a ter 3 features |
 | 2026-08-28 | Impacto SP05 (docqui) | Matriz alterada | Exportação do histórico do painel restrita ao Administrador Nacional (APIPIT.22); registrados os acessos aos relatórios administrativos ocultos ao Regional |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, das HUs 017 e 023 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Validação](../README.md) · [INDEX geral](../../INDEX.md)*

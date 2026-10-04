@@ -1,6 +1,6 @@
-<!-- docqui: 2.23.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
 # Feature Set: Modelos de E-mail
-> **Nível 2** - Domínio: Configuração da Premiação - `CFG-EMA`
+> **Nível 2** - Major Feature Set: Configuração da Premiação - `CFG-EMA`
 
 ## Descrição
 
@@ -12,11 +12,11 @@ Configura os modelos de e-mail transacional de cada edição — os cinco tipos 
 
 ## Features
 
-| Feature | Prioridade | Descrição |
-|---|---|---|
-| [**Consultar Modelos de E-mail**](f-consultar-modelo-email.md) <small>CFG-EMA-01</small> | **P1** | Ver os cinco tipos de e-mail da edição com o status de cada um. |
-| [**Editar Modelo de E-mail**](f-editar-modelo-email.md) <small>CFG-EMA-02</small> | **P1** | Personalizar assunto e corpo com placeholders, ou restaurar o padrão. |
-| [**Visualizar E-mail**](f-visualizar-email.md) <small>CFG-EMA-03</small> | **P2** | Pré-visualizar o e-mail renderizado antes de salvar. |
+| Feature | Descrição |
+|---|---|
+| [**Consultar Modelos de E-mail**](f-consultar-modelo-email.md) <small>CFG-EMA-01</small> | Ver os cinco tipos de e-mail da edição com o status de cada um. |
+| [**Editar Modelo de E-mail**](f-editar-modelo-email.md) <small>CFG-EMA-02</small> | Personalizar assunto e corpo com placeholders, ou restaurar o padrão. |
+| [**Visualizar E-mail**](f-visualizar-email.md) <small>CFG-EMA-03</small> | Pré-visualizar o e-mail renderizado antes de salvar. |
 
 ---
 
@@ -49,6 +49,7 @@ flowchart TD
 |---|---|---|---|---|
 | Lista de Modelos de E-mail | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(nó Premiação → aba **Termos & E-mails**)* | **Consultar Modelos de E-mail** <small>CFG-EMA-01</small> | Cartões dos cinco tipos, com ícone, rótulo e severidade |
 | Diálogo de Edição de Modelo | ⚠️ a conferir | `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(aba **Termos & E-mails** → diálogo do template)* (modal) | **Editar Modelo de E-mail** <small>CFG-EMA-02</small> · **Visualizar E-mail** <small>CFG-EMA-03</small> | Editor de assunto e corpo, botões de placeholder, preview e restaurar padrão |
+
 ---
 
 ## Permissões por perfil
@@ -71,8 +72,9 @@ Perfis: **Administrador Nacional** `PIT.1`, **Administrador Regional** `PIT.3`.
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-08-25 | Engenharia reversa (docqui) | N2 criado | Gerado do N1, da HU-021 e do inventário APF |
 
 ---
 
-*Links: [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
+*Links: [N1 Configuração da Premiação](../README.md) · [INDEX geral](../../INDEX.md)*
