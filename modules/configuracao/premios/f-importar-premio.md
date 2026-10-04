@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador criar uma nova edição a partir de uma planilha preenchida, apresentando o resumo das estruturas criadas ao final.
 
+Na Lista de Prêmios, o administrador aciona "Importar Excel", seleciona ou arrasta a planilha e confirma, acompanhando o progresso até o resumo do que foi criado; "Baixar Template", na mesma barra, entrega o modelo vazio para preencher.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-003_Exportar_Premios`](../../../hus/HU-003_Exportar_Premios.docx) | Criação | — |
+| [`HU-003_Exportar_Premios`](../../../hus/HU-003_Exportar_Premios.docx) | Criação | `CA-2, CA-3, CA-4, CA-8` — modelo de planilha com os cabeçalhos da exportação e sem dados; resumo das estruturas criadas ao fim; importação atômica, sem nada criado quando há erro; confirmação antes de importar |
 
 ---
 
@@ -92,9 +94,9 @@ Feature: Importar Prêmios
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Planilha | entrada do usuário | editável | arquivo | sim | formatos .xlsx e .xls; máximo de 10 MB |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Planilha | Premiação | entrada do usuário | editável | arquivo | sim | formatos .xlsx e .xls; máximo de 10 MB |
 
 ---
 
@@ -104,6 +106,28 @@ Feature: Importar Prêmios
 |---|---|---|
 | Resumo da importação | Contagem de premiação, categorias, modalidades e tipos de participante criados | Ao concluir a importação |
 | Situação (nova edição) | Ativo | Na criação da edição importada |
+
+---
+
+## Dados lidos e gravados
+
+> A planilha segue as abas da exportação (`CFG-PRE-05` — Exportar Prêmios); a importação grava toda a hierarquia de uma vez, ou nada (regra 2).
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Categoria | grava | Criada a partir da aba de categorias; entra na contagem do resumo (campos automáticos) |
+| Premiação × Categoria | grava | Liga as categorias criadas à nova edição (regra 1) |
+| Modalidade | grava | Criada a partir da aba de modalidades; entra na contagem do resumo |
+| Modalidade × Categoria | grava | Liga cada modalidade criada à sua categoria na nova edição |
+| Tipo de Participante | grava | Criado a partir da aba de tipos de participante; entra na contagem do resumo |
+| Oferta | grava | Liga cada tipo de participante criado à sua modalidade na nova edição |
+| Enquadramento | grava | Criado a partir da aba de enquadramentos |
+| Formulário Dinâmico | grava | Criado a partir da aba de formulários de inscrição |
+| Campo do Formulário | grava | Criado a partir da aba de campos dos formulários |
+| Questionário | grava | Criado a partir da aba de questionários de avaliação |
+| Questão de Avaliação | grava | Criada a partir da aba de questões |
+| Alternativa da Questão | grava | Criada a partir da aba de alternativas |
+| Configuração de Anexo | grava | Criada a partir da aba de anexos exigidos |
 
 ---
 
@@ -138,9 +162,9 @@ Ação disparada na Lista de Prêmios (`/configuracao-premiacao/premiacoes`): um
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -152,12 +176,12 @@ Ação disparada na Lista de Prêmios (`/configuracao-premiacao/premiacoes`): um
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel na tabela de `## Métricas de tamanho`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-003 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

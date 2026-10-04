@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador remover um termo de aceite da edição, deixando de exigi-lo dos participantes.
 
+Na linha do termo, na aba "Termos & E-mails" da configuração da edição, o administrador aciona a exclusão e confirma no diálogo de confirmação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | `CA-4` — opção de remover cada termo na tabela de termos da edição |
 
 ---
 
@@ -84,9 +86,9 @@ Feature: Excluir Termo de Aceite
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Termo de aceite | seleção na relação | somente leitura | seleção → Termo de Aceite | sim | termo a ser removido da edição |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Termo de aceite | Termo de Aceite | entrada do usuário | somente leitura | seleção → Termo de Aceite | sim | termo escolhido na linha da relação, a ser removido da edição |
 
 ---
 
@@ -128,19 +130,22 @@ Ação disparada na linha do termo, na tela Termos de Aceite do Prêmio (`/confi
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Excluir Termo de Aceite | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Excluir Termo de Aceite | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Excluir Termo de Aceite** — ALR (1): Premiação. DER (3): ID · Ação · Mensagem.
+**Excluir Termo de Aceite** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Excluir Termo de Aceite",
  "alr": ["Premiação"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava a exclusão lógica do termo da edição (subgrupo Termo de Aceite)
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -152,13 +157,13 @@ Ação disparada na linha do termo, na tela Termos de Aceite do Prêmio (`/confi
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critério `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON (o processo elementar principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar os dados de uma edição já criada — nome, descrição, período e banner — mantendo a configuração da premiação atualizada.
 
+Na Lista de Prêmios, o administrador aciona "Configurar" na linha da edição e, na aba "Dados", altera os dados dela, como nome, período ou banner, e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | `CA-1, CA-2, CA-7` — nome obrigatório e único também na edição; data de término igual ou posterior à de início; validação dos campos obrigatórios antes de gravar (cenário 02 da HU) |
 
 ---
 
@@ -98,14 +100,14 @@ Feature: Editar Prêmio
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome da premiação | entrada do usuário | editável | texto | sim | único no sistema; máximo de 200 caracteres |
-| Descrição | entrada do usuário | editável | texto longo | não | texto livre |
-| Data de início | entrada do usuário | editável | data | sim | não posterior à data de término |
-| Data de término | entrada do usuário | editável | data | sim | igual ou posterior à data de início |
-| Imagem do banner | entrada do usuário | editável | imagem | não | imagem de identidade visual da edição |
-| Situação | — | somente leitura | lista (Ativo, Inativo) | — | alterada apenas pela ação de ativação/inativação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome da premiação | Premiação | entrada do usuário | editável | texto | sim | único no sistema; máximo de 200 caracteres |
+| Descrição | Premiação | entrada do usuário | editável | texto longo | não | texto livre |
+| Data de início | Premiação | entrada do usuário | editável | data | sim | não posterior à data de término |
+| Data de término | Premiação | entrada do usuário | editável | data | sim | igual ou posterior à data de início |
+| Imagem do banner | Premiação | entrada do usuário | editável | imagem | não | imagem de identidade visual da edição |
+| Situação | Premiação | exibido do cadastro | somente leitura | lista (Ativo, Inativo) | — | alterada apenas pela ação de ativação/inativação |
 
 ---
 
@@ -147,9 +149,9 @@ Formulário da edição em `/configuracao-premiacao/premiacoes/:premiacaoId/conf
 
 > **Sem contagem no baseline APF** — edição do prêmio diluída nas abas de "Gerenciar Prêmio" ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -161,12 +163,12 @@ Formulário da edição em `/configuracao-premiacao/premiacoes/:premiacaoId/conf
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos` (com a Situação como *exibido do cadastro*), coluna Papel na tabela de `## Métricas de tamanho`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

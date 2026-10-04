@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador registrar uma nova edição da premiação com nome, descrição, período e banner, deixando-a em modo de edição para a configuração dos demais itens.
 
+Na Lista de Prêmios, o administrador aciona "Nova Premiação", informa o nome e o período e, se quiser, a descrição e o banner, e aciona "Salvar"; a edição criada segue aberta em modo de edição.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | `CA-1, CA-2, CA-3, CA-7` — nome obrigatório e único, com erro claro na duplicidade; data de término igual ou posterior à de início; edição aberta em modo de edição com o identificador gerado; validação dos campos obrigatórios antes de gravar |
 
 ---
 
@@ -99,13 +101,13 @@ Feature: Cadastrar Prêmio
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome da premiação | entrada do usuário | editável | texto | sim | único no sistema; máximo de 200 caracteres |
-| Descrição | entrada do usuário | editável | texto longo | não | texto livre |
-| Data de início | entrada do usuário | editável | data | sim | não posterior à data de término |
-| Data de término | entrada do usuário | editável | data | sim | igual ou posterior à data de início |
-| Imagem do banner | entrada do usuário | editável | imagem | não | imagem de identidade visual da edição |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome da premiação | Premiação | entrada do usuário | editável | texto | sim | único no sistema; máximo de 200 caracteres |
+| Descrição | Premiação | entrada do usuário | editável | texto longo | não | texto livre |
+| Data de início | Premiação | entrada do usuário | editável | data | sim | não posterior à data de término |
+| Data de término | Premiação | entrada do usuário | editável | data | sim | igual ou posterior à data de início |
+| Imagem do banner | Premiação | entrada do usuário | editável | imagem | não | imagem de identidade visual da edição |
 
 ---
 
@@ -148,19 +150,27 @@ Formulário próprio em `/configuracao-premiacao/premiacoes/novo` com os campos 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Incluir Prêmio | EE | 1 | 6 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Prêmio | principal | EE | 1 | 6 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Incluir Prêmio*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Incluir Prêmio** — ALR (1): Premiação. DER (6): Nome · Descrição · Data Início · Data Fim · Ação · Mensagem.
+**Cadastrar Prêmio** — EE · ALR 1 · DER 6 · Simples · 3 PF
 
 ```json
-{"pe": "Incluir Prêmio",
+{"pe": "Cadastrar Prêmio",
  "alr": ["Premiação"],
- "der": ["Nome", "Descrição", "Data Início", "Data Fim", "Ação", "Mensagem"]}
+ "der": ["Nome", "Descrição", "Data Início", "Data Fim", "Ação", "Mensagem"],
+ "nao_contados": "Imagem do banner — o formulário a recebe, mas a planilha não a conta"}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava a edição nova, com nome, descrição e período
+
+⚠️ O formulário recebe também a *Imagem do banner*, que a planilha não enumera entre os DER. Ficou o número da planilha (DER 6); a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -172,13 +182,13 @@ Formulário próprio em `/configuracao-premiacao/premiacoes/novo` com os campos 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e um ⚠️ com a divergência da planilha. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

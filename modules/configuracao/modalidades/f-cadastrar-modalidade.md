@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador registrar uma nova modalidade sob uma categoria, com descrição, link de regulamento e período de inscrição próprio, deixando-a disponível como forma de participação.
 
+No Catálogo de Modalidades, o administrador abre o formulário de nova modalidade, informa o nome e, se quiser, dados como a descrição, o link do regulamento e o período de inscrição, e salva; na árvore de configuração de um prêmio, o botão "+" do nó de uma categoria cria a modalidade com o nome "Nova Modalidade" e abre o editor para renomeá-la.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | `CA-1, CA-2, CA-7` — nome obrigatório e único na categoria; período de inscrição opcional, com o fim posterior ao início; datas de inscrição informadas com horário |
 
 ---
 
@@ -117,13 +119,13 @@ Feature: Cadastrar Modalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | único dentro da mesma categoria; máximo de 200 caracteres |
-| Descrição | entrada do usuário | editável | texto longo | não | texto livre |
-| Link do regulamento | entrada do usuário | editável | texto (URL) | não | → ver FIELD-DICTIONARY: URL |
-| Início das inscrições | entrada do usuário | editável | data e hora | não | quando informado, anterior ao fim das inscrições |
-| Fim das inscrições | entrada do usuário | editável | data e hora | não | quando informado, posterior ao início das inscrições |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Modalidade | entrada do usuário | editável | texto | sim | único dentro da mesma categoria; máximo de 200 caracteres |
+| Descrição | Modalidade | entrada do usuário | editável | texto longo | não | texto livre |
+| Link do regulamento | Modalidade × Categoria | entrada do usuário | editável | texto (URL) | não | → ver FIELD-DICTIONARY: URL |
+| Início das inscrições | Modalidade × Categoria | entrada do usuário | editável | data e hora | não | quando informado, anterior ao fim das inscrições |
+| Fim das inscrições | Modalidade × Categoria | entrada do usuário | editável | data e hora | não | quando informado, posterior ao início das inscrições |
 
 ---
 
@@ -133,6 +135,14 @@ Feature: Cadastrar Modalidade
 |---|---|---|
 | Situação | Ativo | Na criação da modalidade |
 | Nome (criação rápida) | "Nova Modalidade" | Quando criada pela árvore de configuração, antes da renomeação |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Categoria | lê | A modalidade nasce subordinada à categoria do prêmio em que é criada — na criação rápida, a do nó selecionado na árvore (regras 2 e 6) |
 
 ---
 
@@ -167,19 +177,26 @@ Formulário próprio em `/modalidades/novo` (nome, descrição, regulamento e pe
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Incluir Modalidade | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Modalidade | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Incluir Modalidade*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Incluir Modalidade** — ALR (1): Modalidade. DER (4): Nome · Descrição · Ação · Mensagem.
+**Cadastrar Modalidade** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
-{"pe": "Incluir Modalidade",
+{"pe": "Cadastrar Modalidade",
  "alr": ["Modalidade"],
  "der": ["Nome", "Descrição", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Modalidade` — a transação grava a modalidade nova; o vínculo com a categoria, que guarda regulamento e período de inscrição, é subgrupo do mesmo arquivo lógico
+
+⚠️ O N3 também recebe *Link do regulamento*, *Início das inscrições* e *Fim das inscrições*, que a planilha não enumera, e a criação rápida lê a categoria do prêmio (arquivo lógico `Categoria`), que a planilha não conta como ALR. Ficou o número da planilha; as duas divergências vão à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -191,13 +208,13 @@ Formulário próprio em `/modalidades/novo` (nome, descrição, regulamento e pe
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

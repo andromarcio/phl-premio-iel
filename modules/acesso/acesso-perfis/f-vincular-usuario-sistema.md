@@ -26,6 +26,8 @@ contagem:
 ## Descrição
 Dá acesso à premiação, com o perfil Participante, a quem já tem conta no Sistema Indústria mas ainda não está habilitado nesta plataforma — evitando que a pessoa fique presa na mensagem de acesso não permitido ao tentar entrar pelo link público.
 
+Não há tela nem botão próprio: na página do link público de inscrição, quando o login com o e-mail informado devolve acesso não permitido, o sistema tenta o vínculo com esse mesmo e-mail e, concluído, repete o login sem pedir nada de novo.
+
 ---
 
 <div class="dev-only">
@@ -88,9 +90,9 @@ Feature: Vincular Usuário ao Sistema
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| E-mail | entrada do usuário | editável | texto | sim | formato de e-mail válido → ver FIELD-DICTIONARY: E-mail |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| E-mail | externo: Portal corporativo | entrada do usuário | editável | texto | sim | formato de e-mail válido → ver FIELD-DICTIONARY: E-mail; identifica a conta do Sistema Indústria que recebe o vínculo |
 
 ---
 
@@ -133,9 +135,9 @@ Não tem tela própria. É disparada pela Página do Link Público (`/inscricao/
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -147,12 +149,12 @@ Não tem tela própria. É disparada pela Página do Link Público (`/inscricao/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), coluna Entidade em `## Campos` (o e-mail identifica a conta no portal corporativo, `externo`), coluna Papel em `## Métricas de tamanho` — sem processo elementar medido (a contar). Sem `## Origem`: a feature nasceu da conferência com o código, não de HU. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (normalização de acesso de usuário corporativo já existente) — capacidade implementada e até então não especificada |
 
 ---
 
-*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-28*
+*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

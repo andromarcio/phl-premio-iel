@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alternar a situação de uma edição entre ativa e inativa, retirando-a dos fluxos públicos sem inativar suas categorias, modalidades e tipos de participante.
 
+Na linha da edição, na Lista de Prêmios, o administrador aciona "Desativar" (ou "Ativar", se ela estiver inativa) e confirma a troca no diálogo de confirmação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | — |
+| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | `CA-4` — desativação com confirmação do usuário, refletida de imediato na lista (cenários 03 e 06 da HU) |
 
 ---
 
@@ -91,9 +93,9 @@ Feature: Ativar/Inativar Prêmio
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Situação | Premiação | alternável pela ação | lista (Ativo, Inativo) | — | alternada entre Ativo e Inativo pela própria ação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Situação | Premiação | exibido do cadastro | somente leitura | lista (Ativo, Inativo) | — | alternada entre Ativo e Inativo pela própria ação |
 
 ---
 
@@ -136,9 +138,9 @@ Ação disparada na linha da edição, na Lista de Prêmios (`/configuracao-prem
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -150,12 +152,12 @@ Ação disparada na linha da edição, na Lista de Prêmios (`/configuracao-prem
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critério `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos` (a entidade estava na coluna Preenchimento, e a alternância pela ação já consta da Validação), coluna Papel na tabela de `## Métricas de tamanho`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-001 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

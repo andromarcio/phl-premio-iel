@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alternar a situação ativa/inativa de uma modalidade (exclusão lógica) sem afetar os tipos de participante vinculados, controlando a oferta da forma de participação nos fluxos de inscrição.
 
+Na linha da modalidade, no Catálogo de Modalidades, o administrador aciona "Desativar" (ou "Ativar", se ela estiver inativa) e confirma a troca de situação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | `CA-3` — a desativação não cascateia para os tipos de participante filhos |
 
 ---
 
@@ -102,9 +104,9 @@ Feature: Ativar/Inativar Modalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Modalidade | Modalidade | somente leitura | texto | — | modalidade sobre a qual a ação é aplicada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Modalidade | Modalidade | exibido do cadastro | somente leitura | texto | — | modalidade sobre a qual a ação é aplicada |
 
 ---
 
@@ -146,19 +148,22 @@ Ação disparada da linha da modalidade no Catálogo de Modalidades (`/modalidad
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Ativar/Inativar Modalidade | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Ativar/Inativar Modalidade | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Ativar/Inativar Modalidade** — ALR (1): Modalidade. DER (3): ID · Ação · Mensagem.
+**Ativar/Inativar Modalidade** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Ativar/Inativar Modalidade",
  "alr": ["Modalidade"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Modalidade` — a transação grava a nova situação da modalidade
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -170,13 +175,13 @@ Ação disparada da linha da modalidade no Catálogo de Modalidades (`/modalidad
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON (o principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

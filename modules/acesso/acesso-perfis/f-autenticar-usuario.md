@@ -26,6 +26,8 @@ contagem:
 ## Descrição
 Permite ao usuário entrar no sistema pelo login corporativo do Sistema Indústria (SSO), autenticando a sua identidade para iniciar uma sessão com o perfil correspondente. ⚠️ *(autenticação externa ao produto — a confirmar se figura como feature)*
 
+Ao acessar o sistema, o usuário é levado à tela do login corporativo do Sistema Indústria, informa ali as suas credenciais e, aprovado, volta ao sistema com a sessão iniciada e encaminhado à área do seu perfil.
+
 ---
 
 <div class="dev-only">
@@ -74,9 +76,9 @@ Feature: Autenticar Usuário
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Credenciais corporativas | login corporativo (SSO/AD) — externo | somente leitura | — | sim | validadas pelo provedor de identidade corporativo (externo) ⚠️ |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Credenciais corporativas | externo: Portal corporativo | externo: Portal corporativo | somente leitura | — | sim | informadas na tela do login corporativo (SSO/AD) e validadas pelo provedor de identidade corporativo (externo) ⚠️ |
 
 ---
 
@@ -118,9 +120,9 @@ Ponto de entrada em `/login`: o produto redireciona o usuário ao login corporat
 
 > **Sem contagem no baseline APF** — LOGON — não contado; regra CAIXA 7. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -132,12 +134,12 @@ Ponto de entrada em `/login`: o produto redireciona o usuário ao login corporat
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), coluna Entidade em `## Campos` (credenciais vindas do portal corporativo, `externo`), coluna Papel em `## Métricas de tamanho` — sem processo elementar medido: LOGON não se conta (regra 7 de `global/SIZING.md`). Sem `## Origem`: a feature não deriva de HU. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado de `global/AUTHZ.md` e do N0 (login corporativo/SSO) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Acesso e Perfis · Major Feature Set: Acesso e Gestão · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

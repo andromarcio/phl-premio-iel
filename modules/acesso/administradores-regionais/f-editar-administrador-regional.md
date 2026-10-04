@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador nacional alterar os dados editáveis de um administrador regional, como o e-mail de contato, mantendo o cadastro atualizado.
 
+Na Lista de Administradores, o administrador nacional abre o administrador regional no formulário, onde o usuário de origem aparece só para leitura, altera o e-mail de contato e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — |
+| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — a HU não numera critérios de aceite; mantém o cadastro do administrador regional a quem a HU atribui as UFs, sem tocar nas UFs, que ficam em Vincular UF ao Administrador |
 
 ---
 
@@ -92,10 +94,10 @@ Feature: Editar Administrador Regional
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Usuário | login corporativo (SSO/AD) | imutável | seleção → Usuário | — | não pode ser alterado após a designação |
-| E-mail | entrada do usuário | editável | texto | não | → ver FIELD-DICTIONARY: E-mail |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Usuário | externo: Portal corporativo | exibido do cadastro | imutável | seleção (usuário do login corporativo) | — | identidade vinda do login corporativo (SSO/AD); não pode ser alterado após a designação |
+| E-mail | Usuário | entrada do usuário | editável | texto | não | → ver FIELD-DICTIONARY: E-mail |
 
 ---
 
@@ -137,27 +139,40 @@ Formulário do administrador em `/administracao-usuario/:login`: o usuário de o
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Usuário (implícito) | EE | 1 | 11 | Simples | 3 | 2026-02-28 |
-| Editar Usuário | EE | 1 | 11 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Usuário (implícito) | acessório | EE | 1 | 11 | Simples | 3 | 2026-02-28 |
+| Editar Administrador Regional | principal | EE | 1 | 11 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar principal se chama *Editar Usuário*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Usuário (implícito)** — ALR (1): Usuário. DER (11): Login · Nome · CPF · Telefone · Celular · Email · Cargo · Perfil · UF Atuação · Entidade · Ação.
+**Consultar Usuário (implícito)** — EE · ALR 1 · DER 11 · Simples · 3 PF
 
 ```json
 {"pe": "Consultar Usuário (implícito)",
  "alr": ["Usuário"],
  "der": ["Login", "Nome", "CPF", "Telefone", "Celular", "Email", "Cargo", "Perfil", "UF Atuação", "Entidade", "Ação"]}
 ```
-- **Editar Usuário** — ALR (1): Usuário. DER (11): Nome · CPF · Telefone · Celular · Email · Cargo · Perfil · UF Atuação · Entidade · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Usuário` — o formulário abre preenchido com os dados do administrador, inclusive as UFs de atuação e campos que a pesquisa não mostrava (CPF, telefone, cargo)
+
+⚠️ A planilha classifica a consulta implícita como EE; pela intenção primária — recuperar dados para exibir — seria CE ou SE. Ficaram o tipo e o número da planilha; a classificação vai à equipe de métricas junto com o questionamento do baseline.
+
+**Editar Administrador Regional** — EE · ALR 1 · DER 11 · Simples · 3 PF
 
 ```json
-{"pe": "Editar Usuário",
+{"pe": "Editar Administrador Regional",
  "alr": ["Usuário"],
  "der": ["Nome", "CPF", "Telefone", "Celular", "Email", "Cargo", "Perfil", "UF Atuação", "Entidade", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Usuário` — a transação grava os dados alterados do administrador regional, inclusive o e-mail de contato do vínculo local
+
+⚠️ A planilha enumera os campos do formulário de usuário (CPF, telefone, celular, cargo, perfil, UF de atuação, entidade), enquanto este N3 descreve como editável só o e-mail de contato e deixa a troca de UFs para Vincular UF ao Administrador (regra 2). Ficou o número da planilha; a diferença vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -169,13 +184,13 @@ Formulário do administrador em `/administracao-usuario/:login`: o usuário de o
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa da HU na `## Origem` (a HU não numera critérios), coluna Entidade em `## Campos` (usuário de origem vindo do portal corporativo, `externo`; o Tipo do Usuário deixa de apontar para a entidade local), coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-020 e do inventário APF (módulo Usuário) |
 
 ---
 
-*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

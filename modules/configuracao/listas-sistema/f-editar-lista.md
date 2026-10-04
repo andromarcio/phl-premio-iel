@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar o nome ou o código de uma lista já cadastrada, mantendo a fonte de opções dos formulários atualizada.
 
+Na tela Listas do Sistema, o administrador aciona "Editar" na linha da lista, altera o nome ou o código na aba "Dados da Lista" e aciona "Salvar Lista"; a aba "Itens", ao lado, abre com os itens ativos na ordem definida.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — RF-03 e RF-05 da HU: "Editar" abre o formulário com os dados básicos e os itens ativos ordenados; Nome e Código continuam obrigatórios ao salvar |
 
 ---
 
@@ -93,10 +95,10 @@ Feature: Editar Lista
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
-| Código | entrada do usuário | editável | texto | sim | único em todo o sistema; máximo de 50 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Lista do Sistema | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
+| Código | Lista do Sistema | entrada do usuário | editável | texto | sim | único em todo o sistema; máximo de 50 caracteres |
 
 ---
 
@@ -105,6 +107,14 @@ Feature: Editar Lista
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Item da Lista do Sistema | lê | Ao abrir a lista para edição, os itens ativos são carregados na ordem definida (regra 3) |
 
 ---
 
@@ -138,27 +148,38 @@ Formulário da lista em `/configuracao-premiacao/listas-sistema/:listaSistemaId/
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Lista do Sisetma (implícita) | CE | 1 | 6 | Simples | 3 | 2026-02-28 |
-| Editar Lista do Sistema | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Lista do Sisetma (implícita) | acessório | CE | 1 | 6 | Simples | 3 | 2026-02-28 |
+| Editar Lista | principal | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar principal se chama *Editar Lista do Sistema*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline. O acessório mantém o nome da planilha, inclusive a grafia *Sisetma*.
 
 ### Memória de cálculo
 
-- **Consultar Lista do Sisetma (implícita)** — ALR (1): Listas do Sistema. DER (6): Nome · Código · Valor · Texto · Ordem · Ação.
+**Consultar Lista do Sisetma (implícita)** — CE · ALR 1 · DER 6 · Simples · 3 PF
 
 ```json
 {"pe": "Consultar Lista do Sisetma (implícita)",
  "alr": ["Listas do Sistema"],
  "der": ["Nome", "Código", "Valor", "Texto", "Ordem", "Ação"]}
 ```
-- **Editar Lista do Sistema** — ALR (1): Listas do Sistema. DER (7): Nome · Código · Valor · Texto · Ordem · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Listas do Sistema` — o formulário abre com o nome e o código da lista e com os itens ativos (valor, texto e ordem), que a pesquisa não mostrava
+
+**Editar Lista** — EE · ALR 1 · DER 7 · Simples · 3 PF
 
 ```json
-{"pe": "Editar Lista do Sistema",
+{"pe": "Editar Lista",
  "alr": ["Listas do Sistema"],
  "der": ["Nome", "Código", "Valor", "Texto", "Ordem", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Listas do Sistema` — a transação grava o nome e o código alterados
+
+⚠️ A planilha conta *Valor*, *Texto* e *Ordem* também nesta transação; pelo N3, os itens são gravados por "Salvar Itens", em `CFG-LIS-05` — Configurar Itens da Lista, e "Salvar Lista" grava só o nome e o código. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -170,13 +191,13 @@ Formulário da lista em `/configuracao-premiacao/listas-sistema/:listaSistemaId/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` citados pelo RF (a HU-012 agrupa os critérios de aceitação por RF-01 a RF-08, sem numeração `CA-n`; a célula abre com `—`), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -26,6 +26,8 @@ contagem:
 ## Descrição
 Permite ao administrador subir as imagens que compõem a identidade visual da premiação — logotipo, banner e ícone — e obter o endereço público de cada uma, para uso na página de inscrição.
 
+A operação é disparada pela tela de identidade visual da premiação, que ainda não existe, quando o administrador escolhe um arquivo de imagem e, se quiser, dá um nome a ele; o sistema devolve o endereço público da imagem.
+
 ---
 
 <div class="dev-only">
@@ -98,10 +100,12 @@ Feature: Carregar Imagem de Configuração
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Arquivo da imagem | entrada do usuário | editável | arquivo | sim | no máximo 5 MB; formatos PNG, JPEG, WebP ou SVG |
-| Nome do arquivo | entrada do usuário | editável | texto | não | identifica a imagem para o administrador |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Arquivo da imagem | Arquivo | entrada do usuário | editável | arquivo | sim | no máximo 5 MB; formatos PNG, JPEG, WebP ou SVG |
+| Nome do arquivo | Arquivo | entrada do usuário | editável | texto | não | identifica a imagem para o administrador |
+
+*A imagem fica no armazenamento de arquivos do sistema, o mesmo dos documentos da inscrição: os metadados em Arquivo e os bytes em Conteúdo do Arquivo. ⚠️ Inferido da forma como o sistema guarda arquivos — a confirmar no código.*
 
 ---
 
@@ -111,6 +115,14 @@ Feature: Carregar Imagem de Configuração
 |---|---|---|
 | Endereço público da imagem | endereço que exibe a imagem sem exigir autenticação | Ao concluir a carga |
 | Tamanho do arquivo | tamanho em bytes do arquivo carregado | Ao concluir a carga |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Conteúdo do Arquivo | lê e grava | Guarda os bytes da imagem carregada, servidos pelo endereço público em tamanho original ou reduzido, e deixa de servi-los quando a imagem é removida (regras 3 a 5) |
 
 ---
 
@@ -155,9 +167,9 @@ A imagem guardada e o seu endereço público. A referência à imagem passa a va
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -169,12 +181,12 @@ A imagem guardada e o seu endereço público. A referência à imagem passa a va
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com o bloco `contagem`; sem `origem`, pois a feature deriva do código, sem HU nem ticket), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (o que dispara a operação), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel na tabela de `## Métricas de tamanho`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (carga e publicação de imagens da identidade visual) — capacidade implementada no servidor, sem tela que a consuma |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-28*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

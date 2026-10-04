@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador consultar os dados de uma modalidade e as categorias e prêmios a que ela está vinculada, com o período de inscrição próprio de cada vínculo.
 
+A partir do Catálogo de Modalidades, o administrador abre o detalhe de uma modalidade e alterna entre a aba "Dados Gerais", com nome, descrição e situação, e a aba "Vínculos", com as categorias e os prêmios a que ela está ligada.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | `CA-6` — aba de vínculos com as categorias e os prêmios a que a modalidade está ligada |
 
 ---
 
@@ -87,12 +89,12 @@ Feature: Visualizar Modalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | Modalidade | somente leitura | texto | — | — |
-| Descrição | Modalidade | somente leitura | texto longo | — | — |
-| Situação | Modalidade | somente leitura | lista (Ativo, Inativo) | — | — |
-| Categorias e prêmios vinculados | derivado | somente leitura | lista (categoria + prêmio + situação do vínculo) | — | — |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Modalidade | exibido do cadastro | somente leitura | texto | — | — |
+| Descrição | Modalidade | exibido do cadastro | somente leitura | texto longo | — | — |
+| Situação | Modalidade | exibido do cadastro | somente leitura | lista (Ativo, Inativo) | — | — |
+| Categorias e prêmios vinculados | Modalidade × Categoria | exibido do cadastro | somente leitura | lista (categoria + prêmio + situação do vínculo) | — | — |
 
 ---
 
@@ -101,6 +103,15 @@ Feature: Visualizar Modalidade
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Categoria | lê | A aba "Vínculos" mostra a categoria de cada vínculo da modalidade (regra 2) |
+| Premiação | lê | A aba "Vínculos" mostra o prêmio de cada vínculo da modalidade (regra 2) |
 
 ---
 
@@ -134,13 +145,22 @@ Página de detalhe em `/modalidades/:id/visualizar`, com a aba "Dados Gerais" (n
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Detalhar Modalidade | — | — | — | — | 0 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Visualizar Modalidade | principal | — | — | — | — | 0 | 2026-02-28 |
+
+> No baseline, a linha se chama *Detalhar Modalidade* (sem tipo, ALR, DER nem complexidade); aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`.
 
 ### Memória de cálculo
 
-- **Detalhar Modalidade** — ALR (0): —. DER (0): —.
+**Visualizar Modalidade** — 0 PF
+
+```json
+{"pe": "Visualizar Modalidade",
+ "motivo": "zerada no baseline APF sem tipo, ALR, DER nem complexidade; o motivo foi perguntado à equipe de métricas (Q7) e ainda não respondido"}
+```
+
+⚠️ Se o zero foi lacuna da planilha, e não descarte, a linha precisa de contagem — ver `arquivos/demandas/QUESTIONAMENTO_METRICAS_BASELINE_APF.md`, Q7.
 
 **Total: 0 PF** (1 processo elementar).
 
@@ -152,12 +172,12 @@ Página de detalhe em `/modalidades/:id/visualizar`, com a aba "Dados Gerais" (n
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON (na linha de 0 PF, com o motivo), com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

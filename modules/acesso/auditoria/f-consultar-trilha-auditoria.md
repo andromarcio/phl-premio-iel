@@ -24,9 +24,11 @@ contagem:
 > **Nível 3** - Feature Set: Auditoria — Major Feature Set: Acesso e Gestão - `ACS-AUD-01`
 
 ## Descrição
+Permite ao administrador consultar a trilha de auditoria — o registro append-only das ações críticas — filtrando por entidade auditada, ação, usuário e período. ⚠️ *(escopo, filtros e perfis a confirmar)*
+
+Na tela Trilha de Auditoria — ainda sem tela implementada ⚠️ —, o administrador escolhe filtros como entidade auditada, ação e período e vê a lista paginada dos registros, do mais recente ao mais antigo.
 
 > ⚠️ **Não implementada** (conferência com o código, 2026-08-28). Não há controller nem tela, e **nenhum serviço grava em `TL_LOG_AUDITORIA`** — a tabela e o repositório existem vazios. A trilha efetiva do produto hoje é de domínio: `TB_INSCRICAO_HISTORICO` (+ itens de ajuste), `TB_INSCRICAO_SNAPSHOT` (antes/depois de ajuste e de edição administrativa), `TB_AVALIACAO_HISTORICO` e `TB_AUDITORIA_EMAIL`. Reespecificar sobre esses históricos ou implementar a trilha genérica é decisão em aberto — ver `global/CONFORMIDADE-CODIGO.md` § 3.4 e § 5.
-Permite ao administrador consultar a trilha de auditoria — o registro append-only das ações críticas — filtrando por entidade auditada, ação, usuário e período. ⚠️ *(escopo, filtros e perfis a confirmar)*
 
 ---
 
@@ -86,12 +88,12 @@ Feature: Consultar Trilha de Auditoria
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Entidade auditada | entrada do usuário | editável | seleção → entidade auditável | não | filtro pela entidade registrada ⚠️ |
-| Ação | entrada do usuário | editável | lista (Inclusão, Alteração, Exclusão) | não | valores da ação a confirmar ⚠️ |
-| Usuário | entrada do usuário | editável | seleção → Usuário | não | filtro pelo responsável da ação |
-| Período | entrada do usuário | editável | intervalo de datas | não | data inicial não posterior à data final |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Entidade auditada | Log de Auditoria | entrada do usuário | editável | seleção (entidades auditáveis) | não | filtro pela entidade registrada na trilha ⚠️ |
+| Ação | dado de código | entrada do usuário | editável | lista (Inclusão, Alteração, Exclusão) | não | valores da ação a confirmar ⚠️ |
+| Usuário | externo: Portal corporativo | entrada do usuário | editável | seleção (usuário do login corporativo) | não | filtro pelo responsável da ação |
+| Período | Log de Auditoria | entrada do usuário | editável | intervalo de datas | não | filtra pela data e hora do registro; data inicial não posterior à data final |
 
 ---
 
@@ -112,6 +114,14 @@ Feature: Consultar Trilha de Auditoria
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Usuário | lê | As UFs vinculadas ao administrador regional delimitam os registros que ele consulta (regra 3 ⚠️) |
 
 ---
 
@@ -145,9 +155,9 @@ Página própria em ⚠️ *sem tela implementada* (Trilha de Auditoria): filtro
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -159,12 +169,12 @@ Página própria em ⚠️ *sem tela implementada* (Trilha de Auditoria): filtro
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), com o aviso de não implementada movido para depois dele, sem mudança de texto; coluna Entidade em `## Campos` (usuário vindo do portal corporativo, `externo`; lista de ações como `dado de código`; os Tipos de seleção deixam de apontar para entidade inexistente ou local); `## Dados lidos e gravados`; coluna Papel em `## Métricas de tamanho` — sem processo elementar medido. Sem `## Origem`: a feature não deriva de HU. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do data-model (entidade Log de Auditoria) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Auditoria · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Auditoria · Major Feature Set: Acesso e Gestão · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

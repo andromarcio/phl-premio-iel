@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador nacional vincular uma ou mais UFs a um administrador regional, definindo o conjunto de inscrições que ele pode enxergar e validar.
 
+No formulário do administrador, no campo "UFs de Atuação", o administrador nacional escolhe o administrador regional, marca as UFs desejadas — cada uma com sigla e nome — e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — |
+| [`HU-020_Cadastrar_Admin_Regionais`](../../../hus/HU-020_Cadastrar_Admin_Regionais.docx) | Criação | — a HU não numera critérios de aceite; realiza as funcionalidades *Listar UFs Disponíveis*, *Associar UFs ao Administrador Regional* e *Visualizar UFs do Administrador* e as regras de negócio da HU (ao menos uma UF, visibilidade das inscrições pelas UFs, vigência imediata e filtro automático com UF única) |
 
 ---
 
@@ -106,10 +108,10 @@ Feature: Vincular UF ao Administrador
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Administrador Regional | entrada do usuário | editável | seleção → Usuário | sim | usuário com perfil de administrador regional |
-| UFs vinculadas | entrada do usuário | editável | seleção múltipla → Unidade Federativa | sim | ao menos uma UF selecionada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Administrador Regional | externo: Portal corporativo | entrada do usuário | editável | seleção (usuário do login corporativo) | sim | usuário com perfil de administrador regional |
+| UFs vinculadas | Unidade Federativa | entrada do usuário | editável | seleção múltipla → Unidade Federativa | sim | ao menos uma UF selecionada |
 
 ---
 
@@ -118,6 +120,14 @@ Feature: Vincular UF ao Administrador
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Usuário | lê e grava | Mostra as UFs já vinculadas ao administrador e grava o novo conjunto marcado no vínculo usuário↔UF, que passa a valer de imediato na visibilidade das inscrições (regras 1 a 3) |
 
 ---
 
@@ -152,9 +162,9 @@ Página própria em `/administracao-usuario/:login` *(campo “UFs de Atuação�
 
 > **Sem contagem no baseline APF** — passo dentro de cadastrar/editar administrador. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -166,12 +176,12 @@ Página própria em `/administracao-usuario/:login` *(campo “UFs de Atuação�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa da HU na `## Origem` (a HU não numera critérios), coluna Entidade em `## Campos` (administrador vindo do portal corporativo, `externo`; o Tipo deixa de apontar para a entidade local), `## Dados lidos e gravados`, coluna Papel em `## Métricas de tamanho` — sem processo elementar medido: o baseline conta o vínculo de UF dentro de Cadastrar e Editar Administrador Regional. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-020 |
 
 ---
 
-*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-08-27*
+*Feature Set: Administradores Regionais · Major Feature Set: Acesso e Gestão · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

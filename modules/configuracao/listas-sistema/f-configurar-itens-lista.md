@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador manter os itens de uma lista — incluir, reordenar e remover pares de valor e texto — que compõem as opções oferecidas nos campos de seleção dos formulários.
 
+Na aba "Itens" do formulário de uma lista já salva, o administrador informa valor e texto e aciona "Adicionar", organiza os itens com "Mover para cima", "Mover para baixo" e "Remover", e grava o conjunto com "Salvar Itens".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — RF-06 e RF-07 da HU: aba Itens com inclusão, reordenação e remoção e a ordem recalculada; gravação do conjunto completo dos itens, bloqueada enquanto a lista não foi salva |
 
 ---
 
@@ -111,10 +113,10 @@ Feature: Configurar Itens da Lista
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Valor | entrada do usuário | editável | texto | sim | valor armazenado do item; máximo de 200 caracteres |
-| Texto | entrada do usuário | editável | texto | sim | rótulo exibido ao participante; máximo de 300 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Valor | Item da Lista do Sistema | entrada do usuário | editável | texto | sim | valor armazenado do item; máximo de 200 caracteres |
+| Texto | Item da Lista do Sistema | entrada do usuário | editável | texto | sim | rótulo exibido ao participante; máximo de 300 caracteres |
 
 ---
 
@@ -123,6 +125,14 @@ Feature: Configurar Itens da Lista
 | Label PO | Valor | Quando |
 |---|---|---|
 | Ordem | Sequencial a partir de 1 | Recalculada a cada inclusão, remoção ou reordenação de itens |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Lista do Sistema | lê | Os itens pertencem a uma lista já salva: a configuração só se habilita depois do primeiro salvamento dela (regra 3) |
 
 ---
 
@@ -157,19 +167,26 @@ Aba "Itens" do formulário da lista em `/configuracao-premiacao/listas-sistema/:
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Ordenar Lista | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Configurar Itens da Lista | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Ordenar Lista*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Ordenar Lista** — ALR (1): Listas do Sistema. DER (3): ID · Ação · Mensagem.
+**Configurar Itens da Lista** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
-{"pe": "Ordenar Lista",
+{"pe": "Configurar Itens da Lista",
  "alr": ["Listas do Sistema"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Listas do Sistema` — a transação grava os itens da lista com a ordem recalculada; os itens são subgrupo do mesmo arquivo lógico
+
+⚠️ A planilha conta aqui só a reordenação (*Ordenar Lista*, com o identificador como único dado); o valor e o texto dos itens foram contados em *Incluir Lista do Sistema* e *Editar Lista do Sistema* (`CFG-LIS-02` — Cadastrar Lista e `CFG-LIS-03` — Editar Lista), embora pelo N3 sejam informados e gravados nesta feature, com "Salvar Itens". Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -181,13 +198,13 @@ Aba "Itens" do formulário da lista em `/configuracao-premiacao/listas-sistema/:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` citados pelo RF (a HU-012 agrupa os critérios de aceitação por RF-01 a RF-08, sem numeração `CA-n`; a célula abre com `—`), coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

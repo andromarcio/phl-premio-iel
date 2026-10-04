@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador localizar listas de valores por nome e por código, com paginação, para consulta, edição ou configuração de seus itens.
 
+Na tela Listas do Sistema, o administrador informa o nome, o código ou os dois e aciona "Filtrar" — ou "Limpar", para voltar à lista completa — e vê a tabela paginada de dez em dez, de onde abre a edição ou a exclusão de cada lista.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — RF-01 da HU: tabela paginada de dez em dez com Código e Nome, filtros de nome e de código que voltam à primeira página e "Limpar" para a lista completa |
 
 ---
 
@@ -95,10 +97,10 @@ Feature: Pesquisar Listas
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
-| Código | entrada do usuário | editável | texto | não | filtro por código |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Lista do Sistema | entrada do usuário | editável | texto | não | filtro por correspondência parcial |
+| Código | Lista do Sistema | entrada do usuário | editável | texto | não | filtro por código |
 
 ---
 
@@ -149,19 +151,24 @@ Página própria em `/configuracao-premiacao/listas-sistema` (Lista de Listas do
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Pesquisar Listas do Sistema | CE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Pesquisar Listas | principal | CE | 1 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Pesquisar Listas do Sistema*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Pesquisar Listas do Sistema** — ALR (1): Listas do Sistema. DER (4): Nome · Código · Ação · Mensagem.
+**Pesquisar Listas** — CE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
-{"pe": "Pesquisar Listas do Sistema",
+{"pe": "Pesquisar Listas",
  "alr": ["Listas do Sistema"],
  "der": ["Nome", "Código", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Listas do Sistema` — a busca lê as listas ativas, com nome e código, filtradas pelos critérios informados; nome e código são filtro e coluna ao mesmo tempo e contam uma vez cada
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -173,13 +180,13 @@ Página própria em `/configuracao-premiacao/listas-sistema` (Lista de Listas do
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` citados pelo RF (a HU-012 agrupa os critérios de aceitação por RF-01 a RF-08, sem numeração `CA-n`; a célula abre com `—`), coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

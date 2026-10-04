@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador localizar edições da premiação por nome e por período de datas, listando os resultados de forma paginada para consulta, configuração ou reaproveitamento.
 
+Na Lista de Prêmios, o administrador informa parte do nome e, se quiser, um intervalo de datas, aciona "Filtrar" e percorre a lista paginada, de onde abre a configuração, exporta a planilha ou troca a situação de cada edição.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | — |
+| [`HU-001_Gerenciar_Premios`](../../../hus/HU-001_Gerenciar_Premios.docx) | Criação | `CA-1, CA-2, CA-3, CA-6, CA-7` — lista paginada com 10 itens por página; filtros de nome e período, combinados ou isolados; limpeza dos filtros; indicador de carregamento durante a busca; botão "Configurar" que leva à configuração da edição |
 
 ---
 
@@ -96,11 +98,11 @@ Feature: Pesquisar Prêmios
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | não | correspondência parcial; máximo de 200 caracteres |
-| Início do período | entrada do usuário | editável | data | não | limite inicial do intervalo pesquisado |
-| Fim do período | entrada do usuário | editável | data | não | limite final do intervalo pesquisado |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Premiação | entrada do usuário | editável | texto | não | correspondência parcial; máximo de 200 caracteres |
+| Início do período | Premiação | entrada do usuário | editável | data | não | limite inicial do intervalo pesquisado |
+| Fim do período | Premiação | entrada do usuário | editável | data | não | limite final do intervalo pesquisado |
 
 ---
 
@@ -121,6 +123,14 @@ Feature: Pesquisar Prêmios
 | Label PO | Valor | Quando |
 |---|---|---|
 | — | — | — |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Premiação × Categoria | lê | A coluna *Categorias vinculadas* do resultado conta os vínculos de cada edição com as categorias |
 
 ---
 
@@ -155,19 +165,27 @@ Página própria em `/configuracao-premiacao/premiacoes` (Lista de Prêmios): ca
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Pesquisar Premiações | SE | 1 | 7 | Simples | 4 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Pesquisar Prêmios | principal | SE | 1 | 7 | Simples | 4 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Pesquisar Premiações*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Pesquisar Premiações** — ALR (1): Premiação. DER (7): Nome · Período · Data de Início · Data Fim · Qtd Categoria · Ação · Mensagem.
+**Pesquisar Prêmios** — SE · ALR 1 · DER 7 · Simples · 4 PF
 
 ```json
-{"pe": "Pesquisar Premiações",
+{"pe": "Pesquisar Prêmios",
  "alr": ["Premiação"],
- "der": ["Nome", "Período", "Data de Início", "Data Fim", "Qtd Categoria", "Ação", "Mensagem"]}
+ "der": ["Nome", "Período", "Data de Início", "Data Fim", "Qtd Categoria", "Ação", "Mensagem"],
+ "nao_contados": "Categoria (vínculo lido para a coluna Qtd Categoria) e a coluna Situação — a planilha não os conta"}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a lista traz nome, período e situação de cada edição, filtrada por parte do nome e pelo intervalo de datas
+
+⚠️ A coluna *Categorias vinculadas* (DER *Qtd Categoria*) conta os vínculos da edição com as categorias, que pertencem ao arquivo lógico `Categoria`, e a coluna *Situação* aparece no resultado sem DER correspondente; a planilha conta ALR 1 e DER 7. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 4 PF** (1 processo elementar).
 
@@ -179,13 +197,13 @@ Página própria em `/configuracao-premiacao/premiacoes` (Lista de Prêmios): ca
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature e um ⚠️ com as divergências da planilha. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-001 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

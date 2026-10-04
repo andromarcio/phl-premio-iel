@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar o título, o texto ou a obrigatoriedade de um termo de aceite já registrado na edição.
 
+Na relação de termos da aba "Termos & E-mails" da configuração da edição, o administrador abre a edição do termo, altera o título, o texto ou a marcação de obrigatório e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | — |
+| [`HU-002_Cadastrar_Premios`](../../../hus/HU-002_Cadastrar_Premios.docx) | Criação | `CA-4` — opção de editar cada termo na tabela de termos da edição |
 
 ---
 
@@ -89,12 +91,12 @@ Feature: Editar Termo de Aceite
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Título | entrada do usuário | editável | texto | sim | máximo de 500 caracteres |
-| Texto do termo | entrada do usuário | editável | texto longo | não | conteúdo apresentado ao participante para aceite |
-| Obrigatório | entrada do usuário | editável | booleano (Sim/Não) | não | quando Sim, o aceite é exigido para concluir a inscrição |
-| Prêmio | — | imutável | seleção → Premiação | — | não pode ser alterado após a criação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Título | Termo de Aceite | entrada do usuário | editável | texto | sim | máximo de 500 caracteres |
+| Texto do termo | Termo de Aceite | entrada do usuário | editável | texto longo | não | conteúdo apresentado ao participante para aceite |
+| Obrigatório | Termo de Aceite | entrada do usuário | editável | booleano (Sim/Não) | não | quando Sim, o aceite é exigido para concluir a inscrição |
+| Prêmio | Premiação | exibido do cadastro | imutável | seleção → Premiação | — | não pode ser alterado após a criação |
 
 ---
 
@@ -136,27 +138,34 @@ Diálogo de edição do termo na tela Termos de Aceite do Prêmio (`/configuraca
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Termo de Aceite (implícita) | CE | 1 | 4 | Simples | 3 | 2026-02-28 |
-| Editar Termo de Aceite | EE | 1 | 5 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Termo de Aceite (implícita) | acessório | CE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Editar Termo de Aceite | principal | EE | 1 | 5 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consultar Termo de Aceite (implícita)** — ALR (1): Premiação. DER (4): Titulo · Obrigatório · Texto · Ação.
+**Consultar Termo de Aceite (implícita)** — CE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
 {"pe": "Consultar Termo de Aceite (implícita)",
  "alr": ["Premiação"],
  "der": ["Titulo", "Obrigatório", "Texto", "Ação"]}
 ```
-- **Editar Termo de Aceite** — ALR (1): Premiação. DER (5): Titulo · Obrigatório · Texto · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Premiação` — o diálogo abre preenchido com o termo da edição (subgrupo Termo de Aceite), inclusive o texto, que a relação de termos não mostrava
+
+**Editar Termo de Aceite** — EE · ALR 1 · DER 5 · Simples · 3 PF
 
 ```json
 {"pe": "Editar Termo de Aceite",
  "alr": ["Premiação"],
  "der": ["Titulo", "Obrigatório", "Texto", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava o título, o texto e a obrigatoriedade alterados no termo da edição
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -168,13 +177,13 @@ Diálogo de edição do termo na tela Termos de Aceite do Prêmio (`/configuraca
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critério `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON (o processo elementar principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-002 |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

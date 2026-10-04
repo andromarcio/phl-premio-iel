@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao administrador editar o assunto e o corpo de um modelo de e-mail com marcadores dinâmicos, ou restaurar o modelo ao padrão do sistema.
 
+Na aba "Termos & E-mails" da configuração da edição, o administrador aciona a edição no cartão do tipo desejado e, no diálogo, altera o assunto e o corpo, insere marcadores pelos botões disponíveis e aciona "Salvar" — ou "Restaurar padrão", com confirmação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — |
-| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — |
+| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — funcionalidade "Editar Template de E-mail" da HU (sem critérios numerados): assunto e corpo com marcadores dinâmicos e restauração do modelo padrão com confirmação |
+| [`PDTIC25093-69`](../../../analise-impacto/AIM-PDTIC25093-69.md) | Alteração | — marcador `{{link_sistema}}` e o quinto tipo, Feedback disponível, editável como os demais |
 
 ---
 
@@ -100,11 +102,11 @@ Feature: Editar Modelo de E-mail
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Assunto | entrada do usuário | editável | texto | sim | assunto do e-mail enviado |
-| Corpo do e-mail | entrada do usuário | editável | texto longo | sim | conteúdo do e-mail, com marcadores dinâmicos |
-| Tipo de e-mail | — | imutável | seleção → tipo do modelo | — | define qual dos cinco modelos está sendo editado |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Assunto | Configuração de E-mail da Premiação | entrada do usuário | editável | texto | sim | assunto do e-mail enviado |
+| Corpo do e-mail | Configuração de E-mail da Premiação | entrada do usuário | editável | texto longo | sim | conteúdo do e-mail, com marcadores dinâmicos |
+| Tipo de e-mail | Configuração de E-mail da Premiação | exibido do cadastro | imutável | lista (Ajuste solicitado, Inscrição aprovada, Inscrição rejeitada, Devolução ao administrador, Feedback disponível) | — | define qual dos cinco modelos está sendo editado |
 
 ---
 
@@ -146,19 +148,24 @@ Diálogo de edição em `/configuracao-premiacao/premiacoes/:premiacaoId/configu
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Editar Template de E-mail | EE | 1 | 5 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Editar Modelo de E-mail | principal | EE | 1 | 5 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Editar Template de E-mail*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Editar Template de E-mail** — ALR (1): Premiação. DER (5): Tipo de E-mail · Assunto do E-mail · Corpo do E-mail · Ação · Mensagem.
+**Editar Modelo de E-mail** — EE · ALR 1 · DER 5 · Simples · 3 PF
 
 ```json
-{"pe": "Editar Template de E-mail",
+{"pe": "Editar Modelo de E-mail",
  "alr": ["Premiação"],
  "der": ["Tipo de E-mail", "Assunto do E-mail", "Corpo do E-mail", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava o assunto e o corpo do modelo, guardados na Configuração de E-mail da Premiação, subgrupo do arquivo lógico Premiação
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -170,7 +177,7 @@ Diálogo de edição em `/configuracao-premiacao/premiacoes/:premiacaoId/configu
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), conferência da HU na `## Origem` (a HU-021 não numera critérios) e prosa do ticket, coluna Entidade em `## Campos` (o Tipo do campo Tipo de e-mail, `seleção → tipo do modelo`, que não nomeava entidade, passa à lista dos cinco tipos), coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do marcador `{{link_sistema}}` e do quinto tipo de modelo. *Antes* eram oito marcadores e quatro tipos editáveis. *Agora* são **nove** marcadores — o novo é o endereço pelo qual o participante alcança o sistema, usado pelo e-mail de feedback disponível — e **cinco** tipos. O marcador é valor de um campo já existente (o corpo do modelo), não DER novo — sem Δ PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -178,6 +185,6 @@ Diálogo de edição em `/configuracao-premiacao/premiacoes/:premiacaoId/configu
 
 ---
 
-*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

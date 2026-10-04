@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador pré-visualizar o corpo do e-mail renderizado antes de salvar, conferindo o assunto e a aparência do modelo sem substituir os marcadores dinâmicos.
 
+No diálogo de edição do modelo, o administrador aciona a pré-visualização para ver o corpo renderizado e sai dela para voltar à edição, com o conteúdo preservado.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — |
+| [`HU-021_Configurar_Templates_Email`](../../../hus/HU-021_Configurar_Templates_Email.docx) | Criação | — botão Preview e regra do preview da HU (sem critérios numerados): alternância entre edição e pré-visualização do HTML renderizado, sem substituir os marcadores |
 
 ---
 
@@ -87,10 +89,10 @@ Feature: Visualizar E-mail
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Assunto | Configuração de E-mail da Premiação | somente leitura | texto | — | — |
-| Corpo do e-mail | Configuração de E-mail da Premiação | somente leitura | texto longo | — | apresentado renderizado, com os marcadores visíveis |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Assunto | Configuração de E-mail da Premiação | exibido do cadastro | somente leitura | texto | — | — |
+| Corpo do e-mail | Configuração de E-mail da Premiação | exibido do cadastro | somente leitura | texto longo | — | apresentado renderizado, com os marcadores visíveis |
 
 ---
 
@@ -132,19 +134,24 @@ Modo de pré-visualização dentro do Diálogo de Edição de Modelo (`/configur
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Visualizar E-mail | CE | 1 | 10 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Visualizar E-mail | principal | CE | 1 | 10 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Visualizar E-mail** — ALR (1): Premiação. DER (10): Prêmio · Nome do Participante · Titulo da Premiação · Nome da Categoria · Nome da Modalidade · Número do Protocolo · Texto do Ajuste · Texto do Parecer · Nome do Administrador · Ação.
+**Visualizar E-mail** — CE · ALR 1 · DER 10 · Simples · 3 PF
 
 ```json
 {"pe": "Visualizar E-mail",
  "alr": ["Premiação"],
  "der": ["Prêmio", "Nome do Participante", "Titulo da Premiação", "Nome da Categoria", "Nome da Modalidade", "Número do Protocolo", "Texto do Ajuste", "Texto do Parecer", "Nome do Administrador", "Ação"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a pré-visualização apresenta o modelo da edição, guardado na Configuração de E-mail da Premiação, subgrupo do arquivo lógico Premiação
+
+⚠️ A planilha enumera como DER os marcadores dinâmicos (*Nome do Participante*, *Número do Protocolo* e os demais) e não o assunto nem o corpo; pelo N3, a pré-visualização mostra o corpo renderizado **sem** substituir os marcadores (regra 1) e não altera o modelo (regra 2). Mantido como o baseline contou; a confirmar com a equipe de métricas se os marcadores atravessam a fronteira como dado.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -156,13 +163,13 @@ Modo de pré-visualização dentro do Diálogo de Edição de Modelo (`/configur
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), conferência da HU na `## Origem` (a HU-021 não numera critérios), coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON (o principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-021 |
 
 ---
 
-*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modelos de E-mail · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

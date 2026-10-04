@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador remover uma lista de valores por exclusão lógica, retirando-a da consulta e da oferta como fonte de opções sem apagá-la do sistema.
 
+Na tela Listas do Sistema, o administrador aciona o ícone de exclusão na linha da lista e confirma no diálogo; a lista deixa de aparecer no resultado da busca.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — RF-04 da HU: confirmação antes de desativar, desativação por exclusão lógica e recarga da listagem |
 
 ---
 
@@ -92,9 +94,9 @@ Feature: Excluir Lista
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Lista | Lista do Sistema | somente leitura | texto | — | lista sobre a qual a exclusão é aplicada |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Lista | Lista do Sistema | exibido do cadastro | somente leitura | texto | — | lista sobre a qual a exclusão é aplicada |
 
 ---
 
@@ -136,19 +138,24 @@ Ação disparada da linha da lista na tela de Listas do Sistema (`/configuracao-
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Excluir Lista do Sistema | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Excluir Lista | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Excluir Lista do Sistema*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Excluir Lista do Sistema** — ALR (1): Listas do Sistema. DER (3): ID · Ação · Mensagem.
+**Excluir Lista** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
-{"pe": "Excluir Lista do Sistema",
+{"pe": "Excluir Lista",
  "alr": ["Listas do Sistema"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Listas do Sistema` — a transação grava a situação inativa da lista (exclusão lógica)
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -160,13 +167,13 @@ Ação disparada da linha da lista na tela de Listas do Sistema (`/configuracao-
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` citados pelo RF (a HU-012 agrupa os critérios de aceitação por RF-01 a RF-08, sem numeração `CA-n`; a célula abre com `—`), coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

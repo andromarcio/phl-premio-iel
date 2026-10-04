@@ -25,8 +25,11 @@ contagem:
 
 ## Descrição
 
-> ⚠️ **Não implementada** (conferência com o código, 2026-08-28). A tabela `TB_CRITERIO_AVALIACAO` e o `CriterioAvaliacaoRepository` existem, mas **não há controller, serviço nem tela** para essa configuração. Não confundir com os **critérios de desempate** (`AVL-ETA-06`, `TB_DESEMPATE_CRITERIO`), que estão implementados. Ver `global/CONFORMIDADE-CODIGO.md` § 5.
 Permite ao administrador definir os critérios de avaliação e seus pesos usados na apuração das notas de uma edição.
+
+Na tela de Critérios de Avaliação do Prêmio — proposta, ainda sem implementação —, o administrador informa os dados de cada critério, como nome, peso e categoria, e aciona "Salvar".
+
+> ⚠️ **Não implementada** (conferência com o código, 2026-08-28). A tabela `TB_CRITERIO_AVALIACAO` e o `CriterioAvaliacaoRepository` existem, mas **não há controller, serviço nem tela** para essa configuração. Não confundir com os **critérios de desempate** (`AVL-ETA-06`, `TB_DESEMPATE_CRITERIO`), que estão implementados. Ver `global/CONFORMIDADE-CODIGO.md` § 5.
 
 ---
 
@@ -83,12 +86,12 @@ Feature: Configurar Critérios de Avaliação
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome do critério | entrada do usuário | editável | texto | sim | máximo de 300 caracteres |
-| Descrição do critério | entrada do usuário | editável | texto longo | não | texto livre |
-| Categoria | entrada do usuário | editável | seleção → Categoria | não | critério específico de uma categoria; em branco, vale para toda a edição ⚠️ |
-| Peso | entrada do usuário | editável | número decimal | não | fator de ponderação da nota; padrão 1,00 |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome do critério | Critério de Avaliação | entrada do usuário | editável | texto | sim | máximo de 300 caracteres |
+| Descrição do critério | Critério de Avaliação | entrada do usuário | editável | texto longo | não | texto livre |
+| Categoria | Categoria | entrada do usuário | editável | seleção → Categoria | não | critério específico de uma categoria; em branco, vale para toda a edição ⚠️ |
+| Peso | Critério de Avaliação | entrada do usuário | editável | número decimal | não | fator de ponderação da nota; padrão 1,00 |
 
 ---
 
@@ -131,9 +134,9 @@ Tela Critérios de Avaliação do Prêmio (⚠️ *sem tela implementada* (o bot
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -145,12 +148,12 @@ Tela Critérios de Avaliação do Prêmio (⚠️ *sem tela implementada* (o bot
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com o bloco `contagem`; sem `origem`, pois a feature deriva do data-model, sem HU), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), com o aviso de feature não implementada logo depois dele, coluna Entidade em `## Campos`, coluna Papel na tabela de `## Métricas de tamanho`. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do data-model (Critério de Avaliação) — sem HU dedicada ⚠️ |
 
 ---
 
-*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Prêmios · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

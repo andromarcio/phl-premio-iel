@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar o nome, a descrição, o link de regulamento e o período de inscrição de uma modalidade já cadastrada, sem mudá-la de categoria.
 
+No detalhe da modalidade, na aba "Dados Gerais" — ou no editor contextual da árvore de configuração do prêmio —, o administrador altera dados como o nome, o link do regulamento e o período de inscrição e aciona "Salvar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | — |
+| [`HU-005_Cadastrar_Modalidades`](../../../hus/HU-005_Cadastrar_Modalidades.docx) | Criação | `CA-1, CA-2, CA-4, CA-7` — nome obrigatório e único na categoria e período com o fim posterior ao início também na edição; editor contextual que acompanha o nó selecionado na árvore; datas de inscrição com horário |
 
 ---
 
@@ -100,14 +102,14 @@ Feature: Editar Modalidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | único dentro da mesma categoria; máximo de 200 caracteres |
-| Descrição | entrada do usuário | editável | texto longo | não | texto livre |
-| Link do regulamento | entrada do usuário | editável | texto (URL) | não | → ver FIELD-DICTIONARY: URL |
-| Início das inscrições | entrada do usuário | editável | data e hora | não | quando informado, anterior ao fim das inscrições |
-| Fim das inscrições | entrada do usuário | editável | data e hora | não | quando informado, posterior ao início das inscrições |
-| Categoria | — | imutável | seleção → Categoria | — | não pode ser alterada após a criação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Modalidade | entrada do usuário | editável | texto | sim | único dentro da mesma categoria; máximo de 200 caracteres |
+| Descrição | Modalidade | entrada do usuário | editável | texto longo | não | texto livre |
+| Link do regulamento | Modalidade × Categoria | entrada do usuário | editável | texto (URL) | não | → ver FIELD-DICTIONARY: URL |
+| Início das inscrições | Modalidade × Categoria | entrada do usuário | editável | data e hora | não | quando informado, anterior ao fim das inscrições |
+| Fim das inscrições | Modalidade × Categoria | entrada do usuário | editável | data e hora | não | quando informado, posterior ao início das inscrições |
+| Categoria | Categoria | exibido do cadastro | imutável | seleção → Categoria | — | não pode ser alterada após a criação |
 
 ---
 
@@ -149,27 +151,37 @@ Formulário da modalidade em `/modalidades/:id/visualizar`, aba "Dados Gerais"; 
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Modalidade (implícita) | SE | 2 | 7 | Médio | 5 | 2026-02-28 |
-| Editar Modalidade | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Modalidade (implícita) | acessório | SE | 2 | 7 | Médio | 5 | 2026-02-28 |
+| Editar Modalidade | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Consultar Modalidade (implícita)** — ALR (2): Modalidade · Categoria. DER (7): Nome · Descrição · Premiação · Categoria · Id do Vinculo · Situação · Ação.
+**Consultar Modalidade (implícita)** — SE · ALR 2 · DER 7 · Médio · 5 PF
 
 ```json
 {"pe": "Consultar Modalidade (implícita)",
  "alr": ["Modalidade", "Categoria"],
  "der": ["Nome", "Descrição", "Premiação", "Categoria", "Id do Vinculo", "Situação", "Ação"]}
 ```
-- **Editar Modalidade** — ALR (1): Modalidade. DER (4): Nome · Descrição · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Modalidade` — o formulário abre preenchido com os dados da modalidade e do vínculo com a categoria
+2. `Categoria` — a abertura traz a categoria e o prêmio do vínculo, que a pesquisa não mostrava
+
+**Editar Modalidade** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
 {"pe": "Editar Modalidade",
  "alr": ["Modalidade"],
  "der": ["Nome", "Descrição", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Modalidade` — a transação grava os dados alterados da modalidade e do vínculo com a categoria, subgrupo do mesmo arquivo lógico
+
+⚠️ O N3 também recebe *Link do regulamento*, *Início das inscrições* e *Fim das inscrições*, que a planilha não enumera nesta transação. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 8 PF** (2 processos elementares).
 
@@ -181,13 +193,13 @@ Formulário da modalidade em `/modalidades/:id/visualizar`, aba "Dados Gerais"; 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios `CA-n` da HU na `## Origem`, coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON (o principal já levava o nome da feature). Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-005 |
 
 ---
 
-*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Modalidades · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

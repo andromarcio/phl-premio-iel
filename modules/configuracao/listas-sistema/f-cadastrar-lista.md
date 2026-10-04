@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador registrar uma nova lista de valores informando nome e um código único, habilitando em seguida a configuração dos seus itens.
 
+Na tela Listas do Sistema, o administrador aciona "Nova Lista", informa o nome e o código na aba "Dados da Lista" e aciona "Salvar Lista"; com a lista salva, a aba "Itens" fica liberada para a configuração dos valores.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — |
+| [`HU-012_Listas_do_Sistema`](../../../hus/HU-012_Listas_do_Sistema.docx) | Criação | — RF-02 e RF-05 da HU: "Nova Lista" abre o formulário vazio com a aba Itens desabilitada; Nome e Código obrigatórios, e a aba Itens liberada depois do primeiro salvamento |
 
 ---
 
@@ -101,10 +103,10 @@ Feature: Cadastrar Lista
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
-| Código | entrada do usuário | editável | texto | sim | único em todo o sistema; máximo de 50 caracteres |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome | Lista do Sistema | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
+| Código | Lista do Sistema | entrada do usuário | editável | texto | sim | único em todo o sistema; máximo de 50 caracteres |
 
 ---
 
@@ -147,19 +149,26 @@ Formulário próprio em `/configuracao-premiacao/listas-sistema/novo`, aba "Dado
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Incluir Lista do Sistema | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Lista | principal | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Incluir Lista do Sistema*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Incluir Lista do Sistema** — ALR (1): Listas do Sistema. DER (7): Nome · Código · Valor · Texto · Ordem · Ação · Mensagem.
+**Cadastrar Lista** — EE · ALR 1 · DER 7 · Simples · 3 PF
 
 ```json
-{"pe": "Incluir Lista do Sistema",
+{"pe": "Cadastrar Lista",
  "alr": ["Listas do Sistema"],
  "der": ["Nome", "Código", "Valor", "Texto", "Ordem", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Listas do Sistema` — a transação grava a lista nova, com nome e código
+
+⚠️ A planilha conta *Valor*, *Texto* e *Ordem*, que são campos dos itens; pelo N3, os itens só são informados depois do primeiro salvamento da lista (regra 3), em `CFG-LIS-05` — Configurar Itens da Lista. Ficou o número da planilha; a divergência vai à equipe de métricas junto com o questionamento do baseline.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -171,13 +180,13 @@ Formulário próprio em `/configuracao-premiacao/listas-sistema/novo`, aba "Dado
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), critérios da HU na `## Origem` citados pelo RF (a HU-012 agrupa os critérios de aceitação por RF-01 a RF-08, sem numeração `CA-n`; a célula abre com `—`), coluna Entidade em `## Campos`, coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-012 |
 
 ---
 
-*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-08-27*
+*Feature Set: Listas do Sistema · Major Feature Set: Configuração da Premiação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
