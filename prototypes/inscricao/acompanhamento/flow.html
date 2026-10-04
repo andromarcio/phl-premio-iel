@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Devolutiva ao participante — Inscrição</title>
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-dash" class="is-current" onclick="showScreen('screen-dash')">Acompanhamento</button>
+    <button id="sw-dev" onclick="abrirDevolutiva()">Devolutiva</button>
+    <span class="sepv"></span>
+    <strong>Simular:</strong>
+    <button id="cs-lib" class="is-current" onclick="setCaso('liberada')">Regional liberada</button>
+    <button id="cs-data" onclick="setCaso('comdata')">Aguardando data</button>
+    <button id="cs-cons" onclick="setCaso('consolidando')">Consolidação em curso</button>
+    <button id="cs-nada" onclick="setCaso('nenhuma')">Nenhuma liberada</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">INS-ACO-01 · INS-ACO-02 — Acompanhamento da Inscrição</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Ana Paula Ribeiro Menezes · <span style="opacity:.85">Participante <span style="opacity:.6">PIT.2</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-dash')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Minhas inscrições
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Acompanhamento da inscrição (INS-ACO-01 — contexto)    -->
+      <!-- ============================================================= -->
+      <div id="screen-dash" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Minhas inscrições</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Olá, Ana Paula</h1>
+              <p class="dsc-page-subtitle">Acompanhe as suas inscrições no Prêmio IEL de Talentos 2026.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dsc-row" style="margin-bottom:16px">
+          <div class="dsc-col-4"><div class="dsc-card"><div class="dsc-lv"><span class="dsc-lv-label">Inscrições</span><span class="dsc-lv-value" style="font-size:24px">2</span></div></div></div>
+          <div class="dsc-col-4"><div class="dsc-card"><div class="dsc-lv"><span class="dsc-lv-label">Finalizadas</span><span class="dsc-lv-value" style="font-size:24px">1</span></div></div></div>
+          <div class="dsc-col-4"><div class="dsc-card"><div class="dsc-lv"><span class="dsc-lv-label">Pendentes</span><span class="dsc-lv-value" style="font-size:24px">1</span></div></div></div>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-card-header">
+            <div>
+              <span class="dsc-card-title">Trilhas de Aprendizagem Maker no Ensino Médio</span>
+              <div class="dsc-body-sm dsc-text-muted">PIEL-2026-000118 · Educação Inovadora · Instituição de Ensino · MG</div>
+            </div>
+            <span class="dsc-badge dsc-badge--success">Validada</span>
+          </div>
+          <div class="dsc-row" style="margin-top:8px">
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Enviada em</span><span class="dsc-lv-value">24/08/2026</span></div></div>
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Validada em</span><span class="dsc-lv-value">28/08/2026</span></div></div>
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Devolutiva</span><span class="dsc-lv-value" id="dash-dev-status">1 etapa liberada</span></div></div>
+          </div>
+          <div class="dsc-flex dsc-gap-1 dsc-wrap" style="margin-top:12px">
+            <button class="dsc-btn" onclick="abrirDevolutiva()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Ver devolutiva
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="return false">Ver resumo da inscrição</button>
+          </div>
+        </div>
+
+        <div class="dsc-card">
+          <div class="dsc-card-header">
+            <div>
+              <span class="dsc-card-title">Programa de Estágio Integrado</span>
+              <div class="dsc-body-sm dsc-text-muted">PIEL-2026-000204 · Talento Empreendedor · Empresa · MG</div>
+            </div>
+            <span class="dsc-tag dsc-tag--warning dsc-tag--lg">Em Andamento</span>
+          </div>
+          <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">A devolutiva aparece depois que a inscrição é avaliada.</p>
+          <button class="dsc-btn dsc-btn--outline" style="margin-top:12px" onclick="return false">Continuar inscrição</button>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Devolutiva da avaliação (INS-ACO-02)                   -->
+      <!-- ============================================================= -->
+      <div id="screen-dev" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-dash')">Minhas inscrições</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Devolutiva</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Devolutiva da avaliação</h1>
+              <p class="dsc-page-subtitle">Trilhas de Aprendizagem Maker no Ensino Médio · PIEL-2026-000118</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span class="dsc-tag dsc-tag--neutral" id="dev-situacao">Situação da inscrição: Validada</span>
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-dash')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar
+            </button>
+          </div>
+        </div>
+
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da tela:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setDevState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setDevState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setDevState('error')">Erro</button>
+        </div>
+
+        <div id="dev-state-loading" style="display:none">
+          <div class="dsc-card"><div class="dsc-skeleton" style="height:140px"></div></div>
+        </div>
+        <div id="dev-state-error" style="display:none">
+          <div class="dsc-alert dsc-alert--danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Não foi possível carregar os dados.</span>
+          </div>
+        </div>
+        <div id="dev-state-data">
+          <div id="dev-vazio" style="display:none">
+            <div class="dsc-card"><div class="dsc-empty">
+              <span class="dsc-body" id="dev-vazio-texto">A devolutiva ainda não está disponível.</span>
+            </div></div>
+          </div>
+          <div id="dev-etapas"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast" class="dsc-toast" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>Notas de leitura</strong>
+    <ul>
+      <li><strong>Fonte:</strong> N3 <code>INS-ACO-02</code> Visualizar Devolutiva, do Feature Set Acompanhamento da Inscrição, na rota <code>/inscricao/minha/:inscricaoId?tab=feedbacks</code>. A tela de acompanhamento (<code>INS-ACO-01</code>) entra como contexto — é de onde a devolutiva é alcançada.</li>
+      <li><strong>Uma devolutiva por etapa avaliada</strong> (RN1), na ordem da premiação, cada uma com liberação independente. É por isso que a tela é uma lista de seções, e não um texto único.</li>
+      <li><strong>Duas condições para liberar</strong> (RN2): a consolidação daquela inscrição naquela etapa concluída <em>e</em> a liberação da etapa ocorrida. Os botões de simulação separam os dois casos — <em>Aguardando data</em> tem a consolidação pronta e espera a data marcada (RN4); <em>Consolidação em curso</em> é o inverso.</li>
+      <li><strong>Etapa sem data marcada</strong> libera no momento em que a consolidação conclui (RN3) — é o caso da Regional em <em>Regional liberada</em>.</li>
+      <li><strong>O que o participante não vê:</strong> a identidade de quem revisou, a dos avaliadores e as notas individuais (RN5 de <code>AVL-APU-05</code>). A tela mostra o texto consolidado e a data, nada mais.</li>
+      <li><strong>⚠️ Texto ainda alterável:</strong> enquanto o estado da inscrição não é fechado na etapa, a administração pode mudar o texto — uma devolutiva lida hoje pode mudar depois (RN6). O N3 marca isso como decisão de produto a confirmar; o protótipo não encena o caso, porque o participante não teria como percebê-lo.</li>
+      <li><strong>⚠️ Layout sem protótipo de origem:</strong> a HU-016 descreve o dashboard do participante, não a devolutiva. Tudo aqui é proposta a validar.</li>
+    </ul>
+  </div>
+
+  <script>
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    /* Cada etapa avaliada tem a sua devolutiva, com liberação independente (RN1).
+       `consolidada` e `liberacao` são as duas condições da RN2: sem as duas, o
+       participante vê o aviso de indisponibilidade, não o texto. */
+    var CASOS = {
+      liberada: [
+        { etapa: 'Etapa Regional', consolidada: true, liberacao: null, liberadaEm: '30/08/2026',
+          texto: 'A banca reconheceu a clareza do desenho pedagógico e a articulação entre a trilha maker e o currículo regular, com destaque para o registro de evidências de aprendizagem. Como oportunidade de evolução, sugere-se detalhar o plano de continuidade do projeto para além do ano letivo e explicitar os indicadores de acompanhamento dos estudantes ao longo das etapas.' },
+        { etapa: 'Etapa Nacional', consolidada: false, liberacao: null, liberadaEm: null, texto: null }
+      ],
+      comdata: [
+        { etapa: 'Etapa Regional', consolidada: true, liberacao: '15/09/2026', liberadaEm: null, texto:
+          'A banca reconheceu a clareza do desenho pedagógico e a articulação entre a trilha maker e o currículo regular.' },
+        { etapa: 'Etapa Nacional', consolidada: false, liberacao: null, liberadaEm: null, texto: null }
+      ],
+      consolidando: [
+        { etapa: 'Etapa Regional', consolidada: false, liberacao: null, liberadaEm: null, texto: null },
+        { etapa: 'Etapa Nacional', consolidada: false, liberacao: null, liberadaEm: null, texto: null }
+      ],
+      nenhuma: []
+    };
+    var caso = 'liberada';
+
+    function setCaso(c) {
+      caso = c;
+      var mapa = { liberada: 'cs-lib', comdata: 'cs-data', consolidando: 'cs-cons', nenhuma: 'cs-nada' };
+      for (var k in mapa) if (mapa.hasOwnProperty(k)) el(mapa[k]).classList.toggle('is-current', k === c);
+      renderDevolutiva();
+    }
+
+    /* Liberada = consolidação concluída E (sem data marcada OU data já alcançada).
+       O protótipo trata a data marcada como futura — é o caso que interessa. */
+    function liberada(e) { return e.consolidada && !e.liberacao; }
+
+    function renderDevolutiva() {
+      var etapas = CASOS[caso], out = '', alguma = 0;
+      for (var i = 0; i < etapas.length; i++) {
+        var e = etapas[i];
+        out += '<div class="dsc-card" style="margin-bottom:16px">';
+        out += '<div class="dsc-card-header"><div><span class="dsc-card-title">' + esc(e.etapa) + '</span>'
+          + '<div class="dsc-body-sm dsc-text-muted">'
+          + (liberada(e) ? 'Liberada em ' + esc(e.liberadaEm) : 'Ainda não liberada')
+          + '</div></div>'
+          + (liberada(e)
+              ? '<span class="dsc-badge dsc-badge--success">Disponível</span>'
+              : '<span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aguardando</span>')
+          + '</div>';
+        if (liberada(e)) {
+          alguma++;
+          out += '<p class="dsc-body" style="margin-top:8px">' + esc(e.texto) + '</p>';
+        } else if (e.consolidada && e.liberacao) {
+          out += '<div class="dsc-alert" style="margin-top:12px">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+            + '<span>A avaliação desta etapa foi concluída. A devolutiva fica disponível a partir de <strong>'
+            + esc(e.liberacao) + '</strong>, data definida para a etapa.</span></div>';
+        } else {
+          out += '<div class="dsc-alert" style="margin-top:12px">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+            + '<span>A devolutiva desta etapa ainda não está disponível.</span></div>';
+        }
+        out += '</div>';
+      }
+      el('dev-etapas').innerHTML = out;
+
+      var vazio = (etapas.length === 0);
+      el('dev-vazio').style.display = vazio ? 'block' : 'none';
+      if (vazio) {
+        el('dev-vazio-texto').textContent =
+          'Esta inscrição ainda não tem etapa avaliada — a devolutiva aparece quando a primeira etapa liberar.';
+      }
+      el('dash-dev-status').textContent = vazio
+        ? 'Ainda não disponível'
+        : (alguma ? alguma + ' etapa(s) liberada(s)' : 'Aguardando liberação');
+    }
+
+    function setDevState(name) {
+      var estados = ['data', 'loading', 'error'];
+      for (var i = 0; i < estados.length; i++) {
+        el('dev-state-' + estados[i]).style.display = (estados[i] === name) ? 'block' : 'none';
+      }
+    }
+
+    function abrirDevolutiva() {
+      renderDevolutiva();
+      setDevState('data');
+      showScreen('screen-dev');
+    }
+
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var map = { 'screen-dash': 'sw-dash', 'screen-dev': 'sw-dev' };
+      var ids = ['sw-dash', 'sw-dev'];
+      for (var j = 0; j < ids.length; j++) el(ids[j]).classList.remove('is-current');
+      if (map[id]) el(map[id]).classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+
+    /* ---- Init ---- */
+    renderDevolutiva();
+    setDevState('data');
+  </script>
+</body>
+</html>

@@ -1,0 +1,1061 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Migração PNI - Prêmio IEL
+ID da reunião ...: 1180b1b8-6d81-4e6e-9d47-ac4c38c321a8
+Data e hora .....: 27/05/2026 10:38 (America/Sao_Paulo)
+Duração .........: 56m 59s
+Tipo ............: INTERNAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/1180b1b8-6d81-4e6e-9d47-ac4c38c321a8
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+A reunião teve como objetivo apresentar o sistema Prêmio IEL para a equipe do Prêmio Nacional de Inovação (PNI) e discutir a viabilidade de reaproveitamento da plataforma como base para uma futura migração tecnológica. Isa apresentou os cenários possíveis (manter sistema atual, construir do zero ou reutilizar o IEL), recomendando a terceira via como frente preventiva de continuidade. Pedro demonstrou as funcionalidades do sistema, incluindo configuração de categorias, modalidades, formulários dinâmicos, questionários e etapas de avaliação, destacando a alta parametrização e a arquitetura já compatível com processos de premiação. A equipe do PNI, representada por Gabi e Renato, reconheceu aderência significativa, ressalvando a necessidade de adaptações pontuais (como permitir múltiplos cases por empresa) e a validação junto ao SEBRAE. Ficou acordado iniciar uma análise detalhada de aderência, mapeando o processo atual do PNI e comparando com a estrutura do IEL, com envolvimento inicial de Thiago (especialista no sistema PNI) e Renato, enquanto Gabi estará de férias.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Participante: Teria que, provavelmente, reescrever muita coisa.
+[00:00:03] Participante: E provavelmente teria um custo.
+[00:00:06] Participante: Bem elevado para isso, né?
+[00:00:09] Participante: Então, vou ler aqui uns pontos críticos.
+[00:00:12] Participante: Se a migração for tratada apenas...
+[00:00:15] Participante: próximo à descontinuidade,
+[00:00:18] Participante: O PNI perde margem para testar regras.
+[00:00:21] Participante: Corrigir exceções, preservar histórico.
+[00:00:24] Participante: O sistema atual do PNI concentra...
+[00:00:27] Participante: Entre customizações específicas por edição.
+[00:00:30] Participante: É atendido muito bem até hoje, né?
+[00:00:32] Participante: Com baixo...
+[00:00:33] Participante: Aumentamento entre ciclos.
+[00:00:36] Participante: O foco aqui é para a gente já prever.
+[00:00:39] Participante: Uma migração tecnológica, né?
+[00:00:42] Participante: Diminuir ou verificar essa questão da risca.
+[00:00:45] Participante: e da solução antecipar a...
+[00:00:48] Participante: Análise de aderência, reduzir.
+[00:00:51] Participante: O risco de uma substituição emergencial.
+[00:00:54] Participante: Que poderia tanto ser uma nova solução.
+[00:00:57] Participante: Ou uma solução.
+[00:01:00] Participante: De prateleira aí do mercado para se adaptar.
+[00:01:03] Participante: Mas a gente já ficou tendo.
+[00:01:06] Participante: Fazer isso previamente, a gente corre menos risco.
+[00:01:09] Participante: Fazer isso de forma emergencial e ter possibilidades.
+[00:01:12] Participante: Vamos lá na frente.
+[00:01:15] Participante: É vantagem, né? Qual que seria a vantagem aqui?
+[00:01:18] Participante: Seria ter uma parceria entre as áreas.
+[00:01:21] Participante: Tanto de investimentos...
+[00:01:24] Participante: Ponto de redução de custos, né?
+[00:01:27] Participante: É uma vantagem, na verdade, institucional.
+[00:01:30] Participante: Então a discussão aqui não é apenas técnica, né?
+[00:01:33] Participante: E o sistema do Premier já tem uma estrutura compatível com o programa.
+[00:01:36] Participante: Processos de premiação, a gente vê que existe.
+[00:01:39] Participante: Uma oportunidade de reaproveitar.
+[00:01:42] Participante: E isso vai muito...
+[00:01:45] Participante: Ao encontro da fala do nosso diretor.
+[00:01:48] Participante: que é reaproveitar os temas da casa.
+[00:01:51] Participante: nas possíveis similaridades que a gente identificar.
+[00:01:54] Participante: Não que os prêmios sejam similares.
+[00:01:57] Participante: Porque eu sei que cada prêmio tem sua...
+[00:02:00] Participante: Mas a gente sabe que pode existir alguns...
+[00:02:03] Participante: Processos básicos que é possível ser reaproveitados.
+[00:02:06] Participante: Então, isso pode gerar dois tipos.
+[00:02:09] Participante: Primeiro seria a otimização de investimentos.
+[00:02:12] Participante: Obrigada.
+[00:02:15] Participante: Aldo, IEL já recebeu um investimento inicial.
+[00:02:18] Participante: É relevante para a construção...
+[00:02:21] Participante: A sua base. E o segundo ponto seria...
+[00:02:24] Participante: A redução de custos recorrentes por causa de...
+[00:02:27] Participante: Soluções separadas.
+[00:02:30] Participante: Customizações, na verdade, sustentação.
+[00:02:33] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:02:36] Participante: Mesmo tendo processos parecidos.
+[00:02:40] Participante: Então, a ideia aqui não é...
+[00:02:42] Participante: E forçar todos os prêmios serem iguais.
+[00:02:45] Participante: Como eu disse, cada prêmio tem suas regras, né?
+[00:02:47] Participante: Mas talvez...
+[00:02:48] Participante: Talvez faça sentido.
+[00:02:51] Participante: A gente compartilhar uma base comum.
+[00:02:54] Participante: ...concentrar nas customizações das regras específicas.
+[00:02:57] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:03:00] Participante: Sim, a gente teria uma otimização aí de...
+[00:03:03] Participante: e de investimento.
+[00:03:06] Participante: Aqui.
+[00:03:10] Você: Obrigado.
+[00:03:09] Participante: O sistema do Premiel possui uma estrutura...
+[00:03:12] Participante: compatível com processos de premiação.
+[00:03:15] Participante: A gente fez isso pensando no...
+[00:03:18] Participante: Um sistema altamente parametrizável.
+[00:03:21] Participante: Então, ele tem alto grau de parametrização.
+[00:03:24] Participante: E potencial de operação multinacional.
+[00:03:27] Participante: Hoje a gente só está trabalhando com o IEL.
+[00:03:30] Participante: Mas a gente já pensou lá atrás.
+[00:03:33] Participante: Nessa possibilidade de ter outras.
+[00:03:36] Participante: Outros...
+[00:03:39] Participante: Obrigado, Adriana Zanotto.
+[00:03:42] Participante: O próprio sistema, então, já permitindo isso.
+[00:03:45] Participante: E aí, no caso, a gente teria...
+[00:03:48] Participante: Avaliar as customizações necessárias.
+[00:03:51] Participante: Claro que eu falei que nesse slide...
+[00:03:54] Participante: Obrigada.
+[00:03:57] Participante: Ainda ser passadas por uma análise, porque...
+[00:04:00] Participante: Às vezes a customização não é tão simples.
+[00:04:03] Participante: Então, a gente teria que fazer essa análise também.
+[00:04:06] Participante: E customizações necessárias.
+[00:04:09] Participante: Deixa eu passar aqui para o próximo.
+[00:04:12] Participante: Trouxe um fluxo macro.
+[00:04:15] Participante: Para a gente ter a ideia do processo macro.
+[00:04:18] Participante: Do Premier, que a gente tem.
+[00:04:21] Participante: Uma edição do prêmio, depois a gente tem uma...
+[00:04:24] Participante: Inscrição, uma validação.
+[00:04:27] Participante: Avaliação, uma consolidação dos resultados.
+[00:04:30] Participante: E no final, uma parte de...
+[00:04:33] Participante: Então, na edição, a gente tem...
+[00:04:36] Participante: A edição do prêmio, categorias, modalidade.
+[00:04:39] Participante: Idades e regras. Isso aqui o Pedro vai mostrar.
+[00:04:42] Participante: Para vocês lá no sistema, vai ficar mais claro.
+[00:04:45] Participante: aqui para ter uma noção do fluxo, tá?
+[00:04:49] Participante: Ai, nais?
+[00:04:51] Participante: A gente tem a parte de participantes.
+[00:04:54] Participante: Anexos, validações.
+[00:04:57] Participante: Na parte de validação, a gente tem...
+[00:05:00] Participante: Uma parte lá de triagem também, de verificação.
+[00:05:03] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:05:06] Participante: Eu sei que no PNI também tem algo parecido.
+[00:05:09] Participante: Obrigada.
+[00:05:12] Participante: Tem a parte de avaliação com os critérios.
+[00:05:15] Participante: Avaliadores, notas, pareceres.
+[00:05:18] Participante: Temos uma consolidação que...
+[00:05:21] Participante: Seria o cálculo, um ranking, um resultado final.
+[00:05:24] Participante: E temos uma devolutiva.
+[00:05:27] Participante: Participante que a gente está prevendo talvez aí.
+[00:05:30] Participante: Eu uso até do apoio da IA.
+[00:05:33] Participante: É que, claro, né, cada...
+[00:05:36] Participante: Cada sistema teria uma...
+[00:05:39] Participante: Uma regra de negócio, né? Teria um uso específico.
+[00:05:42] Participante: O Recife da IA tem que ser analisado também, mas aqui é só...
+[00:05:45] Participante: Trazendo para vocês essa possibilidade.
+[00:05:48] Participante: E na gestão a gente tem ali o acompanhamento, as notificações.
+[00:05:51] Participante: Modificações, relatórios e histórico.
+[00:05:54] Participante: Então, a espinha dorsal do processo,
+[00:05:57] Participante: Parece ser semelhante, eu trouxe aqui para a gente poder.
+[00:06:00] Participante: Colocar na mesa e avaliar mesmo.
+[00:06:03] Participante: Fundar e ver o que realmente...
+[00:06:06] Participante: O que faz sentido, o que realmente está...
+[00:06:09] Participante: Bem próximo do que o PNI já tem.
+[00:06:12] Participante: Precisaria de ter de desenvolvimento.
+[00:06:15] Participante: Customização para poder atender a regra de.
+[00:06:18] Participante: E vocês, mas nesse sentido.
+[00:06:23] Participante: E...
+[00:06:24] Participante: Deixa eu ver nesse slide, a gente tem...
+[00:06:27] Participante: Os cenários, né? Esses cenários aqui são...
+[00:06:30] Participante: Bacana, para a gente ter uma noção aqui do que a gente...
+[00:06:33] Participante: A gente tem de possibilidade.
+[00:06:34] Participante: Então, cenários para...
+[00:06:36] Participante: Substituição do sistema atual do PNI.
+[00:06:39] Participante: Então, primeiro seria manter o sistema atual até o limite.
+[00:06:42] Participante: O que a gente teria baixa
+[00:06:45] Participante: Esforço imediato, mas aumenta o risco de migração.
+[00:06:48] Participante: Emergencial e perda de janelas de testes.
+[00:06:51] Participante: Então, a gente não recomenda isso como estratégia principal.
+[00:06:54] Participante: Mas temos esse cenário.
+[00:06:55] Participante: O segundo seria...
+[00:06:57] Participante: Construir uma solução nova do zero.
+[00:07:00] Participante: Permitir um desenho ideal, mas por exemplo...
+[00:07:03] Participante: Mas com isso a gente consome mais tempo, custo.
+[00:07:06] Participante: Custo, energia, especificação.
+[00:07:09] Participante: E assim, só faria sentido se realmente...
+[00:07:14] Você: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:07:12] Participante: A aderência do prêmio IREL for bem baixa.
+[00:07:15] Participante: A gente teria esse outro caminho.
+[00:07:18] Participante: Hoje, né, vocês têm uma...
+[00:07:21] Participante: Edição do prêmio que vocês customizam.
+[00:07:24] Participante: Vocês fazem muitas alterações.
+[00:07:27] Participante: Mas não é uma construção do zero, né?
+[00:07:29] Participante: A construção...
+[00:07:30] Participante: A redução do zero, ela envolve um investimento um pouco maior.
+[00:07:33] Participante: Ah, ó, inicial, né?
+[00:07:36] Participante: E o terceiro cenário seria reaproveitar...
+[00:07:39] Participante: Sistema do Prebiel, que é a...
+[00:07:42] Participante: Aproveita uma base já existente e reduz a inserção.
+[00:07:45] Participante: Com certeza, concentra o esforço das regras específicas.
+[00:07:48] Participante: específicas do PNI, que é o caminho que a gente...
+[00:07:51] Participante: Recomenda para aprofundar tecnicamente.
+[00:07:54] Participante: E avançar nesse processo.
+[00:07:57] Participante: Então, seria manter o sistema atual, até o limite.
+[00:08:00] Participante: Construir uma nova solução do zero.
+[00:08:03] Participante: Reaproveitar o sistema do prêmio.
+[00:08:06] Participante: É o caminho que a gente está propondo aqui agora.
+[00:08:09] Participante: É a propósito.
+[00:08:12] Participante: Para os próximos passos.
+[00:08:15] Participante: A gente foi encaminhado...
+[00:08:18] Participante: O encaminhamento, né, para abrir uma frente.
+[00:08:21] Participante: Obrigada, Adriana Zanotto.
+[00:08:24] Participante: A fase deve separar o que é comum entre...
+[00:08:27] Participante: processos de premiação daquilo que é regra específica
+[00:08:32] Você: Obrigado.
+[00:08:30] Participante: Então, primeiro, a gente precisa mapear.
+[00:08:33] Participante: O processo atual do PNI, fluxo, regra.
+[00:08:36] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:08:39] Participante: Depois a gente compara com o sistema do Premier.
+[00:08:42] Participante: Classifica como pontos de...
+[00:08:45] Participante: Aderente ou parametrizável.
+[00:08:48] Participante: Customização ou lacunas, algo que não existe.
+[00:08:51] Participante: E com isso a gente consegue estimar.
+[00:08:54] Participante: O risco, as dependências.
+[00:08:59] Você: Obrigado.
+[00:08:57] Participante: Definir um roadmap de transição, se for o caso.
+[00:09:00] Participante: E a decisão deixa de ser, percepção e passa a ser.
+[00:09:03] Participante: Por evidência.
+[00:09:05] Participante: Então,
+[00:09:06] Participante: Matriz comparativa.
+[00:09:09] Participante: Do PNI com o prêmio EU.
+[00:09:12] Participante: Lista de customizações por prioridade.
+[00:09:15] Participante: Risco de dependências para migração.
+[00:09:18] Participante: Proposta de MVP e Construção.
+[00:09:21] Participante: E cronograma de transição.
+[00:09:27] Participante: E para fechar, é...
+[00:09:30] Participante: A pergunta não é se o sistema do IELA...
+[00:09:33] Participante: É igual ao sistema atual do PNI.
+[00:09:36] Participante: Com certeza não vai ser. A pergunta correta é se...
+[00:09:39] Você: Obrigado.
+[00:09:39] Participante: Ele é uma base suficientemente aderente.
+[00:09:42] Participante: Para reduzir risco, prazo, retrabalho.
+[00:09:47] Você: Obrigado.
+[00:09:45] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:09:48] Participante: Duplicidade de soluções para processos semelhantes.
+[00:09:51] Participante: Então, a gente precisa avançar.
+[00:09:54] Participante: Saco essa análise aí de aderência.
+[00:09:57] Participante: Espero que vocês concordarem da gente ir por esse caminho.
+[00:10:00] Participante: E tratar uma eventual migração como frente.
+[00:10:03] Participante: preventiva de continuidade tecnológica.
+[00:10:06] Participante: Com isso,
+[00:10:09] Participante: Eu passo agora a...
+[00:10:12] Participante: A palavra para o Pedro?
+[00:10:15] Participante: Não sei se vocês tiverem alguma dúvida.
+[00:10:18] Participante: ...dos pontos, ninguém me interrompeu, acho.
+[00:10:23] Você: Obrigado.
+[00:10:21] Participante: Está bem claro para todo mundo.
+[00:10:23] Participante: Aí eu passo para o...
+[00:10:24] Participante: Pedro, para ele demonstrar um pouquinho de como está hoje.
+[00:10:27] Participante: O sistema do Yale, e aí você...
+[00:10:30] Participante: Eles terem uma noção das funcionalidades, do que...
+[00:10:33] Participante: Claro, depois a gente pode marcar aí um...
+[00:10:36] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:10:39] Participante: Para a gente poder aprofundar no sistema.
+[00:10:42] Participante: Com essa análise de aderência, mas só para vocês.
+[00:10:45] Participante: Terem uma noção hoje do sistema como está.
+[00:10:48] Participante: Se ele ainda está em construção, está em evolução.
+[00:10:51] Participante: A gente está na parte de avaliação.
+[00:10:54] Participante: E ainda temos outras coisas para...
+[00:10:57] Participante: Pedro, está contigo.
+[00:11:02] Você: E aí, pessoal?
+[00:11:03] Você: Alô, oi, bom dia.
+[00:11:06] Você: Vou compartilhar minha tela aqui.
+[00:11:09] Você: Se vocês estiverem vendo, vocês me avisem.
+[00:11:12] Você: Por favor, só um instante.
+[00:11:15] Você: Deixa eu ver se é esse aqui mesmo.
+[00:11:22] Você: Estão conseguindo ver?
+[00:11:26] Participante: Estamos.
+[00:11:27] Você: Ok, então vou entrar nesse sistema.
+[00:11:30] Você: Sistema, hoje nós temos essa...
+[00:11:33] Você: Essa cara que é com a identidade visual do prêmio.
+[00:11:36] Você: E mostrar para vocês.
+[00:11:39] Você: Vou mostrar para vocês aqui, essa é a tela de validação.
+[00:11:42] Você: Vou mostrar como seria uma configuração de premiação.
+[00:11:45] Você: Eu iniciei aqui, já para o Prêmio Nacional de Inovação.
+[00:11:48] Você: Para explicar para vocês como atuei.
+[00:11:51] Você: E também no desenvolvimento tanto do prêmio de 2020.
+[00:11:54] Você: Quanto no que teve esse ano.
+[00:11:57] Você: Não, que é...
+[00:12:00] Você: Eu sei que tem algumas diferenças, por exemplo, a hierarquia...
+[00:12:03] Você: A maioria de vocês é diferente. Vocês trabalham com moda.
+[00:12:06] Você: modalidade acima da...
+[00:12:09] Você: Categoria e, por exemplo, aqui a nomenclatura.
+[00:12:12] Você: Doutora, categoria, ela não...
+[00:12:15] Você: Não se aplica a mesma nomenclatura de vocês.
+[00:12:18] Você: A gente precisa abstrair alguns pontos inicialmente para entender.
+[00:12:21] Você: Essa configuração. Eu entendo que a categoria...
+[00:12:24] Você: Para vocês, dentro de um questionário de participantes,
+[00:12:27] Você: A gente tem as categorias descarbonizadas.
+[00:12:30] Você: Adriana Zanotto, Aldo.
+[00:12:33] Você: Produtividade, enfim, para...
+[00:12:36] Você: Para as empresas e para pesquisador empreendedor.
+[00:12:39] Você: A gente tem a categoria pesquisa do empreendedor e o ecossistema de inovação.
+[00:12:42] Você: Dentro disso nós temos dimensões, enfim.
+[00:12:45] Você: É um questionário.
+[00:12:48] Você: Bem mais estruturado do que nós temos hoje.
+[00:12:51] Você: Dentro da configuração do...
+[00:12:54] Você: Prêmio, dentro do cenário.
+[00:12:57] Você: O que vocês vão encontrar, inicialmente no PNI.
+[00:13:00] Você: Nós temos também essa configuração da...
+[00:13:03] Você: Premiação, que foi feita na de 2023.
+[00:13:06] Você: Aí, em 2026, eu lembro que a gente...
+[00:13:09] Você: As regras, a forma de funcionamento.
+[00:13:12] Você: A gente fez dia.
+[00:13:15] Você: diretamente inserido pelo banco.
+[00:13:18] Você: Mas aqui a gente...
+[00:13:21] Você: Dastrou uma premiação e aqui dentro a gente...
+[00:13:24] Você: Pode criar uma nova categoria.
+[00:13:27] Você: Sendo uma nova categoria, essa categoria pode...
+[00:13:30] Você: Ter N modalidades.
+[00:13:33] Você: E aqui a gente pode reaproveitar.
+[00:13:36] Você: Tanto uma categoria quanto uma categoria.
+[00:13:39] Você: Uma modalidade aqui. A gente pode pesquisar.
+[00:13:42] Você: Modalidades existentes.
+[00:13:45] Você: E copiar ela aqui para dentro.
+[00:13:48] Você: Já preservando toda a estrutura abaixo.
+[00:13:52] Você: E cada modalidade ela pode.
+[00:13:54] Você: Pode ter N tipos de participantes.
+[00:13:57] Você: Então, a gente trabalha com essa hierarquia.
+[00:14:00] Você: Dentro do prêmio, a gente tem N...
+[00:14:03] Você: Cada categoria tem N modalidades.
+[00:14:06] Você: Cada modalidade tem N tipos.
+[00:14:09] Você: de participante. Essa estrutura
+[00:14:12] Você: Eu diria que seria...
+[00:14:15] Você: Muito interessante se nós conseguíssemos manter.
+[00:14:18] Você: Pensando já em um cenário de aplicação para vocês.
+[00:14:21] Você: Porque essa é uma estrutura mais...
+[00:14:24] Você: Customizável, onde a gente pode...
+[00:14:27] Você: Adaptar alguns.
+[00:14:30] Você: Alguns fluxos, mas ela é a estrutura base do...
+[00:14:33] Você: Então, ela é a fundação.
+[00:14:36] Você: Dentro do tipo de participante,
+[00:14:39] Você: A gente pode permitir uma equipe.
+[00:14:42] Você: E aí essa equipe pensando.
+[00:14:45] Você: O cenário de vocês seria como se fossem membros correlados.
+[00:14:48] Você: A inscrição, então, são membros que possuem...
+[00:14:51] Você: Em campo fixo, de tipo de vínculo, CP.
+[00:14:54] Você: PHL, nome completo, e-mail, telefone, G.
+[00:14:57] Você: E aí são membros que também...
+[00:15:00] Você: Participam com essa inscrição.
+[00:15:03] Você: Aqui no formulário de inscrição, vocês podem customizá-lo.
+[00:15:06] Você: Da maneira que vocês quiserem, vocês podem adicionar um campo.
+[00:15:09] Você: De texto curto, de texto longo, numérico.
+[00:15:12] Você: Data, e-mail, combo box de anexo.
+[00:15:15] Você: Versalho de Seleção e Termo de Aceite.
+[00:15:18] Você: Cadastrar, ver o preview de forma que vocês...
+[00:15:21] Você: Podem, por exemplo, pensando num cadastro de empresa.
+[00:15:24] Você: A gente pode colocar aqui CNPJ, pode colocar...
+[00:15:27] Você: A razão social.
+[00:15:30] Você: No campo numérico, a gente pode colocar a quantidade.
+[00:15:33] Você: De colaboradores, enfim.
+[00:15:36] Você: A gente pode customizar.
+[00:15:39] Você: Formulário da maneira que vocês quiserem.
+[00:15:42] Você: Como base, esses tipos de campos que são os tipos de campos utilizados.
+[00:15:45] Você: Adriana Zanotto, Aldo, Augusto, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System.
+[00:15:48] Você: Todos os formulários.
+[00:15:50] Você: Então, aqui...
+[00:15:51] Você: Vocês podem configurar o formulário da...
+[00:15:54] Você: A maneira que vocês quiserem, então essa parte.
+[00:15:57] Você: Eu acho que ela vai se adequar muito bem.
+[00:16:00] Você: Vocês conseguem colocar os cadastros, colocar...
+[00:16:03] Você: Vínculos, a gente pode evoluir para listas aqui.
+[00:16:06] Você: A gente pode colocar tipos de campo com listas.
+[00:16:09] Você: Ou seja, listas vinculadas.
+[00:16:12] Você: E aqui de combo box, por exemplo, a gente pode utilizar.
+[00:16:15] Você: Listas já do sistema, como...
+[00:16:18] Você: Federativa, Gênero, País.
+[00:16:22] Você: Inclusive, nem tem registro aqui.
+[00:16:24] Você: E a gente também pode colocar uma opção manual.
+[00:16:27] Você: dentro dessa combo.
+[00:16:31] Você: Aqui nós temos submodalidade.
+[00:16:33] Você: O que a gente chama de submodalidade?
+[00:16:35] Participante: Pedro.
+[00:16:36] Você: Tchau, tchau.
+[00:16:37] Participante: Ai, Didi, eu vou ser a boa.
+[00:16:39] Participante: Deixa eu só trazer aqui uma dúvida.
+[00:16:42] Participante: Nesse, por exemplo, do formulário que você acabou de mostrar,
+[00:16:45] Participante: Já que ele é altamente configurável, eles poderiam...
+[00:16:48] Participante: Adriana Zanotto, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol.
+[00:16:51] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:16:54] Participante: Para as inscrições do PNI.
+[00:16:58] Você: É, esse é o fórmula...
+[00:16:57] Participante: Seria nesse sentido?
+[00:17:00] Você: de inscrição do participante.
+[00:17:02] Você: Então, se...
+[00:17:03] Você: Seria realmente...
+[00:17:06] Você: Seria como se fosse um cadastro de cada...
+[00:17:09] Você: Cada case mesmo, mas na verdade...
+[00:17:12] Você: Não, é o cadastro do participante.
+[00:17:16] Você: Isso, é por...
+[00:17:15] Participante: Ah, do participante, tá?
+[00:17:17] Participante: Do que...
+[00:17:19] Você: E isso é porque no...
+[00:17:18] Participante: Seria em outro lugar.
+[00:17:21] Você: O prêmio IELA hoje, quando você faz um cadastro,
+[00:17:24] Você: Você já está se vinculando automaticamente.
+[00:17:27] Você: A concorrer a um.
+[00:17:30] Você: Uma premiação, ou seja...
+[00:17:33] Você: Aqui dentro de sua modalidade, no caso,
+[00:17:36] Você: Abstraindo a gente poderia colocar microempresa.
+[00:17:41] Você: Obrigado.
+[00:17:46] Você: Mede o porte.
+[00:17:49] Você: E grande porte.
+[00:17:51] Você: Quando o...
+[00:17:54] Você: O usuário faz essa.
+[00:17:57] Você: A inscrição no Premiere, ele já está concorrendo.
+[00:18:00] Você: Seja ao grande porte, ao médio porte.
+[00:18:03] Você: E a ou a microempresa.
+[00:18:05] Você: Ele tem que selecionar um...
+[00:18:06] Você: Uma dessas três submodalidades, que lá na parte do...
+[00:18:09] Você: No PNI, na seleção de bancas seria...
+[00:18:12] Você: Como se fosse o ranqueamento, vocês vão ranquear a...
+[00:18:15] Você: Ah, qual que vai ser o vencedor de grande porte? Qual que vai ser o de médio?
+[00:18:18] Você: O de microempresa, mas microempresa...
+[00:18:21] Você: Dentro do tipo de participante, dentro da modalidade.
+[00:18:24] Você: Dentro da categoria, então aqui...
+[00:18:27] Você: O participante já está decidido.
+[00:18:30] Você: Pedindo na hora do cadastro qual submodação.
+[00:18:33] Você: Na verdade ele está concorrendo, para ele concorrer.
+[00:18:36] Você: Em outra submodalidade, ele precisaria...
+[00:18:39] Você: Guia, entrar novamente, pode ser com o mesmo.
+[00:18:42] Você: Login, mas realizar um outro cadastro.
+[00:18:45] Você: Castro indicando outra...
+[00:18:48] Você: Outra categoria que ele vai concorrer.
+[00:18:51] Você: A parte de anexos também.
+[00:18:53] Você: Vocês podem configurar.
+[00:18:54] Você: Os anexos, quais anexos vocês quiserem.
+[00:18:58] Você: O nome do anexo, a descrição.
+[00:19:00] Você: Se ele é obrigatório ou não, tamanho máximo e as extensões.
+[00:19:03] Você: Não vou me alongar muito nessa parte.
+[00:19:06] Você: Porque é mais uma configuração de anéis.
+[00:19:09] Você: É isso mesmo. E na parte de avaliação do questionamento.
+[00:19:12] Você: A gente pode configurar o questionário com quantas questões...
+[00:19:15] Você: Se quisermos, seja objetiva.
+[00:19:18] Você: Ou discursiva, a gente coloca o título da questão.
+[00:19:21] Você: Questão 1 e 9.
+[00:19:24] Você: Denunciado da questão 1.
+[00:19:27] Você: A inscrição da questão.
+[00:19:30] Você: E aqui a gente pode colocar pesos diferentes para cada questão.
+[00:19:33] Você: Então é isso. E vocês vão montrando
+[00:19:36] Você: O questionário da forma que ele vai aparecer.
+[00:19:39] Você: O participante também, ele vai preenchendo.
+[00:19:42] Você: Essas questões e depois vocês podem...
+[00:19:45] Você: Podem visualizar o que ele preencheu.
+[00:19:48] Você: Vou salvar aqui o questionário.
+[00:19:50] Você: Como que funciona?
+[00:19:51] Você: A liberação desses formulários.
+[00:19:54] Você: Você vê aqui na geração de links públicos.
+[00:19:57] Você: Pode gerar um link público por categoria modalidade.
+[00:20:00] Você: de participante e copiar o link.
+[00:20:03] Você: Ele funciona dessa forma porque no...
+[00:20:06] Você: No site do Premiere, a gente já tem os links.
+[00:20:09] Você: Você clica no site institucional, já cai direto.
+[00:20:12] Você: Na inscrição, vocês também podem fazer isso.
+[00:20:15] Você: Facilmente no site de vocês.
+[00:20:18] Você: E aqui eu deixo antes...
+[00:20:21] Você: Antes de entrar na parte da inscrição, eu deixo um espaço até para...
+[00:20:24] Você: Para a gente debater o que vocês acham, se vocês acham que...
+[00:20:27] Você: Essa estrutura, ela atende hoje porque...
+[00:20:30] Você: A gente precisa abstrair realmente.
+[00:20:33] Você: Essa estrutura de categoria, modalidade.
+[00:20:36] Você: Para a gente entender se encaixa.
+[00:20:39] Você: Hoje no cenário de vocês, porque ela...
+[00:20:42] Você: Tem algumas diferenças, que é o caso da...
+[00:20:46] Você: Das submodalidades.
+[00:20:48] Você: Da forma que é concorrido aqui.
+[00:20:51] Participante: Na verdade, pensar...
+[00:20:54] Participante: Não exatamente na nomenclatura, mas na...
+[00:20:57] Participante: A estrutura que vocês têm do prêmio.
+[00:21:00] Participante: Então, por exemplo, tipo de...
+[00:21:03] Participante: Participante, hoje vocês têm ecossistema.
+[00:21:06] Participante: ...empresas, é...
+[00:21:09] Participante: Pesquisador inovador, não é isso? Tem mais alguma coisa?
+[00:21:13] Participante: São esses mesmos.
+[00:21:15] Participante: Então, aí a gente já tem aqui um tipo de participação.
+[00:21:18] Participante: Onde que possivelmente, né, tem grande chance.
+[00:21:21] Participante: Antes de atender a esses quesitos.
+[00:21:24] Participante: Pedro, dos tipos de participantes que eles têm lá.
+[00:21:27] Participante: E aí, uma das opções aqui é que...
+[00:21:30] Participante: As inscrições, elas são voltadas.
+[00:21:33] Participante: O questionário é por tipo de participante.
+[00:21:36] Participante: Isso, Pedro, ou eu tô falando besteira?
+[00:21:39] Você: Então, é porque como que funciona? No caso...
+[00:21:42] Você: A gente pode colocar aqui empresa.
+[00:21:46] Você: Dentro da empresa, eles também...
+[00:21:48] Você: Tem a submodalidade de empresa grande, forte, média, forte.
+[00:21:51] Você: empresa, certo? A diferença
+[00:21:55] Você: É que na avaliação...
+[00:21:57] Você: É premiado uma microempresa para.
+[00:22:00] Você: Descarbonização, uma microempresa para recorrer.
+[00:22:03] Você: Os renováveis, uma média empresa para a descarbonização.
+[00:22:06] Você: Uma média empresa para recursos renováveis.
+[00:22:10] Você: E quando o partido...
+[00:22:12] Você: ...participante decide concorrer, ele...
+[00:22:15] Você: Concorre seja em descarbonização.
+[00:22:18] Você: ou em Recursos Renováveis, ele escolhe onde que esse...
+[00:22:21] Você: Em qual case, em qual categoria que ele vai...
+[00:22:24] Você: Concorrer.
+[00:22:28] Você: Então isso acaba mudando.
+[00:22:28] Participante: Isso.
+[00:22:30] Você: Bastante a estrutura.
+[00:22:34] Participante: Hoje, como eles...
+[00:22:36] Participante: Em relação ao questionário, eu entendo que é...
+[00:22:39] Participante: É basicamente o mesmo, além de só colocar...
+[00:22:42] Participante: Dados da empresa e tudo, no próprio questionário.
+[00:22:45] Participante: Já tem perguntas específicas que já contemplam.
+[00:22:48] Participante: As questões que vão ser avaliadas.
+[00:22:51] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:22:54] Participante: Perguntas tem o case, então por isso que hoje.
+[00:22:57] Participante: Eles podem participar com quantos cases eles quiserem.
+[00:23:00] Participante: Eu tive muitas empresas, por exemplo, a Natura participou em quatro.
+[00:23:03] Participante: Porque a natura estava tanto contemplada na lei do bem.
+[00:23:06] Participante: Quanto na parte de recursos renováveis, descargar...
+[00:23:09] Participante: De carbonização e de IA.
+[00:23:12] Participante: Eles fizeram uma inscrição.
+[00:23:15] Participante: Basicamente, assim, né, uma inscrição com um case de...
+[00:23:18] Participante: Descarbonização, depois eles fazem um para um case.
+[00:23:21] Participante: da lei do bem, então eles...
+[00:23:24] Participante: Conseguem hoje participar com vários cases.
+[00:23:29] Você: Isso, essa é a...
+[00:23:27] Participante: Adriana Zanotto
+[00:23:30] Você: A diferença é que dentro de...
+[00:23:33] Você: Empresa é a mesma, o que muda os...
+[00:23:36] Você: Dados de cadastro e de inscrição da empresa são os mesmos.
+[00:23:39] Você: O que muda são as informações preenchidas na...
+[00:23:42] Você: Avaliação é como ser.
+[00:23:45] Você: A premiação fosse por avaliar.
+[00:23:48] Você: E não por submodalização.
+[00:23:51] Você: Qualidade.
+[00:23:54] Participante: Mas a gente conseguiria, por exemplo, que...
+[00:23:58] Participante: Ao invés de adicionar outros...
+[00:24:00] Participante: Cases nessas submodalidades?
+[00:24:03] Participante: Eles fizessem, tipo, duas...
+[00:24:07] Você: Sim, sim.
+[00:24:06] Participante: ...completos daí.
+[00:24:09] Você: Obrigado.
+[00:24:09] Participante: E daí ele poderia, no caso, participar.
+[00:24:12] Participante: Com mais de uma inscrição, né? Podia participar com uma outra...
+[00:24:15] Participante: No caso, para a gente, hoje é categoria, mas outras...
+[00:24:19] Você: Isso, algo interessante.
+[00:24:18] Participante: Modalidade, por exemplo.
+[00:24:21] Você: que a gente pode colocar dentro do formulário.
+[00:24:24] Você: É resgatar os dados.
+[00:24:27] Você: Cadastro, ou seja, ele ia...
+[00:24:30] Você: A gente, nesse caso, não seria nem na submodalidade.
+[00:24:33] Você: Tá, Gabriela? Seria aqui na...
+[00:24:36] Você: Na categoria, a gente colocaria...
+[00:24:40] Você: Na modalidade, talvez.
+[00:24:42] Você: Ou na categoria, a gente colocaria essa.
+[00:24:45] Você: Descarbonização, empresa.
+[00:24:49] Você: E aqui dentro da descarbonização, você está...
+[00:24:51] Você: Também teriam, por exemplo, recursos.
+[00:24:54] Você: Renováveis.
+[00:24:57] Você: Renováveis, Empresa.
+[00:25:01] Você: E aqui dentro...
+[00:25:04] Você: Ele... vocês colocam...
+[00:25:06] Você: Dariam cada avaliação.
+[00:25:11] Você: It's cool.
+[00:25:11] Participante: É cada avaliação.
+[00:25:12] Você: E, exato.
+[00:25:12] Participante: Seria um case?
+[00:25:14] Participante: É isso?
+[00:25:16] Você: Isso. Não sei se deu pra entender.
+[00:25:18] Você: Entende?
+[00:25:19] Participante: Acho que sim.
+[00:25:21] Participante: Caso, por exemplo, em cada... Hoje, o que a gente está...
+[00:25:24] Participante: Nomenclatura de avaliação, a gente poderia colocar os que...
+[00:25:27] Participante: Questionários todos que são feitos, mais o anexo e questionários.
+[00:25:31] Você: Exatamente, por exemplo.
+[00:25:30] Participante: Do case, por exemplo.
+[00:25:33] Você: Vamos colocar aqui o...
+[00:25:36] Você: Vamos pegar um...
+[00:25:39] Você: Exemplo aqui de uma denunciada de uma...
+[00:25:42] Você: A questão de 2025.
+[00:25:45] Você: A solução é diferente, título.
+[00:25:48] Você: Grau de novidade e na descrição vamos colocar.
+[00:25:51] Você: Ok, vamos aplicar.
+[00:25:54] Você: Vamos entrar aqui no questionário.
+[00:25:57] Você: Com o link público. Vou mostrar para vocês também como que é.
+[00:26:00] Você: É esse processo de cadastro do participante hoje.
+[00:26:03] Você: Ele vai entrar diretamente nesse link, o ideal é que...
+[00:26:06] Você: Que vocês não disponibilizem o link diretamente.
+[00:26:09] Você: Para o participante, mas muito provavelmente vai ser o que vai acontecer.
+[00:26:12] Você: Ah, outra coisa, todas essas coisas...
+[00:26:15] Você: Tudo isso é customizar, vocês podem customizar porque...
+[00:26:18] Você: Base da forma que vocês quiserem.
+[00:26:21] Você: Então, Pedro, teste.
+[00:26:24] Você: Vou colocar participante 27.0.
+[00:26:27] Você: Prêmio IEL-02 já.
+[00:26:30] Você: Eu tinha cadastrado um aqui, inclusive.
+[00:26:33] Você: Vamos iniciar a inscrição.
+[00:26:33] Participante: Você é do tamanho de e-mail, hein?
+[00:26:36] Você: É, tem que testar.
+[00:26:41] Você: Kirishatari.
+[00:26:42] Você: Verifique seu e-mail.
+[00:26:45] Você: O usuário recebe a senha dentro desse.
+[00:26:48] Você: Mesmo fluxo.
+[00:26:51] Você: Ele, acho que o Thiago já deve ter passado.
+[00:26:54] Você: Pra vocês que demora um pouco mesmo aqui no trash mail.
+[00:26:57] Você: Mas ele não sai dessa tela, ou seja...
+[00:27:00] Você: Eles prendem um usuário nessa tela, eles chegam.
+[00:27:03] Você: Em tempo real no e-mail, e ele vai preencher.
+[00:27:05] Participante: Enquanto...
+[00:27:08] Você: Pode falar.
+[00:27:06] Participante: Adriana Zanotto, Desculpa, Petra, Emine.
+[00:27:09] Você: Pode falar.
+[00:27:09] Participante: Mas eu falo, enquanto o e-mail chega, eu falo.
+[00:27:12] Participante: Eu ia comentar uma coisa que eu esqueci de falar.
+[00:27:15] Participante: Vocês aqui hoje, esse sistema, ele já está.
+[00:27:18] Participante: Foi construído com a nossa arquitetura.
+[00:27:21] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:27:24] Participante: Em Java, tem uma...
+[00:27:27] Participante: São bem amigáveis.
+[00:27:30] Participante: que eles preveram a parte de...
+[00:27:33] Participante: Mas, claro, tem muita coisa aí.
+[00:27:36] Participante: E que é possível customizar igual o...
+[00:27:39] Participante: O Pedro falou de cores, layouts, essas coisas.
+[00:27:42] Participante: Mas que a gente ainda precisa avaliar com vocês.
+[00:27:45] Participante: O que precisaria realmente de regra.
+[00:27:48] Participante: de implementação. Acredito que, por exemplo, a parte de...
+[00:27:51] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:27:54] Participante: Poder refinar e de resto.
+[00:27:57] Participante: Mas, assim, já é uma estrutura.
+[00:28:00] Participante: Obrigada.
+[00:28:03] Participante: E que vocês basicamente não teriam.
+[00:28:08] Você: E...
+[00:28:06] Participante: Que se preocupasse.
+[00:28:09] Participante: Já tem integração com a AD, questão de...
+[00:28:12] Participante: de segurança de senha, essa parte aqui...
+[00:28:15] Participante: O que o Pedro está mostrando já é vinculado aí.
+[00:28:19] Participante: Eu acho que essa...
+[00:28:21] Participante: Sim, sim, sim, sim, sim.
+[00:28:24] Participante: do que eu estou pensando aqui, em relação à nomenclatura.
+[00:28:27] Participante: Adriana Zanotto, Aldo, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:28:30] Participante: E hierarquias, como é que a gente vai fazer dentro?
+[00:28:33] Participante: Acho que é muito fácil de mudar, até porque isso está meio...
+[00:28:36] Participante: vinculada ao regulamento que a gente publica na edição que a gente...
+[00:28:39] Participante: Solta. E honestamente as empresas não se importam muito.
+[00:28:42] Participante: A gente mudasse, tipo, trocasse o que é...
+[00:28:45] Participante: Categoria, modalidade, eles não se importariam, sabe?
+[00:28:48] Participante: Eu acho que coisas que a gente... E também tem um fator, né?
+[00:28:51] Participante: Só para lembrar que a gente está aqui conversando.
+[00:28:54] Participante: Gabi e Renato estão aqui também, mas todas as decisões...
+[00:28:57] Participante: que a gente toma em relação ao prêmio precisam passar com o Sebrae.
+[00:29:00] Participante: Também, já que é convênio 50-50.
+[00:29:03] Você: Uh-huh.
+[00:29:03] Participante: Então, o SEBRAE também entra nessas decisões.
+[00:29:06] Participante: Mas ontem mesmo eu cheguei a conversar com o Marcão.
+[00:29:09] Participante: E foi ele quem puxou essa pauta.
+[00:29:12] Participante: E o Renato estava na reunião também.
+[00:29:15] Participante: E comentou que ele quer, de fato, já começar a ver...
+[00:29:18] Participante: Então, assim, eu acho que coisas...
+[00:29:21] Participante: Pontuais que a gente tem que, quando a gente for fazer essa avaliação,
+[00:29:24] Participante: Você falou das regras e tudo, é que...
+[00:29:27] Participante: A gente tem que garantir que as empresas podem...
+[00:29:30] Participante: Posso participar com mais de um case, porque esse é um feedback muito positivo.
+[00:29:33] Participante: A gente sabe que quando a gente vai para o mundo real...
+[00:29:36] Participante: As empresas, de fato, têm ações que...
+[00:29:39] Participante: Eles são todas as categorias que a gente tem hoje.
+[00:29:42] Participante: A parte da segurança, que é o que você acabou de comentar.
+[00:29:45] Participante: A gente tem segurança de dados já pela própria arquitetura.
+[00:29:48] Participante: que está rodando hoje do próprio sistema agora.
+[00:29:51] Participante: E o que a gente, a minha cachorra está latindo.
+[00:29:54] Participante: E o que a gente...
+[00:29:57] Participante: O que a gente tem que considerar também é...
+[00:30:00] Participante: A robustez na hora de implementar.
+[00:30:03] Participante: As questões. Então, hoje é muito...
+[00:30:06] Participante: Muito denso o questionário do PNI.
+[00:30:09] Participante: Justamente porque a nossa...
+[00:30:12] Participante: Metodologia tenta pegar...
+[00:30:15] Participante: Bem detalhadamente todos os graus de informação que a gente...
+[00:30:18] Participante: A gente tem dentro dos projetos, mas...
+[00:30:21] Participante: Lembrando que a metodologia também pode...
+[00:30:24] Participante: Mudar e ela geralmente muda, a gente está constantemente por edição.
+[00:30:27] Participante: Estão fazendo mudanças na metodologia.
+[00:30:29] Participante: Então, eu acho...
+[00:30:30] Participante: Acho que tudo isso daí que a gente está vendo hoje...
+[00:30:33] Participante: São coisas que a gente consegue mudar, sabe, garantindo que a gente...
+[00:30:36] Participante: que a gente continue mantendo essa ampla parte
+[00:30:39] Participante: Participação das empresas.
+[00:30:42] Participante: Diversidade de...
+[00:30:45] Participante: E regionalização, então, que as empresas consigam participar.
+[00:30:48] Participante: Participar de diversas regiões, que é uma coisa muito importante.
+[00:30:51] Participante: E também trazendo as pequenas e os ecossistemas.
+[00:30:54] Participante: Eu acho que é tudo muito, muito fácil, sabe?
+[00:30:57] Participante: De a gente adaptar também no nosso regulamento.
+[00:31:00] Participante: Ah, bacana.
+[00:31:03] Participante: Obrigada, Gabi, você trazer esse ponto de vista aí, que eu acho que é...
+[00:31:06] Participante: Bem a linha que a gente está querendo seguir mesmo.
+[00:31:09] Participante: Abstrair essa questão de nomenclatura, ver o que é.
+[00:31:12] Participante: Que é possível reaproveitar, claro, com a...
+[00:31:15] Participante: A questão do SEBRAE que você trouxe é bem importante também a gente ter...
+[00:31:18] Participante: E aí, no caso, talvez...
+[00:31:21] Participante: Até a gente pegar um exemplo.
+[00:31:24] Participante: Bem próximo aí do PNI, tentar trazer.
+[00:31:27] Participante: ...por um cadastro aqui no nosso sistema de...
+[00:31:30] Participante: Logação aqui do prêmio do IEL para ver até que ponto.
+[00:31:33] Participante: A gente consegue enxergar vocês aqui dentro.
+[00:31:36] Participante: Para apresentar até para o Sebrae, né?
+[00:31:38] Participante: Talvez seria um...
+[00:31:39] Participante: Um passo aí para a gente poder avançar.
+[00:31:42] Participante: Se vocês concordarem. Mas que bom que você...
+[00:31:45] Participante: Tem essa visão aí das nomenclas.
+[00:31:48] Participante: Adriana Zanotto, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo, Augusto, Carol, Aldo.
+[00:31:52] Você: É o mais importante.
+[00:31:57] Você: Aham.
+[00:31:57] Participante: Chegou aí seu e-mail, Pedro?
+[00:32:00] Você: O participante chegou o e-mail de...
+[00:32:03] Você: Isso aí é a temporária.
+[00:32:06] Você: Ele redefine a senha mesmo, ou seja, dentro desse...
+[00:32:09] Você: Então é algo...
+[00:32:12] Você: que a gente trouxe como experiência.
+[00:32:15] Você: A experiência do PNE, a gente, que nem a Suíne disse,
+[00:32:18] Você: Colocou uma...
+[00:32:21] Você: Uma interface mais amigável.
+[00:32:24] Você: Se o participante não saísse dessa tela, aqui mesmo ele...
+[00:32:27] Você: Ele consegue fazendo toda a sua inscrição aqui mesmo.
+[00:32:30] Você: Ele já caiu dentro do formulário.
+[00:32:33] Você: A gente tem, por exemplo...
+[00:32:36] Você: Um visual mesmo, mais amigável.
+[00:32:39] Você: Mais fácil de se utilizar.
+[00:32:42] Você: Então aqui ele vai selecionar a submodalidade.
+[00:32:46] Você: E aqui no formulário nós temos todos aqueles.
+[00:32:48] Você: E esses campos que configuramos agora.
+[00:32:51] Você: De data, de e-mail, de seleção.
+[00:32:54] Você: E o nome dos campos, os rótulos, vocês que...
+[00:32:57] Você: Colhem a dica, se vocês quiserem colocar uma dica.
+[00:33:00] Você: Dica por campo, vocês que escolhem, enfim.
+[00:33:03] Você: Os campos são bem configuráveis mesmo.
+[00:33:06] Você: Aqui no questionário.
+[00:33:06] Participante: Adriana Zanotto e Pedro a esse...
+[00:33:09] Participante: E essa questão das inscrições, elas também vão...
+[00:33:12] Participante: Sendo saudas, a pessoa pode voltar.
+[00:33:15] Participante: Continuar, igual hoje acontece no PNI, né?
+[00:33:18] Participante: Para não perder as informações.
+[00:33:21] Participante: E a gente também teve o cuidado de que...
+[00:33:24] Participante: ...quebrar em algumas abas para não ficar aquele...
+[00:33:27] Participante: Preenchimento extenso, rolando tela.
+[00:33:30] Participante: Então vocês podem também utilizar.
+[00:33:33] Participante: Funcionalidades aí, conforme achar.
+[00:33:36] Participante: Que seja possível.
+[00:33:39] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:33:42] Você: Isso. Não tem problema não.
+[00:33:43] Participante: Desculpa, Pedro, mas continua.
+[00:33:46] Você: Aqui, na questão do questionamento,
+[00:33:48] Você: No cenário, a gente pode colocar...
+[00:33:51] Você: A resposta, então,
+[00:33:54] Você: Resposta do participante, ele já marca o programa.
+[00:33:57] Você: Congresso de inscrição aqui e aqui.
+[00:34:00] Você: A gente tem o grau de novidade, a questão conforme a gente...
+[00:34:03] Você: Se a gente colocar uma questão de objetivo.
+[00:34:06] Você: O usuário tem que preencher.
+[00:34:08] Você: Aqui na revisão...
+[00:34:09] Você: Então, ele sempre vai conseguir ver as suas pendentes.
+[00:34:12] Você: Corrige os itens abaixo para a gente finalizar.
+[00:34:15] Você: Novamente, é uma interface bem mais amigável.
+[00:34:18] Você: A gente tem aqui, pode selecionar, aí ele...
+[00:34:21] Você: Deu um erro aqui para salvar a submodalidade.
+[00:34:24] Você: Realmente é o que a gente tem que ver.
+[00:34:27] Você: Mas aqui ele finalizando a inscrição, acho que não vai finalizar.
+[00:34:30] Você: No caso da submodalidade.
+[00:34:34] Você: Com o usuário tendo essa inscrição final.
+[00:34:36] Você: É...
+[00:34:39] Você: A gente recebe na parte do administrador.
+[00:34:42] Você: Estas inscrições eu vou mostrar para vocês.
+[00:34:45] Você: Aqui, além desse...
+[00:34:48] Você: Tem o dashboard também do participante, o participante ele tem um...
+[00:34:51] Você: Onde ele consegue ver as suas inscrições.
+[00:34:54] Você: No caso, ele conseguiria ver por case aqui.
+[00:34:57] Você: As inscrições, qual é o progresso delas.
+[00:35:06] Você: E aqui na tela de validação das inscrições...
+[00:35:10] Você: Os administradores que aqui são.
+[00:35:12] Você: Administradores regionais, mas para vocês vai ser uma...
+[00:35:15] Você: Cadastro de uma...
+[00:35:18] Você: Edição, como é que se diz?
+[00:35:21] Você: Estação Nacional.
+[00:35:24] Você: Ele... Vocês conseguem ver.
+[00:35:27] Você: Todos os dados do formulário foram preenchidos, todos os documentos.
+[00:35:30] Você: Os anexos, os termos de aceite, o histórico da inscrição.
+[00:35:33] Você: Ou seja, qual administrador...
+[00:35:36] Você: Decidiu cada parte. O questionário já...
+[00:35:39] Você: Isso lembrando essa etapa.
+[00:35:42] Você: Dentro do sistema, é só a etapa de validação das inscrições.
+[00:35:45] Você: Ou seja, aqui nós realizamos validade.
+[00:35:48] Você: ... manual de cada uma das...
+[00:35:51] Você: Então, cada...
+[00:35:54] Você: Se a descrição é avaliada manualmente, se os dados estão todos corretos.
+[00:35:57] Você: Se os documentos anexos...
+[00:36:00] Você: Correspondem ao que...
+[00:36:03] Você: Ao que é solicitado.
+[00:36:05] Você: E aqui.
+[00:36:06] Você: Tem uma parte interessante que eu ia esquecendo já.
+[00:36:11] Você: Ah, ela não vai estar aqui.
+[00:36:12] Você: Aqui, porque essa versão em homologação.
+[00:36:15] Você: Inclusive, a gente vai subir para a produção.
+[00:36:18] Você: Ela é uma versão anterior.
+[00:36:21] Você: O que a gente tem aqui não é, não vai.
+[00:36:24] Você: Mas a gente já tem uma customização de etapas.
+[00:36:27] Você: Deixa eu ver se eu acesso aqui em...
+[00:36:30] Você: Desenvolvimento, Naizvolvimento, Naizvolvimento.
+[00:36:33] Você: O movimento está fora, mas aqui...
+[00:36:37] Você: Deixa, é porque eu tô fora desse...
+[00:36:39] Você: Mas aqui depois...
+[00:36:42] Você: A gente pode marcar uma outra chamada.
+[00:36:45] Você: Sabe para vocês que a gente tem a customização de etapas, ou seja, vocês...
+[00:36:48] Você: Podem cadastrar essas etapas da forma que vocês quiserem.
+[00:36:51] Você: Seja a etapa de primeira banca, segunda banca.
+[00:36:54] Você: Terceira banca, quarta banca, vocês conseguem.
+[00:36:57] Você: automaticamente e filtrando os candidatos.
+[00:37:00] Você: Ou seja, essas etapas vão ser geradas incrementalmente.
+[00:37:03] Você: Se vocês decidirem colocar dez etapas...
+[00:37:06] Você: Participante, para ele estar na oitava etapa, ele tem que ter passado.
+[00:37:09] Você: Por todas as outras e as etapas vão corresponder.
+[00:37:12] Você: Por cada granularidade.
+[00:37:15] Você: Ou seja, cada...
+[00:37:18] Você: Participante que concorrer pelos tipos de participantes.
+[00:37:21] Você: Ele vai ter as suas etapas para...
+[00:37:24] Você: E é isso.
+[00:37:27] Você: Não sei se vocês têm.
+[00:37:30] Você: Se vocês acham que é adequado.
+[00:37:33] Você: Aderente, mais alguma coisa.
+[00:37:37] Participante: É, como, antes de passar para o...
+[00:37:39] Participante: A gente está mostrando a parte de...
+[00:37:42] Participante: A opção de premiação, a parte de inscrição.
+[00:37:46] Participante: Os formulários questionários, a estrutura.
+[00:37:48] Participante: Como é que é montada hoje e claro.
+[00:37:51] Participante: A gente ainda tem as outras partes que seria avaliar.
+[00:37:54] Participante: As bancas que vocês têm, tudo mais.
+[00:37:57] Participante: Mas essa parte a gente ainda não tem.
+[00:38:00] Participante: É pronta, né, em homologação, que na verdade ainda está sem.
+[00:38:03] Participante: ...homologada, mas possivelmente...
+[00:38:06] Participante: A regra de vocês é um pouco diferente.
+[00:38:09] Participante: Estou do IEL, então teríamos que analisar essa...
+[00:38:12] Participante: Acho aí das avaliações, mas até o momento...
+[00:38:15] Participante: Obrigada.
+[00:38:18] Participante: Estrutura que foi demonstrada pelo Pedro.
+[00:38:21] Participante: O que vocês têm de dúvida?
+[00:38:24] Participante: O que vocês entendem que é possível de aderir?
+[00:38:27] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:38:30] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:38:33] Participante: Outra mais detalhada.
+[00:38:36] Participante: A questão aqui.
+[00:38:39] Participante: Não é decidir hoje sobre a aderência, tá?
+[00:38:42] Participante: É só para ter uma noção do que você...
+[00:38:45] Participante: Vocês estão achando.
+[00:38:48] Participante: Olha, eu acho, eu vi bastante.
+[00:38:51] Participante: Bastante aderência, sim.
+[00:38:54] Participante: ...essas coisas que eu falei, né, que são coisas que...
+[00:38:57] Participante: ...internamente, batendo martelo junto com a equipe do...
+[00:39:00] Participante: Ebrae, se ok por eles, a gente mudaria.
+[00:39:03] Participante: ...dentro do nosso regulamento ou até dentro da nossa...
+[00:39:06] Participante: Metodologia, porque a ideia de fato é...
+[00:39:09] Participante: É fazer um ajuste na metodologia, né?
+[00:39:12] Participante: A gente sempre ajusta conforme os feedbacks que a gente recebe.
+[00:39:15] Participante: E aí...
+[00:39:18] Participante: O que eu queria ver, Siliane?
+[00:39:21] Participante: A análise que você falou que é feita, né?
+[00:39:24] Participante: Detalhada, mais aprofundada do quanto está batendo.
+[00:39:27] Participante: Um com o outro, um sistema com o outro.
+[00:39:30] Participante: Aí vocês fazem por aí, vocês conseguiriam fazer?
+[00:39:33] Participante: E daí a gente apresentar isso junto com o pessoal lá.
+[00:39:36] Participante: Marcão, Raquel do Sebrae.
+[00:39:39] Participante: Primeiro, Gabi, a gente precisa...
+[00:39:42] Participante: Precisaria da definição do processo do PNI.
+[00:39:45] Participante: Como está hoje.
+[00:39:46] Participante: Eu sei que a gente tem...
+[00:39:48] Participante: Várias versões hoje, mas assim, acho que a última...
+[00:39:51] Participante: Já que vale, né, da edição de cases.
+[00:39:54] Participante: Um processo de como é feito hoje.
+[00:39:57] Participante: para a gente tentar trazer isso para...
+[00:40:00] Participante: Dentro do prêmio do IELA aqui para...
+[00:40:03] Participante: Estruturar ele como se fosse um exemplo.
+[00:40:06] Participante: Como é que fala?
+[00:40:09] Participante: Pegar um exemplo...
+[00:40:12] Participante: Vamos tentar trazer para cá, ver o que é o processo.
+[00:40:15] Participante: O que tem de diferente no processo aí?
+[00:40:16] Participante: Eu não sei se vocês já...
+[00:40:18] Participante: Tem esse processo mapeado do PNI.
+[00:40:21] Participante: Já adianta, senão a gente precisa dessa informação.
+[00:40:24] Participante: Informação. Aí a gente, claro, essa análise...
+[00:40:27] Participante: Eu acho que primeiro, negociar.
+[00:40:30] Participante: Saber do negócio, o que atende e o que não atende.
+[00:40:33] Participante: O sistema...
+[00:40:36] Participante: Foi mostrado hoje, mas para vocês terem noção.
+[00:40:39] Participante: De como está, né?
+[00:40:40] Participante: Como disse, a gente ainda está em evolução.
+[00:40:42] Participante: A evolução ainda está em construção.
+[00:40:45] Participante: Vocês viessem para cá para a construção.
+[00:40:48] Participante: Já poderíamos prever algumas coisas.
+[00:40:51] Participante: Já nesse desenvolvimento.
+[00:40:54] Participante: Mas a gente tem também as regras do IELT.
+[00:40:57] Participante: E eles estão com a premiação em aberto.
+[00:41:00] Participante: No momento, eles estão com uma premiação em andamento.
+[00:41:03] Participante: Então, tem o tempo também deles, mas como...
+[00:41:06] Participante: Ainda tem uma janela considerável.
+[00:41:09] Participante: Ela pode fazer essa análise.
+[00:41:12] Participante: Forma mais tranquila.
+[00:41:15] Participante: Então, assim, o primeiro momento seria a gente ver o processo.
+[00:41:18] Participante: ...de vocês do PNI, desenhar aí se não tiver.
+[00:41:21] Participante: Tentar trazer um exemplo.
+[00:41:24] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:41:27] Participante: O que dá para adaptar ou o que precisa ser modificado.
+[00:41:30] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:41:33] Participante: O que precisa customizar e o que não tem.
+[00:41:37] Participante: E aí, com base nisso,
+[00:41:39] Participante: Vai decidir o que vai fazer, vai construir outro.
+[00:41:42] Participante: Vai aproveitar o que já tem?
+[00:41:45] Participante: Apresenta o Sebrae do jeito que está.
+[00:41:48] Participante: Que é uma outra decisão, mas acho que o primeiro passo é esse.
+[00:41:52] Participante: Ver o que tem no PNI.
+[00:41:54] Participante: Tentar trazer o processo e tentar trazer um exemplo.
+[00:41:57] Participante: Para a gente ver o que tem ou não de aderência.
+[00:42:00] Participante: E aí, para isso, eu preciso da ajuda.
+[00:42:03] Participante: E vocês também.
+[00:42:05] Participante: É, a gente não tem...
+[00:42:06] Participante: Uma piada, eu acho que não nesse nível de detalhamento que vocês precisam.
+[00:42:09] Participante: precisariam, assim, para trazer um exemplo.
+[00:42:12] Participante: O que a gente tem, porque são apresentações mais institucionais.
+[00:42:15] Participante: Mas a gente...
+[00:42:18] Participante: Se você quiser propor que a gente se junte.
+[00:42:21] Participante: A gente, então, a gente é uma coisa muito forte, porque...
+[00:42:24] Participante: Eu e a Gabi, a gente sai de férias segunda-feira.
+[00:42:27] Participante: Mas eu saio segunda, né, daí a Gabi também vai sair.
+[00:42:30] Participante: Em junho, e aí quem vai ficar assumindo.
+[00:42:33] Participante: Depois do PNI é o Renato aqui.
+[00:42:36] Participante: Por isso que a Renata está aqui com a gente.
+[00:42:38] Participante: Então, eu...
+[00:42:39] Participante: Eu acho que a gente só volta final de junho.
+[00:42:42] Participante: Então, tipo, a gente volta a 29.
+[00:42:45] Participante: Aí eu acho que essa, se você quiser.
+[00:42:48] Participante: Eu não sei como é melhor para vocês.
+[00:42:51] Participante: Se for para a gente fazer isso junto, se quiser...
+[00:42:54] Participante: Trazer a equipe do Rodolfo para ajudar lá também.
+[00:42:57] Participante: E aí essa comunicação acho que dá.
+[00:43:00] Participante: Acho que o Renato consegue ir fazendo isso, porque...
+[00:43:03] Participante: O Rodolfo a gente pode chamar, eles têm acesso ao sistema.
+[00:43:06] Participante: Eles vão saber detalhar muito bem lá o Rodolfo Ajamir.
+[00:43:09] Participante: Adriana Zanotto, Aldo, Adriana Zanotto, Aldo, Adriana Zanotto.
+[00:43:12] Participante: Sabe de cor tudo que tem lá dentro do sistema do PNI.
+[00:43:15] Participante: Então, não sei como...
+[00:43:18] Participante: Que é o processo que vocês sugerem que a gente faça.
+[00:43:21] Participante: E, de fato, a gente vai seguir com essa ideia.
+[00:43:24] Participante: Fazer essa análise, porque não tem a menor possibilidade.
+[00:43:27] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:43:30] Participante: Porque a gente sabe que vai precisar mudar eventualmente.
+[00:43:33] Participante: Então, melhor fazer, igual você falou agora, que tem essa janela.
+[00:43:38] Você: Tchau, tchau.
+[00:43:36] Participante: Ela grande, já que acabou de acontecer o...
+[00:43:39] Participante: O último, ele é a cada dois anos.
+[00:43:42] Participante: Basicamente, né?
+[00:43:44] Participante: E então eu acho que...
+[00:43:45] Participante: Essa é a única alternativa que a gente tem.
+[00:43:48] Participante: E é melhor, sabe, porque construir do zero também é um recurso.
+[00:43:51] Participante: Muito grande.
+[00:43:55] Você: Pessoal, posso fazer uma sugestão?
+[00:43:57] Você: É, vamos, vou falar.
+[00:43:57] Participante: Aldo, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto,
+[00:44:00] Você: O Tiago, ele ajuda bastante.
+[00:44:03] Você: Nessa parte, ele vai conseguir ajudar nessa...
+[00:44:06] Você: Nesse entendimento, até mesmo para montar aqui, montar um...
+[00:44:09] Você: Roteiro todo de apresentação.
+[00:44:11] Você: Aí a gente...
+[00:44:12] Você: Mostra tanto para o Renato quanto para o Rodolfo.
+[00:44:15] Você: O que a gente fez e aí a gente vai evoluindo enquanto.
+[00:44:18] Você: Vocês estão de férias, pode ser? Eu acho que o Thiago vai ajudar bastante.
+[00:44:21] Você: Bastante nessa parte, porque por mais que eu esteja por dentro...
+[00:44:24] Você: Dentro da premiação, acho que o Thiago...
+[00:44:27] Você: Ajudar com outras ideias. O que vocês acham?
+[00:44:31] Participante: Por mim, perfeito, gente.
+[00:44:33] Participante: Tranquilo fazer assim.
+[00:44:36] Participante: Eu super falando pelo Renato, né? Renato, você?
+[00:44:39] Você: Ahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahah
+[00:44:39] Participante: Mas assim, se vocês quiserem...
+[00:44:42] Você: O sorriso dele, acho que sim.
+[00:44:42] Participante: Querem também que a gente aguarde a...
+[00:44:45] Participante: O retorno de vocês, Gabi, a gente pode aguardar.
+[00:44:48] Participante: Dá também, porque a gente não está com a porca no...
+[00:44:51] Participante: Ainda não, né?
+[00:44:52] Participante: Então, é...
+[00:44:54] Participante: Acho que só trouxe aqui para vocês já irem amadurecendo aí.
+[00:44:57] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:45:00] Participante: E caminhar para essa análise mais.
+[00:45:03] Participante: Mas que vocês acharam, não, vamos esperar o retorno.
+[00:45:06] Participante: ...das férias para a gente poder iniciar esse trabalho.
+[00:45:09] Participante: Para a gente também não tem problema, até porque a gente está focado.
+[00:45:12] Participante: Agora, no atendimento do IEL.
+[00:45:15] Participante: Aí é uma decisão mais para vocês mesmos.
+[00:45:18] Participante: Mas se quiser, também pela sugestão do Pedro.
+[00:45:21] Participante: Pode tocar.
+[00:45:24] Participante: Acho que, assim, bem inicialmente...
+[00:45:27] Participante: Nem o Pedro falou, conversar com o Tiago e vem.
+[00:45:30] Participante: Só conversas iniciais mesmo, para mapear isso.
+[00:45:33] Participante: E o que a gente tem, acho que dá para ir fazendo por agora.
+[00:45:36] Participante: Até porque a gente vai voltar e...
+[00:45:39] Participante: E a gente tem que fazer a imersão.
+[00:45:42] Participante: O PN ainda quer a premiação.
+[00:45:44] Participante: Então, eu e a Gabi.
+[00:45:45] Participante: A gente deve voltar 100% para fazer essas coisas.
+[00:45:48] Participante: Imersão, que vai demandar muito.
+[00:45:51] Participante: Muito tempo e isso deve acontecer, a imersão deve acontecer.
+[00:45:54] Participante: Sei lá, em setembro, outubro, então a minha preocupação é...
+[00:45:57] Participante: Assim, como a gente ainda tem que mapear, tem que ver, tem que entender se tem...
+[00:46:00] Participante: Tem que depois ainda passar com...
+[00:46:03] Participante: Porque pode ser que a gente tenha toda a aderência, tenha visto tudo.
+[00:46:06] Participante: A gente não tem um ok do lado de lá, então...
+[00:46:09] Participante: O processo, a gente tem bastante tempo, mas o processo...
+[00:46:12] Participante: O processo ainda é muito...
+[00:46:13] Participante: É demorado, né? Não pode...
+[00:46:15] Participante: Perder muito tempo, né?
+[00:46:16] Participante: Se não, acaba...
+[00:46:18] Participante: As conversas iniciais eu acho que dá para fazer o...
+[00:46:21] Participante: Igual eu falei, o sistema...
+[00:46:24] Participante: É mais tranquilo, é uma questão...
+[00:46:27] Participante: Então, de acessar lá o Thiago, sabe, de cor também.
+[00:46:30] Participante: O Thiago teve que fazer tanto milagre.
+[00:46:33] Você: Tiago, ele sabe de...
+[00:46:33] Participante: O sistema pode ser tão rápido, então.
+[00:46:36] Você: De frente, de ré de costas.
+[00:46:37] Participante: Que ela sonha com isso.
+[00:46:39] Você: É.
+[00:46:39] Participante: Sim, porque sabe tudo.
+[00:46:42] Participante: Talvez assim, Gabi, a gente faça então.
+[00:46:45] Participante: Primeiramente com o Tiago, e eu acredito...
+[00:46:48] Participante: Eu acredito que junto com o Renato, eu acredito...
+[00:46:51] Participante: O envolvimento com o Rodolfo talvez seja melhor.
+[00:46:54] Participante: Mais para frente, quando estiver mais maduro.
+[00:46:57] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:47:00] Participante: É um outro tipo de visão, né?
+[00:47:02] Participante: E aí...
+[00:47:03] Participante: Eu acho que pode, talvez, embarregar.
+[00:47:06] Participante: Algumas coisas, mas...
+[00:47:09] Participante: Mas eu acho que a gente pode evoluir sim com o Thiago aqui, junto com o Thiago.
+[00:47:12] Participante: Renato, e quando vocês voltarem, a gente vê.
+[00:47:15] Participante: A análise se vale a pena passar por Rodolfo.
+[00:47:18] Participante: Que vocês querem continuar.
+[00:47:21] Participante: Perfeito.
+[00:47:22] Participante: Tá bom?
+[00:47:24] Participante: Perfeito, Renate, perfeito.
+[00:47:27] Participante: Ah, tu não falou nem um A, nem se dá, se não...
+[00:47:30] Participante: Ele tá segurando pra poder me xingar a hora que eu chegar na receita.
+[00:47:33] Participante: Então, bora, né?
+[00:47:36] Participante: Missão dada, vamos embora.
+[00:47:39] Participante: Quero poder ajudar, no máximo vou atrapalhar, mas está tudo bem.
+[00:47:44] Você: Não pode ajudar.
+[00:47:42] Participante: Aldo, você nunca atrapalha.
+[00:47:45] Você: Atrapalha, o importante é participar, né?
+[00:47:45] Participante: O importante é falar.
+[00:47:50] Participante: Eu queria...
+[00:47:51] Participante: Agradecer a Isa aí também, que se dispôs aí a...
+[00:47:54] Participante: Compartilhar do sistema.
+[00:47:57] Participante: Obrigada aí pelo...
+[00:48:00] Participante: E obrigada a vocês também pela...
+[00:48:03] Participante: A paciência aí pela disponibilidade do tempo.
+[00:48:06] Participante: Pedro também, que está nos ajudando aí.
+[00:48:09] Participante: Constantemente com o sistema e muito obrigada.
+[00:48:12] Participante: Obrigada, pessoal. Qualquer dúvida, a gente está aqui à disposição.
+[00:48:15] Participante: Vamos ver aqui com o encaminhamento.
+[00:48:18] Participante: Tiago, qualquer coisa a gente volta a entrar em contato aí se precisar mais.
+[00:48:21] Participante: Marcar alguma reunião, tá bom?
+[00:48:23] Participante: Perfeito, gente.
+[00:48:26] Você: Obrigado.
+[00:48:24] Participante: Muito obrigada, viu?
+[00:48:25] Participante: Obrigada aí, Gabi.
+[00:48:27] Participante: Tchau, tchau.
+[00:48:27] Participante: Tchau, tchau. Obrigado, pessoal. Até logo.

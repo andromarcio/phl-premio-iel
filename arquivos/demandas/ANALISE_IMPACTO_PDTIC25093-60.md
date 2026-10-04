@@ -1,0 +1,98 @@
+<!-- docqui: 2.16.0 | prompt: analise-impacto | atualizado: 2026-09-01 -->
+# Análise Impacto PDTIC25093-60
+
+---
+
+## Sumário
+
+| Indicador | Valor |
+|---|---|
+| Features alteradas | 1 |
+| Features novas | nenhuma |
+| Processos elementares com contagem no baseline | 3 |
+| Regras de negócio acrescentadas | +5 |
+| Cenários acrescentados | +7 |
+| Mensagens novas no dicionário | nenhuma |
+| Alterações de modelo | nenhuma |
+| **PFB · PFL do item** (transações) | **17 · 8,5** |
+
+> **Linha do tempo.** O baseline APF foi contado em **2026-02-28**, antes desta sprint — é o "antes" da contagem. Os N3 foram escritos entre **2026-08-25 e 27**, por engenharia reversa do código **pós-sprint**: logo o "antes" de cada delta é o N3 como publicado, não o sistema em produção. O item aparece encerrado na listagem mais recente do board. ⚠️ Não há SQL anterior à sprint nem os arquivos de migração no acervo — as alterações de modelo abaixo são as **declaradas** pela demanda e confirmadas no modelo atual, não as **verificadas no script**.
+
+---
+
+## 1. Detalhe do item
+
+**`PDTIC25093-60` — Melhorias na alocação · HU-025 — Alocar Avaliadores**
+
+Na spec: **alteração pura** de uma única feature, mas a de maior peso individual da sprint — 17 PFB, três processos elementares. A tela de alocação ganhou o detalhe do projeto e três recortes, e a regra de elegibilidade foi corrigida.
+
+Feature única com três PE: é o caso que mostra por que a contagem é por processo elementar e não por feature. Deduplicar por feature aqui subcontaria dois terços do item.
+
+> **Critérios de aceite não numerados.** A HU chega como `.docx` e não numera os critérios. Pela regra da instância, a coluna `CA-n` sai `—` e a rastreabilidade fica pela chave da demanda. Numerar por conta própria produziria referências que não existem na ferramenta do cliente.
+
+---
+
+## 2. Alterações aplicadas na spec, por Feature Set
+
+### Avaliação › Alocação (`AVL-ALO`)
+
+| Feature | Demanda | `CA-n` | Natureza | O que mudou em relação ao comportamento anterior | Regras | Cenários | PFB | PFL |
+|---|---|---|---|---|---|---|---|---|
+| `AVL-ALO-04` **Alocar Avaliador à Inscrição** | `PDTIC25093-60` · HU-025 | — | alterada | **Inclusão** do detalhe do projeto e de três recortes; **correção** da elegibilidade. Antes a tela listava as inscrições elegíveis com a designação de avaliadores e a etiqueta de situação, sem nenhum filtro e sem como ver o conteúdo do projeto, e as elegíveis das etapas seguintes eram "as aprovadas na etapa anterior". Agora o projeto é consultável em modo somente leitura, há recortes por grupo, estado (com Nacional) e situação da alocação, e quem passa para a etapa seguinte é o classificado | +5 | +7 | 17 | 8,5 |
+
+**Subtotal: 1 feature · 17 PFB · 8,5 PFL.**
+
+**Total do item: 1 features · +5 regras · +7 cenários · 17 PFB · 8,5 PFL.**
+
+### Processos elementares por trás dos PFB medidos
+
+A contagem é por **processo elementar**, não por feature — uma feature pode absorver mais de um PE, e deduplicar por feature subconta.
+
+| Processo elementar | Feature | Tipo | ALR | DER | Complexidade | PFB |
+|---|---|---|---|---|---|---|
+| Consultar Alocação de Avaliadores por Participante | `AVL-ALO-04` **Alocar Avaliador à Inscrição** | SE | 6 | 18 | Complexo | 7 |
+| Consultar Avaliadores por Inscrição | `AVL-ALO-04` **Alocar Avaliador à Inscrição** | SE | 4 | 10 | Complexo | 7 |
+| Incluir Avaliadores para Inscrição | `AVL-ALO-04` **Alocar Avaliador à Inscrição** | EE | 2 | 3 | Simples | 3 |
+
+A memória de cálculo de cada PE — ALR e DER nomeados — vive na seção `## Métricas de tamanho` do respectivo N3 e no `global/CONTAGEM-PF.md`.
+
+---
+
+## 3. Tabelas alteradas, por função de dados
+
+**Nenhuma alteração de modelo.** O item não declara migração: a entrega lê e escreve no que já existia.
+
+| Origem | Natureza | PFB | PFL |
+|---|---|---|---|
+| Funções de transação — 3 PE em 1 feature | alteradas · 50% | 17 | 8,5 |
+| **Apurável do item** | — | **17** | **8,5** |
+
+---
+
+## 4. Impacto em dicionários
+
+**Nenhuma mensagem, regra ou campo canônico novo.** A entrega reaproveita o baseline de mensagens do dicionário.
+
+---
+
+## 5. Decisões de produto pendentes
+
+✅ **Nenhuma.** As duas decisões deste item foram respondidas em 2026-09-01 e já estão aplicadas na spec:
+
+- **O drawer "Projeto" reaproveita `VAL-ANA-01` Detalhar Inscrição?** — **sim**. A RN10 de `AVL-ALO-04` **Alocar Avaliador à Inscrição** passa a referenciar aquela feature como definição única do detalhe da inscrição, em vez de descrever um conteúdo paralelo. Uma alteração no detalhe passa a alcançar também o drawer.
+- **O grupo de disputa inclui a submodalidade?** — **sim**. `AVL-ALO-01` **Consultar Alocação de Avaliadores** e `AVL-ALO-02` **Alocar Avaliador ao Grupo** foram corrigidas para incluí-la, convergindo com `AVL-ALO-04` **Alocar Avaliador à Inscrição** — cuja definição já fora conferida contra o código —, e `AVL-APU-01` **Apurar Resultado da Etapa** acrescentou a submodalidade ao grupo de disputa. As duas leituras que conviviam na spec deixaram de existir.
+
+---
+
+## Metodologia
+
+Cruzamento do item `PDTIC25093-60` com os N3 publicados dos Feature Sets alcançados, o `global/DATA-MODEL.md`, o `global/CONTAGEM-PF.md` e o baseline APF `arquivos/PIEL_BASELINE_PF_CD.xlsx`. O "antes" de cada delta foi extraído das linhas removidas no diff dos N3, não do arquivo atual. Escopo do perfil `requisitos`: a análise para no negocial e no data-model. Este documento é o recorte por item da análise agregada da sprint, em `ANALISE_IMPACTO_SP05.md` — os números dos dois devem sempre fechar.
+
+## Changelog
+
+| Data | Autor | Tipo | Descrição |
+|---|---|---|---|
+| 2026-09-01 | Decisões de produto (docqui) | Decisões respondidas | O drawer reaproveita `VAL-ANA-01` **Detalhar Inscrição** e o grupo de disputa **inclui a submodalidade**. Ambas aplicadas na spec; o item fica sem decisão pendente |
+| 2026-09-01 | Decisões de produto (docqui) | Decisões respondidas | O produto respondeu as decisões pendentes deste documento; elas foram aplicadas na spec e saíram da lista da seção 5. Os números das que ficaram não foram reaproveitados |
+| 2026-09-01 | Análise de impacto (docqui) | Decisões detalhadas | Seção 5 reescrita: cada decisão passa a trazer o que está na spec hoje, as opções com o custo de cada uma, o que ela trava e quem decide; todas as features citadas com código **e** nome |
+| 2026-09-01 | Análise de impacto (docqui) | Documento criado | Impacto do item `PDTIC25093-60` sobre a spec, derivado da análise agregada da SP05 |

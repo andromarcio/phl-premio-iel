@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise Impacto PDTIC25093-62</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+/* Identidade AVAL */
+      --brand-blue: #005CA9;
+      --brand-blue-dark: #0A2440;
+      --brand-blue-light: #E5F2FC;
+      --brand-blue-hover: #004B8A;
+      --brand-accent: #0078E0;
+      
+      /* Aviso é Dourado no AVAL (regra: nunca laranja) */
+      --brand-gold: #B45309;
+      --brand-gold-light: #FFFBEB;
+      --brand-gold-border: #FDE68A;
+      
+      /* Superfícies & Bordas */
+      --bg-app: #F6FAFD;
+      --bg-sidebar: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-hover: #EDF3F9;
+      --bg-active: #E3EEF8;
+      --border-color: #D6E3F0;
+      --border-subtle: #E8F0F8;
+      
+      /* Compatibilidade mapa.css */
+      --primary-color: #005CA9;
+      --surface-ground: #F6FAFD;
+      --surface-card: #FFFFFF;
+      --surface-border: #D6E3F0;
+      --surface-hover: #EDF3F9;
+      --text-color: #0A2440;
+      --shadow-1: 0 1px 3px rgba(10, 36, 64, 0.06);
+      --focus-ring: 0 0 0 3px rgba(0, 92, 169, 0.18);
+      --dsc-font-family-1: 'IBM Plex Sans', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-title: 'Archivo', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-mono: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", "Courier New", monospace;
+      --dsc-border-radius-pill: 999px;
+      --dsc-border-radius-medium: 6px;
+      --transition-duration: 0.15s;
+      
+      /* Tipografia & Cores */
+      --text-main: #0A2440;
+      --text-secondary: #2B3A4A;
+      --text-muted: #526981;
+      --text-blue: #005CA9;
+      
+      /* Status & Badges */
+      --badge-success-bg: #ECFDF5;
+      --badge-success-text: #047857;
+      --badge-success-border: #A7F3D0;
+      
+      --badge-warning-bg: #FFFBEB;
+      --badge-warning-text: #B45309;
+      --badge-warning-border: #FDE68A;
+      
+      --badge-info-bg: #EFF6FF;
+      --badge-info-text: #1D4ED8;
+      --badge-info-border: #BFDBFE;
+      
+      --badge-purple-bg: #F5F3FF;
+      --badge-purple-text: #6D28D9;
+      --badge-purple-border: #DDD6FE;
+
+      /* Sombras & Raios */
+      --shadow-sm: 0 1px 2px 0 rgba(10, 36, 64, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(10, 36, 64, 0.08), 0 2px 4px -2px rgba(10, 36, 64, 0.05);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-full: 999px;
+
+      /* Dimensões */
+      --header-height: 60px;
+      --sidebar-width: 320px;
+}
+:root {
+  --_bg: var(--bg-app, #F6FAFD);
+  --_card: var(--bg-card, #FFFFFF);
+  --_borda: var(--border-color, #D6E3F0);
+  --_borda-sutil: var(--border-subtle, #E8F0F8);
+  --_hover: var(--bg-hover, #EDF3F9);
+  --_texto: var(--text-main, var(--text-color, #0A2440));
+  --_texto2: var(--text-secondary, #526981);
+  --_marca: var(--brand-blue, var(--primary-color, #005CA9));
+  --_marca-clara: var(--brand-blue-light, #E5F2FC);
+  --_titulo: var(--dsc-font-title, 'Archivo', 'Segoe UI', system-ui, sans-serif);
+  --_corpo: var(--dsc-font-family-1, 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif);
+  --_mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--_bg); color: var(--_texto); font-family: var(--_corpo); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap { width: 100%; margin: 0; padding: 32px 40px 80px; }
+/* O conteúdo destes documentos é majoritariamente tabela larga — a tela inteira é
+   trabalho útil, não desperdício. A prosa corrida fica com medida de leitura própria
+   para não virar linha de 200 caracteres em monitor grande. */
+@media (max-width: 720px) { .wrap { padding: 24px 16px 60px; } }
+.doc-head { margin-bottom: 26px; }
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--_marca); margin-bottom:10px; }
+h1 { font-family: var(--_titulo); font-size: clamp(24px,3.4vw,32px); font-weight:700; line-height:1.2; margin:0 0 14px; color: var(--_texto); text-wrap: balance; }
+.doc-section { background: var(--_card); border:1px solid var(--_borda); border-radius:10px; padding: 0; margin-bottom:20px; box-shadow: 0 1px 3px rgba(10,36,64,.06); }
+.section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 20px 28px; cursor:pointer; list-style:none; }
+.section-header::-webkit-details-marker { display:none; }
+.section-title { font-family: var(--_titulo); font-size:18px; font-weight:700; color: var(--_texto); display:flex; align-items:center; gap:10px; }
+.section-title svg { color: var(--_marca); flex:none; }
+.chevron { color: var(--_texto2); transition: transform .18s; flex:none; }
+details[open] > .section-header .chevron { transform: rotate(180deg); }
+.section-body { padding: 18px 28px 24px; border-top:1px solid var(--_borda-sutil); }
+.markdown-body > :first-child { margin-top:0; }
+.markdown-body > :last-child { margin-bottom:0; }
+.markdown-body h3 { font-family: var(--_titulo); font-size:15.5px; font-weight:700; margin:26px 0 10px; color: var(--_texto); }
+.markdown-body h4 { font-size:14px; font-weight:700; margin:20px 0 8px; }
+.markdown-body p { margin: 0 0 12px; }
+.markdown-body ul, .markdown-body ol { margin:0 0 12px; padding-left:22px; }
+.markdown-body li { margin-bottom:6px; }
+.markdown-body code { font-family: var(--_mono); font-size:.86em; background: var(--_hover); border:1px solid var(--_borda-sutil); border-radius:4px; padding:1px 5px; overflow-wrap:anywhere; }
+/* caminho de arquivo e chave longa não têm espaço para quebrar: sem isto, um code
+   comprido empurra o corpo inteiro e a página ganha rolagem horizontal no celular */
+.markdown-body { overflow-wrap: break-word; }
+.custom-table .col-id  { white-space: nowrap; width: 1%; }
+.custom-table .col-num { white-space: nowrap; min-width: 5.5rem; }
+.custom-table .col-prosa { min-width: 38rem; }
+.custom-table .col-nome  { min-width: 15rem; max-width: 22rem; }
+.ficha { margin: 2px 0 22px; font-size: 13px; color: var(--_texto2); }
+.ficha blockquote { margin:0; border:0; padding:0; }
+.ficha p { margin: 0; line-height: 1.9; }
+.markdown-body pre { background: var(--_hover); border:1px solid var(--_borda); border-radius:8px; padding:14px 16px; overflow-x:auto; }
+.markdown-body pre code { background:none; border:0; padding:0; }
+.markdown-body blockquote { margin:0 0 14px; padding:12px 18px; border-left:3px solid var(--_marca); background: var(--_bg); border-radius:0 6px 6px 0; color: var(--_texto2); }
+.markdown-body blockquote > :first-child { margin-top:0; } .markdown-body blockquote > :last-child { margin-bottom:0; }
+.markdown-body a { color: var(--_marca); }
+.item-titulo { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:30px 0 12px; font-family: var(--_titulo); font-size:17px; font-weight:700; color: var(--_texto); }
+.item-nome { flex:0 1 auto; min-width:0; }
+.chave { font-family: var(--_mono); font-size:12px; font-weight:600; letter-spacing:.01em; color: var(--_texto2); background: var(--_hover); border:1px solid var(--_borda); border-radius:999px; padding:4px 12px; white-space:nowrap; }
+.badge { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:999px; padding:3px 11px; white-space:nowrap; }
+.badge--alterada { background:#DBEAFE; color:#1D4ED8; }
+.badge--nova     { background:#EDE9FE; color:#6D28D9; }
+.badge--mista    { background:#FEF3C7; color:#B45309; }
+.kpi-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:14px; margin:16px 0 20px; }
+.stat { background: var(--_card); border:1px solid var(--_borda); border-left:4px solid var(--acento, var(--_marca)); border-radius:8px; padding:16px 20px; box-shadow:0 1px 3px rgba(10,36,64,.06); }
+.stat-n { font-family: var(--_titulo); font-size:30px; font-weight:700; line-height:1.05; color: var(--_texto); font-variant-numeric: tabular-nums; }
+.stat-k { margin-top:8px; font-size:13px; color: var(--_texto2); line-height:1.45; }
+.stat-k span { display:block; margin-top:3px; color: var(--_texto2); opacity:.85; }
+.table-container { width:100%; overflow-x:auto; margin: 12px 0; border:1px solid var(--_borda); border-radius:8px; }
+.custom-table { width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+.custom-table th { background: var(--_hover); color: var(--_texto); font-weight:600; font-family: var(--_titulo); padding:12px 16px; border-bottom:1px solid var(--_borda); white-space:nowrap; }
+.custom-table td { padding:12px 16px; border-bottom:1px solid var(--_borda-sutil); color: var(--_texto); vertical-align:top; line-height:1.5; }
+// A primeira coluna costuma ser um ID curto, que não deve partir. Mas quando ela é
+// um NOME ou a própria narrativa, o nowrap faz o texto transbordar por cima da
+// coluna vizinha — 665px de conteúdo numa célula de 304px. Essas ficam de fora.
+.custom-table th:first-child, .custom-table td:first-child:not(.col-nome):not(.col-prosa) { white-space:nowrap; }
+.custom-table tbody tr:last-child td { border-bottom:none; }
+.custom-table tbody tr:hover { background: var(--_hover); }
+.changelog-table td { font-size:12.5px; }
+.changelog-table th:first-child, .changelog-table td:first-child { width:120px; min-width:110px; }
+.req-tag { font-weight:600; color:#E11D48; font-size:11px; background:#FFE4E6; padding:2px 6px; border-radius:4px; display:inline-block; }
+.opt-tag { font-weight:500; color: var(--_texto2); font-size:11px; background: var(--_hover); padding:2px 6px; border-radius:4px; display:inline-block; }
+.rodape { margin-top:34px; padding-top:18px; border-top:1px solid var(--_borda); font-size:12.5px; color: var(--_texto2); }
+@media print { .doc-section { break-inside: avoid; border:1px solid #ccc; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="eyebrow">Análise de impacto</div>
+    <h1>Análise Impacto PDTIC25093-62</h1>
+  </header>
+
+
+  <details class="doc-section" id="sumario" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Sumário
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+    <div class="kpi-grid">
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Features alteradas</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Features novas</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">0</div>
+        <div class="stat-k">Processos elementares com contagem no baseline</div>
+      </div>
+      <div class="stat" style="--acento:#047857">
+        <div class="stat-n">+0</div>
+        <div class="stat-k">Regras de negócio acrescentadas</div>
+      </div>
+      <div class="stat" style="--acento:#B45309">
+        <div class="stat-n">+0</div>
+        <div class="stat-k">Cenários acrescentados</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">nenhuma</div>
+        <div class="stat-k">Mensagens novas no dicionário</div>
+      </div>
+      <div class="stat" style="--acento:var(--_marca)">
+        <div class="stat-n">nenhuma</div>
+        <div class="stat-k">Alterações de modelo</div>
+      </div>
+      <div class="stat" style="--acento:#6D28D9">
+        <div class="stat-n">0 · 0</div>
+        <div class="stat-k">PFB · PFL do item (transações)</div>
+      </div>
+    </div>
+<blockquote>
+<p><strong>Linha do tempo.</strong> O baseline APF foi contado em <strong>2026-02-28</strong>. Os N3 foram escritos por engenharia reversa entre <strong>2026-08-25 e 27</strong> e conferidos com o código em <strong>2026-08-28</strong> — logo o &quot;antes&quot; de cada delta é o N3 como publicado, não o sistema em produção. ⚠️ <strong>O item não está entregue</strong>: em 2026-10-01 o board o mostra como <em>In Progress</em>, aberto desde 2026-07-23. Esta análise é, portanto, do <strong>pedido como está escrito</strong>, não de entrega conferida. ⚠️ Os repositórios de código não estão ao alcance desta sessão (só o repositório de documentação), então nada aqui foi verificado contra o código.</p>
+</blockquote>
+
+    </div>
+  </details>
+  <details class="doc-section" id="1-detalhe-do-item" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        1. Detalhe do item
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong><code>PDTIC25093-62</code> — Favicon</strong></p>
+<p>Na spec: <strong>nenhuma feature alterada ou incluída</strong>. O pedido é <em>&quot;alterar favicon do sistema&quot;</em> — a troca de um <strong>ativo visual</strong>, não de uma capacidade. Nenhum processo elementar muda de lógica, nenhum arquivo lógico ganha ou perde campo, e nada no comportamento observável pelo usuário se altera além da imagem na aba do navegador.</p>
+<p>O único comentário do card, de 2026-09-24, é a pergunta sobre qual imagem usar — confirma que o que está em disputa é o arquivo, não o comportamento.</p>
+<p>⚠️ <strong>Há uma ambiguidade que decide se o item vale zero ou vale uma feature</strong>, e ela não se resolve pelo texto do card. O sistema <strong>já tem favicon configurável por premiação</strong>: o campo <code>URL do favicon</code> (<code>DS_FAVICON_URL</code>, <code>nvarchar(500)</code>) existe no ALI <strong>Premiação</strong>, subgrupo Branding, e é carregado por <code>CFG-PRE-13</code> — Carregar Imagem de Configuração. &quot;Favicon do sistema&quot; pode querer dizer (a) o ícone fixo da aplicação Angular, que é ativo de build, ou (b) um valor novo para o campo que já existe. Em nenhuma das duas há função nova; a diferença é só onde o arquivo é trocado.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="2-alteracoes-aplicadas-na-spec-por-feature-set" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        2. Alterações aplicadas na spec, por Feature Set
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>Nenhuma.</strong> Não há N3 a alterar nem a criar.</p>
+<p><strong>Total do item: 0 features · +0 regras · +0 cenários · 0 PFB · 0 PFL.</strong></p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="3-tabelas-alteradas-por-funcao-de-dados" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        3. Tabelas alteradas, por função de dados
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>Nenhuma alteração de modelo.</strong> O campo <code>DS_FAVICON_URL</code> já existe no ALI <strong>Premiação</strong> desde o baseline; trocar o valor de um campo não altera a função de dados.</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Origem</th>
+<th class="col-id">Natureza</th>
+<th class="col-num">PFB</th>
+<th class="col-num">PFL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Funções de transação — 0 PE</td>
+<td class="col-id">—</td>
+<td class="col-num">0</td>
+<td class="col-num">0</td>
+</tr>
+<tr>
+<td>Funções de dados — 0 ALI</td>
+<td class="col-id">—</td>
+<td class="col-num">0</td>
+<td class="col-num">0</td>
+</tr>
+<tr>
+<td><strong>Apurável do item</strong></td>
+<td class="col-id">—</td>
+<td class="col-num"><strong>0</strong></td>
+<td class="col-num"><strong>0</strong></td>
+</tr>
+</tbody></table></div>
+<p>O zero tem motivo, e ele é o do próprio <code>global/SIZING.md</code> → <em>Regras de medição de serviços, item 5</em>: mudança <strong>puramente técnica</strong>, que não altera a lógica de processamento sob a ótica do usuário, não gera nova contagem. Trocar um ícone é o caso de manual dessa regra.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="4-impacto-em-dicionarios" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        4. Impacto em dicionários
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p><strong>Nenhuma mensagem, regra ou campo canônico novo.</strong></p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="5-decisoes-de-produto-pendentes" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        5. Decisões de produto pendentes
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p><strong>O resumo de entrega da Sprint 6, recebido em 2026-10-04, não menciona o favicon</strong> — nenhuma das cinco funcionalidades da sprint o alcança, e nenhuma das duas migrações toca o campo <code>DS_FAVICON_URL</code>. Isso confirma, por uma segunda fonte, que o item segue sem entrega, e as duas decisões abaixo continuam abertas nos mesmos termos. Ver <code>ANALISE_IMPACTO_SP06.md</code>.</p>
+</blockquote>
+<h3>1. O favicon a trocar é o da aplicação ou o da premiação?</h3>
+<p>O card diz &quot;do sistema&quot;, e o sistema tem os dois. <strong>O que trava</strong>: nada da contagem — zero nos dois casos. Trava a <strong>execução</strong>: se for o da aplicação, é ativo no repositório do frontend e não passa por tela nenhuma; se for o da premiação, é a configuração de branding de uma edição e quem troca é o Administrador Nacional, por <code>CFG-PRE-13</code> — Carregar Imagem de Configuração, sem desenvolvimento. Confirmar antes de abrir trabalho de dev para algo que pode ser configuração.</p>
+<h3>2. Se a intenção for um favicon único para todo o sistema, o campo por premiação continua valendo?</h3>
+<p><strong>O que trava</strong>: a especificação de <code>CFG-PRE-13</code> — Carregar Imagem de Configuração e o campo <code>URL do favicon</code> do ALI <strong>Premiação</strong>. Um favicon fixo de aplicação e um favicon por edição são regras concorrentes — se o fixo passar a mandar, o campo por premiação vira configuração sem efeito, e isso precisa sair da spec em vez de ficar documentado como se funcionasse.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="metodologia" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Metodologia
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Card lido no Jira em 2026-10-02 (<code>sistemaindustria.atlassian.net</code>, board <code>PDTIC25093</code>). Confrontado com <code>global/data-models/configuracao.md</code>, <code>global/CONTAGEM-PF.md</code>, <code>global/SIZING.md</code> e <code>modules/INDEX.md</code>. Sem acesso aos repositórios de código nesta sessão.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="changelog" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Changelog
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table changelog-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Autor</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>04/10/2026</td>
+<td>Análise de impacto SP06 (docqui)</td>
+<td>Conferido contra a entrega</td>
+<td>O resumo de entrega da Sprint 6 não menciona o favicon, em nenhuma das cinco funcionalidades nem nas duas migrações — segunda fonte confirmando que o item não foi entregue. Nada muda na análise: segue <strong>0 PFB · 0 PFL</strong>, com as duas decisões abertas</td>
+</tr>
+<tr>
+<td>02/10/2026</td>
+<td>Análise de impacto (docqui)</td>
+<td>Documento criado</td>
+<td>Análise do card <code>PDTIC25093-62</code> — Favicon. Item sem impacto em feature ou função de dados; zero PF por ser mudança puramente técnica. Duas decisões de produto registradas, ambas sobre <strong>onde</strong> o favicon é trocado</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+
+  <footer class="rodape">
+    Gerado de <code>arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-62.md</code> por <code>scripts/gera-html-impacto.mjs</code>.
+    O <strong>.md é a fonte</strong> — edite lá e regenere; alterações feitas neste HTML se perdem.
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Feature Sets que a Central de Documentos entrega — um por linha, pela sigla.
+#
+# Existe porque a CI roda `gera-docx.py --all` a cada push e, sem este recorte,
+# regenera os 21 Feature Sets e desfaz em silêncio a decisão de entregar só um
+# subconjunto. Aconteceu com a SP05: os 14 documentos apagados voltaram sozinhos
+# no push seguinte.
+#
+# Apague o arquivo (ou esvazie-o) para voltar a entregar todos.
+# Recorte atual: Feature Sets alcançados pela SP05 (2026-09-02).
+
+AVL-ALO
+AVL-APU
+AVL-AVA
+AVL-ETA
+AVL-PAI
+VAL-ANA
+VAL-FIL

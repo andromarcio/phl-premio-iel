@@ -1,0 +1,533 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião 30/04
+ID da reunião ...: 6341e1fc-6daf-4222-89ae-6443609437ca
+Data e hora .....: 30/04/2026 14:54 (America/Sao_Paulo)
+Duração .........: 20m 25s
+Tipo ............: PLANNING
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/6341e1fc-6daf-4222-89ae-6443609437ca
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:02] Você: Beleza.
+[00:00:03] Você: Eu fiz algumas alterações já.
+[00:00:06] Você: Inclusive não está refletindo nessa tela, essa tela...
+[00:00:09] Você: É a tela de fechamento de etapa, inclusive.
+[00:00:12] Você: Eu vou chegar nela para vocês, mas já fiz...
+[00:00:15] Você: Algumas...
+[00:00:18] Você: Algumas alterações, como, por exemplo, a exibição.
+[00:00:18] Participante: Uhum.
+[00:00:21] Você: ...do próprio nome do participante.
+[00:00:24] Você: Ele consegue sintetizar o nome do participante.
+[00:00:24] Participante: Obrigado.
+[00:00:27] Você: De acordo com o que ele preencheu.
+[00:00:30] Você: A gente, no caso, essa base...
+[00:00:33] Você: Aqui a barra de desenvolvimento, então a gente...
+[00:00:36] Você: Então vai ter todos os...
+[00:00:39] Você: Todos os nomes preenchidos, mas por exemplo...
+[00:00:42] Você: A gente coloca aqui o nome antes da...
+[00:00:45] Você: Da inscrição, então acho que...
+[00:00:49] Você: Já ajuda bastante para...
+[00:00:51] Você: E...
+[00:00:54] Você: A pergunta que eu tenho a fazer é, aqui na...
+[00:00:57] Você: Parte do fechamento de etapa.
+[00:01:00] Você: Vocês que vão fazer esse ranking são...
+[00:01:03] Você: Vocês que vão pegar, por exemplo, nós tivemos 60...
+[00:01:06] Você: Inscrições. É vocês que vão decidir quem vai...
+[00:01:09] Você: Que vai avançar de fase.
+[00:01:12] Você: Legenda por Sônia Ruberti
+[00:01:13] Participante: Boa pergunta, Pedro.
+[00:01:15] Participante: Eu acho que tem uns critérios.
+[00:01:18] Participante: Desempate no edital, não tem?
+[00:01:21] Você: Obrigado.
+[00:01:21] Participante: Não sei se vocês...
+[00:01:26] Você: Não, não.
+[00:01:24] Participante: Já considerou esses critérios.
+[00:01:27] Você: A pergunta é se são os administradores que vão...
+[00:01:31] Você: Que vão...
+[00:01:33] Você: Considerar ou desconsiderar, porque...
+[00:01:36] Você: Antes que tenha os critérios de desempate, o ranqueamento...
+[00:01:39] Você: Ele pode ficar muito semelhante.
+[00:01:42] Você: Por exemplo, a gente pode ter a mesma média e etc.
+[00:01:45] Participante: Inclusive ano passado.
+[00:01:48] Participante: Teve uma situação de empate até a nível nacional.
+[00:01:51] Você: Sim.
+[00:01:51] Participante: E conquistou...
+[00:01:54] Participante: O que é que vocês fazem na prática?
+[00:01:57] Participante: A gente não fazia por aqui, né, Will?
+[00:02:00] Participante: No outro sistema, o...
+[00:02:03] Participante: Que mandava para a gente, né?
+[00:02:06] Participante: Um dos rapazes do outro sistema, mas ele fazia.
+[00:02:09] Participante: Junto com a Isa, meio até que manual.
+[00:02:13] Você: Uhum.
+[00:02:12] Participante: A Via Planilha, né?
+[00:02:15] Participante: Eu lembro que ela comentou que ele fazia o cálculo da...
+[00:02:18] Participante: A média, né, manualmente, mas eu...
+[00:02:21] Participante: Eu acho que a primeira coisa é ver...
+[00:02:24] Participante: Critérios de desempate, aí só no final...
+[00:02:27] Participante: De todos os critérios ainda continuam.
+[00:02:30] Participante: Empatado, eu não sei se já...
+[00:02:33] Participante: Já aconteceu alguma coisa nesse sentido.
+[00:02:36] Participante: Como é que você fizer?
+[00:02:39] Participante: Se passar por todos os critérios.
+[00:02:42] Participante: E não desempatar, eu acho que premia os dois, por exemplo.
+[00:02:45] Participante: Dois terceiros lugares, ou dois primeiros lugares.
+[00:02:48] Participante: Ano passado, não lembro em que categoria, no nacional foi.
+[00:02:51] Participante: Sim, empatou em todos os critérios, aí premiaram as duas.
+[00:02:56] Você: É, porque o...
+[00:02:54] Participante: Acontece.
+[00:02:57] Você: O ideal é a gente ter a palavra...
+[00:02:57] Participante: Cê tá?
+[00:03:00] Você: Da Isa, né, até pela posição, pela...
+[00:03:01] Participante: Ouça aí.
+[00:03:03] Você: Falar para a gente, pessoal, aproveitando que a gente está com...
+[00:03:06] Você: Vamos colocar logo uma...
+[00:03:09] Você: Talvez uma qualificação, uma desclassificação.
+[00:03:12] Você: Até para a gente entender como que esses critérios vão vir automaticamente.
+[00:03:15] Você: Hoje ele está aqui na ordem pela mesma.
+[00:03:18] Você: Média mesmo, mas imagino que não seja essa.
+[00:03:19] Participante: Os critérios não são...
+[00:03:21] Você: Então, a...
+[00:03:21] Participante: Subiram ainda então, Pedro, é isso?
+[00:03:24] Participante: No edital, só para te contextualizar.
+[00:03:29] Você: Ok.
+[00:03:27] Participante: Eles têm uma ordem de critérios.
+[00:03:30] Participante: Então, cada categoria tem a...
+[00:03:33] Participante: Sua ordem de critérios, né?
+[00:03:35] Participante: E o interessante...
+[00:03:36] Participante: O importante seria que a gente já tivesse isso ali no sistema.
+[00:03:39] Participante: Justamente não ter que fazer um acompanhamento externo da nota daquela...
+[00:03:42] Participante: Então, tipo, a...
+[00:03:45] Participante: Não sei como, obviamente, mas fazer um...
+[00:03:50] Você: Uhum.
+[00:03:48] Participante: Transferiu os critérios para dentro de cada categoria.
+[00:03:51] Participante: Já que cada uma tem a sua, né?
+[00:03:54] Participante: O sistema já fazia isso automático.
+[00:03:55] Participante: Por exemplo, aqui está mostrando...
+[00:03:58] Você: Exato.
+[00:03:57] Participante: A gente tem um ranking, né?
+[00:03:58] Participante: Aí, a...
+[00:04:00] Participante: Estimulando, né?
+[00:04:03] Participante: ...com 3.40, automaticamente...
+[00:04:06] Participante: Basicamente, o sistema com base nos critérios.
+[00:04:09] Participante: Ele já traria qual ficou em primeiro e segundo lugar.
+[00:04:12] Você: Exato, isso.
+[00:04:13] Participante: Então, esse seria...
+[00:04:17] Você: É.
+[00:04:15] Participante: O cenário ideal, digamos assim, né?
+[00:04:18] Participante: Passei por todos os critérios.
+[00:04:21] Você: Legenda por Sônia Ruberti
+[00:04:21] Participante: Não consegui desempatar, aí o sistema...
+[00:04:24] Participante: ...reconhecer e trazer os dois...
+[00:04:27] Participante: Então, primeiro, para a gente até conseguir identificar isso.
+[00:04:30] Participante: Não dá nenhum problema ali nas cerimônias de premiação.
+[00:04:33] Participante: Tanto regional quanto a nacional, entendeu?
+[00:04:38] Você: Hum.
+[00:04:36] Participante: Não sei como fazer isso, viver esse tema, né?
+[00:04:40] Você: Exato.
+[00:04:39] Participante: Tweet com vocês.
+[00:04:42] Você: Até que bom que vocês falaram a sua e você falou.
+[00:04:45] Você: Do regulamento, eu não sei.
+[00:04:48] Você: Quais são os critérios hoje?
+[00:04:49] Você: Admito que eu não olhei no regulamento.
+[00:04:51] Você: Vocês conseguem me ajudar com isso?
+[00:04:54] Você: Para eu entender quais são os critérios de desempate hoje...
+[00:04:56] Participante: Sim.
+[00:04:57] Você: Vocês têm fácil aí, por favor.
+[00:04:57] Participante: Eu estou com o regulamento aberto aqui, só para ti.
+[00:05:00] Você: Show!
+[00:05:00] Participante: Compartilhe então para a gente ver.
+[00:05:03] Participante: Acompanhando as regras, né?
+[00:05:05] Participante: Acho que fica mais fácil.
+[00:05:06] Participante: É só achar aqui a parte de...
+[00:05:07] Participante: Eu até ia abrir aqui também, mas...
+[00:05:09] Participante: Você já está com ele aberto?
+[00:05:10] Participante: Aham.
+[00:05:12] Participante: Seria esse tipo, então...
+[00:05:15] Participante: Motor de regras de ranqueamento por categoria.
+[00:05:18] Participante: Modalidade, na verdade.
+[00:05:19] Participante: Isso, aí cada modalidade.
+[00:05:21] Participante: A gente tem a sua, né?
+[00:05:22] Participante: Tá, deixa eu compartilhar.
+[00:05:24] Participante: Vou deixar a minha tela aqui então para ficar mais fácil.
+[00:05:27] Participante: Compartilhar.
+[00:05:30] Participante: Deixa eu ver aqui.
+[00:05:35] Você: Sim.
+[00:05:34] Participante: Tá aparecendo pra vocês, gente? Eu não...
+[00:05:37] Participante: Aqui no 9.
+[00:05:39] Participante: Esse aqui é o de estágio inovador, tá?
+[00:05:42] Participante: Seriam, no caso, para as empresas inscreverem...
+[00:05:45] Participante: sobre os programas de estágio delas.
+[00:05:48] Participante: A gente tem aqui, em caso de desempate numérico...
+[00:05:51] Participante: A média das notas serão consideradas para fins de desempenho.
+[00:05:54] Participante: As seguintes informações adicionais.
+[00:05:57] Participante: Seguindo a ordem apresentada, então ele tem uma ordem de...
+[00:06:00] Participante: Critérios, caso haja o...
+[00:06:04] Você: Ok.
+[00:06:03] Participante: Então, o primeiro critério.
+[00:06:06] Participante: Nessa categoria de estágio inovador.
+[00:06:09] Participante: Candidatura que apresenta maior pontuação média.
+[00:06:12] Participante: Para o critério Contribuição para a Inovação.
+[00:06:16] Participante: Esse, no caso, seria o critério de desempate 1, digamos assim.
+[00:06:18] Participante: Sim, eles continuaram com a mesma...
+[00:06:21] Participante: Porque tiveram a mesma nota.
+[00:06:24] Participante: A contribuição para a inovação.
+[00:06:25] Participante: Aí vai para o critério 2.
+[00:06:27] Participante: Candidatura que apresenta maior pontuação médica.
+[00:06:30] Participante: ...pro critério impacto do programa.
+[00:06:33] Participante: E assim sucessivamente.
+[00:06:38] Você: Somente em caso de empate.
+[00:06:36] Participante: O item S, ele traz permanecendo...
+[00:06:39] Você: Né, que ele começa a contar o A, B e C, ok.
+[00:06:39] Participante: E isso.
+[00:06:43] Participante: Isso, permanecendo o empate.
+[00:06:46] Participante: Será selecionada a candidatura.
+[00:06:48] Participante: Melhor demonstrar os resultados gerados.
+[00:06:51] Participante: O meio da resposta ao critério contribuição para...
+[00:06:56] Você: Ok.
+[00:06:54] Participante: Para inovação.
+[00:06:57] Participante: Meio que o critério dos empates é...
+[00:07:00] Participante: Até a avaliação.
+[00:07:03] Participante: Você não está enganado.
+[00:07:06] Participante: Temos um porém aqui, né?
+[00:07:09] Participante: Senado é a candidatura que melhor demonstrar.
+[00:07:12] Participante: Aqui ele não fala em média consolidada.
+[00:07:15] Participante: Até porque deu empate em algum item anterior.
+[00:07:18] Participante: Por isso que chegou no S, né?
+[00:07:21] Participante: Então, aqui...
+[00:07:21] Participante: A gente tem que avaliar se...
+[00:07:24] Participante: Vai ser de acordo com o feedback do avaliador.
+[00:07:27] Participante: Se vai ser o regional que vai ter que escolher.
+[00:07:30] Participante: Isso aqui ele ficou bem amplo, tá? E se eu não me engano...
+[00:07:33] Participante: Ele traz uma frase assim em todos os...
+[00:07:36] Participante: Todas as categorias.
+[00:07:39] Participante: Até ia perguntar isso mesmo, como é que era essa...
+[00:07:42] Participante: Avaliação do resultado.
+[00:07:45] Participante: Ficou muito subjetivo, né?
+[00:07:48] Participante: Eu tenho uma pulguinha assim atrás da orelha que eu criei.
+[00:07:51] Participante: O critério de desempate nos regulamentos anteriores.
+[00:07:54] Participante: Os números eram mais efetivos.
+[00:07:57] Participante: Pois é, o último critério que a gente tinha...
+[00:08:00] Participante: Não lembro se era esse, tá?
+[00:08:03] Participante: Era aquele...
+[00:08:03] Participante: A questão da inscrição, né?
+[00:08:07] Participante: A inscrição que for...
+[00:08:09] Participante: Feita primeiro, aí levava o...
+[00:08:12] Participante: O prêmio, se não me engano, era esse, né, Will?
+[00:08:15] Participante: Sim.
+[00:08:15] Participante: O último critério.
+[00:08:19] Participante: Eu não vou lembrar de todos, mas tinha um...
+[00:08:21] Participante: Vitérios que não focavam...
+[00:08:24] Participante: Só nas respostas, né? Tinha questão, não sei se...
+[00:08:27] Participante: Dividência.
+[00:08:30] Participante: O projeto que tivesse mais rico.
+[00:08:33] Participante: Por assim dizer.
+[00:08:34] Participante: De informações, né?
+[00:08:35] Participante: Isso, aham.
+[00:08:37] Participante: Se eu não me engano, o último critério era...
+[00:08:39] Participante: E o último, para desempatar mesmo, quem fez a inscrição primeiro?
+[00:08:43] Participante: É, eu acho que era esse também.
+[00:08:45] Participante: Tinha isso.
+[00:08:45] Participante: E eu queria que eles não estivessem, né?
+[00:08:48] Participante: Porque é mais...
+[00:08:48] Participante: Um argumento para a gente incentivar a galera a se inscrever o quanto antes.
+[00:08:51] Participante: Isso, para não deixar para a última hora.
+[00:08:54] Participante: Mas o sonho não foi realizado.
+[00:08:57] Participante: Mas se...
+[00:09:03] Você: Uhum.
+[00:09:00] Participante: Claro que Pedro, não sei se ele ficou com dúvida.
+[00:09:03] Você: É...
+[00:09:03] Participante: Mas atualmente o que vale são esses daqui, né?
+[00:09:07] Participante: Esse é o edital atualizado.
+[00:09:12] Você: É...
+[00:09:09] Participante: Obrigada, Tasso.
+[00:09:12] Participante: A última versão.
+[00:09:14] Você: É, é, é...
+[00:09:15] Você: Pensando de um olhar sistêmico, a gente tem que...
+[00:09:18] Você: Pensar bem como que a gente vai conseguir cadastrar esses critérios.
+[00:09:21] Você: Até pensando de uma forma geral.
+[00:09:22] Participante: Uhum.
+[00:09:24] Você: A gente vai deixar isso fixo, porque a gente não pode deixar fixo por moda.
+[00:09:27] Você: A gente tem que conseguir cadastrar esses critérios.
+[00:09:30] Você: ...de desempate e...
+[00:09:33] Você: E eu, na minha visão, mesmo assim...
+[00:09:36] Você: Cadastrando os critérios de desempate, a gente tem que...
+[00:09:39] Você: Poder visualizar o resultado final.
+[00:09:42] Você: E poder ter, em caso de impacto,
+[00:09:45] Você: A seleção pelo próprio administrador.
+[00:09:48] Você: Regional, nacional, enfim, quem tiver acesso.
+[00:09:51] Você: Essa tela, imagino que, ou vou ficar com vocês do regional.
+[00:09:54] Você: No caso, para a etapa regional.
+[00:09:57] Você: Isa, no caso da etapa nacional.
+[00:10:00] Você: E aí, no caso...
+[00:10:00] Você: No momento do empate, a gente vai poder fazer essa seleção.
+[00:10:03] Você: Então é algo que a gente precisa evoluir.
+[00:10:06] Você: Muito importante, né? Que é justamente essa parte.
+[00:10:09] Você: Tchau.
+[00:10:12] Participante: E aí
+[00:10:12] Participante: Também acho.
+[00:10:15] Participante: Parei de compartilhar aqui, mas se precisar depois eu compartilho de novo, tá gente?
+[00:10:20] Você: Uhum.
+[00:10:19] Participante: Tranquilo. Eu queria...
+[00:10:22] Participante: Tirar uma dúvida.
+[00:10:23] Participante: Aquele último critério lá.
+[00:10:24] Participante: Que é meio subjetivo.
+[00:10:28] Participante: Na etapa regional, você fala assim que...
+[00:10:30] Participante: Eu guardava a resposta da Isa, né?
+[00:10:33] Participante: Quem fazia essa avaliação era...
+[00:10:37] Participante: Nacional ou era com o...
+[00:10:39] Participante: E a passava para vocês. Como era isso?
+[00:10:43] Participante: A gente recebeu uma planilha, né, Will?
+[00:10:46] Participante: Isso aí.
+[00:10:48] Participante: Aí vinha todas as inscrições separadinhas.
+[00:10:51] Participante: Aí a gente, como se fossem abinhas da planilha.
+[00:10:54] Participante: Inova e estágio, vinha separado.
+[00:10:57] Participante: E também destaque do Sistema S.
+[00:11:00] Participante: Viam, então, três bases para a gente verificar.
+[00:11:03] Participante: E fazer a conferência das médias.
+[00:11:06] Participante: O que que acontece? Elas iam lá com as informações do...
+[00:11:09] Participante: Avaliadores, por exemplo, a Avaliador 1.
+[00:11:12] Participante: Tinha lá as notas deles por critério.
+[00:11:15] Participante: A média daquele avaliador junto com a média dos outros.
+[00:11:19] Você: Uhum.
+[00:11:18] Participante: Então, consideráveis...
+[00:11:21] Participante: Só que era algo feito pelo nacional.
+[00:11:24] Participante: Até para não ter nenhuma interferência regional nessa parte.
+[00:11:27] Participante: Então, não sabemos se vai...
+[00:11:30] Participante: Continuar dessa forma, né, quem poderia trazer um norte para a gente.
+[00:11:33] Participante: A gente seria a Isa, né?
+[00:11:35] Participante: Mas a edição...
+[00:11:36] Participante: A gente recebia...
+[00:11:39] Participante: Uma planilha mesmo.
+[00:11:41] Participante: Não, mas aí, no caso, quando você...
+[00:11:42] Participante: Recebi a planilha com as notas, as médias, né?
+[00:11:45] Participante: Os trabalhadores, o critério ali é...
+[00:11:48] Participante: Esse último, ele não é por média, né?
+[00:11:51] Participante: É uma avaliação...
+[00:11:54] Participante: Mas isso só acontece...
+[00:11:57] Participante: Aquele último critério lá é se ocorreu empate.
+[00:12:00] Participante: Todos os outros, pelo menos aqui.
+[00:12:03] Participante: ...da minha gestão do prêmio aqui em Goiás, nunca...
+[00:12:06] Participante: Perfeito. Mas vamos supor que eu...
+[00:12:11] Você: Por exemplo, se...
+[00:12:09] Participante: Que a gente tem que prever essa regra também.
+[00:12:12] Você: Se duas inscrições...
+[00:12:13] Participante: E aí
+[00:12:15] Você: São cinco questões, duas descrições, vamos pegar um cenário.
+[00:12:17] Participante: Uhum.
+[00:12:18] Você: Eu imagino que o estado de São Paulo deve ser o que tem mais inscrições.
+[00:12:20] Participante: Ok.
+[00:12:21] Você: Mas sempre é assim, né?
+[00:12:24] Você: Vamos supor que...
+[00:12:22] Participante: Obrigada.
+[00:12:24] Você: Tenham duas inscrições onde a nota foi a mesma.
+[00:12:27] Você: Foi 4, 4, 4, 3 e 4.
+[00:12:30] Você: Ele vai, de alguma forma, empatar em tudo.
+[00:12:34] Você: E aí vai ficar a mesma média, os critérios vão...
+[00:12:34] Participante: Obrigada.
+[00:12:36] Você: Vão ser os mesmos.
+[00:12:38] Você: E aí, no final...
+[00:12:38] Participante: Uhum.
+[00:12:39] Você: A gente vai ter que ter esse desempate.
+[00:12:41] Você: E esse caso é muito...
+[00:12:42] Você: Muito fácil de acontecer, ainda mais quando a gente...
+[00:12:45] Participante: Obrigado.
+[00:12:45] Você: O mundo de mil inscrições.
+[00:12:45] Participante: Ok?
+[00:12:48] Você: Que é o que a gente tem nacionalmente.
+[00:12:51] Participante: Sim.
+[00:12:52] Participante: Nesse caso, é porque...
+[00:12:57] Você: Uhum.
+[00:12:54] Participante: Sim, a gente acaba caindo no último critério lá, né?
+[00:12:57] Você: Hum?
+[00:12:57] Participante: É uma avaliação subjetiva.
+[00:13:00] Participante: ...subjetivo, vocês acreditam que seria...
+[00:13:04] Participante: É pertinente aproveitar.
+[00:13:06] Participante: Há um parecer dos avaliadores para ele fazer...
+[00:13:09] Participante: Desse item aí ou não?
+[00:13:12] Participante: Eu acho bem complexo.
+[00:13:15] Participante: Quem poderia ajudar a gente nessa questão realmente seria a Isa, para ver como...
+[00:13:18] Participante: O que foi definido o do ano passado.
+[00:13:21] Participante: Pelo que eu entendi, eles poderiam ter escolhido um.
+[00:13:25] Participante: Mas acabou que...
+[00:13:27] Participante: Escolheram levar os dois, né, eu não sei.
+[00:13:33] Você: Uhum.
+[00:13:30] Participante: Acharam os dois bons.
+[00:13:33] Você: Legenda por Sônia Ruberti
+[00:13:34] Participante: É porque também isso não pode ficar com...
+[00:13:36] Participante: Regional, porque às vezes você tem um relacionamento melhor com uma empresa.
+[00:13:39] Participante: E um relacionamento não tão bom com o outro.
+[00:13:42] Participante: Então, acaba ficando meio, né?
+[00:13:45] Participante: Meio imparcial o negócio, então.
+[00:13:49] Participante: Teria que ver a questão.
+[00:13:51] Participante: Então, até porque, por exemplo, empresas que não são clientes.
+[00:13:55] Participante: Mas que contratam direto com a instituição de ensino podem participar também.
+[00:13:57] Participante: Então, pode ficar enviesado, né?
+[00:14:00] Participante: Aquela decisão do ser cliente ou não ser cliente.
+[00:14:04] Participante: Mas eu acho que é algo bem importante.
+[00:14:06] Participante: Não sei se ela vai conseguir entrar hoje.
+[00:14:09] Participante: Seria legal a gente já tentar evoluir nisso, né?
+[00:14:12] Participante: Quem sabe na reunião da próxima semana.
+[00:14:16] Participante: Ela disse que estava chegando, mas...
+[00:14:18] Participante: Ainda não chegou, mas assim, pelo que eu entendi...
+[00:14:21] Participante: Então, esse final aí desse ramo...
+[00:14:24] Participante: Depende então do nacional.
+[00:14:27] Participante: Só pegam o resultado.
+[00:14:30] Participante: A gente vai ter que ver, Pedro, com a Isa, tanto essa...
+[00:14:33] Participante: Esse ranking do regional quanto do nacional.
+[00:14:38] Você: Sim.
+[00:14:36] Participante: Como é que é feito também, né?
+[00:14:40] Você: Sim.
+[00:14:40] Participante: Não sei se pode existir empate também.
+[00:14:44] Você: Exato.
+[00:14:42] Participante: Mas se existir, como é que é que também ocorre, né?
+[00:14:45] Você: Que aí a gente vai estar falando de critérios por questões.
+[00:14:46] Participante: Obrigada.
+[00:14:48] Você: Critérios por etapas, critérios por tipo de...
+[00:14:48] Participante: Sim.
+[00:14:51] Você: Participante, então é algo que pode acabar virando um monstro.
+[00:14:54] Você: Monstro por si só, praticamente.
+[00:14:56] Participante: É bem complexo.
+[00:14:59] Participante: Um motorzinho aí.
+[00:15:01] Você: Exato.
+[00:15:03] Você: Então...
+[00:15:00] Participante: Que vai ser bem complexo.
+[00:15:03] Você: Acho que como a Isa não está, eu sugiro.
+[00:15:06] Você: Que a gente conversa na segunda-feira, então é o tempo.
+[00:15:09] Você: Eu vou adiantar algumas coisas aqui, eu digo...
+[00:15:09] Participante: É uma testa.
+[00:15:15] Você: É isso.
+[00:15:12] Participante: Essa não é a nossa agenda? Só para confirmar.
+[00:15:15] Você: É segunda normalmente, segunda e quinta.
+[00:15:15] Participante: Tchau, gente!
+[00:15:20] Você: E é isso.
+[00:15:21] Você: Acho que...
+[00:15:19] Participante: É a segunda? Tá.
+[00:15:21] Participante: Deixa eu saber que ela pediu para eu alterar uma data aqui de agência.
+[00:15:24] Participante: E aí ficou aqui para trás, eu vou dar uma olhada aqui.
+[00:15:28] Você: Ok, porque a parte do desenvolvimento...
+[00:15:27] Participante: Obrigada.
+[00:15:30] Você: Até a parte de fechamento de etapas.
+[00:15:33] Você: Já está praticamente concluída.
+[00:15:36] Você: Gera uma massa de dados para já liberar para você.
+[00:15:39] Você: Liberar para a Isa no caso que vai disponibilizar.
+[00:15:42] Você: Mas aí...
+[00:15:44] Participante: Tá.
+[00:15:45] Você: Essa parte ela pode ficar pendente, eu entendo que é uma parte mais afeta.
+[00:15:48] Você: E que a gente já tem muita coisa para ter.
+[00:15:51] Você: Então, não acho que é um impeditivo. Na verdade, não é não acho.
+[00:15:54] Você: Não será um impeditivo para o desenvolvimento.
+[00:15:57] Você: Mas realmente...
+[00:16:00] Você: É o que a gente tem que conversar, porque pode acabar...
+[00:16:03] Participante: Legenda por Sônia Ruberti
+[00:16:03] Você: E aí
+[00:16:03] Participante: Obrigado.
+[00:16:06] Você: Eles acabam sendo subjetivos a partir do ponto...
+[00:16:06] Participante: Uhum.
+[00:16:09] Você: As questões são cadastradas.
+[00:16:12] Você: Por um administrador.
+[00:16:14] Você: Então, o administrador, ele...
+[00:16:15] Participante: Obrigado.
+[00:16:15] Você: Meio que pode acabar cadastrando.
+[00:16:18] Você: Os critérios da forma que ele quiser e acaba virando uma matriz.
+[00:16:21] Você: Pode acabar ficando muito esparsa, né?
+[00:16:23] Participante: Sim.
+[00:16:26] Participante: Pois é. E uma coisa que...
+[00:16:27] Participante: Eu ia perguntar, Pedro, não sei se foi falado em alguma reunião anterior.
+[00:16:30] Você: Uhum.
+[00:16:31] Participante: Sobre a questão do avaliador, né?
+[00:16:33] Participante: Vai ter um link específico para ele fazer o login dele.
+[00:16:36] Participante: Ou ele vai logar como qualquer outra pessoa.
+[00:16:39] Você: Como um participante padrão.
+[00:16:39] Participante: Que vai fazer a inscrição.
+[00:16:42] Você: Eu vou exibir para vocês qual que vai ser o fluxo.
+[00:16:42] Participante: Tá, entendi.
+[00:16:45] Você: De cadastro de um avaliador.
+[00:16:48] Você: Vocês vão conseguir acessar o sistema.
+[00:16:49] Participante: Ah, legal.
+[00:16:52] Você: Vocês vão ter aqui a tela de alocação.
+[00:16:52] Participante: Uhum.
+[00:16:54] Você: São de avaliadores, ou seja, vocês mesmos vão alocar os...
+[00:16:57] Você: Os avaliadores, ele está carregando aqui.
+[00:16:59] Participante: Uhum.
+[00:17:01] Você: Vocês vão poder selecionar a premiação.
+[00:17:03] Você: E é o 2026 bonitinho pra vocês.
+[00:17:08] Você: Esperar ele carregar aqui.
+[00:17:16] Participante: Enquanto carrega, eu vi aqui a data que ela pediu para alterar.
+[00:17:18] Participante: Foi só quando ela retorna, que é dia 25.
+[00:17:23] Você: Beleza!
+[00:17:21] Participante: 5 de maio.
+[00:17:24] Participante: Continua.
+[00:17:29] Participante: Mas segundo ainda não foi enviado.
+[00:17:30] Participante: Espero que eu vi você aqui na reunião.
+[00:17:33] Participante: Eu não recebi nada, pelo menos não sei se já está na agenda de vocês.
+[00:17:36] Você: Boa tarde.
+[00:17:38] Participante: FKIs é muito...
+[00:17:39] Participante: Manda...
+[00:17:40] Participante: Ai, tem batalha.
+[00:17:42] Participante: Ela manda...
+[00:17:42] Participante: Quando está próximo para poder...
+[00:17:45] Participante: Para controlar quais são as reuniões que vai ter, entendeu?
+[00:17:49] Você: Então,
+[00:17:49] Participante: Às vezes cancela e tal.
+[00:17:51] Você: Então vocês vão poder visualizar quantas inscrições...
+[00:17:54] Você: ... você tem por grupo, ou seja, vamos...
+[00:17:57] Você: A gente está falando de um grupo que só tem uma inscrição.
+[00:18:00] Você: Ambiente de Desenvolvimento, né, esse smart de dados aqui.
+[00:18:03] Você: Que é uma de dados que não é real.
+[00:18:06] Você: Então vamos pegar.
+[00:18:06] Você: Aqui, por exemplo, é o Estágio Educação Inovadora Instituição de Ensino.
+[00:18:07] Participante: Tchau.
+[00:18:09] Você: Vão poder ver dinamicamente quantas inscrições.
+[00:18:12] Você: Foram finalizadas, falando aqui de avaliação.
+[00:18:14] Participante: Um minuto.
+[00:18:15] Você: Quantas inscrições tem a avaliação finalizada?
+[00:18:18] Você: Quantos têm avaliação em andamento? Quantos estão aguardando?
+[00:18:21] Você: Quantas ainda não foram alocadas.
+[00:18:24] Você: Da mesma forma,
+[00:18:24] Participante: Obrigada.
+[00:18:24] Você: Aqui na direita vocês vão conseguir ver para o estado de vocês.
+[00:18:27] Você: Quais avaliadores podem...
+[00:18:30] Você: Podem ser alocados dentro desse grupo.
+[00:18:34] Você: E os que já estão alocados.
+[00:18:36] Você: Vocês vão poder ver em quantas empresas eles estão.
+[00:18:39] Você: Enquanto as inscrições estão alocadas.
+[00:18:42] Você: Quantas avaliações eles têm em...
+[00:18:45] Você: E quantas avaliações eles têm finalizadas.
+[00:18:48] Você: Se vocês decidirem excluir, vocês vão conseguir...
+[00:18:49] Participante: Uhum.
+[00:18:51] Você: O avaliador 2 possui uma avaliação
+[00:18:54] Você: Finalizada e uma em andamento, por isso não pode ser.
+[00:18:57] Você: Ou seja, vocês conseguem ver...
+[00:19:00] Você: O protocolo, o status...
+[00:19:03] Você: Quero cadastrar um avaliador.
+[00:19:06] Você: E diretamente vocês conseguem fazer o cadastro desse avaliador.
+[00:19:10] Você: E ele vai acessar o sistema pela URL normal.
+[00:19:13] Você: Cadastrando aqui, já vai estar cadastrado no sistema.
+[00:19:15] Você: Está liberado o acesso.
+[00:19:17] Você: E aí fica bem simples para você...
+[00:19:18] Você: Em questão de 5 minutos, vocês conseguem...
+[00:19:21] Você: Seguem, cadastrar os avaliadores.
+[00:19:24] Você: Vai chegar o e-mail para eles, eles já vão conseguir fazer o acesso.
+[00:19:27] Você: Vão estar alocados para fazer a avaliação.
+[00:19:31] Participante: Pedro, eu tenho uma pergunta com relação às avaliações.
+[00:19:35] Você: Pode falar.
+[00:19:33] Participante: Em qual momento?
+[00:19:36] Participante: Eles vão assinar o termo de confidencialidade.
+[00:19:40] Você: Aí...
+[00:19:40] Participante: Ou ele vai ser...
+[00:19:44] Você: Mas podemos...
+[00:19:42] Participante: Obrigado lá na plataforma.
+[00:19:45] Participante: É importante que todas as empresas perguntam para a gente.
+[00:19:49] Participante: Principalmente quando se trata em projetos do InovaTalento.
+[00:19:52] Você: Podemos colocar no início da...
+[00:19:53] Participante: Por causa da questão dos dados, tá?
+[00:19:54] Você: Avaliação é algo que é até importante.
+[00:19:57] Você: É importante você levantar esse ponto.
+[00:20:00] Você: Pode falar, Sul.

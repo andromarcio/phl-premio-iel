@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Etapas e Configuração da Avaliação — Avaliação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-list" data-feature="AVL-ETA-01" class="is-current" onclick="showScreen('screen-etapas')">Avaliação &amp; Etapas</button>
+    <button id="sw-new" data-feature="AVL-ETA-02" onclick="openNovaEtapa()">Editor — Nova etapa</button>
+    <button id="sw-edit" data-feature="AVL-ETA-03" onclick="openEditarEtapa('e2')">Editor — Edição</button>
+    <button id="sw-closed" data-feature="AVL-ETA-03" onclick="openEditarEtapa('e1', true)">Editor — Etapa fechada</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">AVL-ETA-02 · AVL-ETA-03 — Avaliação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Premiação ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-etapas')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4"/><path d="M17 4h3v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V4h3"/><path d="M7 4h10v5a5 5 0 0 1-10 0z"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA: aba "Avaliação & Etapas" — cartões de etapa            -->
+      <!-- (AVL-ETA-02 abre o editor em criação · AVL-ETA-03 em edição) -->
+      <!-- ============================================================= -->
+      <div id="screen-etapas" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Prêmio IEL de Talentos 2026</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Avaliação &amp; Etapas</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div>
+            <div class="dsc-page-title-wrap">
+              <h1 class="dsc-page-title">Prêmio IEL de Talentos 2026</h1>
+            </div>
+            <p class="dsc-page-subtitle">Configuração da premiação · aba Avaliação &amp; Etapas</p>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--create" onclick="openNovaEtapa()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nova etapa
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-tabs">
+          <button class="dsc-tab" onclick="return false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+            Dados da Premiação
+          </button>
+          <button class="dsc-tab" onclick="return false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+            Estrutura
+          </button>
+          <button class="dsc-tab is-active" onclick="showScreen('screen-etapas')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Avaliação &amp; Etapas
+          </button>
+          <button class="dsc-tab" onclick="return false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            Modelos de E-mail
+          </button>
+        </div>
+
+        <!-- Contexto AVL-ETA-01: modo de avaliação da edição (somente leitura aqui) -->
+        <div class="dsc-card" style="margin-top:24px">
+          <div class="dsc-card-header">
+            <span class="dsc-card-title">Modo de avaliação da edição</span>
+            <button class="dsc-btn dsc-btn--outline dsc-btn--sm" onclick="return false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Configurar
+            </button>
+          </div>
+          <div class="dsc-row">
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Modo de avaliação</span><span class="dsc-lv-value"><span class="dsc-badge dsc-badge--info">Avaliação confidencial</span></span></div></div>
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Nota agregada de etapas anteriores</span><span class="dsc-lv-value">Exibida ao avaliador</span></div></div>
+            <div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Avaliadores por inscrição</span><span class="dsc-lv-value">2</span></div></div>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados da lista (proto only) -->
+        <div class="proto-demo" style="margin-top:24px">
+          <span class="proto-demo-label">Estados da lista:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setListState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('error')">Erro</button>
+          <span style="width:1px;height:20px;background:var(--dsc-border-neutral-3)"></span>
+          <span class="proto-demo-label">Sequência:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" id="btn-seq-3" onclick="setSequencia(3)">3 etapas</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" id="btn-seq-5" onclick="setSequencia(5)">5 etapas (limite)</button>
+        </div>
+
+        <!-- Estado: COM DADOS — cartões de etapa -->
+        <div id="state-data">
+          <div class="dsc-card-header">
+            <span class="dsc-card-title">Etapas da avaliação</span>
+            <span class="dsc-tag dsc-tag--highlight" id="etapas-contador">3 de 5 etapas</span>
+          </div>
+          <div id="etapas-list">
+            <!-- cartões gerados por JS a partir de ETAPAS -->
+          </div>
+        </div>
+
+        <!-- Estado: VAZIO (premiação ainda sem etapas) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Cadastre a primeira etapa para montar a sequência de avaliação da premiação.</span>
+              <button class="dsc-btn dsc-btn--create dsc-btn--sm" onclick="openNovaEtapa()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nova etapa
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhuma etapa da premiação corresponde ao recorte aplicado.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setListState('data')">Ver todas as etapas</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton com a proporção dos cartões) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:20px;width:80px"></span>
+              <span class="dsc-skeleton" style="height:20px;width:30%"></span>
+              <span class="dsc-skeleton" style="height:20px;width:90px"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2">
+              <span class="dsc-skeleton" style="height:16px;width:24%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:28%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+            </div>
+          </div>
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:20px;width:80px"></span>
+              <span class="dsc-skeleton" style="height:20px;width:30%"></span>
+              <span class="dsc-skeleton" style="height:20px;width:90px"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2">
+              <span class="dsc-skeleton" style="height:16px;width:24%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:28%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+            </div>
+          </div>
+          <span class="dsc-loading-inline"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setListState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura da premiação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- DIÁLOGO: Editor de Etapa (criação AVL-ETA-02 · edição AVL-ETA-03) -->
+  <!-- ================================================================= -->
+  <div id="modal-etapa" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)fecharEditor()">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span id="et-title">Nova etapa</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="fecharEditor()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body-sm dsc-text-muted" id="et-subtitle">A etapa entra ao final da sequência, na posição 4.</p>
+
+        <!-- Encenação de erros (proto only) -->
+        <div class="proto-demo" style="margin-top:12px;margin-bottom:0">
+          <span class="proto-demo-label">Encenar:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="encenar('nome')">Nome em branco</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="encenar('periodo')">Período inválido</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="encenar('perfil')">Sem perfil</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="encenar('classificados')">Classificados &lt; 1</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="encenar('premiados')">Premiados &lt; 1</button>
+        </div>
+
+        <!-- Etapa fechada: cortes já materializados no resultado (AVL-ETA-03) -->
+        <div id="et-alert-fechada" class="dsc-alert dsc-alert--warning" style="display:none;margin-top:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Os cortes desta etapa já foram aplicados no resultado. Reabra a etapa para alterá-los.</span>
+        </div>
+
+        <!-- Ordem e situação (somente leitura, apenas na edição) -->
+        <div class="dsc-row" id="et-meta" style="display:none;margin-top:16px">
+          <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Ordem na sequência</span><span class="dsc-lv-value" id="et-ordem">2</span></div></div>
+          <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Situação</span><span class="dsc-lv-value" id="et-situacao"><span class="dsc-badge dsc-badge--success">Aberta</span></span></div></div>
+        </div>
+
+        <div class="dsc-field" style="margin-top:16px">
+          <label class="dsc-field-label" for="et-nome">Nome da etapa <span class="dsc-req">*</span></label>
+          <input class="dsc-input" id="et-nome" maxlength="200" placeholder="Digite o nome da etapa…">
+          <span class="dsc-field-error" id="et-nome-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Campo obrigatório.</span></span>
+        </div>
+
+        <div class="dsc-row" style="margin-top:16px">
+          <div class="dsc-col-6">
+            <div class="dsc-field" id="et-field-ini">
+              <label class="dsc-field-label" for="et-ini">Data de início <span class="dsc-req">*</span></label>
+              <input class="dsc-input" id="et-ini" type="date" value="2026-03-30">
+            </div>
+          </div>
+          <div class="dsc-col-6">
+            <div class="dsc-field" id="et-field-fim">
+              <label class="dsc-field-label" for="et-fim">Data de término <span class="dsc-req">*</span></label>
+              <input class="dsc-input" id="et-fim" type="date" value="2026-05-08">
+              <span class="dsc-field-error" id="et-periodo-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Data de fim deve ser maior ou igual à data de início.</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dsc-field" style="margin-top:16px">
+          <span class="dsc-field-label">Perfis autorizados <span class="dsc-req">*</span></span>
+          <div class="dsc-flex dsc-gap-3 dsc-wrap" style="padding-top:2px">
+            <label class="dsc-flex dsc-items-center dsc-gap-1" style="cursor:pointer">
+              <input type="checkbox" class="dsc-check" id="et-perfil-nac" onchange="atualizaAbrangencia()"> Administrador Nacional
+            </label>
+            <label class="dsc-flex dsc-items-center dsc-gap-1" style="cursor:pointer">
+              <input type="checkbox" class="dsc-check" id="et-perfil-reg" onchange="atualizaAbrangencia()"> Administrador Regional
+            </label>
+          </div>
+          <span class="dsc-field-hint">Participante e Avaliador acessam a etapa pelo vínculo de inscrição ou de alocação — não constam aqui.</span>
+          <span class="dsc-field-error" id="et-perfil-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada.</span></span>
+        </div>
+
+        <hr class="dsc-divider">
+
+        <!-- Cortes da etapa, lado a lado (SP05) -->
+        <span class="dsc-title-sm">Cortes da etapa</span>
+        <div class="dsc-row" style="margin-top:12px" id="et-cortes" onclick="avisaCorteBloqueado()">
+          <div class="dsc-col-6">
+            <div class="dsc-field" id="et-field-lib">
+              <label class="dsc-field-label" for="et-lib">Liberação do feedback</label>
+              <input class="dsc-input" id="et-lib" type="date">
+              <span class="dsc-field-hint">Se vazio, o feedback é liberado ao participante assim que a consolidação for feita. Se preenchido, deve ser igual ou posterior à data de fim da etapa.</span>
+              <span class="dsc-field-error" id="et-lib-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>A data de liberação do feedback deve ser igual ou posterior à data de fim da etapa.</span></span>
+            </div>
+          </div>
+          <div class="dsc-col-6">
+            <div class="dsc-field" id="et-field-cla">
+              <label class="dsc-field-label" for="et-cla">Quantidade de classificados <span class="dsc-req">*</span></label>
+              <span class="dsc-number">
+                <input class="dsc-input" id="et-cla" type="number" min="1" step="1" value="1" oninput="atualizaAbrangencia()">
+                <span class="dsc-number-spin">
+                  <button type="button" aria-label="Aumentar classificados" onclick="bump('et-cla', 1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+                  <button type="button" aria-label="Diminuir classificados" onclick="bump('et-cla', -1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </span>
+              </span>
+              <span class="dsc-field-hint">Quantos participantes de cada grupo de disputa avançam para a etapa seguinte.</span>
+              <span class="dsc-field-error" id="et-cla-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Informe ao menos 1 classificado por grupo.</span></span>
+            </div>
+          </div>
+          <div class="dsc-col-6">
+            <div class="dsc-field" id="et-field-pre">
+              <label class="dsc-field-label" for="et-pre">Quantidade de premiados</label>
+              <span class="dsc-number">
+                <input class="dsc-input" id="et-pre" type="number" min="1" step="1" placeholder="Em branco = a etapa não premia" oninput="atualizaAbrangencia()">
+                <span class="dsc-number-spin">
+                  <button type="button" aria-label="Aumentar premiados" onclick="bump('et-pre', 1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></button>
+                  <button type="button" aria-label="Diminuir premiados" onclick="bump('et-pre', -1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+                </span>
+              </span>
+              <span class="dsc-field-hint">Opcional e independente da classificação. Em branco, a etapa não premia.</span>
+              <span class="dsc-field-error" id="et-pre-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia.</span></span>
+            </div>
+          </div>
+        </div>
+        <p class="dsc-field-hint" id="et-abrangencia" style="margin-top:8px">Abrangência do corte: 1 classificado por grupo · esta etapa não premia.</p>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="fecharEditor()">Cancelar</button>
+        <button class="dsc-btn" id="et-save" onclick="salvarEtapa()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Salvar etapa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (canto superior direito) -->
+  <div id="toast" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg id="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> N3 <em>AVL-ETA-02 Cadastrar Etapa</em> e <em>AVL-ETA-03 Editar Etapa</em> (Feature Set AVL-ETA), já atualizados pela SP05. Telas: aba "Avaliação &amp; Etapas" com os cartões de etapa e o diálogo "Editor de Etapa" em criação e em edição.</li>
+      <li><strong>Campo recuperado da revisão contra o sistema:</strong> <em>Liberação do feedback</em> existia no editor real e no modelo de dados (<code>DT_LIBERACAO_FEEDBACK</code>), mas não constava da HU-024 — por isso faltava nos N3 e neste protótipo. Vazio, o feedback é liberado assim que a consolidação for feita; preenchido, deve ser igual ou posterior ao fim da etapa.</li>
+      <li><strong>Novidade da SP05 encenada:</strong> os dois campos de corte lado a lado no editor — <em>Quantidade de classificados</em> já preenchida com 1 na criação e <em>Quantidade de premiados</em> vazia —, o texto de apoio que traduz a abrangência conforme os perfis marcados ("N por grupo" ou "N por estado × grupo") e os selos <em>Classificados</em> e <em>Premiados</em> no cartão da etapa.</li>
+      <li><strong>Selo Premiados ausente:</strong> a etapa 1 (<em>Triagem Regional</em>) e a etapa 4 (<em>Banca Final</em>, visível em "5 etapas") não premiam — o cartão mostra só o selo Classificados, como manda AVL-ETA-03.</li>
+      <li><strong>Abrangência ao vivo:</strong> marque/desmarque <em>Administrador Regional <span style="opacity:.6">PIT.3</span></em> no editor e veja o texto de apoio alternar entre "por grupo" e "por estado × grupo" (RN9 de AVL-ETA-02 · RN7 de AVL-ETA-03). O cenário "Habilitar o Administrador Regional entre os perfis autorizados" fica visível ao salvar: os selos do cartão passam a "por estado × grupo".</li>
+      <li><strong>Erros encenados</strong> (textos literais do <code>global/MESSAGE-DICTIONARY.md</code>): nome em branco → "Campo obrigatório."; período invertido → "Data de fim deve ser maior ou igual à data de início."; nenhum perfil → "Selecione pelo menos um perfil — etapa sem perfil autorizado não pode ser operada."; classificados &lt; 1 → "Informe ao menos 1 classificado por grupo."; premiados &lt; 1 → "A quantidade de premiados deve ser ao menos 1. Deixe em branco se a etapa não premia."; sexta etapa → "Esta premiação já atingiu o limite de cinco etapas." (use o botão "5 etapas (limite)" e depois "Nova etapa").</li>
+      <li><strong>Etapa fechada:</strong> "Editar" no cartão da etapa fechada exibe "Etapa fechada não pode ser editada."; o botão de revisão "Editor — Etapa fechada" abre o editor com os dois cortes indisponíveis e a mensagem "Os cortes desta etapa já foram aplicados no resultado. Reabra a etapa para alterá-los." — que reaparece ao tentar mexer nos campos.</li>
+      <li><strong>⚠️ Divergência entre a RN1 e o estado de tela (AVL-ETA-03):</strong> a RN1 diz que a etapa Fechada "não aceita alteração de dados" e o <em>Empty state</em> diz que a ação "Editar" fica indisponível, mas o estado "Etapa fechada" descreve o editor aberto com os <em>campos de corte</em> indisponíveis. O protótipo encena as duas leituras: o cartão fechado bloqueia "Editar" com a mensagem de etapa fechada, e o editor em modo fechado (aberto pela barra de revisão) mostra só os cortes bloqueados. <strong>Definir na aprovação qual vale.</strong></li>
+      <li><strong>⚠️ Reabertura da etapa:</strong> a RN2 de AVL-ETA-03 remete a <code>AVL-APU-12 Reabrir Etapa por UF</code>, especificada em 2026-09-01 e desenhada no fluxo de fechamento (<code>prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html</code>) — este protótipo não oferece a ação "Reabrir", apenas cita a saída na mensagem.</li>
+      <li><strong>⚠️ "Busca sem resultado":</strong> nenhum dos dois N3 descreve filtro ou busca sobre a lista de etapas. O estado é encenado por exigência do padrão de listagem (com o texto "Nenhum resultado para a busca."), mas <strong>não há campo de busca na tela</strong> — confirmar se a lista de etapas deve mesmo ter recorte.</li>
+      <li><strong>Não representado:</strong> Reordenar Etapas (AVL-ETA-05), Excluir Etapa (AVL-ETA-04), Critérios de Desempate (AVL-ETA-06) e Termo de Confidencialidade (AVL-ETA-07) — outras features do mesmo Feature Set, fora do alvo deste protótipo. O bloco "Modo de avaliação da edição" aparece só como <strong>contexto</strong> de AVL-ETA-01 (somente leitura).</li>
+      <li><strong>Permissões:</strong> pela matriz do N2, a aba é operada apenas pelo <strong>Administrador Nacional <span style="opacity:.6">PIT.1</span></strong> (o Regional só consulta). O protótipo assume o Nacional; "Você não tem permissão para esta ação." não é encenado.</li>
+      <li><strong>⚠️ Shell:</strong> usa o shell real da biblioteca (topbar teal + menu horizontal). As abas da premiação ("Dados da Premiação", "Estrutura", "Modelos de E-mail") são <strong>contexto de navegação</strong> — só "Avaliação &amp; Etapas" é especificada nos N3 deste lote.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ---- Dados fictícios das etapas (domínio real do Prêmio IEL) ---- */
+    var ETAPAS_3 = [
+      { id:'e1', ordem:1, nome:'Triagem Regional',   ini:'2026-03-02', fim:'2026-03-27', nac:true, reg:true,  cla:8, pre:null, situacao:'Fechada' },
+      { id:'e2', ordem:2, nome:'Avaliação Regional', ini:'2026-03-30', fim:'2026-05-08', nac:true, reg:true,  cla:3, pre:1,    situacao:'Aberta'  },
+      { id:'e3', ordem:3, nome:'Etapa Nacional',     ini:'2026-05-11', fim:'2026-06-19', nac:true, reg:false, cla:1, pre:1,    situacao:'Aberta'  }
+    ];
+    var ETAPAS_EXTRA = [
+      { id:'e4', ordem:4, nome:'Banca Final',        ini:'2026-06-22', fim:'2026-07-03', nac:true, reg:false, cla:1, pre:null, situacao:'Aberta'  },
+      { id:'e5', ordem:5, nome:'Desempate Nacional', ini:'2026-07-06', fim:'2026-07-10', nac:true, reg:false, cla:1, pre:1,    situacao:'Aberta'  }
+    ];
+    var ETAPAS = ETAPAS_3.slice();
+    var modo = 'novo';          /* novo | edicao */
+    var etapaEditada = null;    /* objeto da etapa em edição */
+    var corteBloqueado = false; /* true quando a etapa está Fechada */
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function br(d) { var p = String(d).split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+    function abrangencia(reg) { return reg ? 'por estado × grupo' : 'por grupo'; }
+
+    /* ---- Cartões de etapa ---- */
+    function renderEtapas() {
+      var pencil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+      var html = '';
+      for (var i = 0; i < ETAPAS.length; i++) {
+        var e = ETAPAS[i];
+        var badge = e.situacao === 'Aberta'
+          ? '<span class="dsc-badge dsc-badge--success">Aberta</span>'
+          : '<span class="dsc-badge dsc-badge--neutral">Fechada</span>';
+        var perfis = '';
+        if (e.nac) perfis += '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Administrador Nacional <span style="opacity:.6">PIT.1</span></span> ';
+        if (e.reg) perfis += '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Administrador Regional <span style="opacity:.6">PIT.3</span></span>';
+        var selos = '<span class="dsc-tag dsc-tag--info">Classificados · ' + e.cla + ' ' + abrangencia(e.reg) + '</span>';
+        if (e.pre !== null && e.pre !== '') {
+          selos += ' <span class="dsc-tag dsc-tag--secondary">Premiados · ' + e.pre + ' ' + abrangencia(e.reg) + '</span>';
+        }
+        html += '<div class="dsc-card" style="margin-bottom:16px">'
+          + '<div class="dsc-card-header">'
+          +   '<div class="dsc-flex dsc-items-center dsc-gap-2 dsc-wrap">'
+          +     '<span class="dsc-tag dsc-tag--highlight dsc-tag--lg">Etapa ' + e.ordem + '</span>'
+          +     '<span class="dsc-card-title">' + esc(e.nome) + '</span>'
+          +     badge
+          +   '</div>'
+          +   '<div class="dsc-flex dsc-gap-1">'
+          +     '<button class="dsc-btn dsc-btn--outline dsc-btn--sm" onclick="editarPeloCartao(\'' + e.id + '\')">' + pencil + ' Editar</button>'
+          +   '</div>'
+          + '</div>'
+          + '<div class="dsc-row">'
+          +   '<div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Período</span><span class="dsc-lv-value">' + br(e.ini) + ' a ' + br(e.fim) + '</span></div></div>'
+          +   '<div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Perfis autorizados</span><span class="dsc-lv-value dsc-flex dsc-gap-1 dsc-wrap">' + perfis + '</span></div></div>'
+          +   '<div class="dsc-col-4"><div class="dsc-lv"><span class="dsc-lv-label">Cortes da etapa</span><span class="dsc-lv-value dsc-flex dsc-gap-1 dsc-wrap">' + selos + '</span></div></div>'
+          + '</div>'
+          + '</div>';
+      }
+      el('etapas-list').innerHTML = html;
+      el('etapas-contador').textContent = ETAPAS.length + ' de 5 etapas';
+    }
+
+    /* ---- Navegação entre telas ---- */
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      el('sw-list').classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+
+    /* ---- Estados da lista ---- */
+    function setListState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+    function setSequencia(n) {
+      ETAPAS = (n === 5) ? ETAPAS_3.concat(ETAPAS_EXTRA) : ETAPAS_3.slice();
+      renderEtapas();
+      setListState('data');
+    }
+
+    /* ---- Editor: abrir em criação (AVL-ETA-02) ---- */
+    function openNovaEtapa() {
+      if (ETAPAS.length >= 5) {                       /* RN1: no máximo cinco etapas */
+        showToast('Esta premiação já atingiu o limite de cinco etapas.', 'danger');
+        return;
+      }
+      modo = 'novo';
+      etapaEditada = null;
+      corteBloqueado = false;
+      el('et-title').textContent = 'Nova etapa';
+      el('et-subtitle').textContent = 'A etapa entra ao final da sequência, na posição ' + (ETAPAS.length + 1) + '.';
+      el('et-meta').style.display = 'none';
+      el('et-alert-fechada').style.display = 'none';
+      el('et-nome').value = '';
+      el('et-ini').value = '2026-07-01';
+      el('et-fim').value = '2026-07-31';
+      if (el('et-lib')) el('et-lib').value = '';
+      el('et-perfil-nac').checked = true;            /* padrão: Nacional + Regional */
+      el('et-perfil-reg').checked = true;
+      el('et-cla').value = '1';                      /* padrão: 1 classificado      */
+      el('et-pre').value = '';                       /* premiados nasce vazia       */
+      setCortesEditaveis(true);
+      limpaErros();
+      atualizaAbrangencia();
+      toggleModal('modal-etapa', true);
+      marcaBotao('sw-new');
+    }
+
+    /* ---- Editor: abrir em edição (AVL-ETA-03) ---- */
+    function editarPeloCartao(id) {
+      var e = buscaEtapa(id);
+      if (!e) return;
+      if (e.situacao === 'Fechada') {                /* RN1: fechada não é editável */
+        showToast('Etapa fechada não pode ser editada.', 'danger');
+        return;
+      }
+      openEditarEtapa(id);
+    }
+    function openEditarEtapa(id, forcarFechada) {
+      var e = buscaEtapa(id);
+      if (!e) return;
+      modo = 'edicao';
+      etapaEditada = e;
+      corteBloqueado = (e.situacao === 'Fechada');
+      el('et-title').textContent = 'Editar etapa — ' + e.nome;
+      el('et-subtitle').textContent = 'A ordem da etapa não muda na edição — a mudança de posição é feita pela reordenação.';
+      el('et-meta').style.display = 'grid';
+      el('et-ordem').textContent = e.ordem;
+      el('et-situacao').innerHTML = e.situacao === 'Aberta'
+        ? '<span class="dsc-badge dsc-badge--success">Aberta</span>'
+        : '<span class="dsc-badge dsc-badge--neutral">Fechada</span>';
+      el('et-alert-fechada').style.display = corteBloqueado ? 'flex' : 'none';
+      el('et-nome').value = e.nome;
+      el('et-ini').value = e.ini;
+      el('et-fim').value = e.fim;
+      if (el('et-lib')) el('et-lib').value = e.liberacao || '';
+      el('et-perfil-nac').checked = e.nac;
+      el('et-perfil-reg').checked = e.reg;
+      el('et-cla').value = e.cla;
+      el('et-pre').value = (e.pre === null) ? '' : e.pre;
+      setCortesEditaveis(!corteBloqueado);
+      limpaErros();
+      atualizaAbrangencia();
+      toggleModal('modal-etapa', true);
+      marcaBotao(corteBloqueado ? 'sw-closed' : 'sw-edit');
+      if (forcarFechada && !corteBloqueado) showToast('Esta etapa está Aberta — os cortes seguem editáveis.', 'warning');
+    }
+    function buscaEtapa(id) {
+      var todas = ETAPAS.concat(ETAPAS_3).concat(ETAPAS_EXTRA);
+      for (var i = 0; i < todas.length; i++) if (todas[i].id === id) return todas[i];
+      return null;
+    }
+    function fecharEditor() {
+      toggleModal('modal-etapa', false);
+      marcaBotao('sw-list');
+    }
+    function marcaBotao(id) {
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      el(id).classList.add('is-current');
+    }
+
+    /* ---- Cortes: editáveis ou bloqueados pela etapa fechada ---- */
+    function setCortesEditaveis(ok) {
+      el('et-cla').disabled = !ok;
+      el('et-pre').disabled = !ok;
+      var spins = el('et-cortes').querySelectorAll('.dsc-number-spin button');
+      for (var i = 0; i < spins.length; i++) spins[i].disabled = !ok;
+    }
+    function avisaCorteBloqueado() {
+      if (corteBloqueado) showToast('Os cortes desta etapa já foram aplicados no resultado. Reabra a etapa para alterá-los.', 'warning');
+    }
+    function bump(id, delta) {
+      var input = el(id);
+      if (input.disabled) return;
+      var v = parseInt(input.value, 10);
+      if (isNaN(v)) v = (delta > 0) ? 0 : 1;
+      v = v + delta;
+      if (v < 0) v = 0;
+      input.value = String(v);
+      atualizaAbrangencia();
+    }
+
+    /* ---- Texto de apoio: traduz a abrangência conforme os perfis ---- */
+    function atualizaAbrangencia() {
+      var reg = el('et-perfil-reg').checked;
+      var nac = el('et-perfil-nac').checked;
+      var cla = el('et-cla').value.trim();
+      var pre = el('et-pre').value.trim();
+      var alvo = el('et-abrangencia');
+      if (!reg && !nac) {
+        alvo.textContent = 'Abrangência do corte: definida pelos perfis autorizados da etapa.';
+        return;
+      }
+      var esc0 = abrangencia(reg);
+      var txt = 'Abrangência do corte: ' + (cla === '' ? '—' : cla) + ' classificado' + (cla === '1' ? '' : 's') + ' ' + esc0;
+      txt += (pre === '') ? ' · esta etapa não premia.' : ' · ' + pre + ' premiado' + (pre === '1' ? '' : 's') + ' ' + esc0 + '.';
+      alvo.textContent = txt;
+    }
+
+    /* ---- Validação e gravação ---- */
+    function limpaErros() {
+      var campos = [['et-nome', 'et-nome-error'], ['et-fim', 'et-periodo-error'], ['et-cla', 'et-cla-error'], ['et-pre', 'et-pre-error'], ['et-lib', 'et-lib-error']];
+      for (var i = 0; i < campos.length; i++) {
+        el(campos[i][0]).closest('.dsc-field').classList.remove('is-invalid');
+        el(campos[i][1]).style.display = 'none';
+      }
+      el('et-perfil-error').style.display = 'none';
+    }
+    function marcaErro(campoId, erroId) {
+      if (campoId) el(campoId).closest('.dsc-field').classList.add('is-invalid');
+      el(erroId).style.display = 'flex';
+    }
+    function salvarEtapa() {
+      limpaErros();
+      var nome = el('et-nome').value.trim();
+      var ini = el('et-ini').value;
+      var fim = el('et-fim').value;
+      var nac = el('et-perfil-nac').checked;
+      var reg = el('et-perfil-reg').checked;
+      var cla = el('et-cla').value.trim();
+      var pre = el('et-pre').value.trim();
+      var ok = true;
+
+      if (!nome) { marcaErro('et-nome', 'et-nome-error'); ok = false; }
+      if (ini && fim && fim < ini) { marcaErro('et-fim', 'et-periodo-error'); ok = false; }
+      var lib = el('et-lib') ? el('et-lib').value : '';
+      if (lib && fim && lib < fim) { marcaErro('et-lib', 'et-lib-error'); ok = false; }
+      if (!nac && !reg) { marcaErro(null, 'et-perfil-error'); ok = false; }
+      if (cla === '' || parseInt(cla, 10) < 1 || isNaN(parseInt(cla, 10))) { marcaErro('et-cla', 'et-cla-error'); ok = false; }
+      if (pre !== '' && (parseInt(pre, 10) < 1 || isNaN(parseInt(pre, 10)))) { marcaErro('et-pre', 'et-pre-error'); ok = false; }
+      if (!ok) return;
+
+      /* Loading: botão desabilitado com indicador enquanto grava */
+      var btn = el('et-save');
+      btn.classList.add('is-loading');
+      btn.disabled = true;
+      setTimeout(function () {
+        btn.classList.remove('is-loading');
+        btn.disabled = false;
+        if (modo === 'novo') {
+          ETAPAS.push({ id: 'e' + (ETAPAS.length + 1) + 'n', ordem: ETAPAS.length + 1, nome: nome, ini: ini, fim: fim,
+                        nac: nac, reg: reg, cla: parseInt(cla, 10), pre: (pre === '' ? null : parseInt(pre, 10)), situacao: 'Aberta' });
+        } else if (etapaEditada) {
+          etapaEditada.nome = nome; etapaEditada.ini = ini; etapaEditada.fim = fim;
+          etapaEditada.nac = nac; etapaEditada.reg = reg;
+          if (!corteBloqueado) {
+            etapaEditada.cla = parseInt(cla, 10);
+            etapaEditada.pre = (pre === '' ? null : parseInt(pre, 10));
+          }
+        }
+        renderEtapas();
+        setListState('data');
+        fecharEditor();
+        showToast('Registro salvo com sucesso.', 'positive');
+      }, 700);
+    }
+
+    /* ---- Encenação rápida dos erros (proto only) ---- */
+    function encenar(qual) {
+      limpaErros();
+      if (qual === 'nome') { el('et-nome').value = ''; }
+      if (qual === 'periodo') { el('et-ini').value = '2026-05-08'; el('et-fim').value = '2026-03-30'; }
+      if (qual === 'perfil') { el('et-perfil-nac').checked = false; el('et-perfil-reg').checked = false; }
+      if (qual === 'classificados') { if (el('et-cla').disabled) { avisaCorteBloqueado(); return; } el('et-cla').value = '0'; }
+      if (qual === 'premiados') { if (el('et-pre').disabled) { avisaCorteBloqueado(); return; } el('et-pre').value = '0'; }
+      atualizaAbrangencia();
+      salvarEtapa();
+    }
+
+    /* ---- Modal e toast ---- */
+    function toggleModal(id, show) {
+      el(id).style.display = show ? 'flex' : 'none';
+    }
+    function showToast(text, kind) {
+      var t = el('toast');
+      el('toast-text').textContent = text;
+      t.className = 'dsc-toast dsc-toast--' + (kind || 'positive');
+      el('toast-icon').innerHTML = (kind === 'positive' || !kind)
+        ? '<path d="M20 6 9 17l-5-5"/>'
+        : '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>';
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 5000);
+    }
+
+    /* ---- Init ---- */
+    renderEtapas();
+    setListState('data');
+    atualizaAbrangencia();
+  </script>
+</body>
+</html>

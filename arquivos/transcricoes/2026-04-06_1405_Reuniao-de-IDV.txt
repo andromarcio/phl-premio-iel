@@ -1,0 +1,659 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião de IDV
+ID da reunião ...: bebcb540-9ebf-4526-abdf-66f189515ef9
+Data e hora .....: 06/04/2026 14:05 (America/Sao_Paulo)
+Duração .........: 32m 19s
+Tipo ............: GENERAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/bebcb540-9ebf-4526-abdf-66f189515ef9
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+A reunião focou na aplicação da Identidade Visual (IDV) ao Sistema Prêmio IEL, com apresentação da estrutura atual de layout pela equipe PHM (Pedro e Paulo). Foi discutida a necessidade de um sistema adaptável e transparente, permitindo reutilização para futuras premiações sem quebrar a consistência visual. A equipe definiu diretrizes para telas de login e inscrição, incluindo a divisão de layout 50/50 e a customização de imagens de fundo por categoria.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] um sistema que fosse adaptável, que o usuário conseguisse ter acesso a um feedback.
+[00:00:05] do porquê que ele recebeu tal nota,
+[00:00:07] as pessoas conseguirem acessar um sistema,
+[00:00:10] tema e ver aquilo tudo, porque
+[00:00:11] era tudo muito
+[00:00:13] assim
+[00:00:15] Eles mandavam a inscrição e acabou, sabe?
+[00:00:17] Eles sabiam se eles tinham sido selecionados.
+[00:00:20] já perto da premiação.
+[00:00:23] Então, a gente tinha...
+[00:00:25] essa demanda por parte dos inscritos, por parte dos regionais,
+[00:00:30] Mas queriam muito que a gente tivesse um sistema que fosse mais transparente.
+[00:00:35] até mesmo para a gente escalar o prêmio
+[00:00:38] a gente precisa de um
+[00:00:40] de uma rastreabilidade. Então, a gente começou a construir o sistema.
+[00:00:45] para o Prêmio IEL,
+[00:00:47] se futuramente aí talvez a gente traga outra.
+[00:00:50] premiações para dentro do sistema, mas inicialmente pensamos aí no prêmio.
+[00:00:55] E agora a gente está numa fase quase que final das inscrições.
+[00:01:00] já pensando como vai ser a experiência do usuário,
+[00:01:03] como ele vai acessar, quais são as páginas.
+[00:01:10] deixar o design bonito, né, então, botar aí a identidade visual, aplicar...
+[00:01:15] ela no sistema, e aí eu trouxe o Pedro e o Paulo, que são da PHM.
+[00:01:20] da empresa contratada para o desenvolvimento do sistema,
+[00:01:23] porque eles tirem ali as principais...
+[00:01:25] dúvidas de como aplicar, qual que é a ideia
+[00:01:26] que vocês pensam
+[00:01:28] para além das cores.
+[00:01:30] Eu apresentei a IDV crua e mandei o link para eles,
+[00:01:32] mas eles precisam entender melhor.
+[00:01:35] como que foi pensado.
+[00:01:40] Tá, então eles já tiveram contato com a apresentação, já viram a identidade
+[00:01:45] não sei como que a gente quer fazer
+[00:01:48] se eles querem perguntar
+[00:01:55] Eu acho que é bom a gente, primeiro, trazer para vocês uma leitura do que a gente...
+[00:02:00] identificou do que a gente precisa
+[00:02:02] da identidade visual
+[00:02:03] a gente entende
+[00:02:05] que identidade visual é uma coisa que não é só o visual, né,
+[00:02:08] vocês querem trazer uma proposta de fluxo naquilo ali.
+[00:02:10] então a gente quer respeitar o que vocês estão propondo
+[00:02:12] mas antes de a gente amassar, eu queria perguntar
+[00:02:14] se você se incomoda
+[00:02:20] Isa, você poderia gravar para a gente?
+[00:02:22] Acho que você que tem o comando aí.
+[00:02:25] O Pedro, gente, ele está fazendo a gestão do projeto.
+[00:02:35] Eu tenho três pontos aqui para trazer para vocês.
+[00:02:38] O primeiro é com relação a...
+[00:02:40] de login da plataforma de forma
+[00:02:41] geral. A gente
+[00:02:43] não conseguiu...
+[00:02:45] e o mapear exatamente como vocês imaginam esse fluxo.
+[00:02:50] de login, dentro da identidade visual
+[00:02:52] os elementos, como é que você vai ficar composto
+[00:02:54] é uma coisa
+[00:02:55] se você já tem dúvida e quer esclarecer com vocês,
+[00:02:56] a gente quer mostrar o que a gente já tem hoje
+[00:02:58] e adequar a identidade visual.
+[00:03:00] visual, então se vocês puderem dar uma força para a gente nisso. A segunda coisa são
+[00:03:05] os próprios formulários de inscrição que os usuários preenchem.
+[00:03:08] Então, assim, a estrutura do...
+[00:03:10] formulário era uma estrutura dinâmica, a gente
+[00:03:12] não teria muitos
+[00:03:13] mecanismos para poder...
+[00:03:15] colocar um padrão visual, vamos dizer assim,
+[00:03:18] além do que já tem proposto.
+[00:03:20] mas a gente com certeza pode mexer na questão das cores,
+[00:03:23] nos fundos e tudo mais para eficaz.
+[00:03:25] aderente ao que vocês trouxeram de proposta.
+[00:03:27] E a terceira, que eu acho que talvez seja a parte mais desafiada,
+[00:03:30] é que hoje, para cada uma das inscrições, para cada tipo de inscrição...
+[00:03:35] vamos dizer assim, a gente já tem uma configuração individualizada.
+[00:03:40] de cores, de fontes, de texto, para cada tipo de perfil de usuário.
+[00:03:45] seja estagiário, seja o empreendedor, e isso é feito...
+[00:03:50] por dentro do sistema.
+[00:03:52] Então, lá a gente teria que, de repente, pensar
+[00:03:54] numa customização.
+[00:03:55] E aí a gente pensou em pedir a ajuda de vocês para estabelecer qual o padrão dessa customização do tipo...
+[00:04:00] a gente tem testeira, a gente tem rodapé
+[00:04:02] a gente tem uma barra lateral
+[00:04:03] para que as imagens sejam
+[00:04:10] Porque a ideia é que essa estrutura de prêmio seja reaproveitada para o futuro.
+[00:04:15] Então, não posso fazer nada agora fixo, com imagens fixas, cores fixas, que impeça o sistema
+[00:04:20] de no futuro ser utilizado de maneira diferente.
+[00:04:22] Então, são esses três tópicos que eu tenho
+[00:04:24] para trazer para vocês.
+[00:04:25] e eu vou deixar o Pedro fazer a apresentação de cada um deles
+[00:04:27] em um pouco mais de detalhe.
+[00:04:30] Beleza, pessoal, vou começar compartilhando aqui a minha tela.
+[00:04:35] Já tenho aqui ao menos duas telas para exibir para vocês.
+[00:04:46] Vocês já conseguem visualizar minha tela?
+[00:04:50] Então, nós temos duas telas.
+[00:04:54] Primeiro, nós temos...
+[00:04:50] Sim, já.
+[00:04:51] Sim.
+[00:04:55] Temos esse template, que é o que nós chamamos de estrutura.
+[00:05:00] do layout do link de inscrição
+[00:05:01] ou seja, esse é um
+[00:05:04] layout do link
+[00:05:05] Link de inscrição, onde a gente tem o título do sistema, a gente tem...
+[00:05:10] o nome da modalidade, se eu não me engano, perdão, da cadeia.
+[00:05:15] categoria e da modalidade ou do tipo de participante.
+[00:05:20] Fluxo, onde o usuário preenche a inscrição, vai para a verificação, acesso e confirmação.
+[00:05:25] Nós temos esse quadrado aqui.
+[00:05:30] que é como se fosse um card, onde a gente tem as informações e o usuário...
+[00:05:35] vai preenchendo de forma, vamos colocar aqui participante 0604
+[00:05:40] Participante 060401.
+[00:05:45] que ele vai preenchendo todo o seu fluxo de inscrição.
+[00:05:50] Ele vai cadastrando até cair no formulário.
+[00:05:52] O que nós conseguimos configurar aqui...
+[00:05:55] nós precisamos do apoio de vocês na questão da identidade visual.
+[00:05:58] Nós conseguimos colocar...
+[00:06:00] Um background, seja ele um pouco borrado, com o que a gente chama de efeito blur.
+[00:06:05] aqui no CSS, nós conseguimos mudar a estilização, nós conseguimos...
+[00:06:10] Conseguimos definir um formato, por exemplo, vamos sempre colocar esse card.
+[00:06:15] no canto inferior direito, no canto inferior esquerdo, ou vamos deixá-lo sem...
+[00:06:20] Então, essa é a primeira tela onde a gente precisa colocar...
+[00:06:25] a identidade visual, que vai ser o primeiro contato do usuário.
+[00:06:30] entrar no site institucional
+[00:06:31] vai solicitar, vai clicar no
+[00:06:34] botão, quero fazer
+[00:06:35] inscrição ele vai cair nessa tela essa tela hoje na minha visão ela está
+[00:06:40] muito crua, ela não tem
+[00:06:41] identidade visual de vocês,
+[00:06:43] eu acho que é uma coisa que...
+[00:06:45] muito importante, então é o primeiro contato
+[00:06:47] do usuário fora do institucional.
+[00:06:50] Vamos prosseguir aqui, que eu vou conseguir mostrar pra vocês a parte do...
+[00:06:55] lá de inscrição. Tá fazendo
+[00:06:58] o cadastro do usuário aqui, só
+[00:07:00] instante. Vai chegar uma senha temporária aqui pra mim.
+[00:07:11] Eu posso ir fazendo algumas perguntas enquanto você vai passar?
+[00:07:15] Eu acho ótimo.
+[00:07:17] Pode ir.
+[00:07:15] Tá. Nesse caso, para a pessoa...
+[00:07:20] ter chegado nesse link, nessa
+[00:07:21] tela. Ela foi
+[00:07:23] num link direto.
+[00:07:25] da categoria que ela quer se inscrever,
+[00:07:28] qual que foi o passo anterior para ela chegar
+[00:07:31] Ela vai estar no institucional e a Isa pode me corrigir.
+[00:07:30] Nesse.
+[00:07:35] Mas até onde eu entendi
+[00:07:36] Ela vai selecionar o tipo de participante
+[00:07:38] Ela já vai entrar na granularidade
+[00:07:40] do tipo de participante, ou seja, ele vai ser educação inovadora, instituição de ensino.
+[00:07:42] Tá.
+[00:07:45] e ele já vai cair nessa tela, certo?
+[00:07:47] Então, vão ser links diferentes.
+[00:07:50] Cada categoria, é isso?
+[00:07:55] cada categoria, mas como o Paulo falou, a gente precisa
+[00:07:57] ter meio que um padrão.
+[00:07:59] A gente não...
+[00:08:00] tem tanta coisa engessada, a gente pode mudar
+[00:08:01] as cores, por exemplo, pode
+[00:08:04] colocar imagens.
+[00:08:05] mas o ideal é que a gente tenha um esqueleto semelhante.
+[00:08:10] Tá, só para, assim, Isa e Carol.
+[00:08:15] eu acho que eu posso ir atropelando
+[00:08:16] algumas coisas, mas vocês vão me
+[00:08:18] complementando, tá? Só para
+[00:08:20] tentar aproveitar o tempo que a gente tem
+[00:08:23] quando vocês
+[00:08:25] falam de mudar o background, ele é necessariamente só um código da cor?
+[00:08:30] A gente pode carregar uma imagem no fundo
+[00:08:31] Eu digo isso porque
+[00:08:35] O pessoal aí da publicidade, a Carol, o Israel, eles desenvolveram um IDV que tem...
+[00:08:40] Nesse desdobramento de persona e de categoria.
+[00:08:44] Então,
+[00:08:45] Então, já que são telas específicas,
+[00:08:50] Eu queria saber primeiro se esse fundo, ele pode ser colocado, ele pode ser trabalhado?
+[00:08:55] ... só com o código da cor, ou se dá para carregar, tipo...
+[00:09:00] uma imagem que vai ter a persona dessa categoria no fundo.
+[00:09:05] Pode sim, a gente pode configurar para cada tipo de participante uma imagem.
+[00:09:10] Essa imagem vai ser dinâmica, ou seja, para cada link público nós vamos ter uma imagem.
+[00:09:15] imagem distinta. Isso é 100% configurável. A gente pode também configurar a cor. Se não tiver
+[00:09:20] imagem, a gente pode colocar, eu chamo de fallback, se não tiver imagem, exibe a cor.
+[00:09:25] Sempre por ordem de prioridade.
+[00:09:29] Thank you.
+[00:09:30] pode, por exemplo, se vocês sugerirem.
+[00:09:33] Pessoal, vamos
+[00:09:33] deixar um pouco...
+[00:09:35] Um pouco mais quadrado para combinar um pouco mais com a ideia de visual, a gente também pode, também pode.
+[00:09:40] Outra coisa que nós recomendamos fortemente que seja mantida é o esqueleto.
+[00:09:45] O esqueleto que eu digo é, nós temos um card.
+[00:09:50] Nós temos as quatro etapas.
+[00:09:51] Ele pode estar em qualquer local da tela, mas é recomendado.
+[00:09:50] Música
+[00:09:55] é recomendado que o esqueleto esteja sempre em sig...
+[00:10:00] sempre sendo seguido.
+[00:10:02] Entendi.
+[00:10:06] Outra pergunta.
+[00:10:07] Aí onde está escrito o prêmio IEL,
+[00:10:10] Educação Inovadora Estadio, ele é um PNG ou é...
+[00:10:16] É texto, a gente pode trocar a fonte, sem problema nenhum.
+[00:10:15] e aí vocês podem trocar a fonte.
+[00:10:20] Consegue
+[00:10:20] Mas a gente consegue colocar um PNG no lugar do PML 2026, certo?
+[00:10:25] E aqui, sim, vocês estão vendo aqui, por exemplo, que está mudando.
+[00:10:25] e deixar escrito só Educação Inovadora.
+[00:10:30] Aqui eu estou mudando, é porque vocês não conseguem ver em outra aba
+[00:10:33] Mas é só a questão
+[00:10:30] Tem.
+[00:10:35] Então, essa fonte aqui é 100% configurável.
+[00:10:37] A gente pode colocar algumas...
+[00:10:40] Sessões como, por exemplo, um PNG para o título, um PNG para o background.
+[00:10:45] Isso aí a gente pode fazer sim.
+[00:10:46] Acho que é isso que a gente vai precisar.
+[00:10:53] Mais alguma ideia?
+[00:10:55] algum PNG, vocês
+[00:10:56] podem falar.
+[00:10:58] Então, eu...
+[00:11:00] Em relação à estrutura, eu acredito que talvez a gente consiga...
+[00:11:05] trabalhar melhor se ele for todo para um lado só, eu não sei o que que vocês sugerem, se para o direito
+[00:11:10] para a esquerda, mas eu estava tentando achar até aqui uma referência, mas do login da
+[00:11:15] Hotmart, que
+[00:11:17] eu estava pensando sobre
+[00:11:18] essa...
+[00:11:27] essa adaptação da imagem,
+[00:11:33] Você diz o login do Hotmart.
+[00:11:30] a gente não ter muita interferência da caixa,
+[00:11:33] a gente ter um espaço para...
+[00:11:35] Achem-se.
+[00:11:38] Ah, deixa eu ver só um instante.
+[00:11:35] Eu mandei aqui no chat também.
+[00:11:41] porque eu acredito que aí
+[00:11:48] Eu entendi
+[00:11:45] mais fácil da gente acertar, sabe?
+[00:11:46] Mais fácil.
+[00:11:50] estrutura da imagem aqui, e aí a gente só...
+[00:11:54] É, eu gostei...
+[00:11:55] E assim, né, porque aí, enfim, todas as informações necessárias,
+[00:12:03] Esse daqui, né?
+[00:12:00] As áreas ficam no fundo e o modal fica...
+[00:12:03] Isso.
+[00:12:04] Eu não sei se...
+[00:12:09] E...
+[00:12:05] Isso, porque aí a gente coloca de um lado, sabe, só o verde do IEL.
+[00:12:10] Esse é um padrão de esqueleto que a gente pode seguir, por exemplo, imagem à direita.
+[00:12:10] como fun...
+[00:12:15] imagem à esquerda, e no lado oposto a gente coloca o...
+[00:12:20] o formulário.
+[00:12:23] Eu acredito que...
+[00:12:25] seja mais usual para a gente, mais fácil aqui de adaptar e também...
+[00:12:30] Enfim, de usar.
+[00:12:35] E aí Carol nessas nessas páginas de inscrição tem que ter.
+[00:12:40] barra de assinatura, essas coisas, ou é mais só naquela primeira?
+[00:12:48] Você diz o footer aqui.
+[00:12:45] Obrigada.
+[00:12:46] Tá, tá bom.
+[00:12:49] Mas isso, por exemplo,
+[00:12:50] Esse específico, se a gente...
+[00:12:55] Se tiver espaço da imagem, a gente pode colocar na imagem também.
+[00:12:58] Ou então, ali embaixo do...
+[00:13:00] cadastro, faça login, porque
+[00:13:01] a barra do IEL, do Premiere, é só IEL.
+[00:13:05] Então, tranquilo.
+[00:13:07] Tá.
+[00:13:11] barra de assinatura
+[00:13:14] eu não consegui
+[00:13:15] compreender muito bem, é o que vocês chamam
+[00:13:16] é um footer? É um rodapé?
+[00:13:19] quase
+[00:13:20] Informações, os patrocinadores.
+[00:13:22] Ah, entendi.
+[00:13:20] É porque a gente faz isso,
+[00:13:23] proporcionadores e etc.
+[00:13:25] Esse prêmio específico, ele não tem essa necessidade, porque só tem um realizador.
+[00:13:30] mas caso, vamos supor, futuramente a gente utilize esse sistema para um outro prêmio.
+[00:13:39] Sim, aí
+[00:13:35] que tenha mais patrocinadores e tudo mais.
+[00:13:37] A gente consegue adicionar um footer PNG.
+[00:13:40] Eu acho que a gente consegue trabalhar com um esquema.
+[00:13:45] legal da sessão de formulário, que vai ser
+[00:13:50] essa seção, só que metade da tela, e na outra parte a gente pode colocar, por exemplo,
+[00:13:55] exemplo, o PNG do background e o PNG do rodapé. A gente pode colocar também o PNG do título.
+[00:14:00] A gente pode explorar essa parte, sim.
+[00:14:05] alguma... Pessoal, vocês podem perguntar
+[00:14:06] aqui, eu acho que cada pergunta
+[00:14:08] acrescenta muito.
+[00:14:13] Beleza.
+[00:14:11] Então é isso.
+[00:14:15] Nós temos, então, o participante terminou.
+[00:14:20] se cadastrar, de verificar a sua
+[00:14:23] seia, acessou
+[00:14:25] confirmou, ele vai cair aqui no formulário
+[00:14:27] de inscrição, o formulário
+[00:14:29] de inscrição
+[00:14:30] Ele também tem aqui em cima, com as cores que são definidas pela configuração.
+[00:14:35] são cores fixas, cores sólidas, e esse é o formulário de inscrição.
+[00:14:40] Eu vou colocar ele na visão de tablet também, só para vocês terem uma ideia.
+[00:14:45] mas conversando com os DRs, eles já informaram que a utilização...
+[00:14:50] vai ser majoritariamente pelo computador mesmo.
+[00:14:55] tela. Vocês têm alguma sugestão ou vocês
+[00:14:56] acham que talvez o menos
+[00:14:59] é mais aqui?
+[00:15:04] Ok.
+[00:15:02] O meu pensamento é que menos é mais, tá?
+[00:15:05] Ok.
+[00:15:05] até Liza e Sara também, se vocês quiserem acrescentar algo,
+[00:15:08] mas eu acho que só colocando.
+[00:15:10] o padrão de cores para o nosso da identidade, ele já atende.
+[00:15:18] Ok, as cores já são customizadas.
+[00:15:15] A gente precisa que seja simples.
+[00:15:20] Bezapis.
+[00:15:20] E amém.
+[00:15:25] A Sarah quer falar alguma coisa? Pode falar, Isa.
+[00:15:25] Não.
+[00:15:30] Não, não, eu acho que como é um, como nessa, né, quando entra...
+[00:15:38] Aham.
+[00:15:35] formulário já é muita informação para a pessoa
+[00:15:37] preencher, eu concordo com Israel, assim, que
+[00:15:44] Esse leite.
+[00:15:40] Seguindo a questão da cor e tudo, já basta.
+[00:15:45] E aí, eu tinha...
+[00:15:48] Uhum.
+[00:15:45] Porque vai ter muita informação no próprio formulário, né?
+[00:15:48] Então, não dá para ficar disputando muita...
+[00:15:51] Show, porque esse layout aqui ele já fica bem...
+[00:15:50] atenção também.
+[00:15:55] Bem padrão, onde o usuário consegue ter todas as informações e ele consegue acompanhar.
+[00:16:00] O preenchimento dele.
+[00:16:02] Ok.
+[00:16:03] E a última tela.
+[00:16:05] e é essa tela essa tela aqui ela vai ser o acesso
+[00:16:10] Tanto dos administradores quanto dos participantes.
+[00:16:15] Hoje, ela é a tela padrão que a gente tem de todos os sistemas da casa.
+[00:16:20] Mas nós também podemos customizar
+[00:16:22] Essa tela, ela não vai ser
+[00:16:25] Onde o participante vai bater de cara.
+[00:16:27] Ele vai entrar de cara nessa tela.
+[00:16:30] Mas, a partir do momento que ele tiver finalizado a inscrição, quando ele quiser acessar...
+[00:16:35] o sistema para verificar o status
+[00:16:37] da sua inscrição, ele já vai
+[00:16:38] cair nessa tela.
+[00:16:40] que é o que nós chamamos da tela de login do sistema mesmo.
+[00:16:43] É o que nós consideramos como tela de login.
+[00:16:45] Por mais que aquela tela mostrada anteriormente vá ser a tela mais acessável,
+[00:16:50] Essa que é a tela de login do sistema mesmo, onde os participantes que já fizeram...
+[00:16:55] realizaram a inscrição, vou poder entrar além de administradores e gestores.
+[00:17:01] Vocês acham que...
+[00:17:02] Claro.
+[00:17:01] Pode voltar na outra tela, por favor?
+[00:17:05] Essa?
+[00:17:06] É, tá, eu acredito...
+[00:17:10] que a gente poderia colocar padronizado as duas telas bem parecidas.
+[00:17:15] Muito provavelmente talvez iguais
+[00:17:17] E só deixar bem
+[00:17:20] Não sei se deixar maior ali um inscreva-se ou já poderia se cadastrar e fazer login.
+[00:17:25] A diferença é maior ser o título, sabe?
+[00:17:28] De inscreva-se para uma e a outra para...
+[00:17:31] Entendi.
+[00:17:30] para fazer login, mas essa está mais visual.
+[00:17:35] A gente pode seguir esse padrão.
+[00:17:40] Nós colocamos essa opção aqui do usuário já fazer login diretamente.
+[00:17:45] até pensando nas duas vias, né?
+[00:17:48] Muitas vezes vai ter uma pessoa que só vai...
+[00:17:50] ter esse link, não vai ter o link de acesso e ela vai acabar caindo dessa tela.
+[00:17:55] Então ela já pode aproveitar
+[00:17:56] Mas eu acho que a tela de acesso mesmo
+[00:17:57] Exato.
+[00:18:00] Quando o usuário entrar nessa tela, não tem como ele se inscrever para uma...
+[00:18:05] para uma premiação a partir dessa tela, ao menos não foi o...
+[00:18:08] a gente consegue...
+[00:18:10] também. Pode falar.
+[00:18:10] colocar, opa, desculpa,
+[00:18:11] a gente consegue colocar ali
+[00:18:13] próximo,
+[00:18:15] desceu a senha também, não tem login,
+[00:18:18] inscrever-se
+[00:18:19] levando para...
+[00:18:24] Sim.
+[00:18:20] página de inscrição, onde a gente vai deixar todos os links.
+[00:18:26] Sim. Uma outra...
+[00:18:25] acredito que vai ser a nossa página.
+[00:18:30] Uma outra questão. Ah, não, Sara, pode falar.
+[00:18:34] Ah, então.
+[00:18:35] Bom, eu só ia falar porque, nas outras páginas,
+[00:18:40] como elas vão ser mais segmentadas, tem essa questão de aplicar o que
+[00:18:45] foi desenvolvido para cada eixo.
+[00:18:47] Só que aí nessa, como ela é geral,
+[00:18:50] Aí, Carol, Israel, Isa, se for a...
+[00:18:55] Você vê a geral, né? Aquela verde bonitona lá com a letra um pouco mais brilhante.
+[00:19:00] Aí o que eu ia perguntar é, vale a pena ter algum texto junto?
+[00:19:05] Igual às vezes a gente faz em outros portais,
+[00:19:08] assim, que a gente põe um textinho sobre,
+[00:19:10] sobre ou sobre o creme ou algo eu acho que não Sara por quê
+[00:19:15] e como cada categoria vai ter um link diferente,
+[00:19:19] a gente tem que...
+[00:19:20] visualizar tudo na página que digitais vai fazer então acredito que no ar é que a gente tem que
+[00:19:25] Ficar em ter todas as informações possíveis, sabe?
+[00:19:27] Porque aí vai ser só de sistema mesmo, de login.
+[00:19:36] E aí, aproveitando o gancho da Sara, justamente com relação...
+[00:19:40] a isso, né? Então a gente vai
+[00:19:41] nessa página estabelecer
+[00:19:44] a mesma estrutura
+[00:19:45] que a gente está fazendo para as inscrições, por tipo de inscrição,
+[00:19:48] em que a gente vai colocar as informações...
+[00:19:50] de login à direita ou à esquerda, não me lembro
+[00:19:52] o que vocês definiram.
+[00:19:53] Eu acho que pode ser à direita.
+[00:19:55] a direita né a opção de colocar um rodapé se for necessário
+[00:20:00] se decidirem colocar no futuro, e de repente uma testeira.
+[00:20:05] E aí as imagens que a gente vai utilizar aí, porque isso não são mais dinâmicas, elas vão ser fixas para a plataforma.
+[00:20:10] É diferente de cada tipo de participação
+[00:20:11] que vocês vão lá e colocam a imagem que vocês quiserem.
+[00:20:15] ajudar a gente com essa elaboração
+[00:20:16] dessa estrutura, dessa tela aí, só pra gente ver
+[00:20:18] que imagem vocês querem utilizar.
+[00:20:20] a gente sabe a identidade visual de vocês, mas
+[00:20:21] posicionar os elementos,
+[00:20:23] colocar...
+[00:20:30] De tela, eu não sei se vocês sugerem que a gente faz, literalmente, assim, comece.
+[00:20:40] mas se vocês passarem mais ou menos o tamanho ali que seja, a gente pode...
+[00:20:50] Ótimo. A Carol também tem
+[00:20:53] link com todos os
+[00:21:02] Sim.
+[00:21:10] Ajustar.
+[00:21:11] Carol.
+[00:21:20] porque é importante
+[00:21:23] pelo que eu estou entendendo
+[00:21:30] E aí, a parte que eles entram no link para fazer a inscrição.
+[00:21:35] vai mudar para esse sistema, mas para o usuário não ficar parecendo que ele está...
+[00:21:40] mudando de sistema, o ideal é que se tivesse parecido.
+[00:21:45] Claro que vai ter, vai estar todo mundo usando a mesma identidade visual, mas eu acho importante.
+[00:21:50] também ter esse alinhamento com eles,
+[00:21:51] para não ficar muito diferente
+[00:21:53] o tipo de utilização.
+[00:21:55] e parecer que você está saindo de um lugar
+[00:21:57] e entrando em outro mesmo.
+[00:22:00] Sarah e Isa, assim, a gente
+[00:22:01] acha, inclusive, aquela
+[00:22:03] tela de inscrição, que
+[00:22:05] está mais visual e tudo.
+[00:22:07] Mas talvez seja interessante alinhar
+[00:22:08] com o design system.
+[00:22:10] da própria Digitais, para ver
+[00:22:11] qual tipografia
+[00:22:14] que eles estão utilizando.
+[00:22:15] mais ou menos o tamanho de fontes que a Carol falou para poder ter link, né?
+[00:22:19] Tudo certo.
+[00:22:25] eu vou falar com o Victor
+[00:22:27] porque assim, a gente tem
+[00:22:29] o design
+[00:22:30] existem aqui, mas ele é muito mais voltado para a IDV.
+[00:22:35] padrão do IEL, mas por exemplo
+[00:22:37] os modais que eles usam lá no sistema
+[00:22:39] são
+[00:22:45] ter o tipo do botão e tudo, mas é bom, sim, a gente envolve ele, sim.
+[00:23:07] Acho importante.
+[00:23:08] Então, a gente fica de mão.
+[00:23:15] E é isso, né? E aí a Sara e a Isa alinham com digitais essa esquerda.
+[00:23:25] Não, do nosso ponto de vista, só queria falar com a Isa.
+[00:23:30] Isa, o que a gente vai adotar como estratégia
+[00:23:32] aqui para a gente adiantar o trabalho, até porque
+[00:23:33] o nosso prazer é muito curto.
+[00:23:35] Nós já vamos promover as alterações de layout básicos que a gente acabou de conversar aqui.
+[00:23:40] com a divisão das telas em 50% para cada lado,
+[00:23:43] jogando todas as informações que são digitais
+[00:23:45] de inscrição ou de login para o lado direito,
+[00:23:47] montar a estrutura de rodapé,
+[00:23:49] montar a estrutura de cabeça...
+[00:24:12] A Isa está por aí.
+[00:24:20] Ela, ela, saiu, não.
+[00:24:25] No chat que a superintendente estava chamando ela.
+[00:24:29] Não, mas não tem...
+[00:24:27] Ah, eu não vi
+[00:24:30] problema.
+[00:24:33] Deixa eu pegar aqui.
+[00:24:35] vocês, então, vocês vão fazer as
+[00:24:36] primeiras alterações antes
+[00:24:38] já antes
+[00:24:44] Sim.
+[00:24:40] quanto a gente não desenvolve essa questão da imagem do fundo.
+[00:24:46] A gente vai deixar o esqueleto pronto.
+[00:24:45] Vocês já vão fazendo as outras alterações, beleza.
+[00:24:47] Aí, com isso, vocês já vão pegar a...
+[00:24:50] Mas aí, ainda com o esqueleto pronto, vocês já vão inserir as outras...
+[00:24:55] os outros elementos que já tem?
+[00:24:56] Ou vocês vão esperar essa informação da gente?
+[00:25:00] Da gente indicar qual persona que vai para cada...
+[00:25:05] ou com o que vocês receberam, já dá para fazer alguma coisa,
+[00:25:08] principalmente naquela primeira...
+[00:25:10] naquela outra tela lá, que vai com a IDV geral.
+[00:25:13] Para a IDV geral, a gente...
+[00:25:15] Você já está pensando, eu tenho que ver só com a Isa, como ela não está aí, porque é o seguinte, a identidade...
+[00:25:20] visual atual de vocês considera o prêmio de 2026 e a plataforma é mais abrangente do que isso,
+[00:25:25] Ela vai contemplar outros anos, outras edições do prêmio.
+[00:25:28] E eu não sei como ela quer abordar isso.
+[00:25:30] Se ela quer utilizar um cero genérico
+[00:25:31] Sem o 2026
+[00:25:32] Se ela vai querer todos os anos
+[00:25:35] fazer a troca dessa imagem que eu vou utilizar no sistema de forma
+[00:25:36] diferente. Então, é uma coisa
+[00:25:39] que eu depoido um pouco.
+[00:25:40] Se isso é editável
+[00:25:41] Essa imagem é editável
+[00:25:43] Enfim
+[00:25:45] da editável, porque até então que eu estou entendendo
+[00:25:46] o que o sistema, o que vocês vão utilizar
+[00:25:48] de identidade para o
+[00:25:50] sistema é a cor, que é aquele verde mais escuro e o selo do título.
+[00:25:56] Mas também o background e as outras imagens são...
+[00:25:55] Só que hoje...
+[00:26:00] Exato.
+[00:26:01] É, mas configuráveis por tipo de participante no prêmio, né Pedro?
+[00:26:05] Isso.
+[00:26:08] Ah, sim.
+[00:26:05] O que eu estou trazendo aqui é a questão da tela de login em geral.
+[00:26:15] para fazer com vocês um exercício de configuração dessas telas,
+[00:26:18] porque pela plataforma é simples de fazer.
+[00:26:20] a gente consegue em reunião fazer as alterações, vocês verem
+[00:26:22] o resultado disso aplicado, até
+[00:26:23] para poder corrigir a gente.
+[00:26:25] tipo, olha, a proporção não está correta,
+[00:26:26] o posicionamento não está correto,
+[00:26:27] a gente conseguir ajustar para ficar como vocês querem.
+[00:26:30] Agora, a tela de login principal, eu acho que eu precisaria de uma coisa um pouco mais genérica.
+[00:26:35] talvez um selo sem identificação do ano, porque é uma coisa que vai ficar ao longo do tempo.
+[00:26:40] E digo mais, assim, a gente está enxergando isso agora, né?
+[00:26:43] Imaginem que em 2020...
+[00:26:45] 28, 27, a pessoa volta na plataforma, faz autenticação e vai olhar...
+[00:26:50] dados da inscrição dela do ano anterior.
+[00:26:52] Se eu identificar o sistema com o ano...
+[00:26:55] especificamente, acaba quebrando um pouco a consistência de
+[00:26:57] navegação do usuário, porque ele tá olhando a informação de
+[00:27:00] outro ano, de outra inscrição que ele preencheu e eu estou lá em 2027, entendeu?
+[00:27:11] Entendi.
+[00:27:11] Então, de inscrição, a gente pode manter o 2020,
+[00:27:15] 2026, mas na de login
+[00:27:17] seria só o prêmio IEL.
+[00:27:19] Isso.
+[00:27:20] Isso.
+[00:27:21] Isso.
+[00:27:21] Mas isso, no caso, porque mesmo...
+[00:27:25] Todo ano a pessoa pode ir lá recuperar os dados dela, os acessos dela.
+[00:27:29] Exatamente.
+[00:27:30] Tá.
+[00:27:31] Sara, agora eu fiquei...
+[00:27:30] E porque as imagens são configuráveis...
+[00:27:33] Perdão, as imagens são configuradas...
+[00:27:35] configuráveis por premiação.
+[00:27:37] Então, esse background que vocês vão definir
+[00:27:39] para a tela de...
+[00:27:40] de inscrição mesmo, patela onde o participante vai estar acessando essa aqui.
+[00:27:45] ela vai ser configurável por premiação.
+[00:27:47] Então, ela pode ter 2026.
+[00:27:50] Já essa de acesso, como ela vai ser geral, a ideia é que ela não tenha.
+[00:27:56] Acho que isso a Isa pode falar.
+[00:28:00] confirmar, mas eu imagino
+[00:28:02] porque assim, essa
+[00:28:03] IDV já foi desenvolvida
+[00:28:05] vida para ser permanente.
+[00:28:10] E assim, a gente pode ir com só o Premiere nessa primeira.
+[00:28:15] Aqui, o fundo verde, a gente faz um granuladinho, uma coisinha assim.
+[00:28:20] O que eu ia perguntar é só se você acha que na página de inscrição
+[00:28:25] de cada um, a gente coloca em algum lugar que é a etapa regional.
+[00:28:30] Ou não.
+[00:28:32] Deixa eu sinalizar.
+[00:28:33] Porque começa pelo regional.
+[00:28:36] Sim.
+[00:28:35] Eles só se inscrevem agora no regional e aí no formulário.
+[00:28:40] precisa colocar alguma coisa assim.
+[00:28:43] O sinofórmula já está...
+[00:28:42] Eu acho que é melhor.
+[00:28:45] A melhor pessoa para nos responder a isso seria a Isa.
+[00:28:45] Entendi. É isso.
+[00:28:48] É, eu imagino...
+[00:28:50] que, assim,
+[00:28:50] como o prêmio já tem
+[00:28:53] esse fluxo de...
+[00:28:55] dos primeiros lugares dos regionais, não, pera, os vencedores...
+[00:29:00] Os atores já vão para o nacional, né?
+[00:29:01] Eles não fazem uma inscrição para a etapa nacional.
+[00:29:05] Mas, ao mesmo tempo, eles podem confundir, né, porque o sistema é...
+[00:29:10] mas eles estão competindo no NR.
+[00:29:12] Exato.
+[00:29:13] Eu acho que, não sei se...
+[00:29:15] Nesse momento, talvez, da inscrição ou na parte do formulário da inscrição mesmo.
+[00:29:20] reforçar isso, sabe?
+[00:29:22] A pessoa acabou de se inscrever, então, assim,
+[00:29:24] parabéns.
+[00:29:25] você está inscrito na etapa regional do seu estado.
+[00:29:30] sabe, algo nesse sentido, para ficar claro que a pessoa está
+[00:29:35] se inscrevendo num sistema que é nacional, porém, ela está ali do Maranhão.
+[00:29:45] Sim, Pedro e Paulo, no formulário de inscrição...
+[00:29:53] Sim, sim.
+[00:29:50] tem a opção da pessoa selecionar o regional dela?
+[00:29:55] O Estado é sempre obrigatório, então ele vai entrar pelo link do...
+[00:30:00] do site institucional, mas aqui ele vai colocar o DRD.
+[00:30:05] no qual ele estará concorrendo.
+[00:30:05] Certo, entendi. Então, talvez...
+[00:30:10] isso depois a gente pode ver com a Isabelle
+[00:30:12] mas talvez Israel, o que você acha de
+[00:30:15] Já no formulário, já ter algo mais explícito sobre isso.
+[00:30:20] da inscrição
+[00:30:21] o chá, qual foi o DR que a pessoa
+[00:30:25] se inscreveu para ter uma mensagem
+[00:30:27] final? Ou isso tem que estar
+[00:30:29] lá no início mesmo?
+[00:30:30] jornada. Não, acho que não tem necessidade
+[00:30:32] de estar no início, talvez, ali da
+[00:30:33] inscrição, mas...
+[00:30:35] a gente também pode alinhar com digitais,
+[00:30:36] para isso está na página, sabe?
+[00:30:38] No link das categorias, a gente pode...
+[00:30:40] colocar lá, assim, inscreva-se para a etapa regional, e aí tem as categorias.
+[00:30:45] a gente vai para dentro da categoria, porque lá que vai estar explicando direitinho, né?
+[00:30:50] que você só se inscreve para a etapa regional,
+[00:30:51] que você só vai para o nacional quando você ganha o regional.
+[00:30:55] é só essa integração
+[00:30:58] que eu acho que a gente tem que deixar
+[00:31:00] bem explicadinho e bem claro.
+[00:31:08] da nossa parte
+[00:31:05] Beleza.
+[00:31:05] Eu acho que é isso.
+[00:31:10] Acho que é isso também.
+[00:31:10] Legal. Gente, obrigado pelo tempo de vocês, viu?
+[00:31:15] É verdade, eu sei que é todo mundo corrido.
+[00:31:16] Obrigada.
+[00:31:18] Só para confirmar, vocês...
+[00:31:24] Sim.
+[00:31:20] Conseguiram abrir os arquivos que a gente mandou?
+[00:31:25] de identidade visual.
+[00:31:25] Acho que a gente mandou zipado, mas tem várias pastas com vários elementos.
+[00:31:31] Uhum, sim
+[00:31:30] Deu tudo certo, né?
+[00:31:31] Qualquer coisa vocês avisam que a gente manda de novo.
+[00:31:35] Beleza.
+[00:31:35] tá ótimo, obrigadão
+[00:31:36] beleza, show, obrigado gente
+[00:31:38] prazeria, obrigada gente
+[00:31:40] Obrigado pessoal, prazer
+[00:31:41] Boa tarde
+[00:31:40] Valeu, gente. Aguardamos vocês.
+[00:31:42] Tchau, tchau.

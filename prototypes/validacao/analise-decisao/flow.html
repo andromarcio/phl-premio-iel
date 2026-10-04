@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Análise e Decisão — Validação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-det" data-feature="VAL-ANA-01 VAL-ANA-02 VAL-ANA-03 VAL-ANA-04" class="is-current" onclick="showScreen('screen-detalhe')">Detalhe da Inscrição</button>
+    <button id="sw-doc" data-feature="VAL-ANA-01" onclick="showScreen('screen-doc-negado')">Link de documento negado</button>
+    <button id="sw-edit" data-feature="VAL-ANA-05" onclick="abrirEdicaoAdmin()">Edição administrativa</button>
+    <button id="sw-neg" data-feature="VAL-ANA-01" onclick="showScreen('screen-negado')">Inscrição de outra UF</button>
+    <span class="sepv"></span>
+    <strong>Ver como:</strong>
+    <button id="rl-nac" class="is-current" onclick="setRole('nacional')">Adm. Nacional <span style="opacity:.6">PIT.1</span></button>
+    <button id="rl-ba" onclick="setRole('ba')">Adm. Regional — BA <span style="opacity:.6">PIT.3</span></button>
+    <button id="rl-sp" onclick="setRole('sp')">Adm. Regional — SP <span style="opacity:.6">PIT.3</span></button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">VAL-ANA-01..04 — Análise e Decisão</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name" id="topbar-user">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Premiação > Validação ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-detalhe')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Detalhe da Inscrição (VAL-ANA-01) + ações 02/03/04 -->
+      <!-- ============================================================= -->
+      <div id="screen-detalhe" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Validação de Inscrições</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">PIEL-2026-000118</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Centro Universitário Jorge Amado</h1>
+              <p class="dsc-page-subtitle">
+                Protocolo <strong>PIEL-2026-000118</strong> · Prêmio IEL de Talentos 2026 · Educação Inovadora ·
+                Instituição de Ensino Superior · UF <strong>BA</strong>
+                <span class="dsc-badge" id="det-badge" style="margin-left:8px">Finalizada</span>
+              </p>
+            </div>
+          </div>
+          <div class="dsc-page-actions" id="det-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showToast('info','Volta à Fila de Validação (VAL-FIL-01) — o detalhe é aberto em nova aba.')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar
+            </button>
+            <button class="dsc-btn" id="btn-iniciar" onclick="iniciarValidacao()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Iniciar Validação
+            </button>
+            <button class="dsc-btn dsc-btn--secondary" id="btn-ajuste" onclick="showToast('info','Solicitar Ajuste vive no Feature Set Ajustes da Inscrição (VAL-AJU-01) — fora deste protótipo.')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Solicitar Ajuste
+            </button>
+            <button class="dsc-btn dsc-btn--outline" id="btn-editar" onclick="abrirEdicaoAdmin()" style="display:none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Editar inscrição
+            </button>
+            <button class="dsc-btn dsc-btn--create" id="btn-aprovar" onclick="openDecisao('aprovar')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Aprovar
+            </button>
+            <button class="dsc-btn dsc-btn--danger" id="btn-rejeitar" onclick="openDecisao('rejeitar')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Rejeitar
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Situação da inscrição:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setSituacao('Finalizada')">Finalizada</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setSituacao('Em Validação')">Em Validação</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setSituacao('Aguardando Ajuste')">Aguardando Ajuste</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setSituacao('Ajustes Concluídos')">Ajustes Concluídos</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setSituacao('Validada')">Validada</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setSituacao('Rejeitada')">Rejeitada</button>
+        </div>
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da tela:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setDetState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setDetState('empty')">Seções sem conteúdo</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setDetState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setDetState('error')">Erro</button>
+          <span style="width:1px;height:18px;background:var(--dsc-border-neutral-3);display:inline-block"></span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setAjustesConferidos(false)">Itens de ajuste não conferidos</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setAjustesConferidos(true)">Itens de ajuste conferidos</button>
+        </div>
+
+        <!-- Veredito (inscrição já decidida) -->
+        <div id="det-veredito" class="dsc-alert dsc-alert--success" style="display:none;margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="det-veredito-texto"></span>
+        </div>
+
+        <!-- Estado: CARREGANDO -->
+        <div id="dstate-loading" style="display:none">
+          <div class="dsc-card">
+            <span class="dsc-skeleton" style="height:20px;width:38%;margin-bottom:16px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:100%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:88%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:72%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:55%;margin-bottom:16px"></span>
+            <span class="dsc-loading-inline"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO -->
+        <div id="dstate-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setDetState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS (a tela de leitura) -->
+        <div id="dstate-data">
+
+          <!-- Indicadores de progresso -->
+          <div class="dsc-grid-4" style="margin-bottom:16px">
+            <div class="dsc-card">
+              <span class="dsc-lv-label">Preenchimento do formulário</span>
+              <div class="dsc-title-sm" id="kpi-form">100%</div>
+              <span class="dsc-progress"><span id="kpi-form-bar" style="width:100%"></span></span>
+            </div>
+            <div class="dsc-card">
+              <span class="dsc-lv-label">Documentos anexados</span>
+              <div class="dsc-title-sm" id="kpi-docs">5</div>
+              <span class="dsc-body-sm dsc-text-muted">Cada um com endereço individual de download</span>
+            </div>
+            <div class="dsc-card">
+              <span class="dsc-lv-label">Membros da equipe</span>
+              <div class="dsc-title-sm" id="kpi-equipe">3</div>
+              <span class="dsc-body-sm dsc-text-muted">Mínimo 2 · máximo 5</span>
+            </div>
+            <div class="dsc-card">
+              <span class="dsc-lv-label">Termos aceitos</span>
+              <div class="dsc-title-sm" id="kpi-termos">2 de 2</div>
+              <span class="dsc-progress"><span id="kpi-termos-bar" style="width:100%"></span></span>
+            </div>
+          </div>
+
+          <!-- Seção: Dados do formulário -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Dados do formulário</span>
+              <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-form', this)">Recolher</button>
+            </div>
+            <div id="sec-form">
+              <div class="dsc-row">
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Nome da instituição</span><span class="dsc-lv-value">Centro Universitário Jorge Amado</span></div></div>
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">CNPJ</span><span class="dsc-lv-value">15.482.771/0001-06</span></div></div>
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">E-mail de contato</span><span class="dsc-lv-value">coordenacao@unijorge.edu.br</span></div></div>
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Telefone</span><span class="dsc-lv-value">(71) 3272-4400</span></div></div>
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Enquadramento</span><span class="dsc-lv-value">Ensino Superior</span></div></div>
+                <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Município / UF</span><span class="dsc-lv-value">Salvador / BA</span></div></div>
+                <div class="dsc-col-12"><div class="dsc-lv"><span class="dsc-lv-label">Nome do projeto</span><span class="dsc-lv-value">Fábrica de Aprendizagem Industrial</span></div></div>
+                <div class="dsc-col-12"><div class="dsc-lv"><span class="dsc-lv-label">Resumo do projeto</span><span class="dsc-lv-value">Programa que integra estudantes de engenharia e do ensino técnico a células de manufatura reais do polo industrial de Camaçari, com rotação por estações de automação, manutenção preditiva e qualidade.</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Questionário -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Questionário</span>
+              <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-quest', this)">Recolher</button>
+            </div>
+            <div id="sec-quest">
+              <div class="dsc-lv" style="margin-bottom:12px">
+                <span class="dsc-lv-label">1. Que problema da indústria o projeto endereça?</span>
+                <span class="dsc-lv-value">A defasagem entre a formação técnica e as competências exigidas pelas células de manufatura avançada do polo de Camaçari.</span>
+              </div>
+              <hr class="dsc-divider">
+              <div class="dsc-lv" style="margin-bottom:12px">
+                <span class="dsc-lv-label">2. Quantos estudantes foram atendidos na última edição?</span>
+                <span class="dsc-lv-value">312 estudantes, sendo 118 do ensino técnico.</span>
+              </div>
+              <hr class="dsc-divider">
+              <div class="dsc-lv">
+                <span class="dsc-lv-label">3. Que resultado mensurável o projeto alcançou?</span>
+                <span class="dsc-lv-value">Aumento de 34% na efetivação de estagiários nas empresas parceiras entre 2024 e 2026.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Documentos (download por endereço individual — SP05) -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Documentos anexados</span>
+              <span class="dsc-flex dsc-gap-2 dsc-items-center">
+                <span class="dsc-tag dsc-tag--highlight">Download por link individual</span>
+                <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-docs', this)">Recolher</button>
+              </span>
+            </div>
+            <div id="sec-docs">
+              <!-- Estado: com documentos -->
+              <div id="docs-data" class="dsc-table-wrap">
+                <table class="dsc-table dsc-table--dense">
+                  <thead>
+                    <tr>
+                      <th>Documento</th>
+                      <th>Tipo exigido</th>
+                      <th class="dsc-num">Tamanho</th>
+                      <th>Enviado em</th>
+                      <th>Endereço individual (identificador público)</th>
+                      <th class="dsc-col-actions">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="docs-tbody"></tbody>
+                </table>
+              </div>
+              <!-- Estado: sem documentos -->
+              <div id="docs-empty" class="dsc-table-wrap" style="display:none">
+                <div class="dsc-state">
+                  <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+                  <span class="dsc-state-title">Nenhum registro encontrado.</span>
+                  <span class="dsc-state-text">Esta inscrição não tem documentos anexados.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Equipe -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Equipe</span>
+              <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-equipe', this)">Recolher</button>
+            </div>
+            <div id="sec-equipe">
+              <div id="equipe-data" class="dsc-grid-3"></div>
+              <div id="equipe-empty" class="dsc-table-wrap" style="display:none">
+                <div class="dsc-state">
+                  <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><path d="M17 11a4 4 0 0 0 0-8"/></svg></span>
+                  <span class="dsc-state-title">Nenhum registro encontrado.</span>
+                  <span class="dsc-state-text">Esta inscrição não tem membros de equipe cadastrados.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Termos -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Termos aceitos</span>
+              <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-termos', this)">Recolher</button>
+            </div>
+            <div id="sec-termos">
+              <div class="dsc-table-wrap">
+                <table class="dsc-table dsc-table--dense">
+                  <thead><tr><th>Termo</th><th>Versão</th><th>Aceito por</th><th>Data do aceite</th></tr></thead>
+                  <tbody>
+                    <tr><td>Regulamento do Prêmio IEL de Talentos 2026</td><td>v3</td><td>Ana Paula Ribeiro Menezes</td><td>24/08/2026 14:12</td></tr>
+                    <tr><td>Termo de uso de imagem e dados</td><td>v1</td><td>Ana Paula Ribeiro Menezes</td><td>24/08/2026 14:13</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Histórico de validação (linha do tempo) -->
+          <div class="dsc-card">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Histórico de validação</span>
+              <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="toggleSecao('sec-hist', this)">Recolher</button>
+            </div>
+            <div id="sec-hist">
+              <div class="dsc-table-wrap">
+                <table class="dsc-table dsc-table--dense">
+                  <thead><tr><th>Data e hora</th><th>Transição</th><th>Responsável</th><th>Parecer</th></tr></thead>
+                  <tbody id="hist-tbody"></tbody>
+                </table>
+              </div>
+              <!-- TODO: definir no Design System — não há componente de linha do tempo no ds.css;
+                   o histórico é apresentado como tabela densa em ordem cronológica decrescente. -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Link individual de documento acessado por quem não tem direito -->
+      <!-- ============================================================= -->
+      <div id="screen-doc-negado" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Download de documento</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Download de documento</h1>
+              <p class="dsc-page-subtitle">Acesso direto pelo endereço individual do documento — sem passar pelo detalhe da inscrição.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-lv"><span class="dsc-lv-label">Endereço acionado</span><span class="dsc-lv-value"><code>/documentos/pub/9f3a1c7e-4b62-4d19-8a30-5c71e0d8b244/download</code></span></div>
+        </div>
+
+        <div class="dsc-table-wrap">
+          <div class="dsc-state">
+            <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <span class="dsc-state-title">Você não tem permissão para esta ação.</span>
+            <span class="dsc-state-text">Deter o endereço do documento não dá acesso a ele: o direito à inscrição é conferido a cada acesso. Só alcançam o arquivo o administrador com alcance sobre a UF da inscrição, o avaliador alocado a ela e o participante autor.</span>
+            <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setRole('ba')">Ver como Administrador Regional — BA (com direito) <span style="opacity:.6">PIT.3</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 3: Inscrição de outra unidade federativa (VAL-ANA-01) -->
+      <!-- ============================================================= -->
+      <div id="screen-negado" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Validação de Inscrições</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">PIEL-2026-000118</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Detalhe da Inscrição</h1>
+          </div>
+        </div>
+
+        <div class="dsc-table-wrap">
+          <div class="dsc-state">
+            <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <span class="dsc-state-title">Você não tem permissão para esta ação.</span>
+            <span class="dsc-state-text">A inscrição <strong>PIEL-2026-000118</strong> pertence à UF <strong>BA</strong> e você está vinculado a <strong>SP</strong>. O detalhe só é acessível ao validador vinculado à unidade federativa da inscrição — e o mesmo direito é conferido a cada download de documento.</span>
+            <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setRole('ba')">Ver como Administrador Regional — BA <span style="opacity:.6">PIT.3</span></button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal: Download do documento (endereço individual — SP05) -->
+  <div id="modal-download" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-download',false)">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span>Download do documento</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-download',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <div class="dsc-lv" style="margin-bottom:12px"><span class="dsc-lv-label">Arquivo</span><span class="dsc-lv-value" id="dl-nome">—</span></div>
+        <div class="dsc-lv" style="margin-bottom:12px"><span class="dsc-lv-label">Identificador público do documento</span><span class="dsc-lv-value"><code id="dl-id">—</code></span></div>
+        <div class="dsc-lv" style="margin-bottom:16px"><span class="dsc-lv-label">Endereço individual de download</span><span class="dsc-lv-value"><code id="dl-url">—</code></span></div>
+        <div id="dl-ok" class="dsc-alert dsc-alert--success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Direito à inscrição conferido para este acesso. O arquivo é entregue pelo endereço individual acima — os demais documentos da inscrição não são expostos.</span>
+        </div>
+        <div id="dl-negado" class="dsc-alert dsc-alert--danger" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span>Você não tem permissão para esta ação.</span>
+        </div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-download',false)">Fechar</button>
+        <button class="dsc-btn" id="dl-btn" onclick="confirmarDownload()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Diálogo de Validação (Aprovar VAL-ANA-03 · Rejeitar VAL-ANA-04) -->
+  <div id="modal-decisao" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-decisao',false)">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span id="dec-title">Aprovar inscrição</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-decisao',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="dec-intro">Deseja concluir a validação da inscrição PIEL-2026-000118?</p>
+
+        <div id="dec-ajustes" class="dsc-alert dsc-alert--warning" style="display:none;margin-top:12px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Há <strong id="dec-ajustes-n">2</strong> item(ns) de ajuste ainda não conferido(s). Confirme para concluir mesmo assim.</span>
+        </div>
+
+        <div class="dsc-card" style="margin-top:16px">
+          <div class="dsc-card-header"><span class="dsc-card-title" style="font-size:14px">Itens de ajuste da última rodada</span></div>
+          <div class="dsc-table-wrap">
+            <table class="dsc-table dsc-table--dense">
+              <thead><tr><th>Item solicitado</th><th>Conferido</th></tr></thead>
+              <tbody id="dec-itens"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dsc-field" style="margin-top:16px">
+          <label class="dsc-field-label" for="dec-parecer">Parecer <span class="dsc-req" id="dec-parecer-req">*</span> <span class="dsc-field-hint" id="dec-parecer-hint" style="font-weight:400">(obrigatório — mínimo de 10 caracteres)</span></label>
+          <textarea class="dsc-textarea" id="dec-parecer" placeholder="Descreva a análise que fundamenta a decisão…"></textarea>
+          <span class="dsc-field-error" id="dec-parecer-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span id="dec-parecer-error-text">Campo obrigatório.</span></span>
+        </div>
+
+        <div class="dsc-alert dsc-alert--warning" style="margin-top:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span><strong>✅ Conflito resolvido na conferência com o código (2026-08-28).</strong> Prevalece o Diálogo de Validação da HU-026: o parecer é <em>obrigatório</em> com mínimo de 10 caracteres tanto na aprovação quanto na rejeição — é o que o <code>validacao-dialog</code> implementa. A RN 3 de <code>VAL-ANA-03</code> foi corrigida. ⚠️ A exigência vive só no cliente: a API aceita a decisão sem parecer — ver <code>global/CONFORMIDADE-CODIGO.md</code> § 3.1.</span>
+        </div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-decisao',false)">Cancelar</button>
+        <button class="dsc-btn" id="dec-ok" onclick="confirmarDecisao()">Aprovar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Painel de edição administrativa (VAL-ANA-05) -->
+  <div id="modal-edicao" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)fecharEdicao()">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span>Editar inscrição validada</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="fecharEdicao()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <div class="dsc-alert" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>A correção <strong>não altera a situação</strong> da inscrição, que permanece Validada (RN3), e <strong>dispensa as restrições de prazo</strong> que valem para o participante (RN5). Cada edição guarda dois retratos — antes e depois — no histórico (RN4).</span>
+        </div>
+
+        <span class="dsc-card-title" style="display:block;margin-bottom:8px">Respostas do formulário</span>
+        <div class="dsc-row" style="margin-bottom:16px">
+          <div class="dsc-col-6"><div class="dsc-field">
+            <label class="dsc-field-label" for="ed-titulo">Título do projeto</label>
+            <input class="dsc-input" id="ed-titulo" value="Trilhas de Aprendizagem Maker no Ensino Médio">
+          </div></div>
+          <div class="dsc-col-6"><div class="dsc-field">
+            <label class="dsc-field-label" for="ed-enq">Enquadramento</label>
+            <select class="dsc-select" id="ed-enq">
+              <option selected>Ensino Superior</option>
+              <option>Ensino Técnico</option>
+            </select>
+          </div></div>
+        </div>
+
+        <span class="dsc-card-title" style="display:block;margin-bottom:8px">Membros da equipe</span>
+        <div class="dsc-table-wrap" style="margin-bottom:16px">
+          <table class="dsc-table dsc-table--dense">
+            <thead><tr><th>Nome</th><th>CPF</th><th>Telefone</th><th>Vínculo</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Marina Rocha Duarte</td><td>123.456.789-00</td><td>(31) 99876-5432</td><td>Coordenadora</td><td><button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="return false">Editar</button></td></tr>
+              <tr><td>Tiago Alves Pinto</td><td>987.654.321-00</td><td>(31) 98765-4321</td><td>Docente</td><td><button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="return false">Editar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <span class="dsc-card-title" style="display:block;margin-bottom:8px">Anexos</span>
+        <div class="dsc-table-wrap" style="margin-bottom:16px">
+          <table class="dsc-table dsc-table--dense">
+            <thead><tr><th>Documento</th><th>Arquivo</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Comprovante de vínculo</td><td>vinculo-institucional.pdf</td><td><button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="return false">Remover</button></td></tr>
+              <tr><td>Projeto detalhado</td><td>projeto-trilhas-maker.pdf</td><td><button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="return false">Remover</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="dsc-field">
+          <label class="dsc-field-label" for="ed-just">Justificativa <span class="dsc-req">*</span></label>
+          <textarea class="dsc-textarea" id="ed-just" placeholder="Registre o motivo da correção…" oninput="edValidar()"></textarea>
+          <span class="dsc-field-hint" id="ed-just-hint">Obrigatória: a edição administrativa não é gravada sem ela (RN2).</span>
+        </div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="fecharEdicao()">Cancelar</button>
+        <button class="dsc-btn" id="ed-salvar" onclick="salvarEdicao()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          Salvar edição
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (canto superior direito) -->
+  <div id="toast" class="dsc-toast" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg id="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> <code>VAL-ANA-01</code> Detalhar Inscrição (tela) e, para o fluxo, <code>VAL-ANA-02</code> Iniciar Validação, <code>VAL-ANA-03</code> Aprovar Inscrição e <code>VAL-ANA-04</code> Rejeitar Inscrição — Feature Set Análise e Decisão, já atualizado com a SP05. Telas: Detalhe da Inscrição, Link de documento negado e Inscrição de outra UF.</li>
+      <li><strong>Encenado (VAL-ANA-01):</strong> detalhe em modo leitura com cabeçalho, indicadores de progresso (preenchimento, documentos, equipe, termos), seções retráteis (formulário, questionário, documentos, equipe, termos) e histórico de validação com data, responsável e parecer de cada transição.</li>
+      <li><strong>Download por link individual (a mudança da SP05):</strong> cada documento da lista traz o seu <strong>identificador público</strong> e o seu <strong>endereço individual</strong> de download — documentos diferentes nunca compartilham o mesmo identificador. Acionar o download abre o diálogo que confere o direito à inscrição <em>naquele acesso</em>; o mesmo mecanismo atende o download de anexo pelo avaliador alocado (<code>AVL-AVA-03</code>).</li>
+      <li><strong>Acesso negado, com o texto literal "Você não tem permissão para esta ação.":</strong> duas situações distintas, alternáveis pelo seletor "Ver como" — o detalhe de uma inscrição de outra UF (Administrador Regional — SP tentando abrir uma inscrição da BA) e o <em>link individual do documento</em> acionado por quem não tem direito à inscrição (tela "Link de documento negado"), mostrando que deter o endereço não dá acesso.</li>
+      <li><strong>Encenado (VAL-ANA-02/03/04):</strong> "Iniciar Validação" só aparece na situação Finalizada e leva a Em Validação; "Solicitar Ajuste" só aparece em Em Validação; "Aprovar" e "Rejeitar" aparecem em <strong>Em Validação, Aguardando Ajuste e Ajustes Concluídos</strong> — as três situações que o servidor aceita (conferência com o código, 2026-08-28). Inscrição já decidida mostra o veredito com parecer e data. O parecer é obrigatório nas duas decisões — "Campo obrigatório." quando vazio e "Mínimo de 10 caracteres." abaixo do mínimo — e, na aprovação com itens de ajuste não conferidos, o sistema pede confirmação antes de concluir.</li>
+      <li><strong>Estados:</strong> com dados · seções sem conteúdo ("Nenhum registro encontrado." em documentos e equipe) · carregando ("Carregando…") · erro ("Não foi possível carregar os dados."). <strong>"Busca sem resultado" não se aplica</strong> — o detalhe é uma tela de leitura, sem busca; a listagem com busca é a Fila de Validação (<code>VAL-FIL-01</code>), no protótipo vizinho.</li>
+      <li><strong>Restrição dos relatórios ao Administrador Nacional:</strong> a exclusividade do "Relatório de Inscrições", do "Inscrições Paradas" e da exportação do painel ao Administrador Nacional (recurso APIPIT.22 da SP05) foi <strong>confirmada em 2026-09-01</strong>. Ela não afeta esta tela — a matriz do N2 <em>Análise e Decisão</em> mantém detalhar, iniciar, aprovar e rejeitar para os dois perfis, com o recorte por UF —, mas é registrada aqui para leitura conjunta dos três protótipos da SP05.</li>
+      <li><strong>Relatórios da SP05:</strong> o <em>Relatório Geral de Inscrições</em> (<code>AVL-APU-10</code>, especificado em 2026-08-28, com a exportação incorporada) e a <em>exportação do painel gerencial</em> (<code>VAL-FIL-03</code>, feature própria desde 2026-09-01) são pontos de entrada da Fila de Validação. Nenhum dos dois aparece nesta tela.</li>
+      <li><strong>⚠️ Parecer na aprovação:</strong> a RN 3 de <code>VAL-ANA-03</code> (opcional) conflita com o Diálogo de Validação da HU-026 (obrigatório, mínimo de 10 caracteres). O protótipo segue a regra de negócio e exibe o conflito dentro do próprio diálogo.</li>
+      <li><strong>⚠️ Sem componente de linha do tempo:</strong> o <code>ds.css</code> não tem <em>timeline</em>; o histórico de validação é apresentado como tabela densa em ordem cronológica decrescente — lacuna registrada como <code>TODO: definir no Design System</code> no HTML.</li>
+      <li><strong>Não representado:</strong> Solicitar Ajuste e a Conferência/Auditoria de Ajustes (Feature Set Ajustes da Inscrição, <code>VAL-AJU</code>), a pré-visualização do conteúdo dos anexos e a volta à Fila de Validação, que vive em <code>prototypes/validacao/fila-validacao/flow.html</code>.</li>
+      <li><strong>⚠️ Shell:</strong> usa o shell real da biblioteca (topbar teal + menu horizontal), não o esqueleto genérico do PROMPT_PROTOTYPE_FLOW_FULL — essas classes não existem no <code>ds.css</code> desta instância.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ================= Dados fictícios (domínio real do Prêmio IEL) ================= */
+    /* Inscrição em análise: instituição de ensino da BA, com equipe e 5 anexos.       */
+    var DOCS = [
+      { nome: 'termo-de-adesao-assinado.pdf',            tipo: 'Termo de adesão',              tam: '412 KB', env: '24/08/2026 14:09', id: '9f3a1c7e-4b62-4d19-8a30-5c71e0d8b244' },
+      { nome: 'projeto-fabrica-de-aprendizagem.pdf',     tipo: 'Descritivo do projeto',        tam: '3,1 MB', env: '24/08/2026 14:10', id: 'c412d0ab-77f5-4a11-9b6e-0e2a3f88c7d1' },
+      { nome: 'comprovante-vinculo-institucional.pdf',   tipo: 'Comprovante de vínculo',       tam: '288 KB', env: '24/08/2026 14:10', id: '5b7e91d4-2ac3-4f80-84dd-16b95c3e0f27' },
+      { nome: 'plano-pedagogico-2026.docx',              tipo: 'Plano pedagógico',             tam: '764 KB', env: '24/08/2026 14:11', id: 'a03fc6e2-9d18-4c55-bb47-72f1904ad5e9' },
+      { nome: 'registro-fotografico-laboratorio.zip',    tipo: 'Registro fotográfico',         tam: '8,7 MB', env: '24/08/2026 14:11', id: 'e7d25b90-31f4-46aa-a1c8-9308bd47e612' }
+    ];
+
+    var EQUIPE = [
+      { nome: 'Ana Paula Ribeiro Menezes', papel: 'Coordenadora do projeto', cpf: '123.456.789-09', mail: 'ana.menezes@unijorge.edu.br', tel: '(71) 98812-4471' },
+      { nome: 'Carlos Eduardo Nunes Vieira', papel: 'Professor orientador',   cpf: '987.654.321-00', mail: 'carlos.vieira@unijorge.edu.br', tel: '(71) 99604-2280' },
+      { nome: 'Juliana Barreto Rocha',       papel: 'Coordenadora de estágio', cpf: '456.789.123-72', mail: 'juliana.rocha@unijorge.edu.br', tel: '(71) 98155-3390' }
+    ];
+
+    var ITENS_AJUSTE = [
+      { item: 'Reenviar o comprovante de vínculo institucional atualizado', conferido: true },
+      { item: 'Detalhar os resultados mensuráveis da questão 3',            conferido: false },
+      { item: 'Corrigir o CNPJ informado no formulário',                    conferido: false }
+    ];
+
+    var HISTORICO = [
+      { data: '24/08/2026 14:15', de: 'Em Andamento', para: 'Finalizada', quem: 'Ana Paula Ribeiro Menezes (participante)', parecer: '—' }
+    ];
+
+    /* Perfis: 'nacional' (alcança todas as UFs) · 'ba' (vinculado à UF da inscrição) ·
+       'sp' (vinculado a outra UF — sem direito à inscrição nem aos seus documentos).  */
+    var role = 'nacional';
+    var situacao = 'Finalizada';
+    var detState = 'data';
+    var ajustesConferidos = false;
+    var decisaoAtual = 'aprovar';
+    var docAtual = null;
+    var confirmandoAjustes = false;
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function temDireito() { return role !== 'sp'; }
+
+    /* ---- Documentos: cada um com endereço individual (SP05) ---- */
+    function renderDocs() {
+      var down = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+      var html = '';
+      for (var i = 0; i < DOCS.length; i++) {
+        var d = DOCS[i];
+        html += '<tr>'
+          + '<td><a href="#" onclick="openDownload(' + i + ');return false">' + esc(d.nome) + '</a></td>'
+          + '<td>' + esc(d.tipo) + '</td>'
+          + '<td class="dsc-num">' + esc(d.tam) + '</td>'
+          + '<td>' + esc(d.env) + '</td>'
+          + '<td><code class="dsc-body-sm">/documentos/pub/' + esc(d.id) + '/download</code></td>'
+          + '<td class="dsc-col-actions">'
+          + '<button class="dsc-icon-action dsc-icon-action--info" aria-label="Baixar documento" title="Baixar por link individual" onclick="openDownload(' + i + ')">' + down + '</button>'
+          + '</td></tr>';
+      }
+      el('docs-tbody').innerHTML = html;
+      el('kpi-docs').textContent = DOCS.length;
+    }
+
+    /* ---- Equipe em cards ---- */
+    function renderEquipe() {
+      var html = '';
+      for (var i = 0; i < EQUIPE.length; i++) {
+        var m = EQUIPE[i];
+        var iniciais = m.nome.split(' ')[0].charAt(0) + m.nome.split(' ')[m.nome.split(' ').length - 1].charAt(0);
+        html += '<div class="dsc-card">'
+          + '<div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:12px">'
+          + '<span class="dsc-avatar">' + esc(iniciais) + '</span>'
+          + '<span><strong>' + esc(m.nome) + '</strong><br><span class="dsc-body-sm dsc-text-muted">' + esc(m.papel) + '</span></span>'
+          + '</div>'
+          + '<div class="dsc-lv"><span class="dsc-lv-label">CPF</span><span class="dsc-lv-value">' + esc(m.cpf) + '</span></div>'
+          + '<div class="dsc-lv"><span class="dsc-lv-label">E-mail</span><span class="dsc-lv-value">' + esc(m.mail) + '</span></div>'
+          + '<div class="dsc-lv"><span class="dsc-lv-label">Telefone</span><span class="dsc-lv-value">' + esc(m.tel) + '</span></div>'
+          + '</div>';
+      }
+      el('equipe-data').innerHTML = html;
+      el('kpi-equipe').textContent = EQUIPE.length;
+    }
+
+    /* ---- Histórico de validação ---- */
+    function renderHistorico() {
+      var html = '';
+      for (var i = HISTORICO.length - 1; i >= 0; i--) {
+        var h = HISTORICO[i];
+        html += '<tr><td>' + esc(h.data) + '</td>'
+          + '<td>' + esc(h.de) + ' → <strong>' + esc(h.para) + '</strong></td>'
+          + '<td>' + esc(h.quem) + '</td>'
+          + '<td>' + esc(h.parecer) + '</td></tr>';
+      }
+      el('hist-tbody').innerHTML = html;
+    }
+
+    /* ---- Seções retráteis ---- */
+    function toggleSecao(id, btn) {
+      var body = el(id);
+      var aberto = body.style.display !== 'none';
+      body.style.display = aberto ? 'none' : 'block';
+      if (btn) btn.textContent = aberto ? 'Expandir' : 'Recolher';
+    }
+
+    /* ---- Navegação entre telas ---- */
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var map = { 'screen-detalhe': 'sw-det', 'screen-doc-negado': 'sw-doc', 'screen-negado': 'sw-neg' };
+      var ids = ['sw-det', 'sw-doc', 'sw-neg', 'sw-edit'];
+      for (var j = 0; j < ids.length; j++) el(ids[j]).classList.remove('is-current');
+      if (map[id]) el(map[id]).classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+
+    /* ---- Perfil ---- */
+    function setRole(r) {
+      role = r;
+      el('rl-nac').classList.toggle('is-current', r === 'nacional');
+      el('rl-ba').classList.toggle('is-current', r === 'ba');
+      el('rl-sp').classList.toggle('is-current', r === 'sp');
+      el('topbar-user').innerHTML = (r === 'nacional')
+        ? 'Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span>'
+        : (r === 'ba'
+          ? 'Luciana Torres Albuquerque · <span style="opacity:.85">Administrador Regional — BA <span style="opacity:.6">PIT.3</span></span>'
+          : 'Rodrigo Almeida Castilho · <span style="opacity:.85">Administrador Regional — SP <span style="opacity:.6">PIT.3</span></span>');
+      showScreen(temDireito() ? 'screen-detalhe' : 'screen-negado');
+    }
+
+    /* ---- Situação da inscrição e ações disponíveis ---- */
+    var BADGE = {
+      'Finalizada':   'dsc-badge--info',
+      'Em Validação': 'dsc-badge--warning',
+      'Aguardando Ajuste': 'dsc-badge--warning',
+      'Ajustes Concluídos': 'dsc-badge--info',
+      'Validada':     'dsc-badge--success',
+      'Rejeitada':    'dsc-badge--danger'
+    };
+
+    function setSituacao(s) {
+      situacao = s;
+      var b = el('det-badge');
+      b.className = 'dsc-badge ' + BADGE[s];
+      b.textContent = s;
+
+      var finalizada = (s === 'Finalizada');
+      var emValidacao = (s === 'Em Validação');
+      // Conferência com o código (2026-08-28): o servidor aceita aprovar/rejeitar
+      // a partir de EM_VALIDACAO, AGUARDANDO_AJUSTE e AJUSTES_CONCLUIDOS.
+      var decidivel = emValidacao || (s === 'Aguardando Ajuste') || (s === 'Ajustes Concluídos');
+      var decidida = (s === 'Validada' || s === 'Rejeitada');
+
+      el('btn-iniciar').style.display  = finalizada ? '' : 'none';
+      el('btn-ajuste').style.display   = emValidacao ? '' : 'none';
+      el('btn-aprovar').style.display  = decidivel ? '' : 'none';
+      el('btn-rejeitar').style.display = decidivel ? '' : 'none';
+      /* A edição administrativa só existe com a inscrição VALIDADA (RN1 de
+         VAL-ANA-05) — é o que a distingue da edição feita pelo participante. */
+      el('btn-editar').style.display = (s === 'Validada') ? '' : 'none';
+
+      var v = el('det-veredito');
+      if (decidida) {
+        v.style.display = 'flex';
+        v.className = 'dsc-alert ' + (s === 'Validada' ? 'dsc-alert--success' : 'dsc-alert--danger');
+        el('det-veredito-texto').innerHTML = (s === 'Validada')
+          ? '<strong>Inscrição validada</strong> em 28/08/2026 10:24 por Luciana Torres Albuquerque. Parecer: «Documentação conferida, vínculo institucional comprovado e projeto aderente à categoria. Segue para a etapa de avaliação.»'
+          : '<strong>Inscrição rejeitada</strong> em 28/08/2026 10:31 por Luciana Torres Albuquerque. Parecer: «O comprovante de vínculo institucional está vencido e o CNPJ informado não corresponde à mantenedora declarada.»';
+      } else {
+        v.style.display = 'none';
+      }
+      renderHistorico();
+    }
+
+    /* ---- Iniciar Validação (VAL-ANA-02) ---- */
+    function iniciarValidacao() {
+      var b = el('btn-iniciar');
+      b.disabled = true;
+      b.classList.add('is-loading');
+      setTimeout(function () {
+        b.disabled = false;
+        b.classList.remove('is-loading');
+        HISTORICO.push({ data: '28/08/2026 09:47', de: 'Finalizada', para: 'Em Validação', quem: 'Luciana Torres Albuquerque (Administrador Regional — BA)', parecer: '—' });
+        setSituacao('Em Validação');
+        showToast('ok', 'Registro salvo com sucesso.');
+      }, 500);
+    }
+
+    /* ---- Estados da tela de detalhe ---- */
+    function setDetState(name) {
+      detState = name;
+      el('dstate-data').style.display = (name === 'data' || name === 'empty') ? 'block' : 'none';
+      el('dstate-loading').style.display = (name === 'loading') ? 'block' : 'none';
+      el('dstate-error').style.display = (name === 'error') ? 'block' : 'none';
+
+      var vazio = (name === 'empty');
+      el('docs-data').style.display = vazio ? 'none' : 'block';
+      el('docs-empty').style.display = vazio ? 'block' : 'none';
+      el('equipe-data').style.display = vazio ? 'none' : 'grid';
+      el('equipe-empty').style.display = vazio ? 'block' : 'none';
+      el('kpi-docs').textContent = vazio ? '0' : DOCS.length;
+      el('kpi-equipe').textContent = vazio ? '0' : EQUIPE.length;
+      el('kpi-form').textContent = vazio ? '38%' : '100%';
+      el('kpi-form-bar').style.width = vazio ? '38%' : '100%';
+      el('kpi-termos').textContent = vazio ? '0 de 2' : '2 de 2';
+      el('kpi-termos-bar').style.width = vazio ? '0%' : '100%';
+    }
+
+    function setAjustesConferidos(v) {
+      ajustesConferidos = v;
+      for (var i = 0; i < ITENS_AJUSTE.length; i++) ITENS_AJUSTE[i].conferido = v ? true : (i === 0);
+      showToast('info', v ? 'Todos os itens de ajuste marcados como conferidos.' : '2 itens de ajuste deixados como não conferidos.');
+    }
+
+    /* ---- Download de documento pelo endereço individual (SP05) ---- */
+    function openDownload(i) {
+      docAtual = DOCS[i];
+      el('dl-nome').textContent = docAtual.nome;
+      el('dl-id').textContent = docAtual.id;
+      el('dl-url').textContent = '/documentos/pub/' + docAtual.id + '/download';
+      var ok = temDireito();
+      el('dl-ok').style.display = ok ? 'flex' : 'none';
+      el('dl-negado').style.display = ok ? 'none' : 'flex';
+      el('dl-btn').disabled = !ok;
+      toggleModal('modal-download', true);
+    }
+
+    function confirmarDownload() {
+      if (!temDireito()) return;
+      toggleModal('modal-download', false);
+      showToast('ok', docAtual.nome);
+    }
+
+    /* ---- Diálogo de Validação: Aprovar (VAL-ANA-03) e Rejeitar (VAL-ANA-04) ---- */
+    function openDecisao(tipo) {
+      decisaoAtual = tipo;
+      confirmandoAjustes = false;
+      var aprovar = (tipo === 'aprovar');
+      el('dec-title').textContent = aprovar ? 'Aprovar inscrição' : 'Rejeitar inscrição';
+      el('dec-intro').textContent = aprovar
+        ? 'Deseja concluir a validação aprovando a inscrição PIEL-2026-000118? Ela passa para Validada e segue para a etapa de avaliação.'
+        : 'Deseja concluir a validação rejeitando a inscrição PIEL-2026-000118? Ela passa para Rejeitada e é encerrada.';
+      el('dec-parecer').value = '';
+      el('dec-parecer-req').style.display = 'inline';
+      el('dec-parecer-hint').textContent = aprovar ? '(obrigatório na aprovação — mínimo de 10 caracteres)' : '(obrigatório na rejeição — mínimo de 10 caracteres)';
+      var ok = el('dec-ok');
+      ok.textContent = aprovar ? 'Aprovar' : 'Rejeitar';
+      ok.className = aprovar ? 'dsc-btn dsc-btn--create' : 'dsc-btn dsc-btn--danger';
+      limparErroParecer();
+      renderItensAjuste();
+      el('dec-ajustes').style.display = 'none';
+      toggleModal('modal-decisao', true);
+    }
+
+    function renderItensAjuste() {
+      var html = '';
+      for (var i = 0; i < ITENS_AJUSTE.length; i++) {
+        var it = ITENS_AJUSTE[i];
+        html += '<tr><td>' + esc(it.item) + '</td><td>'
+          + (it.conferido
+            ? '<span class="dsc-badge dsc-badge--success dsc-badge--sm">Conferido</span>'
+            : '<span class="dsc-badge dsc-badge--warning dsc-badge--sm">Não conferido</span>')
+          + '</td></tr>';
+      }
+      el('dec-itens').innerHTML = html;
+    }
+
+    function pendentesAjuste() {
+      var n = 0;
+      for (var i = 0; i < ITENS_AJUSTE.length; i++) if (!ITENS_AJUSTE[i].conferido) n++;
+      return n;
+    }
+
+    function limparErroParecer() {
+      el('dec-parecer').closest('.dsc-field').classList.remove('is-invalid');
+      el('dec-parecer-error').style.display = 'none';
+    }
+    function erroParecer(msg) {
+      el('dec-parecer').closest('.dsc-field').classList.add('is-invalid');
+      el('dec-parecer-error-text').textContent = msg;
+      el('dec-parecer-error').style.display = 'flex';
+    }
+
+    function confirmarDecisao() {
+      var texto = el('dec-parecer').value.trim();
+      limparErroParecer();
+
+      if (!texto) { erroParecer('Campo obrigatório.'); return; }
+      if (texto.length < 10) { erroParecer('Mínimo de 10 caracteres.'); return; }
+
+      if (decisaoAtual !== 'rejeitar') {
+        var pend = pendentesAjuste();
+        if (pend > 0 && !confirmandoAjustes) {
+          confirmandoAjustes = true;
+          el('dec-ajustes-n').textContent = pend;
+          el('dec-ajustes').style.display = 'flex';
+          el('dec-ok').textContent = 'Confirmar aprovação';
+          return;
+        }
+      }
+
+      var ok = el('dec-ok');
+      ok.disabled = true;
+      ok.classList.add('is-loading');
+      setTimeout(function () {
+        ok.disabled = false;
+        ok.classList.remove('is-loading');
+        toggleModal('modal-decisao', false);
+        var nova = (decisaoAtual === 'aprovar') ? 'Validada' : 'Rejeitada';
+        HISTORICO.push({
+          data: '28/08/2026 10:' + (decisaoAtual === 'aprovar' ? '24' : '31'),
+          de: 'Em Validação', para: nova,
+          quem: 'Luciana Torres Albuquerque (Administrador Regional — BA)',
+          parecer: texto || '—'
+        });
+        setSituacao(nova);
+        showToast('ok', 'Registro salvo com sucesso.');
+      }, 500);
+    }
+
+    /* ---- Modal e toast ---- */
+
+    /* ================================================================
+       Edição administrativa da inscrição validada (VAL-ANA-05)
+       ================================================================ */
+    function abrirEdicaoAdmin() {
+      /* A ação só existe com a inscrição Validada (RN1). Acionada pela barra de
+         revisão com outra situação, o protótipo põe a inscrição em Validada em
+         vez de abrir um painel que o sistema não ofereceria. */
+      if (situacao !== 'Validada') setSituacao('Validada');
+      showScreen('screen-detalhe');
+      el('ed-just').value = '';
+      edValidar();
+      toggleModal('modal-edicao', true);
+    }
+    function fecharEdicao() { toggleModal('modal-edicao', false); }
+
+    function edValidar() {
+      var vazia = !el('ed-just').value.trim();
+      el('ed-salvar').disabled = vazia;
+      el('ed-just-hint').textContent = vazia
+        ? 'Obrigatória: a edição administrativa não é gravada sem ela (RN2).'
+        : 'Registrada junto dos dois retratos da inscrição.';
+    }
+
+    function salvarEdicao() {
+      if (el('ed-salvar').disabled) { showToast('erro', 'Informe a justificativa da edição.'); return; }
+      var just = el('ed-just').value.trim();
+      toggleModal('modal-edicao', false);
+      /* A edição entra no HISTÓRICO e a situação NÃO muda (RN3): a linha registra
+         Validada → Validada, que é justamente o que distingue a correção
+         administrativa de uma transição de status. O registro segue a forma que
+         renderHistorico() espera — data · de → para · quem · parecer. */
+      HISTORICO.push({
+        data: '02/09/2026 09:15',
+        de: 'Validada', para: 'Validada',
+        quem: 'Pedro Henrique Fernandes Barbosa (edição administrativa)',
+        parecer: '«' + just + '» — retratos anterior e posterior guardados.'
+      });
+      renderHistorico();
+      showToast('ok', 'Registro salvo com sucesso.');
+    }
+
+    function toggleModal(id, show) {
+      el(id).style.display = show ? 'flex' : 'none';
+    }
+    function showToast(tipo, text) {
+      var t = el('toast');
+      t.className = 'dsc-toast ' + (tipo === 'erro' ? 'dsc-toast--danger' : (tipo === 'info' ? '' : 'dsc-toast--positive'));
+      el('toast-icon').innerHTML = (tipo === 'erro')
+        ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+        : (tipo === 'info'
+          ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+          : '<path d="M20 6 9 17l-5-5"/>');
+      el('toast-text').textContent = text;
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 4500);
+    }
+
+    /* ---- Init ---- */
+    renderDocs();
+    renderEquipe();
+    renderHistorico();
+    setSituacao('Finalizada');
+    setDetState('data');
+  </script>
+</body>
+</html>

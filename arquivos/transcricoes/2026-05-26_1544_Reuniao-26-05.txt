@@ -1,0 +1,563 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião 26/05
+ID da reunião ...: 736a88e8-4de5-4ed5-b5fe-cbab46fb2bf7
+Data e hora .....: 26/05/2026 15:44 (America/Sao_Paulo)
+Duração .........: 19m 31s
+Tipo ............: GENERAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/736a88e8-4de5-4ed5-b5fe-cbab46fb2bf7
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+Reunião de planejamento e correções do Sistema Prêmio IEL. Pedro identificou e corrigirá problemas no login do administrador regional (mensagem de erro de senha não exibida) e no filtro de busca, que passará a incluir e-mail e protocolo. Foi acordada a exportação de dados em Excel exclusiva para a administradora Isa. O time definiu um cronograma para os próximos dias: hoje (26) deploy das correções, amanhã (27) homologação por Isa, dia 28 reunião para ajustes e planejamento da próxima sprint, e dia 29 subida da Sprint 3 (módulo de avaliação) após homologação concluída. Sobre a integração de IA, o documento foi aprovado por Aldo e Isa dará andamento à abertura de chamado para custos. Também foram mencionados os números atuais de inscrições (94 concluídas, 404 em andamento, 521 rascunhos) e a necessidade de intensificar esforços até o prazo final de 15 de junho.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Você: Na questão desses primeiros problemas.
+[00:00:03] Você: E aí a gente pode ver.
+[00:00:06] Você: Essa é a questão desse usuário assim que a gente finalizar, pode ser?
+[00:00:08] Participante: And.
+[00:00:11] Você: Como é somente um.
+[00:00:10] Participante: Tchau, tchau.
+[00:00:12] Você: Usuário, a gente vê primeiro a questão do filtro.
+[00:00:13] Participante: Tchau, tchau.
+[00:00:15] Você: A questão desse login aqui que a gente está vendo aqui.
+[00:00:18] Você: Aqui agora, e depois...
+[00:00:22] Você: A gente vai lhe dar outra questão.
+[00:00:25] Participante: Obrigado.
+[00:00:30] Você: Pela...
+[00:00:27] Participante: Já vai começar por qual? Não entendi.
+[00:00:29] Participante: Por onde?
+[00:00:31] Você: Pelo login do administrador regional.
+[00:00:30] Participante: Sim.
+[00:00:33] Você: Tchau, tchau.
+[00:00:35] Participante: Ah tá, beleza.
+[00:00:36] Você: Então, Isa, estou aqui em...
+[00:00:39] Participante: Obrigado.
+[00:00:39] Você: Produção, fiz um cadastro de um usuário técnico.
+[00:00:42] Você: Teste aqui.
+[00:00:44] Participante: Estou aqui.
+[00:00:46] Você: Então vamos, um usuário adicionado.
+[00:00:46] Participante: Mm-hmm.
+[00:00:48] Você: Administrador Regional, alteração de senha obrigatória.
+[00:00:51] Você: que é a senha inicial.
+[00:00:54] Você: Tchau aqui.
+[00:00:54] Participante: Tá.
+[00:00:58] Você: Vamos preencher.
+[00:01:00] Você: Enchi a senha. Ah, ele deu erro aqui na requisição.
+[00:01:03] Você: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:01:06] Você: Não atende aos critérios definidos.
+[00:01:09] Você: Unidos, entendi.
+[00:01:13] Você: Ah, é porque ele aparece aqui no meu...
+[00:01:15] Você: No meu log.
+[00:01:18] Participante: Obrigada.
+[00:01:18] Você: Só que ele não aparece para o...
+[00:01:21] Participante: Guga, Gustavo.
+[00:01:24] Você: E...
+[00:01:21] Participante: Não, está dando a telinha, a mensagem, né, na tela.
+[00:01:24] Você: Exatamente, exatamente.
+[00:01:24] Participante: Até lá.
+[00:01:27] Você: Tá faltando a mensagem na tela.
+[00:01:27] Participante: Sim.
+[00:01:30] Participante: Será que é a mesma mensagem que está aparecendo?
+[00:01:34] Você: Muito provavelmente.
+[00:01:33] Participante: Tomara que seja.
+[00:01:36] Você: Ser informada não atende os critérios definidos.
+[00:01:39] Você: Possui no mínimo 8 caracteres, letra maiúscula, letra minúscula.
+[00:01:40] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:01:43] Você: E não...
+[00:01:45] Você: Deve ter palavras que estejam presentes no nome ou login do usuário.
+[00:01:48] Você: E não pode repetir as últimas seis.
+[00:01:51] Você: Tenho as utilizadas.
+[00:01:53] Participante: Cruz, credo que está amanhã.
+[00:01:54] Participante: Você já acertou.
+[00:01:57] Participante: De primeira, caramba, tá bom aí no chute.
+[00:02:01] Você: Teste 1, 2, 3, 4, 5.
+[00:02:03] Você: Vamos tentar aqui.
+[00:02:08] Você: Ele continua...
+[00:02:09] Você: Não indo, a ser informada não atende aos...
+[00:02:12] Participante: Tchau, tchau.
+[00:02:12] Você: Capitérios definidos.
+[00:02:13] Participante: Obrigado.
+[00:02:16] Você: Um...
+[00:02:18] Participante: Ok.
+[00:02:18] Você: Teoricamente, essa daqui...
+[00:02:18] Participante: Obrigada.
+[00:02:22] Você: Um, dois, três, quatro, cinco.
+[00:02:21] Participante: Então, vocês têm parte.
+[00:02:25] Você: Arroba, teste.
+[00:02:27] Você: 2, 3, 4, 5, arroba.
+[00:02:30] Participante: Eu estou lendo.
+[00:02:31] Você: Sim.
+[00:02:30] Participante: Outra maiúscula.
+[00:02:34] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:02:42] Você: Sssssssssss.
+[00:02:42] Participante: Adriana Zanotto, Aldo, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto.
+[00:02:42] Você: Senha, Premium, Yeo, arroba, um dois...
+[00:02:42] Participante: Obrigado.
+[00:02:45] Você: 1, 2, 3, senha premium e eu.
+[00:02:48] Você: Arroba, um, dois, três.
+[00:02:49] Participante: Obrigado.
+[00:02:54] Você: Ago.
+[00:02:53] Participante: E aí, eu me sei o que não é para ele.
+[00:02:54] Você: Agora ele foi, conectou.
+[00:02:55] Participante: Estou com a parte da equipe.
+[00:02:58] Você: Então...
+[00:03:01] Você: Eu acho que tem algumas...
+[00:03:02] Participante: Tchau, tchau.
+[00:03:03] Você: Palavras que ele bloqueia.
+[00:03:04] Participante: Tchau, tchau.
+[00:03:06] Participante: Tadano.
+[00:03:06] Você: E aqui.
+[00:03:09] Você: Aqui eu posso exibir o detalhe, o que a gente consegue fazer é...
+[00:03:12] Você: Para exibir a mensagem, eu vou...
+[00:03:15] Você: Colocar para exibir essa mensagem para o usuário.
+[00:03:18] Você: Aí ele tem que inserir novamente a senha.
+[00:03:22] Você: De acordo que seja uma senha.
+[00:03:22] Participante: Adriana Zanotto, Aldo, Augusto, Design System, Guga, Gustavo, Design System, Guga, Gustavo,
+[00:03:25] Você: E aí a gente exibe a mensagem.
+[00:03:26] Participante: Sim, ok.
+[00:03:29] Participante: Beleza!
+[00:03:30] Você: Ok?
+[00:03:31] Participante: Acho que resolve esse caso.
+[00:03:36] Você: E isso.
+[00:03:34] Participante: Aí tem que fazer uma gemude, né?
+[00:03:36] Você: Mas essa Gmude já vai subir com essa outra correção.
+[00:03:41] Você: Que eu, inclusive, coloquei...
+[00:03:40] Participante: Obrigado.
+[00:03:42] Você: Fiquei aqui no ambiente para mostrar para vocês.
+[00:03:45] Participante: Obrigada.
+[00:03:48] Você: Aqui a gente...
+[00:03:48] Você: Já fez algumas correções, como por exemplo, a questão do espaço.
+[00:03:51] Você: Para o usuário logar, para o usuário...
+[00:03:54] Participante: Tchau, tchau.
+[00:03:54] Você: Cadastrar, enfim, é uma questão simples que a gente...
+[00:03:58] Você: Eu deveria já ter corrigido antes, mas...
+[00:03:59] Participante: Mas são os palírios e o contrário.
+[00:04:00] Você: A gente vai subir agora e aqui a busca.
+[00:04:01] Participante: Obrigado.
+[00:04:03] Você: Pelo protocolo ou pelo e-mail.
+[00:04:03] Participante: Tchau, tchau.
+[00:04:06] Você: A gente colocou o e-mail do usuário aqui na lista.
+[00:04:09] Você: Vamos esperar ele carregar aqui.
+[00:04:13] Você: E, por exemplo, posso pesquisar por...
+[00:04:15] Você: Pedro, quando vai filtrar vai ficar bem mais fácil.
+[00:04:18] Você: Um abraço para vocês.
+[00:04:20] Participante: Mm-hmm.
+[00:04:24] Participante: Ótimo.
+[00:04:25] Você: Inclusive, ele não veio aqui.
+[00:04:25] Participante: Aí qualquer palavra...
+[00:04:27] Participante: Agora que contenha Pedro vai aparecer, né?
+[00:04:31] Você: É, aqui, Pedro.
+[00:04:32] Participante: Dentro do e-mail.
+[00:04:33] Você: Ok. Então, por exemplo, se eu colocar aqui...
+[00:04:34] Participante: Beleza.
+[00:04:37] Você: Barbosa.
+[00:04:40] Você: Vai aparecer também.
+[00:04:47] Você: Esperar ali.
+[00:04:49] Você: Carregar, apareceu aqui o Barbosa.
+[00:04:51] Você: Um monte de barbosa.
+[00:04:53] Você: Colocar 277.
+[00:04:53] Participante: Ótimo.
+[00:04:54] Você: Que é o número do protocolo, por exemplo.
+[00:04:57] Você: Filtrar tanto no protocolo quanto se tiver.
+[00:05:00] Você: Tiver algum e-mail com 277.
+[00:05:03] Participante: Tchau.
+[00:05:03] Você: No protocolo e no e-mail, aí é um filtro geral, acho que esse filtro...
+[00:05:06] Você: Já atende?
+[00:05:08] Participante: Atende.
+[00:05:09] Você: Tchau, tchau.
+[00:05:10] Participante: Agora, Pedro, eu queria só te mostrar uma coisa.
+[00:05:13] Você: Claro.
+[00:05:12] Participante: Vai ali em filtro.
+[00:05:16] Você: Ah, pensei que era nessa tela, foi mal, só.
+[00:05:15] Participante: Rah, por web.
+[00:05:19] Você: Não, não, não, compartilha aqui.
+[00:05:18] Participante: Não, pode ser também.
+[00:05:21] Você: Mais fácil, filtrar por UF.
+[00:05:24] Participante: E.
+[00:05:27] Você: Vou colocar aqui.
+[00:05:24] Participante: Aí filtra qualquer uma.
+[00:05:27] Você: Bahia, por exemplo.
+[00:05:29] Participante: Tchau.
+[00:05:31] Participante: Só porque foi para Bahia.
+[00:05:33] Você: Tchau, tchau.
+[00:05:35] Participante: Aí, clica.
+[00:05:36] Participante: Estou ali em visualizar, no Afanis, visualizar.
+[00:05:41] Você: Aqui, certo?
+[00:05:44] Você: Ok?
+[00:05:43] Participante: Isso.
+[00:05:45] Participante: E agora volta.
+[00:05:50] Você: Aqui.
+[00:05:54] Você: Ou não.
+[00:05:52] Participante: Ah, homologação.
+[00:05:54] Participante: A produção está ficando. Não, é porque é no de produção.
+[00:05:57] Participante: Não, ele não está ficando filtro.
+[00:06:00] Você: Não, mas eu não voltei. Justamente...
+[00:06:03] Você: Ele abre em outra aba, não, ele abre...
+[00:06:03] Participante: Ah, tá. Você abriu outra página.
+[00:06:06] Você: Já em outra página.
+[00:06:09] Você: Vou te dar um exemplo aqui, vamos abrir em produção.
+[00:06:13] Você: Para dar um exemplo de uma...
+[00:06:16] Você: De um cenário real, é.
+[00:06:16] Participante: Ah tá, agora eu vi.
+[00:06:18] Participante: É o problema...
+[00:06:19] Você: Não, não, não é?
+[00:06:18] Participante: Entra a cadeira e o computador.
+[00:06:21] Você: É isso, a gente pode alterar, só que essa questão...
+[00:06:23] Participante: Obrigado.
+[00:06:24] Você: Então, de manter o filtro é uma alteração...
+[00:06:28] Você: Não sei se ela é necessária.
+[00:06:30] Você: Vocês estão fazendo somente pelo...
+[00:06:33] Você: Pelo computador, tá vendo? Ele abre outra aba e essa aba aqui.
+[00:06:36] Você: De trás ela continua, independente do filtro, a gente pode colocar por exemplo.
+[00:06:39] Você: Bahia abriu aqui, ele mantém o filtro.
+[00:06:43] Participante: É, foi burrice mesmo.
+[00:06:46] Você: Outra coisa que os regionais...
+[00:06:48] Você: Adriana Zanotto, Aldo, Augusto, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System.
+[00:06:51] Você: resultado para ter justamente...
+[00:06:55] Você: O filtro de rascunho e de...
+[00:06:57] Você: E aí eles conseguirem ver.
+[00:06:59] Participante: Mm-hmm.
+[00:07:00] Você: E os dados, aí por isso que eu fiz o relatório.
+[00:07:02] Participante: Obrigada.
+[00:07:03] Você: Que a Michelle havia pedido. Tanto que hoje a gente já tem...
+[00:07:06] Você: Mais de 924...
+[00:07:10] Você: Registros em andamento e rascunho.
+[00:07:13] Participante: E isso dá para...
+[00:07:15] Participante: Gerar um Excel daí.
+[00:07:19] Você: Eu posso transformar aquele... Ah, não.
+[00:07:19] Participante: É um passo para frente.
+[00:07:23] Você: Eu posso colocar essa exportação.
+[00:07:21] Participante: Tchau, gente.
+[00:07:24] Você: Eu vou colocar, para todos os administradores, não.
+[00:07:27] Você: Só para o administrador você.
+[00:07:31] Você: Pode ser?
+[00:07:33] Você: Colocar somente.
+[00:07:32] Participante: Pode.
+[00:07:33] Você: para você conseguir exportar.
+[00:07:37] Você: Bom...
+[00:07:37] Participante: Pode, porque daí fica mais fácil.
+[00:07:39] Participante: Eu fico no...
+[00:07:39] Participante: Controle no dia a dia com ele, sabe?
+[00:07:41] Você: Mm-hmm.
+[00:07:42] Participante: Aí eu já retiro as duplicatas, já dou...
+[00:07:46] Você: Ok.
+[00:07:47] Participante: Hoje a gente está...
+[00:07:51] Você: Concluído.
+[00:07:48] Participante: Com quantas inscrições concluídas?
+[00:07:51] Você: Construídos nós temos 94.
+[00:07:54] Você: E que iniciaram no sistema.
+[00:07:56] Participante: No.
+[00:07:57] Você: Nós já temos mais de mil já.
+[00:08:01] Você: Aqui tem 404 em andamento.
+[00:08:01] Participante: Nossa.
+[00:08:03] Você: 521 em rascunho, que dá...
+[00:08:05] Participante: Hmm.
+[00:08:06] Você: É 925 mais 94.
+[00:08:09] Você: Vai dar mil e...
+[00:08:12] Você: Dzy, Dzy, Dzy, Dzy, Novi.
+[00:08:14] Participante: Rascunha que iniciou.
+[00:08:18] Você: Rascual.
+[00:08:15] Participante: Mas não finalizou. Em andamento é o quê?
+[00:08:18] Você: Eu entrei na tela, não preenchi nada.
+[00:08:21] Você: Quando eu começo a preencher...
+[00:08:22] Participante: Ah, tá.
+[00:08:24] Você: Ela está em andamento.
+[00:08:29] Você: É uma nomenclatura que a gente pode...
+[00:08:30] Você: Solidar também é o que...
+[00:08:33] Você: A gente pode colocar tudo como em andamento, mas...
+[00:08:36] Você: Nenhum deles finalizou, sabe?
+[00:08:38] Participante: O ráscoa e o sol.
+[00:08:39] Participante: Curiosos e o enrandamento são os preguiçosos.
+[00:08:43] Você: Exatamente, acho que...
+[00:08:42] Participante: Tchau, tchau.
+[00:08:45] Você: Se definiu exato.
+[00:08:48] Você: Exatamente.
+[00:08:50] Participante: Legal!
+[00:08:51] Participante: Bom, e como que era a meta de vocês isso?
+[00:08:54] Participante: Adriana Zanotto, Aldo, Augusto, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System, Guga, Gustavo, Design System.
+[00:08:59] Você: E é...
+[00:08:57] Participante: 57, mais de inscrição.
+[00:09:00] Participante: Ditos concluídos ou de...
+[00:09:03] Participante: Misturando em andamento, concluído.
+[00:09:07] Participante: Não concluído.
+[00:09:12] Você: A data e...
+[00:09:10] Participante: Ainda está um pouquinho longe.
+[00:09:12] Você: E encerra quando?
+[00:09:12] Participante: Um pouco longe, dia 15 de junho.
+[00:09:16] Você: Mas eu acho que agora que a gente tem os...
+[00:09:15] Participante: Adriana Zanotto
+[00:09:18] Você: Fazendo essa força tarefa.
+[00:09:21] Você: Eu acho que a tendência é...
+[00:09:24] Você: É escalar muito rápido.
+[00:09:24] Participante: Aumentada, hein?
+[00:09:28] Participante: É, e geralmente eles deixam sempre para o fim.
+[00:09:31] Você: Mm-hmm.
+[00:09:30] Participante: Genau.
+[00:09:34] Participante: Mas eu sou chata, eu fico mandando e-mail todo dia.
+[00:09:36] Você: Tá certo.
+[00:09:38] Participante: Quando o WhatsApp abre.
+[00:09:40] Você: Na vida a gente tem que saber ser chato, né?
+[00:09:42] Você: Quem é chato...
+[00:09:42] Você: Tu consegue as coisas, então a gente tem que aprender que...
+[00:09:43] Participante: Isso, gente.
+[00:09:45] Você: Tem que ser chato, né?
+[00:09:47] Participante: Eu já contei a história para vocês?
+[00:09:48] Participante: Uma vez que eu fui para Curitiba.
+[00:09:52] Participante: A gente estava vendo o local do prêmio desse ano, né?
+[00:09:54] Participante: A gente estava lá visualizando os espaços e tal.
+[00:09:58] Participante: Aí eu falei assim, a gente podia ir no Clube Curitibano.
+[00:10:01] Participante: Aí o pessoal, não, não dá, porque eles não respondem a gente.
+[00:10:03] Participante: Então, eu falei, o quê? Isso é uma coisa que eu consigo certo?
+[00:10:06] Participante: Chapa, aí eu comecei a ligar, ligar, ligar, ligar.
+[00:10:10] Você: Mm-hmm.
+[00:10:09] Participante: Eu quero tanta raiva, eu tô ligando tanto.
+[00:10:12] Participante: Que eles me atenderam e a gente foi lá visitar o local.
+[00:10:16] Participante: Olha, deu certo a persistência.
+[00:10:18] Participante: É, então você é chata comigo mesmo.
+[00:10:23] Participante: Aiz.
+[00:10:26] Você: Pessoal,
+[00:10:26] Participante: Eu vou ficar no pé desse...
+[00:10:28] Você: Então, vamos organizar.
+[00:10:27] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto,
+[00:10:30] Você: Essa subida para a produção.
+[00:10:34] Você: Vamos montar um...
+[00:10:36] Você: A gente vai montar um cronograma.
+[00:10:39] Você: A gente dá essa estancada nesse problema agora.
+[00:10:42] Você: A gente libera esse Excel.
+[00:10:43] Participante: Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:10:45] Você: O filtro, a questão...
+[00:10:48] Participante: Mh.
+[00:10:48] Você: Do espaço também já vai subir, então o filtro.
+[00:10:48] Participante: Tchau.
+[00:10:51] Você: O Excel, a gente tenta organizar.
+[00:10:56] Participante: Tá.
+[00:10:58] Você: A Isa volta para a homologação e volta.
+[00:11:00] Você: Dá uma olhada nos cartões de homologação.
+[00:11:03] Você: A gente já fez, exato, aham.
+[00:11:04] Participante: São os que estão no giro, né?
+[00:11:06] Você: Enquanto isso, eu queria pedir um apoio para a Su, para a gente ver a questão...
+[00:11:06] Participante: Tchau.
+[00:11:09] Você: Com Aldo, questão lá da IAS, eles já conseguiram subir.
+[00:11:12] Você: B.
+[00:11:14] Participante: Ah, sim, essa eu defendo daí.
+[00:11:16] Você: Ah, sim, show.
+[00:11:15] Participante: Isa, peraí, vou voltar aqui.
+[00:11:18] Participante: A gente, o Pedro, conseguiu.
+[00:11:21] Participante: Finalizar aquele documento lá do Aldo, da IA.
+[00:11:24] Participante: Me mandou e eu dei uma olhada também.
+[00:11:27] Participante: Passei pro Aldo, ele olhou, disse que tá ok.
+[00:11:30] Participante: Aí agora qual que é o próximo passo?
+[00:11:33] Participante: Eu formalizo, abro um chamado lápide.
+[00:11:36] Participante: Adriana Zanotto, Aldo, Augusto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:11:39] Participante: Para vocês do IEL, para tratar essas...
+[00:11:42] Participante: Essa questão da IA, dos custos, né?
+[00:11:45] Participante: Para isso, eu preciso de um CR.
+[00:11:48] Participante: Onde vai entrar esse custo.
+[00:11:51] Participante: E aí eu queria saber se você pode me passar.
+[00:11:54] Participante: Se você autoriza para a gente poder abrir esse chamado.
+[00:11:57] Participante: Eu vou evoluir com essa parte da IA.
+[00:11:59] Participante: Tá, mas já tem...
+[00:12:00] Participante: Previsão de custo?
+[00:12:02] Participante: O Aldo...
+[00:12:03] Participante: Adriana Zanotto fez um, um, um, um, Aldo, o...
+[00:12:06] Participante: O Pedro fez um cálculo lá no documento.
+[00:12:09] Participante: Você compartilhou esse documento com ela? Não, né?
+[00:12:12] Você: No.
+[00:12:14] Você: Just...
+[00:12:12] Participante: Deixa eu mandar aqui para...
+[00:12:15] Você: Mm-hmm.
+[00:12:15] Participante: Eu vou mandar para você.
+[00:12:18] Participante: Aí você dá uma olhadinha lá, mas assim, é uma estimativa.
+[00:12:21] Participante: Inicial, a gente não sabe exatamente o valor que vai ficar.
+[00:12:24] Você: Uh-huh.
+[00:12:24] Participante: Obrigada.
+[00:12:27] Participante: Fez uma estimativa calculando lá de acordo com o...
+[00:12:32] Você: E se utilizar.
+[00:12:30] Participante: Comenta o do Aldo, né, o Pedro.
+[00:12:33] Você: utilizando a base de cálculo.
+[00:12:33] Participante: Sim, sim, sim.
+[00:12:36] Participante: Ah, eu subi lá na equipe.
+[00:12:39] Participante: Tá lá o documento. Vou pegar o link e passo aqui.
+[00:12:42] Você: Uhum.
+[00:12:42] Participante: Obrigada.
+[00:12:45] Você: Então eu estou colocando aqui o cronograma para a gente.
+[00:12:48] Você: 26, hoje, Pedro, organizar a Gemude com o filme.
+[00:12:48] Participante: Tchau.
+[00:12:51] Você: Para o Excel Espaço dos Caracteres, Isabelle.
+[00:12:54] Você: A prosseguimento ao documento de utilização das IAs.
+[00:12:57] Você: Amanhã, dia 27, Isabelle.
+[00:13:00] Você: Dar cartões em homologação e verificar.
+[00:13:03] Você: É, validar cartão.
+[00:13:06] Você: e homologação.
+[00:13:09] Você: Pra mim, olhar a...
+[00:13:10] Participante: Tchau, tchau.
+[00:13:12] Você: A questão do loop do usuário.
+[00:13:17] Você: I have had...
+[00:13:15] Participante: Tem a do loop e a mensagem, né, que a gente viu agora.
+[00:13:18] Você: A mensagem é para subir hoje já.
+[00:13:18] Participante: Agora o que está faltando.
+[00:13:21] Você: Adicionar aqui.
+[00:13:21] Você: Aham.
+[00:13:22] Você: Uhum.
+[00:13:21] Participante: A mensagem vai clicar.
+[00:13:24] Participante: Oi, Paulo, tudo bom?
+[00:13:27] Você: Paulo, boa tarde.
+[00:13:27] Participante: Entrou caladinho.
+[00:13:28] Participante: Olá, pessoal, tudo bem?
+[00:13:30] Participante: Boa tarde.
+[00:13:31] Participante: Tudo bom, eu sei.
+[00:13:33] Participante: Oi, Thaísa, Oi, Sul.
+[00:13:34] Participante: Oi.
+[00:13:36] Participante: Oi, o Paulo também estava viajando, você pensa?
+[00:13:41] Você: Néééé?
+[00:13:39] Participante: Que é só vocês, é que está de férias?
+[00:13:41] Participante: Não.
+[00:13:42] Participante: Pelo que eu tô sabendo, tá todo mundo viajando, né?
+[00:13:45] Participante: Estavam na Bahia?
+[00:13:46] Participante: O Pedro foi na Bahia.
+[00:13:48] Participante: Já foi, já voltou.
+[00:13:51] Participante: Ai, ai.
+[00:13:56] Você: Que é isso?
+[00:13:54] Participante: Todo mundo bem aqui, só eu que não viajo.
+[00:13:57] Participante: Oh, man, oh, man.
+[00:14:00] Participante: Ai, ai, mas seja bem-vindo.
+[00:14:03] Participante: A gente está aqui fazendo...
+[00:14:06] Participante: Tendo o planejamento aqui da semana, então vamos lá.
+[00:14:11] Você: E...
+[00:14:09] Participante: A Pedra Gemude para hoje.
+[00:14:12] Você: Isso.
+[00:14:12] Participante: Aí, Isa, preciso da sua aprovação.
+[00:14:15] Participante: Eu queria interromper vocês, eu ia ter que ir rapidinho sobre a minha coisa.
+[00:14:17] Participante: Lisa, não sei se quer.
+[00:14:18] Participante: Obrigado.
+[00:14:18] Participante: Eu vou pedir para você da nota fiscal do pagamento, você chegou aqui.
+[00:14:21] Participante: Sim, eu consegui, eu consegui.
+[00:14:25] Você: Amém.
+[00:14:24] Participante: E olhar agora com o pessoal lá do financeiro.
+[00:14:27] Participante: Eles me falaram que ela foi atestada.
+[00:14:30] Participante: Depois da data, né?
+[00:14:33] Participante: E aí foi a questão que mostra mesmo.
+[00:14:36] Participante: A Sara, que é a nossa superintendente, acabou atestando.
+[00:14:39] Participante: Depois do prazo, e aí ele ficou...
+[00:14:42] Participante: Programado para o dia 22 de junho.
+[00:14:45] Participante: Mas eu vou conversar aqui com a Michelle para ver se a gente...
+[00:14:48] Participante: A gente consegue solicitar a antecipação desse pagamento.
+[00:14:51] Participante: explicando a situação.
+[00:14:54] Participante: E tudo mais, aí eu vou tentar com a Michelle agora, tá?
+[00:14:57] Participante: E que a gente finalizar aqui, eu converso com ela.
+[00:15:00] Participante: Não tinha certeza, não tinha questão de falar.
+[00:15:03] Participante: Nesse caso, eu acho que se você ligar...
+[00:15:06] Participante: Conversar lá com eles por telefone.
+[00:15:09] Participante: Acho que, formalmente, acho que eles não vão querer.
+[00:15:12] Participante: Mas acho que informalmente, talvez vocês consigam.
+[00:15:15] Participante: Acho que já aconteceu algumas situações parecidas.
+[00:15:18] Participante: E se você quiser umas dicas aqui do Gustavo.
+[00:15:21] Participante: Ele falou assim, acho que por...
+[00:15:24] Participante: O telefone resolve, aí se você quiser eu posso ver com ele qual é a pessoa, ok?
+[00:15:27] Participante: Le indico para conversar lá.
+[00:15:29] Participante: Tá bom.
+[00:15:30] Participante: Pode ser.
+[00:15:31] Participante: Vou ver com ele assim que terminar aqui.
+[00:15:33] Participante: Está em reunião ali também.
+[00:15:34] Participante: Beleza.
+[00:15:36] Participante: E para vocês trabalharem, porque eu estou fazendo uma gemude aqui.
+[00:15:38] Participante: Até logo.
+[00:15:39] Participante: Falou, Paulo. Obrigada.
+[00:15:42] Você: Tchau.
+[00:15:45] Participante: Então vamos lá, aí tem a Gemude de hoje.
+[00:15:48] Você: Isso.
+[00:15:48] Participante: Tem a IA para ver, aí eu vou.
+[00:15:51] Participante: Vou mandar para você o link do documento.
+[00:15:54] Participante: E aí eu já mando o e-mail também pedindo o CR para a gente...
+[00:15:57] Participante: Deixa eu formalizar e abrir o chamado.
+[00:16:00] Participante: Aí depois tem a homologação que está lá no.
+[00:16:03] Participante: Tardes do Gira e mais.
+[00:16:07] Você: E aí dia 28.
+[00:16:09] Você: Quinta-feira, nossa reunião, corrigir possíveis setores.
+[00:16:12] Você: Vamos de homologação e aguardar a questão.
+[00:16:15] Participante: Mm-hmm.
+[00:16:15] Você: Corrigir possíveis retornos de homologação.
+[00:16:19] Você: E dia 29 do 5...
+[00:16:21] Você: Na quarta-feira, subi Gemud.
+[00:16:24] Você: Um tudo da Sprint 3.
+[00:16:29] Participante: Da Sprint.
+[00:16:30] Participante: A parte 3 é o de avaliação.
+[00:16:33] Você: Isso, não vamos colocar nem tio 29.
+[00:16:33] Participante: De avaliação, né?
+[00:16:36] Você: Vou colocar após homologação.
+[00:16:39] Você: Concluída.
+[00:16:42] Participante: Tchau.
+[00:16:42] Você: A gente tem aí, acho que, duas...
+[00:16:45] Você: semanas para trabalhar, só refinando esses pontos.
+[00:16:48] Você: E muito possivelmente, creio que...
+[00:16:51] Você: Maísa disse que na reta final.
+[00:16:54] Você: E no final eles... eles vêm no...
+[00:16:57] Você: Num gás, é possível que a gente tenha...
+[00:17:00] Você: Algumas tarefas, algumas coisas.
+[00:17:03] Você: A solucionar.
+[00:17:06] Você: Enquanto isso, eu estou...
+[00:17:06] Você: Estou vendo só a questão da mensagem que ficou faltando aqui.
+[00:17:11] Participante: E a gente pode...
+[00:17:12] Participante: Também fazer algum refinamento.
+[00:17:15] Participante: Para ir colocando para a próxima experiência.
+[00:17:18] Participante: Tipo relatórios.
+[00:17:22] Você: Acho uma boa, hein?
+[00:17:22] Participante: Obrigada.
+[00:17:24] Participante: Resultados, como é que vai ser.
+[00:17:27] Você: Vamos colocar para a gente ver...
+[00:17:28] Participante: Eu não sei se a gente conseguiu finalizar tudo.
+[00:17:30] Participante: De avaliação, alguma coisa pendente.
+[00:17:34] Participante: Acredito que ficou pendente só a parte do...
+[00:17:36] Participante: Eu lembro que a gente...
+[00:17:40] Participante: Por causa da IA, tem essa parte.
+[00:17:42] Participante: feedback, aí tem parte de relatórios, notificações.
+[00:17:45] Participante: Notificações, que eu não sei se vai entrar agora.
+[00:17:48] Participante: Certificação dos...
+[00:17:51] Participante: Os participantes do avaliamento.
+[00:17:55] Você: Boa.
+[00:17:54] Participante: Trabalhadores, tem todas essas questões ainda.
+[00:18:00] Você: Obrigado.
+[00:17:57] Participante: Para a gente refinar.
+[00:18:00] Você: Eu acho que no dia 28 a gente pode conversar, nós três.
+[00:18:03] Você: A gente vê quais são os cartões prioritários.
+[00:18:07] Você: Pra gente dar prosseguimento, que tal?
+[00:18:07] Participante: Obrigado.
+[00:18:09] Participante: Pode ser.
+[00:18:12] Participante: Beleza.
+[00:18:12] Participante: Que aí dá tempo da Isa se organizar e ver o que...
+[00:18:18] Você: Tchau, tchau.
+[00:18:15] Participante: Que elas precisam ainda homologar.
+[00:18:18] Participante: Aí dia 28.
+[00:18:18] Participante: A gente já organizei isso para poder iniciar os refinamentos.
+[00:18:23] Você: Tante coisa que a gente já passou.
+[00:18:21] Participante: E marcar a próxima Sprint.
+[00:18:24] Você: Sopa, coitada, já tá só falando aqui. Não, você tem que fazer...
+[00:18:27] Participante: Tchau.
+[00:18:27] Você: Isso, isso, isso, isso, isso.
+[00:18:27] Participante: I think the show, the show, the show, I would ever say, is the role.
+[00:18:30] Participante: Voltei hoje, que eu ainda não estou no ritmo.
+[00:18:34] Você: Tchau.
+[00:18:34] Participante: Ainda estou me adaptando.
+[00:18:37] Você: E...
+[00:18:37] Participante: É assim mesmo, a gente chegou e já...
+[00:18:41] Você: Tchau.
+[00:18:40] Participante: Botando um monte de coisa em cima dela, eita lá.
+[00:18:42] Participante: Dois pés no peito, que é isso.
+[00:18:47] Participante: Você viu? Tanto que a gente sentiu sal.
+[00:18:49] Você: Pior que tá tipo isso mesmo.
+[00:18:49] Participante: Tchau, tchau.
+[00:18:52] Participante: Não, mas beleza, dia 28 a gente...
+[00:18:54] Participante: Humberto, sobre esse nosso planejamento futuro dos refinamentos.
+[00:18:57] Participante: ...e da próxima sprint. Enquanto isso, a gente vai...
+[00:19:00] Participante: Obrigado.
+[00:19:05] Você: Isso.

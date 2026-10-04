@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo — shell do Prêmio IEL (topbar teal + menu + Estrutura)</title>
+  <link rel="stylesheet" href="ds.css">
+</head>
+<body>
+
+  <div class="dsc-proto-badge">DEMO — shell do Prêmio IEL</div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Pedro Henrique Fernandes Barbosa</span>
+        <button class="dsc-topbar-avatar" aria-label="Perfil" onclick="document.documentElement.classList.toggle('app-dark')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <div class="dsc-alert" role="status" style="margin-bottom:24px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span>Layout de configuração: <strong>duas colunas</strong> (Estrutura + conteúdo) ≥1024px, empilhado abaixo. Largura atual: <strong id="bp-width">…</strong>.</span>
+      </div>
+
+      <div class="dsc-config-layout">
+
+        <aside class="dsc-structure">
+          <div class="dsc-structure-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+            Estrutura
+          </div>
+          <ul class="dsc-tree">
+            <li>
+              <div class="dsc-tree-row dsc-tree-row--root">
+                <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg></span>
+                <span class="dsc-tree-label">Prêmio IEL 2026</span>
+              </div>
+              <ul>
+                <li>
+                  <div class="dsc-tree-row is-selected">
+                    <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                    <span class="dsc-tree-label">IEL Estágio</span>
+                  </div>
+                  <ul>
+                    <li>
+                      <div class="dsc-tree-row">
+                        <span class="dsc-tree-toggle is-empty"></span>
+                        <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+                        <span class="dsc-tree-label">Educação Inovadora</span>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <div class="dsc-tree-row is-collapsed">
+                    <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                    <span class="dsc-tree-label">Inova Talentos</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+
+        <div>
+          <div class="dsc-page-header">
+            <div class="dsc-page-title-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+              <h1 class="dsc-page-title">Tipo de Participante</h1>
+            </div>
+            <div class="dsc-page-actions">
+              <button class="dsc-btn dsc-btn--secondary">Baixar Template</button>
+              <button class="dsc-btn dsc-btn--create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Sub Modalidade</button>
+            </div>
+          </div>
+
+          <div class="dsc-tabs" onclick="if(event.target.closest('.dsc-tab')){this.querySelectorAll('.dsc-tab').forEach(t=>t.classList.remove('is-active'));event.target.closest('.dsc-tab').classList.add('is-active')}">
+            <button class="dsc-tab">Geral</button>
+            <button class="dsc-tab">Formulário de Inscrição</button>
+            <button class="dsc-tab is-active">Sub Modalidades</button>
+            <button class="dsc-tab">Equipe</button>
+            <button class="dsc-tab">Anexos</button>
+            <button class="dsc-tab">Avaliação</button>
+          </div>
+
+          <div class="dsc-card" style="margin-top:24px">
+            <div class="dsc-table-wrap" style="border:0;box-shadow:none">
+              <table class="dsc-table">
+                <thead><tr><th class="dsc-sortable is-sorted">Nome</th><th>Descrição</th><th class="dsc-col-actions">Ações</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Educação Inovadora Superior</td>
+                    <td>Instituições que ministram cursos de nível superior reconhecidos pelo MEC.</td>
+                    <td class="dsc-col-actions">
+                      <button class="dsc-icon-action dsc-icon-action--info" aria-label="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+                      <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Inativar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Educação Inovadora Técnico</td>
+                    <td>Instituições que ministram cursos de nível técnico reconhecidos pelo MEC.</td>
+                    <td class="dsc-col-actions">
+                      <button class="dsc-icon-action dsc-icon-action--info" aria-label="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+                      <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Inativar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="dsc-pagination">
+                <span class="dsc-pagination-info">Mostrando 1 a 2 de 2 registros</span>
+                <span class="dsc-pagination-controls">
+                  <button class="dsc-pagination-btn" disabled>«</button>
+                  <button class="dsc-pagination-btn" disabled>‹</button>
+                  <button class="dsc-pagination-btn is-current">1</button>
+                  <button class="dsc-pagination-btn" disabled>›</button>
+                  <button class="dsc-pagination-btn" disabled>»</button>
+                </span>
+                <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>10</option><option>25</option></select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <script>
+    // Indicador de largura/breakpoint da demo
+    function bp() {
+      var w = window.innerWidth;
+      var faixa = w >= 1440 ? 'extra large' : w >= 1024 ? 'large' : w >= 768 ? 'medium' : w >= 480 ? 'small' : 'extra small';
+      document.getElementById('bp-width').textContent = w + 'px (' + faixa + ')';
+    }
+    window.addEventListener('resize', bp); bp();
+  </script>
+</body>
+</html>

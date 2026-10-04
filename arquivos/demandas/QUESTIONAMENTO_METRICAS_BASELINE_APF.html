@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionamento à Equipe de Métricas — Baseline APF do Prêmio IEL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+/* Identidade AVAL */
+      --brand-blue: #005CA9;
+      --brand-blue-dark: #0A2440;
+      --brand-blue-light: #E5F2FC;
+      --brand-blue-hover: #004B8A;
+      --brand-accent: #0078E0;
+      
+      /* Aviso é Dourado no AVAL (regra: nunca laranja) */
+      --brand-gold: #B45309;
+      --brand-gold-light: #FFFBEB;
+      --brand-gold-border: #FDE68A;
+      
+      /* Superfícies & Bordas */
+      --bg-app: #F6FAFD;
+      --bg-sidebar: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-hover: #EDF3F9;
+      --bg-active: #E3EEF8;
+      --border-color: #D6E3F0;
+      --border-subtle: #E8F0F8;
+      
+      /* Compatibilidade mapa.css */
+      --primary-color: #005CA9;
+      --surface-ground: #F6FAFD;
+      --surface-card: #FFFFFF;
+      --surface-border: #D6E3F0;
+      --surface-hover: #EDF3F9;
+      --text-color: #0A2440;
+      --shadow-1: 0 1px 3px rgba(10, 36, 64, 0.06);
+      --focus-ring: 0 0 0 3px rgba(0, 92, 169, 0.18);
+      --dsc-font-family-1: 'IBM Plex Sans', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-title: 'Archivo', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      --dsc-font-mono: 'IBM Plex Mono', ui-monospace, "SFMono-Regular", "Courier New", monospace;
+      --dsc-border-radius-pill: 999px;
+      --dsc-border-radius-medium: 6px;
+      --transition-duration: 0.15s;
+      
+      /* Tipografia & Cores */
+      --text-main: #0A2440;
+      --text-secondary: #2B3A4A;
+      --text-muted: #526981;
+      --text-blue: #005CA9;
+      
+      /* Status & Badges */
+      --badge-success-bg: #ECFDF5;
+      --badge-success-text: #047857;
+      --badge-success-border: #A7F3D0;
+      
+      --badge-warning-bg: #FFFBEB;
+      --badge-warning-text: #B45309;
+      --badge-warning-border: #FDE68A;
+      
+      --badge-info-bg: #EFF6FF;
+      --badge-info-text: #1D4ED8;
+      --badge-info-border: #BFDBFE;
+      
+      --badge-purple-bg: #F5F3FF;
+      --badge-purple-text: #6D28D9;
+      --badge-purple-border: #DDD6FE;
+
+      /* Sombras & Raios */
+      --shadow-sm: 0 1px 2px 0 rgba(10, 36, 64, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(10, 36, 64, 0.08), 0 2px 4px -2px rgba(10, 36, 64, 0.05);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-full: 999px;
+
+      /* Dimensões */
+      --header-height: 60px;
+      --sidebar-width: 320px;
+}
+:root {
+  --_bg: var(--bg-app, #F6FAFD);
+  --_card: var(--bg-card, #FFFFFF);
+  --_borda: var(--border-color, #D6E3F0);
+  --_borda-sutil: var(--border-subtle, #E8F0F8);
+  --_hover: var(--bg-hover, #EDF3F9);
+  --_texto: var(--text-main, var(--text-color, #0A2440));
+  --_texto2: var(--text-secondary, #526981);
+  --_marca: var(--brand-blue, var(--primary-color, #005CA9));
+  --_marca-clara: var(--brand-blue-light, #E5F2FC);
+  --_titulo: var(--dsc-font-title, 'Archivo', 'Segoe UI', system-ui, sans-serif);
+  --_corpo: var(--dsc-font-family-1, 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif);
+  --_mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin:0; background: var(--_bg); color: var(--_texto); font-family: var(--_corpo); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+.wrap { width: 100%; margin: 0; padding: 32px 40px 80px; }
+/* O conteúdo destes documentos é majoritariamente tabela larga — a tela inteira é
+   trabalho útil, não desperdício. A prosa corrida fica com medida de leitura própria
+   para não virar linha de 200 caracteres em monitor grande. */
+@media (max-width: 720px) { .wrap { padding: 24px 16px 60px; } }
+.doc-head { margin-bottom: 26px; }
+.eyebrow { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--_marca); margin-bottom:10px; }
+h1 { font-family: var(--_titulo); font-size: clamp(24px,3.4vw,32px); font-weight:700; line-height:1.2; margin:0 0 14px; color: var(--_texto); text-wrap: balance; }
+.doc-section { background: var(--_card); border:1px solid var(--_borda); border-radius:10px; padding: 0; margin-bottom:20px; box-shadow: 0 1px 3px rgba(10,36,64,.06); }
+.section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 20px 28px; cursor:pointer; list-style:none; }
+.section-header::-webkit-details-marker { display:none; }
+.section-title { font-family: var(--_titulo); font-size:18px; font-weight:700; color: var(--_texto); display:flex; align-items:center; gap:10px; }
+.section-title svg { color: var(--_marca); flex:none; }
+.chevron { color: var(--_texto2); transition: transform .18s; flex:none; }
+details[open] > .section-header .chevron { transform: rotate(180deg); }
+.section-body { padding: 18px 28px 24px; border-top:1px solid var(--_borda-sutil); }
+.markdown-body > :first-child { margin-top:0; }
+.markdown-body > :last-child { margin-bottom:0; }
+.markdown-body h3 { font-family: var(--_titulo); font-size:15.5px; font-weight:700; margin:26px 0 10px; color: var(--_texto); }
+.markdown-body h4 { font-size:14px; font-weight:700; margin:20px 0 8px; }
+.markdown-body p { margin: 0 0 12px; }
+.markdown-body ul, .markdown-body ol { margin:0 0 12px; padding-left:22px; }
+.markdown-body li { margin-bottom:6px; }
+.markdown-body code { font-family: var(--_mono); font-size:.86em; background: var(--_hover); border:1px solid var(--_borda-sutil); border-radius:4px; padding:1px 5px; overflow-wrap:anywhere; }
+/* caminho de arquivo e chave longa não têm espaço para quebrar: sem isto, um code
+   comprido empurra o corpo inteiro e a página ganha rolagem horizontal no celular */
+.markdown-body { overflow-wrap: break-word; }
+.custom-table .col-id  { white-space: nowrap; width: 1%; }
+.custom-table .col-num { white-space: nowrap; min-width: 5.5rem; }
+.custom-table .col-prosa { min-width: 38rem; }
+.custom-table .col-nome  { min-width: 15rem; max-width: 22rem; }
+.ficha { margin: 2px 0 22px; font-size: 13px; color: var(--_texto2); }
+.ficha blockquote { margin:0; border:0; padding:0; }
+.ficha p { margin: 0; line-height: 1.9; }
+.markdown-body pre { background: var(--_hover); border:1px solid var(--_borda); border-radius:8px; padding:14px 16px; overflow-x:auto; }
+.markdown-body pre code { background:none; border:0; padding:0; }
+.markdown-body blockquote { margin:0 0 14px; padding:12px 18px; border-left:3px solid var(--_marca); background: var(--_bg); border-radius:0 6px 6px 0; color: var(--_texto2); }
+.markdown-body blockquote > :first-child { margin-top:0; } .markdown-body blockquote > :last-child { margin-bottom:0; }
+.markdown-body a { color: var(--_marca); }
+.item-titulo { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:30px 0 12px; font-family: var(--_titulo); font-size:17px; font-weight:700; color: var(--_texto); }
+.item-nome { flex:0 1 auto; min-width:0; }
+.chave { font-family: var(--_mono); font-size:12px; font-weight:600; letter-spacing:.01em; color: var(--_texto2); background: var(--_hover); border:1px solid var(--_borda); border-radius:999px; padding:4px 12px; white-space:nowrap; }
+.badge { font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:999px; padding:3px 11px; white-space:nowrap; }
+.badge--alterada { background:#DBEAFE; color:#1D4ED8; }
+.badge--nova     { background:#EDE9FE; color:#6D28D9; }
+.badge--mista    { background:#FEF3C7; color:#B45309; }
+.kpi-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:14px; margin:16px 0 20px; }
+.stat { background: var(--_card); border:1px solid var(--_borda); border-left:4px solid var(--acento, var(--_marca)); border-radius:8px; padding:16px 20px; box-shadow:0 1px 3px rgba(10,36,64,.06); }
+.stat-n { font-family: var(--_titulo); font-size:30px; font-weight:700; line-height:1.05; color: var(--_texto); font-variant-numeric: tabular-nums; }
+.stat-k { margin-top:8px; font-size:13px; color: var(--_texto2); line-height:1.45; }
+.stat-k span { display:block; margin-top:3px; color: var(--_texto2); opacity:.85; }
+.table-container { width:100%; overflow-x:auto; margin: 12px 0; border:1px solid var(--_borda); border-radius:8px; }
+.custom-table { width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+.custom-table th { background: var(--_hover); color: var(--_texto); font-weight:600; font-family: var(--_titulo); padding:12px 16px; border-bottom:1px solid var(--_borda); white-space:nowrap; }
+.custom-table td { padding:12px 16px; border-bottom:1px solid var(--_borda-sutil); color: var(--_texto); vertical-align:top; line-height:1.5; }
+// A primeira coluna costuma ser um ID curto, que não deve partir. Mas quando ela é
+// um NOME ou a própria narrativa, o nowrap faz o texto transbordar por cima da
+// coluna vizinha — 665px de conteúdo numa célula de 304px. Essas ficam de fora.
+.custom-table th:first-child, .custom-table td:first-child:not(.col-nome):not(.col-prosa) { white-space:nowrap; }
+.custom-table tbody tr:last-child td { border-bottom:none; }
+.custom-table tbody tr:hover { background: var(--_hover); }
+.changelog-table td { font-size:12.5px; }
+.changelog-table th:first-child, .changelog-table td:first-child { width:120px; min-width:110px; }
+.req-tag { font-weight:600; color:#E11D48; font-size:11px; background:#FFE4E6; padding:2px 6px; border-radius:4px; display:inline-block; }
+.opt-tag { font-weight:500; color: var(--_texto2); font-size:11px; background: var(--_hover); padding:2px 6px; border-radius:4px; display:inline-block; }
+.rodape { margin-top:34px; padding-top:18px; border-top:1px solid var(--_borda); font-size:12.5px; color: var(--_texto2); }
+@media print { .doc-section { break-inside: avoid; border:1px solid #ccc; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="doc-head">
+    <div class="eyebrow">Análise de impacto</div>
+    <h1>Questionamento à Equipe de Métricas — Baseline APF do Prêmio IEL</h1>
+  </header>
+  <div class="ficha markdown-body"><blockquote>
+<p><strong>Para</strong>: equipe de métricas responsável pela contagem <code>PIEL_BASELINE_PF_CD.xlsx</code> (aba <em>AFP - Detalhada</em>).<br><strong>De</strong>: equipe de especificação de requisitos do Prêmio IEL (documentação docqui).<br><strong>Assunto</strong>: dúvidas levantadas ao conciliar as 110 features especificadas com os 139 processos elementares medidos.<br><strong>Norma de referência</strong>: IFPUG CPM 4.3.1 (ISO/IEC 20926) e as <em>Regras de medição de serviços</em> registradas em <code>global/SIZING.md</code>.  </p>
+</blockquote>
+</div>
+
+  <details class="doc-section" id="contexto" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Contexto
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Concluímos a especificação funcional do Prêmio IEL em 110 features (nível N3), organizadas em 5 domínios e 21 Feature Sets, e a cruzamos linha a linha com a contagem do baseline. O resultado da conciliação está registrado em <code>global/SIZING.md</code> → <em>Conciliação Feature ↔ Processo Elementar</em> e é reproduzível a partir da planilha.</p>
+<p>A conciliação fechou bem na maior parte: dos 139 processos elementares medidos, todos foram atribuídos a uma feature ou justificados como consulta de apoio. Restaram, porém, <strong>dez pontos que não conseguimos resolver sozinhos</strong> — eles dependem de decisões de contagem que só a equipe de métricas pode confirmar. Este documento os organiza em quatro blocos.</p>
+<p>Nenhuma das perguntas abaixo pressupõe erro na contagem. Em vários casos suspeitamos que a resposta seja &quot;está correto, e o motivo é X&quot; — o que precisamos é registrar esse X na documentação, para que a próxima contagem e a próxima sprint partam da mesma base.</p>
+<h3>Números de partida</h3>
+<p>@@KPI0@@
+| Features especificadas (N3) | 110 |</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="bloco-a-deducoes-entre-pf-bruto-e-pf-fabrica-de-software-respondido" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Bloco A — Deduções entre PF Bruto e PF Fábrica de Software ✅ RESPONDIDO
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p><strong>Resposta da equipe de métricas (2026-08-28): a coluna <em>PF Fábrica de Software</em> (PFL) estava com falha de preenchimento. Deve ser desconsiderada — vale o PF Bruto (PFB).</strong></p>
+<p>Com isso, as três perguntas deste bloco perdem objeto: não há dedução a explicar, porque a diferença de 144,5 PF não era um critério contratual, era erro de planilha. O baseline do sistema é de <strong>647 PF</strong>, e não 502,5. As perguntas ficam registradas abaixo como memória do que motivou a consulta; a análise que as embasava está preservada, mas <strong>nenhum número deste bloco deve ser usado</strong>.</p>
+<p><strong>Efeito na documentação</strong> (já aplicado): o <code>global/DATA-MODEL.md</code> passa a registrar 117 PF nos 12 ALIs (era 92,5); os ALIs do domínio Avaliação deixam de aparecer zerados (<em>Avaliação de Inscrição</em> 10 PF, <em>Alocação Avaliadores</em> 7 PF) e o ALI <em>Premiação</em> volta aos 15 PF da Tabela 1 do CPM (era 7,5). O <code>modules/INDEX.md</code> e o <code>global/SIZING.md</code> passam a citar apenas o PFB.</p>
+</blockquote>
+<details><summary>Perguntas originais deste bloco (mantidas como registro)</summary><p>Identificávamos a diferença de 144,5 PF entre as duas colunas concentrada em grupos definidos pela coluna <strong>Insumo</strong>, e reconstruímos a conta assim:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Origem da dedução</th>
+<th>Linhas</th>
+<th>PF Bruto</th>
+<th>PF Fábrica</th>
+<th>Deduzido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Insumos 41, 42, 43 e 45 (módulo Avaliação)</td>
+<td>27</td>
+<td>115</td>
+<td>0</td>
+<td>115</td>
+</tr>
+<tr>
+<td>ALI <em>Avaliação de Inscrição</em> (sem código de insumo)</td>
+<td>1</td>
+<td>10</td>
+<td>0</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Insumo 44 (validação e ajustes da inscrição)</td>
+<td>6</td>
+<td>39</td>
+<td>27</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Insumo 47 (ALI <em>Premiação</em> e correlatos)</td>
+<td>4</td>
+<td>24</td>
+<td>16,5</td>
+<td>7,5</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>38</strong></td>
+<td><strong>188</strong></td>
+<td><strong>43,5</strong></td>
+<td><strong>144,5</strong></td>
+</tr>
+</tbody></table></div>
+<h3>Q1 — Por que o módulo Avaliação inteiro está zerado na coluna PF Fábrica de Software? ✅</h3>
+<p>São <strong>125 PF</strong> zerados: 27 transações (etapas, alocação de avaliadores, painel administrativo e painel do avaliador) mais os dois ALIs do domínio (<em>Avaliação de Inscrição</em> e <em>Alocação Avaliadores</em>). Todas as linhas têm tipo, DER, ALR e complexidade preenchidos, e receberam PF Bruto normalmente — o zero aparece só na coluna final.</p>
+<p>Nossa leitura é que essas funções foram medidas aqui mas <strong>faturadas em outra ordem de serviço</strong>, identificada pelos códigos de insumo 41, 42, 43 e 45. Pedimos confirmação de três pontos: (a) essa leitura está correta? (b) qual é a OS/contrato que absorveu esses 125 PF, para podermos referenciá-la na documentação? (c) o ALI <em>Avaliação de Inscrição</em>, que está sem código de insumo mas também zerado, segue o mesmo destino?</p>
+<p>Essa é a pergunta mais importante do documento, porque hoje a nossa documentação de modelo de dados registra o domínio Avaliação como &quot;PF pendente&quot;, o que é impreciso: os PF existem e estão calculados — apenas não foram cobrados nesta entrega.</p>
+<blockquote>
+<p><strong>Resposta</strong>: nem uma coisa nem outra — a coluna estava com falha de preenchimento. Os 125 PF não foram faturados em outra OS; simplesmente não deveriam constar como zero. Vale o PF Bruto.</p>
+</blockquote>
+<h3>Q2 — Qual o critério da dedução de 50% no insumo 44? ✅</h3>
+<p>Cinco transações do fluxo de validação e ajuste da inscrição (<em>Aceitar / Rejeitar Inscrição</em>, <em>Consultar Auditoria de Ajustes</em>, <em>Consultar Rodadas</em>, <em>Exportar Auditoria de Ajustes para CSV</em> e <em>Solicitar Ajuste</em>) tiveram o PF reduzido exatamente à metade. Supomos tratar-se de <strong>função alterada</strong> e não incluída — o que, pela fórmula de projeto de melhoria do CPM (<code>EFP = ADD + CHGA + CFP + DEL</code>), entraria como CHGA. Confirmam? Se sim, qual o percentual contratual aplicado a função alterada, e ele é o mesmo para EE, SE e CE?</p>
+<blockquote>
+<p><strong>Resposta</strong>: não há critério — a redução à metade era efeito da mesma falha de preenchimento da coluna. As cinco transações valem o PF Bruto integral.</p>
+</blockquote>
+<h3>Q3 — A mesma dedução de 50% no ALI <em>Premiação</em> (insumo 47) tem a mesma origem? ✅</h3>
+<p>O ALI <em>Premiação</em> foi contado com DER 71 e RLR 9, o que pela Tabela 1 do CPM dá complexidade Alta e 15 PF — e é exatamente o PF Bruto registrado. Na coluna final aparece 7,5. Presumimos o mesmo critério de função alterada da Q2. Confirmam? Havendo diferença de critério entre função de dados e função de transação, pedimos o registro.</p>
+<blockquote>
+<p><strong>Resposta</strong>: mesma origem da Q2 — falha de preenchimento. A Premiação vale os <strong>15 PF</strong> do bruto, coerentes com a Tabela 1 do CPM para RLR 9 × DER 71.</p>
+</blockquote>
+</details>
+    </div>
+  </details>
+  <details class="doc-section" id="bloco-b-features-especificadas-que-nao-tem-processo-elementar-na-contagem" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Bloco B — Features especificadas que não têm processo elementar na contagem
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Aqui a situação é diferente do Bloco A: não se trata de linha zerada, e sim de <strong>linha inexistente</strong>. São funcionalidades que documentamos como features e para as quais não localizamos nenhum processo elementar correspondente na planilha.</p>
+<h3>Q4 — O fechamento da etapa foi contado em algum lugar?</h3>
+<p>Quatro features do domínio Avaliação não têm linha na contagem:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>AVL-APU-01</code> Apurar Resultado da Etapa</td>
+<td>Calcula média ponderada, ordena o ranking e aplica a linha de corte</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-02</code> Registrar Desempate</td>
+<td>Decisão manual de desempate, com justificativa, gravada em entidade própria</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-03</code> Encerrar Etapa por UF</td>
+<td>Fecha o estado, grava responsável e data, libera os classificados</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-APU-05</code> Revisar Devolutiva</td>
+<td>Revisão humana do feedback consolidado antes da liberação</td>
+</tr>
+</tbody></table></div>
+<p>Pelos quatro critérios de processo elementar do CPM (atividade significativa para o usuário, transação completa, autocontida e que deixa o negócio em estado consistente), entendemos que as quatro qualificam — e as três primeiras mantêm ALI, o que as classificaria como EE, enquanto a apuração, por produzir dado derivado (média e colocação), tenderia a SE. O modelo físico confirma que existem: há tabelas dedicadas de apuração por etapa, decisão de desempate e fechamento de etapa por UF.</p>
+<p>Pergunta: essas funções foram contadas em outro artefato (talvez o mesmo que absorveu os insumos 41 a 45), ou são de fato uma lacuna do baseline? Precisamos saber para não pedir a contagem em duplicidade.</p>
+<blockquote>
+<p><strong>Atualização.</strong> A equipe do projeto confirmou que <strong>o baseline é anterior à SP05</strong>. Isso muda a natureza da pergunta: as quatro features não são lacuna do baseline — elas não existiam quando a contagem foi feita, e devem entrar como <strong>funções incluídas (ADD) na contagem da própria SP05</strong>. Resta saber apenas se já foram contadas em algum artefato dessa sprint. Ver o <em>Anexo — Funções de dados a contar na evolução da SP05</em>.</p>
+</blockquote>
+<h3>Q5 — Onde está a alteração da Premiação?</h3>
+<p>A planilha registra <em>Incluir Prêmio</em> (EE, 3 PF) e não registra nenhuma transação de alteração do prêmio. Como a Premiação é um ALI mantido pelo sistema, e alterar o cadastro é uma operação corrente do Administrador Nacional, esperávamos uma EE de alteração.</p>
+<p>Nossa hipótese é que a edição do prêmio esteja <strong>diluída nas abas do módulo Gerenciar Prêmio</strong> — isto é, que as transações de configuração (termos de aceite, links públicos, vínculos de categoria, formulário) tenham sido entendidas como a forma de alterar a premiação, sem uma EE de &quot;editar dados básicos&quot;. Se for isso, tudo bem — mas gostaríamos de registrar a decisão, porque documentamos <code>CFG-PRE-03</code> Editar Prêmio como feature e ela ficará permanentemente sem PF.</p>
+<h3>Q6 — Confirmação sobre nove ausências menores</h3>
+<p>As features abaixo também não têm processo elementar. Para cada uma indicamos a nossa hipótese; pedimos apenas um &quot;confere&quot; ou a correção:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Feature</th>
+<th>Nossa hipótese</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>ACS-ACE-01</code> Autenticar Usuário</td>
+<td>Não contável — LOGON, conforme a regra 7 das <em>Regras de medição de serviços</em></td>
+</tr>
+<tr>
+<td class="col-nome"><code>ACS-ACE-02</code> Consultar Perfil do Usuário</td>
+<td>Derivada da sessão; sem transação própria</td>
+</tr>
+<tr>
+<td class="col-nome"><code>ACS-ADM-04</code> Vincular UF ao Administrador</td>
+<td>Passo dentro de <em>Incluir/Editar Usuário</em>, não PE autônomo</td>
+</tr>
+<tr>
+<td class="col-nome"><code>ACS-AUD-01</code> Consultar Trilha de Auditoria</td>
+<td>Não previsto no escopo contado?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>AVL-ETA-07</code> Configurar Termo de Confidencialidade</td>
+<td>Absorvido em outra transação de configuração?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>CFG-PRE-04</code> Ativar/Inativar Prêmio</td>
+<td>Absorvido na alteração do prêmio (ver Q5)?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>CFG-PRE-05</code> / <code>CFG-PRE-06</code> Exportar / Importar Prêmios</td>
+<td>Fora do escopo contado?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>CFG-PRE-12</code> Configurar Critérios de Avaliação</td>
+<td>Absorvido na configuração do questionário?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>CFG-TIP-10</code> / <code>CFG-TIP-11</code> Cadastrar / Ativar Enquadramento</td>
+<td>Absorvido em <em>Editar Tipo de Participante</em>?</td>
+</tr>
+<tr>
+<td class="col-nome"><code>INS-ACO-02</code> Visualizar Devolutiva</td>
+<td>Parte do dashboard do participante?</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+  <details class="doc-section" id="bloco-c-processos-elementares-medidos-com-pf-igual-a-zero" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Bloco C — Processos elementares medidos com PF igual a zero
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<h3>Q7 — As cinco linhas sem tipo e sem complexidade foram descartadas de propósito? ⏳ RESPONDIDA EM PARTE</h3>
+<p>Cinco linhas aparecem na planilha com o nome do processo preenchido, mas sem DER, sem ALR, sem complexidade e com PF zero:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Linha</th>
+<th class="col-nome">Processo elementar</th>
+<th>Tipo registrado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>19</td>
+<td class="col-nome">Detalhar Categoria</td>
+<td>SE</td>
+</tr>
+<tr>
+<td>26</td>
+<td class="col-nome">Detalhar Modalidade</td>
+<td><em>(em branco)</em></td>
+</tr>
+<tr>
+<td>33</td>
+<td class="col-nome">Detalhar Tipo de Participante</td>
+<td>SE</td>
+</tr>
+<tr>
+<td>104</td>
+<td class="col-nome">Realizar Ajuste na Inscrição</td>
+<td><em>(em branco)</em></td>
+</tr>
+<tr>
+<td>128</td>
+<td class="col-nome">Consultar Etapa (implícita)</td>
+<td>CE</td>
+</tr>
+</tbody></table></div>
+<p>Há duas leituras possíveis e elas levam a conclusões opostas. Na primeira, a equipe avaliou e <strong>descartou</strong> essas transações — por exemplo, por entender que &quot;detalhar&quot; não acrescenta lógica sobre a consulta já contada, ou que a segunda ocorrência da mesma janela não é PE novo. Na segunda, são linhas que <strong>ficaram por preencher</strong>.</p>
+<p>A distinção importa para nós porque <code>CFG-CAT-04</code>, <code>CFG-MOD-04</code> e <code>CFG-TIP-04</code> (as telas de visualização) estão especificadas como features e hoje aparecem com 0 PF na nossa rastreabilidade. Se o descarte foi deliberado, registramos a justificativa e encerramos o assunto; se foi lacuna, essas linhas precisam de complexidade.</p>
+<p>Observamos ainda que <em>Realizar Ajuste na Inscrição</em> (linha 104) descreve a correção feita pelo participante após uma solicitação de ajuste — uma operação que mantém o ALI Inscrição e nos parece qualificar como EE.</p>
+<h4>⏳ Resposta parcial recebida em 2026-09-02 — cobre a linha 128</h4>
+<p>O descarte da linha 128 foi <strong>deliberado</strong>, e o critério é o de fronteira: um processo elementar exige que os dados <strong>atravessem a fronteira da aplicação</strong>. A consulta marcada como <em>(implícita)</em> é a leitura que precede a edição — a tela de pesquisa mostra algumas colunas e, ao acionar Editar, o formulário abre com todos os campos preenchidos. Ela é PE quando essa abertura traz dado que a pesquisa não mostrava; <strong>não é</strong> quando a lista já exibia tudo. Na etapa as colunas eram poucas e os dados já estavam em tela, então nada cruza a fronteira de novo.</p>
+<p>O critério é coerente com o resto da planilha: das *<em>15 linhas marcadas <em>(implícita/implícito)</em>, 14 foram contadas</em>* (3 a 7 PF) e só a 128 ficou zerada — o marcador nunca significou &quot;não conta&quot;, significa &quot;conferir se algo novo aparece&quot;.</p>
+<p>O critério está registrado na coluna <strong>Observação</strong> de <code>global/CONTAGEM-PF.md</code>, criada para isso.</p>
+<p><strong>Segue em aberto</strong>: as quatro linhas restantes (19, 26, 33 e 104). As três primeiras são telas de <em>detalhar</em>, e o mesmo raciocínio de fronteira <strong>pode</strong> explicá-las — se o detalhe não mostra nada além da lista, não há PE —, mas isso é dedução nossa e não a aplicamos por conta própria; <code>CFG-CAT-04</code>, <code>CFG-MOD-04</code> e <code>CFG-TIP-04</code> continuam com 0 PF até a confirmação. A linha 104 é de outra natureza e permanece como está descrito acima.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="bloco-d-confirmacoes-de-criterio" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Bloco D — Confirmações de critério
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>Estas duas perguntas não mudam o total; servem para alinhar o vocabulário entre a contagem e a especificação.</p>
+<h3>Q8 — Três processos medidos não têm feature especificada — confirmam que existem em produção?</h3>
+<p>O caminho inverso também produziu achados. Três processos elementares foram medidos e <strong>não</strong> têm feature correspondente na nossa documentação:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Processo elementar</th>
+<th>Tipo</th>
+<th class="col-num">PF</th>
+<th>Situação</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome">Editar Inscrição (contexto de validação)</td>
+<td>EE</td>
+<td class="col-num">6</td>
+<td>Edição administrativa da inscrição já validada</td>
+</tr>
+<tr>
+<td class="col-nome">Excluir Inscrição</td>
+<td>EE</td>
+<td class="col-num">3</td>
+<td>Exclusão administrativa</td>
+</tr>
+<tr>
+<td class="col-nome">Visualizar Preview do Formulário</td>
+<td>CE</td>
+<td class="col-num">6</td>
+<td>Pré-visualização do formulário dinâmico</td>
+</tr>
+</tbody></table></div>
+<p>As duas primeiras já reconhecemos como lacuna nossa e estão previstas para especificação. A terceira ainda não. Como a contagem é evidência de que a funcionalidade foi entregue, pedimos confirmação de que as três estão em produção — em caso positivo, abriremos as features correspondentes.</p>
+<h3>Q9 — A regra de contagem de combos está estabilizada?</h3>
+<p>Nove processos elementares são consultas de apoio a campos de seleção (<em>Consultar Categorias (combo)</em>, <em>Consultar Premiação (combo)</em>, <em>Consultar Grupo (combo)</em> e similares), somando 28 PF. Eles foram contados como CE, o que é coerente com a <em>Regra do combobox</em> registrada em <code>global/SIZING.md</code>.</p>
+<p>Do nosso lado esses carregamentos não viram feature — são passos de outra tela. Isso não é divergência, mas queremos confirmar que a regra permanece válida para as próximas contagens, porque ela responde por parte da diferença entre 139 processos elementares e 110 features.</p>
+<h3>Q10 — Uma transação, duas features: como tratar na próxima contagem?</h3>
+<p>O processo elementar <em>Aceitar / Rejeitar Inscrição</em> (EE, 6 PF) corresponde, na nossa especificação, a <strong>duas</strong> features: <code>VAL-ANA-03</code> Aprovar Inscrição e <code>VAL-ANA-04</code> Rejeitar Inscrição. Entendemos a contagem como correta — aprovar e rejeitar compartilham DER, ALR e lógica de processamento, e pelo critério de unicidade do CPM são o mesmo processo elementar.</p>
+<p>A pergunta é de forma, não de mérito: para a rastreabilidade, preferem que a nossa documentação registre as duas features apontando para o mesmo PE (como está hoje), ou que unifiquemos em uma feature única &quot;Decidir Inscrição&quot;?</p>
+<h3>Q12 — Duas linhas do baseline declaram ALR 1 e a memória nomeia dois arquivos lógicos</h3>
+<p>Ao tornar a memória de cálculo <strong>conferível por máquina</strong> — o gerador da planilha de entrega passou a comparar a quantidade declarada com o que a descrição enumera —, duas linhas do baseline não fecham:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th class="col-nome">Processo elementar</th>
+<th class="col-nome">Feature</th>
+<th>ALR declarado</th>
+<th>ALR que a memória nomeia</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="col-nome"><code>Incluir Categoria</code></td>
+<td class="col-nome"><code>CFG-CAT-02</code> <strong>Cadastrar Categoria</strong></td>
+<td>1</td>
+<td>2 — Categoria · Premiação</td>
+</tr>
+<tr>
+<td class="col-nome"><code>Editar Categoria</code></td>
+<td class="col-nome"><code>CFG-CAT-03</code> <strong>Editar Categoria</strong></td>
+<td>1</td>
+<td>2 — Categoria · Premiação</td>
+</tr>
+</tbody></table></div>
+<p><strong>O número não muda</strong>: pela Tabela 6 do CPM, uma EE com DER 4 fica em complexidade Baixa tanto com ALR 1 quanto com ALR 2 — os 3 PF de cada uma seguem válidos nas duas leituras. É inconsistência de documentação, não de dimensionamento.</p>
+<p><strong>A pergunta</strong>: qual das duas está certa — a quantidade ou a descrição? A resposta define o que o <code>global/CONTAGEM-PF.md</code> e os dois N3 devem registrar. Enquanto não vier, os dois ficam <strong>como o baseline entregou</strong>, com a divergência sinalizada aqui: corrigir a fonte da métrica por conta própria seria reescrever a medição de outra equipe.</p>
+<h3>Q13 — O mesmo arquivo lógico aparece com dois nomes na memória</h3>
+<p>Ao consolidar as descrições de ALR numa coluna única da planilha de entrega, o ALI de tipo de participante sai com <strong>duas grafias</strong>:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Grafia</th>
+<th>Ocorrências</th>
+<th>Origem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Tipo Participante</code></td>
+<td>36</td>
+<td>transcrição do baseline de 2026-02-28</td>
+</tr>
+<tr>
+<td><code>Tipo de Participante</code></td>
+<td>26</td>
+<td><code>global/DATA-MODEL.md</code> e a contagem de 2026-09-01</td>
+</tr>
+</tbody></table></div>
+<p>São o mesmo arquivo lógico. Quem agrupar a coluna Descrição por nome — para conferir arquivo por arquivo, que é o uso da coluna — vai vê-lo partido em dois.</p>
+<p><strong>A pergunta</strong>: unificamos pela grafia do <code>DATA-MODEL.md</code> (<code>Tipo de Participante</code>), que é a fonte única de nomes de entidade nesta instância? Não mexi por conta própria porque as 36 ocorrências vêm da transcrição da medição de vocês — trocar nome em memória de cálculo alheia é o tipo de &quot;correção&quot; que reaparece como divergência na conferência seguinte.</p>
+<p><strong>Não muda PF</strong> em nenhuma hipótese: é grafia, não contagem.</p>
+<blockquote>
+<p>De passagem, duas grafias claramente erradas foram corrigidas na transcrição — <code>Iscrição</code> → <code>Inscrição</code> (2 ocorrências) e <code>Premiajção</code> → <code>Premiação</code> (1). São erros de digitação sem leitura alternativa possível, e a correção não toca nenhum número.</p>
+</blockquote>
+<h3>Q14 — Quais campos compõem o DER de cada arquivo lógico?</h3>
+<p>O baseline traz a <strong>quantidade</strong> de DER por ALI, mas nunca a <strong>lista</strong>. Ao enumerar campo a campo o que o <code>global/data-models/</code> documenta, as duas populações não coincidem em nenhum dos doze:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>ALI</th>
+<th>DER no baseline</th>
+<th>Campos no data-model</th>
+<th>Diferença</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Premiação</td>
+<td>71</td>
+<td>42</td>
+<td>−29</td>
+</tr>
+<tr>
+<td>Categoria</td>
+<td>13</td>
+<td>5</td>
+<td>−8</td>
+</tr>
+<tr>
+<td>Modalidade</td>
+<td>19</td>
+<td>8</td>
+<td>−11</td>
+</tr>
+<tr>
+<td>Tipo de Participante</td>
+<td>89</td>
+<td>53</td>
+<td>−36</td>
+</tr>
+<tr>
+<td>Listas do Sistema</td>
+<td>14</td>
+<td>6</td>
+<td>−8</td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>85</td>
+<td>61</td>
+<td>−24</td>
+</tr>
+<tr>
+<td>Notificação Participante</td>
+<td>13</td>
+<td>7</td>
+<td>−6</td>
+</tr>
+<tr>
+<td>Validação Inscrição</td>
+<td>23</td>
+<td>5</td>
+<td>−18</td>
+</tr>
+<tr>
+<td>Auditoria de E-mails</td>
+<td>20</td>
+<td>18</td>
+<td>−2</td>
+</tr>
+<tr>
+<td>Avaliação de Inscrição</td>
+<td>38</td>
+<td><strong>45</strong></td>
+<td><strong>+7</strong></td>
+</tr>
+<tr>
+<td>Alocação Avaliadores</td>
+<td>12</td>
+<td>6</td>
+<td>−6</td>
+</tr>
+<tr>
+<td>Usuário</td>
+<td>8</td>
+<td>5</td>
+<td>−3</td>
+</tr>
+</tbody></table></div>
+<p><strong>Divergir é esperado, em parte.</strong> O data-model documenta os atributos <strong>físicos</strong> levantados por engenharia reversa e omite, por convenção da instância, o identificador e os cinco campos globais de auditoria que toda entidade <code>Auditavel</code> herda — o que explica a maioria das diferenças para baixo. Em <code>Notificação Participante</code> e <code>Alocação Avaliadores</code> a conta fecha exatamente com <code>campos + 6</code>.</p>
+<p><strong>Duas não se explicam por aí.</strong> <code>Validação Inscrição</code> tem 5 campos documentados para 23 DER, e <code>Avaliação de Inscrição</code> tem <strong>mais campos que DER</strong> (45 contra 38) — o único caso em que o data-model enumera além do que o baseline contou.</p>
+<p><strong>A pergunta</strong>: vocês têm a lista dos DER que sustenta cada quantidade? Com ela, a planilha de entrega passa a trazer a enumeração real em vez do inventário de campos, e a conferência arquivo por arquivo fica possível. Enquanto não vier, a coluna sai rotulada como <strong>Campos (data-model)</strong>, justamente para não ser lida como a enumeração dos DER contados.</p>
+<h3>Q15 — O RLR de seis arquivos lógicos não bate com as entidades que os compõem</h3>
+<p>A mesma enumeração que o Q14 fez para o DER, feita agora para o <strong>RLR</strong>, mostra que em <strong>seis dos doze</strong> arquivos lógicos o número do baseline não coincide com a quantidade de entidades constituintes que o <code>global/data-models/</code> documenta:</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>ALI</th>
+<th>RLR no baseline</th>
+<th>Entidades constituintes</th>
+<th>Diferença</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Premiação</td>
+<td>9</td>
+<td>8</td>
+<td>−1</td>
+</tr>
+<tr>
+<td>Tipo de Participante</td>
+<td>12</td>
+<td>14</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>11</td>
+<td>10</td>
+<td>−1</td>
+</tr>
+<tr>
+<td>Validação Inscrição</td>
+<td>3</td>
+<td>1</td>
+<td>−2</td>
+</tr>
+<tr>
+<td>Avaliação de Inscrição</td>
+<td>3</td>
+<td>7</td>
+<td>+4</td>
+</tr>
+<tr>
+<td>Usuário</td>
+<td>3</td>
+<td>2</td>
+<td>−1</td>
+</tr>
+</tbody></table></div>
+<p>Nos outros seis a conta fecha. <em>(A tabela traz o RLR do <strong>baseline</strong>, como no Q14. Em <code>Avaliação de Inscrição</code> a SP05 levou o RLR de 3 para 4 — é esse 4 que a planilha de entrega mostra, por ser o tamanho DEPOIS que o CHGA usa; a distância para as 7 entidades cai de +4 para +3.)</em></p>
+<p><strong>Aqui a divergência incomoda mais do que no DER.</strong> No Q14 as duas populações são reconhecidamente diferentes — atributo físico não é elemento reconhecido pelo usuário. No RLR não: o subgrupo lógico e a entidade constituinte descrevem a mesma coisa, e a lista deveria ser a memória do número. Sabemos que o CPM permite agrupar várias entidades físicas num mesmo RET — é a explicação natural para <code>Avaliação de Inscrição</code> (7 entidades reduzidas a 3 subgrupos) e <code>Tipo de Participante</code> —, mas ela não cobre os casos em que o baseline tem <strong>mais</strong> RLR do que entidades documentadas: <code>Premiação</code>, <code>Inscrição</code>, <code>Validação Inscrição</code> e <code>Usuário</code>. Aí falta entidade na nossa documentação, ou sobra RET na contagem.</p>
+<p><strong>A pergunta</strong>: qual o agrupamento de entidades em RET que sustenta cada número? Onde o baseline tem mais RLR do que documentamos, que subgrupo estamos deixando de descrever? <code>Validação Inscrição</code> é o caso mais gritante — 3 RET para 1 entidade documentada, e ela também é a de maior distância no DER (23 contra 5 campos), o que sugere que o problema ali é da nossa documentação, não da contagem.</p>
+<p><strong>Uma ressalva sobre como contamos as entidades.</strong> A coluna <em>Entidades constituintes</em> do <code>global/data-models/</code> separa itens por vírgula, mas usa <code>+</code> para <strong>empacotar duas entidades num mesmo subgrupo</strong> — é o caso de <em>Critério/Decisão de Desempate + Inscrição da Decisão</em> e de <em>Termo de Confidencialidade + Aceite</em>. A contagem acima é de <strong>subgrupos como documentados</strong>, que é o que se compara com RLR, não de tabelas físicas. Isso expõe uma incoerência nossa: para <code>Avaliação de Inscrição</code>, o índice <code>global/DATA-MODEL.md</code> anota <em>(+7)</em> — oito entidades — enquanto o fragmento documenta sete subgrupos. Vamos alinhar as duas pontas de qualquer forma; a pergunta abaixo continua de pé.</p>
+<p><strong>Não arbitramos nada</strong>: os números do consolidado continuam sendo os do baseline. A conferência sai na planilha de entrega, aba <em>Funções de Dados</em>, coluna <strong>RLR / RET</strong> — geração com <code>python3 scripts/gera-planilha-contagem.py . --jira --der-alr</code>, que também aponta as divergências na saída do terminal.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="resumo-das-perguntas" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Resumo das perguntas
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>#</th>
+<th>Bloco</th>
+<th>Pergunta</th>
+<th>PF envolvido</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><del>Q1</del></td>
+<td>A</td>
+<td>✅ <strong>Respondida</strong> — a coluna PF Fábrica de Software tinha falha de preenchimento; vale o PF Bruto</td>
+<td>—</td>
+</tr>
+<tr>
+<td><del>Q2</del></td>
+<td>A</td>
+<td>✅ <strong>Respondida</strong> — mesma causa da Q1</td>
+<td>—</td>
+</tr>
+<tr>
+<td><del>Q3</del></td>
+<td>A</td>
+<td>✅ <strong>Respondida</strong> — mesma causa da Q1</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>B</td>
+<td>Fechamento da etapa (apurar, desempatar, encerrar, revisar) foi contado?</td>
+<td>a apurar</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td>B</td>
+<td>Onde está a transação de alteração da Premiação?</td>
+<td>a apurar</td>
+</tr>
+<tr>
+<td>Q6</td>
+<td>B</td>
+<td>Confirmação de nove ausências menores</td>
+<td>a apurar</td>
+</tr>
+<tr>
+<td>Q7</td>
+<td>C</td>
+<td>As cinco linhas com PF zero foram descartadas de propósito?</td>
+<td>a apurar</td>
+</tr>
+<tr>
+<td>Q8</td>
+<td>D</td>
+<td>Três processos medidos sem feature — confirmam que estão em produção?</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Q9</td>
+<td>D</td>
+<td>A regra de contagem de combos permanece válida?</td>
+<td>28</td>
+</tr>
+<tr>
+<td>Q10</td>
+<td>D</td>
+<td>Aceitar/Rejeitar: duas features para um PE — como registrar?</td>
+<td>6</td>
+</tr>
+<tr>
+<td><del>Q11</del></td>
+<td>Anexo</td>
+<td>✅ <strong>Respondida</strong> — a tabela de fechamento é RLR de ALI existente, a coluna <code>CD_UUID</code> é funcional e não há outra tabela nova: valem os <strong>40 PF</strong></td>
+<td>40</td>
+</tr>
+</tbody></table></div>
+<p><strong>Q1 a Q3 já foram respondidas</strong> — a coluna PF Fábrica de Software tinha falha de preenchimento e foi descartada. A <strong>Q11</strong> também está respondida nos três itens: a tabela de fechamento é registro lógico de um ALI existente, a inclusão do <code>CD_UUID</code> é funcional e não há outra tabela nova — o lado de dados fecha em <strong>40 PF de CHGA</strong>. Restam sete perguntas: as de Q4 a Q7 alteram o nosso registro de rastreabilidade e as de Q8 a Q10 alteram apenas a forma de documentar.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="anexo-funcoes-de-dados-a-contar-na-evolucao-da-sp05" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Anexo — Funções de dados a contar na evolução da SP05
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<blockquote>
+<p>Confirmado pela equipe do projeto: <strong>o baseline é anterior à SP05</strong>. Logo os valores de DER e RLR registrados nele são o estado <strong>antes</strong> da sprint, e o modelo físico atual (<code>arquivos/modelo_dados.sql</code>) é o estado <strong>depois</strong>. Este anexo isola o delta no lado dos <strong>dados</strong> (ALI/AIE), para dimensionar a evolução sem recontar o que já estava no baseline.</p>
+</blockquote>
+<h3>O que a SP05 mexeu no modelo</h3>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>Migração</th>
+<th>Alteração física</th>
+<th>ALI afetado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V00030</td>
+<td><code>CD_UUID</code> em <code>TB_INSCRICAO_DOCUMENTO</code></td>
+<td>Inscrição</td>
+</tr>
+<tr>
+<td>V00031</td>
+<td><code>NR_CLASSIFICADOS</code> em <code>TB_ETAPA</code></td>
+<td>Premiação</td>
+</tr>
+<tr>
+<td>V00032</td>
+<td><code>NR_PREMIADOS</code> em <code>TB_ETAPA</code></td>
+<td>Premiação</td>
+</tr>
+<tr>
+<td>V00032</td>
+<td><code>FL_PREMIADO</code> em <code>TB_APROVACAO_ETAPA_PARTICIPANTE</code></td>
+<td>Avaliação de Inscrição</td>
+</tr>
+<tr>
+<td>V00032</td>
+<td><code>DS_TIPO_CORTE</code> em <code>TB_DESEMPATE_DECISAO</code></td>
+<td>Avaliação de Inscrição</td>
+</tr>
+<tr>
+<td>V00033</td>
+<td>tabela nova <code>TB_FECHAMENTO_ETAPA_UF</code></td>
+<td>Avaliação de Inscrição</td>
+</tr>
+</tbody></table></div>
+<h3>Antes e depois, por ALI</h3>
+<p>Os DER contam cada atributo uma única vez dentro do ALI: dos seis campos de <code>TB_FECHAMENTO_ETAPA_UF</code>, quatro (<code>CD_ETAPA</code>, <code>CD_USUARIO_RESPONSAVEL</code>, <code>NM_USUARIO_RESPONSAVEL</code>, <code>DS_OBSERVACAO</code>) já existiam no grupo, então só <code>CD_UF</code> e <code>DT_FECHAMENTO</code> acrescentam DER.</p>
+<div class="table-container"><table class="custom-table">
+<thead>
+<tr>
+<th>ALI</th>
+<th>RLR/DER antes</th>
+<th>RLR/DER depois</th>
+<th>Complexidade antes</th>
+<th>Complexidade depois</th>
+<th>Conta como</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Premiação</td>
+<td>9 / 71</td>
+<td>9 / 73</td>
+<td>Alta</td>
+<td>Alta</td>
+<td><strong>CHGA — 15 PF</strong></td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>11 / 85</td>
+<td>11 / 86</td>
+<td>Alta</td>
+<td>Alta</td>
+<td><strong>CHGA — 15 PF</strong></td>
+</tr>
+<tr>
+<td>Avaliação de Inscrição</td>
+<td>3 / 38</td>
+<td>4 / 42</td>
+<td>Média</td>
+<td>Média</td>
+<td><strong>CHGA — 10 PF</strong></td>
+</tr>
+<tr>
+<td>Alocação Avaliadores</td>
+<td>1 / 12</td>
+<td>1 / 12</td>
+<td>Baixa</td>
+<td>Baixa</td>
+<td>não muda</td>
+</tr>
+<tr>
+<td>Demais 8 ALIs</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>não mudam</td>
+</tr>
+<tr>
+<td>AIE</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>nenhum (o baseline não tem AIE)</td>
+</tr>
+</tbody></table></div>
+<p><strong>Total das funções de dados na evolução: 40 PF de CHGA · nenhum ADD · nenhum DEL.</strong></p>
+<h3>Três pontos que decidem esse número</h3>
+<p><strong>1. A tabela nova não vira ALI novo.</strong> <code>TB_FECHAMENTO_ETAPA_UF</code> é entidade dependente — só existe vinculada a uma Etapa, e excluir a etapa elimina seus registros. Pela regra de agrupamento do CPM ela entra como <strong>mais um RLR dentro de um ALI existente</strong>, não como função de dados própria. Contá-la como ALI novo acrescentaria 7 a 10 PF indevidos.</p>
+<p><strong>2. Nenhum ALI muda de faixa de complexidade.</strong> Premiação e Inscrição já estavam em Alta (o teto), e Avaliação de Inscrição sai de 3 RLR × 38 DER para 4 RLR × 42 DER, permanecendo em Média pela Tabela 1 do CPM. Como o CHGA é dimensionado pelo tamanho <strong>depois</strong> da alteração, os 40 PF são iguais ao que essas três funções já valiam — a evolução altera o conteúdo, não o tamanho.</p>
+<blockquote>
+<p>Margem de segurança: Avaliação de Inscrição sobe para Alta se ganhar mais 2 RLR (passando de 5) ou mais 9 DER (passando de 50). Vale reavaliar na próxima evolução do fechamento.</p>
+</blockquote>
+<p><strong>3. O resultado é robusto à dúvida de agrupamento.</strong> Há uma decisão em aberto sobre a qual ALI o fechamento pertence: por dependência ele segue a Etapa (ALI Premiação); por função, é o desfecho da avaliação (ALI Avaliação de Inscrição). Testamos as duas alocações e <strong>nenhuma altera a complexidade</strong> de qualquer dos dois ALIs — o total de 40 PF se mantém nas duas leituras. A escolha é de rastreabilidade, não de tamanho.</p>
+<h3>Q11 — Como contar as funções de dados da SP05? ✅ RESPONDIDA</h3>
+<p>Pedimos a confirmação de três decisões, que fecham o dimensionamento do lado de dados:</p>
+<ul>
+<li><strong>(a)</strong> ✅ <strong>Confirmado (2026-08-28)</strong>: <code>TB_FECHAMENTO_ETAPA_UF</code> <strong>faz parte de um ALI existente</strong> — entra como registro lógico do ALI <em>Avaliação de Inscrição</em>, não como função de dados nova. Os três ALIs alterados entram como <strong>CHGA de 40 PF</strong>.</li>
+<li><strong>(b)</strong> ✅ <strong>Confirmado (2026-08-28)</strong>: a inclusão da coluna <code>CD_UUID</code> é <strong>funcional</strong> — necessidade de negócio, não motivação puramente técnica. O ALI Inscrição permanece na conta; o total do lado de dados fica nos <strong>40 PF</strong>, e não nos 25 PF da hipótese alternativa.</li>
+<li><strong>(c)</strong> ✅ <strong>Confirmado (2026-08-28)</strong>: <code>TB_FECHAMENTO_ETAPA_UF</code> é a <strong>única tabela incluída</strong> na sprint. A lista das seis alterações de modelo está completa, ainda que não tenhamos tido acesso ao modelo físico anterior nem aos arquivos de migração.</li>
+</ul>
+<blockquote>
+<p><strong>Efeito colateral sobre a Q4.</strong> Com o baseline sendo anterior à SP05, a ausência das transações de fechamento na planilha deixa de ser lacuna: elas <strong>não existiam</strong> quando a contagem foi feita. Isso reposiciona <code>AVL-APU-01</code>, <code>AVL-APU-02</code>, <code>AVL-APU-03</code> e <code>AVL-APU-05</code>, junto com as features novas de HU-036 e HU-038, como <strong>ADD na contagem da SP05</strong> — e não como algo a corrigir no baseline. A pergunta que resta na Q4 é apenas se já foram contadas em outro artefato da própria sprint.</p>
+</blockquote>
+
+    </div>
+  </details>
+  <details class="doc-section" id="como-reproduzir-a-conciliacao" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Como reproduzir a conciliação
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<p>A conciliação completa, com a correspondência de cada um dos 139 processos elementares, está em <code>global/SIZING.md</code> → seção <em>Conciliação Feature ↔ Processo Elementar (baseline APF)</em>. A tabela de rastreabilidade em <code>modules/INDEX.md</code> traz, para cada uma das 110 features, o nome do processo elementar como consta na planilha.</p>
+<p>Os números deste documento saem da aba <em>AFP - Detalhada</em>: coluna <strong>Processos elementares</strong> para o nome, <strong>Tipo</strong> para a classificação, <strong>PFB</strong> para o PF bruto, <strong>PFL</strong> para o PF Fábrica de Software e <strong>Insumo</strong> para o agrupamento das deduções.</p>
+
+    </div>
+  </details>
+  <details class="doc-section" id="changelog" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Changelog
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
+<div class="table-container"><table class="custom-table changelog-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Autor</th>
+<th>Tipo</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>02/09/2026</td>
+<td>Contagem APF (docqui)</td>
+<td>Q15 aberta · Q7 respondida em parte</td>
+<td>Q15 registra que o RLR de seis arquivos lógicos não bate com as entidades constituintes documentadas — achado da enumeração campo a campo pedida para a entrega da SP05. Q7 passa a ⏳ com o critério de fronteira</td>
+</tr>
+<tr>
+<td>01/09/2026</td>
+<td>Contagem APF (docqui)</td>
+<td>Q14 acrescentada</td>
+<td>O baseline traz a quantidade de DER por ALI, nunca a lista. A enumeração dos campos do data-model não coincide em nenhum dos doze; duas divergências não se explicam pelos campos globais omitidos</td>
+</tr>
+<tr>
+<td>01/09/2026</td>
+<td>Contagem APF (docqui)</td>
+<td>Q13 acrescentada</td>
+<td>O ALI de tipo de participante aparece com duas grafias na memória — 36 do baseline, 26 do DATA-MODEL. Achado ao consolidar a coluna Descrição de ALR na planilha. Não muda PF</td>
+</tr>
+<tr>
+<td>01/09/2026</td>
+<td>Contagem APF (docqui)</td>
+<td>Q12 acrescentada</td>
+<td>Duas linhas do baseline declaram ALR 1 e nomeiam dois arquivos lógicos na memória. Achado pelo gerador da planilha de entrega, que passou a conferir quantidade contra descrição. Não muda PF</td>
+</tr>
+<tr>
+<td>27/08/2026</td>
+<td>Equipe de especificação (docqui)</td>
+<td>Documento criado</td>
+<td>Dez questionamentos derivados da conciliação entre as 110 features e os 139 processos elementares do baseline</td>
+</tr>
+</tbody></table></div>
+
+    </div>
+  </details>
+
+  <footer class="rodape">
+    Gerado de <code>arquivos/demandas/QUESTIONAMENTO_METRICAS_BASELINE_APF.md</code> por <code>scripts/gera-html-impacto.mjs</code>.
+    O <strong>.md é a fonte</strong> — edite lá e regenere; alterações feitas neste HTML se perdem.
+  </footer>
+</div>
+</body>
+</html>

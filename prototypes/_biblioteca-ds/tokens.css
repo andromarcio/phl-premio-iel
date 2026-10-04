@@ -1,0 +1,109 @@
+/* ============================================================================
+   tokens.css — tokens do design system do PRÊMIO IEL DE TALENTOS (namespace --dsc-*)
+   Fonte: global/DESIGN-SYSTEM.md (engenharia reversa do tema Angular + PrimeNG e
+   das capturas do sistema atual). Este arquivo define SÓ variáveis; os
+   componentes vivem em ds.css e são token-driven.
+   Marca: teal #3B8580 (ação/topbar) + roxo #883CAE (apoio/tema). Raio pequeno (4px).
+   Tema escuro: classe `app-dark` na raiz.
+   ========================================================================== */
+
+:root {
+  /* --- Marca / ação -------------------------------------------------------- */
+  --dsc-primary-10:  #e7f1f0;   /* realce/seleção (fundo teal claro) */
+  --dsc-primary-50:  #5aa39d;   /* primário no dark mode */
+  --dsc-primary-90:  #3b8580;   /* AÇÃO principal: botão confirmar, topbar, aba/menu ativo */
+  --dsc-primary-110: #2f6a66;   /* hover/pressionado do primário */
+  --dsc-secondary-90:#883cae;   /* apoio/tema (contorno secundário, seleção, foco) — roxo PrimeNG */
+
+  /* Verde de criação (novo/adicionar, badge Ativo, switch ligado) */
+  --dsc-create-90:   #198754;
+  --dsc-create-110:  #157347;
+
+  /* --- Semânticas (status): fundo -10 + forte -90 + texto sobre fundo -on --- */
+  --dsc-success-10:  #e7f4ea;
+  --dsc-success-90:  #198754;
+  --dsc-success-on:  #125f3b;
+  --dsc-warning-10:  #fff0c3;
+  --dsc-warning-90:  #b38705;
+  --dsc-warning-on:  #7a5c03;
+  --dsc-danger-10:   #f7cfd2;
+  --dsc-danger-90:   #dc3545;
+  --dsc-danger-on:   #9a2530;
+  --dsc-info-10:     #c5dcff;
+  --dsc-info-90:     #0d6efd;   /* azul: links, paginação, informativo */
+  --dsc-info-on:     #094db1;
+
+  /* --- Superfícies / texto (grayscale Bootstrap do tema) ------------------- */
+  --dsc-bg-neutral-1:     #ffffff;  /* cards, header, sidebar, tabela, modal */
+  --dsc-bg-neutral-2:     #efefef;  /* ground da aplicação */
+  --dsc-bg-neutral-3:     #e9ecef;  /* hover de linha, zebra */
+  --dsc-border-neutral-3: #dee2e6;  /* bordas, divisores */
+  --dsc-content-neutral-5:#212529;  /* texto principal */
+  --dsc-content-neutral-4:#495057;  /* texto secundário / rótulo */
+  --dsc-grayscale-90:     #6c757d;  /* texto suave / placeholder / cabeçalho de tabela */
+  --dsc-grayscale-130:    #212529;  /* fundo do toast */
+
+  /* --- Aliases semânticos usados por ds.css e pelos protótipos ------------- */
+  --dsc-bg-highlight-1: var(--dsc-primary-10);
+  --text-color:         var(--dsc-content-neutral-5);
+
+  /* --- Tipografia (pilha de sistema — sem fonte proprietária) -------------- */
+  --dsc-font-family-1: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --dsc-font-family-numeric: var(--dsc-font-family-1);
+  --dsc-font-size-micro: 14px;   /* base (escala PrimeNG) */
+  --dsc-line-height: 1.5;
+
+  /* --- Espaçamento (grade de 4px) ------------------------------------------ */
+  --dsc-spacing-quark:   4px;
+  --dsc-spacing-nano:    8px;
+  --dsc-spacing-micro:  12px;
+  --dsc-spacing-tiny:   16px;
+  --dsc-spacing-smaller:24px;
+  --dsc-spacing-small:  32px;
+  --dsc-spacing-medium: 40px;
+  --dsc-spacing-large:  48px;
+  --dsc-spacing-larger: 56px;
+  --dsc-spacing-big:    64px;
+  --dsc-spacing-bigger: 72px;
+  --dsc-spacing-huge:   80px;
+
+  /* --- Forma e movimento --------------------------------------------------- */
+  /* ⚠️ O traço do sistema é RAIO PEQUENO: botões/inputs = 4px (NÃO pill).
+     A pílula fica só para badges de status, tags e switches.                  */
+  --dsc-border-radius-small:  4px;    /* botões, inputs, select, textarea, checkbox, células */
+  --dsc-border-radius-medium: 6px;    /* cards, modais, popovers */
+  --dsc-border-radius-large:  8px;    /* cards de destaque */
+  --dsc-border-radius-pill:   1000px; /* badge de status, tag, switch */
+  --dsc-border-width-hairline: 1px;
+  --dsc-border-width-thin:     2px;
+  --dsc-transition-duration: 0.12s;
+  --dsc-focus-ring: 0 0 0 3px rgba(59, 133, 128, 0.35);  /* anel teal translúcido */
+  --dsc-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.06);      /* cards, chips */
+  --dsc-elevation-2: 0 10px 30px rgba(0, 0, 0, 0.15);    /* modais, toasts, drawer */
+
+  /* --- Métricas do shell --------------------------------------------------- */
+  --dsc-header-height: 60px;
+  --dsc-sidebar-width: 300px;   /* card "Estrutura" (árvore) nas telas de configuração */
+
+  /* --- Gradiente da barra superior (marca) --------------------------------- */
+  --dsc-topbar-gradient: linear-gradient(90deg, #3b8580 0%, #2f7a6f 100%);
+
+  /* --- Breakpoints (referência) -------------------------------------------
+     small 480 · medium 768 · large 1024 · extra large 1440.                  */
+}
+
+/* ============================ Tema escuro (opcional) ======================= */
+/* O sistema atual é light-only; o dark fica como conveniência de protótipo.   */
+.app-dark {
+  --dsc-bg-neutral-1:     #1e2429;
+  --dsc-bg-neutral-2:     #171b1f;
+  --dsc-bg-neutral-3:     #2b333a;
+  --dsc-border-neutral-3: #3a444d;
+  --dsc-content-neutral-5:#f9fafb;
+  --dsc-content-neutral-4:#c6ced4;
+  --dsc-grayscale-90:     #97a3ab;
+  --dsc-primary-90:       var(--dsc-primary-50);
+  --dsc-primary-110:      #7bc0ba;
+  --dsc-bg-highlight-1:   #123230;
+  --dsc-focus-ring: 0 0 0 3px rgba(90, 163, 157, 0.4);
+}

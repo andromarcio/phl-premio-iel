@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Fila e Painel de Validação — Validação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-fila" data-feature="VAL-FIL-01" class="is-current" onclick="showScreen('screen-fila')">Fila de Validação</button>
+    <button id="sw-painel" data-feature="VAL-FIL-02" onclick="openPainel()">Painel gerencial</button>
+    <button id="sw-relgeral" data-doc="nao" onclick="showScreen('screen-relatorio-geral')">Relatório de Inscrições</button>
+    <button id="sw-export" data-feature="VAL-FIL-03" onclick="openExport()">Histórico exportado</button>
+    <span class="sepv"></span>
+    <strong>Ver como:</strong>
+    <button id="rl-nac" class="is-current" onclick="setRole('nacional')">Administrador Nacional <span style="opacity:.6">PIT.1</span></button>
+    <button id="rl-reg" onclick="setRole('regional')">Administrador Regional — BA <span style="opacity:.6">PIT.3</span></button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">VAL-FIL-01 · 02 · 03 — Fila e Painel de Validação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name" id="topbar-user">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Premiação > Validação ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-fila')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Fila de Validação (VAL-FIL-01) -->
+      <!-- ============================================================= -->
+      <div id="screen-fila" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Validação de Inscrições</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Fila de Validação</h1>
+              <p class="dsc-page-subtitle" id="fila-escopo">Inscrições submetidas para conferência — todas as UFs.</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--outline" onclick="openPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21V9M12 21V4M16 21v-8"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+              Dashboard Gerencial
+            </button>
+            <button class="dsc-btn dsc-btn--secondary" id="btn-rel-geral" onclick="showScreen('screen-relatorio-geral')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+              Relatório de Inscrições
+            </button>
+            <button class="dsc-btn dsc-btn--secondary" id="btn-rel-paradas" onclick="showToast('info','Abre o Relatório de Inscrições Paradas (AVL-APU-06), em prototypes/avaliacao/apuracao-devolutiva/flow-relatorios.html')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Inscrições Paradas
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados da fila (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da fila:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setFilaState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFilaState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFilaState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFilaState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFilaState('error')">Erro</button>
+        </div>
+
+        <!-- Filtros em cascata: UF · Premiação · Categoria · Modalidade · Tipo de participante · Situação -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field" id="fld-uf">
+            <label class="dsc-field-label" for="fb-uf">UF <span class="dsc-req" id="uf-req" style="display:none">*</span></label>
+            <select class="dsc-select" id="fb-uf" onchange="onFiltrar()">
+              <option value="">Todas as UFs</option>
+              <option value="BA">BA — Bahia</option>
+              <option value="CE">CE — Ceará</option>
+              <option value="MG">MG — Minas Gerais</option>
+              <option value="PE">PE — Pernambuco</option>
+              <option value="SP">SP — São Paulo</option>
+              <option value="Nacional">Nacional (sem UF)</option>
+            </select>
+            <span class="dsc-field-hint" id="uf-hint">Administrador Nacional alcança todas as UFs.</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-premio">Premiação</label>
+            <select class="dsc-select" id="fb-premio" onchange="onPremiacaoChange()">
+              <option value="">Todas</option>
+              <option value="piel2026" selected>Prêmio IEL de Talentos 2026</option>
+              <option value="piel2025">Prêmio IEL de Talentos 2025</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-cat">Categoria</label>
+            <select class="dsc-select" id="fb-cat" onchange="onCategoriaChange()">
+              <option value="">Todas</option>
+              <option value="IEL Estágio">IEL Estágio</option>
+              <option value="Educação Inovadora">Educação Inovadora</option>
+              <option value="Empresa Inovadora">Empresa Inovadora</option>
+              <option value="Inova Talentos">Inova Talentos</option>
+            </select>
+            <span class="dsc-field-hint">Habilitada após escolher a premiação.</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-mod">Modalidade</label>
+            <select class="dsc-select" id="fb-mod" disabled onchange="onFiltrar()">
+              <option value="">Todas</option>
+            </select>
+            <span class="dsc-field-hint">Habilitada após escolher a categoria.</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-tipo">Tipo de participante</label>
+            <select class="dsc-select" id="fb-tipo" onchange="onFiltrar()">
+              <option value="">Todos</option>
+              <option value="Estagiário">Estagiário</option>
+              <option value="Instituição de Ensino">Instituição de Ensino</option>
+              <option value="Micro e Pequena Empresa">Micro e Pequena Empresa</option>
+              <option value="Empresa de Grande Porte">Empresa de Grande Porte</option>
+            </select>
+          </div>
+          <div class="dsc-field" style="flex:1 1 100%">
+            <span class="dsc-field-label">Situação <span class="dsc-field-hint" style="font-weight:400">(seleção múltipla)</span></span>
+            <div class="dsc-flex dsc-wrap dsc-gap-3" id="sit-checks" style="padding-top:6px"></div>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="onFiltrar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="onLimpar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards KPI de contagem por situação (recorte rápido ao acionar) -->
+        <div class="dsc-grid-3" id="kpi-cards" style="margin-bottom:16px"></div>
+
+        <!-- Estado: COM DADOS -->
+        <div id="state-data">
+          <div class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th>Protocolo</th>
+                  <th>Premiação</th>
+                  <th>Categoria</th>
+                  <th>Modalidade</th>
+                  <th>Tipo de participante</th>
+                  <th class="dsc-sortable">UF</th>
+                  <th class="dsc-sortable">Situação</th>
+                  <th class="dsc-sortable is-sorted">Data</th>
+                  <th class="dsc-col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="fila-tbody"></tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info" id="pag-info">Mostrando 1 a 9 de 9 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Primeira">«</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Última">»</button>
+              </span>
+              <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>10</option><option>20</option><option>50</option></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: VAZIO (sem inscrições na fila) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Ainda não há inscrições submetidas para validação neste recorte.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhuma inscrição corresponde ao recorte informado. Revise os filtros e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="onLimpar()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:16%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:16%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:16%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:16%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setFilaState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Dashboard Gerencial de Validação (VAL-FIL-02) -->
+      <!-- ============================================================= -->
+      <div id="screen-painel" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-fila')">Validação de Inscrições</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Dashboard Gerencial</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Dashboard Gerencial de Validação</h1>
+              <p class="dsc-page-subtitle" id="painel-escopo">Prêmio IEL de Talentos 2026 · todas as UFs</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-fila')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar à fila
+            </button>
+            <button class="dsc-btn" id="btn-export-painel" onclick="onExportarPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados do painel (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados do painel:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setPainelState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setPainelState('empty')">Sem premiação (vazio)</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setPainelState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setPainelState('error')">Erro</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="showToast('erro','Ocorreu um erro. Tente novamente.')">Erro na exportação</button>
+        </div>
+
+        <!-- Filtros em cascata do painel -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-uf">UF <span class="dsc-req" id="pn-uf-req" style="display:none">*</span></label>
+            <select class="dsc-select" id="pn-uf" onchange="renderPainel()">
+              <option value="">Todas as UFs</option>
+              <option value="BA">BA — Bahia</option>
+              <option value="CE">CE — Ceará</option>
+              <option value="MG">MG — Minas Gerais</option>
+              <option value="PE">PE — Pernambuco</option>
+              <option value="SP">SP — São Paulo</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-premio">Premiação <span class="dsc-req">*</span></label>
+            <select class="dsc-select" id="pn-premio" onchange="onPainelPremiacao()">
+              <option value="">Selecione a premiação…</option>
+              <option value="piel2026" selected>Prêmio IEL de Talentos 2026</option>
+              <option value="piel2025">Prêmio IEL de Talentos 2025</option>
+            </select>
+            <span class="dsc-field-hint">Obrigatória para carregar as métricas.</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-cat">Categoria</label>
+            <select class="dsc-select" id="pn-cat" onchange="renderPainel()">
+              <option value="">Todas</option>
+              <option value="IEL Estágio">IEL Estágio</option>
+              <option value="Educação Inovadora">Educação Inovadora</option>
+              <option value="Empresa Inovadora">Empresa Inovadora</option>
+              <option value="Inova Talentos">Inova Talentos</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-mod">Modalidade</label>
+            <select class="dsc-select" id="pn-mod" disabled>
+              <option value="">Todas</option>
+            </select>
+            <span class="dsc-field-hint">Habilitada após escolher a categoria.</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-ini">Data início</label>
+            <input class="dsc-input" id="pn-ini" type="date" value="2026-06-01" onchange="renderPainel()">
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="pn-fim">Data fim</label>
+            <input class="dsc-input" id="pn-fim" type="date" value="2026-08-28" onchange="renderPainel()">
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS -->
+        <div id="pstate-data">
+          <!-- TODO: definir no Design System — não há componente de gráfico no ds.css;
+               os gráficos abaixo são montados com .dsc-progress e blocos com estilo inline. -->
+          <div class="dsc-card" style="margin-bottom:16px">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Distribuição por situação de validação</span>
+              <span class="dsc-tag dsc-tag--neutral" id="dist-total">Total: 0 inscrições</span>
+            </div>
+            <div id="dist-bars"></div>
+          </div>
+
+          <div class="dsc-card">
+            <div class="dsc-card-header">
+              <span class="dsc-card-title">Comparação</span>
+              <span class="dsc-segmented" id="cmp-seg">
+                <button class="is-active" onclick="setComparacao('cat', this)">Por Categoria</button>
+                <button onclick="setComparacao('uf', this)">Por UF</button>
+              </span>
+            </div>
+            <div id="cmp-bars"></div>
+            <div class="dsc-flex dsc-wrap dsc-gap-2" id="cmp-legend" style="margin-top:16px"></div>
+          </div>
+        </div>
+
+        <!-- Estado: SEM PREMIAÇÃO (vazio) -->
+        <div id="pstate-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 21V9M12 21V4M16 21v-8"/><line x1="3" y1="21" x2="21" y2="21"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Selecione uma premiação para carregar as métricas. Sem premiação, a exportação do histórico também não fica disponível.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO -->
+        <div id="pstate-loading" style="display:none">
+          <div class="dsc-card">
+            <span class="dsc-skeleton" style="height:20px;width:40%;margin-bottom:16px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:100%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:82%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:64%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:14px;width:41%;margin-bottom:16px"></span>
+            <span class="dsc-loading-inline"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO -->
+        <div id="pstate-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setPainelState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 3: Relatório Geral de Inscrições (AVL-APU-10) — fora do escopo deste protótipo -->
+      <!-- ============================================================= -->
+      <div id="screen-relatorio-geral" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-fila')">Validação de Inscrições</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Relatório de Inscrições</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Relatório Geral de Inscrições</h1>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-fila')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar à fila
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-table-wrap">
+          <div class="dsc-state">
+            <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>
+            <span class="dsc-state-title">Fora do escopo deste protótipo</span>
+            <span class="dsc-state-text">O <strong>Relatório Geral de Inscrições</strong> (<code>AVL-APU-10</code>) é um ponto de entrada da Fila de Validação, mas vive no Feature Set Apuração e Devolutiva e tem tela própria — a consulta e a exportação em planilha são a mesma feature. <code>VAL-FIL-01</code> especifica apenas a existência e a visibilidade da ação; o que o relatório apresenta está fora do escopo daquela feature e deste protótipo.</span>
+            <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="showScreen('screen-fila')">Voltar à fila</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 4: Histórico exportado do painel (VAL-FIL-03) -->
+      <!-- ============================================================= -->
+      <div id="screen-export" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-fila')">Validação de Inscrições</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="openPainel()">Dashboard Gerencial</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Histórico exportado</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Histórico das inscrições — planilha</h1>
+              <p class="dsc-page-subtitle">Uma linha por inscrição do mesmo recorte apurado no painel.</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="openPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar ao painel
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-alert" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span><strong>Encenação do protótipo.</strong> No sistema real a ação "Exportar Excel" entrega o arquivo <em>historico-inscricoes.xlsx</em> pelo navegador; esta tela existe para revisar o <strong>conteúdo</strong> da planilha. Feature: <code>VAL-FIL-03</code> <em>Exportar Histórico do Painel de Validação</em>, separada de <code>VAL-FIL-02</code> pela decisão de produto de 2026-09-01.</span>
+        </div>
+
+        <!-- Barra de demonstração (proto only) -->
+        <div class="proto-demo" style="margin-bottom:16px">
+          <span class="proto-demo-label">Conteúdo da planilha:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setExportState('data')">Com inscrições</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setExportState('empty')">Recorte sem inscrições</button>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-flex dsc-gap-2 dsc-wrap dsc-items-center">
+            <span class="dsc-lv-label">Mesmo recorte do painel:</span>
+            <span class="dsc-chip" id="ex-premio">Premiação: Prêmio IEL de Talentos 2026</span>
+            <span class="dsc-chip" id="ex-uf">UF: todas</span>
+            <span class="dsc-chip" id="ex-cat">Categoria: todas</span>
+            <span class="dsc-chip" id="ex-periodo">Período: 01/06/2026 a 28/08/2026</span>
+            <span class="dsc-chip" id="ex-escopo">Escopo: todas as UFs da premiação</span>
+          </div>
+        </div>
+
+        <div class="dsc-table-wrap">
+          <table class="dsc-table dsc-table--dense">
+            <thead>
+              <tr>
+                <th>Protocolo</th>
+                <th>Premiação</th>
+                <th>Categoria</th>
+                <th>Modalidade</th>
+                <th>Tipo de participante</th>
+                <th>UF</th>
+                <th>Situação</th>
+                <th>Data</th>
+                <th>Nome do Participante</th>
+                <th>Telefone</th>
+              </tr>
+            </thead>
+            <tbody id="ex-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="dsc-alert" style="margin-top:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span><strong>Nome do Participante e Telefone</strong> não são dados próprios da inscrição: são resolvidos a partir dos <em>rótulos</em> dos campos preenchidos. Quando nenhum rótulo corresponde — por exemplo, depois de renomear o campo na configuração do tipo de participante —, a informação sai vazia (linhas destacadas com «—» na coluna Telefone). É limitação conhecida e aceita pelo produto.</span>
+        </div>
+
+        <div class="dsc-alert" style="margin-top:12px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span><strong>Sem recorte regional.</strong> A exportação alcança <em>todas</em> as UFs da premiação, e não apenas as vinculadas ao perfil — decorrência de a ação ser exclusiva do Administrador Nacional (recurso APIPIT.22). Por isso o chip de escopo acima não muda com o perfil.</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast (canto superior direito) -->
+  <div id="toast" class="dsc-toast" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg id="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> <code>VAL-FIL-01</code> Pesquisar Inscrições para Validação, <code>VAL-FIL-02</code> Acompanhar Painel de Validação e <code>VAL-FIL-03</code> Exportar Histórico do Painel de Validação (Feature Set Fila e Painel de Validação), já atualizados com a SP05. Telas: Fila de Validação, Dashboard Gerencial, Relatório Geral de Inscrições (tela própria em outro Feature Set) e Histórico exportado.</li>
+      <li><strong>Encenado (VAL-FIL-01):</strong> filtros em cascata (categoria habilitada após a premiação, modalidade após a categoria), UF obrigatória para o Regional e aplicada silenciosamente quando ele tem uma única UF, situação como seleção múltipla nas seis situações do N3, cards KPI que aplicam o recorte rápido, colunas do N3 com UF e Situação ordenáveis e Data como ordenação padrão ↓, inscrição sem UF apresentada como "Nacional" e a ação de visualização (ícone de olho) que abre o detalhe em nova aba.</li>
+      <li><strong>Encenado (VAL-FIL-02):</strong> premiação obrigatória para carregar as métricas, distribuição por situação, comparação alternável entre "Por Categoria" e "Por UF" e recorte por período.</li>
+      <li><strong>Encenado (VAL-FIL-03):</strong> a exportação do histórico com uma linha por inscrição, incluindo Nome do Participante e Telefone resolvidos dos rótulos — com uma linha de telefone vazio para o caso do rótulo renomeado. A ação fica desabilitada sem premiação selecionada e some para o Administrador Regional; o botão "Recorte sem inscrições" da barra de demonstração encena a planilha entregue sem linhas. O chip <em>Escopo: todas as UFs da premiação</em> materializa a RN4 — a exportação não sofre recorte regional.</li>
+      <li><strong>Botões novos da SP05, restritos ao Administrador Nacional:</strong> "Relatório de Inscrições" e "Inscrições Paradas" na Fila e "Exportar Excel" no painel. Use o seletor "Ver como" da barra de revisão para ver a mesma tela pelo Administrador Regional — os três botões desaparecem (o N3 diz "não oferece a ação", por isso o protótipo <em>oculta</em> em vez de bloquear com mensagem).</li>
+      <li><strong>Restrição ao Administrador Nacional:</strong> a exclusividade dos relatórios e da exportação ao Administrador Nacional (recurso APIPIT.22 da SP05) foi <strong>confirmada em 2026-09-01</strong>. A matriz de permissões do N2 <em>Fila e Painel de Validação</em> é a fonte única da visibilidade dos botões e do recorte regional da exportação.</li>
+      <li><strong>Relatórios alcançados pela fila:</strong> o <em>Relatório Geral de Inscrições</em> (<code>AVL-APU-10</code>) tem tela própria no Feature Set Apuração e Devolutiva — o botão existe aqui, o conteúdo é especificado lá. A <em>exportação do histórico do painel</em> é feature própria desde 2026-09-01 — <code>VAL-FIL-03</code> <em>Exportar Histórico do Painel de Validação</em>, com N3 escrito.</li>
+      <li><strong>⚠️ Cards KPI:</strong> os cards "Pendentes" e "Aprovadas" citados na HU-017 não correspondem diretamente às situações do modelo. O protótipo usa as seis situações do N3 e registra o mapeamento a confirmar: "Pendentes" = Finalizada, "Aprovadas" = Validada.</li>
+      <li><strong>Nome e telefone no histórico:</strong> resolução <em>best-effort</em> por rótulo — renomear o rótulo na configuração do tipo de participante esvazia a informação (RN3 de <code>VAL-FIL-03</code>). Comportamento herdado do sistema em produção e <strong>limitação aceita pelo produto em 2026-09-01</strong>: a coluna sai vazia sem erro e sem aviso.</li>
+      <li><strong>⚠️ Gráficos:</strong> o <code>ds.css</code> não tem componente de gráfico. A distribuição usa <code>.dsc-progress</code> e a comparação empilhada é montada com blocos de estilo inline — lacuna registrada como <code>TODO: definir no Design System</code> no HTML.</li>
+      <li><strong>Não representado:</strong> o conteúdo do Relatório de Inscrições Paradas (vive em <code>prototypes/avaliacao/apuracao-devolutiva/flow-relatorios.html</code>) e o detalhe da inscrição (vive em <code>prototypes/validacao/analise-decisao/flow.html</code>) — aqui o ícone de olho e o botão "Inscrições Paradas" apenas sinalizam a navegação.</li>
+      <li><strong>⚠️ Shell:</strong> usa o shell real da biblioteca (topbar teal + menu horizontal), não o esqueleto genérico do PROMPT_PROTOTYPE_FLOW_FULL — essas classes não existem no <code>ds.css</code> desta instância.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ================= Dados fictícios (domínio real do Prêmio IEL) ================= */
+    var SITUACOES = ['Finalizada', 'Em Validação', 'Validada', 'Rejeitada', 'Aguardando Ajuste', 'Ajustes Concluídos'];
+
+    var BADGE = {
+      'Finalizada':         'dsc-badge--info',
+      'Em Validação':       'dsc-badge--warning',
+      'Validada':           'dsc-badge--success',
+      'Rejeitada':          'dsc-badge--danger',
+      'Aguardando Ajuste':  'dsc-badge--warning',
+      'Ajustes Concluídos': 'dsc-badge--info'
+    };
+
+    /* Cor por situação nos gráficos (tokens do ds) */
+    var COR = {
+      'Finalizada':         'var(--dsc-info-90)',
+      'Em Validação':       'var(--dsc-warning-90)',
+      'Validada':           'var(--dsc-success-90)',
+      'Rejeitada':          'var(--dsc-danger-90)',
+      'Aguardando Ajuste':  'var(--dsc-secondary-90)',
+      'Ajustes Concluídos': 'var(--dsc-primary-90)'
+    };
+
+    var MODALIDADES = {
+      'IEL Estágio':        ['Estagiário do Ensino Superior', 'Estagiário do Ensino Técnico'],
+      'Educação Inovadora': ['Instituição de Ensino Superior', 'Instituição de Ensino Técnico'],
+      'Empresa Inovadora':  ['Micro e Pequena Empresa', 'Grande Empresa'],
+      'Inova Talentos':     ['Projeto de Inovação']
+    };
+
+    var INSCRICOES = [
+      { prot: 'PIEL-2026-000118', premio: 'Prêmio IEL de Talentos 2026', cat: 'Educação Inovadora', mod: 'Instituição de Ensino Superior', tipo: 'Instituição de Ensino',     uf: 'BA',       sit: 'Finalizada',         data: '24/08/2026', nome: 'Centro Universitário Jorge Amado', tel: '(71) 3272-4400' },
+      { prot: 'PIEL-2026-000124', premio: 'Prêmio IEL de Talentos 2026', cat: 'IEL Estágio',        mod: 'Estagiário do Ensino Superior',  tipo: 'Estagiário',              uf: 'BA',       sit: 'Em Validação',       data: '23/08/2026', nome: 'Marina Cerqueira Andrade',        tel: '(71) 98812-5507' },
+      { prot: 'PIEL-2026-000131', premio: 'Prêmio IEL de Talentos 2026', cat: 'IEL Estágio',        mod: 'Estagiário do Ensino Técnico',   tipo: 'Estagiário',              uf: 'BA',       sit: 'Aguardando Ajuste',  data: '21/08/2026', nome: 'Rafael Lima dos Santos',          tel: '—' },
+      { prot: 'PIEL-2026-000147', premio: 'Prêmio IEL de Talentos 2026', cat: 'Empresa Inovadora',  mod: 'Micro e Pequena Empresa',        tipo: 'Micro e Pequena Empresa', uf: 'MG',       sit: 'Validada',           data: '20/08/2026', nome: 'Hidrotech Soluções Industriais',  tel: '(31) 3491-7788' },
+      { prot: 'PIEL-2026-000152', premio: 'Prêmio IEL de Talentos 2026', cat: 'Empresa Inovadora',  mod: 'Grande Empresa',                 tipo: 'Empresa de Grande Porte', uf: 'MG',       sit: 'Ajustes Concluídos', data: '19/08/2026', nome: 'Metalúrgica Ipiranga S.A.',       tel: '(31) 3212-9000' },
+      { prot: 'PIEL-2026-000163', premio: 'Prêmio IEL de Talentos 2026', cat: 'IEL Estágio',        mod: 'Estagiário do Ensino Superior',  tipo: 'Estagiário',              uf: 'SP',       sit: 'Finalizada',         data: '18/08/2026', nome: 'Beatriz Nakamura Ferreira',       tel: '(11) 99145-3320' },
+      { prot: 'PIEL-2026-000170', premio: 'Prêmio IEL de Talentos 2026', cat: 'Educação Inovadora', mod: 'Instituição de Ensino Técnico',  tipo: 'Instituição de Ensino',   uf: 'SP',       sit: 'Rejeitada',          data: '17/08/2026', nome: 'ETEC Getúlio Vargas',             tel: '(11) 2274-6091' },
+      { prot: 'PIEL-2026-000181', premio: 'Prêmio IEL de Talentos 2026', cat: 'Empresa Inovadora',  mod: 'Micro e Pequena Empresa',        tipo: 'Micro e Pequena Empresa', uf: 'PE',       sit: 'Em Validação',       data: '16/08/2026', nome: 'Cana Digital Agroindústria ME',   tel: '(81) 3466-1155' },
+      { prot: 'PIEL-2026-000195', premio: 'Prêmio IEL de Talentos 2026', cat: 'Inova Talentos',     mod: 'Projeto de Inovação',            tipo: 'Instituição de Ensino',   uf: 'Nacional', sit: 'Finalizada',         data: '15/08/2026', nome: 'Rede Nacional de Inovação IEL',   tel: '(61) 3317-9000' },
+      { prot: 'PIEL-2026-000203', premio: 'Prêmio IEL de Talentos 2026', cat: 'IEL Estágio',        mod: 'Estagiário do Ensino Superior',  tipo: 'Estagiário',              uf: 'CE',       sit: 'Validada',           data: '14/08/2026', nome: 'Thiago Sousa Vasconcelos',        tel: '(85) 98730-4412' }
+    ];
+
+    var role = 'nacional';
+    var filaState = 'data';
+    var painelState = 'data';
+    var comparacao = 'cat';
+    var sitSelecionadas = [];
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    /* ---- Checkboxes de situação (seleção múltipla) ---- */
+    function renderSitChecks() {
+      var html = '';
+      for (var i = 0; i < SITUACOES.length; i++) {
+        var s = SITUACOES[i];
+        html += '<label class="dsc-flex dsc-items-center dsc-gap-1" style="cursor:pointer">'
+          + '<input class="dsc-check" type="checkbox" value="' + esc(s) + '" onchange="onSitChange()"> '
+          + '<span class="dsc-body-sm">' + esc(s) + '</span></label>';
+      }
+      el('sit-checks').innerHTML = html;
+    }
+    function onSitChange() {
+      var boxes = el('sit-checks').querySelectorAll('input');
+      sitSelecionadas = [];
+      for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) sitSelecionadas.push(boxes[i].value);
+      onFiltrar();
+    }
+
+    /* ---- Recorte vigente da fila ---- */
+    function filaVisivel() {
+      var uf = el('fb-uf').value;
+      var cat = el('fb-cat').value;
+      var mod = el('fb-mod').value;
+      var tipo = el('fb-tipo').value;
+      var out = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        var r = INSCRICOES[i];
+        if (role === 'regional' && r.uf !== 'BA') continue;   /* recorte regional automático (UF única) */
+        if (uf && r.uf !== uf) continue;
+        if (cat && r.cat !== cat) continue;
+        if (mod && r.mod !== mod) continue;
+        if (tipo && r.tipo !== tipo) continue;
+        if (sitSelecionadas.length && sitSelecionadas.indexOf(r.sit) === -1) continue;
+        out.push(r);
+      }
+      return out;
+    }
+
+    /* ---- Tabela da fila ---- */
+    function renderFila() {
+      var rows = filaVisivel();
+      var eye = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        html += '<tr>'
+          + '<td>' + esc(r.prot) + '</td>'
+          + '<td>' + esc(r.premio) + '</td>'
+          + '<td>' + esc(r.cat) + '</td>'
+          + '<td>' + esc(r.mod) + '</td>'
+          + '<td>' + esc(r.tipo) + '</td>'
+          + '<td>' + (r.uf === 'Nacional' ? '<span class="dsc-tag dsc-tag--highlight">Nacional</span>' : esc(r.uf)) + '</td>'
+          + '<td><span class="dsc-badge ' + BADGE[r.sit] + '">' + esc(r.sit) + '</span></td>'
+          + '<td>' + esc(r.data) + '</td>'
+          + '<td class="dsc-col-actions">'
+          + '<button class="dsc-icon-action" aria-label="Visualizar inscrição" title="Abrir o detalhe em nova aba" onclick="showToast(\'info\',\'Abre o Detalhe da Inscrição ' + esc(r.prot) + ' em nova aba (VAL-ANA-01).\')">' + eye + '</button>'
+          + '</td></tr>';
+      }
+      el('fila-tbody').innerHTML = html;
+      el('pag-info').textContent = 'Mostrando 1 a ' + rows.length + ' de ' + rows.length + ' registros';
+      renderKpis();
+    }
+
+    /* ---- Cards KPI por situação (recorte rápido) ---- */
+    function renderKpis() {
+      var base = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        if (role === 'regional' && INSCRICOES[i].uf !== 'BA') continue;
+        base.push(INSCRICOES[i]);
+      }
+      var html = '';
+      for (var s = 0; s < SITUACOES.length; s++) {
+        var sit = SITUACOES[s], n = 0;
+        for (var j = 0; j < base.length; j++) if (base[j].sit === sit) n++;
+        var ativo = sitSelecionadas.length === 1 && sitSelecionadas[0] === sit;
+        html += '<button class="dsc-card" style="text-align:left;cursor:pointer;border-color:' + (ativo ? 'var(--dsc-primary-90)' : 'var(--dsc-border-neutral-3)') + '" onclick="recorteRapido(\'' + esc(sit) + '\')">'
+          + '<span class="dsc-lv-label">' + esc(sit) + '</span>'
+          + '<div class="dsc-title-sm">' + n + '</div>'
+          + '<span class="dsc-badge ' + BADGE[sit] + ' dsc-badge--sm">' + esc(sit) + '</span>'
+          + '</button>';
+      }
+      el('kpi-cards').innerHTML = html;
+    }
+
+    function recorteRapido(sit) {
+      var boxes = el('sit-checks').querySelectorAll('input');
+      var jaSozinha = sitSelecionadas.length === 1 && sitSelecionadas[0] === sit;
+      for (var i = 0; i < boxes.length; i++) boxes[i].checked = (!jaSozinha && boxes[i].value === sit);
+      onSitChange();
+    }
+
+    /* ---- Filtros em cascata ---- */
+    function onPremiacaoChange() {
+      el('fb-cat').disabled = !el('fb-premio').value;
+      if (!el('fb-premio').value) { el('fb-cat').value = ''; }
+      onCategoriaChange();
+    }
+    function onCategoriaChange() {
+      var cat = el('fb-cat').value;
+      var sel = el('fb-mod');
+      sel.innerHTML = '<option value="">Todas</option>';
+      sel.disabled = !cat;
+      if (cat && MODALIDADES[cat]) {
+        for (var i = 0; i < MODALIDADES[cat].length; i++) {
+          var o = document.createElement('option');
+          o.value = MODALIDADES[cat][i]; o.textContent = MODALIDADES[cat][i];
+          sel.appendChild(o);
+        }
+      }
+      onFiltrar();
+    }
+    function onFiltrar() {
+      var rows = filaVisivel();
+      renderFila();
+      if (rows.length === 0) { setFilaState('noresult'); return; }
+      setFilaState('data');
+    }
+    function onLimpar() {
+      el('fb-uf').value = (role === 'regional') ? 'BA' : '';
+      el('fb-premio').value = 'piel2026';
+      el('fb-cat').value = '';
+      el('fb-tipo').value = '';
+      onCategoriaChange();
+      var boxes = el('sit-checks').querySelectorAll('input');
+      for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
+      sitSelecionadas = [];
+      renderFila();
+      setFilaState('data');
+    }
+
+    /* ---- Navegação entre telas ---- */
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var map = { 'screen-fila': 'sw-fila', 'screen-painel': 'sw-painel', 'screen-relatorio-geral': 'sw-relgeral', 'screen-export': 'sw-export' };
+      var ids = ['sw-fila', 'sw-painel', 'sw-relgeral', 'sw-export'];
+      for (var j = 0; j < ids.length; j++) el(ids[j]).classList.remove('is-current');
+      if (map[id]) el(map[id]).classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+
+    /* ---- Perfil (Nacional × Regional) — SP05 / recurso APIPIT.22 ---- */
+    function setRole(r) {
+      role = r;
+      el('rl-nac').classList.toggle('is-current', r === 'nacional');
+      el('rl-reg').classList.toggle('is-current', r === 'regional');
+      var nacional = (r === 'nacional');
+
+      el('topbar-user').innerHTML = nacional
+        ? 'Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span>'
+        : 'Luciana Torres Albuquerque · <span style="opacity:.85">Administrador Regional — BA <span style="opacity:.6">PIT.3</span></span>';
+
+      /* Ações novas da SP05: ocultas para quem não acessa os relatórios administrativos */
+      el('btn-rel-geral').style.display = nacional ? '' : 'none';
+      el('btn-rel-paradas').style.display = nacional ? '' : 'none';
+      el('btn-export-painel').style.display = nacional ? '' : 'none';
+
+      /* Recorte regional: UF obrigatória e aplicada silenciosamente quando há uma única UF */
+      el('uf-req').style.display = nacional ? 'none' : 'inline';
+      el('pn-uf-req').style.display = nacional ? 'none' : 'inline';
+      el('fb-uf').value = nacional ? '' : 'BA';
+      el('fb-uf').disabled = !nacional;
+      el('pn-uf').value = nacional ? '' : 'BA';
+      el('pn-uf').disabled = !nacional;
+      el('uf-hint').textContent = nacional
+        ? 'Administrador Nacional alcança todas as UFs.'
+        : 'Vinculado a uma única UF — recorte aplicado automaticamente.';
+      el('fila-escopo').textContent = nacional
+        ? 'Inscrições submetidas para conferência — todas as UFs.'
+        : 'Inscrições submetidas para conferência — BA (UF vinculada).';
+      el('painel-escopo').textContent = nacional
+        ? 'Prêmio IEL de Talentos 2026 · todas as UFs'
+        : 'Prêmio IEL de Talentos 2026 · BA (UF vinculada)';
+
+      renderFila();
+      renderPainel();
+      showScreen('screen-fila');
+      setFilaState(filaVisivel().length ? 'data' : 'empty');
+    }
+
+    /* ---- Estados da fila ---- */
+    function setFilaState(name) {
+      filaState = name;
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+
+    /* ================= Painel gerencial (VAL-FIL-02) ================= */
+    function openPainel() {
+      renderPainel();
+      showScreen('screen-painel');
+    }
+
+    function painelVisivel() {
+      var uf = el('pn-uf').value;
+      var cat = el('pn-cat').value;
+      var out = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        var r = INSCRICOES[i];
+        if (role === 'regional' && r.uf !== 'BA') continue;
+        if (uf && r.uf !== uf) continue;
+        if (cat && r.cat !== cat) continue;
+        out.push(r);
+      }
+      return out;
+    }
+
+    function onPainelPremiacao() {
+      if (!el('pn-premio').value) { setPainelState('empty'); return; }
+      setPainelState('loading');
+      setTimeout(function () { renderPainel(); setPainelState('data'); }, 500);
+    }
+
+    function setPainelState(name) {
+      painelState = name;
+      var states = ['data', 'empty', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('pstate-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+      var b = el('btn-export-painel');
+      b.disabled = (name !== 'data') || !el('pn-premio').value;
+      b.title = b.disabled ? 'Selecione uma premiação para exportar o histórico.' : 'Exportar Excel';
+    }
+
+    function renderPainel() {
+      var rows = painelVisivel();
+
+      /* Distribuição por situação (barras) */
+      var max = 1, cont = {};
+      for (var s = 0; s < SITUACOES.length; s++) cont[SITUACOES[s]] = 0;
+      for (var i = 0; i < rows.length; i++) cont[rows[i].sit]++;
+      for (var k in cont) if (cont[k] > max) max = cont[k];
+
+      var html = '';
+      for (var j = 0; j < SITUACOES.length; j++) {
+        var sit = SITUACOES[j], n = cont[sit];
+        var pct = Math.round((n / max) * 100);
+        html += '<div style="margin-bottom:12px">'
+          + '<div class="dsc-flex dsc-items-center dsc-justify-between" style="margin-bottom:4px">'
+          + '<span class="dsc-body-sm">' + esc(sit) + '</span>'
+          + '<span class="dsc-body-sm dsc-text-muted">' + n + ' inscrição(ões)</span></div>'
+          + '<span class="dsc-progress"><span style="width:' + pct + '%;background:' + COR[sit] + '"></span></span>'
+          + '</div>';
+      }
+      el('dist-bars').innerHTML = html;
+      el('dist-total').textContent = 'Total: ' + rows.length + ' inscrições';
+
+      /* Comparação empilhada por categoria ou por UF */
+      var chaves = [], mapa = {};
+      for (var m = 0; m < rows.length; m++) {
+        var key = (comparacao === 'cat') ? rows[m].cat : rows[m].uf;
+        if (!mapa[key]) { mapa[key] = {}; chaves.push(key); }
+        mapa[key][rows[m].sit] = (mapa[key][rows[m].sit] || 0) + 1;
+      }
+      chaves.sort();
+
+      var maxTot = 1;
+      for (var c = 0; c < chaves.length; c++) {
+        var t = 0;
+        for (var sk in mapa[chaves[c]]) t += mapa[chaves[c]][sk];
+        if (t > maxTot) maxTot = t;
+      }
+
+      var chtml = '';
+      if (chaves.length === 0) {
+        chtml = '<p class="dsc-body-sm dsc-text-muted">Nenhum registro encontrado.</p>';
+      }
+      for (var c2 = 0; c2 < chaves.length; c2++) {
+        var chave = chaves[c2], grupo = mapa[chave], total = 0;
+        for (var sk2 in grupo) total += grupo[sk2];
+        var largura = Math.round((total / maxTot) * 100);
+        chtml += '<div style="margin-bottom:12px">'
+          + '<div class="dsc-flex dsc-items-center dsc-justify-between" style="margin-bottom:4px">'
+          + '<span class="dsc-body-sm">' + esc(chave) + '</span>'
+          + '<span class="dsc-body-sm dsc-text-muted">' + total + '</span></div>'
+          + '<span style="display:flex;width:' + largura + '%;height:20px;border-radius:4px;overflow:hidden;background:var(--dsc-bg-neutral-3)">';
+        for (var s2 = 0; s2 < SITUACOES.length; s2++) {
+          var q = grupo[SITUACOES[s2]] || 0;
+          if (!q) continue;
+          var w = Math.round((q / total) * 100);
+          chtml += '<span title="' + esc(SITUACOES[s2]) + ': ' + q + '" style="width:' + w + '%;background:' + COR[SITUACOES[s2]] + '"></span>';
+        }
+        chtml += '</span></div>';
+      }
+      el('cmp-bars').innerHTML = chtml;
+
+      var lhtml = '';
+      for (var s3 = 0; s3 < SITUACOES.length; s3++) {
+        lhtml += '<span class="dsc-flex dsc-items-center dsc-gap-1">'
+          + '<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:' + COR[SITUACOES[s3]] + '"></span>'
+          + '<span class="dsc-caption">' + esc(SITUACOES[s3]) + '</span></span>';
+      }
+      el('cmp-legend').innerHTML = lhtml;
+    }
+
+    function setComparacao(modo, btn) {
+      comparacao = modo;
+      var bs = el('cmp-seg').querySelectorAll('button');
+      for (var i = 0; i < bs.length; i++) bs[i].classList.remove('is-active');
+      if (btn) btn.classList.add('is-active');
+      renderPainel();
+    }
+
+    /* ---- Exportação do histórico (VAL-FIL-03) ---- */
+    function onExportarPainel() {
+      if (el('btn-export-painel').disabled) return;
+      setPainelState('loading');
+      setTimeout(function () {
+        renderPainel();
+        setPainelState('data');
+        openExport();
+        showToast('ok', 'historico-inscricoes.xlsx');
+      }, 600);
+    }
+
+    function openExport() {
+      var rows = painelVisivel();
+      var pSel = el('pn-premio');
+      var uSel = el('pn-uf');
+      var cSel = el('pn-cat');
+      el('ex-premio').textContent = 'Premiação: ' + (pSel.value ? pSel.options[pSel.selectedIndex].text : '—');
+      el('ex-uf').textContent = 'UF: ' + (uSel.value ? uSel.options[uSel.selectedIndex].text : (role === 'regional' ? 'BA — Bahia' : 'todas'));
+      el('ex-cat').textContent = 'Categoria: ' + (cSel.value ? cSel.value : 'todas');
+      el('ex-periodo').textContent = 'Período: ' + fmtData(el('pn-ini').value) + ' a ' + fmtData(el('pn-fim').value);
+
+      var html = '';
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        html += '<tr>'
+          + '<td>' + esc(r.prot) + '</td>'
+          + '<td>' + esc(r.premio) + '</td>'
+          + '<td>' + esc(r.cat) + '</td>'
+          + '<td>' + esc(r.mod) + '</td>'
+          + '<td>' + esc(r.tipo) + '</td>'
+          + '<td>' + esc(r.uf) + '</td>'
+          + '<td>' + esc(r.sit) + '</td>'
+          + '<td>' + esc(r.data) + '</td>'
+          + '<td>' + esc(r.nome) + '</td>'
+          + '<td>' + (r.tel === '—' ? '<span class="dsc-text-muted" title="Nenhum rótulo correspondente — informação sai vazia">—</span>' : esc(r.tel)) + '</td>'
+          + '</tr>';
+      }
+      exLinhas = html;
+      setExportState('data');
+      showScreen('screen-export');
+    }
+
+    var exLinhas = '';
+    /* Recorte sem inscrições: a planilha é entregue sem linhas (cenário do N3). */
+    function setExportState(name) {
+      if (name === 'empty') {
+        el('ex-tbody').innerHTML = '<tr><td colspan="10"><div class="dsc-empty" style="padding:24px"><span class="dsc-body-sm dsc-text-muted">Planilha entregue sem linhas de inscrição — os filtros do painel não devolveram nenhuma inscrição.</span></div></td></tr>';
+      } else {
+        el('ex-tbody').innerHTML = exLinhas;
+      }
+    }
+
+    function fmtData(iso) {
+      if (!iso) return '—';
+      var p = iso.split('-');
+      return p[2] + '/' + p[1] + '/' + p[0];
+    }
+
+    /* ---- Toast ---- */
+    function showToast(tipo, text) {
+      var t = el('toast');
+      t.className = 'dsc-toast ' + (tipo === 'erro' ? 'dsc-toast--danger' : (tipo === 'info' ? '' : 'dsc-toast--positive'));
+      el('toast-icon').innerHTML = (tipo === 'erro')
+        ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+        : (tipo === 'info'
+          ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+          : '<path d="M20 6 9 17l-5-5"/>');
+      el('toast-text').textContent = text;
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 4500);
+    }
+
+    /* ---- Init ---- */
+    renderSitChecks();
+    onPremiacaoChange();
+    renderFila();
+    setFilaState('data');
+    renderPainel();
+    setPainelState('data');
+  </script>
+</body>
+</html>

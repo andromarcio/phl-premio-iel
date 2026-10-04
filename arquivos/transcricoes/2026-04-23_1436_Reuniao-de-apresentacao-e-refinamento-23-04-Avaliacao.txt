@@ -1,0 +1,2242 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião de apresentação e refinamento 23/04 - Avaliação
+ID da reunião ...: 69029743-ae0f-4f81-82ba-a04a60cddb11
+Data e hora .....: 23/04/2026 14:36 (America/Sao_Paulo)
+Duração .........: 1h 30m 32s
+Tipo ............: PLANNING
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/69029743-ae0f-4f81-82ba-a04a60cddb11
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+Reunião de planejamento da fase de avaliação do Prêmio IEL. O time discutiu a configuração das etapas de avaliação, alocação de avaliadores por grupos e individualmente, e as regras para remoção de avaliadores. Decidiu-se que os avaliadores verão todos os dados dos participantes, incluindo anexos, pois a anonimização é inviável. Para o feedback, será utilizada IA para consolidar as avaliações dos múltiplos avaliadores em um texto único, que será revisado pelo administrador regional. A reunião também definiu os próximos passos, incluindo uma reunião técnica sobre IA e um novo encontro na terça-feira para tratar de ranqueamento e critérios de desempate.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Participante: Uma fuçadinha, uma olhadinha nele, né?
+[00:00:03] Participante: Não conseguimos converter em inscrições ainda.
+[00:00:06] Participante: Tem que ser tá.
+[00:00:09] Participante: Obrigada por estar aqui.
+[00:00:12] Participante: Não deu pra sentir.
+[00:00:13] Participante: Não deu pra sentir não, mas...
+[00:00:15] Participante: Já é melhor do que o Pipefine.
+[00:00:18] Participante: Que bom!
+[00:00:22] Participante: Por aqui temos traumas.
+[00:00:24] Você: Hum!
+[00:00:24] Participante: Eu acredito.
+[00:00:27] Participante: Tem algumas pessoas...
+[00:00:30] Participante: Participantes que estão na hora que entra para fazer inscrição.
+[00:00:33] Participante: Estão tendo aquele baque, mas eu não estou vendo aqui.
+[00:00:36] Participante: Os formulários para inscrição e tudo mais.
+[00:00:39] Participante: Pois é, deixa eu te contar.
+[00:00:42] Participante: Que legal!
+[00:00:45] Participante: Você não vai sentir falta desses formulários.
+[00:00:48] Participante: Apesar de eu estar...
+[00:00:51] Participante: É, tá sentindo.
+[00:00:54] Participante: Mas é assim mesmo, mudança de cultura, de...
+[00:00:57] Participante: Demora um pouquinho para o pessoal absorver, mas depois...
+[00:01:00] Participante: Que pega o ritmo, né?
+[00:01:03] Participante: Temos mais um.
+[00:01:06] Participante: Olha aí, pegou mais 100.
+[00:01:09] Participante: Olha ela, a Joana.
+[00:01:12] Participante: Oi, oi, boa tarde.
+[00:01:15] Você: Boa tarde!
+[00:01:15] Participante: Tudo bem?
+[00:01:16] Participante: Boa tarde.
+[00:01:18] Participante: Tchau, Juliana.
+[00:01:21] Participante: Sui, Anneli.
+[00:01:22] Participante: Não achei.
+[00:01:24] Participante: Calma aí que o Gustavo está aqui na minha frente.
+[00:01:27] Participante: Gente, eu falei, gente, estou vivendo uma falha na Matrix, porque passou...
+[00:01:30] Participante: Eu falei, meu Deus, a Suiane, mas ela está falando aqui.
+[00:01:34] Participante: Tá.
+[00:01:36] Participante: Obrigada.
+[00:01:40] Participante: Tive uma falha por aqui.
+[00:01:42] Participante: Mas vamos lá.
+[00:01:43] Participante: Joana.
+[00:01:45] Participante: É novo, né?
+[00:01:48] Participante: No processo, mas aqui a gente vai fazer...
+[00:01:51] Participante: É meio que uma consulta com vocês.
+[00:01:54] Participante: A gente está estruturando, como eu comentei com você,
+[00:01:57] Participante: A gente está entregando o sistema em fase.
+[00:02:00] Participante: A gente entregou a primeira fase, que é a de inscrição e validade.
+[00:02:03] Participante: Agora a gente entra na fase de avaliação.
+[00:02:06] Participante: E essa fase é talvez uma das mais críticas.
+[00:02:09] Participante: Porque temos dificuldades aqui.
+[00:02:12] Participante: Aqui no entendimento, eu, na verdade, eu e o...
+[00:02:16] Você: É verdade.
+[00:02:15] Participante: Pedro quebrando cabeça aqui semana passada falando...
+[00:02:18] Você: Obrigado.
+[00:02:18] Participante: Deus, como que isso vai funcionar?
+[00:02:21] Participante: E aí a gente marcou para fazer uma conversa com vocês.
+[00:02:24] Participante: Que tenham contato direto com os avaliados.
+[00:02:27] Participante: E podem ajudar a gente nessa...
+[00:02:30] Participante: Esse foi o levantamento de requisitos por aqui.
+[00:02:33] Participante: Bom?
+[00:02:36] Você: Então, posso começar?
+[00:02:40] Você: Aqui nós temos uma...
+[00:02:39] Participante: Por favor.
+[00:02:42] Você: Uma parte que é um pouco mais da Isa de configuração.
+[00:02:45] Você: É uma alteração que eu estou propondo.
+[00:02:48] Você: Aqui na parte de premiação, onde a gente consegue editar.
+[00:02:51] Você: Atualmente a gente editava os dados e os termos.
+[00:02:54] Você: Tudo aqui nessa tela, eu separei em abas.
+[00:02:57] Você: Inclusive adicionei alguns e-mails novos.
+[00:02:59] Você: Agora a gente tem...
+[00:03:00] Você: E-mail de alocação de avaliador de etapa encerrada.
+[00:03:03] Você: E de etapa pronta para...
+[00:03:06] Você: Fechamento.
+[00:03:07] Você: Ou seja, o avaliador vai receber o e-mail informado.
+[00:03:09] Você: Você foi alocado para o participante.
+[00:03:12] Você: Sim.
+[00:03:15] Você: Aqui é onde a Isa vai conseguir escolher.
+[00:03:18] Você: Ela vai desejar uma avaliação aberta, de forma que o avaliador...
+[00:03:21] Você: Enxergue os dados do participante.
+[00:03:24] Você: Além de mostrar nota agregada.
+[00:03:27] Você: Nada de etapas anteriores, também é algo que...
+[00:03:30] Você: Pode ser selecionável e configurável.
+[00:03:33] Você: Elas são configuráveis, aqui eu coloquei até um pouco,
+[00:03:36] Você: É uma etapa internacional, mas só para exemplificar.
+[00:03:39] Você: Então a gente pode cadastrar novas etapas.
+[00:03:42] Você: A gente colocou um limite de 5 etapas inicialmente.
+[00:03:45] Você: Pra não ficar até demais, mas...
+[00:03:48] Você: Vamos já pular um pouco para a parte onde vocês...
+[00:03:51] Você: Os administradores regionais vão fazer essa...
+[00:03:54] Você: Essa vocês vão alocar.
+[00:03:57] Você: Os participantes.
+[00:03:59] Você: Aqui, por exemplo,
+[00:04:00] Você: Qual que é a ideia? Vocês vão abrir essa tela.
+[00:04:03] Você: A gente precisa que vocês estejam...
+[00:04:06] Você: Vocês não fiquem confusos se vocês acham que...
+[00:04:09] Você: A utilização dela é boa.
+[00:04:10] Você: Aqui vocês vão alocar a validade.
+[00:04:12] Você: Pelo que eu chamei de pool.
+[00:04:15] Você: O que a gente chama de pool é como se fosse um grupo.
+[00:04:18] Você: No caso, um grupo de segmentos.
+[00:04:21] Você: Ou seja, empreendedorismo, empresa inovadora.
+[00:04:24] Você: Jovem Aprendiz.
+[00:04:25] Você: E é o estágio Educação Inovadora.
+[00:04:27] Você: Ou seja, aqui eu estou alojado.
+[00:04:30] Você: Colocando inicialmente aqui para...
+[00:04:33] Você: O tipo de participante, instituição de ensino.
+[00:04:36] Você: O avaliador 1 e 3 poderá avaliar.
+[00:04:39] Você: E a qualquer um dos participantes.
+[00:04:42] Você: Para, por exemplo, para jovem aprendiz...
+[00:04:45] Você: Fiz somente o avaliador 2 e 4.
+[00:04:48] Você: Vocês podem pesquisar aqui, avaliador 1.
+[00:04:51] Você: Avaliador 2, avaliador 4, 5.
+[00:04:54] Você: Vocês podem pesquisar.
+[00:04:55] Você: Pedro, preciso...
+[00:04:57] Você: Vou mostrar um novo avaliador.
+[00:05:00] Você: A oportunidade que eu estou propondo também é que vocês consigam...
+[00:05:03] Você: Cadastrar diretamente dentro do sistema.
+[00:05:06] Você: O avaliador...
+[00:05:09] Você: Fica, Isa, cadastra pra mim.
+[00:05:12] Você: E ele já vai fazer toda a validação que a gente faz.
+[00:05:15] Você: A gente pode, inclusive, tirar esses campos de CPF.
+[00:05:18] Você: E, por fim, o que eu vou mostrar para vocês é o que eu vou mostrar para vocês.
+[00:05:21] Você: Nesse caso, quando vocês acessarem, se vocês estiverem somente...
+[00:05:24] Você: Em um estado, vocês só vão poder alocar o avaliador.
+[00:05:27] Você: E se vocês estiverem em mais de um estado...
+[00:05:30] Você: Vocês vão poder alocar a um ou a todos.
+[00:05:33] Você: Vocês vão cadastrar aqui.
+[00:05:36] Você: A sessão caiu, inclusive. Deixa eu voltar aqui. Oi!
+[00:05:37] Participante: Pedro, isso daí...
+[00:05:39] Participante: E depende de como eles estão cadastrados, né?
+[00:05:42] Participante: Por exemplo, peguei o Will, cada...
+[00:05:45] Participante: Fiz o cadastro dele como administrador regional e vinculei...
+[00:05:48] Você: Uhum.
+[00:05:48] Participante: Goiás. Então, na hora que ele for fazer...
+[00:05:53] Você: E...
+[00:05:51] Participante: Ele já vai aparecer Goiás para ele.
+[00:05:54] Você: Se ele tiver...
+[00:05:54] Participante: Se eu tivesse colocado Goiás e Amazônia,
+[00:05:59] Você: É isso aí.
+[00:05:57] Participante: Amazonas, aí apareceria Goiás e Amazonas.
+[00:06:00] Você: Exato, e ele pode escolher, eu quero esse participante...
+[00:06:03] Você: E aqui dentro do...
+[00:06:05] Você: Pessoal, essa...
+[00:06:06] Você: Novamente é porque eu tô rodando aqui na minha máquina.
+[00:06:09] Você: Se vocês estiverem no servidor, o servidor tanto...
+[00:06:12] Você: O front quanto o back vai estar na mesma máquina e o banco de dados.
+[00:06:15] Você: E aí é bem mais rápido.
+[00:06:18] Você: Se você estiver em mais de um estado, você pode escolher o avaliador 5,
+[00:06:21] Você: Eu quero que ele fique somente.
+[00:06:24] Você: E para o Jovem Aprendiz do Acre.
+[00:06:27] Você: Essa alocação dos estados.
+[00:06:31] Você: Por etapa aqui também.
+[00:06:33] Você: Podem selecionar a pré-etapa.
+[00:06:36] Você: Tapa 2, quem vai avaliar o Jovem Aprendiz é o...
+[00:06:39] Você: Olhador 3, diferentemente da...
+[00:06:42] Você: Etapa 1, vocês salvam.
+[00:06:45] Você: E aí vocês vão ter a alocação.
+[00:06:48] Você: Alocamos para o grupo de participantes.
+[00:06:51] Você: Participantes, acessando aqui a página.
+[00:06:54] Você: A partir da etapa, nós vamos ter essa visualização.
+[00:06:57] Você: A realização de participantes dentro do sistema.
+[00:07:00] Você: Colocando aqui somente o protocolo e o participante.
+[00:07:03] Você: É algo, inclusive, que a Isa...
+[00:07:06] Você: Vocês têm que me ajudar. Até onde vai essa confidencialidade?
+[00:07:09] Você: De informações, até onde nós vamos.
+[00:07:12] Você: Vamos limitar que vocês vejam.
+[00:07:15] Você: O nome do participante, até quando vamos...
+[00:07:18] Você: Vamos liberar.
+[00:07:19] Você: E aqui vocês vão poder alocar.
+[00:07:21] Você: Somente vão aparecer os avaliadores que vocês pré-selecionaram.
+[00:07:24] Você: ... funcionaram anteriormente, voltando aqui na etapa 1.
+[00:07:27] Você: Para a instituição de ensino, nós só selecionamos...
+[00:07:30] Você: Passamos ao avaliador 4 e 2, ou seja, aqui.
+[00:07:33] Você: Aqui só aparece o avaliador 4 e 2 porque ele é...
+[00:07:36] Você: E aí é o estágio Educação Inovadora Instituição de Ensino.
+[00:07:39] Você: Sendo outro grupo, vocês vão poder fazer outra.
+[00:07:42] Você: Outra alocação.
+[00:07:44] Você: Importante.
+[00:07:45] Você: Aqui só temos avaliações.
+[00:07:48] Você: Só temos inscrições que já estão validadas, que vocês, inclusive,
+[00:07:51] Você: Já realizaram a validação.
+[00:07:54] Você: Vocês estão sentindo falta de alguma informação?
+[00:07:57] Você: Então, como que está a usabilidade?
+[00:08:00] Você: 100% sujeito a...
+[00:08:03] Você: Ideias para a gente conseguir refinar essa parte primeiro antes.
+[00:08:06] Você: Antes da gente partir para a avaliação em si.
+[00:08:12] Participante: Gente, perdão se eu perguntar uma...
+[00:08:15] Participante: Bobagem, tá? Porque eu peguei o bonde andando aqui no...
+[00:08:18] Você: Tem bobagem não.
+[00:08:18] Participante: É porque no ano passado,
+[00:08:21] Participante: Eles recebiam, a gente mandava um link.
+[00:08:24] Participante: Para os avaliadores, eles entravam e cadastravam automaticamente.
+[00:08:27] Participante: Eles ficavam lá dentro do sistema.
+[00:08:30] Participante: A gente colocava eles para poder...
+[00:08:32] Participante: A gente colocava...
+[00:08:33] Participante: Desse jeito, a gente escolhia os avaliadores para poder...
+[00:08:36] Participante: É avaliar dentro de cada projeto, no pipe.
+[00:08:41] Você: Sim?
+[00:08:39] Participante: O projeto que era diferente, né?
+[00:08:41] Participante: Então, assim...
+[00:08:42] Participante: Eu estou entendendo que, na verdade, ficou parecido a mudança.
+[00:08:45] Participante: A mudança é que a gente é que vai cadastrá-los e não eles vão se cadastrar.
+[00:08:48] Você: Uhum.
+[00:08:49] Participante: Certo?
+[00:08:51] Você: E vocês ficam confortáveis com esse cadastro?
+[00:08:51] Participante: Nós vamos cadastrar eles.
+[00:08:56] Você: Exato.
+[00:08:54] Participante: Só dos avaliadores, né?
+[00:08:58] Você: Vocês ficam confortáveis?
+[00:08:57] Participante: Trabalhadores.
+[00:09:00] Você: Em realizar esse cadastro, é uma quantidade grande de...
+[00:09:00] Participante: Ok.
+[00:09:03] Você: Trabalhadores, para vocês é tranquilo.
+[00:09:08] Participante: É bem tranquilo.
+[00:09:09] Participante: De qualquer forma.
+[00:09:12] Participante: Eu acredito que é tranquilo.
+[00:09:15] Participante: Até mais segura, nós aqui do Yale Goiás.
+[00:09:18] Participante: Por padrão, a gente já solicita algumas informações.
+[00:09:21] Participante: E as informações dos avaliadores para quem...
+[00:09:24] Participante: Não ocorra aparentemente errado essas coisas, então acredito que...
+[00:09:27] Participante: Por nós aqui, ok.
+[00:09:30] Participante: Os outros jornais, eu acredito que sejam assim.
+[00:09:33] Você: Ok.
+[00:09:36] Você: Nessa parte nós estamos refinando ainda, então...
+[00:09:39] Você: Vocês vão ver algumas informações, como por exemplo, zero inscrição.
+[00:09:42] Você: Esse quantitativo não está certo.
+[00:09:44] Você: Visual.
+[00:09:45] Você: Eu ainda estou mexendo, mas é para dar uma ideia para você.
+[00:09:48] Você: Que vocês consigam ver o fluxo de funcionamento.
+[00:09:51] Você: Vocês falam, Pedro, legal, ou então, Pedro, não.
+[00:09:54] Você: Eu me sinto confortável com ter que cadastrar um avaliador.
+[00:09:57] Você: Eu prefiro que a gente disponibilize um link.
+[00:10:00] Você: Não sei. Tudo isso a gente tem que pensar.
+[00:10:03] Você: Aqui para vocês, ok? Beleza, a gente prossegue.
+[00:10:06] Você: Nessa parte, vocês conseguiram entender?
+[00:10:09] Você: Ideológica de cadastro por tipo de participante.
+[00:10:12] Você: Por agrupamento.
+[00:10:12] Participante: Hum?
+[00:10:15] Você: Oi!
+[00:10:15] Participante: Pedro, desculpa.
+[00:10:18] Participante: Rapidinho, eu acho que nesse primeiro...
+[00:10:21] Participante: No momento, a gente pode manter do jeito que a gente quer.
+[00:10:24] Participante: Que a gente tinha combinado anteriormente de cadastro.
+[00:10:27] Participante: Os avaliadores até...
+[00:10:30] Participante: Para a gente poder saber quais são os estados.
+[00:10:33] Participante: A gente até combinava isso lá atrás com a Isa.
+[00:10:36] Participante: E aí, num segundo momento...
+[00:10:39] Participante: A gente evoluir, porque acho que teria mais um curso.
+[00:10:42] Participante: Se fosse gerar um outro link para o...
+[00:10:45] Participante: Tem que validar se aquilo é...
+[00:10:48] Participante: Avaliador pode ser ou não, avaliador e de qual...
+[00:10:51] Participante: Então, mudaria um pouco o fluxo, né?
+[00:10:54] Participante: E aí, eu acho que nesse primeiro momento para a gente...
+[00:10:57] Participante: A gente avançar, a gente poderia manter...
+[00:11:00] Participante: ... que está esse cadastro, se vocês não se importarem.
+[00:11:03] Participante: E no segundo momento, se vocês depois que utilizar...
+[00:11:06] Participante: ...achar que não, não ficou legal, a gente...
+[00:11:09] Participante: Vamos ver se muda ou não esse fluxo. O que vocês acham?
+[00:11:15] Participante: Bom, por mim, ok, né, como eu falei.
+[00:11:18] Participante: Aqui, por padrão, aqui é o Goiás, a gente faz até o...
+[00:11:21] Participante: É um benefício para esses avaliadores.
+[00:11:24] Participante: Então, meio que as informações deles a gente já tem.
+[00:11:27] Participante: Então é mais prático a gente já cadastrar.
+[00:11:30] Participante: ...do que esperar, o que o avaliador, entre cada...
+[00:11:33] Participante: Cadastre, ficar pegando no pé, né?
+[00:11:36] Participante: Essa é como a gente faz aqui.
+[00:11:39] Participante: Aproveitando, eu gostaria de tirar algumas dúvidas.
+[00:11:42] Participante: Dúvidas sobre...
+[00:11:45] Participante: Se às vezes eu confundi ou não entendi direito,
+[00:11:48] Participante: Na hora da explicação.
+[00:11:51] Participante: De selecionar o avaliador e cadastrar.
+[00:11:54] Participante: Determinado projeto, determinado...
+[00:11:57] Participante: A categoria vai ficar tranquilo para a gente.
+[00:12:01] Você: Legenda por Sônia Ruberti
+[00:12:00] Participante: A gente vai fazer essa alteração.
+[00:12:03] Participante: Por exemplo, eu coloquei um avaliador, está chegando o prazo final.
+[00:12:06] Participante: Avaliações, ele não avaliou, posso conseguir remover.
+[00:12:10] Você: Uhum.
+[00:12:09] Participante: Adicionar outro.
+[00:12:12] Você: Tem essa liberdade, vamos supor, aqui empreendedorismo.
+[00:12:15] Você: Vamos cadastrar o avaliador 6.
+[00:12:18] Você: E é o arroba trashmail.com.
+[00:12:21] Você: Criador 6.
+[00:12:24] Você: Então vamos colocar aqui a web do Amazonas.
+[00:12:27] Você: Inclusive ele tem validação.
+[00:12:28] Participante: Legenda por Sônia Ruberti
+[00:12:30] Você: Se vocês tentarem fazer um cadastro de uma...
+[00:12:33] Você: Já está cadastrado, ele vai informar, já existe um usuário cadastrado.
+[00:12:36] Você: No sistema com esse login.
+[00:12:39] Você: Vocês conseguem cadastrar o avaliador 6.
+[00:12:49] Você: Fidel fazia o cadastro.
+[00:12:51] Você: Vou mostrar aqui no AD.
+[00:12:51] Participante: A Priscila vai entrar.
+[00:12:55] Você: E aí você cadastrou.
+[00:12:54] Participante: Muito obrigada.
+[00:12:57] Você: O avaliador 6 já está no Jovem Aprendiz.
+[00:12:57] Participante: Obrigado.
+[00:13:00] Você: O prazo está terminando, não quero mais avaliar vocês.
+[00:13:03] Você: Você pode retirar.
+[00:13:04] Você: Quero que o avaliador...
+[00:13:05] Você: Quero cadastrar um novo...
+[00:13:06] Você: Trabalhador 7, só cadastrar o 7.
+[00:13:08] Você: Não quero mais que o...
+[00:13:09] Você: O 1 tem a permissão de remover, não quero mais que o 3.
+[00:13:12] Você: Vocês têm a permissão, vocês têm a liberdade de modificar.
+[00:13:15] Você: Fica isso a qualquer momento.
+[00:13:17] Você: Você só tem que...
+[00:13:18] Você: Que levar em consideração e algo que a gente tem que...
+[00:13:21] Você: Entender futuramente.
+[00:13:24] Você: Até porque, por exemplo, se o avaliador 1, ele já...
+[00:13:27] Você: Falhou. Quando eu remover ele, como que vai ficar?
+[00:13:31] Você: As notas deles vão sumir?
+[00:13:35] Você: Bom, vamos lá.
+[00:13:36] Você: Vamos fazer como? Porque a gente tem que ter algumas travas no sistema.
+[00:13:38] Participante: Obrigado.
+[00:13:39] Você: Para que a gente não fique indo e voltando sempre.
+[00:13:39] Participante: Isso que eu ia te falar.
+[00:13:42] Participante: Mas talvez nesse caso, seria interessante...
+[00:13:45] Participante: Não permitir que a gente deletasse avaliadores que já avaliaram.
+[00:13:48] Você: Ok.
+[00:13:48] Participante: Claro, mas seguro, para a gente não perder as notas.
+[00:13:51] Você: Sim.
+[00:13:51] Participante: Não? Pode ser? Uma ideia?
+[00:13:55] Participante: O que aconteceu? Ano passado...
+[00:13:57] Participante: Vou até citar...
+[00:14:00] Participante: Uma situação que eu já fiquei muito...
+[00:14:03] Participante: É da Isa com essa questão.
+[00:14:06] Participante: Um avaliador que ele entrou e avaliou.
+[00:14:09] Participante: Não sei se foi um projeto ou dois.
+[00:14:12] Participante: Mais uns, por exemplo, uns...
+[00:14:15] Participante: Os 15 que ele tinha que...
+[00:14:17] Participante: Não foi isso tudo não.
+[00:14:18] Participante: Uns 10 que ele tinha que avaliar.
+[00:14:20] Participante: Aí...
+[00:14:21] Participante: O que a gente levou em consideração?
+[00:14:22] Participante: Como ele falou, não conseguimos...
+[00:14:24] Participante: Então a gente retirou ele.
+[00:14:27] Participante: Ele não contou nenhuma das duas.
+[00:14:30] Participante: E a gente teve que dar as prestas ali.
+[00:14:33] Participante: Colocar outro avaliador.
+[00:14:36] Participante: Não sei se seria caso a caso.
+[00:14:39] Participante: Análise, né, não sei se...
+[00:14:42] Participante: Dependendo do bloqueio, limita muito.
+[00:14:46] Participante: Realmente vai de outros casos.
+[00:14:48] Participante: Além dos meus, né?
+[00:14:52] Você: Tudo bem, o cenário de substituição
+[00:14:54] Você: Então, ele pode ocorrer, mas a gente precisa pensar em um comportamento.
+[00:14:57] Você: Substituir.
+[00:14:57] Participante: Uhum.
+[00:15:00] Você: Ele vai apagar as notas do avaliador?
+[00:15:03] Você: Porque aqui nós estamos falando de...
+[00:15:06] Você: Substituição dentro de um grupo, ou seja...
+[00:15:09] Você: Estou tirando o avaliador dentro de Jovem Aprendiz.
+[00:15:09] Participante: Uhum.
+[00:15:12] Você: Aqui dentro ele pode ter feito 5 avaliações já.
+[00:15:15] Você: Já aqui nós estamos com uma grande...
+[00:15:18] Você: Granularidade diferente, aqui nós estamos falando diretamente...
+[00:15:21] Você: Então vocês tem que levar.
+[00:15:24] Você: Em consideração, que a gente pode acabar removendo.
+[00:15:27] Você: Tanto do participante.
+[00:15:30] Você: Quanto do tipo de participante.
+[00:15:33] Você: A gente precisa saber qual o cenário e qual...
+[00:15:36] Você: Qual comportamento o sistema vai ter.
+[00:15:39] Você: A gente não pode deixar isso 100% livre, por mais que...
+[00:15:42] Você: Haja necessidade de substituição.
+[00:15:43] Participante: Obrigado.
+[00:15:50] Você: E isso.
+[00:15:48] Participante: Pedro, deixa eu te perguntar. Pedro mesmo, né? É, Pedro.
+[00:15:51] Você: Obrigado.
+[00:15:51] Participante: Deixa eu te perguntar uma coisa.
+[00:15:54] Participante: É possível que, por exemplo, tenha um avaliador...
+[00:15:57] Participante: Sei lá, o Paulo está lá com uma avaliação.
+[00:16:00] Você: Ok.
+[00:16:00] Participante: E aí ele consiga visualizar.
+[00:16:03] Participante: E a gente também, por exemplo.
+[00:16:06] Participante: Ele tem seis avaliações para fazer, então ele fez cinco de seis.
+[00:16:09] Você: Uhum.
+[00:16:10] Participante: Alguma visão assim?
+[00:16:12] Participante: O que ele trouxe do caso que ele passou lá...
+[00:16:15] Participante: Eu entendo o ponto que ele trouxe e eu acho que faz sentido.
+[00:16:18] Participante: Para o avaliador, ele tinha lá 10 projetos para avaliar.
+[00:16:21] Participante: A gente já avaliou dois só e não podia avaliar mais.
+[00:16:24] Participante: Aí eu concordo de trocar e aí...
+[00:16:27] Participante: Pegar uma outra pessoa para fazer os 10 e eliminar a nota.
+[00:16:30] Participante: Que ele deu para os dois que ele tinha avaliado, porque senão o parâmetro fica diferente.
+[00:16:33] Você: Exato.
+[00:16:33] Participante: Se mudar a pessoa de alguns.
+[00:16:36] Participante: Então, eu super concordo com isso.
+[00:16:39] Participante: Acho que se a gente conseguisse visualizar o que essa pessoa já fez.
+[00:16:42] Participante: Fez alguma coisa? Porque aí a gente vai ter que...
+[00:16:45] Participante: Vê o que ele fez, porque talvez não fez nada.
+[00:16:48] Participante: Se ele não avaliou ninguém ainda, aí fica fácil, né?
+[00:16:51] Participante: Fica aí tudo bem. Não sei, alguma coisa nesse sentido.
+[00:16:55] Participante: Então, vamos lá.
+[00:16:57] Participante: Também pode ser, por exemplo, por...
+[00:17:00] Participante: São de grupo também.
+[00:17:04] Você: Sim.
+[00:17:03] Participante: Estão conseguindo me escutar certinho?
+[00:17:06] Participante: Por exemplo, vamos supor que esse avaliador foi para o grupo...
+[00:17:09] Participante: Do Jovem Aprendiz, para avaliar.
+[00:17:12] Participante: E tem que avaliar também a educação.
+[00:17:15] Participante: Ele conseguiu avaliar todos os jovens aprendiz.
+[00:17:18] Participante: E não vai conseguir...
+[00:17:21] Participante: Avaliar a educação. Eu acredito que, por exemplo...
+[00:17:24] Participante: Retirar ele de um grupo não invalida a validade.
+[00:17:28] Você: Exato, exato.
+[00:17:27] Participante: A avaliação dele do próximo.
+[00:17:28] Participante: Concordo.
+[00:17:30] Você: Isso são coisas distintas.
+[00:17:33] Você: A gente trabalha com essa granularidade.
+[00:17:34] Você: Então, o avaliador...
+[00:17:36] Você: Por mais que seja o mesmo avaliador nessa e nessa.
+[00:17:39] Você: Nesse segmento, as avaliações são distintas e a gente só vai...
+[00:17:42] Você: Então vamos considerar o que está aqui dentro.
+[00:17:43] Você: Então vamos colocar uma visualização.
+[00:17:45] Você: Visualização ao invés de uma visualização num...
+[00:17:48] Você: Um bullet, a gente pode colocar algo mais...
+[00:17:51] Você: Mais trabalhado aqui com os avaliadores.
+[00:17:54] Você: ... selecionados, onde vocês possam ver e entender o cenário.
+[00:17:57] Você: Eu vou colocar inclusive um aviso nessa tela.
+[00:18:00] Você: Informando que, caso o avaliador...
+[00:18:03] Você: Seja removido as avaliações dele.
+[00:18:06] Você: Para esse, não sei como é que vocês chamam essa.
+[00:18:09] Você: Essa árvore de categoria, modalidade, tipos de participação.
+[00:18:12] Você: É, dentro dessa modalidade.
+[00:18:12] Participante: A modalidade.
+[00:18:15] Você: Ele vai ser, ele vai perder.
+[00:18:19] Você: Vou te falar isso.
+[00:18:23] Participante: É, é.
+[00:18:24] Participante: Ouvindo aqui você falando, eu fiquei com algumas dúvidas.
+[00:18:27] Participante: Primeiro, sim.
+[00:18:30] Participante: A parte aqui que a gente está agrupando os avaliadores.
+[00:18:33] Participante: Me corrija se eu estiver errada, Pedro.
+[00:18:36] Participante: Foi no intuito de facilitar o...
+[00:18:39] Participante: Assim, a alocação, né, para vocês não terem que ficar...
+[00:18:42] Participante: Colocando um por um, tipo, aloca...
+[00:18:45] Participante: Vários, num grupo que vocês já sabem que aqueles avaliadores...
+[00:18:48] Participante: Para aquele tipo de avaliação, é isso, não é?
+[00:18:51] Participante: E aí, no segundo momento, que é aquele que...
+[00:18:54] Participante: Como o Pedro mostrou, também é possível...
+[00:18:57] Participante: Vou colocar por participante.
+[00:19:00] Participante: Bem pontual.
+[00:19:01] Participante: Então, eu acredito que...
+[00:19:03] Participante: Esse primeiro é uma...
+[00:19:06] Participante: Visão mais geral e esse daqui é uma coisa bem mais específica.
+[00:19:09] Participante: E aí, a Joana falou...
+[00:19:12] Participante: Ah, mas se o avaliado...
+[00:19:15] Participante: Tinha 10 avaliações, ele só avaliou duas.
+[00:19:18] Participante: Então, eu vou excluir essas duas e...
+[00:19:21] Participante: Vou colocar o trabalhador no lugar.
+[00:19:24] Participante: Aí eu não entendi o motivo.
+[00:19:27] Participante: Porque não poderia deixar essas duas que ele já concluiu.
+[00:19:30] Participante: E as outras oito...
+[00:19:33] Participante: Alocar para outra pessoa?
+[00:19:35] Participante: E fazer o agente.
+[00:19:36] Participante: E o X só nas oito, né?
+[00:19:38] Participante: É a forma mais...
+[00:19:39] Participante: É, porque, tipo, o trabalho...
+[00:19:42] Participante: Todo indústria que foi feita vai ser desconsiderada.
+[00:19:45] Participante: Mesmo que tenha sido só...
+[00:19:48] Participante: Daquilo que era proposto para ele fazer.
+[00:19:51] Você: Eu acho que o...
+[00:19:54] Você: O entendimento é porque nessa parte você não está louco.
+[00:19:57] Você: Quando você seleciona um avaliador, você não está...
+[00:20:00] Você: Colocando e informando que ele pode avaliar todos.
+[00:20:03] Você: Você está definindo que...
+[00:20:06] Você: E ele estará no grupo Jovem Aprendiz.
+[00:20:09] Você: Entrando aqui, a gente vai ter o fio.
+[00:20:12] Você: E aqui dentro, como por exemplo.
+[00:20:15] Você: Instituição de Ensino, aqui, Instituição de Ensino.
+[00:20:18] Você: Eu só tenho os avaliadores 4 e 2.
+[00:20:21] Você: Para esse participante.
+[00:20:24] Você: Não tem avaliador alocado ainda.
+[00:20:27] Você: Se eu fizer assim, não significa que o 4 e o 2...
+[00:20:30] Você: Vocês podem avaliar todos esses três.
+[00:20:33] Você: Eu só aloco efetivamente quando eu...
+[00:20:36] Você: Seleciono e eu salvo.
+[00:20:39] Participante: Então, nessa parte aqui, vai aparecer só...
+[00:20:44] Você: Exato.
+[00:20:42] Participante: Os avaliadores que estão naquele grupo.
+[00:20:45] Participante: Poder selecionar para diminuir a quantidade de...
+[00:20:49] Você: A gente...
+[00:20:48] Participante: De pessoas aí nessa tela.
+[00:20:51] Você: Sim, a gente fez isso pensando no PNU.
+[00:20:51] Participante: Obrigada, Carla.
+[00:20:54] Você: E ele utiliza a mesma, inclusive, eu posso mostrar...
+[00:20:57] Você: A gente aloca primeiro num grupo e depois...
+[00:21:00] Você: Se para você...
+[00:21:03] Você: E se ficar confuso não atender, tudo bem, a gente pode...
+[00:21:06] Você: Adotar outro caminho, mas eu acho que dessa forma...
+[00:21:09] Você: Fica mais organizado.
+[00:21:12] Participante: Então, desculpa, só para...
+[00:21:15] Participante: Vou finalizar que eu concluí o raciocínio.
+[00:21:17] Participante: Então, no caso...
+[00:21:18] Participante: No grupo lá...
+[00:21:21] Participante: A gente, mesmo que retire, o avaliador fazia...
+[00:21:24] Participante: Parte do jovem aprendiz, agora ele não vai fazer mais parte.
+[00:21:27] Participante: Isso não significa que vai interferir nas avaliações.
+[00:21:30] Participante: Eu só estou mudando ele ou tirando ele.
+[00:21:33] Participante: De algum grupo específico para essa tela aqui.
+[00:21:36] Participante: Vou fazer as alocações, né?
+[00:21:38] Participante: E aí, nessa tela...
+[00:21:39] Participante: Aqui eu posso substituir...
+[00:21:42] Participante: Conforme for necessidade.
+[00:21:45] Participante: Vocês tiverem de substituição de avaliadora.
+[00:21:49] Você: Não, porque interfere.
+[00:21:48] Participante: É isso, Pedro?
+[00:21:50] Participante: Não.
+[00:21:51] Você: Porque interfere. Pensa comigo.
+[00:21:52] Participante: Então, explica.
+[00:21:54] Você: Hoje eu tenho um vínculo, eu tenho dentro desse grupo,
+[00:21:54] Participante: Melhor pra gente.
+[00:21:57] Você: Eu tenho vínculo do avaliador 4.
+[00:22:00] Você: Se o avaliador 4 ele está, já, já...
+[00:22:03] Você: Tocado para esse participante, quando eu remover...
+[00:22:06] Você: Esse vínculo tem que não existir mais.
+[00:22:10] Você: Concorda?
+[00:22:12] Você: Então a gente teria um...
+[00:22:14] Você: Exato.
+[00:22:12] Participante: Mas remover do grupo lá, né, Pedro? Não daí.
+[00:22:15] Você: Se eu remover do grupo, aqui, estamos no grupo.
+[00:22:15] Participante: Uhum.
+[00:22:18] Você: Estou removendo o avaliador 4, por exemplo.
+[00:22:21] Você: Se eu entrar nessa tela, ele...
+[00:22:24] Você: Não pode estar aqui, porque a gente perde o vínculo.
+[00:22:27] Você: Ele vai ficar com o órfão.
+[00:22:29] Participante: Uhum.
+[00:22:30] Você: Ficar, por exemplo, eu vou ter o avaliador 4, mas eu não...
+[00:22:33] Você: Então vou ter o link forte.
+[00:22:36] Você: Para que eu possa rastrear essa avaliação.
+[00:22:39] Você: Da ponta até a avaliação.
+[00:22:42] Você: Por isso mesmo que eu...
+[00:22:45] Você: Se nós retirarmos, a ideia é que...
+[00:22:48] Você: Aqui ele perca todas as avaliações, mas aí a gente pode conversar.
+[00:22:51] Você: É isso aí.
+[00:22:53] Participante: É isso.
+[00:22:54] Participante: Eu acho que esse vínculo...
+[00:22:57] Participante: Se não tivesse sido feito.
+[00:23:02] Você: Ok.
+[00:23:00] Participante: Nenhuma avaliação? Ok, perdi.
+[00:23:03] Participante: Se já tiver feito alguma avaliação, eu acho que esse...
+[00:23:06] Participante: Não deveria ser perdido, porque...
+[00:23:09] Participante: Eu perco o rastreio aí das avaliações feitas.
+[00:23:12] Participante: Porque eu posso mudar os grupos e, inclusive...
+[00:23:15] Participante: Os avaliadores, entendeu? Mas se já tiver uma...
+[00:23:18] Participante: Avaliação finalizada.
+[00:23:21] Participante: Obrigada.
+[00:23:24] Participante: É estranho perder esse vínculo e aí a pessoa acessava...
+[00:23:27] Participante: Ontem e hoje já não acessa mais.
+[00:23:30] Participante: Eu trouxe aqui algumas...
+[00:23:33] Participante: Algumas possibilidades e alguns acontecimentos.
+[00:23:36] Participante: Respondendo primeiramente a...
+[00:23:39] Participante: No caso do exemplo que eu dei,
+[00:23:42] Participante: Foi, por exemplo, o avaliador era o primeiro...
+[00:23:45] Participante: Ele entrou, avaliou dois projetos.
+[00:23:48] Participante: Cara, isso aqui não é pra mim.
+[00:23:52] Você: Uhum.
+[00:23:51] Participante: Ele saiu, eu realmente tive que retirar ele.
+[00:23:54] Participante: Invalidar as avaliações.
+[00:23:57] Participante: E eu acho que...
+[00:24:00] Participante: Eu consegui compreender a questão...
+[00:24:03] Participante: Pedro, e eu acho que para nós aqui faz total sentido, por exemplo.
+[00:24:06] Participante: Vamos supor que aqui para Goiás a gente...
+[00:24:09] Participante: Temos aqui sete avaliadores.
+[00:24:12] Participante: Em geral, nós...
+[00:24:15] Participante: Nós organizamos, vamos supor que a gente cadastre naqueles...
+[00:24:18] Participante: Todos os sete em cada grupo.
+[00:24:21] Participante: Porém, quem...
+[00:24:24] Participante: Vai avaliar cada projeto, vamos supor,
+[00:24:27] Participante: Vai ser dois avaliadores? Ou três?
+[00:24:30] Participante: Mas no grupo...
+[00:24:33] Participante: Eu tenho cadastrado todos os sete.
+[00:24:36] Participante: Certo da base de finalização das inscrições.
+[00:24:39] Participante: Vamos supor que um desses avaliadores, não vou conseguir...
+[00:24:42] Participante: Mas aí eu preciso, por via de regra, que três...
+[00:24:45] Participante: Os avaliadores avaliam aquele projeto.
+[00:24:46] Participante: Aí eu vou, retiro um.
+[00:24:48] Participante: E substituto um para o outro nessa...
+[00:24:51] Participante: Não na base de dados.
+[00:24:54] Participante: Eu acredito que, dessa forma, se for o que eu compreendi,
+[00:24:57] Participante: Faz sentido.
+[00:24:58] Participante: Eu não vou retirar de lá para invalidar.
+[00:25:00] Participante: E perder histórico ou alguma coisa nesse sentido.
+[00:25:03] Você: Certo. Eu acho que eu expliquei...
+[00:25:06] Você: Fiquei de uma forma muito técnica, vamos tentar entender um pouco.
+[00:25:09] Você: Quando vocês definem um avaliador?
+[00:25:12] Você: É um voluntário? Ele normalmente...
+[00:25:15] Você: Vamos supor, quem vai avaliar a instituição de ensino?
+[00:25:17] Você: Ele é um...
+[00:25:15] Participante: Fim.
+[00:25:18] Você: Professor, ele é uma pessoa da equipe, quem que é normalmente?
+[00:25:22] Participante: Depende muito.
+[00:25:24] Participante: Mas o IEL, ele não...
+[00:25:28] Você: Ok.
+[00:25:27] Participante: Pode avaliar pelo regulamento.
+[00:25:30] Participante: O documento regional não pode avaliar e é uma...
+[00:25:33] Participante: A inscrição voluntária, a gente tem muitos...
+[00:25:36] Participante: Parceiros de instituições de ensino, coordenadores de...
+[00:25:39] Participante: Curso, pessoas que já passaram.
+[00:25:42] Participante: E é o que estão em outras empresas hoje.
+[00:25:45] Participante: Que ainda voltam para avaliar os projetos.
+[00:25:48] Participante: Que já conhecem um pouco do sistema.
+[00:25:50] Participante: Mas é totalmente volume.
+[00:25:52] Você: Entendi, então pensei...
+[00:25:51] Participante: Abre.
+[00:25:54] Você: Pensando nesse ponto, eu acho interessante...
+[00:25:57] Você: Interessante. Você quer falar alguma coisa, Igor? Pode falar.
+[00:25:59] Participante: Isso aí é o que eu faço.
+[00:26:01] Você: Ficou no mudo.
+[00:26:00] Participante: Então, vamos lá.
+[00:26:03] Participante: Opa, só complementando que tem todo um jogo.
+[00:26:06] Participante: Fogo de cintura, por exemplo, se o avaliador...
+[00:26:09] Participante: De alguma instituição, algum professor.
+[00:26:12] Participante: Algum professor, algum reitor, por exemplo.
+[00:26:14] Participante: Aí a gente não coloca.
+[00:26:16] Você: Uhum.
+[00:26:15] Participante: Para avaliar a instituição de ensino.
+[00:26:18] Participante: Para não tendenciar na categoria de jogo para outra categoria.
+[00:26:22] Você: Uhum.
+[00:26:21] Participante: Por isso tem esses interesses.
+[00:26:25] Você: Entende? Eu acho que...
+[00:26:27] Você: O cenário ideal, na minha visão, é...
+[00:26:31] Você: Selecionei o X.
+[00:26:33] Você: Se o avaliador 2 está alocado,
+[00:26:36] Você: E ele está avaliando...
+[00:26:39] Você: Vou informar uma mensagem de erro enorme.
+[00:26:42] Você: Esse é um aviso enorme informando.
+[00:26:45] Você: O avaliador 2 possui...
+[00:26:48] Você: e avaliação com o participante.
+[00:26:51] Você: Você deseja mesmo?
+[00:26:54] Você: Ao deletar...
+[00:26:57] Você: Você estará pagando também a avaliação do mesmo.
+[00:27:00] Você: Te zaixo.
+[00:27:04] Você: Vocês enxergam algum cenário onde...
+[00:27:08] Participante: Eu acho.
+[00:27:10] Participante: Dessa forma...
+[00:27:12] Participante: No meu caso, no caso aqui, atende.
+[00:27:16] Participante: Wii U, O.
+[00:27:19] Você: Oi!
+[00:27:18] Participante: E o Pedro.
+[00:27:21] Participante: Existe a possibilidade de ao invés de excluir
+[00:27:24] Participante: Desabilitar, porque na minha cabeça...
+[00:27:27] Participante: Desabilitar, ele mantém o histórico.
+[00:27:32] Você: É, eu conto.
+[00:27:30] Participante: Você só não vincula mais.
+[00:27:33] Você: Eu digo excluir, é uma exclusão lógica, ele não vai...
+[00:27:33] Participante: Obrigado.
+[00:27:36] Você: Não é que vai sumir o histórico, não. Ele vai ficar, só que...
+[00:27:39] Você: Ele tá inativo ali, ele vai ser um...
+[00:27:42] Você: Um histórico que ele não vai estar contando.
+[00:27:48] Você: E aí?
+[00:27:48] Participante: Eu só queria trazer...
+[00:27:51] Participante: Eu não sei a importância que tem isso.
+[00:27:54] Participante: Obrigada para vocês de manter esse histórico.
+[00:27:57] Participante: ... manter essa rastreadibilidade, né, para afim...
+[00:28:00] Participante: ...de auditoria, alguma coisa nesse sentido.
+[00:28:03] Participante: Aí, por exemplo, um avaliador começou...
+[00:28:06] Participante: Uma avaliação, mas ele não vai terminar mais.
+[00:28:09] Participante: Algum problema de eu excluir essa avaliação?
+[00:28:12] Participante: Se não tiver, ok. Agora, se tiver...
+[00:28:15] Participante: Aí teria que manter esse histórico para mostrar que em alguma...
+[00:28:18] Participante: Nesse momento, ele teve aquela avaliação iniciada a partir...
+[00:28:21] Participante: Todo aquele processo ali, daquele fluxo.
+[00:28:24] Participante: Mas que não foi pra frente, né? Que foi...
+[00:28:27] Participante: É isso tudo.
+[00:28:30] Participante: Vai, é como eu falo, subsidiar.
+[00:28:33] Participante: O Pedro, para saber até que ponto ele pode...
+[00:28:36] Participante: Pode andar com essa desabilitação ou exclusão.
+[00:28:39] Participante: Até que ponto ele vai ter que manter esse histórico?
+[00:28:43] Você: Sim.
+[00:28:42] Participante: Um lugar aí do banco, né?
+[00:28:44] Participante: Porque, assim...
+[00:28:45] Participante: Hoje a gente está tendo aqui o grupo.
+[00:28:48] Participante: Ok, no meu entendimento primeiro.
+[00:28:51] Participante: Ah, o grupo não interferia na...
+[00:28:54] Participante: Avaliação, era só uma forma de agrupar.
+[00:28:57] Participante: A aplicação do Pedro influencia.
+[00:29:00] Participante: E também a alocação de participantes, que também vai...
+[00:29:03] Participante: Então, são duas formas.
+[00:29:06] Participante: Que tem que pensar, qual momento que eu preciso manter?
+[00:29:09] Participante: Até o histórico disso, o que é necessário.
+[00:29:12] Participante: Por exemplo, essa sugestão que o Pedro deu agora.
+[00:29:15] Participante: Os casos que a Joana trouxe eram 10, avaliações...
+[00:29:18] Participante: Ele só fez duas, aí eu vou tirar ele do grupo.
+[00:29:21] Participante: Vou apagar então as duas avaliações que ele fez.
+[00:29:25] Participante: Faz sentido isso?
+[00:29:27] Participante: Eu tenho que manter as que ele fez e...
+[00:29:30] Participante: Apagar apenas as que ele não iniciou.
+[00:29:33] Participante: ...que estão em andamento, alguma coisa nesse sentido.
+[00:29:36] Participante: Alguma regra a gente tem que definir nesse sentido.
+[00:29:41] Você: Sim, porque...
+[00:29:39] Participante: Acesse o nosso site e saiba mais.
+[00:29:42] Você: É exatamente isso que a Su falou, a gente precisa ter algo.
+[00:29:45] Você: Alguma trava, porque...
+[00:29:48] Você: É, eu tô até tentando fazer uma...
+[00:29:51] Você: Uma imagem, mas o avaliador...
+[00:29:54] Você: Ele vai estar alocado dentro desse grupo.
+[00:29:57] Você: Não significa que ele poderá...
+[00:30:00] Você: É... avaliar os três.
+[00:30:03] Você: Significa que ele está no hall de avaliação.
+[00:30:06] Você: A gente vai avaliar esse grupo.
+[00:30:09] Você: Aqui dentro, a Priscila, o Will, o Bruno...
+[00:30:12] Você: Eles vão poder selecionar, que eu quero que esse avalio.
+[00:30:15] Você: Avalie a primeira empresa.
+[00:30:18] Você: E a terceira, ok?
+[00:30:21] Você: Mas nós temos um cenário...
+[00:30:24] Você: Um leque muito grande de cenários que a gente precisa...
+[00:30:27] Você: Precisa conseguir abranger e ao mesmo tempo a gente precisa criar travas.
+[00:30:30] Você: Para que não vire um monstro.
+[00:30:33] Você: Imagina, por exemplo, o cara entra na tela...
+[00:30:36] Você: Aí vai ter avaliação desabilitada, aí tem histórico de avaliação desabilitada.
+[00:30:39] Você: Aí se você inativa o card...
+[00:30:42] Você: Ele vai chamar 10 funções dentro do sistema.
+[00:30:45] Você: A gente tem que ter alguma coisa simples.
+[00:30:48] Você: E fiável.
+[00:30:51] Você: Eu acho que, eu ainda acho que...
+[00:30:54] Você: O melhor caminho é apagar mesmo.
+[00:30:57] Você: E, entre aspas, assumiu o risco.
+[00:31:02] Participante: E aí
+[00:31:03] Participante: Eu tô tentando...
+[00:31:06] Participante: Vamos elaborar alguma outra saída aqui, mas não porque...
+[00:31:09] Participante: Não consegui até o momento porque já tem...
+[00:31:12] Participante: Teve ambos os casos.
+[00:31:15] Participante: No caso de exemplificação que teve que...
+[00:31:18] Participante: Pagar o histórico do avaliador para outro, assumir.
+[00:31:21] Participante: Mas teve também histórico do avaliador chegar para mim e dizer
+[00:31:24] Participante: Olhei, por exemplo, 20 projetos.
+[00:31:27] Participante: Faltava o que? Mais uns 5 para ele avaliar.
+[00:31:30] Participante: Avaliei esses, não consigo mais.
+[00:31:33] Participante: E o 5, que faltou a gente realocar para outros.
+[00:31:38] Você: Aham.
+[00:31:36] Participante: Não invalidando as avaliações deles.
+[00:31:39] Você: Legenda por Sônia Ruberti
+[00:31:39] Participante: É caso a caso, mas eu sei que a gente tem que realmente definir uma rede.
+[00:31:42] Participante: Para não ficar solto.
+[00:31:46] Você: E nesse caso, por exemplo,
+[00:31:48] Você: Onde ele havia avaliado 20.
+[00:31:50] Você: Ele tinha...
+[00:31:51] Você: Todas as outras avaliações já tinha mais de um avaliador.
+[00:31:54] Você: Cara, já tinha.
+[00:31:56] Participante: Sim.
+[00:31:57] Você: E o 5.
+[00:31:57] Participante: No mínimo, um avaliador.
+[00:32:00] Participante: Outros projetos, no mínimo.
+[00:32:01] Participante: Tem um velador que tinha...
+[00:32:05] Você: Ok.
+[00:32:03] Participante: Tinha projeto que tinha três.
+[00:32:07] Você: Uhum.
+[00:32:06] Participante: E é isso.
+[00:32:09] Você: Pode falar, pessoal.
+[00:32:12] Participante: Vou falar rapidinho para dar a oportunidade.
+[00:32:15] Participante: Espera aí, acho que ela está...
+[00:32:18] Participante: Tem um povo tentando falar e não consegue.
+[00:32:21] Participante: A minha sugestão, Pedro, é a seguinte.
+[00:32:24] Participante: E pessoal, para essa tela aqui.
+[00:32:27] Participante: ...de grupos, quando remover...
+[00:32:30] Participante: O avaliador é aqueles que...
+[00:32:33] Participante: Estão vinculados a uma avaliação.
+[00:32:36] Participante: Se a avaliação já foi concluída.
+[00:32:39] Participante: A ação foi finalizada, não exclui.
+[00:32:42] Participante: Se ela não foi iniciada, remove.
+[00:32:45] Participante: Agora, se ela está em andamento, aí eu não sei.
+[00:32:48] Você: Fim.
+[00:32:48] Participante: Qual seria a opção? Remover ou manter?
+[00:32:51] Participante: Aí é uma decisão de vocês.
+[00:32:54] Você: Fim.
+[00:32:54] Participante: O mesmo comportamento para outra tela.
+[00:32:57] Você: Sim.
+[00:32:57] Participante: ... onde for alocar, né, porque aí...
+[00:33:00] Participante: É a mesma regra, mas vou passar para a Isa aí.
+[00:33:03] Participante: Vai que ela tem a ideia aí, mirabolante.
+[00:33:09] Participante: Eu vou só causar, tá?
+[00:33:12] Participante: Vou jogar pimenta aqui em cima de vocês.
+[00:33:15] Participante: E aí a gente vai ter que ir.
+[00:33:18] Participante: E conversar melhor sobre isso.
+[00:33:21] Participante: Gente, vou explicar.
+[00:33:24] Participante: Um dos motivos de eu e o Pedro ter quebrado...
+[00:33:27] Participante: A cabeça semana passada.
+[00:33:32] Participante: A gente tem que...
+[00:33:33] Participante: Resolveu um problema que muitos avaliadores...
+[00:33:36] Participante: Reclamaram para a gente no ano passado, que é...
+[00:33:39] Participante: A falta de feedback, não só os avaliadores, mas...
+[00:33:42] Participante: Mas os finalistas, né?
+[00:33:43] Participante: Todo mundo reclama da falta de...
+[00:33:45] Participante: Qual que é o grande problema?
+[00:33:48] Participante: Eu tenho três avaliadores.
+[00:33:51] Participante: vinculados a um projeto que estão ali avaliando.
+[00:33:54] Participante: E aí eu vou ter o feedback dos três.
+[00:33:57] Participante: Eu posso ter um avaliador que botou aquele...
+[00:34:00] Participante: ...projeto, uma nota 4.
+[00:34:02] Participante: Eu posso ter um outro...
+[00:34:03] Participante: Trabalhador que botou nota 9.
+[00:34:05] Participante: Eu posso ter outra.
+[00:34:06] Participante: Trabalhador que botou nota zero.
+[00:34:08] Participante: Então, a gente tem...
+[00:34:09] Participante: São três cenários completamente diferentes.
+[00:34:12] Participante: Certo? Isso foi o motivo de ficar eu e o...
+[00:34:15] Participante: O Pedro bateu na cabeça aqui.
+[00:34:16] Participante: O que a gente conversou?
+[00:34:18] Participante: Sobre uma possibilidade.
+[00:34:21] Participante: Vou dar um pouco o formato de avaliação.
+[00:34:24] Participante: Como é feito no PNI.
+[00:34:27] Participante: PNI, ele tem um avaliador líder.
+[00:34:30] Participante: E faz a avaliação.
+[00:34:33] Participante: Revisor que revisa as informações.
+[00:34:36] Participante: Que o líder colocou ali.
+[00:34:39] Participante: E tem um validador, que é o final.
+[00:34:42] Participante: Ah, o revisor discordou.
+[00:34:45] Participante: Toda nota, o validador vai fechar aqui.
+[00:34:48] Participante: Por que eu trago esse cenário para vocês?
+[00:34:51] Participante: Se a gente fala aqui da exclusão de uma...
+[00:34:54] Participante: A gente está falando da modificação desse...
+[00:34:57] Participante: Então, caso a gente...
+[00:35:00] Participante: Tenha esse cenário, não é nada decidido, tá?
+[00:35:03] Participante: Estou jogando para vocês, porque foi a única alternativa.
+[00:35:06] Participante: A iniciativa que a gente conseguiu chegar juntos para resolver...
+[00:35:09] Participante: Houve a questão de um feedback único.
+[00:35:12] Participante: Sem ser um Frankenstein.
+[00:35:15] Participante: Cada um com um feedback e o usuário vai chegar.
+[00:35:18] Participante: Ué, então eu fui boa ou fui mal?
+[00:35:21] Participante: O problema, né? Então, a gente chegou nessa alternativa...
+[00:35:24] Participante: para resolver o problema do feedback.
+[00:35:27] Participante: Só que agora, quando a gente está olhando aqui a questão...
+[00:35:30] Participante: da exclusão, do histórico.
+[00:35:33] Participante: A gente também tem que mapear esses papéis.
+[00:35:36] Participante: Porque se eu tiro um avaliador...
+[00:35:39] Participante: Eu vou precisar colocar uma...
+[00:35:42] Participante: Outra pessoa, ou então, pegar o avaliado.
+[00:35:45] Participante: Que era validador e virar o avaliador.
+[00:35:48] Participante: E o que era validador virou revisor.
+[00:35:51] Participante: Então, essa orquestra...
+[00:35:54] Participante: A gente vai precisar fazer muito bem amarradinha, tá?
+[00:35:57] Participante: Então, eu joguei aqui a pimenta.
+[00:36:00] Participante: E vamos conversar sobre.
+[00:36:03] Participante: É como se fosse um grupo, né?
+[00:36:06] Participante: Ô, Isa, a gente...
+[00:36:09] Participante: Eu peguei e já tinha começado a reunião.
+[00:36:12] Participante: Gente, desculpa, mas pelo que eu entendi...
+[00:36:15] Participante: Empresa inovadora.
+[00:36:16] Participante: Já pegar três avaliadores.
+[00:36:19] Você: Tchau, tchau.
+[00:36:18] Participante: Colocar nesse grupo, certo? Ele vai avaliar todos os projetos da empresa.
+[00:36:21] Participante: Correto?
+[00:36:22] Participante: Sim.
+[00:36:24] Participante: O que você está falando que vai ter líder, que vai ter validador?
+[00:36:27] Participante: Enfim, eu achei ótimo, mas você acha que não...
+[00:36:30] Participante: E tem um feedback só, que essa foi a dor, e acho que todas as regiões...
+[00:36:33] Participante: Sente isso e as avaliadoras.
+[00:36:36] Participante: Nesse feedback final...
+[00:36:39] Participante: Você acha que quando eles avaliarem, avaliou todos os...
+[00:36:42] Participante: A gente não consegue fazer uma reunião final com eles.
+[00:36:45] Participante: Então, feedback só.
+[00:36:46] Participante: E a gente está nessa reunião.
+[00:36:48] Participante: A gente vai ter que fazer essa...
+[00:36:51] Participante: Interlocução com eles.
+[00:36:53] Participante: Por que isso que eu estou perguntando?
+[00:36:54] Participante: A agenda dessas pessoas daqui, eu falo do espírito.
+[00:36:57] Participante: É uma loucura, a gente tem que ficar no...
+[00:37:00] Participante: Se avaliou, se não avaliou, se o prazo é...
+[00:37:03] Participante: Até dia 15 do 6, exemplo, para eles avaliarem.
+[00:37:06] Participante: Eu boto dia 15 do 4.
+[00:37:09] Participante: Eles avaliarem, porque assim, eu tenho que ficar no pé.
+[00:37:12] Participante: O que eu pensei?
+[00:37:15] Participante: Os projetos, né, dar a nota que tem, eles terem...
+[00:37:18] Participante: Não sei se é possível, tá, gente, ter lá no controle.
+[00:37:21] Participante: ... deles dando a nota, um feedback de cada projeto.
+[00:37:24] Participante: E a gente marcar uma reunião com os três, fala assim, ó...
+[00:37:27] Participante: A gente vai ter que chegar no consenso de cada projeto.
+[00:37:30] Participante: Sabe? Porque eu acho que eles...
+[00:37:33] Participante: Não sei se foi isso que eu entendi, Taísa, se eles ficaram por si só.
+[00:37:36] Participante: Um ser líder e o outro não sei o que, por eles, não vai.
+[00:37:39] Participante: Eu já digo aqui, por experiência do Espírito Santo, tá?
+[00:37:42] Participante: Isa, assim, estou pensando agora e o...
+[00:37:45] Participante: Nem sei se foi isso que foi falado aqui, está no início.
+[00:37:48] Participante: Não tem problema não, essa era a ideia, né?
+[00:37:51] Participante: É, a ideia é ter papo.
+[00:37:54] Participante: 10 para cada um desses avaliadores no momento.
+[00:37:57] Participante: Que a gente insere.
+[00:38:00] Participante: Eles ali como avaliadores daquele projeto em específico.
+[00:38:03] Participante: Qual que é o problema? O fluxo.
+[00:38:06] Participante: Porque tem estado que tem.
+[00:38:09] Participante: Cinco projetos para serem avaliados.
+[00:38:12] Participante: Tem estado que tem 80.
+[00:38:14] Participante: Então, colocar isso.
+[00:38:15] Participante: A mão de vocês é gerar um trabalho, assim,
+[00:38:18] Participante: Triplicado, né?
+[00:38:20] Participante: Sim.
+[00:38:21] Participante: Por isso que a gente trouxe essa alternativa.
+[00:38:24] Participante: De uma pessoa fazer um feedback, uma revista.
+[00:38:27] Participante: Uma valida e a gente tem um feedback.
+[00:38:30] Participante: O único passando pelo crivo dos...
+[00:38:33] Participante: Três, sabe?
+[00:38:36] Participante: Não deixa de estar ali todo dia cobrando que eu sei...
+[00:38:39] Participante: Exatamente como funciona essa cobrança.
+[00:38:42] Participante: ...e dos regionais.
+[00:38:43] Participante: Então, esse processo...
+[00:38:45] Participante: Dentro isso aí ia ser por partes, tipo...
+[00:38:48] Participante: O líder fez o outro, aí passa para o outro.
+[00:38:51] Participante: A gente consegue acompanhar, certo?
+[00:38:54] Participante: Até chegar no base da dor.
+[00:38:57] Participante: Uiu!
+[00:39:00] Participante: Então, vamos lá.
+[00:39:03] Participante: Não, quando você solta esse então.
+[00:39:06] Participante: Eu compartilho com a tua...
+[00:39:09] Participante: Das mesmas questões das dores.
+[00:39:12] Participante: Da Priscila.
+[00:39:15] Participante: O pessoal aqui realmente é muito corrido.
+[00:39:18] Participante: Acredito que... Beleza.
+[00:39:21] Participante: Até a ideia é legal, mas não sei se...
+[00:39:24] Participante: E para esse momento é interessante a gente desenvolver...
+[00:39:27] Participante: Até a gente entender como é que funciona essa...
+[00:39:30] Participante: para explicar para os avaliadores.
+[00:39:33] Participante: Mas eu pensei em uma outra questão.
+[00:39:36] Participante: Né?
+[00:39:39] Participante: Da mesma forma que a avaliação é feita.
+[00:39:42] Participante: E decidi dar nota entre uma média das três...
+[00:39:45] Participante: O feedback não pode ser...
+[00:39:48] Participante: Nessa mesma pegada...
+[00:39:52] Participante: Pegam a média das...
+[00:39:54] Participante: Três avaliações e o dado feedback nessa.
+[00:39:57] Participante: Não sei como a gente faria.
+[00:40:00] Participante: O texto de cada...
+[00:40:03] Participante: Mas, sei lá, um...
+[00:40:06] Participante: Eu pensando longe, né?
+[00:40:07] Participante: Uma inteligência artificial que...
+[00:40:10] Você: Obrigado.
+[00:40:09] Participante: A gente diluiria as três avaliações e jogava.
+[00:40:12] Participante: E acabou uma só, de devolutiva.
+[00:40:15] Participante: Só nisso, nessa alternativa.
+[00:40:18] Participante: Mas é aquele cenário que eu comentei com vocês.
+[00:40:21] Participante: Se tiver um avaliador que botou muito bom,
+[00:40:24] Participante: Um que botou regular e um que botou ruim.
+[00:40:27] Participante: E a inteligência artificial vai conseguir criar...
+[00:40:30] Participante: É um feedback único.
+[00:40:33] Participante: As três percepções a gente pode ter aí.
+[00:40:36] Participante: Problemas com a inteligência artificial por isso.
+[00:40:39] Você: Eu penso na operação...
+[00:40:39] Participante: Nenhuma avaliação.
+[00:40:42] Você: Eu penso em...
+[00:40:42] Participante: São...
+[00:40:45] Você: É uma questão de tempo, pode falar, perdão.
+[00:40:46] Participante: Nenhuma avaliação.
+[00:40:48] Participante: Geral, com pontos de melhoria.
+[00:40:53] Participante: E o...
+[00:40:54] Participante: Pontos positivos, pontos negativos.
+[00:40:57] Participante: Puxaria pontos, tópicos.
+[00:41:00] Participante: O que você poderia melhorar para uma próxima inscrição?
+[00:41:03] Participante: Pois assim, e o ponto que você conserva, que eu acho que...
+[00:41:06] Participante: Já ajudaria, já era um feedback.
+[00:41:11] Você: Obrigado.
+[00:41:09] Participante: E não...
+[00:41:13] Você: Obrigado.
+[00:41:12] Participante: Deixaria tão discrepante a questão de um.
+[00:41:17] Você: Mas é porque...
+[00:41:15] Participante: Um lá em cima, uma avaliação lá em cima e outro embaixo.
+[00:41:18] Você: A gente abre o leque para um avaliador colocar...
+[00:41:21] Você: Pontos para melhorar? Nada.
+[00:41:22] Você: E o outro vai escrever...
+[00:41:24] Você: Por exemplo, alguma coisa.
+[00:41:27] Você: Ponto pra melhorar, nada, tudo.
+[00:41:30] Você: Mais ou menos, e aí não fica legal.
+[00:41:33] Você: Obrigado para o participante.
+[00:41:37] Você: Pode falar, Sul.
+[00:41:36] Participante: Oi!
+[00:41:39] Você: Acho que você tá com a mãozinha levantada aí um tempão.
+[00:41:42] Participante: É muito complexo, né?
+[00:41:45] Participante: Assunto, mas eu queria dar uma...
+[00:41:48] Participante: Uma sugestão aqui.
+[00:41:51] Participante: Vou manter os três avaliadores.
+[00:41:54] Participante: ...que gera uma média, ok, a média é fácil.
+[00:41:57] Participante: A gente dá o feedback. O problema está na justificativa.
+[00:42:00] Participante: Então, fazer uma...
+[00:42:03] Participante: Consolidação via IA mesmo.
+[00:42:06] Participante: Da IAI a analisar quais são as divergências.
+[00:42:09] Participante: As dispersões entre as notas.
+[00:42:12] Participante: Ver as palavras-chave e montar um texto.
+[00:42:15] Participante: E aí, no que for ok, né?
+[00:42:18] Participante: Entre as palavras-chave, monta o texto.
+[00:42:21] Participante: Um contexto mais positivo.
+[00:42:24] Participante: E aquilo que for divergente...
+[00:42:27] Participante: Aqui houve uma variação de percepção entre os...
+[00:42:30] Participante: Trabalhadores nos critérios tais e tais, como sugestão...
+[00:42:33] Participante: Alguma questão de melhoria, alguma coisa mais genérica.
+[00:42:36] Participante: E aí, com o tempo...
+[00:42:39] Participante: ... melhorando esses feedbacks, né, porque como é a primeira...
+[00:42:42] Participante: Obrigada.
+[00:42:45] Participante: Os textos mais claros.
+[00:42:48] Participante: Com algumas notas para poder já...
+[00:42:51] Participante: A autoavaliar aquela média ali, se está dentro...
+[00:42:54] Participante: Do excelente, do bom, do regular, enfim.
+[00:42:57] Participante: Alguma coisa assim de critérios.
+[00:43:00] Participante: Mas no texto, aí teria que ser com a ajuda mesmo da...
+[00:43:03] Participante: E a segunda opção...
+[00:43:06] Participante: A Isa falou um...
+[00:43:09] Participante: Revisor final, né? Então, deu lá uma nota.
+[00:43:12] Participante: E gerou divergência entre os três profissionais.
+[00:43:15] Participante: Três trabalhadores.
+[00:43:17] Participante: E aí, no final...
+[00:43:18] Participante: Tem que gerar um texto, né?
+[00:43:19] Participante: Então, esse revisor iria...
+[00:43:21] Participante: Analisar as três respostas.
+[00:43:24] Participante: Fazer o texto consolidado lá.
+[00:43:27] Participante: O que ele analisou. Então, ficaria a responsabilidade...
+[00:43:30] Participante: Tudo em cima desse revisor, né?
+[00:43:33] Participante: Não sei até que ponto que isso também é bom ou não.
+[00:43:36] Participante: É isso.
+[00:43:39] Participante: Para complementar aqui, Isa, rapidinho, no PNI...
+[00:43:42] Participante: Que é um outro sistema que a gente tem de prêmios, né?
+[00:43:45] Participante: O que lá eles têm? Eles têm um avaliador e...
+[00:43:48] Participante: Depois tem um revisor, então eles fazem primeiro uma...
+[00:43:51] Participante: ...etapa de avaliação, depois o revisor...
+[00:43:54] Participante: Ele vem avaliando o que o avaliador...
+[00:43:59] Você: Sim.
+[00:43:57] Participante: Estou feia, não é isso, Pedro?
+[00:43:58] Participante: E se me corrigir, eu estive errada.
+[00:44:00] Participante: E aí eles não têm uma nota diferente.
+[00:44:03] Participante: Eles atualizam a nota conforme a percepção deles.
+[00:44:06] Participante: Em cima da avaliação já feita por outra pessoa.
+[00:44:09] Participante: É tipo um cheque daquilo que eles estão...
+[00:44:12] Participante: Fazendo em duplicidade.
+[00:44:17] Você: Legenda por Sônia Ruberti
+[00:44:15] Participante: O outro revisa e dá ok, ou não.
+[00:44:18] Você: Eu estava conversando até com o Tiago.
+[00:44:21] Você: Há algo sobre? Mas...
+[00:44:24] Você: É porque no PNI...
+[00:44:27] Você: Sobrepõe o outro, aqui não tem, aqui é uma...
+[00:44:30] Você: Todos equivalem, então acho que a lógica acaba...
+[00:44:33] Você: Mas antes da gente continuar...
+[00:44:36] Você: É porque a Isa ficou bem ansiosa com esse assunto do feedback, mas a gente...
+[00:44:39] Você: Tem que definir primeiro a questão aqui da exclusão.
+[00:44:42] Você: E o participante no grupo.
+[00:44:44] Participante: Pediscope.
+[00:44:45] Você: Então a gente pode...
+[00:44:45] Participante: Mas é porque isso também interfere.
+[00:44:48] Participante: Pedro, porque ela até falou.
+[00:44:51] Participante: Escolher um desses aí como líder e tirar.
+[00:44:54] Participante: O que vai acontecer? A gente vai ter que informar outro líder?
+[00:44:57] Participante: A gente vai ter esse papel do revisor aqui também.
+[00:45:00] Você: Hum.
+[00:45:00] Participante: Então, acho que interfere nessa regra aqui também.
+[00:45:04] Participante: Eu dei aquela sugestão, não sei.
+[00:45:07] Você: Eu acho que o...
+[00:45:06] Participante: O que vocês acharam?
+[00:45:09] Você: Acho que o ideal é...
+[00:45:12] Você: Se tiver algum...
+[00:45:15] Você: Se ele tiver a avaliação finalizada...
+[00:45:18] Você: Mantenha, se tiver uma em andamento.
+[00:45:21] Você: Pode ser?
+[00:45:24] Você: Podemos decidir dessa forma?
+[00:45:24] Participante: Obrigado.
+[00:45:27] Participante: Acho que sim, acho que sim.
+[00:45:31] Você: Obrigado.
+[00:45:31] Participante: Avaliação de 2080.
+[00:45:33] Participante: 40% já concluído, mesmo assim vai apagar, gente?
+[00:45:36] Você: É porque tem que ter um conto.
+[00:45:36] Participante: Eu tenho tanto medo.
+[00:45:39] Você: Exato. É porque tem que ter um contato com...
+[00:45:39] Participante: Aí é do dia.
+[00:45:42] Você: Com o avaliador também, eu acho que...
+[00:45:45] Você: Vocês não só retiram, vocês têm um contato prévio, né?
+[00:45:48] Você: Fulano, a gente vai acabar te retirando e vamos...
+[00:45:51] Você: Vou colocar um outro avaliador para ele...
+[00:45:54] Você: Legenda por Sônia Ruberti
+[00:45:56] Participante: É porque...
+[00:45:57] Participante: Eu penso assim, se isso acontecer, não sei eu e o Will aí, mas...
+[00:46:00] Participante: Se isso acontecer, eu vou jogar todos os projetos para ele.
+[00:46:03] Participante: Aquele avaliador que saiu, que avaliou.
+[00:46:06] Participante: Já que ele avaliou cinco, eu vou cancelar aquele.
+[00:46:09] Participante: Vamos mandar os outros dez para o outro que entrou.
+[00:46:12] Participante: Aqui que trabalha o Espírito Santo é desse jeito, entendeu?
+[00:46:15] Participante: Então, até porque a gente já começa os convites.
+[00:46:18] Participante: Os avaliadores, para ter certeza, a gente já passa como é que é.
+[00:46:21] Participante: Tudo a partir da semana que vem.
+[00:46:24] Participante: E a gente vai começar aqui, já passa o histórico.
+[00:46:27] Participante: Como é que é? Sim, sim, vamos tocar.
+[00:46:30] Participante: Raras as vezes que acontece, eu não sei como é a frequência dos outros estados.
+[00:46:33] Participante: A Isa está mais por dentro, porque...
+[00:46:36] Participante: A Pipefy era muito manual, era muito a Isa, Isa remove isso.
+[00:46:39] Participante: Isso, Isa, remove aquilo. Então, eu não sei como que era.
+[00:46:42] Participante: Aqui é muito pouco, tá? Então, eu acho que...
+[00:46:45] Participante: E assim, se deixar isso do jeito que o Pedro falou...
+[00:46:48] Participante: E for tratando caso a caso, né?
+[00:46:51] Participante: Nos próximos anos, melhorar isso.
+[00:46:54] Participante: A questão do feedback, já é um avanço a gente ter feedback.
+[00:46:57] Participante: Então, a gente manda uma avaliação.
+[00:47:00] Participante: Depois para eles, se pode melhorar alguma coisa, acrescentar.
+[00:47:03] Participante: A gente não pensa, né? A gente não pensou aqui.
+[00:47:06] Participante: Estão dando feedback.
+[00:47:09] Participante: Cada ano ficar melhor, ainda mais com um sistema novo.
+[00:47:12] Você: Uhum.
+[00:47:12] Participante: Mas eu acho que com frequência...
+[00:47:15] Participante: Isso não acontece, assim, com tanta frequência.
+[00:47:18] Participante: Eu só coloco o avaliado lá quando eu tenho certeza que vai ser.
+[00:47:21] Participante: Que está tudo aprovado, já teve reunião de alinhamento.
+[00:47:24] Participante: Já teve tudo, então acho que essa tinha que ser orientada.
+[00:47:27] Participante: Estão puxando aí da Isa do Nacional, gente.
+[00:47:30] Participante: Só coloca quando tem certeza, já teve todas as...
+[00:47:33] Participante: Eu sei que acontece, tá, gente?
+[00:47:34] Participante: Percalço no caminho.
+[00:47:36] Participante: Mas eu acho que isso tem que ser tratado caso a caso, sabe?
+[00:47:39] Participante: Ah, Pedro, a gente não conseguiu disseminar, vai acontecer uma coisa.
+[00:47:44] Você: Ok.
+[00:47:42] Participante: O pessoal, não sei o que, com o avaliador, que acontece.
+[00:47:45] Participante: Mas eu acho que é super válido o que o Pedro falou.
+[00:47:48] Participante: Acho que a gente pode seguir assim, não sei se todo mundo concorda.
+[00:47:51] Participante: O Sul Rapidinho.
+[00:47:54] Participante: Uma contribuição bem rápida. Eu super concordo.
+[00:47:57] Participante: O Pedro falou assim, se a gente remove alguma coisa com...
+[00:48:02] Você: Aham.
+[00:48:00] Participante: Contato prévio, tem muito contato prévio.
+[00:48:03] Participante: Muito, a gente fala, avisa, pergunta, questiona.
+[00:48:06] Participante: E só remova quando a gente fez.
+[00:48:09] Participante: Não tem caso nenhum, né?
+[00:48:12] Participante: Mas eu super concordo com a Priscila nesse quesito, sim.
+[00:48:20] Participante: Não, é...
+[00:48:21] Participante: Isso aí, então, confirmar. A gente faz, então, assim.
+[00:48:24] Participante: Como o Pedro falou, a gente iniciou...
+[00:48:27] Participante: A avaliação ONEM...
+[00:48:30] Participante: Se remover daí, remove de lá.
+[00:48:33] Participante: Se ele finalizou, é mantém.
+[00:48:36] Participante: Aí, no caso da Priscila, eu removo tudo.
+[00:48:39] Participante: A gente deixa para remover manualmente.
+[00:48:42] Participante: Então, se a pessoa não quiser...
+[00:48:45] Participante: Ele já fez cinco avaliações de dez.
+[00:48:48] Participante: Eu não quero considerar essas cinco avaliações.
+[00:48:51] Participante: Deixa para o regional excluir isso manualmente.
+[00:48:54] Participante: E não automaticamente pela remoção.
+[00:49:01] Você: É...
+[00:49:03] Você: Mas e no caso, por exemplo, já tem três avaliadores.
+[00:49:06] Você: Vamos supor que tem o avaliador 3 aqui.
+[00:49:09] Você: O avaliador 3 já finalizou.
+[00:49:12] Você: Mas ele foi removido no grupo, então ele vai sumir.
+[00:49:15] Você: Mas a avaliação dele vai manter porque ele já finalizou.
+[00:49:18] Você: Eu posso adicionar mais um avaliador?
+[00:49:21] Você: 4, 5, 6 avaliações?
+[00:49:21] Participante: Mas Pedro...
+[00:49:24] Participante: Mas se por acaso o valiado...
+[00:49:27] Participante: Avaliador 3 não avaliou.
+[00:49:30] Participante: Não necessariamente tem que excluir ele do grupo, não. É só o daí do...
+[00:49:34] Você: Certo, mas eu estou pegando...
+[00:49:33] Participante: Correto?
+[00:49:36] Você: Um cenário bem atípico.
+[00:49:39] Você: O que a gente disse, quando a gente tira o avaliador,
+[00:49:42] Você: Do grupo, o que eu acho que não é um cenário...
+[00:49:45] Você: Que vai acontecer muito, porque vocês podem deixar o avaliador.
+[00:49:46] Participante: Uhum.
+[00:49:48] Você: Que paciência.
+[00:49:50] Você: Ah, eu vou tirar.
+[00:49:51] Você: Ele somente da inscrição, beleza?
+[00:49:54] Você: Já terminou as 5 inscrições? Vou tirar ele somente das 5.
+[00:49:57] Você: O que ele não vai fazer, ok?
+[00:50:00] Você: Se vocês removerem o avaliador, a gente...
+[00:50:03] Você: Pode colocar, esse avaliador iniciou.
+[00:50:06] Você: Ou tem avaliação em andamento.
+[00:50:09] Você: A avaliação finalizada você não pode removê-lo do grupo.
+[00:50:12] Você: Para você removê-lo do grupo, você tem que retirar ele primeiro.
+[00:50:15] Você: E aí vocês, como administração,
+[00:50:18] Você: Vocês vão ter o trabalho de entrar mais a fundo.
+[00:50:21] Você: Avaliação por avaliação e verificar.
+[00:50:27] Você: Mais trabalho? Vai.
+[00:50:28] Você: Mas é algo que...
+[00:50:30] Você: Estou pensando para não ficar tanto aquele telefone sem fio.
+[00:50:33] Você: Isa, arruma pra mim. Fulano, arruma pra mim.
+[00:50:36] Você: Vai ficar com vocês, vocês vão ter o controle.
+[00:50:39] Você: Total, avaliador tal, olha isso daqui para mim.
+[00:50:42] Você: Vocês vão conseguir olhar a avaliação deles e vocês vão falar.
+[00:50:45] Você: Ok, essa daqui eu posso remover.
+[00:50:46] Você: Pum, removi.
+[00:50:47] Você: Essa daqui tá com...
+[00:50:48] Você: Vou manter ou mantive.
+[00:50:55] Participante: Pedro e você falando.
+[00:50:57] Participante: Me veio uma coisa aqui na cabeça.
+[00:51:00] Participante: Agora, esses grupos, eles são montados por um grupo de pessoas que são montadas por um grupo de pessoas que são montadas por um grupo de pessoas que são montadas por um grupo de pessoas que são montadas por um grupo de pessoas.
+[00:51:03] Participante: ... a cada ano, porque tipo, eu posso ter uma...
+[00:51:06] Participante: Trabalhador esse ano, ano que vem ele não vai mais.
+[00:51:09] Participante: Aí eu vou remover do grupo, aí vai interferir.
+[00:51:12] Você: Não, ano que vem é outra...
+[00:51:12] Participante: Como é que é que você pensou?
+[00:51:15] Você: Foi minha ação.
+[00:51:17] Participante: Mas aí os gurus...
+[00:51:18] Participante: Isso tem que criar de novo, é isso?
+[00:51:20] Participante: Cada vez?
+[00:51:21] Participante: O que faz a premiação é o novo grupo.
+[00:51:24] Você: É uma nova premiação.
+[00:51:24] Participante: Ou dá para aproveitar.
+[00:51:27] Você: Mas aí é questão da configuração da premiação.
+[00:51:27] Participante: Não.
+[00:51:30] Você: Aqui, quando eu cadastrar uma nova premiação...
+[00:51:33] Você: Quando eu for alocar...
+[00:51:36] Você: Os avaliadores, eu vou selecionar outra premiação aqui.
+[00:51:39] Você: Aqui no...
+[00:51:42] Você: Quando eu selecionar outra premiação, já vai ser outra premiação.
+[00:51:45] Você: Eu posso colocar os mesmos nomes, eu posso...
+[00:51:48] Você: Uma não interfere com a outra.
+[00:51:49] Participante: Ah, então não vai interferir.
+[00:51:51] Você: Oh, não.
+[00:51:51] Participante: Ah, beleza. Só para garantir isso.
+[00:51:56] Participante: Pedro.
+[00:51:57] Participante: Eu tenho uma dúvida, e às vezes se for...
+[00:52:00] Participante: Se a Isa for responder nesse quesito também.
+[00:52:03] Participante: Seu...
+[00:52:06] Participante: Cadastrei um avaliador aí no grupo.
+[00:52:09] Participante: Ele necessariamente...
+[00:52:12] Participante: Tem que avaliar, tem alguma regra nesse quesito?
+[00:52:14] Participante: Porque às vezes...
+[00:52:15] Participante: A gente pode colocar como via de regra o exemplo que eu dei.
+[00:52:18] Participante: Tem sete avaliadores aqui em Goiás.
+[00:52:21] Participante: Por exemplo, cadastrei todos aqui.
+[00:52:24] Participante: E nós aqui, do regional,
+[00:52:27] Participante: Vai fazer a melhor manobra dos...
+[00:52:32] Você: Ok.
+[00:52:30] Participante: Selecionar três para avaliar cada projeto, por exemplo.
+[00:52:34] Participante: Porque acredito que isso sana.
+[00:52:36] Participante: Tem que ficar tirando e excluindo avaliador do grupo.
+[00:52:40] Você: Uhum.
+[00:52:39] Participante: Por exemplo, e acho que diminui até a questão disso.
+[00:52:43] Você: É porque a gente avalia...
+[00:52:42] Participante: Histórico.
+[00:52:45] Você: Sempre o cenário mais crítico para a gente...
+[00:52:48] Você: A gente não quer chegar nisso.
+[00:52:51] Você: Mas eu acho que essa lógica de...
+[00:52:54] Você: Não poder remover do grupo.
+[00:52:57] Você: Ok, porque vocês só vão alocar aqui da melhor forma.
+[00:53:00] Você: Vamos aqui ficar para vocês, pode ser?
+[00:53:03] Você: Mas sempre avisando de forma que vocês consigam ver.
+[00:53:06] Você: Poxa, será que eu vou tirar o avaliador 2 daqui?
+[00:53:09] Você: Tá quase finalizando, deixa eu mandar uma mensagem pra ele.
+[00:53:11] Você: Dá uma olhada.
+[00:53:12] Você: Ah, ele não respondeu, vou ter que tirar mesmo.
+[00:53:15] Você: Fica no X, esse avaliador tem avaliação.
+[00:53:18] Você: Desse andamento, deseja mesmo excluir?
+[00:53:19] Você: Pum, acabou!
+[00:53:21] Você: Porque você está removendo aqui diretamente contato.
+[00:53:24] Você: Participante avaliador.
+[00:53:26] Você: Se eu estou removendo...
+[00:53:27] Você: Vendo aqui, é definitivamente uma...
+[00:53:30] Você: Quebre de vínculo.
+[00:53:31] Participante: É diretamente no projeto.
+[00:53:33] Você: Exato. Agora aqui no grupo vocês dão...
+[00:53:33] Participante: Perjeto, né, Pedro?
+[00:53:36] Você: Não vão conseguir, não vão conseguir.
+[00:53:39] Você: Vai aparecer uma trava para vocês, ele vai...
+[00:53:41] Participante: Ok.
+[00:53:42] Você: Mas ele estar aqui no grupo não significa que ele vai continuar no grupo.
+[00:53:45] Você: ...que ele pode avaliar esses caras, porque ele tem que...
+[00:53:48] Você: Como ele não vai estar alocado, ele só vai estar aqui no...
+[00:53:51] Você: Vai ficar entre aspas o que a gente chama de lixo.
+[00:53:54] Você: É um registro que ele não está mais, mas como ele fez agora.
+[00:53:57] Você: Algumas avaliações, beleza, tudo bem.
+[00:54:00] Você: Vocês? Acho que a utilização vai ficar bem legal.
+[00:54:03] Você: E vai ficar tranquilo.
+[00:54:05] Você: Su, você quer falar alguma coisa?
+[00:54:08] Participante: Tchau.
+[00:54:09] Participante: Só uma dúvida.
+[00:54:12] Participante: Vamos aparecer aqui os avaliadores para alocar.
+[00:54:15] Participante: Necessariamente eles têm que fazer parte de um grupo ou é o...
+[00:54:18] Participante: Posso alocar gente que não esteja em nenhum grupo.
+[00:54:21] Você: Eles têm que fazer parte desse grupo específico, que é...
+[00:54:23] Participante: Legenda por Sônia Ruberti
+[00:54:24] Você: Por exemplo, esse.
+[00:54:27] Você: Tá bom? Show.
+[00:54:27] Participante: Tá, ok.
+[00:54:30] Você: Sobre o feedback,
+[00:54:30] Participante: Agora, podemos ir.
+[00:54:33] Você: Pessoal, aqui a gente dá pega ali.
+[00:54:36] Você: A gente pode usar a integração com o chat EP.
+[00:54:39] Você: Se vocês quiserem, para consolidar o feedback.
+[00:54:42] Você: A área de negócios, no caso,
+[00:54:45] Você: A Isa e a Sua, elas só precisam ver...
+[00:54:48] Você: Com a STI, o provisionamento da API, porque a gente vai utilizar...
+[00:54:51] Você: Uma API da própria CNI do OpenAI.
+[00:54:54] Você: E que a gente precisa olhar direitinho, porque o custo acaba...
+[00:54:57] Você: Por parte da CNI das requisições.
+[00:55:00] Você: Vocês querem que eu coloque, vocês querem realmente...
+[00:55:03] Você: A gente tem que ir em frente com essa questão.
+[00:55:06] Você: De utilizar uma IA.
+[00:55:09] Você: Para consolidar os vídeos.
+[00:55:12] Você: O que vocês acham?
+[00:55:15] Você: Não querem tanto, porque o que a gente pode fazer?
+[00:55:18] Você: Pode, por exemplo...
+[00:55:21] Você: Colocar um parecer de A.
+[00:55:24] Você: Quando a avaliação estiver 100% finalizada e a Isa.
+[00:55:25] Participante: Legenda por Sônia Ruberti
+[00:55:27] Você: Vai o Will, a Priscila.
+[00:55:30] Você: O Bruno, a Úrsula, eles vão olhando e falando...
+[00:55:33] Você: Esse feedback ficou legal. Ok. Não, quero arrumar essa parte.
+[00:55:36] Você: O que vocês acham?
+[00:55:38] Participante: Esse filho é o meu filho.
+[00:55:41] Você: Isso.
+[00:55:39] Participante: O feedback seria por escrito, certo? Não seria pergunta.
+[00:55:43] Você: Exato. Vamos...
+[00:55:42] Participante: Nada não, né? Por escrito mesmo.
+[00:55:45] Você: Pegar um cenário, porque a parte do avali...
+[00:55:48] Você: Ela ainda tá bem...
+[00:55:51] Você: Bem crua, mas...
+[00:55:51] Participante: Eu só queria deixar um...
+[00:55:54] Participante: Um detalhe aqui com vocês.
+[00:55:57] Participante: Porque se a gente for usar IA, não é porque está sendo...
+[00:56:00] Participante: Feita pela IA, que a gente não precise de alguém revisar.
+[00:56:03] Você: Sim.
+[00:56:03] Participante: Porque já pode girar, né?
+[00:56:07] Você: Exatamente.
+[00:56:06] Participante: Uma loucura.
+[00:56:09] Participante: A gente talvez precise mesmo de um...
+[00:56:12] Participante: No final, para poder dar...
+[00:56:15] Participante: Esse ok aí, mesmo usando a IA.
+[00:56:18] Participante: Então acredito que tenha que abrir mais um tipo aí de...
+[00:56:23] Você: Legenda por Sônia Ruberti
+[00:56:21] Participante: E avaliador como revisor.
+[00:56:24] Você: Calma aí que eu abri a tela errada.
+[00:56:24] Participante: É porque foi o que a Isa falou, né, Su?
+[00:56:27] Participante: Pode ter um avaliador 5 negativos.
+[00:56:30] Participante: E dois positivos.
+[00:56:33] Participante: Tudo, né? Então a gente tem que avaliar.
+[00:56:36] Participante: A gente queria bem direitinho ler com atenção, porque isso...
+[00:56:39] Participante: A pessoa vai, né, vai aparecer.
+[00:56:42] Participante: Com certeza, e depois é a...
+[00:56:45] Participante: Imagem, né, de vocês que estavam na frente, né, no IELTS.
+[00:56:48] Participante: E assim, a IA é ótima.
+[00:56:51] Participante: Ajuda pra caramba, resolve muita coisa, muita agilidade.
+[00:56:54] Participante: Mas a gente não tem como confiar nela ainda 100%, né?
+[00:56:57] Participante: Vai precisar do olho humano aí.
+[00:56:59] Participante: Sim.
+[00:57:00] Participante: E essa questão do feedback.
+[00:57:03] Participante: Quando fazer essa junção, se for decidido isso, fazer...
+[00:57:06] Participante: A gente está em junção com a IA, tudo certinho.
+[00:57:09] Participante: A gente vai ter uma tagzinha para a gente...
+[00:57:12] Participante: Ficar disponível isso para ele, como é que vai ser, ou vai ser direto?
+[00:57:15] Participante: Assim, só para a gente entender também, ter esse cuidado.
+[00:57:18] Você: Essa que é a minha ideia, vamos...
+[00:57:19] Participante: Né?
+[00:57:21] Você: Um pouco agora, para chegar na parte do feedback.
+[00:57:24] Você: Vamos só abordar um pouco do cenário do avaliador, é a tela.
+[00:57:27] Você: Que os avaliadores vão acessar.
+[00:57:29] Você: Obviamente com as...
+[00:57:30] Você: As cores da premiação, mas essa vai ser a...
+[00:57:33] Você: Por exemplo, o João acessou.
+[00:57:35] Você: João, você tem que...
+[00:57:36] Você: Quatro avaliações pendentes, prazo final da etapa.
+[00:57:39] Você: O total restam 18 dias.
+[00:57:42] Você: Esse aqui eu coloquei, eu chamo de mocada, é um dado.
+[00:57:45] Você: Que não vem do banco de dados.
+[00:57:46] Você: E a gente vai remover.
+[00:57:48] Você: Aqui ele pode selecionar...
+[00:57:51] Você: Ele vai conseguir ver quais avaliações estão em andamento, finalizar.
+[00:57:54] Você: E a iniciar, ele consegue acessar
+[00:57:57] Você: Nessa avaliação, nessa parte aqui já.
+[00:58:00] Você: Ele já vai estar oculto, certo? Ou seja, ele não vai estar oculto.
+[00:58:03] Você: Você vai poder ver os dados de quem ele estava ali.
+[00:58:06] Você: Só quem pode ver são vocês.
+[00:58:09] Você: Seis administradores regionais, certo?
+[00:58:13] Você: Ou não.
+[00:58:16] Participante: Você fala o nome do parque?
+[00:58:18] Você: Exato, isso, o avaliador.
+[00:58:18] Participante: Participante? Não entendi.
+[00:58:21] Você: Ele vai poder ver quem ele está avaliando?
+[00:58:24] Você: Ele pode saber quem ele está avaliando?
+[00:58:27] Participante: Cara, vocês são muito interessantes.
+[00:58:31] Você: Hum.
+[00:58:30] Participante: De aparecer só o nome do projeto.
+[00:58:33] Você: Então...
+[00:58:33] Participante: Tipo assim, para ele avaliar o projeto mesmo.
+[00:58:36] Você: Exato.
+[00:58:36] Participante: Sabe? Porque às vezes isso é muito...
+[00:58:40] Você: Aí a nossa ideia...
+[00:58:39] Participante: Interessante, achei muito legal.
+[00:58:42] Você: Uma coisa que a gente também bateu...
+[00:58:45] Você: Vamos ver se decidiu jogar na mão de vocês.
+[00:58:47] Você: Vamos!
+[00:58:48] Você: Vamos supor que a Isa decidiu...
+[00:58:51] Você: Vai ser confidencial essa premiação.
+[00:58:54] Você: Ou seja, ele vai poder ver somente o nome do projeto.
+[00:58:57] Você: E o protocolo.
+[00:59:00] Você: Mais nada. Tudo bem. Ele vai poder ver os anéis?
+[00:59:03] Você: Sim ou não? Porque se ele olhar os...
+[00:59:06] Você: Anexos não faz muito sentido, abrindo qualquer anexo.
+[00:59:09] Você: Ele vai conseguir saber de quem que é.
+[00:59:11] Participante: É verdade.
+[00:59:12] Você: Tiramos anexos também?
+[00:59:12] Participante: Eu...
+[00:59:15] Participante: Não, porque ele tem que viver.
+[00:59:18] Participante: Eu ia falar justamente isso, porque tem empresa que coloca...
+[00:59:21] Participante: No corpo do projeto, o nome, por exemplo.
+[00:59:24] Participante: Mesmo que não apareça para ela, ela coloca A, sei lá, A.
+[00:59:27] Participante: Agroquima, a OPA.
+[00:59:30] Participante: Por exemplo.
+[00:59:33] Participante: E também entra no negócio das...
+[00:59:36] Participante: Evidências dos formulários.
+[00:59:39] Participante: Então acho que...
+[00:59:39] Participante: Fora o vídeo, né?
+[00:59:41] Participante: Isso.
+[00:59:42] Participante: Obrigada.
+[00:59:45] Você: Então, calma aí que é isso.
+[00:59:45] Participante: É, gente.
+[00:59:48] Você: Eu vou aproveitar para ir ao banheiro, pessoal.
+[00:59:50] Você: 30 segundos, tá?
+[00:59:51] Você: Rapidão.
+[00:59:51] Participante: Tá bom.
+[00:59:52] Participante: Não, tá aqui.
+[00:59:54] Você: Obrigado.
+[00:59:54] Participante: Pegar uma água.
+[00:59:55] Participante: Mas a ideia, Will, eu achei bem legal.
+[00:59:57] Participante: Legal, mas não faz sentido.
+[01:00:00] Participante: Por conta dos arquivos.
+[01:00:03] Participante: Eu sugeri uma coisa, mas assim...
+[01:00:06] Participante: Eu não sei se eu vou botar mais lenha na fogueira.
+[01:00:08] Participante: Ai, meu Deus.
+[01:00:09] Participante: Você e Isa estão demais, Helena Fogueira.
+[01:00:12] Participante: Que seria a própria IA.
+[01:00:15] Participante: Tentar anonimizar esses arquivos.
+[01:00:18] Participante: Com o que aparecer de nome.
+[01:00:21] Participante: Mas aí eu não sei, sabe?
+[01:00:24] Participante: A dificuldade que seria, Augusto, seria...
+[01:00:27] Participante: Vamos ver com o Pedro.
+[01:00:30] Participante: Eu acho muito complicado, acho que não vai dar certo, por quê?
+[01:00:33] Participante: Aqui no Espírito Santo, por exemplo, eles...
+[01:00:36] Participante: Tiro muita falta do vídeo institucional para gravar vídeo.
+[01:00:39] Participante: Para explicar mais o projeto...
+[01:00:42] Participante: Para falar mais um pouco do projeto, porque os avaliadores liam...
+[01:00:45] Participante: Eu li, eu li, eu li, às vezes, o projeto não fica.
+[01:00:48] Participante: Ficava muito claro, mas no vídeo fica muito mais claro.
+[01:00:51] Participante: Mas claro, para avaliar aquele projeto, a ideia do projeto.
+[01:00:54] Participante: Então aqui a gente está batendo muito na tecla.
+[01:00:57] Participante: De gravar esse vídeo, a importância da gravação do vídeo.
+[01:01:00] Participante: Então não vai ter jeito, vai ver lá o rostinho, vai ver a empresa.
+[01:01:03] Você: Vou...
+[01:01:03] Participante: Você vai ver tudo.
+[01:01:04] Participante: Aqui também.
+[01:01:06] Você: Voltei.
+[01:01:06] Participante: Que a gente colocou o vídeo como obrigatório.
+[01:01:09] Participante: Aqui é tipo isso aqui também, tá?
+[01:01:12] Participante: E não podia ter áudio não, tinha que ser vídeo.
+[01:01:15] Participante: O vídeo ele vai mostrar, né, a empresa.
+[01:01:18] Participante: Vai mostrar a empresa, vai mostrar o projeto, enfim.
+[01:01:21] Participante: E sobre o que...
+[01:01:24] Participante: A questão do projeto, eu acho bacana.
+[01:01:27] Você: Aham.
+[01:01:27] Participante: A ideia de não ver nada, por quê?
+[01:01:32] Você: Exato.
+[01:01:30] Participante: Não tendencia em nada.
+[01:01:33] Você: Exato.
+[01:01:33] Participante: Mas, infelizmente, a gente não conseguiu.
+[01:01:38] Você: É pronto.
+[01:01:36] Participante: Acredito que não tem como.
+[01:01:39] Participante: Então não vai adiantar.
+[01:01:39] Você: Porque a minha ideia é...
+[01:01:42] Você: A minha ideia daí, Zé, vamos deixar anônimo? Vamos.
+[01:01:42] Participante: Adiantar.
+[01:01:45] Você: Ele não poderia ver os anéis, só que se ele não...
+[01:01:48] Você: Vícios anexos, ele ia conseguir avaliar alguma coisa?
+[01:01:51] Você: Muito provavelmente ia ficar faltando, é por isso que a gente...
+[01:01:54] Você: Trouxe pra vocês, que vocês já bateram martela.
+[01:01:55] Participante: Nem te conto, Pedro.
+[01:01:58] Você: Ok.
+[01:01:57] Participante: O que eu falei aqui com eles na sua ausência.
+[01:02:00] Você: Ok.
+[01:02:00] Participante: E com a Thais eu tava no telefone também.
+[01:02:03] Participante: Eu falei assim, e se a gente tentasse...
+[01:02:06] Participante: E a anonimizar os textos que tem dentro.
+[01:02:09] Você: Legenda por Sônia Ruberti
+[01:02:09] Participante: Só que aí a...
+[01:02:13] Você: Uhum.
+[01:02:12] Participante: Ela quebrou minhas pernas, porque ela falou assim...
+[01:02:15] Participante: Não vai adiantar porque a gente está pedindo um vídeo.
+[01:02:18] Você: É isso aí.
+[01:02:18] Participante: E aí no vídeo eles mostram a cara, mostram a empresa.
+[01:02:21] Participante: Mostra tudo e tá muito legal também.
+[01:02:23] Você: É, então...
+[01:02:24] Você: Então, no final das contas, não sei.
+[01:02:27] Você: Não existe avaliação anônima.
+[01:02:30] Você: Certo?
+[01:02:30] Participante: Mas a ideia era maravilhosa, Pedro.
+[01:02:33] Participante: Você viu que eu até falei, nossa, maravilhoso, porque não vai ter que...
+[01:02:36] Você: Aham.
+[01:02:36] Participante: De conflito, né?
+[01:02:36] Participante: Tipo, é uma coisa, né?
+[01:02:39] Participante: Sardinha pra casa, pra não sei o que, enfim.
+[01:02:42] Participante: Acontece, né?
+[01:02:43] Participante: Mas, gente...
+[01:02:45] Você: E o participante, ele pode saber quem estava ali?
+[01:02:45] Participante: Não tem jeito, eu acho que não vai ter jeito.
+[01:02:48] Você: E ando.
+[01:02:49] Participante: E não.
+[01:02:51] Você: Ok.
+[01:02:51] Participante: Não, é só depois que...
+[01:02:54] Participante: Que saia os resultados que a gente anuncia, né?
+[01:02:59] Você: Ok.
+[01:02:57] Participante: São os avaliadores de cada categoria, mas é só depois...
+[01:03:01] Você: Ok.
+[01:03:00] Participante: Isso que passou tudo.
+[01:03:03] Participante: Anuncia só na cerimônia mesmo.
+[01:03:05] Participante: É, também.
+[01:03:06] Participante: A cerimônia a gente coloca, mas só depois, bem perto da cerimônia.
+[01:03:11] Você: Qual que é?
+[01:03:09] Participante: Qual é o mesmo que a gente anuncia?
+[01:03:12] Você: É.
+[01:03:12] Participante: Essa, desculpa Pedro, só uma dúvida aqui que surgiu.
+[01:03:15] Participante: E essa distinção aqui de kids.
+[01:03:18] Participante: Se a pessoa daquela empresa não pode avaliar, vocês fazem.
+[01:03:21] Participante: Tudo no olho? Tipo, a avaliação?
+[01:03:24] Participante: Esse é aquele avaliador daquela instituição.
+[01:03:27] Participante: Se ele conhece aquela pessoa, é tudo na...
+[01:03:30] Participante: Aqui a gente separa por categoria.
+[01:03:33] Participante: Açu, três avaliadores.
+[01:03:36] Participante: ...de três casos diferentes. Enfim, a gente pega...
+[01:03:39] Participante: Cada área que é a casa que a pessoa está representando.
+[01:03:42] Participante: Então faz sentido ela avaliar a educação inovadora.
+[01:03:45] Participante: Enfim, a gente separa.
+[01:03:48] Participante: Categoria mesmo, sabe?
+[01:03:51] Participante: Aqui, pelo menos, um avaliador de educação inovadora não vai.
+[01:03:54] Participante: Então, assim, ele vai avaliar só...
+[01:03:57] Participante: Uma categoria, então a gente separa aqui, entendeu? No Espírito Santo.
+[01:04:00] Participante: Entendi. E não corre o risco de...
+[01:04:03] Participante: Poder avaliar quem ele já conhece ou corre.
+[01:04:06] Você: Acho que esse risco sempre vai correr.
+[01:04:07] Participante: Agora, seu request.
+[01:04:09] Participante: É, fora que o Espírito Santo é dele.
+[01:04:13] Você: É.
+[01:04:12] Participante: É desse tamanhozinho, né, gente?
+[01:04:13] Participante: Então!
+[01:04:15] Participante: Assim, mas a gente tenta ter...
+[01:04:18] Participante: Esse cuidado, igual tem um avaliador que a gente vai trocar aqui, porque...
+[01:04:21] Participante: A gente está com o projeto da empresa aqui dentro, enfim, a gente vai até trocar.
+[01:04:24] Participante: Então, a gente tenta procurar ter esse...
+[01:04:27] Participante: Cuidado, mas...
+[01:04:30] Participante: Mais 100% de certeza porque, né, gente?
+[01:04:33] Participante: Por exemplo, a gente segue a mesma...
+[01:04:36] Participante: Porém, também...
+[01:04:39] Participante: A gente divide por categorias, mas a gente deixa aqui o impacto.
+[01:04:42] Participante: Não seja de...
+[01:04:45] Participante: Conflito de interesse direto.
+[01:04:48] Participante: Por exemplo, de instituição...
+[01:04:51] Participante: ... para instituição, de instituição para...
+[01:04:55] Você: Aham.
+[01:04:54] Participante: Aluno daquela instituição, né, então...
+[01:04:57] Participante: Então, por exemplo, se tem um membro de um comitê...
+[01:05:00] Participante: Por exemplo...
+[01:05:03] Participante: A instituição de ensino daqui, a gente coloca para...
+[01:05:06] Participante: Ele é, por exemplo, empresa.
+[01:05:09] Participante: Pelo menos nessa lógica.
+[01:05:12] Participante: Quem é professor não avalia ninguém.
+[01:05:15] Participante: Do estagiário. Não dá, assim.
+[01:05:18] Participante: Dependendo da área dele, não dá para colocar.
+[01:05:21] Participante: Se é um professor da FAESA, um menino da...
+[01:05:24] Participante: Paes aí lascou, lasca a minha vida, né, de uma faculdade que a gente...
+[01:05:27] Participante: Não dá, a gente faz essa...
+[01:05:30] Participante: Avaliação antes de vincular o avaliador em cada categoria.
+[01:05:33] Participante: Entendi.
+[01:05:36] Você: Sem problemas.
+[01:05:36] Participante: Desculpa, te interrompi.
+[01:05:39] Você: Então, qual que vai ser o veredito?
+[01:05:42] Você: Acredito, esse oculto aqui...
+[01:05:45] Você: Como que vai funcionar, o que que ele vai conseguir.
+[01:05:48] Você: Consegui ver do participante, consegui ver tudo.
+[01:05:51] Você: Tudo o formulário que ele preencheu.
+[01:05:54] Você: Vamos exibir, vamos fazer como.
+[01:05:56] Participante: Oi Isa, eu acho que você está me ouvindo bem.
+[01:05:57] Participante: Acho que é aqui, questão de anexo, que ele vai colocar.
+[01:06:00] Participante: Que a gente colocou que é obrigatório, eu acho que ele só pode ficar disponível.
+[01:06:03] Participante: ...pro avaliador o vídeo.
+[01:06:06] Participante: O vídeo e o projeto, porque os outros documentos...
+[01:06:09] Participante: Não precisa ver, é uma coisa nossa para validar.
+[01:06:12] Participante: Eu acho que a gente pode colocar, Pedro.
+[01:06:15] Participante: Os opcionais.
+[01:06:18] Participante: O que é obrigatório não, porque o que está obrigatório é...
+[01:06:21] Participante: TCE e Logomar.
+[01:06:24] Participante: Marca da empresa.
+[01:06:25] Participante: A gente pode colocar todos os...
+[01:06:27] Participante: Esquivos que são opcionais para aparecer.
+[01:06:30] Participante: E são as evidências, né?
+[01:06:31] Participante: São as evidências e o...
+[01:06:34] Você: Mas aí a gente trabalha.
+[01:06:33] Participante: Isso.
+[01:06:36] Você: Com uma outra dificuldade.
+[01:06:39] Você: E uma outra complexidade na verdade.
+[01:06:42] Você: A gente vai ter que, a Isa vai ter que entrar dentro da configuração.
+[01:06:45] Você: E vai ter que configurar quais...
+[01:06:48] Você: Anexos vão ou não aparecer na etapa de avaliação.
+[01:06:51] Você: Eu não sei até que ponto...
+[01:06:54] Você: Isso fica a ser interessante e eu não sei se...
+[01:06:57] Você: Se tem problema, o avaliador vê.
+[01:07:00] Você: Ah, tem mais documentos do que ele precisa ver? Ok.
+[01:07:03] Você: Mas ele pode simplesmente ignorar, o que vocês acham?
+[01:07:06] Você: Ou realmente ele só precisa...
+[01:07:09] Você: V.O.
+[01:07:14] Participante: E aí
+[01:07:15] Participante: Mais lá, Pedro, rapidinho.
+[01:07:18] Participante: Configuração dos anexos.
+[01:07:21] Participante: Desculpa que eu não lembro, estava de férias.
+[01:07:24] Participante: E, nessa vez, esquecendo foi tudo.
+[01:07:27] Participante: Lá, marca o que é anexo obrigatório.
+[01:07:31] Você: Sim, nós temos os obrigatórios.
+[01:07:30] Participante: Tchau, tchau.
+[01:07:33] Você: É porque...
+[01:07:35] Participante: Então, Oski.
+[01:07:36] Você: Eu digo pensando um pouco, é porque
+[01:07:36] Participante: Os que não estiver marcado, vem para cá.
+[01:07:39] Você: Eu digo, pensando um pouco mais à frente, eu acho que essa regra pode...
+[01:07:42] Você: E acaba não ficando muito...
+[01:07:45] Você: Não vai ficar muito bem explicada, porque, por exemplo...
+[01:07:48] Você: Como que futuramente alguém que vai fazer uma premiação
+[01:07:51] Você: Você vai saber que os anexos opcionais que vêm para cá...
+[01:07:54] Você: Eu acho que não fica algo...
+[01:07:58] Você: Não é algo...
+[01:07:58] Participante: Entendi, muito claro.
+[01:08:00] Você: Eu acho que acaba ficando meio obscuro.
+[01:08:00] Participante: Né?
+[01:08:03] Você: Zanotto.
+[01:08:04] Participante: Então, só assinaram aqui.
+[01:08:06] Participante: Se for marcar o obrigatório, também marcar, mostrar.
+[01:08:09] Participante: Na avaliação, seria essa a sua sugestão aí?
+[01:08:12] Você: Então, mas é porque não existe avaliação.
+[01:08:15] Você: O que existe são várias etapas.
+[01:08:18] Você: Por exemplo, dentro dessa avaliação,
+[01:08:21] Você: Eu tenho várias etapas, certo?
+[01:08:25] Você: Então a gente também precisa...
+[01:08:27] Você: Ver se os documentos estarão em todas as...
+[01:08:27] Participante: É isso aí.
+[01:08:30] Você: Se a gente coloca todos os anexos.
+[01:08:33] Você: Mas, a princípio...
+[01:08:36] Você: A gente, para facilitar, eu vou colocar para exibir somente...
+[01:08:39] Você: Os opcionais mesmo, mas eu acho que
+[01:08:42] Você: A regra fica meio obscura, mas como...
+[01:08:45] Você: Vocês que estão definindo, não vai ter problema.
+[01:08:46] Participante: Uhum.
+[01:08:48] Você: Ele vai acabar vendo todos.
+[01:08:51] Participante: Porque eu também, eu acho...
+[01:08:54] Participante: Cada complexidade.
+[01:08:58] Você: Uhum.
+[01:08:57] Participante: Tem que ter nisso, lógico.
+[01:09:00] Participante: Interessante, acredito que para o avaliador é ver só as respostas.
+[01:09:03] Participante: E salvo...
+[01:09:06] Participante: E, finalmente, alguns anexos. Não sei se é realmente só todos que estão obrigados.
+[01:09:09] Participante: Por exemplo, convênio.
+[01:09:12] Participante: Desenho, contrato...
+[01:09:15] Participante: Isso são dados pessoais.
+[01:09:18] Participante: De quem está escrevendo, não é interessante.
+[01:09:21] Participante: Mas agora os termos técnicos de comparação.
+[01:09:26] Você: Então,
+[01:09:24] Participante: Fazer isso é realmente com você.
+[01:09:27] Você: Então eu acho que podemos...
+[01:09:27] Participante: Se é possível.
+[01:09:30] Você: Eu acho que podemos colocar, então, nesse...
+[01:09:30] Participante: É isso aí.
+[01:09:33] Você: Podemos colocar, então, identificar.
+[01:09:34] Participante: Uhum.
+[01:09:36] Você: Ação como oculta, essa premiação é confidencial.
+[01:09:39] Você: E os anexos vão ser os opcionais.
+[01:09:42] Você: O usuário não colocar nenhum anexo, o avaliador não vai saber.
+[01:09:45] Você: E aí quem ele tá avaliando? Ele só vai saber qual que é...
+[01:09:48] Você: O grupo, categoria, modalidade e tipo.
+[01:09:51] Você: E saber qual que é o protocolo.
+[01:09:54] Você: Pode ser?
+[01:09:57] Participante: Então, Pedro, depois da sua fala...
+[01:10:00] Participante: Eu fiquei aqui pensando e fiquei meio reticente.
+[01:10:03] Participante: A gente tem que fazer dessa forma, porque como você falou,
+[01:10:06] Participante: Uma regra que não está explícita no sistema, né?
+[01:10:09] Participante: Quem que vai saber depois que os opcionais...
+[01:10:12] Participante: E outra, como é que eu vou...
+[01:10:15] Participante: Saber o que tem dentro daqueles opcionais.
+[01:10:18] Participante: Simplesmente ir lá e anexar um documento pessoal lá dentro.
+[01:10:23] Você: Mais...
+[01:10:21] Participante: Tudo opcional e tudo bem.
+[01:10:24] Você: Mas aí eu acho que é o...
+[01:10:24] Participante: Sim, mas...
+[01:10:27] Você: Que é o risco que a pessoa corre, por exemplo.
+[01:10:30] Você: Eu posso pegar e colocar um exame de sangue.
+[01:10:30] Participante: Obrigado.
+[01:10:33] Você: Eu acho que isso, qualquer sistema, a não ser que...
+[01:10:36] Você: Que a gente coloque um filtro de anéis.
+[01:10:39] Você: etc, etc, que não é algo factível.
+[01:10:42] Você: Eu acho que é algo que...
+[01:10:44] Participante: Olha...
+[01:10:45] Você: Uhum.
+[01:10:45] Participante: Nesse quesito...
+[01:10:48] Você: É.
+[01:10:48] Participante: Eu já fico mais resguardado porque...
+[01:10:51] Participante: Somente nós aqui de Goiás colocamos o vídeo.
+[01:10:54] Participante: Os anexos como obrigatório é uma questão que a gente pega no...
+[01:10:57] Participante: Então, se subir uma inscrição aqui...
+[01:11:00] Participante: Está sem o vídeo ou algum documento.
+[01:11:03] Participante: Algum obrigatório incorreto ou sem sentido.
+[01:11:06] Participante: A gente fica em cima, a gente cobra.
+[01:11:09] Participante: A gente devolve a inscrição.
+[01:11:12] Participante: Então lascou, porque se o vídeo ficar...
+[01:11:15] Participante: Obrigatório ele não vai aparecer aqui.
+[01:11:16] Participante: Não, o obrigatório...
+[01:11:18] Participante: Nosso, nosso.
+[01:11:21] Participante: Mas aí quando for configurar pode colocar ele como obrigatório.
+[01:11:24] Participante: É uma coisa que eu acho que é isso.
+[01:11:27] Participante: Aí não vai aparecer aqui, entendeu?
+[01:11:30] Você: Mas vocês...
+[01:11:30] Participante: Mas no edital está como...
+[01:11:35] Você: Mas vocês entenderam?
+[01:11:33] Participante: Opcional, não tá, Isa?
+[01:11:34] Participante: Opcional, no edital.
+[01:11:34] Participante: Ah, tá.
+[01:11:35] Participante: No edital.
+[01:11:36] Você: Ainda que já está causando dúvida entre a gente.
+[01:11:36] Participante: É uma opção.
+[01:11:39] Você: Sendo que a gente nem definiu, então...
+[01:11:39] Participante: Sim.
+[01:11:42] Você: Oi.
+[01:11:42] Participante: Mas Pedro, olha só, a gente vai avaliar tudo.
+[01:11:46] Você: Ok.
+[01:11:45] Participante: Isso antes. A gente vai olhar documento por documento.
+[01:11:48] Participante: Documento, vídeo, a gente assiste, eu pelo menos assisto.
+[01:11:51] Participante: Tudo, vejo tudo, leio os projetos.
+[01:11:55] Você: Avaliador.
+[01:11:54] Participante: Vou passar para o avaliador, antes de direcionar.
+[01:11:57] Participante: A gente vê um exame de sangue lá.
+[01:12:00] Participante: Vamos adicionar isso.
+[01:12:01] Participante: Opa, a gente já botou tudo.
+[01:12:03] Você: Não, eu não tô nem falando.
+[01:12:03] Participante: Você não queria colocar outra coisa?
+[01:12:05] Participante: Então, assim...
+[01:12:06] Você: ...do documento errado não, eu digo da gente...
+[01:12:09] Você: Definir se vai exibir todos os anexos ou somente os opcionais.
+[01:12:10] Participante: Sim.
+[01:12:12] Você: Porque fica nessa dúvida da regra dos...
+[01:12:15] Você: É, ou escolher.
+[01:12:15] Participante: Vou escolher.
+[01:12:18] Você: Tem três opções, ou exibe todos os anexos.
+[01:12:21] Você: Quatro opções, ou exibe todos ou não exibe nenhum.
+[01:12:24] Você: Ou exibe somente os opcionais.
+[01:12:24] Participante: Amém.
+[01:12:27] Você: A Isa vai ter uma opção de configurar para cada time.
+[01:12:30] Você: Quais anexos serão exibidos?
+[01:12:33] Você: Não para vocês, mas estamos falando para avaliação.
+[01:12:36] Participante: Mas aí, Pedro, não poderia...
+[01:12:39] Participante: Não podia deixar isso no regional, não?
+[01:12:42] Participante: Na configuração do próprio regional...
+[01:12:45] Participante: A Priscila falou, eles olham todos os documentos.
+[01:12:48] Participante: Lá na hora que eles finalizarem o visto...
+[01:12:51] Participante: Ah, esse daqui pode ser visível.
+[01:12:55] Você: É...
+[01:12:56] Você: Pô!
+[01:12:54] Participante: Não poderia ser assim?
+[01:12:57] Você: Demais aí, é um trabalho, eles vão, inscrição por inscrição.
+[01:13:00] Você: Então vamos ter que marcar dinamicamente.
+[01:13:03] Você: A questão da Isa na configuração faz...
+[01:13:06] Você: Zé aqui em lote.
+[01:13:08] Participante: Apocalipse.
+[01:13:10] Você: Vai, ela vai saber que...
+[01:13:09] Participante: A Isa não vai saber quais são.
+[01:13:12] Você: Se ela vai colocar o vídeo...
+[01:13:15] Você: Ele vai para avaliação. Se tiver vídeo, ele vai.
+[01:13:18] Você: Se não tiver colocado o vídeo como ele é opcional, não vai.
+[01:13:21] Você: Então, todos os vídeos que forem validados...
+[01:13:21] Participante: Qual que é a minha...
+[01:13:24] Você: Ou seja, toda inscrição que for valida.
+[01:13:27] Você: Ou seja, a piscina.
+[01:13:30] Você: Eles vão olhar, vão falar, não, esse vídeo tá legal, tudo bem.
+[01:13:33] Você: A inscrição está validada, então o avaliador vai conseguir assistir.
+[01:13:37] Participante: Pedro, qual que é a minha...
+[01:13:44] Você: Ah.
+[01:13:42] Participante: Até me sugestão, até fugiu a pergunta.
+[01:13:45] Participante: Obrigado.
+[01:13:48] Participante: Eu acredito que possa travar com...
+[01:13:51] Participante: Apareceram somente os opcionais, porém, se...
+[01:13:54] Participante: Se por acaso você quiser relembrar a gente qual que é...
+[01:13:57] Participante: Então, os opcionais, só para a gente ter certeza...
+[01:13:58] Você: Uhum.
+[01:14:00] Participante: Seria interessantíssimo.
+[01:14:03] Você: Vamos olhar aqui o...
+[01:14:05] Participante: Obrigada.
+[01:14:06] Participante: Seja vídeo e evidências.
+[01:14:10] Você: Prêmio.eu
+[01:14:13] Você: Vou olhar aqui agora.
+[01:14:19] Participante: Ah, e todo mundo aqui, ó.
+[01:14:21] Participante: Compartilhei com a equipe a carinha, todo mundo elogiou, tá?
+[01:14:24] Você: Ah!
+[01:14:25] Participante: A tela inicial é assim, ó.
+[01:14:27] Você: Ficou bonita, né?
+[01:14:27] Participante: Oi, Isa, todo mundo bem assim, gente?
+[01:14:32] Você: Sim.
+[01:14:30] Participante: Podia ser do Valoriza, sim.
+[01:14:33] Você: Cadê?
+[01:14:33] Participante: Olha a comparação.
+[01:14:36] Participante: Ah, era?
+[01:14:37] Participante: Ah, ah.
+[01:14:40] Participante: Faz o pulinho aí.
+[01:14:44] Você: Anexus.
+[01:14:42] Participante: Faz os pulinhos.
+[01:14:45] Você: Opcionais, fotos da equipe, vídeos.
+[01:14:45] Participante: Eu não sei.
+[01:14:48] Você: O que é obrigado.
+[01:14:51] Você: ...convênio com o IEU e logomarca da instituição.
+[01:14:53] Você: Isso para a instituição.
+[01:14:54] Você: Atenção de ensino.
+[01:14:59] Participante: Pra mim, foi isso.
+[01:15:01] Você: Para a empresa inovadora.
+[01:15:00] Participante: Ok.
+[01:15:03] Você: Foto da equipe, institucional, documentos.
+[01:15:06] Você: Adicionais para estagiários.
+[01:15:09] Você: Os três.
+[01:15:13] Você: Os três.
+[01:15:17] Você: Zanotto, Augusto, Guga, Identidade Visual, Isa, Isabelle, PHL.
+[01:15:16] Participante: Eu acho que só mudou um pouquinho.
+[01:15:20] Você: Por exemplo, tipo de...
+[01:15:18] Participante: Um pouquinho, porque...
+[01:15:21] Você: Participantes e documentos adicionais ficou como obrigatório.
+[01:15:24] Você: Depois tem que alterar, não?
+[01:15:24] Participante: É porque...
+[01:15:27] Você: Tá certo.
+[01:15:28] Participante: Qual categoria que é essa mesmo?
+[01:15:31] Você: Bolsista de Inovação.
+[01:15:30] Participante: É projeto.
+[01:15:33] Você: Então, vamos lá.
+[01:15:33] Participante: ...projeto inundador...
+[01:15:36] Participante: Podem anexar alguma coisa?
+[01:15:40] Você: Ah, sim.
+[01:15:39] Participante: Vocês podem anexar alguma coisa adicional, sabe?
+[01:15:42] Você: Ok.
+[01:15:47] Você: É, todos seguem.
+[01:15:48] Você: Tem a mesma base.
+[01:15:51] Você: Para a gente decidir, para a gente conseguir evoluir nessa parte...
+[01:15:54] Você: Vamos colocar então...
+[01:15:57] Você: Gente, os opcionais.
+[01:16:00] Participante: Olha, eu sou contra isso.
+[01:16:04] Você: Mas é que a gente precisa evoluir, velho.
+[01:16:03] Participante: Agora pensando, por quê?
+[01:16:06] Você: Não tem muita coisa ainda pra ver.
+[01:16:06] Participante: Não, calma lá, calma lá, deixa eu explicar.
+[01:16:09] Participante: Eu acho que deveria ser aquela opção.
+[01:16:12] Participante: ...que você falou da Isa marcar nas configurações...
+[01:16:16] Você: Aham.
+[01:16:15] Participante: Pensando em utilizar isso em outro...
+[01:16:18] Participante: E as premiações, não só no...
+[01:16:21] Participante: Mas eu sei que tem outros prêmios.
+[01:16:24] Participante: Então pode ser que seja útil lá.
+[01:16:27] Participante: Na frente para outras formas de avaliação.
+[01:16:30] Participante: Então, pensando nessa questão, eu...
+[01:16:33] Participante: Eu acredito que marcar o que é...
+[01:16:36] Participante: ...ou não visível lá nas configurações.
+[01:16:39] Participante: É melhor, porque fica uma regra mais clara.
+[01:16:42] Participante: Você fala de cada regional, Su?
+[01:16:45] Você: Não, a Isa vai definir por tipo de participação.
+[01:16:45] Participante: Não é...
+[01:16:48] Você: Por exemplo, ela vai entrar nessa.
+[01:16:48] Participante: Entendi, entendi.
+[01:16:51] Você: Nessa tela da configuração,
+[01:16:53] Participante: Isa tem tecido.
+[01:16:56] Você: E ela vai...
+[01:16:54] Participante: É isso, está jogando a pimenta para você.
+[01:16:57] Você: Vai colocar aqui, ó, esse anel.
+[01:16:57] Participante: Tente livrar, Isa, tentei.
+[01:17:00] Você: O Nexo vai para avaliação.
+[01:17:03] Você: Esse vai ser visível, esse não vai ser visível.
+[01:17:06] Você: Porém, eu não sei.
+[01:17:09] Você: Eu não gosto dessa regra.
+[01:17:09] Participante: A gente pode colocar um olhinho.
+[01:17:12] Você: Eu não gosto dessa regra, pra mim, se a...
+[01:17:15] Você: A avaliação tem que exibir todos.
+[01:17:18] Você: Independente, essa é o que eu...
+[01:17:21] Você: O avaliador vai olhar lá, convênio com o IELTS...
+[01:17:24] Você: Foi interessante.
+[01:17:25] Você: Cara, paciência.
+[01:17:27] Você: Ele vai ignorar.
+[01:17:30] Você: ...arquivo, ou, nesse caso, a gente deveria ter...
+[01:17:33] Você: Algo anteriormente que era dividir os anexos entre...
+[01:17:36] Você: Anexo da inscrição e anexo da avaliação.
+[01:17:39] Você: A gente não tem essa diferenciação.
+[01:17:41] Participante: O P...
+[01:17:42] Participante: Pedro, será que ficamos...
+[01:17:46] Você: Aham.
+[01:17:45] Participante: É a mesma coisa que o Will falou, mas não...
+[01:17:48] Participante: Essa questão dos documentos.
+[01:17:51] Participante: Acho que a Isa até falou o negócio do olhinho aqui.
+[01:17:54] Participante: Está disponível para ele baixar? Não é possível, né?
+[01:17:56] Participante: Tipo assim, ele vai...
+[01:17:57] Participante: Fica aí, não vai conseguir baixar, então ele vai publicar.
+[01:18:02] Você: Obrigado.
+[01:18:00] Participante: Não disponível para esse país, que não é...
+[01:18:03] Você: Ah, eu acho que...
+[01:18:03] Participante: Isso aí, estou pensando aqui.
+[01:18:06] Você: Mas eu acho que não acaba não interferindo.
+[01:18:06] Participante: Brunei.
+[01:18:09] Você: Ele pode visualizar, ele pode tirar um print, ele pode...
+[01:18:09] Participante: Entendi.
+[01:18:12] Você: Gravar a tela.
+[01:18:14] Participante: Não.
+[01:18:15] Participante: Nem consegui baixar o documento, sabe? Que está arquivado assim.
+[01:18:18] Participante: Ah, Jesus!
+[01:18:21] Você: Porque, por exemplo, na minha visão, o que...
+[01:18:24] Você: Sistematicamente vai ficar algo mais bonito.
+[01:18:27] Você: É se colocar para visualizar todos os anexos.
+[01:18:30] Você: Ou nenhum.
+[01:18:30] Participante: Entendi.
+[01:18:33] Participante: O vai ao rádio.
+[01:18:36] Você: É.
+[01:18:36] Participante: Vocês acham que eu vim para solucionar?
+[01:18:40] Você: Hum.
+[01:18:39] Participante: Estou vindo para piorar, mas um pouquinho.
+[01:18:42] Participante: Porque o Pedro, ele vai aparecer.
+[01:18:45] Participante: E aqui terça-feira eu vou falar assim.
+[01:18:48] Você: Mas é...
+[01:18:48] Participante: Um negócio que acho que vai dar certo.
+[01:18:51] Você: Porque senão fica muita configuração, entende?
+[01:18:51] Participante: Porque é assim...
+[01:18:54] Você: E se não, I think...
+[01:18:54] Participante: Mas é só mais, homem.
+[01:18:57] Você: Então...
+[01:18:57] Participante: Marca lá, visível, não visível.
+[01:19:00] Você: Não, mas é porque fica ambíguo.
+[01:19:00] Participante: Eu que não sou de TI.
+[01:19:03] Você: Fica.
+[01:19:03] Participante: É um botão, Pedro, é só um botão.
+[01:19:04] Participante: Ela é muito simples.
+[01:19:06] Você: Fica ambíguo demais, configuração demais.
+[01:19:06] Participante: Obrigado.
+[01:19:09] Você: Formulário de inscrição.
+[01:19:09] Participante: Ele vai amarrar nós?
+[01:19:12] Você: Tem equipe.
+[01:19:12] Participante: Você bota lá a opção todos visíveis.
+[01:19:16] Você: Eu não acho que...
+[01:19:15] Participante: Pronto.
+[01:19:18] Você: Que fica legal pensando no...
+[01:19:21] Você: Num sistema mesmo.
+[01:19:24] Participante: Sabe por que eu acho que essa opção seria boa?
+[01:19:27] Participante: Porque você dá liberdade para o usuário escolher.
+[01:19:30] Participante: O que ele quer mostrar na tela ou não?
+[01:19:33] Participante: ...que não é do corpo dele, do técnico.
+[01:19:36] Participante: E também...
+[01:19:39] Participante: De própria escolha.
+[01:19:42] Participante: Da pessoa poder escolher o que ela quer.
+[01:19:45] Participante: Do que a gente engessar ou mostra...
+[01:19:48] Participante: O dono mostra nada, ou mostra só uma regra que...
+[01:19:51] Participante: Está implícita que a gente nem sabe onde fica.
+[01:19:54] Participante: Seriam só os opcionais.
+[01:19:56] Participante: Por isso que eu só favoreço...
+[01:19:57] Participante: Deixar escolher, né?
+[01:20:00] Participante: O produto, o sistema não é meu.
+[01:20:03] Participante: De vocês, então, a regra que vai valer.
+[01:20:06] Participante: Obrigada de vocês.
+[01:20:09] Participante: Ai, agora eu tô confusa, ó.
+[01:20:10] Participante: O Pedro e a Su estão puxando a...
+[01:20:14] Você: Hum.
+[01:20:12] Participante: A gente está ali no meio.
+[01:20:15] Participante: Justamente, eu ia até falar um negócio.
+[01:20:18] Participante: Eu acredito que para...
+[01:20:21] Participante: Estágio, que é ir para a empresa.
+[01:20:24] Participante: Para a instituição de ensino.
+[01:20:27] Participante: Até que não agregue tanto, né, eles verem.
+[01:20:30] Participante: Pode ser que estágio, o avaliador, se quiser.
+[01:20:33] Participante: Para abrir o TCE, para olhar e verificar.
+[01:20:36] Participante: Que empresa, o que ele faz lá dentro.
+[01:20:39] Participante: Você é que agregue, né? Alguma coisa.
+[01:20:42] Participante: Mas os outros, eu acho que fica até aqui.
+[01:20:45] Participante: É uma critéria que, igual o Pedro falou, que...
+[01:20:48] Participante: De ignorar ou não, né?
+[01:20:50] Participante: Mas o problema é que...
+[01:20:51] Participante: A gente não tem controle sobre cada...
+[01:20:56] Você: Sim.
+[01:20:54] Participante: ...de que avaliador vai ter em cima do projeto.
+[01:20:57] Você: Legenda por Sônia Ruberti
+[01:20:57] Participante: Vai em consideração e o outro não, pode ser ruim, enfim.
+[01:21:00] Participante: E hoje como era?
+[01:21:03] Participante: Como é que era isso? Ele tinha acesso a tudo?
+[01:21:08] Participante: Obrigado.
+[01:21:09] Participante: Consegue.
+[01:21:10] Participante: Então.
+[01:21:12] Participante: Em 2024 não tinha acesso a...
+[01:21:15] Participante: Nada, 2025.
+[01:21:18] Participante: Passou a ter acesso aos anexos.
+[01:21:21] Participante: Tudo isso mesmo.
+[01:21:24] Participante: Obrigado.
+[01:21:27] Você: É, eu posso colocar o que a Su sugeriu.
+[01:21:27] Participante: Simbólico.
+[01:21:30] Você: A gente pode colocar a Isa, vem e marca. Tudo bem.
+[01:21:33] Você: Se for ok, eu só...
+[01:21:36] Você: Acho que a gente tem que definir para a gente conseguir evoluir.
+[01:21:39] Você: As próximas partes. E aí, qual que é?
+[01:21:42] Você: E a decisão.
+[01:21:42] Participante: Gente, eu acho que não vai, igual o Will falou, não vai ter...
+[01:21:45] Participante: A gente pensando bem, acho que não vai interferir. Deixa tudo disponível.
+[01:21:48] Participante: É o que o estagiário vai agradecer.
+[01:21:51] Participante: Se ele quiser olhar o contrato dele, vai ver.
+[01:21:54] Participante: Atividades que ele exerce na empresa, se vai acrescentar ou não.
+[01:21:57] Participante: Agora, o contrato da empresa não vai agregar?
+[01:22:00] Participante: Nada para avaliador, entendeu?
+[01:22:03] Participante: O contrato da empresa com o IEL não vai agregar nada, só vai vir a taxa.
+[01:22:06] Participante: E a administrativa, né?
+[01:22:09] Participante: Só que junto com isso eles já assinam o termo de confiabilidade.
+[01:22:12] Participante: De confiabilidade, de confidenciabilidade, na verdade.
+[01:22:15] Participante: Então, meio que a gente fica resguardado.
+[01:22:16] Participante: Tá seguro, né?
+[01:22:17] Participante: Né?
+[01:22:20] Você: Ok.
+[01:22:18] Participante: Ai, deixa tudo. Pronto.
+[01:22:21] Você: Ok.
+[01:22:21] Participante: Isso, essa cordinha ganhou.
+[01:22:23] Participante: A minha não.
+[01:22:24] Participante: Adoptei ele.
+[01:22:27] Você: Que isso?
+[01:22:28] Participante: Então vai ficar tudo disponível, né?
+[01:22:30] Você: Isso, ok.
+[01:22:30] Participante: Né, Pedro?
+[01:22:33] Você: Tudo disponível, sempre disponível.
+[01:22:34] Participante: Gente, mas é muito...
+[01:22:37] Você: É isso que a gente nem...
+[01:22:36] Participante: Muitas dúvidas que surgem, meu Deus.
+[01:22:39] Você: Isso que a gente nem chegou ainda na parte...
+[01:22:39] Participante: Gilema.
+[01:22:42] Você: Vocês vão...
+[01:22:42] Participante: Olha, olha que a gente livrou vocês de muita...
+[01:22:45] Participante: A gente só chamou vocês quando...
+[01:22:48] Você: É, e é...
+[01:22:48] Participante: Realmente a gente precisava tomar uma decisão.
+[01:22:51] Você: E ainda tem ranqueamento.
+[01:22:51] Participante: E isso que estamos aqui...
+[01:22:54] Participante: ...regionais, né? Imagina se tivesse mais cabeças...
+[01:22:59] Você: Cê tá doido.
+[01:22:57] Participante: Eu contando de conflito.
+[01:23:01] Você: Aqui nós temos...
+[01:23:03] Você: As notas, no caso o avalio.
+[01:23:06] Você: O aplicador vai preencher com estrelas para vocês, tá bom?
+[01:23:11] Você: Vai!
+[01:23:11] Participante: Eu só tenho um...
+[01:23:12] Participante: Não há dúvida, porque o nosso...
+[01:23:15] Participante: A nossa régua é assim.
+[01:23:18] Participante: Nota 1, 20 pontos.
+[01:23:21] Participante: Nota 2, 40. Nota 3...
+[01:23:24] Participante: 60, nota 4, 80, nota 100.
+[01:23:29] Você: Nota 5, 7.
+[01:23:28] Participante: Sim, não.
+[01:23:30] Você: Legenda por Sônia Ruberti
+[01:23:30] Participante: Nível 5, 100, isso.
+[01:23:33] Participante: Isso interferiria?
+[01:23:36] Você: Não, não, ele pode.
+[01:23:37] Participante: No cálculo.
+[01:23:39] Você: Pode multiplicar por 20.
+[01:23:42] Você: Cada questão pode ter peso 20.
+[01:23:42] Participante: Tá.
+[01:23:45] Você: Então, ela vai compor o valor disso aí.
+[01:23:45] Participante: Ok.
+[01:23:48] Você: Enfim, todo esse...
+[01:23:49] Participante: Eu gosto.
+[01:23:51] Participante: Eu gosto das estrelas porque eu acho que fica...
+[01:23:56] Você: Visual.
+[01:23:54] Participante: Mais...
+[01:23:59] Você: Não é?
+[01:23:57] Participante: Isso, isso.
+[01:24:00] Você: Então é só um número aqui.
+[01:24:00] Participante: Mais bonitinho!
+[01:24:03] Você: É, isso.
+[01:24:03] Participante: Gamificado, um negócio assim.
+[01:24:07] Participante: Gente, eu preciso sair.
+[01:24:09] Participante: Eu também, gente, eu tenho outra dica.
+[01:24:12] Você: Pessoal, então segunda-feira a gente ainda tem que debater.
+[01:24:15] Você: A avaliação, eu ainda...
+[01:24:15] Participante: Obrigada.
+[01:24:18] Você: Eu ainda não consigo entregar para vocês a avaliação.
+[01:24:18] Participante: Obrigado.
+[01:24:21] Você: Porque eu não sei em questão de média.
+[01:24:21] Participante: Já mudei, não sei se a gente está conseguindo passar a minha direção.
+[01:24:24] Você: Acho que seu microfone está aberto, Priscila.
+[01:24:24] Participante: O que é isso?
+[01:24:28] Você: Eu não consigo definir.
+[01:24:27] Participante: Zanotto.
+[01:24:30] Você: Qual o ranking, por exemplo?
+[01:24:33] Você: Vamos supor que três pessoas tiveram...
+[01:24:36] Você: Como que a gente vai definir?
+[01:24:39] Você: É vocês que vão fazer o ranqueamento, é vocês que vão fazer, certo?
+[01:24:42] Você: Vocês que vão definir quem vai pra próxima etapa, etapa nacional.
+[01:24:46] Você: Ou não.
+[01:24:47] Participante: Obrigada.
+[01:24:48] Participante: Porque tem o critério de desempate, né, Isa, também.
+[01:24:51] Você: Exato, aí tudo isso a gente precisa pensar.
+[01:24:51] Participante: É.
+[01:24:54] Você: Vamos começar com vocês para a gente entender como configurar o...
+[01:24:57] Você: O mundo que vocês têm hoje e o que vocês desejam.
+[01:25:01] Você: Então essa parte eu ainda não vou conseguir.
+[01:25:03] Você: E chegar mais da parte das notas.
+[01:25:06] Você: Ok, a gente consegue chegar até aqui, o ranqueamento a gente...
+[01:25:09] Você: Vem na segunda-feira.
+[01:25:11] Você: E, pessoal...
+[01:25:12] Você: Feedback, como que decidimos? Vai ter um revisor.
+[01:25:15] Você: Não vai ter? Como que eu espero para segunda-feira?
+[01:25:18] Você: Trocar uma ideia, porque eu sou que nem trator.
+[01:25:21] Você: Pô, eu já vou fazer um monte de coisa já.
+[01:25:24] Participante: Eu não falei que a gente bota o fogo e ele vai...
+[01:25:27] Você: É, eu vou chegar com um monte de coisa aqui, é porque nessa...
+[01:25:27] Participante: Fazer a fogueira.
+[01:25:30] Você: Essa parte eu acho que é muito sensível, senão eu já teria feito tudo.
+[01:25:33] Você: Tudo como eu acho, mas eu acho que é muito...
+[01:25:36] Você: Vocês agregam muito mais e eu teria feito algo totalmente diferente.
+[01:25:39] Você: O que vocês acham?
+[01:25:41] Participante: Eu acho que...
+[01:25:42] Participante: A gente pode colocar o revisor como sendo o...
+[01:25:46] Você: Show de bola!
+[01:25:45] Participante: O administrador regional.
+[01:25:48] Você: Aí, e vocês?
+[01:25:49] Participante: A gente bota tudo isso.
+[01:25:51] Participante: Então vai lá da cá.
+[01:25:52] Participante: A gente bota...
+[01:25:54] Participante: Ela vai fazer o texto e o...
+[01:25:58] Você: Ok, o feedback é por questão ou é...
+[01:25:57] Participante: Regional Valida.
+[01:26:00] Você: Em geral.
+[01:26:01] Participante: Geral.
+[01:26:04] Você: Ok.
+[01:26:03] Participante: Eu acho que fica coisa demais.
+[01:26:06] Você: Exato, a nota é por questão.
+[01:26:06] Participante: Por questão, Pedro?
+[01:26:07] Participante: A nota é por questão.
+[01:26:08] Participante: É por questão.
+[01:26:09] Você: É certo isso, né?
+[01:26:09] Participante: Então aqui, quando marca a estrela, ele fica...
+[01:26:12] Participante: Obrigado a escrever.
+[01:26:15] Você: Não, ele só vai escrever...
+[01:26:15] Participante: Obrigada por escrever.
+[01:26:18] Você: Dá um parecer do projeto.
+[01:26:21] Você: A nota é por questão, mas o parecer é para o projeto.
+[01:26:21] Participante: Ah, entendi.
+[01:26:24] Você: Certo? Para vocês, ok?
+[01:26:25] Participante: Entendi.
+[01:26:27] Participante: Seria melhor ter uma justificativa para cada nota?
+[01:26:31] Você: Aí fica coisa demais, eu acho.
+[01:26:30] Participante: Como eu vi aqui, acho que é um exemplo, não sei.
+[01:26:33] Você: É porque aí...
+[01:26:33] Participante: Traia?
+[01:26:38] Você: Não.
+[01:26:36] Participante: Porque quanto mais informação ela tiver...
+[01:26:39] Você: Não, mas... mas pensa comigo.
+[01:26:39] Participante: Como é que ela...
+[01:26:41] Participante: Não, entendi.
+[01:26:43] Você: Pensa comigo, a Yaya, ela estaria...
+[01:26:42] Participante: Entendi, Pedro, entendi.
+[01:26:45] Você: Ela teria um texto de grau de inovação.
+[01:26:48] Você: Outro texto de viabilidade de execução, outro texto...
+[01:26:51] Você: De adequação da equipe, até ele mesclar esses três.
+[01:26:54] Você: Esses conteúdos não ficaria algo legal.
+[01:26:57] Você: A ideia é que, inclusive pensando nos regionais...
+[01:27:00] Você: Os administradores, eles vão somente...
+[01:27:03] Você: Um texto, ou seja, vão ver um feedback de cada...
+[01:27:06] Você: E vão ver a sugestão da IA.
+[01:27:08] Participante: Acesse o nosso site e saiba mais.
+[01:27:09] Você: E o texto final.
+[01:27:10] Você: Agora imagina eles vindo.
+[01:27:11] Participante: Obrigada.
+[01:27:12] Você: Questão por questão, se são 100 participantes, eles teriam que...
+[01:27:12] Participante: Obrigada.
+[01:27:15] Você: Eu quero avaliar 500 questões, 500 textos.
+[01:27:18] Você: E aí...
+[01:27:18] Participante: Não, gente, deixa a estrela mesmo.
+[01:27:21] Você: Viu aí, né?
+[01:27:22] Participante: A gente deixando bem claro o que...
+[01:27:24] Participante: O que é cada estrela para eles, dá ótimo.
+[01:27:27] Participante: Eu acho que está ótimo, deixa assim.
+[01:27:29] Você: Show de...
+[01:27:30] Você: Bola.
+[01:27:31] Participante: Beleza, sobre a IA, Pedro...
+[01:27:33] Participante: Marca aqui uma reunião mais técnica com o pessoal sobre o...
+[01:27:36] Você: Ok.
+[01:27:36] Participante: Para a gente avançar coisas.
+[01:27:39] Participante: Se vai ou não vai, como é que vai, questão de cursos.
+[01:27:42] Participante: E aí vamos liberar o pessoal que eles já estão.
+[01:27:45] Você: Pode ser segunda pela manhã?
+[01:27:45] Participante: Prazado.
+[01:27:49] Você: É.
+[01:27:48] Participante: Segunda de manhã?
+[01:27:49] Participante: Pela manhã não dá, né Isa?
+[01:27:51] Você: Não, eu digo mais até...
+[01:27:51] Participante: De manhã eu consigo...
+[01:27:54] Você: A técnica mesmo, a técnica.
+[01:27:54] Participante: Ah, não.
+[01:27:57] Você: Isso, é.
+[01:27:57] Participante: Estou aqui com a agenda dos meninos e aí eu te mando a mensagem.
+[01:28:00] Você: A nossa reunião mesmo acho que é segunda tarde, se vocês puderem participar.
+[01:28:03] Você: ...para novamente, tem agregado muito, não?
+[01:28:03] Participante: Inclusive, eu não posso.
+[01:28:07] Você: Quando que você vai poder?
+[01:28:06] Participante: Posso na segunda.
+[01:28:11] Você: Seria.
+[01:28:09] Participante: O Leão da Tarde é com a gente, Pedro.
+[01:28:12] Você: Muito importante se vocês estivessem, porque tem ajudado bastante.
+[01:28:13] Participante: Não, mas é porque eu não tenho...
+[01:28:16] Você: Ah, não, mas é porque
+[01:28:15] Participante: Eu não tenho esse convite não.
+[01:28:18] Você: A gente vai...
+[01:28:18] Participante: A gente ainda ia mandar.
+[01:28:19] Participante: Tem as oficinas, não?
+[01:28:21] Participante: Então, vamos lá.
+[01:28:23] Participante: Segunda-feira.
+[01:28:24] Participante: De manhã eu não consigo, porque a gente tem umas oficinas.
+[01:28:27] Participante: Essas são as ensinas aqui do prêmio para engajamento, né?
+[01:28:30] Participante: À tarde surgiu um...
+[01:28:33] Participante: Uma reunião complexa aqui que eu fui convocada.
+[01:28:36] Participante: Exatamente duas e meia da tarde.
+[01:28:39] Participante: Deixa eu ver, NAP.
+[01:28:42] Participante: Terça, na terça eu consigo...
+[01:28:45] Participante: No mesmo horário, de duas às quatro.
+[01:28:48] Participante: 12h64, e aí eu posso chamar o...
+[01:28:51] Participante: Pessoal aqui, o Will e a Priscila, eu já encaminhei...
+[01:28:56] Você: Pode ser?
+[01:28:54] Participante: Eu consigo.
+[01:28:57] Participante: A partir das 3h30.
+[01:29:00] Você: E aí, a gente começa em 3h30.
+[01:29:01] Participante: Mas aí você pode...
+[01:29:03] Participante: Tem terça-feira esse horário, eu estou livre à tarde, terça.
+[01:29:06] Você: A gente pode começar um pouco antes.
+[01:29:06] Participante: Só de manhã que está complicado.
+[01:29:09] Você: A gente pode começar por 12h40, 12h30.
+[01:29:11] Participante: Boa noite.
+[01:29:12] Você: 50 aí é o tempo de você entrar, a gente...
+[01:29:15] Você: Você tem conversado muita coisa.
+[01:29:15] Participante: Pode? É aí.
+[01:29:18] Participante: Podem começar antes, não tem problema não, aí depois quando acabar...
+[01:29:21] Você: Aham.
+[01:29:21] Participante: Eu entro, tá bom?
+[01:29:24] Você: Pessoal.
+[01:29:24] Participante: Pra não causar tanto também, né? Tá vendo o Pedro me tirando? Olha.
+[01:29:27] Você: Não, não, não, aí não.
+[01:29:29] Participante: Obrigada.
+[01:29:30] Você: Jamais, jamais.
+[01:29:30] Participante: A dependência.
+[01:29:33] Você: Até a próxima.
+[01:29:33] Participante: Obrigada, pessoal. Vocês são ótimos.

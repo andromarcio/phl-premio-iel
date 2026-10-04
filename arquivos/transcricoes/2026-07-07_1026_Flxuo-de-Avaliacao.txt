@@ -1,0 +1,197 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Flxuo de Avaliação
+ID da reunião ...: 8c035c30-be0b-4828-a1b9-6d6defd2c5de
+Data e hora .....: 07/07/2026 10:26 (America/Sao_Paulo)
+Duração .........: 7m 43s
+Tipo ............: INTERNAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/8c035c30-be0b-4828-a1b9-6d6defd2c5de
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+Durante uma reunião interna da equipe, Pedro e Letícia realizaram testes no módulo de avaliação do sistema Prêmio IEL, verificando a exibição de anexos e links adicionais para os avaliadores. Ao acessar o projeto da participante Adriana Zanotto, que possuía anexos, constataram que os documentos não estavam sendo exibidos na interface do avaliador. Pedro orientou Letícia a utilizar as ferramentas de desenvolvedor do navegador (Console e Network) para diagnosticar o problema, identificando uma possível falha de configuração. Ele solicitou 30 minutos para investigar a causa raiz e pediu o WhatsApp de Letícia para agendar novos testes assim que a correção fosse aplicada. A reunião foi encerrada com o encaminhamento de depuração e a promessa de contato posterior para validação.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Participante: Não me recordo agora se algum desses projetos aqui estão...
+[00:00:04] Você: Ok.
+[00:00:03] Participante: Um anexo, mas eu vou...
+[00:00:07] Participante: É só um teste.
+[00:00:09] Participante: Depois a gente consegue desfazer essa avaliação.
+[00:00:14] Você: Caso necessário.
+[00:00:12] Participante: Tchau.
+[00:00:15] Você: Sim, mas ao selecionar...
+[00:00:16] Participante: Tá.
+[00:00:18] Você: Ela não vai iniciar automaticamente.
+[00:00:21] Você: Você só estará acessando a...
+[00:00:21] Participante: Adriana Zanotto, Aldo, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto, Augusto,
+[00:00:26] Você: E...
+[00:00:25] Participante: A página aqui.
+[00:00:27] Você: Isso, você acabou de iniciar.
+[00:00:27] Participante: Okay.
+[00:00:30] Você: Aí você tem a iniciar, no caso ele não tem anexo.
+[00:00:33] Você: Você pode descer um pouco mais a tela, por favor?
+[00:00:36] Você: Link adicional. Então vamos tentar outro.
+[00:00:36] Participante: Prost.
+[00:00:39] Você: Por favor.
+[00:00:44] Participante: Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, Guga, Gustavo, G
+[00:00:45] Participante: Esse aqui de estagiário, que geralmente costuma ter anéis.
+[00:00:48] Participante: É isso, né? Mas eu cheguei a acessar e vi que não...
+[00:00:51] Participante: Não tinha também, nem anexo, nem link aqui.
+[00:00:54] Você: Um hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum hum
+[00:00:57] Você: Deixa eu ver aqui, 32,717.
+[00:00:57] Participante: Obrigado.
+[00:01:19] Participante: Letícia, você consegue...
+[00:01:21] Participante: Fazer CTRL SHIFT R.
+[00:01:24] Participante: A gente está fazendo teste? Consigo.
+[00:01:27] Participante: Acabei de fazer.
+[00:01:34] Participante: Tem que sair e logar novamente.
+[00:01:37] Você: Pode ser que seja necessário.
+[00:01:36] Participante: E aí
+[00:01:39] Você: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:01:42] Você: Esse participante tem anexo.
+[00:01:42] Participante: Adriana Zanotto
+[00:01:45] Participante: Deixa eu deslogar aqui e conectar de novo.
+[00:01:59] Você: Você pode...
+[00:01:59] Participante: É, não aparece.
+[00:02:00] Você: Vamos fazer um favor, apertar Ctrl Shift I.
+[00:02:04] Participante: Ctrl, Shift, I.
+[00:02:06] Você: Ok, aí você vai em...
+[00:02:09] Você: Console, por favor, na sua direita.
+[00:02:10] Participante: Tchau.
+[00:02:13] Você: E você aperta eficiente.
+[00:02:15] Você: Cinco agora para a gente, por favor.
+[00:02:24] Você: Ah não, você atualiza a página.
+[00:02:27] Você: É porque o seu F5 está configurado no...
+[00:02:28] Participante: Obrigado.
+[00:02:32] Você: É só dar uma olhada.
+[00:02:30] Participante: É, deixa eu ficar aí.
+[00:02:33] Você: Um atualizado na parte, isso.
+[00:02:34] Participante: Obrigado.
+[00:02:38] Você: Ok.
+[00:02:39] Você: Aí você vai na parte...
+[00:02:42] Você: de Network ali na direita, por favor.
+[00:02:48] Você: I didn't, I didn't, I didn't.
+[00:02:51] Você: Desce, você vai ver que tem uma lista ali.
+[00:02:54] Você: Embaixo, sobe ela para nós, por favor.
+[00:02:56] Participante: E.
+[00:02:57] Você: Aham, sabi.
+[00:02:57] Participante: Aqui, subir toda.
+[00:03:00] Você: Sobe, ok.
+[00:03:03] Você: Você está vendo que tem uma lá, status 304?
+[00:03:08] Participante: É isso aqui.
+[00:03:09] Você: E você aperta pra gente, por favor?
+[00:03:09] Participante: Primeiro.
+[00:03:13] Você: Não, não dá mais pra esquerda.
+[00:03:12] Participante: Duas vezes.
+[00:03:15] Você: Mais para a esquerda, mais para a esquerda.
+[00:03:15] Participante: Um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um, um
+[00:03:18] Você: Aperta nele, por favor.
+[00:03:18] Participante: Obrigada.
+[00:03:21] Você: Isso, aí ele vai ter Response na direita.
+[00:03:26] Participante: Obrigado.
+[00:03:27] Você: Isso, ok.
+[00:03:30] Você: Porque você já tinha entrado na página.
+[00:03:33] Você: Então, deixa eu pensar.
+[00:03:36] Você: Pode dar Ctrl Shift R de novo, por favor?
+[00:03:41] Você: R.
+[00:03:39] Participante: Ctrl, Shift, R.
+[00:03:42] Você: Isso.
+[00:03:42] Participante: Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto, Adriana Zanotto.
+[00:03:52] Você: Isso, agora você sobe ali.
+[00:03:54] Você: Direita de novo, por favor.
+[00:03:57] Você: Ok, aí você desce para a gente...
+[00:03:59] Participante: Hello.
+[00:04:00] Você: A página, por favor, vamos ver se eles apareceram.
+[00:04:04] Você: Ok.
+[00:04:08] Você: Tá, ok.
+[00:04:06] Participante: Amém.
+[00:04:09] Você: E eu vou ter que investigar.
+[00:04:09] Participante: Quer que vá em outro?
+[00:04:13] Você: Não, já era pra ele ter...
+[00:04:12] Participante: Projeto.
+[00:04:15] Você: Aparecido aí.
+[00:04:16] Participante: Obrigada.
+[00:04:18] Você: Você pode subir a página, por favor, só para eu ver se é.
+[00:04:22] Você: 17754.
+[00:04:24] Você: 9832 717.
+[00:04:27] Você: Não, ele tem anexo.
+[00:04:30] Você: Era para ele estar aparecendo aí.
+[00:04:33] Você: Seja os links adicionais ou seja os documentos.
+[00:04:36] Você: anexados, só um instante.
+[00:04:39] Você: Eu vi uma questão aqui na configuração.
+[00:04:39] Participante: Tranquilo.
+[00:04:42] Você: Vibração.
+[00:04:47] Participante: Obrigado.
+[00:04:49] Você: Obrigado.
+[00:04:52] Participante: Obrigado.
+[00:04:56] Participante: Obrigado.
+[00:04:58] Participante: Obrigado.
+[00:05:07] Você: Ok, eu vou precisar de...
+[00:05:07] Participante: Obrigado.
+[00:05:09] Você: Trinta minutos? Letícia, você pode me passar?
+[00:05:12] Você: Passa seu WhatsApp, por favor, se for possível.
+[00:05:15] Você: E aí eu já entro em contato com você para você testar direto.
+[00:05:21] Você: Música
+[00:05:18] Participante: Posso, posso sim.
+[00:05:21] Você: E aí já fica fácil se você conseguir já.
+[00:05:24] Você: Vamos testar para a gente, se estiver tudo certo.
+[00:05:27] Você: E já consigo liberar.
+[00:05:29] Participante: Tchau.
+[00:05:31] Você: Tchau.
+[00:05:30] Participante: Bom, vou mandar no chat.
+[00:05:39] Você: Ok.
+[00:05:39] Participante: E aí
+[00:05:43] Participante: Tchau, tchau.
+[00:05:47] Você: Só um instante.
+[00:05:45] Participante: Obrigado.
+[00:05:48] Você: Adriana Zanotto.
+[00:05:48] Participante: Amém.
+[00:05:53] Participante: Obrigado.
+[00:05:54] Participante: Obrigado.
+[00:05:58] Você: Beleza.
+[00:06:00] Você: Eu... certo.
+[00:06:00] Participante: Tchau, tchau.
+[00:06:03] Você: Você pode fazer para mim só mais um favor?
+[00:06:03] Participante: Tchau, tchau, tchau.
+[00:06:06] Você: Volta lá na página, na sua tela aparece...
+[00:06:06] Participante: Tchau!
+[00:06:09] Você: Alguma opção?
+[00:06:12] Você: de dar acesso, que você consegue...
+[00:06:15] Você: Segue, eu consigo visualizar esses itens.
+[00:06:16] Participante: E.
+[00:06:18] Você: Está direita para você?
+[00:06:21] Você: Aparece na sua tela?
+[00:06:21] Participante: Como assim?
+[00:06:24] Você: Enquanto você está compartilhando alguma coisa do Teams.
+[00:06:29] Participante: Tchau.
+[00:06:30] Participante: Não, aparece aí embaixo que eu tô compartilhando.
+[00:06:33] Participante: Minha tela, pedindo para parar ou ocultar.
+[00:06:35] Você: Aperto.
+[00:06:36] Você: Tem mais ali, por favor.
+[00:06:36] Participante: Olha quem fala.
+[00:06:39] Você: Diz que é isso.
+[00:06:41] Você: Ah não, não tem.
+[00:06:40] Participante: Sim.
+[00:06:42] Você: Como não, só continhos mesmo.
+[00:06:44] Você: Tá, beleza.
+[00:06:45] Você: Eu vou correr aqui e mando mensagem para você.
+[00:06:48] Você: Sí.
+[00:06:49] Participante: Obrigado.
+[00:06:53] Você: Beleza?
+[00:06:51] Participante: Tranquilo, eu aguardo.
+[00:06:54] Você: Então tá.
+[00:06:55] Participante: Muito obrigada.
+[00:06:57] Você: Muito obrigado, viu? Valeu. Bom dia, pessoal.
+[00:06:57] Participante: Não, não, não.
+[00:07:01] Você: Tchau.
+[00:07:00] Participante: Tchau, bom dia.
+[00:07:03] Participante: Tchau, tchau.

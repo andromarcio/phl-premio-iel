@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo — biblioteca .dsc-* (Prêmio IEL)</title>
+  <link rel="stylesheet" href="ds.css">
+  <style>
+    /* Só do catálogo: molduras de amostra e o preview do shell (não são do DS). */
+    .cat-frame { border: 1px solid var(--dsc-border-neutral-3); border-radius: var(--dsc-border-radius-medium); overflow: hidden; position: relative; background: var(--dsc-bg-neutral-2); }
+    .cat-frame .dsc-topbar, .cat-frame .dsc-navbar, .cat-frame .dsc-structure { position: static; }
+    .cat-frame .dsc-fab { position: absolute; }
+    .cat-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .cat-section-label { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--dsc-grayscale-90); margin: 24px 0 8px; }
+  </style>
+</head>
+<body>
+
+  <main class="dsc-component-only">
+
+    <div class="dsc-flex dsc-justify-between dsc-items-center dsc-wrap dsc-gap-2" style="margin-bottom:24px">
+      <div>
+        <h1 class="dsc-page-title">Catálogo da biblioteca <code>.dsc-*</code></h1>
+        <p class="dsc-page-subtitle">Prêmio IEL de Talentos — teal <code>#3B8580</code> + roxo de apoio <code>#883CAE</code>, raio 4px. Todo componente com o markup canônico: inspecione o HTML para copiar. Ver <code>README.md</code>.</p>
+      </div>
+      <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="document.documentElement.classList.toggle('app-dark')">Alternar tema</button>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- SHELL — topbar teal + menu horizontal + config (Estrutura) + FAB -->
+    <!-- ============================================================= -->
+    <p class="cat-section-label">Shell da aplicação</p>
+    <div class="cat-frame" style="margin-bottom:24px">
+
+      <div class="dsc-topbar">
+        <a href="#" class="dsc-topbar-brand">Prêmio IEL</a>
+        <div class="dsc-topbar-user">
+          <span class="dsc-topbar-name">Pedro Henrique Fernandes Barbosa</span>
+          <span class="dsc-topbar-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <nav class="dsc-navbar">
+        <a class="dsc-nav-item" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+          Dashboard
+        </a>
+        <a class="dsc-nav-item" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Administração
+          <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <a class="dsc-nav-item is-active" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>
+          Premiação
+          <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </nav>
+
+      <div class="dsc-main">
+        <div class="dsc-config-layout">
+
+          <aside class="dsc-structure" style="position:static">
+            <div class="dsc-structure-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+              Estrutura
+            </div>
+            <ul class="dsc-tree">
+              <li>
+                <div class="dsc-tree-row dsc-tree-row--root">
+                  <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                  <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg></span>
+                  <span class="dsc-tree-label">Prêmio IEL 2026</span>
+                </div>
+                <ul>
+                  <li>
+                    <div class="dsc-tree-row is-selected">
+                      <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                      <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                      <span class="dsc-tree-label">IEL Estágio</span>
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="dsc-tree-row">
+                          <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                          <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+                          <span class="dsc-tree-label">Educação Inovadora</span>
+                        </div>
+                        <ul>
+                          <li>
+                            <div class="dsc-tree-row">
+                              <span class="dsc-tree-toggle is-empty"></span>
+                              <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg></span>
+                              <span class="dsc-tree-label">Instituição de ensino</span>
+                            </div>
+                          </li>
+                          <li>
+                            <div class="dsc-tree-row">
+                              <span class="dsc-tree-toggle is-empty"></span>
+                              <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg></span>
+                              <span class="dsc-tree-label">Novo Tipo</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <div class="dsc-tree-row">
+                          <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                          <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+                          <span class="dsc-tree-label">Estágio Inovador</span>
+                        </div>
+                        <ul>
+                          <li>
+                            <div class="dsc-tree-row">
+                              <span class="dsc-tree-toggle is-empty"></span>
+                              <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg></span>
+                              <span class="dsc-tree-label">Empresa Inovadora</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div class="dsc-tree-row is-collapsed">
+                      <span class="dsc-tree-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+                      <span class="dsc-tree-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                      <span class="dsc-tree-label">Inova Talentos</span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </aside>
+
+          <div>
+            <div class="dsc-page-header">
+              <div class="dsc-page-title-wrap">
+                <h1 class="dsc-page-title">Editar Categoria</h1>
+              </div>
+            </div>
+            <div class="dsc-card">
+              <div class="dsc-field" style="margin-bottom:16px">
+                <label class="dsc-field-label" for="sh-nome">Nome <span class="dsc-req">*</span></label>
+                <input class="dsc-input" id="sh-nome" value="IEL Estágio">
+              </div>
+              <div class="dsc-field" style="margin-bottom:16px">
+                <label class="dsc-field-label" for="sh-desc">Descrição</label>
+                <textarea class="dsc-textarea" id="sh-desc">A categoria IEL Estágio destaca a importância de programas educacionais que promovam práticas inovadoras.</textarea>
+              </div>
+              <button class="dsc-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Salvar
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="dsc-fab" aria-label="Estrutura" title="Estrutura">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= Paleta de cores ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Paleta de cores</h2>
+
+      <p class="cat-section-label" style="margin-top:0">Marca e ação</p>
+      <div class="cat-swatches">
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#3b8580"></span><span class="dsc-swatch-name">Primária / Teal</span><span class="dsc-swatch-hex">#3B8580</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#2f6a66"></span><span class="dsc-swatch-name">Teal hover</span><span class="dsc-swatch-hex">#2F6A66</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#e7f1f0"></span><span class="dsc-swatch-name">Teal realce</span><span class="dsc-swatch-hex">#E7F1F0</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#198754"></span><span class="dsc-swatch-name">Criação / Verde</span><span class="dsc-swatch-hex">#198754</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#883cae"></span><span class="dsc-swatch-name">Apoio / Roxo</span><span class="dsc-swatch-hex">#883CAE</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#0d6efd"></span><span class="dsc-swatch-name">Link / Azul</span><span class="dsc-swatch-hex">#0D6EFD</span></div>
+      </div>
+
+      <p class="cat-section-label">Semânticas (status)</p>
+      <div class="cat-swatches">
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#198754"></span><span class="dsc-swatch-name">Sucesso</span><span class="dsc-swatch-hex">#198754 / #E7F4EA</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#dc3545"></span><span class="dsc-swatch-name">Erro / Perigo</span><span class="dsc-swatch-hex">#DC3545 / #F7CFD2</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#ffc107"></span><span class="dsc-swatch-name">Alerta</span><span class="dsc-swatch-hex">#FFC107 / #FFF0C3</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#0d6efd"></span><span class="dsc-swatch-name">Informação</span><span class="dsc-swatch-hex">#0D6EFD / #C5DCFF</span></div>
+      </div>
+
+      <p class="cat-section-label">Superfícies e texto</p>
+      <div class="cat-swatches">
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#ffffff"></span><span class="dsc-swatch-name">Superfície 0</span><span class="dsc-swatch-hex">#FFFFFF</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#efefef"></span><span class="dsc-swatch-name">Ground</span><span class="dsc-swatch-hex">#EFEFEF</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#e9ecef"></span><span class="dsc-swatch-name">Hover / zebra</span><span class="dsc-swatch-hex">#E9ECEF</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#dee2e6"></span><span class="dsc-swatch-name">Borda</span><span class="dsc-swatch-hex">#DEE2E6</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#212529"></span><span class="dsc-swatch-name">Texto principal</span><span class="dsc-swatch-hex">#212529</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#495057"></span><span class="dsc-swatch-name">Texto secundário</span><span class="dsc-swatch-hex">#495057</span></div>
+        <div class="dsc-swatch"><span class="dsc-swatch-chip" style="background:#6c757d"></span><span class="dsc-swatch-name">Texto suave</span><span class="dsc-swatch-hex">#6C757D</span></div>
+      </div>
+    </div>
+
+    <!-- ================= Tipografia ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Tipografia</h2>
+      <p class="dsc-display">Display 32 (.dsc-display)</p>
+      <p class="dsc-title">Título de página 28 (.dsc-title / .dsc-page-title)</p>
+      <p class="dsc-title-sm">Título de seção 20 (.dsc-title-sm)</p>
+      <p class="dsc-body">Corpo 14 (.dsc-body) — texto padrão da interface.</p>
+      <p class="dsc-body-sm">Corpo pequeno 13 (.dsc-body-sm) <span class="dsc-text-muted">· .dsc-text-muted</span> <span class="dsc-text-primary">· .dsc-text-primary</span></p>
+      <p class="dsc-caption">Caption 12 (.dsc-caption) · obrigatório: Nome <span class="dsc-req">*</span></p>
+    </div>
+
+    <!-- ================= Botões ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Botões</h2>
+      <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:12px">Raio 4px, altura ~40px, ícone à esquerda — nunca pill.</p>
+      <div class="dsc-flex dsc-gap-1 dsc-items-center dsc-wrap">
+        <button class="dsc-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Salvar</button>
+        <button class="dsc-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Importar Excel</button>
+        <button class="dsc-btn dsc-btn--create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Premiação</button>
+        <button class="dsc-btn dsc-btn--secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Baixar Template</button>
+        <button class="dsc-btn dsc-btn--neutral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Limpar</button>
+        <button class="dsc-btn dsc-btn--danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Excluir</button>
+      </div>
+      <div class="dsc-flex dsc-gap-1 dsc-items-center dsc-wrap" style="margin-top:12px">
+        <button class="dsc-btn dsc-btn--outline">Contorno teal</button>
+        <button class="dsc-btn dsc-btn--chromeless">Botão-texto</button>
+        <button class="dsc-btn dsc-btn--danger dsc-btn--outline">Inativar</button>
+        <button class="dsc-btn" disabled>Desabilitado</button>
+        <button class="dsc-btn is-loading">Salvando</button>
+        <button class="dsc-btn dsc-btn--sm">Pequeno 32px</button>
+        <button class="dsc-btn dsc-btn--icon dsc-btn--sm" aria-label="Adicionar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+      </div>
+      <p class="cat-section-label">Segmented (opção ativa teal)</p>
+      <span class="dsc-segmented" onclick="if(event.target.tagName==='BUTTON'){[...this.children].forEach(b=>b.classList.remove('is-active'));event.target.classList.add('is-active')}">
+        <button class="is-active">Discursiva</button><button>Objetiva</button>
+      </span>
+    </div>
+
+    <!-- ================= Formulários ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Campos de formulário</h2>
+      <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:12px">Rótulo acima + asterisco vermelho no obrigatório; foco com anel teal.</p>
+      <div class="dsc-row">
+        <div class="dsc-col-4">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-nome">Nome <span class="dsc-req">*</span></label>
+            <input class="dsc-input" id="f-nome" placeholder="Digite o nome…">
+            <span class="dsc-field-hint">Como aparecerá para o participante.</span>
+          </div>
+        </div>
+        <div class="dsc-col-4">
+          <div class="dsc-field is-invalid">
+            <label class="dsc-field-label" for="f-email">E-mail <span class="dsc-req">*</span></label>
+            <input class="dsc-input" id="f-email" value="ana.costa@">
+            <span class="dsc-field-error"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Campo obrigatório.</span>
+          </div>
+        </div>
+        <div class="dsc-col-4">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-sit">Situação</label>
+            <select class="dsc-select" id="f-sit"><option>Ativo</option><option>Inativo</option></select>
+          </div>
+        </div>
+        <div class="dsc-col-6">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-busca">Busca (.dsc-search)</label>
+            <span class="dsc-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="dsc-input" id="f-busca" placeholder="Buscar por nome…"></span>
+          </div>
+        </div>
+        <div class="dsc-col-6">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-data">Período (.dsc-field-action)</label>
+            <span class="dsc-field-action"><input class="dsc-input" id="f-data" placeholder="Data início - Data fim"><button aria-label="Abrir calendário"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button></span>
+          </div>
+        </div>
+        <div class="dsc-col-3">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-peso">Peso / Nota (.dsc-number)</label>
+            <span class="dsc-number">
+              <input class="dsc-input" id="f-peso" value="1">
+              <span class="dsc-number-spin">
+                <button aria-label="Aumentar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+                <button aria-label="Diminuir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="dsc-col-5">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-lim">Limite de Caracteres</label>
+            <span class="dsc-number">
+              <input class="dsc-input" id="f-lim" placeholder="Sem limite se vazio">
+              <span class="dsc-number-spin">
+                <button aria-label="Aumentar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button>
+                <button aria-label="Diminuir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+              </span>
+            </span>
+            <span class="dsc-field-hint">Deixe vazio para não limitar.</span>
+          </div>
+        </div>
+        <div class="dsc-col-4">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-valor">Valor (.dsc-money)</label>
+            <span class="dsc-money"><input class="dsc-input" id="f-valor" placeholder="0,00"></span>
+          </div>
+        </div>
+        <div class="dsc-col-12">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-enunc">Enunciado <span class="dsc-req">*</span></label>
+            <textarea class="dsc-textarea" id="f-enunc" placeholder="Digite o enunciado da questão…"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="dsc-flex dsc-gap-3 dsc-items-center dsc-wrap" style="margin-top:16px">
+        <label class="dsc-flex dsc-items-center dsc-gap-1"><input type="checkbox" class="dsc-check" checked> Checkbox</label>
+        <label class="dsc-flex dsc-items-center dsc-gap-1"><input type="radio" class="dsc-radio" name="f-r" checked> Rádio</label>
+        <span class="dsc-flex dsc-items-center dsc-gap-1"><span class="dsc-switch is-on" onclick="this.classList.toggle('is-on')"></span> Obrigatório (switch verde)</span>
+        <span class="dsc-stepper"><button>−</button><span>2</span><button>+</button></span>
+        <input type="range" class="dsc-slider" style="max-width:180px" value="60">
+      </div>
+    </div>
+
+    <!-- ================= Barra de filtros ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Barra de filtros</h2>
+      <div class="dsc-filterbar">
+        <div class="dsc-field">
+          <label class="dsc-field-label" for="fb-nome">Nome</label>
+          <span class="dsc-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="dsc-input" id="fb-nome" placeholder="Buscar por nome…"></span>
+        </div>
+        <div class="dsc-field">
+          <label class="dsc-field-label" for="fb-per">Período</label>
+          <span class="dsc-field-action"><input class="dsc-input" id="fb-per" placeholder="Data início - Data fim"><button aria-label="Abrir calendário"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button></span>
+        </div>
+        <div class="dsc-field">
+          <label class="dsc-field-label" for="fb-sit">Situação</label>
+          <select class="dsc-select" id="fb-sit"><option>Ativo</option><option>Inativo</option></select>
+        </div>
+        <div class="dsc-filterbar-actions">
+          <button class="dsc-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Filtrar</button>
+          <button class="dsc-btn dsc-btn--neutral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Limpar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Tabela com paginação ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Tabela + paginação</h2>
+      <div class="dsc-table-wrap">
+        <table class="dsc-table">
+          <thead>
+            <tr>
+              <th class="dsc-sortable is-sorted">Nome</th>
+              <th>Data Início</th>
+              <th>Data Fim</th>
+              <th>Categorias</th>
+              <th>Situação</th>
+              <th class="dsc-col-actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nova premiação da Aline</td>
+              <td>10/08/2026</td><td>03/11/2026</td><td>1</td>
+              <td><span class="dsc-badge dsc-badge--success">Ativo</span></td>
+              <td class="dsc-col-actions">
+                <button class="dsc-icon-action dsc-icon-action--success" aria-label="Exportar" title="Exportar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg></button>
+                <button class="dsc-icon-action dsc-icon-action--info" aria-label="Configurar" title="Configurar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg></button>
+                <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Inativar" title="Inativar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Prêmio IEL 2026</td>
+              <td>01/04/2026</td><td>01/07/2026</td><td>3</td>
+              <td><span class="dsc-badge dsc-badge--success">Ativo</span></td>
+              <td class="dsc-col-actions">
+                <button class="dsc-icon-action dsc-icon-action--success" aria-label="Exportar" title="Exportar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg></button>
+                <button class="dsc-icon-action dsc-icon-action--info" aria-label="Configurar" title="Configurar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg></button>
+                <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Inativar" title="Inativar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg></button>
+              </td>
+            </tr>
+            <tr>
+              <td>Prêmio IEL de Robótica 2027</td>
+              <td>11/01/2027</td><td>31/01/2027</td><td>0</td>
+              <td><span class="dsc-badge dsc-badge--neutral">Inativo</span></td>
+              <td class="dsc-col-actions">
+                <button class="dsc-icon-action dsc-icon-action--info" aria-label="Editar" title="Editar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>
+                <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Excluir" title="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="dsc-pagination">
+          <span class="dsc-pagination-info">Mostrando 1 a 3 de 3 registros</span>
+          <span class="dsc-pagination-controls">
+            <button class="dsc-pagination-btn" disabled aria-label="Primeira">«</button>
+            <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+            <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+            <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+            <button class="dsc-pagination-btn" disabled aria-label="Última">»</button>
+          </span>
+          <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>10</option><option>25</option><option>50</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Abas ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Abas</h2>
+      <div class="dsc-tabs" onclick="if(event.target.closest('.dsc-tab')){this.querySelectorAll('.dsc-tab').forEach(t=>t.classList.remove('is-active'));event.target.closest('.dsc-tab').classList.add('is-active')}">
+        <button class="dsc-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 6.7 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.6H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 7L4.5 7a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9.3A1.6 1.6 0 0 0 10.3 3V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9.3a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg> Geral</button>
+        <button class="dsc-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg> Formulário de Inscrição</button>
+        <button class="dsc-tab is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.6 13.4 12 22l-9-9V3h10z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg> Sub Modalidades</button>
+        <button class="dsc-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/></svg> Equipe</button>
+        <button class="dsc-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.4 11.05 12.25 20.2a5 5 0 0 1-7.07-7.07l9.19-9.19a3 3 0 0 1 4.24 4.24l-9.2 9.19a1 1 0 0 1-1.41-1.41l8.48-8.49"/></svg> Anexos</button>
+        <button class="dsc-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Avaliação</button>
+      </div>
+      <div class="dsc-card-header" style="margin-top:24px">
+        <h3 class="dsc-card-title">Sub Modalidades</h3>
+        <button class="dsc-btn dsc-btn--create"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Sub Modalidade</button>
+      </div>
+      <p class="dsc-body-sm dsc-text-muted">Conteúdo da aba ativa. A aba ativa fica teal com sublinhado; as inativas em cinza suave.</p>
+    </div>
+
+    <!-- ================= Badges e tags ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Badges e tags</h2>
+      <p class="cat-section-label" style="margin-top:0">Badge (status sólido, pill)</p>
+      <div class="dsc-flex dsc-gap-1 dsc-items-center dsc-wrap">
+        <span class="dsc-badge dsc-badge--success">Ativo</span>
+        <span class="dsc-badge dsc-badge--neutral">Inativo</span>
+        <span class="dsc-badge dsc-badge--info">Em análise</span>
+        <span class="dsc-badge dsc-badge--warning">Pendente</span>
+        <span class="dsc-badge dsc-badge--danger">Rejeitado</span>
+        <span class="dsc-badge dsc-badge--info dsc-badge--sm">0 selecionada(s)</span>
+      </div>
+      <p class="cat-section-label">Tag (variante suave: fundo claro + texto forte)</p>
+      <div class="dsc-flex dsc-gap-1 dsc-items-center dsc-wrap">
+        <span class="dsc-tag dsc-tag--info">DISCURSIVA</span>
+        <span class="dsc-tag dsc-tag--secondary">Personalizado</span>
+        <span class="dsc-tag dsc-tag--highlight">Destaque</span>
+        <span class="dsc-tag dsc-tag--success">Sucesso</span>
+        <span class="dsc-tag dsc-tag--warning">Atenção</span>
+        <span class="dsc-tag dsc-tag--danger">Erro</span>
+        <span class="dsc-chip">Filtro: ativos <button aria-label="Remover filtro">✕</button></span>
+        <span class="dsc-avatar">PB</span>
+      </div>
+    </div>
+
+    <!-- ================= Lista reordenável ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Lista reordenável (Questões)</h2>
+      <div class="dsc-reorder">
+        <div class="dsc-reorder-item">
+          <span class="dsc-reorder-handle" aria-label="Arrastar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg></span>
+          <span class="dsc-reorder-index">1.</span>
+          <div class="dsc-reorder-body">
+            <div class="dsc-flex dsc-items-center dsc-gap-1"><strong>Estrutura do Programa de Estágio</strong> <span class="dsc-req">*</span></div>
+            <span class="dsc-tag dsc-tag--info dsc-tag--sm">DISCURSIVA</span>
+          </div>
+          <div class="dsc-reorder-actions">
+            <button class="dsc-icon-action" aria-label="Configurar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--info" aria-label="Subir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--info" aria-label="Descer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+          </div>
+        </div>
+        <div class="dsc-reorder-item">
+          <span class="dsc-reorder-handle" aria-label="Arrastar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="16" x2="20" y2="16"/></svg></span>
+          <span class="dsc-reorder-index">2.</span>
+          <div class="dsc-reorder-body">
+            <div class="dsc-flex dsc-items-center dsc-gap-1"><strong>Integração com o Currículo</strong> <span class="dsc-req">*</span></div>
+            <span class="dsc-tag dsc-tag--info dsc-tag--sm">DISCURSIVA</span>
+          </div>
+          <div class="dsc-reorder-actions">
+            <button class="dsc-icon-action" aria-label="Configurar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--info" aria-label="Subir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--info" aria-label="Descer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></button>
+            <button class="dsc-icon-action dsc-icon-action--danger" aria-label="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Feedback: alertas e toasts ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Alertas e toasts</h2>
+      <div style="display:grid;gap:8px">
+        <div class="dsc-alert" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>A inscrição ficará disponível apenas na etapa regional.</span></div>
+        <div class="dsc-alert dsc-alert--success" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span>Registro salvo com sucesso.</span></div>
+        <div class="dsc-alert dsc-alert--warning" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Atenção: a vigência da edição termina em 3 dias.</span></div>
+        <div class="dsc-alert dsc-alert--danger" role="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span>Você não tem permissão para esta ação.</span></div>
+      </div>
+      <div class="dsc-flex dsc-gap-1 dsc-wrap" style="margin-top:16px">
+        <div class="dsc-toast dsc-toast--positive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg><span>Registro salvo com sucesso.</span></div>
+        <div class="dsc-toast dsc-toast--danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span>Ocorreu um erro. Tente novamente.</span><button class="dsc-icon-action" aria-label="Fechar">✕</button></div>
+      </div>
+    </div>
+
+    <!-- ================= Estados de tela ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Estados obrigatórios de tela</h2>
+      <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:12px">Textos literais do MESSAGE-DICTIONARY.</p>
+      <div class="dsc-grid-3">
+        <div>
+          <p class="dsc-caption" style="margin-bottom:8px">Carregando (skeleton)</p>
+          <span class="dsc-skeleton" style="height:20px;width:60%;margin-bottom:8px"></span>
+          <span class="dsc-skeleton" style="height:14px;margin-bottom:6px"></span>
+          <span class="dsc-skeleton" style="height:14px;width:80%;margin-bottom:12px"></span>
+          <span class="dsc-loading-inline"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+        </div>
+        <div class="dsc-state">
+          <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+          <span class="dsc-state-title">Nenhum registro encontrado.</span>
+          <span class="dsc-state-text">Cadastre a primeira premiação para visualizar a lista.</span>
+          <button class="dsc-btn dsc-btn--create dsc-btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Premiação</button>
+        </div>
+        <div class="dsc-state">
+          <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+          <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+          <button class="dsc-btn dsc-btn--neutral dsc-btn--sm">Tentar novamente</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Modal ================= -->
+    <div class="dsc-card">
+      <h2 class="dsc-card-title">Modal / diálogo</h2>
+      <div class="dsc-flex dsc-gap-1 dsc-wrap">
+        <button class="dsc-btn dsc-btn--create" onclick="document.getElementById('cat-modal').style.display='flex'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Nova Questão</button>
+        <button class="dsc-btn dsc-btn--danger dsc-btn--outline" onclick="document.getElementById('cat-modal-del').style.display='flex'">Excluir registro</button>
+      </div>
+
+      <div id="cat-modal" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+        <div class="dsc-modal">
+          <div class="dsc-modal-header"><span>Nova Questão</span><button class="dsc-modal-close" aria-label="Fechar" onclick="document.getElementById('cat-modal').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+          <div class="dsc-modal-body">
+            <div class="dsc-field" style="margin-bottom:16px">
+              <label class="dsc-field-label">Tipo da Questão <span class="dsc-req">*</span></label>
+              <span class="dsc-segmented" onclick="if(event.target.tagName==='BUTTON'){[...this.children].forEach(b=>b.classList.remove('is-active'));event.target.classList.add('is-active')}"><button class="is-active">Discursiva</button><button>Objetiva</button></span>
+            </div>
+            <div class="dsc-field" style="margin-bottom:16px">
+              <label class="dsc-field-label" for="m-titulo">Título <span class="dsc-req">*</span></label>
+              <input class="dsc-input" id="m-titulo" placeholder="Título da questão…">
+            </div>
+            <div class="dsc-field" style="margin-bottom:16px">
+              <label class="dsc-field-label" for="m-enunc">Enunciado <span class="dsc-req">*</span></label>
+              <textarea class="dsc-textarea" id="m-enunc" placeholder="Digite o enunciado da questão…"></textarea>
+            </div>
+            <div class="dsc-flex dsc-gap-3 dsc-items-center dsc-wrap">
+              <span class="dsc-flex dsc-items-center dsc-gap-1"><span class="dsc-switch is-on" onclick="this.classList.toggle('is-on')"></span> Obrigatório</span>
+              <div class="dsc-field" style="min-width:120px">
+                <label class="dsc-field-label" for="m-peso">Peso / Nota</label>
+                <span class="dsc-number"><input class="dsc-input" id="m-peso" value="1"><span class="dsc-number-spin"><button aria-label="Aumentar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg></button><button aria-label="Diminuir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button></span></span>
+              </div>
+            </div>
+          </div>
+          <div class="dsc-modal-footer">
+            <button class="dsc-btn dsc-btn--neutral" onclick="document.getElementById('cat-modal').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancelar</button>
+            <button class="dsc-btn" onclick="document.getElementById('cat-modal').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Aplicar</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="cat-modal-del" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+        <div class="dsc-modal">
+          <div class="dsc-modal-header"><span>Excluir registro</span><button class="dsc-modal-close" aria-label="Fechar" onclick="document.getElementById('cat-modal-del').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+          <div class="dsc-modal-body"><p class="dsc-body">Deseja realmente excluir este registro?</p></div>
+          <div class="dsc-modal-footer">
+            <button class="dsc-btn dsc-btn--chromeless dsc-btn--danger" style="margin-right:auto" onclick="document.getElementById('cat-modal-del').style.display='none'">Restaurar Padrão</button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="document.getElementById('cat-modal-del').style.display='none'">Cancelar</button>
+            <button class="dsc-btn dsc-btn--danger" onclick="document.getElementById('cat-modal-del').style.display='none'">Excluir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dsc-proto-notes">
+      <strong>Notas:</strong>
+      <ul>
+        <li>Este catálogo usa somente classes da biblioteca — inspecione o markup para copiar. Se algo não está aqui, não existe na biblioteca.</li>
+        <li>Shell de referência (topbar + menu + config) em <code>shell-responsive.html</code>.</li>
+        <li>Cores e raios saem de <code>tokens.css</code> (<code>--dsc-*</code>); as amostras de hex na paleta são a única exceção.</li>
+      </ul>
+    </div>
+
+  </main>
+</body>
+</html>

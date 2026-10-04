@@ -1,0 +1,474 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião sobre documentação
+ID da reunião ...: 2a779ba2-93c3-4418-80b9-782a0f9d0f75
+Data e hora .....: 06/04/2026 18:31 (America/Sao_Paulo)
+Duração .........: 25m 33s
+Tipo ............: GENERAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/2a779ba2-93c3-4418-80b9-782a0f9d0f75
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+A reunião abordou a evolução da documentação de sistemas, contrastando métodos tradicionais como MDS e Cajuso com abordagens modernas impulsionadas por IA. Foi enfatizada a importância da documentação como base de conhecimento e contrato em grandes corporações como a Caixa, onde a falta de rastreabilidade gera custos milionários devido à rotatividade de pessoal e complexidade dos sistemas, citando exemplos como BPC e SPC.
+
+Discutiu-se a estruturação de funcionalidades em níveis macro e micro para facilitar a localização e manutenção, propondo um fluxo onde a IA analisa o código, gera JSON estruturado e scripts em Python convertem para formatos finais como DOCX ou PDF. O participante relatou que desenvolvedores como Pedro, que unem conhecimento técnico e análise, são o perfil ideal para este novo modelo.
+
+Por fim, apresentou-se a visão futura de uma esteira de agentes autônomos para cada papel humano (PO, testes, banco, desenvolvedor), visando aumentar a eficiência e permitir que a IA evolua a documentação baseada em dados estruturados em repositório, similar a um banco de dados relacional.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:05] Participante: o do ruti
+[00:00:07] Participante: a gozinha para lembrar bem
+[00:00:08] Participante: é que está trabalhando no
+[00:00:10] Participante: o MDS, a gente levantava, fazia as reuniões de...
+[00:00:15] Participante: refinamento, que na época ele chamava de especificação
+[00:00:17] Participante: de requisitos, escrevia
+[00:00:19] Participante: os casos de uso.
+[00:00:20] Participante: Não sei se você conhece Cajuso, possivelmente não.
+[00:00:30] Participante: Escreveu os casos de uso, o gestor aprovava e na época...
+[00:00:45] Participante: Ele assinava todas as páginas do Cajunus, né?
+[00:00:48] Participante: E a última página lá dizendo que estava ok.
+[00:00:50] Participante: A gente pegava aquele cajus, mandava para o desenvolvedor, o desenvolvedor codificava.
+[00:00:55] Participante: entregava e a gente fazia um teste de integração, né?
+[00:01:00] Participante: o teste funcional, e durante a homologação, hoje eu estou...
+[00:01:05] Participante: gravou o caso de uso
+[00:01:06] Participante: e ia seguindo lá o passo a passo,
+[00:01:09] Participante: entendeu? Os fluxos básicos.
+[00:01:10] Participante: básico e alternativo, as exceções, as mensagens que tem que apresentar e voltar lá.
+[00:01:20] Participante: Ah, tem que mudar uma linha aqui.
+[00:01:22] Participante: Aí abriu uma mudança.
+[00:01:24] Participante: É até especial não.
+[00:01:25] Participante: chamava lá a
+[00:01:26] Participante: revisão de mudança, se não me engano,
+[00:01:28] Participante: é abrir uma revisão de mudança.
+[00:01:30] Participante: no site, tinha que alterar o caso de uso, e começava todo o ciclo
+[00:01:32] Participante: de novo. Então, naquela época
+[00:01:34] Participante: a documentação
+[00:01:35] Participante: A implementação só ocorria após documentação.
+[00:01:40] Participante: Aí, assim, eu brinco que eu sou saudosista, né?
+[00:01:45] Participante: com essa época
+[00:01:46] Participante: porque tinha uma coisa que era muito legal
+[00:01:49] Participante: é porque
+[00:01:50] Participante: que a documentação, ela representava o
+[00:01:51] Participante: que estava no sistema, né, então a
+[00:01:55] Participante: assim, ah, dava erro em tal lugar, ou alguma regra de negócio.
+[00:02:00] Participante: não estava funcionando direto no sistema.
+[00:02:02] Participante: Como é que tem que ser? A gente recorrer à documentação.
+[00:02:05] Participante: Tinha dois sistemas lá que eram bem complexos.
+[00:02:10] Participante: um dele que é inclusive parecido com esse do prêmio, a gente montava os questionários e tal, que era o do
+[00:02:15] Participante: do BPC, o Gourginho me conhece bem, e esse do BPC
+[00:02:20] Participante: ele fazia o do BPC é parecido.
+[00:02:25] Participante: com o do
+[00:02:26] Participante: SPC, Paulo,
+[00:02:28] Participante: onde tem a...
+[00:02:30] Participante: que monta as fórmulas, você responde as questões, aí você monta as fórmulas.
+[00:02:35] Participante: Enfim, e aí ele gerava uma nota.
+[00:02:40] Participante: que tinha que fazer evolução no sistema e mudava algum erro, a gente recorria ao sistema.
+[00:02:45] Participante: Ou, por exemplo, como é que tal coisa funciona?
+[00:02:48] Participante: Cara, não lembro de cabeça, vou pegar o documento.
+[00:02:50] Participante: documentação e olhada. E assim, funcionava lindamente, né?
+[00:02:55] Participante: Com o adimento do ágil, as pessoas tiveram duas interpretações.
+[00:03:00] Participante: documentações equivocadas. Uma que não
+[00:03:03] Participante: precisa de documentação,
+[00:03:05] Participante: e que a história, e a segunda é que a história é a documentação.
+[00:03:10] Participante: Então, assim, talvez para sistemas mais simples...
+[00:03:15] Participante: ou para empresas menores, onde a rotatividade...
+[00:03:20] Participante: é pequena, o quadro de pessoal
+[00:03:22] Participante: é da própria empresa,
+[00:03:23] Participante: talvez a documentação.
+[00:03:25] Participante: tem uma importância pequena.
+[00:03:27] Participante: Agora, num cenário igual a caixa, por exemplo,
+[00:03:29] Participante: a gente tem...
+[00:03:30] Participante: Do corporativo, a gente tem mais de 900 símbolos,
+[00:03:33] Participante: 900 sistemas.
+[00:03:35] Participante: Isso os corporativos, fora os departamentos...
+[00:03:40] Participante: Departamentais que, catalogados, são mais de 3 mil.
+[00:03:45] Participante: não catalogados. Então, assim,
+[00:03:47] Participante: a gente tem...
+[00:03:50] Participante: Tem sistema lá que a gente não tem noção do tamanho e ponto de função do sistema.
+[00:03:55] Participante: Alguns já chutaram 100 mil pontos, outros já chutaram 150, mas é impossível...
+[00:04:00] Participante: consigo saber.
+[00:04:01] Participante: E aí, assim,
+[00:04:03] Participante: imagina você pegar um sistema
+[00:04:05] Participante: uma vez, transferir de um time para o outro, ou ter que dar manutenção...
+[00:04:10] Participante: uma equipe, uma empresa nova que chega.
+[00:04:12] Participante: Cara, toda mudança de contrato nosso, toda vez,
+[00:04:15] Participante: que troca com profissional lá é sempre a mesma dor de cabeça.
+[00:04:18] Participante: Por quê? A gente não tem documentado.
+[00:04:20] Participante: não tem uma documentação
+[00:04:23] Participante: que represente o sistema interlocutório
+[00:04:25] Participante: forma fidedigna. E isso
+[00:04:26] Participante: sempre traz problemas pra gente.
+[00:04:29] Participante: Isso é um fato.
+[00:04:35] Participante: milionários, porque não tinha, a documentação não estava clara.
+[00:04:40] Participante: Enfim, então, o que eu defendo a documentação...
+[00:04:45] Participante: é para isso. Hoje a gente não precisa dela para desenvolver.
+[00:04:50] Participante: A gente precisa dela como base de conhecimento.
+[00:04:54] Participante: E no
+[00:04:55] Participante: caso de contratação, né, ela também serve como um contrato com
+[00:05:05] Participante: Na minha visão hoje, inclusive, é algo que a gente tem discutido.
+[00:05:10] Participante: isso muito na caixa, é o seguinte,
+[00:05:12] Participante: que a documentação, como era
+[00:05:14] Participante: no...
+[00:05:20] Participante: E, de fato, por que eu te perguntei, Pedrinho,
+[00:05:24] Participante: quanto tempo você levou para desenvolver?
+[00:05:25] Participante: o sistema. Cara,
+[00:05:27] Participante: daqui pra frente,
+[00:05:29] Participante: a gente vai precisar...
+[00:05:30] Participante: de pessoas com o seu perfil.
+[00:05:33] Participante: Então, o
+[00:05:35] Participante: aí eu não sei
+[00:05:37] Participante: eu nunca conversei com você
+[00:05:39] Participante: sobre
+[00:05:40] Participante: isso, então, eu não sei dizer como é o seu skill do ponto de vista de análise.
+[00:05:45] Participante: Mas supondo que seja algo que você ainda...
+[00:05:50] Participante: não tenha totalmente desenvolvido,
+[00:05:52] Participante: isso é só uma suposição para você entender o exemplo,
+[00:05:55] Participante: O perfil que a gente vai buscar daqui para frente é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o
+[00:06:00] Participante: É um cara que tem grandes conhecimentos técnicos, igual você tem.
+[00:06:15] Participante: interpretar o que o cliente precisa e dar uma solução técnica.
+[00:06:20] Participante: Hoje, até um tempo atrás, nós tínhamos que desenvolver...
+[00:06:25] Participante: que só seguia o que estava no caso de uso
+[00:06:26] Participante: e tinha um cara que especificava que não sabia
+[00:06:30] Participante: desenvolveu. Hoje a pessoa que a gente precisa é a pessoa que junta os dois, né?
+[00:06:35] Participante: Então, quando eu tenho o cara aqui juntos,
+[00:06:37] Participante: com as ferramentas que a gente tem hoje com o Eniar,
+[00:06:40] Participante: A gente vai conseguir o quê?
+[00:06:42] Participante: Gerar o código de uma maneira muito...
+[00:06:45] Participante: muito rápida, igual você fez com o IEL, e a IA vai gerar documentação.
+[00:06:50] Participante: Então, a sua visão do ponto de vista
+[00:06:51] Participante: e análise requisito é para quê?
+[00:06:53] Participante: É para entender o que o cliente quer?
+[00:06:55] Participante: faz a agenda com o cliente, você entende a necessidade dele,
+[00:06:57] Participante: você dá a solução, e a IA
+[00:06:59] Participante: se encarrega de...
+[00:07:00] Participante: para registrar a documentação, para documentar, registrar as regras
+[00:07:05] Participante: fóssego conhecimento do sistema.
+[00:07:08] Participante: Inclusive, na minha visão,
+[00:07:09] Participante: isso...
+[00:07:10] Participante: eu falei para o meu time lá hoje.
+[00:07:12] Participante: Aí, galera, eu comentei
+[00:07:13] Participante: do sistema, né?
+[00:07:15] Participante: o meu faz 400 pontos de função
+[00:07:18] Participante: no mês
+[00:07:20] Participante: um desenvolvedor. E a documentação é gerada por IA. Então, assim, o
+[00:07:30] Participante: O meu time lá do desenvolvimento do CIMPF tem cinco desenvolvedores.
+[00:07:34] Participante: Se eu tivesse o Pedro...
+[00:07:35] Participante: eu podia mandar os cinco embora.
+[00:07:37] Participante: Não precisava deles.
+[00:07:39] Participante: Então, assim,
+[00:07:40] Participante: A ideia é que a gente consiga fazer mais com menos.
+[00:07:45] Participante: E aí, Pedrinho, por que que eu fiz essa introdução?
+[00:07:50] Participante: entender aonde a documentação é importante,
+[00:07:52] Participante: o que a gente
+[00:07:53] Participante: precisa conhecer.
+[00:07:55] Participante: O que não precisa ter documentado hoje?
+[00:08:00] Participante: na época lá do MDS,
+[00:08:03] Participante: lembra do...
+[00:08:05] Participante: a documentação que a gente fazia no PEN, seu Gordinho?
+[00:08:10] Participante: Como é que era, Pedro?
+[00:08:14] Participante: Tinha uma...
+[00:08:15] Participante: Tem uma ferramenta de prototipação, que é o Pencil,
+[00:08:18] Participante: e aí a gente fazia tipo isso aqui, desenhava o prototipo.
+[00:08:20] Participante: Eu boto aqui na tela.
+[00:08:22] Participante: E aí, por exemplo, quando eu clico aqui no filtrar,
+[00:08:27] Você: Aham.
+[00:08:25] Participante: Ah, ele faz uma ação, certo?
+[00:08:29] Participante: É...
+[00:08:30] Participante: é igual eu falo, que
+[00:08:32] Participante: bom processo bet, né?
+[00:08:35] Participante: que o Jaco fez para vocês, caso de processo
+[00:08:37] Participante: o BAT já tem três passos
+[00:08:38] Participante: você entra com
+[00:08:40] Participante: com o dado, processa e ele
+[00:08:42] Participante: posta a informação. Não tem
+[00:08:44] Participante: mais espaço a ser feito.
+[00:08:45] Participante: então
+[00:08:46] Participante: todo o sistema aqui, todo transacional
+[00:08:50] Participante: Basicamente é, você entra em conformação, ele processa e depois...
+[00:08:55] Participante: ele pôs para a informação. É o filtro.
+[00:08:57] Participante: Você seleciona os filtros, clica em filtrar
+[00:08:59] Participante: e ele traz o resultado.
+[00:09:00] Participante: resultado, né? O visualizar, você clica no visualizar e traz resultado. A
+[00:09:05] Participante: a mesma coisa que as caixinhas, eu entro na informação, o sistema processa,
+[00:09:10] Participante: e me dá o resultado.
+[00:09:12] Participante: Então, nesse formato que a gente tinha de documentação...
+[00:09:15] Participante: Era um protótipo assim, e nos botõezinhos a gente vinculava.
+[00:09:20] Participante: as regras de negócio.
+[00:09:22] Participante: Então, quando eu clicar no filtrar, quais são as regras
+[00:09:25] Participante: que são aplicadas para o botão...
+[00:09:35] Participante: Quer dizer que é só quando clica, né?
+[00:09:38] Participante: Mas é no...
+[00:09:45] Participante: A gente vinculava as regras aos botões,
+[00:09:50] Participante: Porque, no caso aqui, por exemplo,
+[00:09:54] Participante: quando a gente...
+[00:09:55] Participante: até porque antigamente não tinha muito
+[00:09:58] Participante: os fomos
+[00:10:00] Participante: por isso evoluído muito hoje, tudo era reativo.
+[00:10:05] Participante: Então, eu preenchia, aí depois que eu clicava no botão,
+[00:10:15] Participante: Hoje a gente põe a evolução dos pneus.
+[00:10:20] Participante: a gente tem isso de maneira importante.
+[00:10:25] Participante: posso dizer, ativa, né?
+[00:10:27] Participante: E não de forma passiva.
+[00:10:28] Participante: Então, ou seja, já digitei aqui...
+[00:10:30] Participante: já falou que o campo é obrigatório e tal.
+[00:10:31] Participante: Mas se a gente abstrair,
+[00:10:34] Participante: esquecer,
+[00:10:40] Participante: Do ponto de vista de negócio, isso é um formulário, eu preenchi o formulário.
+[00:10:45] Participante: e quando eu vou armazenar a informação, ele faz a validação.
+[00:10:50] Participante: campos obrigatórios foram preenchidos,
+[00:10:52] Participante: se a
+[00:10:55] Participante: A data que eu informei, ela é válida.
+[00:11:00] Participante: Eu não precisei clicar no salvar para ele fazer a salvação.
+[00:11:05] Participante: validação. Então, do ponto de vista
+[00:11:07] Participante: de documentação, o que a gente precisa hoje?
+[00:11:10] Participante: Preciso saber que, quando eu for editar uma prevenção,
+[00:11:14] Participante: que eu...
+[00:11:15] Participante: tem campos obrigatórios preenchidos, que a data fim não pode ser menor
+[00:11:20] Participante: que é a data de início,
+[00:11:21] Participante: que, sei lá,
+[00:11:23] Participante: eu tenho que ter pelo menos um termo.
+[00:11:25] Participante: de ação de preenchida, né, a...
+[00:11:30] Participante: Como as coisas acontecem, ela deixa de ter uma...
+[00:11:35] Participante: relevância muito grande, igual tinha no passado.
+[00:11:40] Participante: hoje a gente precisa ter a visão do que acontece.
+[00:11:44] Participante: Então, por exemplo...
+[00:11:52] Participante: E a gente tem aqui uma série de...
+[00:11:55] Participante: que funcionalidades, aí é importante o conselho de funcionalidades, o que é funcionalidades?
+[00:12:00] Participante: Aquilo que tem um início, meio e fim, deixa a aplicação no estado inconsistente.
+[00:12:05] Participante: a gente entrega valor para o usuário,
+[00:12:07] Participante: entrega valor para o negócio.
+[00:12:10] Participante: Isso do ponto de vista do negócio, do ponto de vista sistêmico.
+[00:12:15] Participante: existem várias pequenas funcionalidades,
+[00:12:18] Participante: mas que talvez ela possa...
+[00:12:20] Participante: por si só, não faça sentido
+[00:12:21] Participante: para o usuário.
+[00:12:24] Participante: Exemplo.
+[00:12:25] Participante: na configuração do prêmio.
+[00:12:30] Participante: Quando eu faço, quando eu abro essa tela, eu tenho uma...
+[00:12:35] Participante: consulta com os dados para edição do prêmio.
+[00:12:37] Participante: Então, aqui eu vou fazer a edição do prêmio.
+[00:12:40] Participante: O que é o Editar Premium?
+[00:12:42] Participante: Editar Premium é alterar os nomes do...
+[00:12:45] Participante: os dados básicos
+[00:12:47] Participante: do prêmio, poder incluir
+[00:12:49] Participante: o adicional.
+[00:12:50] Participante: termo, eu poder alterar os templates do...
+[00:12:55] Participante: de e-mail.
+[00:12:57] Participante: Então, do ponto de vista de fluxo,
+[00:13:00] Participante: de negócio, podemos dizer assim, a gente pode encarar onde está a prêmio.
+[00:13:05] Participante: como sendo tudo isso aqui.
+[00:13:07] Participante: Do ponto de vista de sistema,
+[00:13:10] Participante: cada item desse aqui é uma funcionalidade né então adicionar tempo
+[00:13:15] Participante: é uma funcionalidade,
+[00:13:17] Participante: o editar termo é uma funcionalidade,
+[00:13:18] Participante: o screen termo é uma funcionalidade,
+[00:13:20] Participante: funcionalidade, o visualizar, o ditar e-mail uma funcionalidade.
+[00:13:25] Participante: O visualizar aqui é outra funcionalidade.
+[00:13:30] Participante: Então a gente tem essas, digamos, do ponto de vista sistêmico, pequenas.
+[00:13:35] Participante: funcionalidades, né? E do ponto de vista de negócio, quando a gente fala de...
+[00:13:45] Participante: Então, assim, no manter prêmio, por exemplo, ou meditar a premiação,
+[00:13:50] Participante: Não preciso criar um artefato, um puteino e um puteino.
+[00:13:55] Participante: para o template, mas eu só preciso
+[00:13:57] Participante: ter a clareza
+[00:14:11] Você: Sim, estou acompanhando.
+[00:14:15] Participante: É isso aí, eu até tentei chamar...
+[00:14:20] Participante: pequenas ações de ações
+[00:14:21] Participante: e as grandes de funcionalidade,
+[00:14:24] Participante: mas a ideia é essa mesmo.
+[00:14:25] Participante: macro funcionalidade ou micro funcionalidade que tem um peso menor né mas que
+[00:14:35] Participante: Do ponto de vista de documentação, a gente organizando dessa forma, fica...
+[00:14:40] Participante: fácil a
+[00:14:40] Participante: se achar.
+[00:14:43] Participante: É igual o
+[00:14:45] Participante: Eu sempre, um exemplo que eu gosto de usar é,
+[00:14:48] Participante: a gente tem um caso de uso de chamada,
+[00:14:50] Participante: formado efetuar login, aí você abre o
+[00:14:53] Participante: caju, usa efetuar login, tem lá o
+[00:14:55] Participante: por cadastro usuário aonde que você vai imaginar.
+[00:15:10] Participante: o que é um negócio
+[00:15:15] Participante: criminalidade, ela é importante
+[00:15:17] Participante: para
+[00:15:17] Participante: a gente
+[00:15:20] Participante: a gente se localizar onde está cada uma das continuidades.
+[00:15:26] Participante: Sacou?
+[00:15:28] Participante: Aí, o desafio
+[00:15:33] Você: Ahem.
+[00:15:38] Você: Uhum.
+[00:15:38] Participante: Como é que a IA vai entender?
+[00:15:40] Você: Sim.
+[00:15:45] Você: Então, a forma que a gente, pelo menos que eu trabalho, não.
+[00:15:50] Você: que eu seja um grande entendedor, acho que
+[00:15:51] Você: longe disso, mas a gente tem duas
+[00:15:53] Você: formas de...
+[00:15:55] Você: trabalhar com a IA, ou a gente deixa ela fazer a inferência e gerar um documento.
+[00:16:00] Você: para a gente no a moda do gol Rossi aí a gente vai ter não
+[00:16:15] Você: construir alguns documentos de modelo
+[00:16:17] Você: e esses documentos de modelo
+[00:16:19] Você: eu substituir
+[00:16:20] Você: substituir todos os textos que haviam neles por placeholders, ou seja, aqui.
+[00:16:25] Você: Aqui ficarão as funcionalidades, aqui ficarão as regras.
+[00:16:30] Você: de negócios, aqui ficará a sessão
+[00:16:31] Você: de telas e campos,
+[00:16:34] Você: aqui ficará o...
+[00:16:35] Você: nome do sistema e com esses placeholders eu pedi e eu montei um
+[00:16:45] Você: pelo CloudJI, ela vai sempre
+[00:16:47] Você: gerar um JSON, e ela
+[00:16:50] Você: Gera um JSON para nós, a partir da análise que ela faz no código.
+[00:17:00] Você: que é um gerador de documento.
+[00:17:03] Você: Esse Python, ele já recebe o JSON.
+[00:17:05] Você: o formato X, monta o
+[00:17:07] Você: docx ou o pdf, enfim
+[00:17:09] Você: o formato que quiser
+[00:17:10] Você: no formato especificado
+[00:17:12] Você: porque os placeholders são substituídos
+[00:17:15] Você: pelos textos, pelos atributos do JSON.
+[00:17:18] Você: Essa foi a melhor forma que...
+[00:17:20] Você: eu achei, e esse eu acho
+[00:17:22] Você: que é o caminho que a gente consegue trabalhar.
+[00:17:24] Você: Essa ideia...
+[00:17:25] Você: Ela já está bem madura, o fluxo já está de ponta a ponta.
+[00:17:29] Você: Eu posso, inclusive, mostrar para vocês.
+[00:17:30] Você: pra vocês os Jasons, inclusive
+[00:17:32] Você: isso que você havia dito, que o Thiago
+[00:17:34] Você: inclusive falou que é ação
+[00:17:35] Você: e funcionalidade, eu lidei realmente como ação
+[00:17:38] Você: e como funcionalidade, essa questão de máquina.
+[00:17:40] Você: macro e de micro e eu já gerei algumas versões na própria foi quinto
+[00:17:45] Você: foi na sexta, eu gerei algumas
+[00:17:46] Você: versões novas, já com
+[00:17:48] Você: essa documentação abrindo.
+[00:17:50] Você: transgênuo dessa forma, onde eu oriento a IA da seguinte forma, você vai gerar um JSON.
+[00:17:55] Você: pudesse dessa forma ao gerar o Jason lembre-se que para cada ação dentro
+[00:18:00] Você: de uma funcionalidade, você vai ter que colocar na tabela de...
+[00:18:04] Você: Eu esqueci...
+[00:18:05] Você: o nome da tabela, não sei se é ações,
+[00:18:08] Você: enfim.
+[00:18:09] Você: E eles...
+[00:18:10] Você: já está gerando automaticamente para nós.
+[00:18:12] Você: E ao ele popular o JSON, eu fiz...
+[00:18:15] Você: de exemplificar de forma que a gente consiga entender o...
+[00:18:22] Você: Consiga entender por que ele tomou.
+[00:18:25] Você: ou determinada decisão.
+[00:18:26] Você: E aí ele está explicando de um JSON para determinados campos.
+[00:18:30] Você: Por que determinado campo é uma consulta externa? Por que é uma saída externa?
+[00:18:35] Você: o que ele considera de maneira X ou de Y.
+[00:18:39] Você: E, além disso...
+[00:18:40] Você: ainda tem a possibilidade de você regerar, ou seja, você pode conversar com ele e falar
+[00:18:45] Você: Poxa, eu não gostei de determinada sessão, eu quero que você modifique dessa forma.
+[00:18:50] Você: E ele vai aprendendo, inclusive, quando eu conversei com você semana passada, você me...
+[00:18:55] Você: passou umas visões muito interessantes de contagem, que você...
+[00:19:00] Você: ou que tem três princípios elementares, etc.
+[00:19:02] Você: Tudo isso está no prompt.
+[00:19:04] Você: Então...
+[00:19:05] Você: Eu acho que o que temos hoje, ele é bem consolidado com isso que você está falando.
+[00:19:10] Você: Jamais, não vou falar que é impossível, mas é 98% de...
+[00:19:15] Você: chance de eu mostrar o documento pra vocês
+[00:19:17] Você: e vocês falarem que...
+[00:19:20] Você: que está errado, porque é normal.
+[00:19:22] Você: A gente tem que refinar muito mais esse documento.
+[00:19:25] Você: E a IA muitas vezes faz o que a gente chama de alucinação.
+[00:19:27] Você: Mas pra isso a gente precisa ficar batendo na tela.
+[00:19:30] Você: Tecla gerando, gerando, gerando o caminho com IA.
+[00:19:32] Você: Eu sempre tenho encontrado como o caminho...
+[00:19:35] Você: Certo? É meio que um go horse, quando você já tem...
+[00:19:40] Você: uma pipeline de dados
+[00:19:41] Você: montada, você tem que fazer o
+[00:19:43] Você: GoHaw, se você gera...
+[00:19:45] Você: Gere de novo, gere de novo, gere de novo, até você chegar num ponto que você vai falar pra ele, cara, é esse ponto que você...
+[00:19:50] Você: você gerou, ele está perfeito, sempre
+[00:19:51] Você: gerem nesse padrão. Então,
+[00:19:54] Você: eu posso mostrar...
+[00:19:54] Participante: O...
+[00:19:55] Você: para vocês os documentos, pode falar.
+[00:20:00] Participante: e Pedro e Paulo.
+[00:20:05] Participante: vocês concordam comigo.
+[00:20:08] Participante: Lá na
+[00:20:10] Participante: na caixa, a gente está fazendo
+[00:20:11] Participante: criando
+[00:20:15] Participante: uma esteira, isso foi uma solicitação do nosso diretor.
+[00:20:20] Participante: a gente criar uma esteira
+[00:20:21] Participante: de agentes autônomos.
+[00:20:30] Participante: E aí a ideia é que a gente tem um agente para cada...
+[00:20:35] Participante: apelo executado por humano.
+[00:20:37] Participante: Não vou ter um agente
+[00:20:38] Participante: de PO, um agente...
+[00:20:40] Participante: visitos, um agente de teste, um de banco,
+[00:20:42] Participante: um desenvolvedor e por aí vai.
+[00:20:45] Participante: E aí eu estava conversando com um cara lá,
+[00:20:48] Participante: e o que que me passou...
+[00:21:10] Participante: para que eu consiga depois pegar todas essas informações e simplesmente...
+[00:21:15] Participante: simplesmente, os pila em um template qualquer. Seria mais ou menos...
+[00:21:20] Participante: isso que você falou, Pedro, do Jason.
+[00:21:23] Participante: Então, assim,
+[00:21:24] Participante: é...
+[00:21:31] Participante: Vou pegar aqui aquele documento que você tinha feito.
+[00:21:35] Você: Deixa eu roubar o seu compartilhamento rapidão, que eu vou conseguir chegar bem.
+[00:21:44] Participante: Amém.
+[00:22:00] Participante: eu tenho hoje, no caso
+[00:22:02] Participante: aqui do Miguel, a gente tem
+[00:22:04] Participante: que
+[00:22:10] Participante: Um crudo.
+[00:22:13] Participante: Só a gente.
+[00:22:15] Participante: Tem que pesquisar.
+[00:22:20] Participante: E tem o editar.
+[00:22:25] Participante: visualizar, relativar, enfim.
+[00:22:28] Participante: Então, a gente tem aqui
+[00:22:30] Participante: e uma série de funcionalidades.
+[00:22:35] Participante: Aí, como é que você fez aquilo?
+[00:22:45] Participante: você colocou aqui a funcionalidade
+[00:22:48] Participante: a descrição
+[00:22:50] Participante: descrição, né, condicionalidade, descrição, e as...
+[00:22:55] Participante: digamos, ações, né, ou outras
+[00:22:57] Participante: subfuncionalidades,
+[00:22:58] Participante: por exemplo, dizer assim, só para a gente...
+[00:23:00] Participante: e criar um padrão.
+[00:23:01] Participante: Isso, exatamente.
+[00:23:03] Participante: Dentro dessa função.
+[00:23:00] Você: As micro funcionalidades, né?
+[00:23:05] Participante: cidade maior que...
+[00:23:07] Participante: Então, assim, se eu
+[00:23:09] Participante: tivesse...
+[00:23:10] Participante: essas informações estruturadas
+[00:23:15] Participante: em algum repositório.
+[00:23:20] Participante: À medida que eu necessitasse de evoluir a informação,
+[00:23:25] Participante: não ficaria mais fácil
+[00:23:26] Participante: para ela saber o que ela precisaria
+[00:23:30] Participante: evoluir e a documentação seria apenas eu pegar o que está
+[00:23:35] Participante: está nisso e cuspindo em determinado formato.
+[00:23:40] Participante: Igual o banco de dados relacional.
+[00:23:45] Participante: as tabelas com os dados
+[00:23:47] Participante: relacionados
+[00:23:48] Participante: e quando eu quero
+[00:23:50] Participante: Quero gerar uma informação, eu faço uma consulta com Annie Jones.
+[00:23:55] Participante: me mostra lá a informação, né?
+[00:23:59] Participante: Onde eu consigo...
+[00:24:00] Participante: relacionar os dados e trazer uma informação
+[00:24:02] Participante: completa.
+[00:24:04] Participante: Então, assim...
+[00:24:05] Participante: Esse não seria o caminho da gente buscar uma forma...
+[00:24:10] Participante: forma de armazenar esses dados de maneira estruturada, para que...
+[00:24:15] Participante: quando eu precisasse fazer evolução.
+[00:24:17] Participante: A IA sabe exatamente o que tem que evoluir.
+[00:24:22] Você: Sim.
+[00:24:25] Você: Eu acho que é isso que você está falando
+[00:24:27] Você: É o caminho
+[00:24:28] Você: E...
+[00:24:30] Você: E pensando nisso mesmo, eu vou roubar um pouco aqui do compartilhamento.
+[00:24:35] Você: Eu vou mostrar para vocês a ferramenta que eu tive trabalhando nesse feriado, nesse final.
+[00:24:40] Você: semana vocês estão conseguindo ver minha tela
+[00:24:41] Participante: Achei bom dia.
+[00:24:46] Você: Vocês estão vendo?
+[00:24:49] Você: Então...
+[00:24:45] Participante: nível de doença que
+[00:24:46] Participante: funciona. Sim.
+[00:24:50] Você: Como ela funciona? Ela funciona de um...
+[00:24:53] Você: Ela transforma.

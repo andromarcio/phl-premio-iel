@@ -1,0 +1,431 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião 04/05
+ID da reunião ...: b8a8e2e1-e405-4dae-ae94-bb97920e4476
+Data e hora .....: 04/05/2026 14:33 (America/Sao_Paulo)
+Duração .........: 20m 12s
+Tipo ............: PLANNING
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/b8a8e2e1-e405-4dae-ae94-bb97920e4476
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+Na reunião de planejamento, Pedro apresentou a funcionalidade de auditoria de ajustes, que permite aos administradores rastrear as alterações solicitadas aos participantes, visualizando rodadas de ajustes e diferenças entre versões. A equipe aprovou a implementação como está. Larissa solicitou notificações por e-mail para novas inscrições, nos moldes do sistema anterior Pipefy; decidiu-se incluir a demanda no backlog, pois exigiria desenvolvimento adicional não previsto. Os critérios de desempate foram discutidos, mas sem definição técnica final; Pedro irá desenhar a solução posteriormente e priorizará a liberação do módulo de alocação de avaliadores para evitar um pacote de testes muito extenso. Os próximos passos envolvem testes finais e liberação da auditoria para homologação ainda hoje.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Você: E...
+[00:00:03] Você: A Sueli já vai dando uma olhada, pode ser?
+[00:00:06] Participante: Pode, pode, pode.
+[00:00:09] Participante: Eu queria um tempinho para a gente conversar sobre aquele...
+[00:00:12] Participante: Aqueles testes lá da IA.
+[00:00:17] Você: Ah, é verdade.
+[00:00:15] Participante: Poder se organizar.
+[00:00:18] Você: Daí a gente chama aqui.
+[00:00:21] Você: Eu fechei o ambiente aqui, então...
+[00:00:24] Você: Vou ter que fazer o login novamente.
+[00:00:27] Você: Então, um minutinho aqui até ele subir.
+[00:00:30] Você: O front-end.
+[00:00:33] Participante: Beleza.
+[00:00:49] Você: Legenda por Sônia Ruberti
+[00:00:53] Participante: Legenda por Sônia Ruberti
+[00:01:03] Participante: Olá, Larissa, boa tarde.
+[00:01:06] Você: Boa tarde.
+[00:01:07] Participante: Oi, tudo bem, pessoal?
+[00:01:10] Você: Boa tarde.
+[00:01:09] Participante: Boa tarde.
+[00:04:07] Você: Pessoal, vocês estão conseguindo ver?
+[00:04:09] Você: Minha tela.
+[00:04:11] Participante: Sim.
+[00:04:12] Você: Beleza, então o que eu...
+[00:04:15] Você: A Isa havia solicitado que nós...
+[00:04:18] Você: Digamos, ver as...
+[00:04:21] Você: Os ajustes que os próprios participantes vão fazer.
+[00:04:24] Você: Conforme a solicitação de ajustes é feita.
+[00:04:27] Você: Então eu chamei de rodadas aqui e a gente...
+[00:04:30] Você: Consegue ver a auditoria de ajustes, onde, por exemplo,
+[00:04:33] Você: Na rodada 1 teve uma alteração.
+[00:04:36] Você: Consegue visualizar tanto o...
+[00:04:39] Você: O Maxi.
+[00:04:42] Você: A resposta como um todo.
+[00:04:45] Você: Apenas a alteração.
+[00:04:48] Você: Eu queria saber se ficou bom para vocês.
+[00:04:51] Você: Ficou tranquilo, porque assim vocês conseguem ver.
+[00:04:54] Você: Ok, o participante alterou.
+[00:04:59] Participante: É, se pode.
+[00:05:00] Participante: É só voltar para eu ver onde você clicou.
+[00:05:03] Você: Isso.
+[00:05:03] Participante: Pode ajudar a gente, né?
+[00:05:06] Participante: Eu acho que ficou bom.
+[00:05:09] Você: Tranquilo para vocês?
+[00:05:12] Participante: Aí é aquela ir e volta que tem.
+[00:05:15] Você: Isso.
+[00:05:15] Participante: E aqui, né, das validações.
+[00:05:18] Você: Aí, por exemplo, eu posso solicitar novamente os ajustes e aí...
+[00:05:18] Participante: Ai.
+[00:05:21] Você: Conforme cada ajuste que o participante faz.
+[00:05:24] Você: Ele vem colocando a auditoria.
+[00:05:27] Você: E aí aqui o administrador consegue rastrear.
+[00:05:30] Você: Desde a solicitação até o...
+[00:05:33] Você: O ajuste foi reenviado e ele consegue...
+[00:05:36] Você: Visualizar tudo, inclusive isso.
+[00:05:38] Participante: Icon do Bloco.
+[00:05:39] Participante: Para visualizar tudo, aparece a data.
+[00:05:43] Você: Como assim?
+[00:05:42] Participante: Cada uma? Ou só da última?
+[00:05:45] Participante: A data que foi solicitada cada...
+[00:05:48] Participante: E a resposta, ou só aparece tudo?
+[00:05:51] Você: É porque como a gente...
+[00:05:51] Participante: Muito obrigada.
+[00:05:54] Você: A gente tem essa...
+[00:05:57] Você: A gente meio que não tem como...
+[00:06:00] Você: ... de um ajuste, porque você não pode solicitar um ajuste por um campo específico.
+[00:06:03] Você: A questão é...
+[00:06:06] Você: Você visualiza geral, então aqui você consegue ver o...
+[00:06:09] Você: O estado anterior e o estado atual do questionário.
+[00:06:09] Participante: Transcrição e Legendas Pedro Negri
+[00:06:12] Você: Se não tiver tido nenhuma alteração, ele...
+[00:06:16] Você: Ele coloca aqui a...
+[00:06:18] Você: Então aqui...
+[00:06:21] Você: Consegue ver quando foi solicitado o ajuste.
+[00:06:24] Você: E quando que foi reenviado pelo participante.
+[00:06:24] Participante: Não, peraí.
+[00:06:27] Participante: Deixa eu fazer a minha pergunta melhor.
+[00:06:32] Você: Boa tarde.
+[00:06:30] Participante: Pessoal, boa tarde. Consegui entrar agora, tá?
+[00:06:33] Você: Boa tarde, tudo bem?
+[00:06:33] Participante: Oi, oi, oi, boa tarde.
+[00:06:37] Participante: Sim.
+[00:06:39] Participante: A gente está vendo aqui a questão das...
+[00:06:42] Participante: Os ajustes da auditoria...
+[00:06:45] Participante: Muito obrigada.
+[00:06:48] Participante: Tá perfeito.
+[00:06:51] Participante: Pedro, minha dúvida é, por exemplo...
+[00:06:54] Participante: Eu lembro que a gente falou que poderia solicitar...
+[00:06:57] Participante: Vários ajustes ao mesmo tempo.
+[00:07:00] Participante: Ele solicitou um ajuste e foi para o candidato.
+[00:07:03] Participante: Ele viu outra coisa e vai solicitar outra ajuda.
+[00:07:06] Participante: Mas ainda não recebeu a resposta.
+[00:07:10] Você: Uhum.
+[00:07:09] Participante: O primeiro ajuste.
+[00:07:13] Você: Sim, sim.
+[00:07:12] Participante: Ainda continua, certo?
+[00:07:15] Participante: Aí beleza, aí eu tenho lá, três ajustes pendentes.
+[00:07:18] Participante: Bem, nessa auditoria eu...
+[00:07:21] Participante: Consigo ver a data de solicitação de cada.
+[00:07:24] Participante: E a resposta, a data de resposta.
+[00:07:28] Você: Então, é porque o participante
+[00:07:27] Participante: Aldo?
+[00:07:30] Você: Ele não responde a um ajuste específico, ele responde...
+[00:07:32] Participante: Ok.
+[00:07:33] Você: Onde há solicitação de ajustes, tendo 1, 10 ou...
+[00:07:36] Você: 20 ajustes.
+[00:07:37] Você: Então, você consegue ver quantas...
+[00:07:39] Você: Às vezes ele vai alterando, mas você consegue sim.
+[00:07:42] Participante: A data de envio eu consigo...
+[00:07:45] Participante: A data de retorno pode ser que seja só uma, né?
+[00:07:50] Você: É, ele sempre...
+[00:07:48] Participante: Quando é tudo numa justiça, né?
+[00:07:51] Você: Vai estar respondendo, porque não existe muito.
+[00:07:54] Você: Essa questão de responder ao ajuste ou não.
+[00:07:57] Você: E vai do administrador entender se o participante...
+[00:08:00] Você: Respondeu ou não?
+[00:08:02] Participante: Sim.
+[00:08:03] Você: Exato.
+[00:08:03] Participante: Aí ele marca se aquilo atendeu.
+[00:08:06] Você: É, é algo subjetivo, então o participante ele devolve.
+[00:08:06] Participante: E tem...
+[00:08:09] Você: E o administrador pode tanto encontrar outro problema...
+[00:08:12] Você: Ele pode bater na mesma tecla.
+[00:08:17] Participante: E aonde que...
+[00:08:18] Participante: Não sei mesmo que ele registra se foi aceito ou não.
+[00:08:21] Você: Aqui ele pode aprovar ou rejeitar.
+[00:08:22] Participante: Boa noite.
+[00:08:25] Você: Ele pode aprovar.
+[00:08:24] Participante: Ah!
+[00:08:27] Você: Com itens não conferidos, ele pode marcar aqui itens.
+[00:08:30] Você: Atendidos, Independentes.
+[00:08:33] Você: Marcar da forma que ele entender.
+[00:08:41] Participante: Beleza.
+[00:08:42] Participante: Mostrei para o Will também, por favor, como é que ficou.
+[00:08:45] Você: Aqui você consegue ver a auditoria de ajuda.
+[00:08:48] Você: Então você consegue ver, eu separei por...
+[00:08:51] Você: ... rodadas aqui, mas a gente pode considerar como um...
+[00:08:54] Você: Onde o participante...
+[00:08:57] Você: Ele fez alteração, alterou endereço e cidade.
+[00:09:00] Você: Nesse caso.
+[00:09:01] Você: Nesse outro caso, ele alterou o nome deste...
+[00:09:03] Você: Vocês vão conseguir ver o que efetivamente...
+[00:09:06] Você: A gente alterou, porque eu imagino que às vezes pode acabar sendo...
+[00:09:09] Você: Muitas inscrições e não tem como...
+[00:09:12] Você: Ficar validando no olho e sabendo tudo que foi alterado.
+[00:09:18] Participante: As rodadas, por assim dizer, que você separou.
+[00:09:21] Participante: É por solicitação do administrador...
+[00:09:24] Você: É, é o que a gente estava falando, eu estava falando
+[00:09:24] Participante: Não é?
+[00:09:27] Você: Por exemplo, eu posso solicitar...
+[00:09:30] Você: Ajustes aqui, ó, prosseguir.
+[00:09:33] Você: Solicito o ajuste novamente.
+[00:09:37] Você: E eu posso solicitar vários...
+[00:09:39] Você: Várias vezes, vários ajustes.
+[00:09:41] Você: Então, várias vezes eu...
+[00:09:40] Participante: E...
+[00:09:42] Você: Só conta como...
+[00:09:45] Você: Entre aspas, uma rodada, porque é somente uma.
+[00:09:46] Participante: Enfim.
+[00:09:48] Você: Uma versão de inscrição.
+[00:09:49] Você: Eu só posso considerar quem...
+[00:09:51] Você: A descrição foi alterada quando o participante salva.
+[00:09:54] Você: Então, são coisas que estão ligadas, mas não...
+[00:09:57] Você: Estão ligados diretamente.
+[00:09:58] Participante: Eu entendi.
+[00:10:00] Participante: Da mesma forma que eu posso solicitar várias...
+[00:10:03] Participante: Várias alterações. Eu posso...
+[00:10:06] Participante: Solicitar também as alterações num corpo só.
+[00:10:09] Você: Pode, exato.
+[00:10:09] Participante: Uma solicitação só.
+[00:10:10] Participante: Entendi.
+[00:10:12] Você: Até 200 linhas.
+[00:10:14] Você: Solicito a ajuda.
+[00:10:12] Participante: Tranquilo, até então.
+[00:10:15] Você: Então você pode solicitar um ajuste várias vezes.
+[00:10:18] Você: E isso não significa que o participante atualizou.
+[00:10:21] Você: Quando ele atualizar a inscrição...
+[00:10:24] Você: Aí ela vai para ajustes concluídos, vocês vão receber o e-mail.
+[00:10:27] Você: E vocês vão...
+[00:10:30] Você: Consegui verificar o que ele alterou.
+[00:10:33] Você: Zanotto.
+[00:10:37] Participante: Entendi.
+[00:10:43] Você: É...
+[00:10:45] Você: Então, é isso.
+[00:10:48] Você: O que eu foquei nessa parte foi essa parte da auditoria.
+[00:10:51] Você: Vou fazer alguns testes para liberar para a Isa.
+[00:10:54] Você: Liberar hoje ainda para homologação.
+[00:10:57] Você: Essa é a parte da parte de avaliação.
+[00:11:00] Você: Então, vocês já começaram a testar.
+[00:11:05] Participante: E aí
+[00:11:06] Participante: Eu fiquei com uma dúvida, que eu não sei se não está funcionando.
+[00:11:11] Você: Ok.
+[00:11:09] Participante: ...para mim, ou se é do sistema mesmo.
+[00:11:12] Participante: Quando chegam novas inscrições,
+[00:11:15] Participante: No outro sistema que a gente tinha, a gente recebeu...
+[00:11:18] Participante: E uma notificação por e-mail, dizendo que tem uma inscrição.
+[00:11:22] Você: Uhum.
+[00:11:21] Participante: Eu não sei se isso está habilitado.
+[00:11:24] Participante: Obrigado para...
+[00:11:28] Você: Não, a gente não tem.
+[00:11:27] Participante: Essa é a versão da plataforma.
+[00:11:30] Você: Por exemplo.
+[00:11:30] Participante: Não tenho e-mail de notificação.
+[00:11:33] Você: Exato. A gente pode...
+[00:11:34] Participante: Tá, entendi.
+[00:11:36] Você: Se for uma eficácia.
+[00:11:36] Participante: E se isso é algo que...
+[00:11:39] Você: Aldo.
+[00:11:39] Participante: E é muito fora, Will, não sei o que é que tu acha.
+[00:11:42] Participante: A gente tem que ficar toda hora entrando na plataforma para ver.
+[00:11:45] Participante: Tem inscrição nova, sabe?
+[00:11:50] Participante: E nunca.
+[00:11:51] Participante: Muito trabalhoso, ajuda bastante.
+[00:11:54] Participante: Até no próprio Pipefy mesmo, eu sempre tive problema.
+[00:11:57] Participante: E aí eu realmente ficava entrando.
+[00:12:00] Participante: O meu, o pior que eu recebia, tá, Will?
+[00:12:03] Participante: Funcionava bem, assim, aí te contextualizando.
+[00:12:06] Participante: O que que vinha nesse meio, né?
+[00:12:09] Participante: Ele vinha, esse código que aparece aí para ti.
+[00:12:12] Participante: Vim a categoria da inscrição.
+[00:12:17] Você: Obrigado.
+[00:12:15] Participante: E um resuminho de quem era.
+[00:12:18] Você: Legenda por Sônia Ruberti
+[00:12:18] Participante: Se era, sei lá, a Federal.
+[00:12:21] Participante: Se era a empresa X, se era a empresa Y.
+[00:12:24] Participante: Se for algo que...
+[00:12:27] Participante: Não é muito problemático, digamos assim.
+[00:12:30] Participante: Eu acho que seria algo bacana para a gente.
+[00:12:33] Participante: Eu tenho que ficar lá entrando todos os dias, sabe?
+[00:12:37] Você: Sim.
+[00:12:37] Participante: Mas só verificando.
+[00:12:39] Participante: A questão de tipo assim, entrou uma inscrição, a gente já consegue...
+[00:12:42] Participante: E lá verificar a documentação para ver se está tudo ok.
+[00:12:45] Participante: E já deixar ela validada, entendeu?
+[00:12:50] Você: Show, bem-vindo.
+[00:12:50] Participante: É isso mesmo.
+[00:12:51] Participante: Preocupa um pouco.
+[00:12:54] Participante: Me preocupa com relação ao nosso...
+[00:12:57] Participante: Contrato aqui com relação aos pontos de função e tal.
+[00:13:00] Participante: Seria um desenvolvimento a mais.
+[00:13:03] Participante: Que a gente não previu.
+[00:13:06] Participante: Ah, entendi. Tranquilo.
+[00:13:07] Participante: É que era uma funcionalidade.
+[00:13:09] Participante: Acho que tinha no pipe aí, acho que não migrou tudo.
+[00:13:12] Participante: Não, são plataformas...
+[00:13:15] Participante: Diferente.
+[00:13:20] Você: Uhum.
+[00:13:18] Participante: Agora só se desse para otimizar seria o...
+[00:13:21] Participante: Bom, mas então a gente cria a rotina de ficar entrando todo dia.
+[00:13:25] Você: Obrigado.
+[00:13:24] Participante: Bom dia mesmo.
+[00:13:27] Participante: Eu acho que a gente pode colocar isso no backlog, Isa.
+[00:13:30] Participante: Aí você analisa depois, sabe?
+[00:13:33] Você: Eu acho uma boa.
+[00:13:33] Participante: Não cabe entrar, mas eu acho...
+[00:13:36] Participante: Interessante ter em algum momento, porque...
+[00:13:39] Participante: A gente ajuda lá na ponta, né?
+[00:13:42] Participante: As notificações, a gente não chegou.
+[00:13:45] Participante: Ainda no módulo de notificações, apesar de que a gente...
+[00:13:48] Participante: Tem algumas notificações já sendo implementadas.
+[00:13:51] Participante: Essa dos ajustes que vocês recebem.
+[00:13:54] Participante: Mas eu acho uma boa...
+[00:13:57] Participante: A gente vai deixar no nosso backlog, Isa, se você...
+[00:14:00] Participante: Se estiver de acordo.
+[00:14:02] Participante: Podemos sim.
+[00:14:03] Participante: E aí, se vocês tiverem...
+[00:14:06] Participante: Clarissa, um modelo de como que era que você...
+[00:14:11] Você: É bom.
+[00:14:09] Participante: Só para a gente ter uma base.
+[00:14:12] Você: Mesmo.
+[00:14:12] Participante: Se vocês puderem compartilhar com a gente.
+[00:14:15] Participante: Um modelinho da notificação.
+[00:14:18] Participante: Eu vou achar aqui um modelinho.
+[00:14:21] Participante: Eu mando naquele nosso chat.
+[00:14:24] Você: Aham.
+[00:14:24] Participante: A gente, que aí vocês conseguem receber por lá o print.
+[00:14:27] Participante: Também dá uma olhadinha de como que chegava.
+[00:14:30] Participante: Beleza, que aí já fica como histórico.
+[00:14:33] Participante: Fico aqui de como era.
+[00:14:36] Participante: Sobre essa parte aqui da auditoria...
+[00:14:39] Participante: Tudo ok, então, para vocês, do jeito que o Pedro...
+[00:14:42] Participante: Propôs aqui, vocês acham que está faltando alguma coisa?
+[00:14:45] Participante: Hoje está ok, dessa forma dá para...
+[00:14:48] Participante: Dá desse jeito.
+[00:14:53] Você: Uhum.
+[00:14:51] Participante: Algumas coisas que só vão surgir na hora mesmo, né?
+[00:14:55] Participante: Eu acho que o...
+[00:14:57] Participante: Isso está bem limpo, bem tranquilo.
+[00:15:00] Participante: Agora mostrando tudo o que foi solicitado.
+[00:15:03] Participante: E aí a forma que vocês podem também...
+[00:15:06] Participante: Está fazendo esse acompanhamento aí de o que já foi atendido.
+[00:15:09] Participante: O que não foi.
+[00:15:12] Participante: Ok, né?
+[00:15:13] Participante: Ok.
+[00:15:15] Participante: Gostei. Acredito...
+[00:15:18] Participante: Aqui está bem didático, está fácil de identificar.
+[00:15:21] Participante: Como você falou, Su, problemas podem...
+[00:15:24] Participante: Acontece aí, né?
+[00:15:27] Participante: Que as inscrições foram entrando, mas no mais...
+[00:15:31] Participante: Beleza.
+[00:15:33] Participante: Tem mais algum item, Pedro, para você?
+[00:15:36] Você: Não, acho que agora é mais teste mesmo.
+[00:15:36] Participante: Até hoje.
+[00:15:39] Você: E vou subir tudo no gíria.
+[00:15:42] Você: E vou ficar no bate-bola com a Isa.
+[00:15:45] Participante: Beleza.
+[00:15:45] Participante: Beleza.
+[00:15:46] Participante: E aquela parte que a gente...
+[00:15:48] Participante: Na reunião passada, dos critérios...
+[00:15:51] Participante: ...de desempate e tal, você chegou a avançar.
+[00:15:54] Participante: Com alguma dúvida ou não, excelente.
+[00:15:57] Você: Não, essa parte ainda não dos critérios.
+[00:15:57] Participante: Chegou nessa parte ainda.
+[00:16:00] Você: E simpática.
+[00:16:01] Participante: Beleza.
+[00:16:03] Participante: A gente ainda tem que decidir como é que...
+[00:16:06] Participante: Vai ser porque tem o do DN e tem o do...
+[00:16:09] Participante: A gente ficou parada aí.
+[00:16:12] Participante: Não sei se você chegou a conversar com...
+[00:16:17] Você: Hum.
+[00:16:15] Participante: O Paulo, se ele teve alguma ideia.
+[00:16:18] Você: Acabou que como a gente teve feriado, eu nem consegui conversar com...
+[00:16:21] Você: Hoje ele tá off também, mas é algo que...
+[00:16:24] Você: O que a gente tem que pensar mesmo, porque tem essa diferença.
+[00:16:27] Você: A diferença dos critérios, né?
+[00:16:30] Você: Se eu não me engano, a gente havia decidido...
+[00:16:30] Participante: Uhum.
+[00:16:33] Você: Eu vou definir os critérios.
+[00:16:36] Você: Por questão, ou seja, além da...
+[00:16:39] Você: O critério seria a questão.
+[00:16:42] Você: No caso, de acordo com a ordem que...
+[00:16:45] Você: ...administrador selecionasse e seria assim para...
+[00:16:48] Você: Todas as etapas.
+[00:16:49] Participante: Obrigada.
+[00:16:51] Participante: Aí tem aquela que é subjetiva.
+[00:16:54] Participante: Dando empate em tudo.
+[00:16:57] Participante: Tem uma subjetiva que iria para o DNA.
+[00:17:01] Você: Uhum.
+[00:17:00] Participante: Aí eu não sei como é que ficou.
+[00:17:04] Você: Ah não, é...
+[00:17:06] Você: Mas é porque eu acho que já foi decidido, porque o...
+[00:17:09] Você: Como fica para o DNA, o DNA que ia decidir.
+[00:17:12] Você: Na verdade, acho que o DR, não?
+[00:17:15] Você: DNA, enfim.
+[00:17:16] Participante: Não era o Deine.
+[00:17:18] Participante: Era o DNA para bater o martelo, né?
+[00:17:23] Você: Aham.
+[00:17:21] Participante: Tudo empatado do regional.
+[00:17:24] Participante: Aí o último é o desempate.
+[00:17:27] Participante: É um critério subjetivo.
+[00:17:28] Participante: Aí esse subjetivo...
+[00:17:30] Participante: Aí eu lembro que a gente conversou.
+[00:17:33] Participante: Para não ficar engessado.
+[00:17:36] Participante: O que a gente pudesse fazer no sistema para comportar esses...
+[00:17:39] Participante: Essas regras, de forma que não ficasse...
+[00:17:42] Participante: Pensado no prêmio, mas enfim, a gente...
+[00:17:45] Participante: Pode depois fazer uma reunião sobre essa parte.
+[00:17:49] Você: Uhum.
+[00:17:48] Participante: Tecnicamente.
+[00:17:51] Participante: É só uma contribuição.
+[00:17:54] Participante: Sobre esse assunto, eu acho que tinha ficado decidido...
+[00:17:57] Participante: Lembro até que a Isa entrou e falou, né?
+[00:18:00] Participante: Se esses empates ocorressem no regional,
+[00:18:03] Participante: O próprio regional que...
+[00:18:06] Participante: Porém...
+[00:18:09] Participante: Ela orientou que a gente passasse para os...
+[00:18:12] Participante: Avaliadores, né, que tivesse uma chancela.
+[00:18:15] Participante: Ela até falou uma palavra bonita que eu esqueci agora.
+[00:18:19] Você: Hum, hum.
+[00:18:18] Participante: Mas os avaliadores tiveram...
+[00:18:21] Participante: Sim, eles são puros.
+[00:18:24] Participante: E ser imparciais, né, nessa decisão.
+[00:18:27] Participante: E se fosse alguma coisa que acontecesse nas premiações,
+[00:18:30] Participante: Nacionais, aí o próprio Nacional Tomaria.
+[00:18:33] Participante: Eu acho que a gente...
+[00:18:36] Participante: Mais ou menos isso foi.
+[00:18:39] Participante: Depois a gente chegou em outro consenso.
+[00:18:42] Participante: Aqui seria Tudo Passa Pelo Nacional.
+[00:18:45] Participante: Porque existe a possibilidade de conflito de interesses.
+[00:18:48] Participante: Como é uma questão bem excepcional.
+[00:18:51] Participante: O que ainda nunca aconteceu, a gente...
+[00:18:54] Participante: A gente entende que pode deixar por enquanto.
+[00:18:57] Participante: Não, perfeito, também.
+[00:19:01] Participante: Ai, ai, volta para o da...
+[00:19:03] Participante: Bom, mas a gente ainda...
+[00:19:06] Participante: Vai desenhar essa parte, né, Pedro?
+[00:19:09] Você: Isso, é porque a gente já...
+[00:19:09] Participante: Aí depois a gente volta para validar com vocês.
+[00:19:12] Você: Tá alongando muito aí, eu acho interessante liberar a parte.
+[00:19:15] Você: Da alocação, senão a gente vai liberar um pacote.
+[00:19:15] Participante: Uhum.
+[00:19:18] Você: É uma alteração muito grande, fica muita coisa para testar.
+[00:19:21] Participante: Então, beleza.
+[00:19:24] Participante: Só tem que aproveitar aí antes da...
+[00:19:28] Você: Sim.
+[00:19:27] Participante: Daís, entrar de férias.
+[00:19:28] Participante: Ó, eu tô contando...
+[00:19:30] Participante: Então, já sabe.
+[00:19:33] Você: Nós também, tá tipo
+[00:19:33] Participante: Obrigada por estar aqui.
+[00:19:36] Você: Ampulheta.
+[00:19:37] Participante: Não, tudo correto.
+[00:19:39] Participante: Tchau, tchau.
+[00:19:43] Você: Nem Tic Tac.
+[00:19:42] Participante: Tá chegando.
+[00:19:45] Você: Aqui é TikTok.
+[00:19:46] Participante: Hehehehe.
+[00:19:48] Participante: E aí uma dúvida, a partir de quando?

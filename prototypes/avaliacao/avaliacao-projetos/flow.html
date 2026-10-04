@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Avaliação de Projetos — jornada do avaliador</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-painel" data-feature="AVL-AVA-01" class="is-current" onclick="abrirPainel()">Painel “Minhas Avaliações”</button>
+    <button id="sw-termo" data-feature="AVL-AVA-02" onclick="abrirTermo()">Aceite do Termo</button>
+    <button id="sw-avaliar" data-feature="AVL-AVA-03" onclick="abrirAvaliacao('piel-0113')">Avaliar Inscrição</button>
+    <button id="sw-conf" data-feature="AVL-AVA-03" onclick="abrirAvaliacao('piel-0146')">Avaliar (confidencial)</button>
+    <button id="sw-fim" data-feature="AVL-AVA-04" onclick="demoFinalizada()">Avaliação finalizada</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">AVL-AVA · Avaliação de Projetos · perfil Avaliador <span style="opacity:.6">PIT.4</span></span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) — usuário AVALIADOR (perfil externo) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Marina Albuquerque Rocha · <span style="opacity:.85">Avaliadora</span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal do avaliador: enxuto (sem Administração / sem Premiação) -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item is-active" id="nav-painel" href="#" onclick="abrirPainel();return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+        Minhas Avaliações
+      </a>
+      <a class="dsc-nav-item" id="nav-termo" href="#" onclick="abrirTermo();return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
+        Termos de Confidencialidade
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Painel do Avaliador — "Minhas Avaliações" (AVL-AVA-01) -->
+      <!-- ============================================================= -->
+      <div id="screen-painel" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Minhas Avaliações</span>
+        </nav>
+
+        <!-- Cabeçalho institucional: saudação + resumo de pendências -->
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title" id="saudacao">Boa tarde, Marina</h1>
+              <p class="dsc-page-subtitle" id="resumo-pendencias">—</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span class="dsc-tag dsc-tag--secondary dsc-tag--lg">Avaliador <span style="opacity:.6">PIT.4</span></span>
+            <button class="dsc-btn dsc-btn--neutral" onclick="recarregarPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Atualizar
+            </button>
+          </div>
+        </div>
+
+        <!-- Aviso de termo pendente (AVL-AVA-02 / AVL-AVA-03) -->
+        <div class="dsc-alert dsc-alert--warning" id="alert-termo" role="alert" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>
+            Aceite o termo de confidencialidade para acessar as avaliações desta premiação.
+            <span class="dsc-body-sm dsc-text-muted" style="display:block;margin-top:2px">Premiação <strong>Inova Talentos 2026</strong> — as demais avaliações seguem liberadas.</span>
+            <span class="dsc-alert-cta" style="display:block">
+              <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="abrirTermo()">Ler e aceitar o termo</button>
+            </span>
+          </span>
+        </div>
+
+        <!-- Indicadores agregados (calculados sobre TODAS as alocações, antes dos filtros) -->
+        <div class="dsc-grid-3" style="margin-bottom:16px">
+          <div class="dsc-card">
+            <span class="dsc-caption dsc-text-muted">A iniciar</span>
+            <div class="dsc-display dsc-num" id="kpi-iniciar" style="text-align:left">0</div>
+            <span class="dsc-body-sm dsc-text-muted">Sem nenhuma nota registrada</span>
+          </div>
+          <div class="dsc-card">
+            <span class="dsc-caption dsc-text-muted">Em andamento</span>
+            <div class="dsc-display dsc-num" id="kpi-andamento" style="text-align:left">0</div>
+            <span class="dsc-body-sm dsc-text-muted">Com ao menos uma nota, ainda não finalizadas</span>
+          </div>
+          <div class="dsc-card">
+            <span class="dsc-caption dsc-text-muted">Finalizadas</span>
+            <div class="dsc-display dsc-num" id="kpi-finalizadas" style="text-align:left">0</div>
+            <span class="dsc-body-sm dsc-text-muted">Todas as questões pontuadas e finalização confirmada</span>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados da listagem (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da listagem:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setListState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('error')">Erro</button>
+        </div>
+
+        <!-- Filtros: Premiação × Etapa × Status -->
+        <div class="dsc-filterbar" style="margin-bottom:12px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-premio">Premiação</label>
+            <select class="dsc-select" id="f-premio" onchange="onPremioChange()">
+              <option value="">Todas as premiações</option>
+              <option value="piel">Prêmio IEL de Talentos 2026</option>
+              <option value="inova">Inova Talentos 2026</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="f-etapa">Etapa</label>
+            <select class="dsc-select" id="f-etapa" onchange="onEtapaChange()">
+              <option value="">Todas as etapas</option>
+            </select>
+            <span class="dsc-field-hint">A seleção de etapa é limpa ao trocar de premiação.</span>
+          </div>
+          <div class="dsc-field" style="flex:1 1 380px">
+            <span class="dsc-field-label">Status</span>
+            <span class="dsc-segmented" id="seg-status">
+              <button class="is-active" onclick="setStatus('')">Todas</button>
+              <button onclick="setStatus('A iniciar')">A iniciar</button>
+              <button onclick="setStatus('Em andamento')">Em andamento</button>
+              <button onclick="setStatus('Finalizada')">Finalizadas</button>
+            </span>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="limparFiltros()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Fila de pendentes do recorte vigente (RN7/RN8 de AVL-AVA-01) -->
+        <div class="dsc-alert" id="alert-fila" role="status" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span id="fila-texto">—</span>
+        </div>
+
+        <!-- Estado: COM DADOS — grid de cartões, ordem crescente de protocolo -->
+        <div id="state-data">
+          <div class="dsc-flex dsc-items-center dsc-justify-between dsc-wrap dsc-gap-2" style="margin-bottom:12px">
+            <span class="dsc-body-sm dsc-text-muted" id="lista-info">—</span>
+            <span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Ordenado por Protocolo ↑</span>
+          </div>
+          <div class="dsc-grid-3" id="cards"></div>
+        </div>
+
+        <!-- Estado: VAZIO (nenhuma alocação) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhuma avaliação atribuída</span>
+              <span class="dsc-state-text">Quando um administrador alocar uma inscrição a você, ela aparece aqui.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: SELEÇÃO SEM CORRESPONDÊNCIA -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhuma avaliação corresponde aos filtros selecionados</span>
+              <span class="dsc-state-text">Revise a premiação, a etapa e o status selecionados e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="limparFiltros()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton no formato dos cartões) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-grid-3">
+            <div class="dsc-card">
+              <span class="dsc-skeleton" style="height:14px;width:45%;margin-bottom:12px"></span>
+              <span class="dsc-skeleton" style="height:18px;width:85%;margin-bottom:8px"></span>
+              <span class="dsc-skeleton" style="height:14px;width:60%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:8px;width:100%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:32px;width:40%"></span>
+            </div>
+            <div class="dsc-card">
+              <span class="dsc-skeleton" style="height:14px;width:45%;margin-bottom:12px"></span>
+              <span class="dsc-skeleton" style="height:18px;width:85%;margin-bottom:8px"></span>
+              <span class="dsc-skeleton" style="height:14px;width:60%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:8px;width:100%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:32px;width:40%"></span>
+            </div>
+            <div class="dsc-card">
+              <span class="dsc-skeleton" style="height:14px;width:45%;margin-bottom:12px"></span>
+              <span class="dsc-skeleton" style="height:18px;width:85%;margin-bottom:8px"></span>
+              <span class="dsc-skeleton" style="height:14px;width:60%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:8px;width:100%;margin-bottom:16px"></span>
+              <span class="dsc-skeleton" style="height:32px;width:40%"></span>
+            </div>
+          </div>
+          <span class="dsc-loading-inline" style="margin-top:16px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="recarregarPainel()">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Aceite do Termo de Confidencialidade (AVL-AVA-02) — portão de entrada -->
+      <!-- ============================================================= -->
+      <div id="screen-termo" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="abrirPainel();return false">Minhas Avaliações</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Termo de Confidencialidade</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Termo de Confidencialidade</h1>
+              <p class="dsc-page-subtitle">Inova Talentos 2026 · aceite exigido uma única vez por premiação</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span class="dsc-badge dsc-badge--warning" id="termo-status">Pendente de aceite</span>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="max-width:860px">
+          <h2 class="dsc-card-title">Termo de Confidencialidade do Avaliador — Inova Talentos 2026</h2>
+          <p class="dsc-body" style="margin-bottom:12px">Pelo presente termo, o avaliador voluntário declara ciência de que todo o conteúdo das inscrições a que tiver acesso — dados dos participantes, respostas do formulário, documentos anexados, notas e pareceres — é informação confidencial do IEL Nacional e das unidades regionais, destinada exclusivamente ao processo de avaliação do Prêmio IEL de Talentos.</p>
+          <p class="dsc-body" style="margin-bottom:12px">O avaliador compromete-se a não reproduzir, divulgar, comentar ou utilizar, para qualquer finalidade alheia à avaliação, as informações a que tiver acesso, inclusive após o encerramento da edição. Compromete-se, ainda, a comunicar imediatamente ao IEL qualquer situação de conflito de interesse com um participante alocado a si.</p>
+          <p class="dsc-body" style="margin-bottom:12px">O avaliador declara que as notas e o parecer que registrar são de sua exclusiva autoria e que não terá acesso — nem buscará obtê-lo — às notas e aos pareceres atribuídos por outros avaliadores à mesma inscrição.</p>
+          <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:24px">O aceite registra a data, o horário e o endereço de origem do avaliador. Editar o termo não invalida os aceites já registrados.</p>
+
+          <hr class="dsc-divider">
+
+          <div class="dsc-field" style="margin-bottom:16px">
+            <label class="dsc-flex dsc-items-center dsc-gap-1">
+              <input type="checkbox" class="dsc-check" id="termo-check" onchange="limparErroTermo()">
+              <span>Li e aceito o termo <span class="dsc-req">*</span></span>
+            </label>
+            <span class="dsc-field-error" id="termo-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Confirme a leitura do termo para continuar.</span></span>
+          </div>
+
+          <div class="dsc-flex dsc-gap-1 dsc-wrap">
+            <button class="dsc-btn" id="btn-aceitar" onclick="aceitarTermo()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Aceitar termo
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="abrirPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar ao painel
+            </button>
+          </div>
+
+          <div class="dsc-alert dsc-alert--success" id="termo-ok" role="status" style="display:none;margin-top:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span id="termo-ok-text">Registro salvo com sucesso.</span>
+          </div>
+        </div>
+
+        <div class="proto-demo" style="margin-top:16px">
+          <span class="proto-demo-label">Demonstrar:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="resetTermo()">Voltar o termo para “pendente”</button>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 3: Avaliação da Inscrição (AVL-AVA-03) + Finalizar (AVL-AVA-04) -->
+      <!-- ============================================================= -->
+      <div id="screen-avaliar" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="abrirPainel();return false">Minhas Avaliações</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current" id="av-crumb">Avaliação da Inscrição</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title" id="av-projeto">—</h1>
+              <p class="dsc-page-subtitle" id="av-contexto">—</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span id="av-status-badge"></span>
+            <button class="dsc-btn dsc-btn--neutral" onclick="abrirPainel()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos cenários da avaliação (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Demonstrar:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="demoNotasCompletas()">Pontuar todas as questões</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="demoUmaSemNota()">Deixar 1 questão sem nota</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="demoParecerCurto()">Parecer abaixo do mínimo</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="demoParecerCompleto()">Parecer completo</button>
+          <span style="display:inline-block;width:1px;height:18px;background:var(--dsc-border-neutral-3)"></span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" id="btn-etapa-fechada" onclick="toggleEtapaFechada()">Simular etapa fechada</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="demoAnexoAlheio()">Link de anexo de outra inscrição</button>
+        </div>
+
+        <!-- Sucesso da finalização + salto SP05 "Próxima pendente" -->
+        <div id="av-final-box" style="display:none;margin-bottom:16px">
+          <div class="dsc-alert dsc-alert--success" id="av-final-ok" role="status" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>
+              Registro salvo com sucesso.
+              <span class="dsc-body-sm" style="display:block;margin-top:2px">A avaliação foi finalizada e está em modo somente leitura — as notas não podem mais ser alteradas por você.</span>
+            </span>
+          </div>
+          <div class="dsc-flex dsc-gap-1 dsc-wrap dsc-items-center" style="margin-top:8px">
+            <button class="dsc-btn" id="btn-proxima" onclick="proximaPendente()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              Próxima pendente
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="abrirPainel()">Voltar ao painel</button>
+            <span class="dsc-body-sm dsc-text-muted" id="proxima-hint">—</span>
+          </div>
+          <div class="dsc-alert" id="alert-sem-pendentes" role="status" style="display:none;margin-top:8px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>
+              Não há mais avaliações pendentes.
+              <span class="dsc-body-sm dsc-text-muted" id="sem-pendentes-recorte" style="display:block;margin-top:2px">—</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Erro de validação da finalização -->
+        <div class="dsc-alert dsc-alert--danger" id="av-erro" role="alert" style="display:none;margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          <span id="av-erro-text">—</span>
+        </div>
+
+        <div class="dsc-row">
+
+          <!-- Coluna principal: dados, anexos, questões e parecer -->
+          <div class="dsc-col-8">
+
+            <!-- Dados da inscrição (ocultos quando confidencial) -->
+            <div class="dsc-card" style="margin-bottom:16px">
+              <div class="dsc-card-header">
+                <span class="dsc-card-title">Dados da inscrição</span>
+                <span id="av-conf-tag"></span>
+              </div>
+
+              <div id="av-conf-aviso" class="dsc-alert" role="status" style="display:none;margin-bottom:16px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8-10-8-10-8z"/><line x1="4" y1="20" x2="20" y2="4"/></svg>
+                <span>Avaliação confidencial: a identificação do participante, as respostas do formulário e a equipe ficam ocultas. Os anexos e as questões permanecem acessíveis à avaliação.</span>
+              </div>
+
+              <div id="av-identificacao">
+                <div class="dsc-row">
+                  <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Participante</span><span class="dsc-lv-value" id="lv-participante">—</span></div></div>
+                  <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Organização</span><span class="dsc-lv-value" id="lv-organizacao">—</span></div></div>
+                  <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Cidade / UF</span><span class="dsc-lv-value" id="lv-cidade">—</span></div></div>
+                  <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">E-mail</span><span class="dsc-lv-value" id="lv-email">—</span></div></div>
+                </div>
+                <hr class="dsc-divider">
+                <span class="dsc-caption dsc-text-muted">Respostas do formulário de inscrição</span>
+                <div class="dsc-row" id="av-respostas" style="margin-top:8px"></div>
+                <hr class="dsc-divider">
+                <span class="dsc-caption dsc-text-muted">Equipe</span>
+                <div id="av-equipe" style="margin-top:8px"></div>
+              </div>
+
+              <div id="av-confidencial-vazio" style="display:none">
+                <div class="dsc-lv"><span class="dsc-lv-label">Inscrição</span><span class="dsc-lv-value" id="lv-conf-proto">—</span></div>
+                <div class="dsc-lv"><span class="dsc-lv-label">Nome do projeto</span><span class="dsc-lv-value" id="lv-conf-projeto">—</span></div>
+              </div>
+            </div>
+
+            <!-- Anexos do projeto — download por link individual (SP05) -->
+            <div class="dsc-card" style="margin-bottom:16px">
+              <div class="dsc-card-header">
+                <span class="dsc-card-title">Anexos do projeto</span>
+                <span class="dsc-tag dsc-tag--info dsc-tag--sm">Download por link individual</span>
+              </div>
+              <div class="dsc-table-wrap">
+                <table class="dsc-table dsc-table--dense">
+                  <thead>
+                    <tr>
+                      <th>Nome do arquivo</th>
+                      <th>Tipo</th>
+                      <th class="dsc-num">Tamanho</th>
+                      <th class="dsc-col-actions">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="av-anexos"></tbody>
+                </table>
+              </div>
+              <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">Cada documento tem um identificador público próprio e é baixado pelo seu próprio link — o download é concedido apenas a quem tem direito à inscrição (para o avaliador, a alocação vigente).</p>
+            </div>
+
+            <!-- Questionário: nota de 1 a 5 por questão -->
+            <div class="dsc-card" style="margin-bottom:16px">
+              <div class="dsc-card-header">
+                <span class="dsc-card-title">Pontuação por questão</span>
+                <span class="dsc-tag dsc-tag--neutral dsc-tag--sm" id="av-quest-info">—</span>
+              </div>
+              <div id="av-questoes"></div>
+            </div>
+
+            <!-- Parecer do avaliador -->
+            <div class="dsc-card" style="margin-bottom:16px">
+              <div class="dsc-card-header">
+                <span class="dsc-card-title">Parecer do avaliador</span>
+                <span class="dsc-tag dsc-tag--sm" id="av-parecer-contador">0 caracteres</span>
+              </div>
+              <div class="dsc-field" id="field-parecer">
+                <label class="dsc-field-label" for="av-parecer">Parecer <span class="dsc-req">*</span></label>
+                <textarea class="dsc-textarea" id="av-parecer" style="min-height:140px" placeholder="Justifique o conjunto de notas atribuídas…" oninput="onParecerInput()"></textarea>
+                <span class="dsc-field-hint">Mínimo de 50 caracteres não-brancos. É registrado na finalização e é insumo confidencial da banca — o participante nunca recebe o texto original.</span>
+                <span class="dsc-field-error" id="parecer-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>O parecer deve ter no mínimo 50 caracteres.</span></span>
+              </div>
+            </div>
+
+            <div class="dsc-flex dsc-gap-1 dsc-wrap" id="av-acoes">
+              <button class="dsc-btn dsc-btn--create" id="btn-finalizar" onclick="abrirConfirmacao()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Finalizar avaliação
+              </button>
+              <button class="dsc-btn dsc-btn--neutral" onclick="abrirPainel()">Voltar ao painel</button>
+            </div>
+          </div>
+
+          <!-- Coluna lateral: progresso e histórico da própria avaliação -->
+          <div class="dsc-col-4">
+            <div class="dsc-card" style="margin-bottom:16px">
+              <span class="dsc-card-title" style="font-size:16px">Meu progresso</span>
+              <div class="dsc-lv"><span class="dsc-lv-label">Questões pontuadas</span><span class="dsc-lv-value dsc-num" id="av-prog-texto" style="text-align:left">—</span></div>
+              <span class="dsc-progress" style="margin-top:8px"><span id="av-prog-barra" style="width:0%"></span></span>
+              <hr class="dsc-divider">
+              <div class="dsc-lv"><span class="dsc-lv-label">Prazo da etapa</span><span class="dsc-lv-value" id="av-prazo">—</span></div>
+              <div class="dsc-lv"><span class="dsc-lv-label">Situação da etapa</span><span class="dsc-lv-value" id="av-etapa-situacao">—</span></div>
+              <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">A pontuação continua possível após o prazo — o encerramento é feito pelo administrador ao fechar a etapa.</p>
+            </div>
+
+            <div class="dsc-card">
+              <span class="dsc-card-title" style="font-size:16px">Meu histórico</span>
+              <div class="dsc-table-wrap">
+                <table class="dsc-table dsc-table--dense">
+                  <thead>
+                    <tr><th>Data e hora</th><th>Evento</th></tr>
+                  </thead>
+                  <tbody id="av-historico"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modal de confirmação: Finalizar Avaliação (AVL-AVA-04) -->
+  <div id="modal-finalizar" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-finalizar',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Finalizar avaliação</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-finalizar',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="modal-final-texto">—</p>
+        <div class="dsc-alert dsc-alert--warning" role="alert" style="margin-top:12px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Depois de finalizar, a avaliação fica somente leitura e as notas não podem mais ser alteradas por você. A reabertura é ação do Administrador Nacional.</span>
+        </div>
+        <label class="dsc-flex dsc-items-start dsc-gap-1" style="margin-top:16px">
+          <input type="checkbox" class="dsc-check" id="final-check" onchange="onFinalCheck()">
+          <span class="dsc-body">Estou ciente de que as notas não poderão ser alteradas após finalizar. <span class="dsc-req">*</span></span>
+        </label>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-finalizar',false)">Cancelar</button>
+        <button class="dsc-btn dsc-btn--create" id="btn-confirmar-final" disabled onclick="confirmarFinalizacao()">Finalizar avaliação</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de sucesso -->
+  <div id="toast-ok" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-ok-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <!-- Toast de erro -->
+  <div id="toast-err" class="dsc-toast dsc-toast--danger" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+    <span id="toast-err-text">Ocorreu um erro. Tente novamente.</span>
+    <button class="dsc-icon-action" aria-label="Fechar" onclick="document.getElementById('toast-err').style.display='none'">✕</button>
+  </div>
+
+  <!-- Toast informativo (inclusive as simulações do protótipo — download, etapa fechada) -->
+  <div id="toast-info" class="dsc-toast" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span id="toast-info-text">—</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> N3 <em>AVL-AVA-01</em> (Acompanhar Minhas Avaliações), <em>AVL-AVA-02</em> (Aceitar Termo de Confidencialidade), <em>AVL-AVA-03</em> (Avaliar Inscrição) e <em>AVL-AVA-04</em> (Finalizar Avaliação), do Feature Set AVL-AVA. Telas: Painel do Avaliador, Aceite do Termo e Avaliação da Inscrição (com a finalização e o salto para a próxima pendente).</li>
+      <li><strong>O que a SP05 trouxe (é o foco deste protótipo):</strong> (1) <em>download de anexo por link individual e seguro</em> — cada documento tem identificador público próprio e o download é ação por documento, concedida só a quem tem a inscrição designada (AVL-AVA-03, RN9/RN10); (2) botão <em>“Próxima pendente”</em> após finalizar, que abre a próxima avaliação não finalizada <em>sem passar pelo painel</em> e <em>restrito ao recorte de premiação, etapa e status</em> vigente no painel (AVL-AVA-04, RN6/RN7 + AVL-AVA-01, RN7/RN8).</li>
+      <li><strong>Colunas do resultado × cartão:</strong> o <code>## Comportamento de tela</code> de AVL-AVA-01 pede um <em>grid de cartões</em>, não uma tabela — então cada cartão carrega, na íntegra, as <code>## Colunas do resultado</code>: Protocolo (topo, e a ordenação padrão ↑ define a fila) · Status da avaliação (etiqueta) · Nome do projeto · Identificação do participante (ou o selo <em>Confidencial</em> + “Inscrição {protocolo}”) · Etapa · Tipo de participante / Modalidade / Categoria (etiquetas) · Progresso da pontuação (barra) · Prazo da etapa (rodapé).</li>
+      <li><strong>Estados da listagem (painel):</strong> com dados · vazio (“Nenhuma avaliação atribuída”) · seleção sem correspondência (“Nenhuma avaliação corresponde aos filtros selecionados”) · carregando (skeleton + “Carregando…”) · erro (“Não foi possível carregar os dados.”). O botão <em>Atualizar</em> passa de verdade pelo estado de carregamento.</li>
+      <li><strong>Cenários encenados na avaliação:</strong> finalizar com questão sem nota → “Pontue todas as questões antes de finalizar a avaliação.” (a questão sem nota fica sinalizada); parecer abaixo do mínimo → “O parecer deve ter no mínimo 50 caracteres.”; etapa fechada → “A etapa foi encerrada; a avaliação não pode mais ser finalizada.”; anexo de inscrição não designada → “Você não tem permissão para esta ação.”; termo pendente (Inova Talentos 2026) → “Aceite o termo de confidencialidade para acessar as avaliações desta premiação.”; aceite sem marcar a leitura → “Confirme a leitura do termo para continuar.”; sucesso da finalização → “Registro salvo com sucesso.” e, sem pendente restante no recorte, “Não há mais avaliações pendentes.”</li>
+      <li><strong>Como ver o salto restrito ao recorte:</strong> (1) no painel, deixe os filtros em “Todas”, abra <em>PIEL-2026-0113</em>, pontue tudo, finalize e acione “Próxima pendente” — abre a <em>primeira</em> avaliação não finalizada da fila (a tela mostra qual é, ao lado do botão), sem passar pelo painel. (2) Volte ao painel, selecione a premiação <em>Inova Talentos 2026</em> — a fila cai para 1 —, abra <em>INOV-2026-0031</em>, finalize e acione “Próxima pendente”: o sistema exibe “Não há mais avaliações pendentes.” e permanece na avaliação concluída. O mesmo acontece restringindo o status a “Finalizadas”.</li>
+      <li><strong>⚠️ Abrangência do salto:</strong> os próprios N3 registram a suposição — a demanda não define o recorte do “Próxima pendente”. O protótipo encena o salto limitado à premiação, etapa e status vigentes no painel (AVL-AVA-01 RN8 · AVL-AVA-04 RN7). <em>Confirmar com o PO.</em></li>
+      <li><strong>⚠️ “Finalizar” acionável × bloqueio:</strong> o <code>## Comportamento de tela</code> de AVL-AVA-04 diz que o comando fica disponível quando todas as questões estão pontuadas, mas o cenário exige a mensagem “Pontue todas as questões antes de finalizar a avaliação.”. O protótipo mantém o comando acionável para exibir a mensagem e sinalizar a questão sem nota (estado “Erro de validação” de AVL-AVA-03). Conflito registrado para decisão na aprovação.</li>
+      <li><strong>⚠️ Textos dos estados vazios do painel:</strong> “Nenhuma avaliação atribuída” e “Nenhuma avaliação corresponde aos filtros selecionados” vêm do <code>## Comportamento de tela</code> de AVL-AVA-01 (e da HU-033) — ainda <em>sem chave no</em> <code>MESSAGE-DICTIONARY</code>. Sugerido criar as chaves antes da implementação.</li>
+      <li><strong>⚠️ Fila explícita:</strong> a faixa “Fila de pendentes no recorte vigente” e a marcação da posição no cartão são leitura do protótipo: as RN7/RN8 de AVL-AVA-01 <em>definem</em> a fila, mas nenhum N3 determina exibi-la no painel. Serve para tornar visível o que o “Próxima pendente” consome.</li>
+      <li><strong>⚠️ Salto × termo pendente:</strong> nenhum N3 diz o que acontece quando a próxima da fila pertence a uma premiação com termo de confidencialidade ainda não aceito (a fila de AVL-AVA-04 RN6 não considera o termo). O protótipo aplica o mesmo portão de AVL-AVA-03 RN8 — o salto não abre a avaliação e exibe “Aceite o termo de confidencialidade para acessar as avaliações desta premiação.”. <em>Confirmar com o PO</em> (alternativa: a fila pular as premiações com termo pendente).</li>
+      <li><strong>⚠️ Confirmação de finalização:</strong> AVL-AVA-04 exige o campo “Confirmação de finalização”, mas não dá texto de erro — o protótipo mantém o botão de confirmar desabilitado até a marcação (mesmo padrão do aceite do termo em AVL-AVA-02).</li>
+      <li><strong>⚠️ Identificador público do anexo:</strong> os N3 não definem a forma do identificador. O protótipo mostra um UUID ilustrativo por documento e o download como ação por linha (SP05). O download é <em>simulado</em>: não há arquivo real — o aviso azul apenas confirma qual link individual seria acionado (é chrome do protótipo, não mensagem do sistema).</li>
+      <li><strong>⚠️ Sem paginação no painel:</strong> os N3 não definem paginação para o grid de cartões — o protótipo lista todos os cartões do recorte.</li>
+      <li><strong>Não representado:</strong> “Outros avaliadores” (status e data, sem notas) e “Média da etapa anterior” — constam da HU-028, mas <em>não</em> do <code>## Comportamento de tela</code> de AVL-AVA-03; a tela “Seleção de Premiação” (<code>/avaliacao</code>) do N2; e <em>Reabrir Avaliação</em> (AVL-AVA-05), que é ação do Administrador Nacional, fora da jornada do avaliador.</li>
+      <li><strong>Perfil e shell:</strong> avaliador é perfil externo — topbar com o usuário avaliador e menu enxuto (Minhas Avaliações · Termos de Confidencialidade), sem o menu administrativo do piloto e sem o atalho de “Estrutura”.</li>
+      <li><strong>Data de referência dos dados fictícios:</strong> 28/08/2026 (prazos e contagem de dias do resumo de pendências partem dela).</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ================== Dados fictícios (domínio real do Prêmio IEL) ================== */
+    var HOJE = new Date(2026, 7, 28); /* 28/08/2026 — data de referência do protótipo */
+
+    var QUESTIONARIOS = {
+      PIEL: [
+        { enunciado: 'Aderência da iniciativa ao tema da categoria e ao regulamento da premiação', peso: 15 },
+        { enunciado: 'Grau de inovação da solução frente às práticas já adotadas no setor', peso: 25 },
+        { enunciado: 'Impacto para a indústria, para os estudantes e para a comunidade atendida', peso: 20 },
+        { enunciado: 'Consistência da metodologia e da execução descritas na inscrição', peso: 15 },
+        { enunciado: 'Resultados alcançados e evidências apresentadas nos anexos', peso: 15 },
+        { enunciado: 'Potencial de replicação em outras unidades e regiões', peso: 10 }
+      ],
+      INOV: [
+        { enunciado: 'Clareza do problema industrial endereçado pelo projeto', peso: 20 },
+        { enunciado: 'Originalidade da solução proposta', peso: 25 },
+        { enunciado: 'Maturidade tecnológica e viabilidade de implantação', peso: 25 },
+        { enunciado: 'Resultados mensuráveis obtidos até o momento', peso: 20 },
+        { enunciado: 'Qualidade da apresentação e das evidências anexadas', peso: 10 }
+      ]
+    };
+
+    var AVAL = {
+      'inov-0031': {
+        proto: 'INOV-2026-0031', premioId: 'inova', premio: 'Inova Talentos 2026',
+        etapaId: 'inova-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Sensor de vibração de baixo custo para manutenção preditiva',
+        participante: 'Metalfrio Componentes Ltda.', organizacao: 'Metalfrio Componentes Ltda.',
+        cidade: 'Joinville / SC', email: 'projetos@metalfriocomponentes.com.br',
+        confidencial: false, tipo: 'Empresa', modalidade: 'Empresa de Pequeno Porte', categoria: 'Empresa Inovadora',
+        prazo: '05/09/2026', prazoISO: '2026-09-05', etapaFechada: false,
+        quest: 'INOV', notas: [4, 3, 5, null, null], finalizada: false,
+        respostas: [
+          ['Resumo do projeto', 'Sensor sem fio de baixo custo que monitora vibração em motores de linha de produção e antecipa falhas mecânicas.'],
+          ['Problema endereçado', 'Paradas não programadas em 3 linhas de montagem, com perda média de 11 horas/mês.'],
+          ['Período de execução', '02/2025 a 05/2026'],
+          ['Parceria com a indústria', 'Sim — SENAI Joinville e 2 fornecedores do polo metalmecânico'],
+          ['Link adicional', 'https://metalfriocomponentes.com.br/inova-sensor']
+        ],
+        equipe: [
+          ['Rafael Kominek Duarte', 'Coordenador do projeto'],
+          ['Larissa Bittencourt Alves', 'Bolsista de pesquisa']
+        ],
+        anexos: [
+          ['relatorio-tecnico-sensor-vibracao.pdf', 'PDF', '1,8 MB', 'c47b1f92-58ad-4e0c-9a71-2d6f5b338e41'],
+          ['planilha-de-ensaios.xlsx', 'XLSX', '420 KB', '9a05e6d3-71bc-4f28-8b34-06c9d1ee7250']
+        ],
+        historico: [
+          ['21/08/2026 10:12', 'Avaliação alocada — A iniciar'],
+          ['25/08/2026 16:38', 'Primeira nota registrada — Em andamento']
+        ]
+      },
+      'piel-0087': {
+        proto: 'PIEL-2026-0087', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Trilha Maker na Indústria 4.0',
+        participante: 'SENAI Betim — Centro de Formação Profissional', organizacao: 'SENAI Betim',
+        cidade: 'Betim / MG', email: 'coordenacao.betim@senaimg.org.br',
+        confidencial: false, tipo: 'Instituição de Ensino', modalidade: 'Educação Inovadora — Técnico', categoria: 'Educação Inovadora',
+        prazo: '12/09/2026', prazoISO: '2026-09-12', etapaFechada: false,
+        quest: 'PIEL', notas: [null, null, null, null, null, null], finalizada: false,
+        respostas: [
+          ['Resumo do projeto', 'Trilha formativa com laboratório maker integrado às disciplinas técnicas, com desafios propostos por empresas do entorno.'],
+          ['Público atendido', '212 estudantes de cursos técnicos em Mecatrônica e Eletroeletrônica'],
+          ['Período de execução', '03/2025 a 06/2026'],
+          ['Parceria com a indústria', 'Sim — 6 empresas do polo automotivo de Betim'],
+          ['Link adicional', 'https://senaimg.org.br/trilha-maker']
+        ],
+        equipe: [
+          ['Juliana Prado Meireles', 'Coordenadora do projeto'],
+          ['Carlos Eduardo Nunes', 'Professor orientador'],
+          ['Beatriz Sanches Mota', 'Estagiária bolsista']
+        ],
+        anexos: [
+          ['memorial-descritivo-trilha-maker.pdf', 'PDF', '2,4 MB', '8f31c2ae-4d17-4a9b-9d0c-1e77a2b60c54'],
+          ['evidencias-resultados-2026.xlsx', 'XLSX', '780 KB', 'b21d75f0-3c68-42a7-9e15-70bb4c9a1d33'],
+          ['video-apresentacao-projeto.mp4', 'MP4', '48,6 MB', '2e9c40b7-15da-4c66-bd90-5f1a83c2704e']
+        ],
+        historico: [
+          ['18/08/2026 14:22', 'Avaliação alocada — A iniciar']
+        ]
+      },
+      'piel-0113': {
+        proto: 'PIEL-2026-0113', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Estágio que Transforma: mentoria industrial para estudantes técnicos',
+        participante: 'Instituto Federal do Paraná — Campus Londrina', organizacao: 'IFPR Londrina',
+        cidade: 'Londrina / PR', email: 'extensao.londrina@ifpr.edu.br',
+        confidencial: false, tipo: 'Instituição de Ensino', modalidade: 'Estágio Inovador', categoria: 'IEL Estágio',
+        prazo: '12/09/2026', prazoISO: '2026-09-12', etapaFechada: false,
+        quest: 'PIEL', notas: [4, 5, 4, 3, 4, null], finalizada: false,
+        respostas: [
+          ['Resumo do projeto', 'Programa de mentoria que aproxima estagiários de profissionais da indústria, com plano de desenvolvimento individual e avaliação por competências.'],
+          ['Público atendido', '148 estudantes de cursos técnicos e 32 mentores voluntários'],
+          ['Período de execução', '03/2025 a 06/2026'],
+          ['Parceria com a indústria', 'Sim — 4 empresas do polo metalmecânico de Londrina'],
+          ['Link adicional', 'https://ifpr.edu.br/estagio-que-transforma']
+        ],
+        equipe: [
+          ['Marcos Vinícius Tanaka', 'Coordenador do programa'],
+          ['Simone Ferraz D’Ávila', 'Professora orientadora'],
+          ['Pedro Ivo Camargo', 'Estagiário bolsista']
+        ],
+        anexos: [
+          ['memorial-descritivo-estagio-transforma.pdf', 'PDF', '2,4 MB', '5b7ac0d1-9e34-4a2f-88c6-1d0e93f7b512'],
+          ['evidencias-resultados-2026.xlsx', 'XLSX', '780 KB', 'a3f61e08-24c7-49bd-b0d5-6c8f2a91e7d4'],
+          ['video-apresentacao-projeto.mp4', 'MP4', '48,6 MB', 'd90e5c72-6f13-4b81-9a2e-3c47f0b6e918'],
+          ['carta-de-anuencia-ifpr.pdf', 'PDF', '310 KB', '76c2b48f-0ad9-4e35-83b1-e5f1097ca263']
+        ],
+        historico: [
+          ['18/08/2026 14:22', 'Avaliação alocada — A iniciar'],
+          ['20/08/2026 09:41', 'Primeira nota registrada — Em andamento']
+        ]
+      },
+      'piel-0146': {
+        proto: 'PIEL-2026-0146', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Reaproveitamento térmico em linha de fundição',
+        participante: '', organizacao: '', cidade: '', email: '',
+        confidencial: true, tipo: 'Empresa', modalidade: 'Empresa de Médio Porte', categoria: 'Empresa Inovadora',
+        prazo: '12/09/2026', prazoISO: '2026-09-12', etapaFechada: false,
+        quest: 'PIEL', notas: [null, null, null, null, null, null], finalizada: false,
+        respostas: [], equipe: [],
+        anexos: [
+          ['memorial-tecnico-reaproveitamento-termico.pdf', 'PDF', '3,1 MB', 'e1c8074b-3a92-4f57-9d61-b208fa53c6e7'],
+          ['laudo-de-eficiencia-energetica.pdf', 'PDF', '1,2 MB', '4d20f9a6-c718-4e03-85bb-91ce6d7f2a80'],
+          ['video-linha-de-fundicao.mp4', 'MP4', '62,0 MB', 'b6931de4-52c0-49af-a137-0f8e24b7c5d1']
+        ],
+        historico: [
+          ['18/08/2026 14:22', 'Avaliação alocada — A iniciar']
+        ]
+      },
+      'piel-0158': {
+        proto: 'PIEL-2026-0158', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Bolsista em Ação: laboratório de análise de dados industriais',
+        participante: 'Universidade Federal de Santa Catarina', organizacao: 'UFSC — Centro Tecnológico',
+        cidade: 'Florianópolis / SC', email: 'labdados@ctc.ufsc.br',
+        confidencial: false, tipo: 'Estagiário / Bolsista', modalidade: 'Estágio Inovador', categoria: 'IEL Estágio',
+        prazo: '12/09/2026', prazoISO: '2026-09-12', etapaFechada: false,
+        quest: 'PIEL', notas: [3, 4, 4, 4, null, null], finalizada: false,
+        respostas: [
+          ['Resumo do projeto', 'Laboratório mantido por bolsistas que presta análise de dados de chão de fábrica para pequenas indústrias da região.'],
+          ['Público atendido', '9 indústrias atendidas e 14 bolsistas envolvidos'],
+          ['Período de execução', '08/2025 a 07/2026'],
+          ['Parceria com a indústria', 'Sim — 9 pequenas indústrias da Grande Florianópolis'],
+          ['Link adicional', 'https://ctc.ufsc.br/bolsista-em-acao']
+        ],
+        equipe: [
+          ['Amanda Reis Figueiredo', 'Bolsista responsável'],
+          ['Gustavo Henrique Paim', 'Professor orientador']
+        ],
+        anexos: [
+          ['relatorio-de-atividades-2026.pdf', 'PDF', '1,5 MB', '3fa72c60-8b41-4d29-9c07-51ea8b60d947'],
+          ['painel-indicadores.xlsx', 'XLSX', '640 KB', '0c58a9e2-4d76-4b18-92f3-7ab1c3d05f6a']
+        ],
+        historico: [
+          ['18/08/2026 14:22', 'Avaliação alocada — A iniciar'],
+          ['26/08/2026 11:05', 'Primeira nota registrada — Em andamento']
+        ]
+      },
+      'piel-0204': {
+        proto: 'PIEL-2026-0204', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e1', etapa: 'Etapa 1 · Regional',
+        projeto: 'Plataforma de aprendizagem industrial assistida',
+        participante: 'SENAI Goiás — Escola de Automação', organizacao: 'SENAI Goiás',
+        cidade: 'Aparecida de Goiânia / GO', email: 'automacao@senaigo.com.br',
+        confidencial: false, tipo: 'Instituição de Ensino', modalidade: 'Educação Inovadora — Graduação', categoria: 'Educação Inovadora',
+        prazo: '12/09/2026', prazoISO: '2026-09-12', etapaFechada: false,
+        quest: 'PIEL', notas: [5, 4, 5, 4, 5, 4], finalizada: true,
+        respostas: [
+          ['Resumo do projeto', 'Plataforma que combina simuladores de automação e trilhas guiadas para aprendizagem industrial.'],
+          ['Público atendido', '318 estudantes'],
+          ['Período de execução', '01/2025 a 05/2026'],
+          ['Parceria com a indústria', 'Sim — 3 indústrias do Distrito Agroindustrial de Anápolis'],
+          ['Link adicional', 'https://senaigo.com.br/plataforma-aprendizagem']
+        ],
+        equipe: [
+          ['Tatiana Borges Rezende', 'Coordenadora do projeto'],
+          ['Wesley Amaral Pinto', 'Instrutor de automação']
+        ],
+        anexos: [
+          ['memorial-plataforma-aprendizagem.pdf', 'PDF', '2,0 MB', '17bd63e5-9c04-4a7f-8e21-b53f7c0a4629'],
+          ['relatorio-de-uso.xlsx', 'XLSX', '512 KB', 'ca80f371-6d25-4b09-a4e7-92c1d68b5307']
+        ],
+        historico: [
+          ['12/08/2026 08:47', 'Avaliação alocada — A iniciar'],
+          ['15/08/2026 15:19', 'Primeira nota registrada — Em andamento'],
+          ['21/08/2026 17:02', 'Avaliação finalizada — Finalizada']
+        ]
+      },
+      'piel-0219': {
+        proto: 'PIEL-2026-0219', premioId: 'piel', premio: 'Prêmio IEL de Talentos 2026',
+        etapaId: 'piel-e2', etapa: 'Etapa 2 · Nacional',
+        projeto: 'Robótica Educacional na Rede Estadual',
+        participante: 'Colégio Estadual Dom Bosco', organizacao: 'Secretaria Estadual de Educação — PE',
+        cidade: 'Recife / PE', email: 'projetos@dombosco.pe.gov.br',
+        confidencial: false, tipo: 'Projeto de Educação Inovadora', modalidade: 'Educação Inovadora — Técnico', categoria: 'Educação Inovadora',
+        prazo: '30/09/2026', prazoISO: '2026-09-30', etapaFechada: true,
+        quest: 'PIEL', notas: [null, null, null, null, null, null], finalizada: false,
+        respostas: [
+          ['Resumo do projeto', 'Implantação de clubes de robótica em 12 escolas da rede estadual, com kits desenvolvidos pelos próprios estudantes.'],
+          ['Público atendido', '640 estudantes do ensino médio integrado'],
+          ['Período de execução', '02/2025 a 06/2026'],
+          ['Parceria com a indústria', 'Sim — 2 indústrias eletroeletrônicas do polo de Recife'],
+          ['Link adicional', 'https://educacao.pe.gov.br/robotica-educacional']
+        ],
+        equipe: [
+          ['Fernanda Lira Cavalcanti', 'Coordenadora pedagógica'],
+          ['Otávio Menezes Brito', 'Professor de robótica']
+        ],
+        anexos: [
+          ['projeto-robotica-educacional.pdf', 'PDF', '2,8 MB', '6ea19f42-b708-4d13-95cc-2f7a01d8b364'],
+          ['fotos-clubes-robotica.pdf', 'PDF', '4,3 MB', 'f2734ba8-1c96-4e50-8d67-40ba95c1e072']
+        ],
+        historico: [
+          ['24/08/2026 09:30', 'Avaliação alocada — A iniciar']
+        ]
+      }
+    };
+
+    /* Sequência crescente de protocolo — é ela que define a fila (AVL-AVA-01 RN7) */
+    var ORDER = ['inov-0031', 'piel-0087', 'piel-0113', 'piel-0146', 'piel-0158', 'piel-0204', 'piel-0219'];
+
+    var ETAPAS = {
+      'piel-e1':  { premio: 'piel',  nome: 'Etapa 1 · Regional' },
+      'piel-e2':  { premio: 'piel',  nome: 'Etapa 2 · Nacional' },
+      'inova-e1': { premio: 'inova', nome: 'Etapa 1 · Regional' }
+    };
+    var PREMIOS = { 'piel': 'Prêmio IEL de Talentos 2026', 'inova': 'Inova Talentos 2026' };
+
+    var filtro = { premio: '', etapa: '', status: '' };
+    var termoAceito = { piel: true, inova: false };
+    var atual = 'piel-0113';
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    /* ================== Derivações (AVL-AVA-01 RN2) ================== */
+    function questoesDe(a) { return QUESTIONARIOS[a.quest]; }
+    function pontuadas(a) {
+      var n = 0;
+      for (var i = 0; i < a.notas.length; i++) if (a.notas[i] !== null) n++;
+      return n;
+    }
+    function statusOf(a) {
+      if (a.finalizada) return 'Finalizada';
+      return pontuadas(a) === 0 ? 'A iniciar' : 'Em andamento';
+    }
+    function badgeStatus(st) {
+      if (st === 'Finalizada') return '<span class="dsc-badge dsc-badge--success">Finalizada</span>';
+      if (st === 'Em andamento') return '<span class="dsc-badge dsc-badge--info">Em andamento</span>';
+      return '<span class="dsc-badge dsc-badge--warning">A iniciar</span>';
+    }
+    function rotuloAcao(st) {
+      if (st === 'Finalizada') return 'Ver';
+      if (st === 'Em andamento') return 'Continuar';
+      return 'Iniciar';
+    }
+    function diasAte(iso) {
+      var p = iso.split('-');
+      var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+      return Math.round((d - HOJE) / 86400000);
+    }
+
+    /* ================== Recorte e fila de pendentes (RN7/RN8) ================== */
+    function noRecorte(a) {
+      if (filtro.premio && a.premioId !== filtro.premio) return false;
+      if (filtro.etapa && a.etapaId !== filtro.etapa) return false;
+      if (filtro.status && statusOf(a) !== filtro.status) return false;
+      return true;
+    }
+    function listaRecorte() {
+      var out = [];
+      for (var i = 0; i < ORDER.length; i++) if (noRecorte(AVAL[ORDER[i]])) out.push(ORDER[i]);
+      return out;
+    }
+    function filaPendentes() {
+      var out = [];
+      for (var i = 0; i < ORDER.length; i++) {
+        var a = AVAL[ORDER[i]];
+        if (!a.finalizada && noRecorte(a)) out.push(ORDER[i]);
+      }
+      return out;
+    }
+    function textoRecorte() {
+      var partes = [];
+      partes.push(filtro.premio ? PREMIOS[filtro.premio] : 'Todas as premiações');
+      partes.push(filtro.etapa ? ETAPAS[filtro.etapa].nome : 'Todas as etapas');
+      partes.push(filtro.status ? (filtro.status === 'Finalizada' ? 'Finalizadas' : filtro.status) : 'Todos os status');
+      return partes.join(' · ');
+    }
+
+    /* ================== Painel: cabeçalho, KPIs e fila ================== */
+    function renderSaudacao() {
+      var h = new Date().getHours();
+      var s = h < 12 ? 'Bom dia' : (h < 18 ? 'Boa tarde' : 'Boa noite');
+      el('saudacao').textContent = s + ', Marina';
+    }
+    function renderKpis() {
+      var ini = 0, and = 0, fim = 0;
+      for (var i = 0; i < ORDER.length; i++) {
+        var st = statusOf(AVAL[ORDER[i]]);
+        if (st === 'A iniciar') ini++;
+        else if (st === 'Em andamento') and++;
+        else fim++;
+      }
+      el('kpi-iniciar').textContent = ini;
+      el('kpi-andamento').textContent = and;
+      el('kpi-finalizadas').textContent = fim;
+
+      /* Resumo de pendências: pendentes = A iniciar + Em andamento, com o prazo mais próximo */
+      var pend = ini + and, menor = null;
+      for (var j = 0; j < ORDER.length; j++) {
+        var a = AVAL[ORDER[j]];
+        if (a.finalizada) continue;
+        if (menor === null || a.prazoISO < menor.prazoISO) menor = a;
+      }
+      var txt;
+      if (pend === 0) txt = 'Tudo em dia — você não tem avaliações pendentes.';
+      else {
+        var d = diasAte(menor.prazoISO);
+        var prazoTxt = d > 0 ? ('faltam ' + d + ' dias') : (d === 0 ? 'o prazo termina hoje' : 'prazo encerrado');
+        txt = 'Você tem ' + pend + (pend === 1 ? ' avaliação pendente' : ' avaliações pendentes') +
+              '. O prazo mais próximo é ' + menor.prazo + ' — ' + prazoTxt + '.';
+      }
+      el('resumo-pendencias').textContent = txt;
+    }
+    function renderFila() {
+      var fila = filaPendentes();
+      var t;
+      if (fila.length === 0) {
+        t = 'Fila de pendentes no recorte vigente: nenhuma avaliação pendente. Recorte: ' + textoRecorte() + '.';
+      } else {
+        t = 'Fila de pendentes no recorte vigente: ' + fila.length +
+            (fila.length === 1 ? ' avaliação' : ' avaliações') +
+            ' · próxima: ' + AVAL[fila[0]].proto + '. Recorte: ' + textoRecorte() +
+            '. É esta fila que o comando “Próxima pendente” percorre.';
+      }
+      el('fila-texto').textContent = t;
+    }
+    function renderAlertTermo() {
+      el('alert-termo').style.display = termoAceito.inova ? 'none' : 'flex';
+    }
+
+    /* ================== Painel: grid de cartões ================== */
+    function cardHtml(id, posFila) {
+      var a = AVAL[id], st = statusOf(a), qs = questoesDe(a), p = pontuadas(a);
+      var pct = Math.round((p / qs.length) * 100);
+
+      var identificacao = a.confidencial
+        ? '<span class="dsc-tag dsc-tag--warning dsc-tag--sm">Confidencial</span> <span class="dsc-body-sm dsc-text-muted">Inscrição ' + esc(a.proto) + '</span>'
+        : '<span class="dsc-body-sm dsc-text-muted">' + esc(a.participante) + '</span>';
+
+      var progresso = '';
+      if (st === 'Finalizada') {
+        progresso = '<div style="margin:12px 0 4px"><span class="dsc-progress"><span style="width:100%"></span></span></div>'
+                  + '<span class="dsc-body-sm dsc-text-muted">Concluído · ' + qs.length + ' de ' + qs.length + ' questões pontuadas</span>';
+      } else if (st === 'Em andamento') {
+        progresso = '<div style="margin:12px 0 4px"><span class="dsc-progress"><span style="width:' + pct + '%"></span></span></div>'
+                  + '<span class="dsc-body-sm dsc-text-muted">' + p + ' de ' + qs.length + ' questões pontuadas (' + pct + '%)</span>';
+      } else {
+        progresso = '<div style="margin:12px 0 4px"><span class="dsc-body-sm dsc-text-muted">Pontuação ainda não iniciada</span></div>';
+      }
+
+      var selo = (posFila > 0)
+        ? '<span class="dsc-tag dsc-tag--highlight dsc-tag--sm">' + posFila + 'ª na fila</span>'
+        : '';
+
+      var travado = (!termoAceito[a.premioId]);
+      var acao = travado
+        ? '<button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="tentarAbrir(\'' + id + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> ' + rotuloAcao(st) + '</button>'
+        : '<button class="dsc-btn dsc-btn--sm" onclick="tentarAbrir(\'' + id + '\')">' + rotuloAcao(st) + '</button>';
+
+      return '<div class="dsc-card">'
+        + '<div class="dsc-card-header" style="margin-bottom:8px">'
+        +   '<span class="dsc-body-sm dsc-text-primary" style="font-weight:700">' + esc(a.proto) + '</span>'
+        +   badgeStatus(st)
+        + '</div>'
+        + '<div class="dsc-flex dsc-gap-1 dsc-wrap" style="margin-bottom:8px">' + selo
+        +   '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">' + esc(a.premio) + '</span>'
+        + '</div>'
+        + '<div class="dsc-title-sm" style="font-size:16px;line-height:22px;margin-bottom:4px">' + esc(a.projeto) + '</div>'
+        + '<div style="margin-bottom:12px">' + identificacao + '</div>'
+        + '<div class="dsc-flex dsc-gap-1 dsc-wrap">'
+        +   '<span class="dsc-tag dsc-tag--info dsc-tag--sm">' + esc(a.etapa) + '</span>'
+        +   '<span class="dsc-tag dsc-tag--sm">' + esc(a.tipo) + '</span>'
+        +   '<span class="dsc-tag dsc-tag--sm">' + esc(a.modalidade) + '</span>'
+        +   '<span class="dsc-tag dsc-tag--secondary dsc-tag--sm">' + esc(a.categoria) + '</span>'
+        + '</div>'
+        + progresso
+        + '<hr class="dsc-divider">'
+        + '<div class="dsc-flex dsc-items-center dsc-justify-between dsc-wrap dsc-gap-2">'
+        +   '<span class="dsc-body-sm dsc-text-muted">Prazo da etapa: <strong>' + esc(a.prazo) + '</strong></span>'
+        +   acao
+        + '</div>'
+        + '</div>';
+    }
+
+    function renderCards() {
+      var lista = listaRecorte();
+      if (lista.length === 0) { setListState('noresult'); return; }
+      var fila = filaPendentes(), html = '';
+      for (var i = 0; i < lista.length; i++) {
+        var pos = fila.indexOf(lista[i]) + 1; /* 0 quando não está na fila (finalizada) */
+        html += cardHtml(lista[i], pos);
+      }
+      el('cards').innerHTML = html;
+      el('lista-info').textContent = 'Mostrando ' + lista.length + (lista.length === 1 ? ' avaliação' : ' avaliações') + ' — recorte: ' + textoRecorte();
+      setListState('data');
+    }
+
+    function renderPainel() {
+      renderKpis();
+      renderFila();
+      renderAlertTermo();
+      renderCards();
+    }
+
+    /* ================== Filtros ================== */
+    function renderEtapasOptions() {
+      var sel = el('f-etapa'), html = '<option value="">Todas as etapas</option>';
+      for (var k in ETAPAS) {
+        if (!ETAPAS.hasOwnProperty(k)) continue;
+        if (filtro.premio && ETAPAS[k].premio !== filtro.premio) continue;
+        var rotulo = filtro.premio ? ETAPAS[k].nome : (PREMIOS[ETAPAS[k].premio] + ' — ' + ETAPAS[k].nome);
+        html += '<option value="' + k + '">' + esc(rotulo) + '</option>';
+      }
+      sel.innerHTML = html;
+      sel.value = filtro.etapa;
+    }
+    function onPremioChange() {
+      filtro.premio = el('f-premio').value;
+      filtro.etapa = ''; /* a etapa é limpa ao trocar de premiação (AVL-AVA-01) */
+      renderEtapasOptions();
+      renderPainel();
+    }
+    function onEtapaChange() {
+      filtro.etapa = el('f-etapa').value;
+      renderPainel();
+    }
+    function setStatus(v) {
+      filtro.status = v;
+      var btns = el('seg-status').children;
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('is-active');
+      var idx = { '': 0, 'A iniciar': 1, 'Em andamento': 2, 'Finalizada': 3 }[v];
+      btns[idx].classList.add('is-active');
+      renderPainel();
+    }
+    function limparFiltros() {
+      filtro = { premio: '', etapa: '', status: '' };
+      el('f-premio').value = '';
+      renderEtapasOptions();
+      setStatus('');
+    }
+    function recarregarPainel() {
+      setListState('loading');
+      setTimeout(function () { renderPainel(); }, 900);
+    }
+
+    /* ================== Estados da listagem ================== */
+    function setListState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+
+    /* ================== Navegação entre telas ================== */
+    function showScreen(id, swId) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      if (swId && el(swId)) el(swId).classList.add('is-current');
+      el('nav-painel').classList.toggle('is-active', id === 'screen-painel');
+      el('nav-termo').classList.toggle('is-active', id === 'screen-termo');
+      window.scrollTo(0, 0);
+    }
+    function abrirPainel() {
+      renderPainel();
+      showScreen('screen-painel', 'sw-painel');
+    }
+    function abrirTermo() {
+      el('termo-check').checked = termoAceito.inova;
+      el('termo-check').disabled = termoAceito.inova;
+      el('btn-aceitar').disabled = termoAceito.inova;
+      el('termo-status').className = termoAceito.inova ? 'dsc-badge dsc-badge--success' : 'dsc-badge dsc-badge--warning';
+      el('termo-status').textContent = termoAceito.inova ? 'Aceito em 28/08/2026' : 'Pendente de aceite';
+      /* Já aceito: mostra o registro do aceite (campos automáticos de AVL-AVA-02), não a mensagem de sucesso */
+      el('termo-ok-text').textContent = 'Aceite registrado em 28/08/2026 às 09:14 · IP de origem 200.150.14.72 · Marina Albuquerque Rocha (marina.rocha).';
+      el('termo-ok').style.display = termoAceito.inova ? 'flex' : 'none';
+      limparErroTermo();
+      showScreen('screen-termo', 'sw-termo');
+    }
+
+    /* ================== Aceite do termo (AVL-AVA-02) ================== */
+    function limparErroTermo() {
+      el('termo-error').style.display = 'none';
+    }
+    function aceitarTermo() {
+      if (!el('termo-check').checked) {
+        el('termo-error').style.display = 'flex';
+        showErro('Confirme a leitura do termo para continuar.');
+        return;
+      }
+      termoAceito.inova = true;
+      el('termo-status').className = 'dsc-badge dsc-badge--success';
+      el('termo-status').textContent = 'Aceito em 28/08/2026';
+      el('termo-check').disabled = true;
+      el('btn-aceitar').disabled = true;
+      el('termo-ok-text').textContent = 'Registro salvo com sucesso.';
+      el('termo-ok').style.display = 'flex';
+      showToast('Registro salvo com sucesso.');
+      renderAlertTermo();
+    }
+    function resetTermo() {
+      termoAceito.inova = false;
+      abrirTermo();
+      renderAlertTermo();
+    }
+
+    /* ================== Abertura da avaliação (gate do termo) ================== */
+    function tentarAbrir(id) {
+      var a = AVAL[id];
+      if (!termoAceito[a.premioId]) {
+        showErro('Aceite o termo de confidencialidade para acessar as avaliações desta premiação.');
+        renderAlertTermo();
+        window.scrollTo(0, 0);
+        return;
+      }
+      abrirAvaliacao(id);
+    }
+
+    /* ================== Tela de avaliação (AVL-AVA-03 / AVL-AVA-04) ================== */
+    function abrirAvaliacao(id) {
+      atual = id;
+      var a = AVAL[id];
+      el('av-crumb').textContent = a.proto;
+      el('av-projeto').textContent = a.projeto;
+      el('av-contexto').textContent = a.premio + ' · ' + a.etapa + ' · Protocolo ' + a.proto;
+      el('av-status-badge').innerHTML = badgeStatus(statusOf(a));
+
+      /* Confidencialidade (AVL-AVA-03 RN6) */
+      el('av-conf-tag').innerHTML = a.confidencial ? '<span class="dsc-tag dsc-tag--warning">Confidencial</span>' : '';
+      el('av-conf-aviso').style.display = a.confidencial ? 'flex' : 'none';
+      el('av-identificacao').style.display = a.confidencial ? 'none' : 'block';
+      el('av-confidencial-vazio').style.display = a.confidencial ? 'block' : 'none';
+      if (a.confidencial) {
+        el('lv-conf-proto').textContent = a.proto;
+        el('lv-conf-projeto').textContent = a.projeto;
+      } else {
+        el('lv-participante').textContent = a.participante;
+        el('lv-organizacao').textContent = a.organizacao;
+        el('lv-cidade').textContent = a.cidade;
+        el('lv-email').textContent = a.email;
+        var rh = '';
+        for (var i = 0; i < a.respostas.length; i++) {
+          rh += '<div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">' + esc(a.respostas[i][0]) + '</span><span class="dsc-lv-value">' + esc(a.respostas[i][1]) + '</span></div></div>';
+        }
+        el('av-respostas').innerHTML = rh;
+        var eh = '';
+        for (var j = 0; j < a.equipe.length; j++) {
+          eh += '<div class="dsc-lv"><span class="dsc-lv-label">' + esc(a.equipe[j][1]) + '</span><span class="dsc-lv-value">' + esc(a.equipe[j][0]) + '</span></div>';
+        }
+        el('av-equipe').innerHTML = eh;
+      }
+
+      renderAnexos(a);
+      renderQuestoes(a);
+      renderProgresso(a);
+      renderHistorico(a);
+
+      el('av-prazo').textContent = a.prazo;
+      el('av-etapa-situacao').innerHTML = a.etapaFechada
+        ? '<span class="dsc-badge dsc-badge--neutral">Fechada</span>'
+        : '<span class="dsc-badge dsc-badge--success">Aberta</span>';
+      el('btn-etapa-fechada').textContent = a.etapaFechada ? 'Reabrir a etapa (simulação)' : 'Simular etapa fechada';
+
+      el('av-parecer').value = a.finalizada ? parecerModelo() : '';
+      el('av-parecer').readOnly = a.finalizada;
+      onParecerInput();
+
+      el('av-erro').style.display = 'none';
+      el('alert-sem-pendentes').style.display = 'none';
+      el('av-final-ok').style.display = 'none';
+      el('btn-proxima').disabled = false;
+      el('av-final-box').style.display = a.finalizada ? 'block' : 'none';
+      el('av-acoes').style.display = a.finalizada ? 'none' : 'flex';
+      atualizarDicaProxima();
+
+      showScreen('screen-avaliar', a.confidencial ? 'sw-conf' : 'sw-avaliar');
+    }
+
+    /* A dica ao lado do salto deixa visível QUAL fila o comando percorre (recorte do painel) */
+    function atualizarDicaProxima() {
+      var fila = filaPendentes();
+      el('proxima-hint').textContent = fila.length
+        ? 'Próxima da fila: ' + AVAL[fila[0]].proto + ' · recorte vigente no painel: ' + textoRecorte()
+        : 'Nenhuma pendente no recorte vigente no painel: ' + textoRecorte();
+    }
+
+    function parecerModelo() {
+      return 'O projeto apresenta articulação consistente entre a formação técnica e a demanda real das indústrias parceiras, com evidências claras de resultado nos anexos. A metodologia está bem descrita e o modelo é replicável em outras unidades, ainda que a mensuração de impacto de longo prazo mereça aprofundamento na próxima edição.';
+    }
+
+    function renderAnexos(a) {
+      var down = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+      var html = '';
+      for (var i = 0; i < a.anexos.length; i++) {
+        var an = a.anexos[i];
+        html += '<tr>'
+          + '<td>' + esc(an[0])
+          +   '<span class="dsc-body-sm dsc-text-muted" style="display:block">Link individual · documento ' + esc(an[3]) + '</span>'
+          + '</td>'
+          + '<td><span class="dsc-tag dsc-tag--neutral dsc-tag--sm">' + esc(an[1]) + '</span></td>'
+          + '<td class="dsc-num">' + esc(an[2]) + '</td>'
+          + '<td class="dsc-col-actions">'
+          +   '<button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="baixarAnexo(\'' + esc(an[0]) + '\')">' + down + ' Baixar</button>'
+          + '</td></tr>';
+      }
+      el('av-anexos').innerHTML = html;
+    }
+    function baixarAnexo(nome) {
+      /* Protótipo: não há arquivo real — apenas confirma qual link individual seria acionado. */
+      showInfo('Protótipo: download simulado pelo link individual do documento “' + nome + '”.');
+    }
+    function demoAnexoAlheio() {
+      showErro('Você não tem permissão para esta ação.');
+    }
+
+    function renderQuestoes(a) {
+      var qs = questoesDe(a), html = '';
+      for (var i = 0; i < qs.length; i++) {
+        var q = qs[i], sem = (a.notas[i] === null);
+        var notas = '';
+        for (var n = 1; n <= 5; n++) {
+          var marcada = (a.notas[i] === n) ? ' checked' : '';
+          var bloq = a.finalizada ? ' disabled' : '';
+          notas += '<label class="dsc-flex dsc-items-center dsc-gap-1" style="margin-right:16px">'
+                +  '<input type="radio" class="dsc-radio" name="q' + i + '" value="' + n + '"' + marcada + bloq
+                +  ' onchange="setNota(' + i + ',' + n + ')"> ' + n + '</label>';
+        }
+        html += '<div id="questao-' + i + '" style="padding:16px 0;border-top:1px solid var(--dsc-border-neutral-3)">'
+          + '<div class="dsc-flex dsc-items-start dsc-justify-between dsc-gap-2 dsc-wrap" style="margin-bottom:8px">'
+          +   '<span class="dsc-body" style="font-weight:600;flex:1 1 320px">' + (i + 1) + '. ' + esc(q.enunciado) + '</span>'
+          +   '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Peso ' + q.peso + '</span>'
+          + '</div>'
+          + '<div class="dsc-flex dsc-items-center dsc-wrap" style="gap:4px">'
+          +   '<span class="dsc-caption dsc-text-muted" style="margin-right:8px">Nota</span>' + notas
+          +   (sem ? '<span class="dsc-tag dsc-tag--warning dsc-tag--sm" id="semnota-' + i + '">Sem nota</span>' : '')
+          + '</div>'
+          + '</div>';
+      }
+      el('av-questoes').innerHTML = html;
+      el('av-quest-info').textContent = qs.length + ' questões · escala de 1 a 5 · média ponderada pelos pesos';
+    }
+
+    function setNota(idx, valor) {
+      var a = AVAL[atual];
+      if (a.finalizada) return;
+      var primeira = (pontuadas(a) === 0);
+      a.notas[idx] = valor;
+      if (primeira) {
+        a.historico.push([agoraTexto(), 'Primeira nota registrada — Em andamento']);
+        renderHistorico(a);
+        el('av-status-badge').innerHTML = badgeStatus(statusOf(a));
+      }
+      var tag = el('semnota-' + idx);
+      if (tag) tag.parentNode.removeChild(tag);
+      var q = el('questao-' + idx);
+      if (q) q.style.background = '';
+      renderProgresso(a);
+      el('av-erro').style.display = 'none';
+      /* Estado "Sucesso" de AVL-AVA-03: confirma o registro de cada nota atribuída */
+      showToast('Registro salvo com sucesso.', 1800);
+    }
+
+    function renderProgresso(a) {
+      var qs = questoesDe(a), p = pontuadas(a), pct = Math.round((p / qs.length) * 100);
+      el('av-prog-texto').textContent = p + ' de ' + qs.length + ' (' + pct + '%)';
+      el('av-prog-barra').style.width = pct + '%';
+    }
+
+    function renderHistorico(a) {
+      var html = '';
+      for (var i = 0; i < a.historico.length; i++) {
+        html += '<tr><td style="white-space:nowrap">' + esc(a.historico[i][0]) + '</td><td>' + esc(a.historico[i][1]) + '</td></tr>';
+      }
+      el('av-historico').innerHTML = html;
+    }
+    function agoraTexto() {
+      var d = new Date();
+      function z(n) { return (n < 10 ? '0' : '') + n; }
+      return '28/08/2026 ' + z(d.getHours()) + ':' + z(d.getMinutes());
+    }
+
+    /* ================== Parecer (mínimo de 50 caracteres não-brancos) ================== */
+    function parecerTamanho() {
+      return el('av-parecer').value.replace(/\s/g, '').length;
+    }
+    function onParecerInput() {
+      var n = parecerTamanho();
+      var tag = el('av-parecer-contador');
+      tag.textContent = n + ' de 50 caracteres não-brancos';
+      tag.className = 'dsc-tag dsc-tag--sm ' + (n >= 50 ? 'dsc-tag--success' : 'dsc-tag--warning');
+      if (n >= 50) {
+        el('field-parecer').classList.remove('is-invalid');
+        el('parecer-error').style.display = 'none';
+      }
+    }
+
+    /* ================== Finalização (AVL-AVA-04) ================== */
+    function primeiraSemNota(a) {
+      for (var i = 0; i < a.notas.length; i++) if (a.notas[i] === null) return i;
+      return -1;
+    }
+    function abrirConfirmacao() {
+      var a = AVAL[atual];
+
+      /* Etapa fechada (RN4) */
+      if (a.etapaFechada) {
+        mostrarErroAvaliacao('A etapa foi encerrada; a avaliação não pode mais ser finalizada.');
+        return;
+      }
+      /* Questão sem nota (RN1) */
+      var idx = primeiraSemNota(a);
+      if (idx >= 0) {
+        mostrarErroAvaliacao('Pontue todas as questões antes de finalizar a avaliação.');
+        var q = el('questao-' + idx);
+        if (q) {
+          q.style.background = 'var(--dsc-danger-10)';
+          if (q.scrollIntoView) q.scrollIntoView({ block: 'center' });
+        }
+        return;
+      }
+      /* Parecer abaixo do mínimo (RN2) */
+      if (parecerTamanho() < 50) {
+        mostrarErroAvaliacao('O parecer deve ter no mínimo 50 caracteres.');
+        el('field-parecer').classList.add('is-invalid');
+        el('parecer-error').style.display = 'flex';
+        el('av-parecer').focus();
+        return;
+      }
+
+      el('modal-final-texto').textContent = 'Confirma a finalização da avaliação da inscrição ' + a.proto + ' — ' + a.projeto + '?';
+      el('final-check').checked = false;
+      el('btn-confirmar-final').disabled = true;
+      toggleModal('modal-finalizar', true);
+    }
+    function onFinalCheck() {
+      el('btn-confirmar-final').disabled = !el('final-check').checked;
+    }
+    function mostrarErroAvaliacao(msg) {
+      el('av-erro-text').textContent = msg;
+      el('av-erro').style.display = 'flex';
+      showErro(msg);
+      window.scrollTo(0, 0);
+    }
+    function confirmarFinalizacao() {
+      var a = AVAL[atual];
+      a.finalizada = true;
+      a.historico.push([agoraTexto(), 'Avaliação finalizada — Finalizada']);
+      toggleModal('modal-finalizar', false);
+
+      /* Somente leitura (RN3) */
+      renderQuestoes(a);
+      renderHistorico(a);
+      el('av-parecer').readOnly = true;
+      el('av-status-badge').innerHTML = badgeStatus('Finalizada');
+      el('av-erro').style.display = 'none';
+      el('av-acoes').style.display = 'none';
+      el('alert-sem-pendentes').style.display = 'none';
+      el('btn-proxima').disabled = false;
+      el('av-final-ok').style.display = 'flex';
+      el('av-final-box').style.display = 'block';
+      renderProgresso(a);
+      atualizarDicaProxima();
+      showToast('Registro salvo com sucesso.');
+      window.scrollTo(0, 0);
+    }
+
+    /* ================== SP05: salto "Próxima pendente" (recorte vigente) ================== */
+    function proximaPendente() {
+      var fila = filaPendentes();
+      if (fila.length === 0) {
+        el('sem-pendentes-recorte').textContent = 'Recorte vigente no painel: ' + textoRecorte() + '. A tela permanece na avaliação concluída.';
+        el('alert-sem-pendentes').style.display = 'flex';
+        el('btn-proxima').disabled = true;
+        showInfo('Não há mais avaliações pendentes.');
+        return;
+      }
+      var prox = fila[0];
+      /* O salto respeita o mesmo portão do termo (AVL-AVA-03 RN8) — ⚠️ não previsto nos N3 */
+      if (!termoAceito[AVAL[prox].premioId]) {
+        showErro('Aceite o termo de confidencialidade para acessar as avaliações desta premiação.');
+        return;
+      }
+      abrirAvaliacao(prox); /* abre sem passar pelo Painel do Avaliador */
+    }
+
+    /* ================== Atalhos de demonstração (proto only) ================== */
+    function demoNotasCompletas() {
+      var a = AVAL[atual];
+      if (a.finalizada) { showInfo('Protótipo: esta avaliação já está finalizada e em modo somente leitura.'); return; }
+      for (var i = 0; i < a.notas.length; i++) if (a.notas[i] === null) a.notas[i] = 4;
+      renderQuestoes(a); renderProgresso(a);
+      el('av-status-badge').innerHTML = badgeStatus(statusOf(a));
+      el('av-erro').style.display = 'none';
+    }
+    function demoUmaSemNota() {
+      var a = AVAL[atual];
+      if (a.finalizada) { showInfo('Protótipo: esta avaliação já está finalizada e em modo somente leitura.'); return; }
+      for (var i = 0; i < a.notas.length; i++) a.notas[i] = (i === a.notas.length - 1) ? null : 4;
+      renderQuestoes(a); renderProgresso(a);
+      el('av-status-badge').innerHTML = badgeStatus(statusOf(a));
+      el('av-erro').style.display = 'none';
+    }
+    function demoParecerCurto() {
+      el('av-parecer').value = 'Bom projeto.';
+      onParecerInput();
+    }
+    function demoParecerCompleto() {
+      el('av-parecer').value = parecerModelo();
+      onParecerInput();
+    }
+    function toggleEtapaFechada() {
+      var a = AVAL[atual];
+      a.etapaFechada = !a.etapaFechada;
+      el('av-etapa-situacao').innerHTML = a.etapaFechada
+        ? '<span class="dsc-badge dsc-badge--neutral">Fechada</span>'
+        : '<span class="dsc-badge dsc-badge--success">Aberta</span>';
+      el('btn-etapa-fechada').textContent = a.etapaFechada ? 'Reabrir a etapa (simulação)' : 'Simular etapa fechada';
+    }
+    function demoFinalizada() {
+      abrirAvaliacao('piel-0204');
+      showScreen('screen-avaliar', 'sw-fim');
+    }
+
+    /* ================== Modal e toasts ================== */
+    function toggleModal(id, show) {
+      el(id).style.display = show ? 'flex' : 'none';
+    }
+    function escondeToasts() {
+      el('toast-ok').style.display = 'none';
+      el('toast-err').style.display = 'none';
+      el('toast-info').style.display = 'none';
+    }
+    function showToast(texto, ms) {
+      escondeToasts();
+      var t = el('toast-ok');
+      el('toast-ok-text').textContent = texto;
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, ms || 4000);
+    }
+    function showErro(texto) {
+      escondeToasts();
+      el('toast-err-text').textContent = texto;
+      el('toast-err').style.display = 'flex';
+    }
+    function showInfo(texto, ms) {
+      escondeToasts();
+      var t = el('toast-info');
+      el('toast-info-text').textContent = texto;
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, ms || 4000);
+    }
+
+    /* ================== Init ================== */
+    renderSaudacao();
+    renderEtapasOptions();
+    renderPainel();
+    abrirAvaliacao('piel-0113');
+    abrirPainel();
+  </script>
+</body>
+</html>

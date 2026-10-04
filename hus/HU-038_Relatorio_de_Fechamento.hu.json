@@ -1,0 +1,161 @@
+{
+  "id": "HU-038",
+  "titulo": "Relatório de Fechamento da Etapa",
+  "filename": "HU-038_Relatorio_de_Fechamento.docx",
+  "cliente": "Confederação Nacional das Indústrias",
+  "projeto": "Prêmio IEL de Talentos",
+  "historico": [
+    ["20/08/2026", "Claude (docbot)", "Versão inicial gerada a partir da análise do código-fonte (tela avaliacao-admin/fechamento-etapa e RelatorioEtapaService), fundamentada na especificação docqui AVL-RES-01.", "HU-038"]
+  ],
+  "introducao": "Esta história descreve o Relatório de Fechamento da Etapa: a exportação, em planilha Excel (XLSX), do resultado consolidado de uma etapa da premiação. O relatório é disparado a partir da tela de Fechamento de Etapa (avaliacao-admin/fechamento-etapa) e reúne, em uma aba de Resumo e em uma aba por tipo de participante, o rastreio completo de cada inscrição: dados cadastrais, respostas do formulário de inscrição, notas por avaliador, feedback consolidado e a decisão de corte (classificação e premiação).",
+  "objetivo": {
+    "sendo": "Administrador Nacional (ou Administrador Regional, no escopo dos seus estados)",
+    "acessando": "a tela de Fechamento de Etapa, após selecionar uma premiação e uma etapa",
+    "posso": "exportar o relatório consolidado da etapa em uma planilha Excel (XLSX)",
+    "para": "auditar, conferir e arquivar oficialmente o resultado da etapa — quem classifica, quem é premiado, as notas de cada avaliador e o feedback consolidado de cada inscrição."
+  },
+  "cenarios": [
+    {
+      "titulo": "Exportar o relatório de uma etapa com resultado apurado",
+      "tipo": "sucesso",
+      "dado": "que o Administrador selecionou uma premiação e uma etapa com inscrições elegíveis ao ranking",
+      "quando": "ele clica no botão \"Relatório da etapa (XLSX)\" na barra superior da tela de Fechamento de Etapa",
+      "entao": "o sistema gera e baixa o arquivo \"relatorio-etapa.xlsx\"",
+      "e": [
+        "a planilha contém a aba \"Resumo\" com uma linha por estado (UF) e grupo competitivo",
+        "e uma aba para cada tipo de participante, com o rastreio por inscrição (dados cadastrais, respostas do formulário, notas por avaliador, feedback consolidado e decisão de corte)"
+      ]
+    },
+    {
+      "titulo": "Botão de exportação indisponível enquanto não há etapa selecionada",
+      "tipo": "sucesso",
+      "dado": "que o Administrador ainda não selecionou uma etapa, ou o resumo do ranking ainda está carregando",
+      "quando": "ele observa a barra superior da tela de Fechamento de Etapa",
+      "entao": "o botão \"Relatório da etapa (XLSX)\" permanece desabilitado",
+      "e": [
+        "o botão só é habilitado após a seleção de uma etapa e o carregamento do resumo do ranking"
+      ]
+    },
+    {
+      "titulo": "Indicador de progresso durante a geração",
+      "tipo": "sucesso",
+      "dado": "que o Administrador clicou em \"Relatório da etapa (XLSX)\"",
+      "quando": "o sistema está montando a planilha",
+      "entao": "o botão exibe um indicador de carregamento até o download começar",
+      "e": [
+        "ao concluir, o indicador desaparece e o arquivo é baixado automaticamente pelo navegador"
+      ]
+    },
+    {
+      "titulo": "Aba de resumo consolida participações, classificados e premiados por estado e grupo",
+      "tipo": "sucesso",
+      "dado": "uma etapa com inscrições distribuídas por estados e grupos competitivos",
+      "quando": "o Administrador abre a aba \"Resumo\" da planilha",
+      "entao": "cada linha traz Estado, Grupo, Participantes, Classificados, Premiados, Estado fechado em e Fechado por",
+      "e": [
+        "a coluna Premiados fica em branco quando a etapa não define quantidade de premiados",
+        "as colunas Estado fechado em e Fechado por só são preenchidas para estados já fechados"
+      ]
+    },
+    {
+      "titulo": "Identidade do avaliador ocultada em premiação confidencial",
+      "tipo": "sucesso",
+      "dado": "uma premiação marcada como confidencial para o avaliador (ou sem essa configuração resolvida)",
+      "quando": "o Administrador consulta as colunas de avaliadores na aba do tipo de participante",
+      "entao": "o nome do avaliador é substituído por um rótulo genérico (\"Avaliador 1\", \"Avaliador 2\", ...)",
+      "e": [
+        "o nome real do avaliador só aparece quando a premiação está explicitamente marcada como não confidencial"
+      ]
+    },
+    {
+      "titulo": "Administrador Regional exporta apenas os estados do seu escopo",
+      "tipo": "sucesso",
+      "dado": "que o usuário autenticado tem perfil Administrador Regional, com escopo restrito a determinados estados",
+      "quando": "ele exporta o relatório da etapa",
+      "entao": "a planilha contém somente as inscrições dos estados sob o seu escopo de UF",
+      "e": [
+        "o recorte por UF é aplicado no servidor, sobre a mesma fonte de dados do ranking"
+      ]
+    },
+    {
+      "titulo": "Etapa sem inscrições elegíveis",
+      "tipo": "excecao",
+      "dado": "uma etapa sem nenhuma inscrição elegível ao ranking",
+      "quando": "o Administrador exporta o relatório da etapa",
+      "entao": "o sistema gera uma planilha com uma única aba \"Sem resultados\"",
+      "e": [
+        "a aba exibe a mensagem \"Nenhuma inscrição encontrada para esta etapa.\""
+      ]
+    },
+    {
+      "titulo": "Falha ao gerar o relatório",
+      "tipo": "excecao",
+      "dado": "que ocorreu um erro no servidor ao montar a planilha",
+      "quando": "o Administrador clica em \"Relatório da etapa (XLSX)\"",
+      "entao": "o sistema não baixa nenhum arquivo e exibe a mensagem de erro \"Erro ao gerar o relatório da etapa.\"",
+      "e": [
+        "o indicador de carregamento do botão é encerrado, permitindo nova tentativa"
+      ]
+    }
+  ],
+  "regras_negocio": [
+    {"id": "RN1", "descricao": "O relatório é gerado sempre a partir do ranking já apurado da etapa: o corte de classificação e de premiação e o recorte de UF do Administrador Regional são aplicados na fonte de dados — o relatório apenas consome e enriquece esse resultado, jamais recalcula corte ou escopo."},
+    {"id": "RN2", "descricao": "A planilha é composta por uma aba \"Resumo\" (uma linha por estado × grupo competitivo) e por uma aba para cada tipo de participante presente na etapa, ordenadas pelo nome do tipo."},
+    {"id": "RN3", "descricao": "A aba Resumo apresenta, por estado e grupo: Estado, Grupo, Participantes, Classificados, Premiados, Estado fechado em e Fechado por."},
+    {"id": "RN4", "descricao": "A coluna Premiados (no Resumo) e a coluna Premiado (nas abas por tipo) só são preenchidas quando a etapa define uma quantidade de premiados; caso contrário, ficam em branco."},
+    {"id": "RN5", "descricao": "As colunas Estado fechado em e Fechado por só têm valor para estados (UF) já fechados; para estados ainda em apuração ficam vazias."},
+    {"id": "RN6", "descricao": "Cada aba de tipo de participante traz, por inscrição, as colunas fixas: Protocolo, Participante, E-mail, UF, Grupo, Início, Finalização, Média final, Classificado, Premiado, Feedback consolidado, Consolidado em, Consolidado por e Estado fechado em."},
+    {"id": "RN7", "descricao": "Após as colunas fixas, a aba de cada tipo inclui dinamicamente uma coluna para cada campo do formulário de inscrição daquele tipo de participante."},
+    {"id": "RN8", "descricao": "Para cada avaliador alocado à inscrição, a aba acrescenta um bloco de quatro colunas: o avaliador (nome ou rótulo), o status da avaliação, a nota (média ponderada do avaliador) e a data de finalização; o número de blocos acompanha a inscrição com mais avaliadores da aba."},
+    {"id": "RN9", "descricao": "A nota de cada avaliador é a média das notas cruas ponderada pelos pesos das questões do questionário, multiplicada pelo fator de pontuação da premiação e arredondada em duas casas decimais."},
+    {"id": "RN10", "descricao": "Quando a premiação é confidencial para o avaliador — ou quando essa configuração não pode ser resolvida — a identidade do avaliador é anonimizada como \"Avaliador 1\", \"Avaliador 2\", etc.; o nome real só é exibido quando a premiação está explicitamente marcada como não confidencial (comportamento fail-closed)."},
+    {"id": "RN11", "descricao": "Quando a etapa não possui nenhuma inscrição elegível, a planilha contém apenas a aba \"Sem resultados\" com a mensagem \"Nenhuma inscrição encontrada para esta etapa.\""},
+    {"id": "RN12", "descricao": "O Administrador Regional recebe no relatório apenas as inscrições dos estados do seu escopo de UF; o Administrador Nacional recebe todos os estados da etapa."},
+    {"id": "RN13", "descricao": "O botão de exportação só fica habilitado após uma etapa ter sido selecionada e o resumo do ranking ter terminado de carregar."},
+    {"id": "RN14", "descricao": "O arquivo gerado é baixado com o nome \"relatorio-etapa.xlsx\" no formato Excel (XLSX)."}
+  ],
+  "telas": "A funcionalidade não possui tela própria: o Relatório de Fechamento é acionado pelo botão \"Relatório da etapa (XLSX)\", posicionado na barra superior (toolbar) da tela de Fechamento de Etapa (rota avaliacao-admin/fechamento-etapa/:etapaId). O botão permanece desabilitado até que uma etapa seja selecionada e o resumo do ranking seja carregado, e exibe um indicador de carregamento durante a geração.\n\nA saída é uma planilha Excel (relatorio-etapa.xlsx) com a seguinte estrutura:\n\nAba \"Resumo\" — uma linha por estado (UF) e grupo competitivo, com as colunas: Estado, Grupo, Participantes, Classificados, Premiados, Estado fechado em, Fechado por.\n\nUma aba por tipo de participante (ordenadas pelo nome do tipo) — uma linha por inscrição. Colunas fixas: Protocolo, Participante, E-mail, UF, Grupo, Início, Finalização, Média final, Classificado, Premiado, Feedback consolidado, Consolidado em, Consolidado por, Estado fechado em. Em seguida, uma coluna por campo do formulário de inscrição do tipo. Ao final, para cada avaliador da inscrição, um bloco de quatro colunas: Avaliador K, Avaliador K — status, Avaliador K — nota, Avaliador K — finalização.\n\nAba \"Sem resultados\" — exibida no lugar das demais quando a etapa não tem inscrições elegíveis, com a mensagem \"Nenhuma inscrição encontrada para esta etapa.\"",
+  "campos": [
+    {"campo": "Premiação", "descricao": "Pré-requisito: premiação selecionada na tela de Fechamento de Etapa. Define o conjunto de etapas disponíveis.", "obrigatorio": "Sim", "tipo": "Seleção", "tamanho": "-", "mascara": "-", "regra": "Filtro por nome; ao selecionar, carrega as etapas da premiação."},
+    {"campo": "Etapa", "descricao": "Pré-requisito: etapa selecionada cujo resultado será exportado.", "obrigatorio": "Sim", "tipo": "Seleção", "tamanho": "-", "mascara": "-", "regra": "Habilitada somente após a seleção da premiação; a exportação usa o identificador desta etapa."},
+    {"campo": "Relatório da etapa (XLSX)", "descricao": "Botão que dispara a geração e o download da planilha consolidada da etapa.", "obrigatorio": "-", "tipo": "Botão / Ação", "tamanho": "-", "mascara": "-", "regra": "Habilitado apenas com uma etapa selecionada e o resumo do ranking carregado; exibe indicador de carregamento durante a geração; baixa o arquivo relatorio-etapa.xlsx."}
+  ],
+  "criterios": [
+    "O botão \"Relatório da etapa (XLSX)\" fica desabilitado enquanto não houver etapa selecionada ou enquanto o resumo do ranking estiver carregando.",
+    "Ao acionar a exportação de uma etapa com inscrições, o sistema baixa um arquivo relatorio-etapa.xlsx com a aba Resumo e uma aba por tipo de participante.",
+    "A aba Resumo apresenta uma linha por estado × grupo, com participantes, classificados, premiados e os dados de fechamento (quando o estado está fechado).",
+    "Cada aba de tipo de participante lista, por inscrição, os dados cadastrais, respostas do formulário, notas por avaliador, feedback consolidado e a decisão de corte.",
+    "As colunas de premiação (Premiados/Premiado) só são preenchidas quando a etapa define quantidade de premiados.",
+    "Em premiação confidencial, a identidade dos avaliadores é substituída por rótulos genéricos (Avaliador 1, Avaliador 2, ...).",
+    "O Administrador Regional recebe apenas as inscrições dos estados do seu escopo de UF.",
+    "Quando a etapa não tem inscrições elegíveis, o relatório traz apenas a aba \"Sem resultados\" com a mensagem correspondente.",
+    "Falhas na geração exibem a mensagem \"Erro ao gerar o relatório da etapa.\" sem baixar arquivo, permitindo nova tentativa."
+  ],
+  "perfis": [
+    {"perfil": "Administrador Nacional (PIT.1)", "visualizar": "X", "criar": "-", "editar": "-", "excluir": "-"},
+    {"perfil": "Administrador Regional (PIT.3)", "visualizar": "X", "criar": "-", "editar": "-", "excluir": "-"},
+    {"perfil": "Avaliador", "visualizar": "-", "criar": "-", "editar": "-", "excluir": "-"},
+    {"perfil": "Participante (Candidato)", "visualizar": "-", "criar": "-", "editar": "-", "excluir": "-"}
+  ],
+  "outras_informacoes": {
+    "endpoints": [
+      "GET /administracao/avaliacao/fechamento/etapas/{etapaId}/relatorio-etapa/exportar — gera e retorna a planilha XLSX (Content-Disposition: attachment; filename=relatorio-etapa.xlsx). Erros: 400 (etapaId inválido), 403 (capability/escopo de UF), 500 (falha na geração).",
+      "GET /administracao/avaliacao/fechamento/etapas/{etapaId}/ranking — fonte de dados do relatório (corte de classificação/premiação e recorte de UF já aplicados)."
+    ],
+    "tabelas": [
+      "TB_INSCRICAO (Inscricao) — dados cadastrais, protocolo, e-mail, datas, tipo de participante",
+      "TB_INSCRICAO_RESPOSTA (InscricaoResposta) — respostas do formulário de inscrição",
+      "TB_INSCRICAO_DOCUMENTO (InscricaoDocumento) — documentos anexados por campo de formulário",
+      "TB_ALOCACAO_AVALIADOR_PARTICIPANTE (AlocacaoAvaliadorParticipante) — avaliadores alocados, status e finalização",
+      "TB_AVALIACAO_NOTA (AvaliacaoNota) — notas por questão para o cálculo da média ponderada",
+      "TB_APROVACAO_ETAPA_PARTICIPANTE (AprovacaoEtapaParticipante) — feedback consolidado, quem/quando consolidou, marca de premiado",
+      "TB_FECHAMENTO_ETAPA_UF (FechamentoEtapaUf) — status de fechamento por estado, data e responsável",
+      "TB_PREMIACAO (Premiacao) — fator de pontuação e flag de confidencialidade do avaliador"
+    ],
+    "integracoes": "Geração de planilha XLSX via Apache POI (SXSSFWorkbook, streaming com janela de 100 linhas). O relatório reaproveita o serviço de ranking do fechamento de etapa como fonte única de dados escopados, garantindo consistência com a tela de Fechamento e evitando reimplementar corte/escopo.",
+    "observacoes": "Funcionalidade documentada por engenharia reversa do código-fonte (premio-iel-angular: pages/fechamento-etapa/fechamento-etapa.component.ts método exportarRelatorio e services/fechamento-etapa.service.ts método exportarRelatorioEtapa; premio-iel-java: controller/FechamentoEtapaController.exportarRelatorioEtapa e service/impl/RelatorioEtapaServiceImpl). O botão da exportação vive na tela de Fechamento de Etapa, cuja rota é restrita ao Administrador Nacional (PIT.1); o endpoint de exportação, porém, não possui guard de perfil e admite o Administrador Regional (PIT.3) com recorte de UF, como os demais endpoints do recurso. Rastreabilidade docqui: a transação \"Exportar Relatório da Etapa (planilha)\" já está especificada como parte da feature AVL-RES-01 (Fechar Etapa de Avaliação)."
+  },
+  "specs_docqui": [
+    "modules/avaliacao/apuracao-consulta-resultados/f-fechar-etapa-avaliacao.md"
+  ]
+}

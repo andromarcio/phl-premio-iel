@@ -1,0 +1,112 @@
+================================================================================
+FlowForge — Transcrição de reunião
+================================================================================
+Projeto .........: Prêmio IEL de Talentos
+ID do projeto ...: 9c3a9440-b9d1-4a7d-95a5-db73440a8c99
+Reunião .........: Reunião 13/04
+ID da reunião ...: 1f3055dd-ec4b-441d-9dce-84fd3f60351f
+Data e hora .....: 13/04/2026 14:34 (America/Sao_Paulo)
+Duração .........: 7m 22s
+Tipo ............: GENERAL
+Responsável .....: Pedro Barbosa
+Idioma ..........: pt
+Link ............: https://ai.phl.group/projects/9c3a9440-b9d1-4a7d-95a5-db73440a8c99/meetings/1f3055dd-ec4b-441d-9dce-84fd3f60351f
+================================================================================
+
+RESUMO
+--------------------------------------------------------------------------------
+A reunião focou na validação final do Sistema Prêmio IEL após a migração bem-sucedida para o ambiente de produção. Pedro relatou a conclusão dos testes de e-mail e inscrição de ponta a ponta realizados no sábado, mas identificou uma discrepância nas categorias entre homologação e produção que necessita de equalização imediata. Foram discutidos os ajustes finais de identidade visual nos formulários e confirmado o cronograma de lançamento para o dia 15, com estratégias de suporte técnico definidas.
+
+================================================================================
+
+TRANSCRIÇÃO
+--------------------------------------------------------------------------------
+[00:00:00] Você: Agora a gente já tá mais tranquilo, né?
+[00:00:03] Participante: Carol, Isa, Isabelle, Israel, Israel, Israel, Israel,
+[00:00:05] Você: Agora... Tá conseguido ver minha tela? Então...
+[00:00:10] Você: Agora temos finalmente o sistema em produção.
+[00:00:14] Participante: Tchau, tchau.
+[00:00:16] Você: Temos a aplicação em produção. No sábado eu fiz os testes.
+[00:00:20] Você: Questão de e-mail.
+[00:00:25] Você: Recebi os e-mails, eu fiz uma inscrição de ponta a ponta, ou seja, criei um teste.
+[00:00:30] Você: A gente vai apagar esses registros, mas foi só para fazer uma validação inicial.
+[00:00:35] Você: Se esse sistema vai ter um fluxo grande, eu acho interessante a gente ter pelo menos uma inscrição, inclusive...
+[00:00:40] Você: Eu recomendo que você faça mais uma. A inscrição está como rejeitada, já coloquei aqui.
+[00:00:45] Você: Para facilitar, esse é o dashboard, a tela de entrada do...
+[00:00:50] Você: Do participante. Aqui a gente...
+[00:00:55] Você: Tem Pedro... Não, vou entrar com minha senha mesmo.
+[00:01:00] Você: Meu usuário.
+[00:01:05] Você: Aqui a gente tem a tela de validação. Eu testei, eu acessei com o administrador regional.
+[00:01:10] Você: Recebi os e-mails, tanto de rejeição quanto de aprovação.
+[00:01:15] Você: Temos os testes também na parte toda de inscrição. O que eu preciso agora...
+[00:01:20] Você: O que acontece? Quando nós migramos, nós criamos um ambiente de produção, nós migramos
+[00:01:29] Participante: Mm-hmm.
+[00:01:25] Você: Integramos toda a base de homologação para a base de produção. Vou mostrar aqui.
+[00:01:30] Você: Aqui a gente tem...
+[00:01:35] Você: Tudo migrado. Mas eu vi que você fez algumas alterações depois numa premiação.
+[00:01:40] Você: ...na premiação de homologação, que é a que utilizamos como base.
+[00:01:45] Você: Aqui nós temos somente três categorias em homologação. Em produção a gente tem uma nova categoria.
+[00:01:50] Você: E aprendizagem. E eu não sei se você chegou a fazer alguma outra alteração.
+[00:01:55] Você: Então, eu só te peço, por favor, se você pode entrar no sistema e deixar equalizados...
+[00:02:00] Você: Aqui em produção? Ok. Aqui os links públicos.
+[00:02:05] Você: Eles já estão gerados, mas eu só fiz a configuração da instituição de ensino.
+[00:02:10] Você: Aqui no formulário de inscrição, a gente tem a landing page, a tela inicial.
+[00:02:15] Você: A gente consegue configurar com o selo barra logo do Premium, imagem Hero, que a gente não tá...
+[00:02:20] Você: ...utilizando imagem de fundo e imagem do rodapé. Hoje nós só estamos...
+[00:02:25] Você: Estamos utilizando essas duas imagens, seguindo toda a...
+[00:02:35] Você: Mas eu não cheguei a configurar para os outros formulários. A gente pode configurar junto ou se você quiser.
+[00:02:40] Você: Se você quiser configurar para ir testando, para ir brincando, o ambiente é bem rápido.
+[00:02:45] Você: E aqui já está a tela lindona com tudo.
+[00:02:50] Você: Tudo certinho. Mudei também a fonte do sistema, eu coloquei...
+[00:02:55] Você: No padrão da fonte mesmo, da residenciidade visual, eu achei que deu um...
+[00:03:00] Você: Um tchan aqui. Ficou bem legal. E é isso. Agora...
+[00:03:05] Você: A gente já está com o sistema em produção, amanhã vamos fazer a apresentação, certo?
+[00:03:10] Você: Não sei se tem alguma coisa que você queira evoluir, alguma...
+[00:03:18] Participante: Pedro, eu acho que por enquanto...
+[00:03:15] Você: Algum outro item.
+[00:03:20] Você: Ok.
+[00:03:20] Participante: Tanto não. Eu que estou devendo, né, de estar olhando direitinho para a gente, porque eu acho que a gente tem que fazer isso, porque eu acho que a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso, porque a gente tem que fazer isso.
+[00:03:27] Você: Sim.
+[00:03:25] Participante: Tinha um sistema, mas eu vou fazer isso ainda hoje. E também hoje...
+[00:03:30] Participante: E hoje eu vou começar a cadastrar os administradores regionais.
+[00:03:33] Você: Isso, top.
+[00:03:40] Você: Sim.
+[00:03:40] Participante: Marro vai acabar a reunião, eles já vão falar, meu Deus, eu quero acesso, eu quero acesso, eu quero acesso.
+[00:03:52] Você: Mm-hmm.
+[00:03:55] Você: Não, não veja dessa forma. É só porque como dia 15 é um...
+[00:04:00] Você: Sistema de um fluxo grande de usuários. E a gente tem que lembrar sempre, não é um sistema
+[00:04:05] Você: ...sistema fechado para dentro da casa, onde, por exemplo, vamos fazer um lançamento, a gente pode fazer algumas...
+[00:04:10] Você: A ideia é que o fluxo esteja 100%. Então, é extremamente crítico que você faça...
+[00:04:15] Você: Passa essas validações, Isa. Só para a gente certificar que vai estar dando...
+[00:04:20] Você: Tudo certo, mas eu acho que você já fez um ótimo trabalho, já validou coisas...
+[00:04:30] Você: Estou de prontidão aqui, dia hoje, dia 14, dia 15.
+[00:04:35] Você: 24 barra 7.
+[00:04:40] Você: Beleza? Não vou nem tomar muito do seu tempo não.
+[00:04:45] Você: Acho que é isso. De administrador, nós temos cadastrados o Augusto, o Guga.
+[00:04:50] Você: Você e eu, e de administrador regional, eu sou o cadastro...
+[00:04:55] Você: Eu mostrei o meu outro e-mail para validar justamente a questão dos e-mails.
+[00:05:00] Você: Então, eu o coloquei como administrador regional do UF.
+[00:05:05] Você: Do DF, perdão. Você pode se sentir confortável.
+[00:05:10] Você: Potável pode apagar o meu usuário, pode remover.
+[00:05:15] Você: Do administrador. Só recomendo manter, pelo menos como administrador, o tetraspito para...
+[00:05:20] Você: Ponto Barbosa não é obrigatório, mas eu só recomendo para, caso tenha alguma coisa, eu consiga...
+[00:05:27] Participante: Uma dúvida, Pedro? Eu consigo ficar.
+[00:05:25] Você: Vamos verificar mais rapidamente.
+[00:05:33] Você: Não. Por que que você não...
+[00:05:35] Você: Porque nós funcionamos com o corporativo. E toda essa parte de menu...
+[00:05:40] Você: E toda essa parte de login, além de acesso a algumas requisições, ela é feita pelo corporativo.
+[00:05:45] Você: E o corporativo só aceita um perfil de acesso por usuário.
+[00:05:50] Participante: Não, beleza. Eu vou deixar só no administrativo.
+[00:05:55] Participante: E vou acompanhando os regionais.
+[00:06:00] Participante: Se tiver alguma dúvida, eu vou acompanhando eles, mas vou ficar só com medo.
+[00:06:06] Você: Show de bola!
+[00:06:11] Você: Hum, precisar de qualquer coisa, eu tô por aqui.
+[00:06:30] Participante: Mas eu vou cobrar a Michelle agora de novo.
+[00:06:32] Participante: Não, beleza, só para a gente saber, até porque assim, a gente está meio que...
+[00:06:40] Participante: A disponibilidade, vamos dizer assim, de salto para a gente seguir em frente. Eu queria ver se essas reuniões vão seguir.
+[00:06:55] Participante: Então tá bom, vou falar com ela para não voltar de férias.
+[00:06:59] Participante: Tá bom.
+[00:07:00] Participante: Então, beleza. Gente, boa tarde para vocês. Boa semana. Tchau, tchau.
+[00:07:04] Participante: Obrigada.
+[00:07:01] Você: Valeu. Boa tarde.
+[00:07:05] Participante: E vocês também.

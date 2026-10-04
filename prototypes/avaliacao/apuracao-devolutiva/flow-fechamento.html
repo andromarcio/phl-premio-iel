@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Fechamento de Etapa — Avaliação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar select { height:30px; padding:0 8px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-apuracao" data-feature="AVL-APU-01 AVL-APU-08" class="is-current" onclick="showScreen('screen-apuracao')">Apuração da etapa</button>
+    <button id="sw-drawer" data-feature="AVL-APU-02" onclick="abrirPrimeiroEmpate()">Drawer de desempate</button>
+    <button id="sw-fechamento" data-feature="AVL-APU-03 AVL-APU-12" onclick="showScreen('screen-fechamento')">Fechamento por estado</button>
+    <button id="sw-planilha" data-feature="AVL-APU-09" onclick="abrirPlanilhaEtapa()">Planilha da etapa</button>
+    <span class="sepv"></span>
+    <label for="proto-perfil" style="color:#97a3ab">Perfil:</label>
+    <select id="proto-perfil" onchange="setPerfil(this.value)">
+      <option value="nacional">Administrador Nacional <span style="opacity:.6">PIT.1</span></option>
+      <option value="regional">Administrador Regional <span style="opacity:.6">PIT.3</span></option>
+    </select>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">AVL-APU-01 · 02 · 03 · 09 · 12 — Avaliação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name" id="topbar-user">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Premiação ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-apuracao')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0z"/><path d="M6 6H3v2a3 3 0 0 0 3 3M18 6h3v2a3 3 0 0 1-3 3"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Apuração da etapa (AVL-APU-01) — ranking em baldes    -->
+      <!-- estado → grupo de disputa, com as linhas de corte             -->
+      <!-- ============================================================= -->
+      <div id="screen-apuracao" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Avaliação</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Fechamento de Etapa</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Fechamento de Etapa</h1>
+              <div class="dsc-page-subtitle" id="ap-subtitulo">Prêmio IEL de Talentos 2026 · Etapa Regional</div>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span class="dsc-body-sm dsc-text-muted">Situação da etapa</span>
+            <span id="ap-situacao-etapa"><span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aberta</span></span>
+            <button class="dsc-btn dsc-btn--outline" onclick="abrirPlanilhaEtapa()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar relatório da etapa
+            </button>
+            <button class="dsc-btn dsc-btn--outline" onclick="showScreen('screen-fechamento')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Fechamento por estado
+            </button>
+          </div>
+        </div>
+
+        <!-- Faixa: etapa encerrada automaticamente (só depois do último estado) -->
+        <div id="ap-etapa-fechada" class="dsc-alert dsc-alert--success" style="display:none;margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Situação da etapa: Fechada.</strong> O último estado pendente foi fechado — a etapa foi encerrada e o resultado ficou somente-leitura.</span>
+        </div>
+
+        <!-- Barra de demonstração dos estados da lista (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da tela:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setApState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setApState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setApState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setApState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setApState('error')">Erro</button>
+        </div>
+
+        <!-- Seleção de premiação e etapa (campos do N3) + recorte por estado -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-premiacao">Premiação <span class="dsc-req">*</span></label>
+            <select class="dsc-select" id="fb-premiacao">
+              <option>Prêmio IEL de Talentos 2026</option>
+              <option>Prêmio IEL de Talentos 2025</option>
+              <option>Inova Talentos 2026</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-etapa">Etapa <span class="dsc-req">*</span></label>
+            <select class="dsc-select" id="fb-etapa">
+              <option>Etapa Regional</option>
+              <option>Etapa Nacional</option>
+            </select>
+            <span class="dsc-field-hint" id="fb-etapa-hint">Situação: Aberta · classifica 2 e premia 3 por estado × grupo</span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-estado">Estado</label>
+            <select class="dsc-select" id="fb-estado">
+              <option value="">Todos os estados</option>
+              <option value="BA">Bahia (BA)</option>
+              <option value="MG">Minas Gerais (MG)</option>
+              <option value="PR">Paraná (PR)</option>
+              <option value="SP">São Paulo (SP)</option>
+              <option value="NAC">Nacional (sem estado)</option>
+              <option value="RR">Roraima (RR)</option>
+            </select>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="onFiltrarRanking()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="onLimparRanking()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS -->
+        <div id="ap-state-data">
+
+          <!-- Faixa de indicadores da apuração (os seis do N3) -->
+          <div class="dsc-row" style="margin-bottom:16px">
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Total no ranking</span>
+                  <span class="dsc-lv-value" id="kpi-total" style="font-size:26px;font-weight:700">30</span>
+                  <span class="dsc-field-hint">inscrições apuradas</span>
+                </div>
+              </div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Estados fechados</span>
+                  <span class="dsc-lv-value" id="kpi-fechados" style="font-size:26px;font-weight:700">2 de 5</span>
+                  <span class="dsc-field-hint">blocos da etapa</span>
+                </div>
+              </div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Quantidade que classifica</span>
+                  <span class="dsc-lv-value" id="kpi-classifica" style="font-size:26px;font-weight:700">2</span>
+                  <span class="dsc-field-hint">por estado × grupo</span>
+                </div>
+              </div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Empates na linha de corte</span>
+                  <span class="dsc-lv-value" id="kpi-empates-cls" style="font-size:26px;font-weight:700">1</span>
+                  <span class="dsc-field-hint">corte de classificação</span>
+                </div>
+              </div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Vagas de premiação</span>
+                  <span class="dsc-lv-value" id="kpi-premia" style="font-size:26px;font-weight:700">3</span>
+                  <span class="dsc-field-hint">por estado × grupo</span>
+                </div>
+              </div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-card" style="padding:16px">
+                <div class="dsc-lv">
+                  <span class="dsc-lv-label">Empates no corte de premiação</span>
+                  <span class="dsc-lv-value" id="kpi-empates-pre" style="font-size:26px;font-weight:700">1</span>
+                  <span class="dsc-field-hint">corte de premiação</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legenda dos selos (classificada × premiada são ortogonais) -->
+          <div class="dsc-alert" style="margin-bottom:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>O corte de classificação é automático pela colocação — não há decisão de aprovar ou reprovar por inscrição. <strong>Classificada</strong> (avança para a etapa seguinte) e <strong>Premiada</strong> são condições independentes: nesta etapa 2 classificam e 3 são premiadas por bloco, então a 3ª colocada é premiada sem classificar.</span>
+          </div>
+
+          <!-- Blocos estado → grupo de disputa (render por JS) -->
+          <div id="ranking-blocos"></div>
+        </div>
+
+        <!-- Estado: VAZIO (etapa sem inscrições avaliadas) -->
+        <div id="ap-state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Esta etapa ainda não tem inscrições com todas as avaliações finalizadas — a apuração só considera inscrições avaliadas.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="ap-state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhum bloco apurado para o estado selecionado. Revise a premiação, a etapa e o estado.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="onLimparRanking()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton) -->
+        <div id="ap-state-loading" style="display:none">
+          <div class="dsc-row" style="margin-bottom:16px">
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+            <div class="dsc-col-2"><div class="dsc-card" style="padding:16px"><span class="dsc-skeleton" style="height:12px;width:70%;margin-bottom:10px"></span><span class="dsc-skeleton" style="height:22px;width:45%"></span></div></div>
+          </div>
+          <div class="dsc-table-wrap" style="padding:16px">
+            <span class="dsc-skeleton" style="height:20px;width:26%;margin-bottom:16px"></span>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="ap-state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setApState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Fechamento por estado (AVL-APU-03)                    -->
+      <!-- ============================================================= -->
+      <div id="screen-fechamento" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Avaliação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-apuracao')">Fechamento de Etapa</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Fechamento por estado</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Fechamento por estado</h1>
+              <div class="dsc-page-subtitle" id="fe-subtitulo">Prêmio IEL de Talentos 2026 · Etapa Regional</div>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <span class="dsc-body-sm dsc-text-muted">Situação da etapa</span>
+            <span id="fe-situacao-etapa"><span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aberta</span></span>
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-apuracao')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar ao ranking
+            </button>
+          </div>
+        </div>
+
+        <div id="fe-etapa-fechada" class="dsc-alert dsc-alert--success" style="display:none;margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Situação da etapa: Fechada.</strong> Todos os estados foram fechados — a etapa foi encerrada automaticamente no fechamento do último estado pendente.</span>
+        </div>
+
+        <!-- Andamento dos fechamentos -->
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-flex dsc-items-center dsc-justify-between dsc-wrap dsc-gap-2" style="margin-bottom:8px">
+            <span class="dsc-card-title" style="margin-bottom:0">Andamento do fechamento</span>
+            <span class="dsc-body-sm dsc-text-muted" id="fe-progresso-texto">2 de 5 estados fechados</span>
+          </div>
+          <span class="dsc-progress"><span id="fe-progresso-barra" style="width:40%"></span></span>
+          <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">O fechamento consolida as inscrições <strong>classificadas</strong> do estado — são elas que avançam para a etapa seguinte. A marca de premiada não determina o avanço.</p>
+        </div>
+
+        <!-- Barra de demonstração (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da lista:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setFeState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFeState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFeState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFeState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setFeState('error')">Erro</button>
+          <span style="width:1px;height:18px;background:var(--dsc-border-neutral-3);margin:0 4px"></span>
+          <span class="proto-demo-label">Simular:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--secondary" onclick="simularConsolidacaoSP()">Consolidar pendências de SP</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="alternarEtapaPosterior()"><span id="fe-posterior-rotulo">Etapa posterior: aberta</span></button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="toastErro('Ocorreu um erro. Tente novamente.')">Erro de servidor</button>
+        </div>
+
+        <!-- Filtro por situação do estado -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fe-situacao">Situação do estado</label>
+            <select class="dsc-select" id="fe-situacao">
+              <option value="">Todas</option>
+              <option value="Aberto">Aberto</option>
+              <option value="Fechado">Fechado</option>
+              <option value="Suspenso">Suspenso</option>
+            </select>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="onFiltrarFechamento()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="onLimparFechamento()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS (render por JS) -->
+        <div id="fe-state-data">
+          <div id="fechamento-lista"></div>
+        </div>
+
+        <!-- Estado: VAZIO -->
+        <div id="fe-state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Esta etapa ainda não tem estados apurados para fechar.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="fe-state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhum estado nesta situação. Revise o filtro e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="onLimparFechamento()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO -->
+        <div id="fe-state-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO -->
+        <div id="fe-state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setFeState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura da premiação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <!-- ================================================================= -->
+      <!-- ============================================================= -->
+      <!-- TELA 3: Planilha do relatório da etapa (AVL-APU-09)            -->
+      <!-- ============================================================= -->
+      <div id="screen-planilha" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-apuracao')">Fechamento de Etapa</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Relatório da etapa</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Relatório da etapa — planilha</h1>
+              <p class="dsc-page-subtitle">Resumo por estado e grupo, e uma aba por tipo de participante com o resultado apurado.</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-apuracao')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar ao ranking
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-alert" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span><strong>Encenação do protótipo.</strong> No sistema real a ação entrega o arquivo pelo navegador; esta tela existe para revisar o <strong>conteúdo</strong> da planilha. A planilha reproduz o resultado <em>já apurado</em> — não recalcula colocação nem selos (RN1).</span>
+        </div>
+
+        <div class="proto-demo">
+          <span class="proto-demo-label">Simular:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setCegas(false)">Avaliação identificada</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setCegas(true)">Avaliação às cegas</button>
+          <span style="width:1px;height:18px;background:var(--dsc-border-neutral-3);margin:0 4px"></span>
+          <span class="dsc-body-sm dsc-text-muted" id="pl-escopo">Escopo: todos os estados da etapa</span>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-card-header">
+            <div><span class="dsc-card-title">Aba: Resumo</span>
+            <div class="dsc-body-sm dsc-text-muted">Uma linha por estado × grupo de disputa</div></div>
+          </div>
+          <div class="dsc-table-wrap" id="pl-resumo"></div>
+        </div>
+
+        <div id="pl-abas"></div>
+      </div>
+
+  <!-- DRAWER (painel lateral) de desempate — AVL-APU-02                  -->
+  <!-- ================================================================= -->
+  <div id="drawer-desempate" class="dsc-modal-mask" style="display:none;padding:0;align-items:stretch;justify-content:flex-end" onclick="if(event.target===this)fecharDrawer()">
+    <div class="dsc-modal dsc-modal--lg" style="width:min(920px,100%);max-height:100vh;height:100vh;border-radius:0">
+      <div class="dsc-modal-header">
+        <span>
+          <span id="dz-title">Desempate — corte de Classificação</span>
+          <span class="dsc-body-sm dsc-text-muted" style="display:block;font-weight:400" id="dz-sub">Paraná (PR) · Estagiário · Estagiário do Ano · IEL Estágio · Nível Superior</span>
+        </span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="fecharDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+
+        <!-- Contexto: qual corte está sendo resolvido -->
+        <div class="dsc-flex dsc-items-center dsc-gap-1 dsc-wrap" style="margin-bottom:16px">
+          <span class="dsc-body-sm dsc-text-muted">Corte que esta decisão resolve:</span>
+          <span id="dz-corte-tag"><span class="dsc-tag dsc-tag--highlight dsc-tag--lg">Classificação</span></span>
+          <span class="dsc-body-sm dsc-text-muted" id="dz-corte-explica">A vencedora ocupa a colocação acima da linha de corte de classificação; a outra fica abaixo dela.</span>
+        </div>
+
+        <!-- Critérios configurados aplicados sem separar as inscrições -->
+        <div class="dsc-alert dsc-alert--warning" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="dz-criterios">Os critérios de desempate configurados foram aplicados na ordem e não separaram as inscrições.</span>
+        </div>
+
+        <!-- Comparação questão a questão -->
+        <div class="dsc-title-sm" style="margin-bottom:8px">Comparação questão a questão</div>
+        <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:12px">Selecione a inscrição vencedora no cabeçalho da coluna. As notas são a média dos avaliadores finalizados em cada questão.</p>
+        <div class="dsc-table-wrap" id="dz-tabela"></div>
+        <span class="dsc-field-error" id="dz-venc-error" style="display:none;margin-top:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>Campo obrigatório.</span></span>
+
+        <!-- Justificativa -->
+        <div class="dsc-field" style="margin-top:24px">
+          <label class="dsc-field-label" for="dz-just">Justificativa da decisão <span class="dsc-req">*</span></label>
+          <textarea class="dsc-textarea" id="dz-just" maxlength="1200" placeholder="Registre por que esta inscrição foi eleita vencedora do desempate…" oninput="dzContar()"></textarea>
+          <span class="dsc-field-hint" id="dz-contador">0 / 1.000 caracteres · mínimo de 30</span>
+          <span class="dsc-field-error" id="dz-just-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span id="dz-just-error-text">Campo obrigatório.</span></span>
+        </div>
+
+        <p class="dsc-body-sm dsc-text-muted" style="margin-top:16px">A decisão registra a inscrição vencedora, a justificativa, o responsável (<strong>Pedro Henrique Fernandes Barbosa</strong>) e a data. Um empate que atravesse os dois cortes exige uma decisão para cada corte.</p>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="fecharDrawer()">Cancelar</button>
+        <button class="dsc-btn" id="dz-salvar" onclick="dzSalvar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Registrar desempate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: encerrar etapa no estado (AVL-APU-03) -->
+  <div id="modal-fechar" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-fechar',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span id="fx-title">Encerrar etapa no estado</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-fechar',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="fx-text">Deseja encerrar a Etapa Regional no estado «Bahia (BA)»?</p>
+        <div class="dsc-alert" style="margin:12px 0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span id="fx-resumo">O fechamento consolida as inscrições classificadas deste estado, que avançam para a etapa seguinte, e bloqueia a edição do feedback consolidado.</span>
+        </div>
+        <div class="dsc-field">
+          <label class="dsc-field-label" for="fx-obs">Observação <span class="dsc-text-muted" style="font-weight:400">(opcional)</span></label>
+          <textarea class="dsc-textarea" id="fx-obs" maxlength="500" placeholder="Registre uma observação sobre este fechamento…" oninput="fxContar()"></textarea>
+          <span class="dsc-field-hint" id="fx-contador">0 / 500 caracteres</span>
+        </div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-fechar',false)">Cancelar</button>
+        <button class="dsc-btn" id="fx-ok" onclick="confirmarFechamento()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Encerrar etapa no estado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: reabrir estado (AVL-APU-12) -->
+  <div id="modal-reabrir" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-reabrir',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Reabrir estado</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-reabrir',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="rx-text">Deseja reabrir a Etapa Regional no estado «Minas Gerais (MG)»?</p>
+        <div class="dsc-alert dsc-alert--warning" style="margin:12px 0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span><strong>O registro deste fechamento será apagado.</strong> O estado volta a figurar como nunca fechado: responsável, data e observação do fechamento desfeito não ficam guardados em lugar nenhum, e não há trilha dos fechamentos anteriores.</span>
+        </div>
+        <p class="dsc-body-sm dsc-text-muted" style="margin:0 0 4px">O que a reabertura faz neste estado:</p>
+        <ul class="dsc-body-sm" style="margin:0 0 4px 18px">
+          <li>devolve o estado à apuração — os cortes de classificação e de premiação voltam a ser recalculados;</li>
+          <li>desfaz as decisões de desempate deste estado; as dos demais estados permanecem;</li>
+          <li>preserva o feedback consolidado das inscrições e o devolve à edição;</li>
+          <li>devolve a etapa à situação <strong>Aberta</strong>, se ela estava encerrada.</li>
+        </ul>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-reabrir',false)">Cancelar</button>
+        <button class="dsc-btn dsc-btn--danger" id="rx-ok" onclick="confirmarReabertura()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/></svg>
+          Reabrir estado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de sucesso -->
+  <div id="toast-ok" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-ok-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <!-- Toast de erro (permanece até fechar) -->
+  <div id="toast-err" class="dsc-toast dsc-toast--danger" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span id="toast-err-text">Ocorreu um erro. Tente novamente.</span>
+    <button class="dsc-icon-action" aria-label="Fechar aviso" onclick="document.getElementById('toast-err').style.display='none'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> N3 <code>AVL-APU-01</code> (Apurar Resultado da Etapa), <code>AVL-APU-02</code> (Registrar Desempate), <code>AVL-APU-03</code> (Encerrar Etapa por UF) e <code>AVL-APU-12</code> (Reabrir Etapa por UF), do Feature Set AVL-APU — todos na rota única <code>/avaliacao-admin/fechamento-etapa/:etapaId</code>. Telas: Apuração da etapa (ranking em baldes), Drawer de desempate e Fechamento por estado.</li>
+      <li><strong>Cenário encenado:</strong> Etapa Regional que <em>classifica 2</em> e <em>premia 3</em> por estado × grupo. Com isso a 3ª colocada de cada bloco é <strong>Premiada e Não classificada</strong> — o caso ortogonal (RN9 de AVL-APU-01, SC-02 de AVL-APU-03: quem avança é o classificado, não o premiado). Blocos: MG (fechado), SP (pendências), PR (dois empates), BA (pronto) e Nacional (inscrições sem estado, também fechado).</li>
+      <li><strong>Corte automático:</strong> não há botão de aprovar/reprovar por inscrição — a coluna Classificação é derivada da colocação (RN7). As duas linhas de corte são desenhadas na tabela: a de classificação (teal, após a 2ª) e a de premiação (âmbar, após a 3ª); a linha de premiação não é desenhada quando cai depois da última colocada do bloco.</li>
+      <li><strong>Empates:</strong> em PR/Estagiário o empate atravessa a linha de <em>Classificação</em>; em PR/Empresa atravessa a de <em>Premiação</em> — cada um abre o drawer no corte correspondente, e o drawer diz qual corte resolve. Em SP/Estagiário há um empate <em>fora do corte</em>, que fica sinalizado e não exige decisão (RN10 / cenário "Empate fora da linha de corte"). Enquanto pendente, a coluna do corte atravessado mostra "Pendente de desempate" em vez de Classificada/Não classificada.</li>
+      <li><strong>Fechamento:</strong> "Encerrar etapa no estado" em SP é recusado com "Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar." e abre o painel de pendências por participante nas três naturezas (sem avaliadores · avaliação em andamento · feedback não consolidado); em PR é recusado com "Há empate na linha de corte deste estado. Resolva o desempate antes de fechar."; ao fechar o <strong>último</strong> estado pendente a etapa passa sozinha à situação <strong>Fechada</strong>. MG e Nacional já entram fechados, somente-leitura (responsável, data e observação).</li>
+      <li><strong>Percurso sugerido:</strong> fechar BA (ok) → tentar PR (empate) → resolver os dois desempates no drawer → fechar PR → tentar SP (pendências) → botão de simulação "Consolidar pendências de SP" → fechar SP → etapa encerra automaticamente.</li>
+      <li><strong>Permissões (N2):</strong> desde a SP05 fechar e desempatar são exclusivos do Administrador Nacional. O seletor de perfil da barra do protótipo alterna para Administrador Regional, quando as ações respondem "Você não tem permissão para esta ação.".</li>
+      <li><strong>⚠️ Layout sem protótipo de origem:</strong> os três N3 registram que o layout foi derivado da demanda SP05 (HU "Fechar Etapa de Avaliação" não fornecida). Tudo aqui é proposta a validar — inclusive a organização em duas telas para a mesma rota.</li>
+      <li><strong>⚠️ Indicadores:</strong> o N3 não diz se "quantidade que classifica" e "vagas de premiação" são a cota da etapa (por bloco) ou o total absoluto da etapa. O protótipo mostra a <em>cota por estado × grupo</em> (2 e 3), com a legenda explícita.</li>
+      <li><strong>⚠️ Coluna Inscrição:</strong> exibida como <em>Identificador · Protocolo</em>, exatamente como nas "Colunas do resultado" do N3 — o nome do participante aparece só no painel de pendências, que o N3 descreve "por participante". A confirmar se o ranking deve exibir o nome.</li>
+      <li><strong>⚠️ Filtro por estado</strong> na tela de apuração e <strong>filtro por situação</strong> na de fechamento são acréscimos de navegação (o N3 lista só Premiação e Etapa como campos) — servem para encenar o estado "Nenhum resultado para a busca." (selecione Roraima ou a situação "Suspenso").</li>
+      <li><strong>⚠️ Bloco Nacional:</strong> tratado como um bloco a mais no contador "estados fechados" (2 de 5), conforme RN1 de AVL-APU-03 (UF nula = Nacional), que o próprio N3 marca como a confirmar.</li>
+      <li><strong>⚠️ Drawer:</strong> o <code>ds.css</code> não tem componente de painel lateral; o drawer é montado com <code>.dsc-modal-mask</code> + <code>.dsc-modal--lg</code> ancorados à direita em altura total. Candidato a virar componente do DS.</li>
+      <li><strong>⚠️ Faixa "Situação da etapa: Fechada"</strong> é texto descritivo (não é mensagem do MESSAGE-DICTIONARY): o retorno literal do fechamento continua sendo o toast "Registro salvo com sucesso.".</li>
+      <li><strong>Detalhes de simulação:</strong> a justificativa do desempate aceita digitar além do limite (<code>maxlength</code> folgado) só para encenar "Máximo de 1.000 caracteres." — na implementação o limite é 1.000. O cenário "Estado já encerrado na etapa" está encenado pela ausência da ação em bloco fechado (não há segundo fechamento possível). O botão "Erro de servidor" da barra de simulação exibe o toast "Ocorreu um erro. Tente novamente.".</li>
+      <li><strong>Reabertura (<code>AVL-APU-12</code>):</strong> todo bloco fechado traz "Reabrir estado" para o Administrador Nacional. A confirmação diz, antes de efetivar, o que a decisão de produto de 2026-09-01 fixou: <strong>o registro do fechamento é apagado</strong>, não marcado — responsável, data e observação somem, e não fica trilha dos fechamentos anteriores. Reaberto o estado, o bloco exibe uma faixa com o que foi desfeito, o contador de fechados cai e a etapa volta à situação <strong>Aberta</strong>.</li>
+      <li><strong>Reabertura bloqueada:</strong> o botão "Etapa posterior: aberta" da barra de simulação alterna o estado da etapa seguinte da premiação. Com ela fechada, a reabertura é recusada com "Há etapa posterior já encerrada nesta premiação. Reabra as etapas seguintes antes de reabrir este estado." (RN7 de <code>AVL-APU-12</code>).</li>
+      <li><strong>⚠️ Reabertura sem justificativa:</strong> o N3 registra que não há onde gravar um motivo — a mesma regra que apaga o fechamento elimina o lugar de guardá-lo. Por isso o modal de reabertura, ao contrário do de fechamento, <em>não</em> tem campo de observação. Se o produto quiser motivo registrado, isso reabre a definição de modelo.</li>
+      <li><strong>Não representado:</strong> a consolidação do feedback em si (<code>AVL-PAI-03</code>) e a devolutiva (<code>AVL-APU-04/05</code>) — os links de pendência apenas indicam o destino.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ================================================================
+       Dados fictícios — Prêmio IEL de Talentos 2026 / Etapa Regional
+       A etapa classifica 2 e premia 3 por estado × grupo de disputa:
+       por isso a 3ª colocada é premiada SEM classificar (caso ortogonal).
+       ================================================================ */
+    /* Etapa seguinte da premiação: quando fechada, bloqueia a reabertura (RN7 de AVL-APU-12). */
+    var ETAPA_POSTERIOR_FECHADA = false;
+
+    var ETAPA = {
+      premiacao: 'Prêmio IEL de Talentos 2026',
+      nome: 'Etapa Regional',
+      classificados: 2,
+      premiados: 3,
+      situacao: 'Aberta'
+    };
+
+    var RESPONSAVEL = 'Pedro Henrique Fernandes Barbosa';
+    var AGORA = '28/08/2026 10:24';
+    var PERFIL = 'nacional';
+
+    /* Questionários de avaliação (questão + peso + posição como critério de desempate) */
+    var QUESTIONARIOS = {
+      estagiario: [
+        { t: 'Relevância do projeto para a indústria',      peso: 30, criterio: 1 },
+        { t: 'Grau de inovação da solução',                 peso: 25, criterio: 0 },
+        { t: 'Resultados e impacto mensurável',             peso: 25, criterio: 0 },
+        { t: 'Clareza e qualidade da apresentação',         peso: 20, criterio: 2 }
+      ],
+      empresa: [
+        { t: 'Aderência do projeto ao setor industrial',        peso: 25, criterio: 0 },
+        { t: 'Grau de inovação e diferencial competitivo',      peso: 30, criterio: 1 },
+        { t: 'Resultados alcançados e impacto econômico',       peso: 25, criterio: 0 },
+        { t: 'Sustentabilidade e replicabilidade da solução',   peso: 20, criterio: 2 }
+      ]
+    };
+
+    var BLOCOS = [
+      {
+        uf: 'BA', nome: 'Bahia (BA)', situacao: 'Aberto', responsavel: '', data: '', obs: '',
+        pendencias: [], recusa: '',
+        grupos: [{
+          id: 'ba-a',
+          oferta: 'Instituição de Ensino · Prática Pedagógica Inovadora · Educação Inovadora',
+          enq: 'Ensino Superior', questionario: 'estagiario',
+          insc: [
+            { id: 'ba-0064', ident: '64',  prot: 'INS-2026-BA-0064', media: 4.55, av: '3 / 3', ord: 10 },
+            { id: 'ba-0091', ident: '91',  prot: 'INS-2026-BA-0091', media: 4.18, av: '3 / 3', ord: 20 },
+            { id: 'ba-0022', ident: '22',  prot: 'INS-2026-BA-0022', media: 3.97, av: '3 / 3', ord: 30 },
+            { id: 'ba-0110', ident: '110', prot: 'INS-2026-BA-0110', media: 3.51, av: '3 / 3', ord: 40 }
+          ],
+          empates: []
+        }]
+      },
+      {
+        uf: 'MG', nome: 'Minas Gerais (MG)', situacao: 'Fechado',
+        responsavel: RESPONSAVEL, data: '24/08/2026 14:32',
+        obs: 'Fechamento regional conforme ata da comissão avaliadora de Minas Gerais.',
+        pendencias: [], recusa: '',
+        grupos: [{
+          id: 'mg-a',
+          oferta: 'Estagiário · Estagiário do Ano · IEL Estágio',
+          enq: 'Nível Superior', questionario: 'estagiario',
+          insc: [
+            { id: 'mg-0031', ident: '31',  prot: 'INS-2026-MG-0031', media: 4.80, av: '3 / 3', ord: 10 },
+            { id: 'mg-0077', ident: '77',  prot: 'INS-2026-MG-0077', media: 4.45, av: '3 / 3', ord: 20 },
+            { id: 'mg-0059', ident: '59',  prot: 'INS-2026-MG-0059', media: 4.12, av: '3 / 3', ord: 30 },
+            { id: 'mg-0104', ident: '104', prot: 'INS-2026-MG-0104', media: 3.88, av: '3 / 3', ord: 40 },
+            { id: 'mg-0012', ident: '12',  prot: 'INS-2026-MG-0012', media: 3.55, av: '3 / 3', ord: 50 }
+          ],
+          empates: []
+        }]
+      },
+      {
+        uf: 'PR', nome: 'Paraná (PR)', situacao: 'Aberto', responsavel: '', data: '', obs: '',
+        pendencias: [], recusa: '',
+        grupos: [
+          {
+            id: 'pr-a',
+            oferta: 'Estagiário · Estagiário do Ano · IEL Estágio',
+            enq: 'Nível Superior', questionario: 'estagiario',
+            insc: [
+              { id: 'pr-0142', ident: '142', prot: 'INS-2026-PR-0142', media: 4.72, av: '3 / 3', ord: 10 },
+              { id: 'pr-0118', ident: '118', prot: 'INS-2026-PR-0118', media: 4.35, av: '3 / 3', ord: 20 },
+              { id: 'pr-0203', ident: '203', prot: 'INS-2026-PR-0203', media: 4.35, av: '3 / 3', ord: 30 },
+              { id: 'pr-0087', ident: '87',  prot: 'INS-2026-PR-0087', media: 4.10, av: '3 / 3', ord: 40 },
+              { id: 'pr-0166', ident: '166', prot: 'INS-2026-PR-0166', media: 3.64, av: '3 / 3', ord: 50 }
+            ],
+            empates: [{
+              id: 'emp-pr-a', ids: ['pr-0118', 'pr-0203'], decidido: {},
+              notas: { 'pr-0118': [4.67, 4.33, 4.00, 4.33], 'pr-0203': [4.67, 4.00, 4.33, 4.33] },
+              respostas: {
+                'pr-0118': [
+                  'Estágio no chão de fábrica de uma metalúrgica de Curitiba, com projeto de redução de refugo na linha de estamparia.',
+                  'Criou um checklist digital de setup que substituiu o controle em papel usado pela equipe de produção.',
+                  'Refugo caiu de 4,1% para 2,7% em quatro meses, medido pelo relatório de qualidade da própria empresa.',
+                  'Apresentação em vídeo de 5 minutos, com fotos do antes e depois e planilha de acompanhamento anexada.'
+                ],
+                'pr-0203': [
+                  'Estágio em indústria de alimentos de Londrina, atuando na rastreabilidade de lotes da linha de congelados.',
+                  'Adaptou uma planilha de rastreio já existente, ampliando o registro para as etapas de embalagem.',
+                  'Reduziu de 2 dias para 4 horas o tempo de localização de um lote em auditoria, conforme registro interno.',
+                  'Relatório escrito com fluxograma do processo, memorial de cálculo e carta de validação do supervisor.'
+                ]
+              }
+            }]
+          },
+          {
+            id: 'pr-b',
+            oferta: 'Empresa · Projeto de Inovação · Inova Talentos',
+            enq: 'Pequeno Porte', questionario: 'empresa',
+            insc: [
+              { id: 'pr-0501', ident: '501', prot: 'INS-2026-PR-0501', media: 4.64, av: '2 / 2', ord: 10 },
+              { id: 'pr-0533', ident: '533', prot: 'INS-2026-PR-0533', media: 4.29, av: '2 / 2', ord: 20 },
+              { id: 'pr-0512', ident: '512', prot: 'INS-2026-PR-0512', media: 3.90, av: '2 / 2', ord: 30 },
+              { id: 'pr-0548', ident: '548', prot: 'INS-2026-PR-0548', media: 3.90, av: '2 / 2', ord: 40 },
+              { id: 'pr-0570', ident: '570', prot: 'INS-2026-PR-0570', media: 3.42, av: '2 / 2', ord: 50 }
+            ],
+            empates: [{
+              id: 'emp-pr-b', ids: ['pr-0512', 'pr-0548'], decidido: {},
+              notas: { 'pr-0512': [4.0, 4.0, 4.0, 3.5], 'pr-0548': [3.5, 4.0, 4.5, 3.5] },
+              respostas: {
+                'pr-0512': [
+                  'Madeira engenheirada para móveis industriais, fornecida a montadoras de linha branca do Paraná.',
+                  'Prensa de baixa emissão desenvolvida com o SENAI, com resina sem formaldeído adicionado.',
+                  'Faturamento cresceu 18% em 2025 e a empresa abriu 12 postos diretos na unidade de São José dos Pinhais.',
+                  'Processo replicável em outras serrarias da região; resíduo de madeira vira insumo da própria prensa.'
+                ],
+                'pr-0548': [
+                  'Componentes plásticos técnicos para o setor automotivo, com foco em peças de reposição.',
+                  'Substituiu resina virgem por composto reciclado próprio, mantendo a norma exigida pelo cliente.',
+                  'Custo de matéria-prima 22% menor e contrato novo com um sistemista de Curitiba fechado em 2026.',
+                  'A rota de reciclagem já foi transferida para dois fornecedores parceiros do mesmo polo industrial.'
+                ]
+              }
+            }]
+          }
+        ]
+      },
+      {
+        uf: 'SP', nome: 'São Paulo (SP)', situacao: 'Aberto', responsavel: '', data: '', obs: '',
+        recusa: '',
+        pendencias: [
+          { nat: 'Sem avaliadores alocados', participante: 'Camila Toledo Ribeiro', prot: 'INS-2026-SP-0119', grupo: 'Estagiário · Nível Superior', detalhe: 'Nenhum avaliador alocado nesta etapa (0 de 3)', destino: 'Alocação de avaliadores' },
+          { nat: 'Avaliação em andamento', participante: 'Instituto Horizonte de Ensino', prot: 'INS-2026-SP-0288', grupo: 'Instituição de Ensino · Ensino Superior', detalhe: '1 de 3 avaliações finalizadas', destino: 'Painel de avaliações' },
+          { nat: 'Feedback não consolidado', participante: 'Vinícius Lopes de Sá', prot: 'INS-2026-SP-0233', grupo: 'Estagiário · Nível Superior', detalhe: 'Avaliações finalizadas; consolidação da banca pendente', destino: 'Consolidar avaliação' }
+        ],
+        grupos: [
+          {
+            id: 'sp-a',
+            oferta: 'Estagiário · Estagiário do Ano · IEL Estágio',
+            enq: 'Nível Superior', questionario: 'estagiario',
+            insc: [
+              { id: 'sp-0210', ident: '210', prot: 'INS-2026-SP-0210', media: 4.66, av: '3 / 3', ord: 10 },
+              { id: 'sp-0188', ident: '188', prot: 'INS-2026-SP-0188', media: 4.40, av: '3 / 3', ord: 20 },
+              { id: 'sp-0233', ident: '233', prot: 'INS-2026-SP-0233', media: 4.05, av: '3 / 3', ord: 30 },
+              { id: 'sp-0156', ident: '156', prot: 'INS-2026-SP-0156', media: 3.70, av: '3 / 3', ord: 40 },
+              { id: 'sp-0301', ident: '301', prot: 'INS-2026-SP-0301', media: 3.70, av: '3 / 3', ord: 50 }
+            ],
+            /* Empate abaixo dos dois cortes: sinalizado, sem exigir desempate. */
+            empates: [{ id: 'emp-sp-a', ids: ['sp-0156', 'sp-0301'], decidido: {}, notas: {}, respostas: {} }]
+          },
+          {
+            id: 'sp-b',
+            oferta: 'Empresa · Projeto de Inovação · Inova Talentos',
+            enq: 'Pequeno Porte', questionario: 'empresa',
+            insc: [
+              { id: 'sp-0402', ident: '402', prot: 'INS-2026-SP-0402', media: 4.58, av: '2 / 2', ord: 10 },
+              { id: 'sp-0377', ident: '377', prot: 'INS-2026-SP-0377', media: 4.21, av: '2 / 2', ord: 20 },
+              { id: 'sp-0415', ident: '415', prot: 'INS-2026-SP-0415', media: 3.95, av: '2 / 2', ord: 30 }
+            ],
+            empates: []
+          }
+        ]
+      },
+      {
+        uf: 'NAC', nome: 'Nacional (sem estado)', situacao: 'Fechado',
+        responsavel: RESPONSAVEL, data: '25/08/2026 09:14',
+        obs: 'Bloco Nacional: inscrições sem estado definido no formulário.',
+        pendencias: [], recusa: '',
+        grupos: [{
+          id: 'nac-a',
+          oferta: 'Empreendedor · Empreendedor Inovador · Inova Talentos',
+          enq: 'Startup', questionario: 'empresa',
+          insc: [
+            { id: 'nac-0007', ident: '7',  prot: 'INS-2026-NAC-0007', media: 4.61, av: '2 / 2', ord: 10 },
+            { id: 'nac-0015', ident: '15', prot: 'INS-2026-NAC-0015', media: 4.33, av: '2 / 2', ord: 20 },
+            { id: 'nac-0003', ident: '3',  prot: 'INS-2026-NAC-0003', media: 3.86, av: '2 / 2', ord: 30 }
+          ],
+          empates: []
+        }]
+      }
+    ];
+
+    /* ---- Ícones reutilizados no render ---- */
+    var IC_TROFEU = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M8 21h8M12 17v4"/><path d="M6 4h12v5a6 6 0 0 1-12 0z"/><path d="M6 6H3v2a3 3 0 0 0 3 3M18 6h3v2a3 3 0 0 1-3 3"/></svg>';
+    var IC_CADEADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+    var IC_TESOURA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>';
+    var IC_REABRIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/></svg>';
+    var IC_ALERTA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+    var IC_INFO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
+    /* ---- Utilitários ---- */
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function num(v) { return v.toFixed(2).replace('.', ','); }
+    function blocoPorUf(uf) { for (var i = 0; i < BLOCOS.length; i++) if (BLOCOS[i].uf === uf) return BLOCOS[i]; return null; }
+    function grupoPorId(bloco, gid) { for (var i = 0; i < bloco.grupos.length; i++) if (bloco.grupos[i].id === gid) return bloco.grupos[i]; return null; }
+    function empatePorId(grupo, eid) { for (var i = 0; i < grupo.empates.length; i++) if (grupo.empates[i].id === eid) return grupo.empates[i]; return null; }
+    function inscPorId(grupo, id) { for (var i = 0; i < grupo.insc.length; i++) if (grupo.insc[i].id === id) return grupo.insc[i]; return null; }
+
+    /* ================================================================
+       Apuração: ordenação, colocação e cortes (AVL-APU-01)
+       ================================================================ */
+    function ordenar(g) {
+      var rows = g.insc.slice();
+      rows.sort(function (a, b) { if (b.media !== a.media) return b.media - a.media; return a.ord - b.ord; });
+      return rows;
+    }
+    function empateDe(g, id) {
+      for (var i = 0; i < g.empates.length; i++) if (g.empates[i].ids.indexOf(id) >= 0) return g.empates[i];
+      return null;
+    }
+    function temDecisao(emp) {
+      if (!emp) return false;
+      for (var k in emp.decidido) if (emp.decidido.hasOwnProperty(k)) return true;
+      return false;
+    }
+    /* Faixa de posições (slots) ocupada pelas inscrições de um empate */
+    function spanEmpate(rows, emp) {
+      var min = -1, max = -1;
+      for (var i = 0; i < rows.length; i++) {
+        if (emp.ids.indexOf(rows[i].id) >= 0) { if (min < 0) min = i; max = i; }
+      }
+      return { min: min, max: max };
+    }
+    /* Colocação: recomeça em 1 a cada bloco; empate não decidido compartilha a colocação */
+    function colocacoes(g, rows) {
+      var pos = [];
+      for (var i = 0; i < rows.length; i++) {
+        if (i > 0 && rows[i].media === rows[i - 1].media) {
+          var e1 = empateDe(g, rows[i].id), e2 = empateDe(g, rows[i - 1].id);
+          if (e1 && e1 === e2 && !temDecisao(e1)) { pos.push(pos[i - 1]); continue; }
+        }
+        pos.push(i + 1);
+      }
+      return pos;
+    }
+    /* Empate não decidido que atravessa a linha de corte no slot k */
+    function empateNoCorte(g, rows, k) {
+      for (var i = 0; i < g.empates.length; i++) {
+        var e = g.empates[i];
+        if (temDecisao(e)) continue;
+        var s = spanEmpate(rows, e);
+        if (s.min >= 0 && s.min < k && s.max >= k) return e;
+      }
+      return null;
+    }
+    function decisaoNoCorte(g, corte) {
+      for (var i = 0; i < g.empates.length; i++) {
+        if (g.empates[i].decidido[corte]) return g.empates[i].decidido[corte];
+      }
+      return null;
+    }
+    /* Empates pendentes do bloco inteiro (impedem o fechamento do estado) */
+    function empatesPendentes(bloco) {
+      var lista = [];
+      for (var i = 0; i < bloco.grupos.length; i++) {
+        var g = bloco.grupos[i], rows = ordenar(g);
+        var ec = empateNoCorte(g, rows, ETAPA.classificados);
+        if (ec) lista.push({ grupo: g, emp: ec, corte: 'Classificação' });
+        if (ETAPA.premiados) {
+          var ep = empateNoCorte(g, rows, ETAPA.premiados);
+          if (ep) lista.push({ grupo: g, emp: ep, corte: 'Premiação' });
+        }
+      }
+      return lista;
+    }
+    function totalNoRanking() {
+      var t = 0;
+      for (var i = 0; i < BLOCOS.length; i++)
+        for (var j = 0; j < BLOCOS[i].grupos.length; j++) t += BLOCOS[i].grupos[j].insc.length;
+      return t;
+    }
+    function contarEmpates(corte) {
+      var n = 0;
+      for (var i = 0; i < BLOCOS.length; i++) {
+        var p = empatesPendentes(BLOCOS[i]);
+        for (var j = 0; j < p.length; j++) if (p[j].corte === corte) n++;
+      }
+      return n;
+    }
+    function contarFechados() {
+      var n = 0;
+      for (var i = 0; i < BLOCOS.length; i++) if (BLOCOS[i].situacao === 'Fechado') n++;
+      return n;
+    }
+
+    /* ================================================================
+       Render — TELA 1: ranking em baldes estado → grupo
+       ================================================================ */
+    function selosClassificacao(estado) {
+      if (estado === 'pendente') return '<span class="dsc-tag dsc-tag--danger">Pendente de desempate</span>';
+      if (estado === 'sim') return '<span class="dsc-badge dsc-badge--success">Classificada</span>';
+      return '<span class="dsc-tag dsc-tag--neutral">Não classificada</span>';
+    }
+    function selosPremiacao(estado) {
+      if (estado === 'na') return '<span class="dsc-text-muted">—</span>';
+      if (estado === 'pendente') return '<span class="dsc-tag dsc-tag--danger">Pendente de desempate</span>';
+      if (estado === 'sim') return '<span class="dsc-tag dsc-tag--warning">' + IC_TROFEU + ' Premiada</span>';
+      return '<span class="dsc-text-muted">—</span>';
+    }
+
+    function linhaCorte(bloco, g, rows, k, corte) {
+      var emp = empateNoCorte(g, rows, k);
+      var decisao = decisaoNoCorte(g, corte);
+      var cor = (corte === 'Classificação') ? 'var(--dsc-primary-90)' : 'var(--dsc-warning-90)';
+      var tag = (corte === 'Classificação') ? 'dsc-tag--highlight' : 'dsc-tag--warning';
+      var qtd = (corte === 'Classificação') ? ETAPA.classificados : ETAPA.premiados;
+      var txt = (corte === 'Classificação')
+        ? 'Linha de corte — Classificação · ' + qtd + ' classificam por bloco (avançam de etapa)'
+        : 'Linha de corte — Premiação · ' + qtd + ' premiadas por bloco';
+      var direita = '';
+      if (emp) {
+        direita = '<span class="dsc-tag dsc-tag--danger dsc-tag--sm">Empate atravessa esta linha</span>'
+          + ' <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="abrirDesempate(\'' + bloco.uf + '\',\'' + g.id + '\',\'' + emp.id + '\',\'' + corte + '\')">'
+          + IC_TESOURA + ' Resolver desempate</button>';
+      } else if (decisao) {
+        direita = '<span class="dsc-tag dsc-tag--secondary dsc-tag--sm">Desempate de ' + corte + ' registrado</span>';
+      }
+      return '<tr>'
+        + '<td colspan="6" style="height:auto;padding:8px 16px;background:var(--dsc-bg-neutral-2);border-top:2px dashed ' + cor + '">'
+        + '<span class="dsc-flex dsc-items-center dsc-justify-between dsc-wrap dsc-gap-1">'
+        + '<span class="dsc-tag ' + tag + '">' + IC_TESOURA + ' ' + txt + '</span>'
+        + '<span class="dsc-flex dsc-items-center dsc-gap-1 dsc-wrap">' + direita + '</span>'
+        + '</span></td></tr>';
+    }
+
+    function renderGrupo(bloco, g) {
+      var rows = ordenar(g), pos = colocacoes(g, rows);
+      var k = ETAPA.classificados, k2 = ETAPA.premiados;
+      var out = '';
+      out += '<div style="margin:24px 0 8px">'
+        + '<div class="dsc-title-sm">' + esc(g.oferta) + '</div>'
+        + '<div class="dsc-body-sm dsc-text-muted">Enquadramento: ' + esc(g.enq) + ' · ' + rows.length + ' inscrições neste bloco</div>'
+        + '</div>';
+      out += '<div class="dsc-table-wrap"><table class="dsc-table"><thead><tr>'
+        + '<th class="dsc-num">Colocação</th>'
+        + '<th>Inscrição (Identificador · Protocolo)</th>'
+        + '<th class="dsc-num dsc-sortable is-sorted">Média ponderada</th>'
+        + '<th class="dsc-num">Avaliadores</th>'
+        + '<th>Classificação</th>'
+        + '<th>Premiação</th>'
+        + '</tr></thead><tbody>';
+
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i], emp = empateDe(g, r.id);
+        var span = emp ? spanEmpate(rows, emp) : null;
+        var pendente = emp && !temDecisao(emp);
+        var cls, prem;
+        if (pendente && span.min < k && span.max >= k) cls = 'pendente'; else cls = (i < k) ? 'sim' : 'nao';
+        if (!k2) prem = 'na';
+        else if (pendente && span.min < k2 && span.max >= k2) prem = 'pendente';
+        else prem = (i < k2) ? 'sim' : 'nao';
+
+        var marcas = '';
+        if (pendente) {
+          marcas = (span.min < k && span.max >= k) || (k2 && span.min < k2 && span.max >= k2)
+            ? ' <span class="dsc-tag dsc-tag--danger dsc-tag--sm">Empate no corte</span>'
+            : ' <span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Empate (fora do corte)</span>';
+        } else if (emp && temDecisao(emp)) {
+          for (var c in emp.decidido) {
+            if (!emp.decidido.hasOwnProperty(c)) continue;
+            marcas += emp.decidido[c].venc === r.id
+              ? ' <span class="dsc-tag dsc-tag--secondary dsc-tag--sm">Desempate de ' + c + ' · vencedora</span>'
+              : ' <span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Desempate de ' + c + '</span>';
+          }
+        }
+
+        out += '<tr>'
+          + '<td class="dsc-num" style="font-weight:700">' + pos[i] + 'º</td>'
+          + '<td><strong>' + esc(r.ident) + '</strong> · ' + esc(r.prot) + marcas + '</td>'
+          + '<td class="dsc-num" style="font-weight:600">' + num(r.media) + '</td>'
+          + '<td class="dsc-num">' + esc(r.av) + '</td>'
+          + '<td>' + selosClassificacao(cls) + '</td>'
+          + '<td>' + selosPremiacao(prem) + '</td>'
+          + '</tr>';
+
+        if (i + 1 === k && i + 1 < rows.length) out += linhaCorte(bloco, g, rows, k, 'Classificação');
+        if (k2 && i + 1 === k2 && i + 1 < rows.length) out += linhaCorte(bloco, g, rows, k2, 'Premiação');
+      }
+      out += '</tbody></table></div>';
+      return out;
+    }
+
+    function renderBloco(bloco) {
+      var pend = empatesPendentes(bloco);
+      var totalInsc = 0;
+      for (var i = 0; i < bloco.grupos.length; i++) totalInsc += bloco.grupos[i].insc.length;
+
+      var badge = bloco.situacao === 'Fechado'
+        ? '<span class="dsc-badge dsc-badge--success">Fechado</span>'
+        : '<span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aberto</span>';
+
+      var acao = '';
+      if (bloco.situacao === 'Fechado') {
+        acao = '<span class="dsc-body-sm dsc-text-muted">Fechado por ' + esc(bloco.responsavel) + ' em ' + esc(bloco.data) + '</span>';
+      } else if (ETAPA.situacao === 'Aberta') {
+        acao = '<button class="dsc-btn dsc-btn--sm" onclick="abrirFechamento(\'' + bloco.uf + '\')">' + IC_CADEADO + ' Encerrar etapa no estado</button>';
+      }
+
+      var sinais = '';
+      if (pend.length) sinais += '<span class="dsc-tag dsc-tag--danger dsc-tag--sm">' + pend.length + ' empate(s) na linha de corte</span> ';
+      if (bloco.pendencias.length) sinais += '<span class="dsc-tag dsc-tag--danger dsc-tag--sm">' + bloco.pendencias.length + ' pendência(s) de fechamento</span> ';
+
+      var out = '<div class="dsc-card" style="margin-bottom:24px">';
+      out += '<div class="dsc-card-header">'
+        + '<div><span class="dsc-card-title">' + esc(bloco.nome) + '</span>'
+        + '<div class="dsc-body-sm dsc-text-muted">' + totalInsc + ' inscrições no ranking · ' + bloco.grupos.length + ' grupo(s) de disputa</div></div>'
+        + '<div class="dsc-flex dsc-items-center dsc-gap-1 dsc-wrap">' + sinais + badge + ' ' + acao + '</div>'
+        + '</div>';
+
+      if (bloco.situacao === 'Fechado') {
+        out += '<div class="dsc-alert dsc-alert--success" style="margin-bottom:8px">' + IC_CADEADO
+          + '<span>Estado fechado nesta etapa — resultado somente-leitura. As inscrições <strong>classificadas</strong> foram consolidadas e avançam para a etapa seguinte; o feedback consolidado deste estado está bloqueado para edição.'
+          + (bloco.obs ? '<br><span class="dsc-body-sm">Observação: ' + esc(bloco.obs) + '</span>' : '')
+          + '</span></div>';
+      }
+      if (bloco.recusa === 'empate') {
+        out += '<div class="dsc-alert dsc-alert--danger" style="margin-bottom:8px">' + IC_ALERTA
+          + '<span>Há empate na linha de corte deste estado. Resolva o desempate antes de fechar.</span></div>';
+      }
+      if (bloco.recusa === 'pendencias') {
+        out += '<div class="dsc-alert dsc-alert--danger" style="margin-bottom:8px">' + IC_ALERTA
+          + '<span>Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar.'
+          + ' <span class="dsc-alert-cta"><button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="irParaPendencias(\'' + bloco.uf + '\')">Ver pendências por participante</button></span></span></div>';
+      }
+      if (bloco.situacao !== 'Fechado' && bloco.pendencias.length && bloco.recusa !== 'pendencias') {
+        out += '<div class="dsc-alert dsc-alert--warning" style="margin-bottom:8px">' + IC_ALERTA
+          + '<span>' + bloco.pendencias.length + ' inscrição(ões) deste estado estão fora do ranking ou sem feedback consolidado — o fechamento depende delas.'
+          + ' <span class="dsc-alert-cta"><button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="irParaPendencias(\'' + bloco.uf + '\')">Ver pendências por participante</button></span></span></div>';
+      }
+
+      for (var j = 0; j < bloco.grupos.length; j++) out += renderGrupo(bloco, bloco.grupos[j]);
+      out += '</div>';
+      return out;
+    }
+
+    function renderRanking() {
+      var filtro = el('fb-estado').value;
+      var out = '', achou = 0;
+      for (var i = 0; i < BLOCOS.length; i++) {
+        if (filtro && BLOCOS[i].uf !== filtro) continue;
+        out += renderBloco(BLOCOS[i]);
+        achou++;
+      }
+      el('ranking-blocos').innerHTML = out;
+      renderKpis();
+      renderSituacaoEtapa();
+      return achou;
+    }
+
+    function renderKpis() {
+      el('kpi-total').textContent = totalNoRanking();
+      el('kpi-fechados').textContent = contarFechados() + ' de ' + BLOCOS.length;
+      el('kpi-classifica').textContent = ETAPA.classificados;
+      el('kpi-empates-cls').textContent = contarEmpates('Classificação');
+      el('kpi-premia').textContent = ETAPA.premiados ? ETAPA.premiados : '—';
+      el('kpi-empates-pre').textContent = ETAPA.premiados ? contarEmpates('Premiação') : '—';
+    }
+
+    function renderSituacaoEtapa() {
+      var fechada = ETAPA.situacao === 'Fechada';
+      var html = fechada
+        ? '<span class="dsc-badge dsc-badge--success">Fechada</span>'
+        : '<span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aberta</span>';
+      el('ap-situacao-etapa').innerHTML = html;
+      el('fe-situacao-etapa').innerHTML = html;
+      el('ap-etapa-fechada').style.display = fechada ? 'flex' : 'none';
+      el('fe-etapa-fechada').style.display = fechada ? 'flex' : 'none';
+      el('fb-etapa-hint').textContent = 'Situação: ' + ETAPA.situacao + ' · classifica ' + ETAPA.classificados
+        + (ETAPA.premiados ? ' e premia ' + ETAPA.premiados : ' e não premia') + ' por estado × grupo';
+      var n = contarFechados(), t = BLOCOS.length;
+      el('fe-progresso-texto').textContent = n + ' de ' + t + ' estados fechados';
+      el('fe-progresso-barra').style.width = Math.round(n * 100 / t) + '%';
+    }
+
+    /* ================================================================
+       Render — TELA 3: fechamento por estado + pendências
+       ================================================================ */
+    function tagNatureza(nat) {
+      if (nat === 'Sem avaliadores alocados') return '<span class="dsc-tag dsc-tag--danger">' + esc(nat) + '</span>';
+      if (nat === 'Avaliação em andamento') return '<span class="dsc-tag dsc-tag--warning">' + esc(nat) + '</span>';
+      return '<span class="dsc-tag dsc-tag--info">' + esc(nat) + '</span>';
+    }
+
+    function renderPendencias(bloco) {
+      if (!bloco.pendencias.length) {
+        return '<div class="dsc-alert dsc-alert--success" style="margin-top:12px">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>'
+          + '<span>Nenhuma pendência por participante: todas as inscrições deste estado têm avaliadores alocados, avaliação finalizada e feedback consolidado.</span></div>';
+      }
+      var out = '<div class="dsc-title-sm" style="margin:16px 0 8px">Pendências por participante</div>'
+        + '<div class="dsc-table-wrap"><table class="dsc-table dsc-table--dense"><thead><tr>'
+        + '<th>Participante</th><th>Inscrição</th><th>Grupo de disputa</th><th>Natureza da pendência</th><th>Detalhe</th><th class="dsc-col-actions">Onde resolver</th>'
+        + '</tr></thead><tbody>';
+      for (var i = 0; i < bloco.pendencias.length; i++) {
+        var p = bloco.pendencias[i];
+        out += '<tr>'
+          + '<td>' + esc(p.participante) + '</td>'
+          + '<td>' + esc(p.prot) + '</td>'
+          + '<td>' + esc(p.grupo) + '</td>'
+          + '<td>' + tagNatureza(p.nat) + '</td>'
+          + '<td class="dsc-body-sm dsc-text-muted">' + esc(p.detalhe) + '</td>'
+          + '<td class="dsc-col-actions"><a href="#" onclick="return false">' + esc(p.destino) + '</a></td>'
+          + '</tr>';
+      }
+      out += '</tbody></table></div>';
+      return out;
+    }
+
+    function renderFechamento() {
+      var filtro = el('fe-situacao').value;
+      var out = '', achou = 0;
+      for (var i = 0; i < BLOCOS.length; i++) {
+        var b = BLOCOS[i];
+        if (filtro && b.situacao !== filtro) continue;
+        achou++;
+        var pend = empatesPendentes(b);
+        var totalInsc = 0;
+        for (var j = 0; j < b.grupos.length; j++) totalInsc += b.grupos[j].insc.length;
+
+        var badge = b.situacao === 'Fechado'
+          ? '<span class="dsc-badge dsc-badge--success">Fechado</span>'
+          : '<span class="dsc-tag dsc-tag--warning dsc-tag--lg">Aberto</span>';
+        var acao = '';
+        if (b.situacao === 'Fechado') {
+          acao = PERFIL === 'nacional'
+            ? '<button class="dsc-btn dsc-btn--outline" onclick="abrirReabertura(\'' + b.uf + '\')">' + IC_REABRIR + ' Reabrir estado</button>'
+            : '<span class="dsc-tag dsc-tag--neutral">Somente leitura</span>';
+        } else if (ETAPA.situacao === 'Aberta') {
+          acao = '<button class="dsc-btn" onclick="abrirFechamento(\'' + b.uf + '\')">' + IC_CADEADO + ' Encerrar etapa no estado</button>';
+        }
+
+        out += '<div class="dsc-card" style="margin-bottom:16px">';
+        out += '<div class="dsc-card-header">'
+          + '<div><span class="dsc-card-title">' + esc(b.nome) + '</span>'
+          + '<div class="dsc-body-sm dsc-text-muted">' + totalInsc + ' inscrições no ranking · ' + b.grupos.length + ' grupo(s) de disputa</div></div>'
+          + '<div class="dsc-flex dsc-items-center dsc-gap-1 dsc-wrap">' + badge + ' ' + acao + '</div>'
+          + '</div>';
+
+        out += '<div class="dsc-row">'
+          + '<div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">Inscrições no ranking</span><span class="dsc-lv-value">' + totalInsc + '</span></div></div>'
+          + '<div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">Empates na linha de corte</span><span class="dsc-lv-value">' + (pend.length ? '<span class="dsc-tag dsc-tag--danger">' + pend.length + ' pendente(s)</span>' : 'Nenhum') + '</span></div></div>'
+          + '<div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">Pendências por participante</span><span class="dsc-lv-value">' + (b.pendencias.length ? '<span class="dsc-tag dsc-tag--danger">' + b.pendencias.length + ' pendente(s)</span>' : 'Nenhuma') + '</span></div></div>'
+          + '<div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">' + (b.situacao === 'Fechado' ? 'Fechado por' : 'Responsável pelo fechamento') + '</span><span class="dsc-lv-value">' + (b.responsavel ? esc(b.responsavel) + '<br><span class="dsc-body-sm dsc-text-muted">' + esc(b.data) + '</span>' : '<span class="dsc-text-muted">—</span>') + '</span></div></div>'
+          + '</div>';
+
+        if (b.situacao === 'Fechado' && b.obs) {
+          out += '<div class="dsc-lv" style="margin-top:8px"><span class="dsc-lv-label">Observação do fechamento</span><span class="dsc-lv-value">' + esc(b.obs) + '</span></div>';
+        }
+        if (b.situacao === 'Fechado') {
+          out += '<div class="dsc-alert dsc-alert--success" style="margin-top:12px">' + IC_CADEADO
+            + '<span>Etapa encerrada neste estado. As inscrições classificadas foram consolidadas e avançam para a etapa seguinte; o feedback consolidado ficou bloqueado para edição. A volta à apuração depende de <strong>reabertura administrativa</strong>.</span></div>';
+        }
+        if (b.recusa === 'posterior') {
+          out += '<div class="dsc-alert dsc-alert--danger" style="margin-top:12px">' + IC_ALERTA
+            + '<span>Há etapa posterior já encerrada nesta premiação. Reabra as etapas seguintes antes de reabrir este estado.</span></div>';
+        }
+        if (b.reaberto) {
+          out += '<div class="dsc-alert dsc-alert--warning" style="margin-top:12px">' + IC_REABRIR
+            + '<span><strong>Estado reaberto.</strong> O registro do fechamento anterior foi apagado — responsável, data e observação não ficaram guardados. Os cortes deste estado voltam a ser recalculados, os desempates decididos aqui foram desfeitos e o feedback consolidado voltou a ser editável.</span></div>';
+        }
+        if (b.recusa === 'empate') {
+          out += '<div class="dsc-alert dsc-alert--danger" style="margin-top:12px">' + IC_ALERTA
+            + '<span>Há empate na linha de corte deste estado. Resolva o desempate antes de fechar.'
+            + ' <span class="dsc-alert-cta"><button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="irParaEmpate(\'' + b.uf + '\')">Ir para o empate no ranking</button></span></span></div>';
+        }
+        if (b.recusa === 'pendencias') {
+          out += '<div class="dsc-alert dsc-alert--danger" style="margin-top:12px">' + IC_ALERTA
+            + '<span>Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar.</span></div>';
+        }
+        if (b.situacao !== 'Fechado') out += renderPendencias(b);
+        out += '</div>';
+      }
+      el('fechamento-lista').innerHTML = out;
+      renderSituacaoEtapa();
+      return achou;
+    }
+
+    function renderTudo() { renderRanking(); renderFechamento(); }
+
+    /* ================================================================
+       Drawer de desempate (AVL-APU-02)
+       ================================================================ */
+    var dzCtx = null;
+
+    function abrirDesempate(uf, gid, eid, corte) {
+      if (PERFIL !== 'nacional') { toastErro('Você não tem permissão para esta ação.'); return; }
+      var bloco = blocoPorUf(uf), g = grupoPorId(bloco, gid), emp = empatePorId(g, eid);
+      dzCtx = { bloco: bloco, grupo: g, emp: emp, corte: corte };
+
+      el('dz-title').textContent = 'Desempate — corte de ' + corte;
+      el('dz-sub').textContent = bloco.nome + ' · ' + g.oferta + ' · ' + g.enq;
+      el('dz-corte-tag').innerHTML = corte === 'Classificação'
+        ? '<span class="dsc-tag dsc-tag--highlight dsc-tag--lg">Classificação</span>'
+        : '<span class="dsc-tag dsc-tag--warning dsc-tag--lg">Premiação</span>';
+      el('dz-corte-explica').textContent = corte === 'Classificação'
+        ? 'A vencedora ocupa a colocação acima da linha de corte de classificação (e avança de etapa); a outra fica abaixo dela.'
+        : 'A vencedora ocupa a colocação acima da linha de corte de premiação; a decisão não altera a classificação destas inscrições.';
+
+      var qs = QUESTIONARIOS[g.questionario];
+      var criterios = [];
+      for (var c = 1; c <= 3; c++) {
+        for (var q = 0; q < qs.length; q++) if (qs[q].criterio === c) criterios.push(c + 'º ' + qs[q].t);
+      }
+      el('dz-criterios').innerHTML = 'Os critérios de desempate configurados para este tipo de participante foram aplicados na ordem e <strong>não separaram</strong> as inscrições: '
+        + esc(criterios.join(' · ')) + '. A decisão manual é necessária.';
+
+      /* Tabela de comparação questão a questão */
+      var ids = emp.ids;
+      var out = '<table class="dsc-table dsc-table--dense"><thead><tr><th style="min-width:220px">Questão</th>';
+      for (var i = 0; i < ids.length; i++) {
+        var insc = inscPorId(g, ids[i]);
+        out += '<th style="min-width:260px"><label class="dsc-flex dsc-items-center dsc-gap-1" style="cursor:pointer;font-weight:600">'
+          + '<input type="radio" class="dsc-radio" name="dz-venc" value="' + ids[i] + '" onchange="dzLimparErroVencedora()">'
+          + '<span>' + esc(insc.ident) + ' · ' + esc(insc.prot) + '</span></label>'
+          + '<div class="dsc-field-hint" style="font-weight:400">Marcar como vencedora</div></th>';
+      }
+      out += '</tr></thead><tbody>';
+      for (var q2 = 0; q2 < qs.length; q2++) {
+        var crit = qs[q2].criterio ? ' <span class="dsc-tag dsc-tag--secondary dsc-tag--sm">Critério ' + qs[q2].criterio + 'º</span>' : '';
+        out += '<tr><td style="vertical-align:top"><strong>' + esc(qs[q2].t) + '</strong>'
+          + '<div class="dsc-body-sm dsc-text-muted">Peso ' + qs[q2].peso + '%</div>' + crit + '</td>';
+        for (var i2 = 0; i2 < ids.length; i2++) {
+          var nota = emp.notas[ids[i2]] ? emp.notas[ids[i2]][q2] : null;
+          var resp = emp.respostas[ids[i2]] ? emp.respostas[ids[i2]][q2] : '';
+          out += '<td style="vertical-align:top"><span class="dsc-num" style="font-size:20px;font-weight:700">'
+            + (nota === null ? '—' : num(nota)) + '</span>'
+            + '<div class="dsc-body-sm dsc-text-muted" style="margin-top:4px">' + esc(resp) + '</div></td>';
+        }
+        out += '</tr>';
+      }
+      out += '<tr><td><strong>Média ponderada</strong></td>';
+      for (var i3 = 0; i3 < ids.length; i3++) {
+        out += '<td><span class="dsc-num" style="font-size:18px;font-weight:700">' + num(inscPorId(g, ids[i3]).media) + '</span>'
+          + ' <span class="dsc-tag dsc-tag--danger dsc-tag--sm">Empatada</span></td>';
+      }
+      out += '</tr></tbody></table>';
+      el('dz-tabela').innerHTML = out;
+
+      el('dz-just').value = '';
+      dzContar();
+      dzLimparErroVencedora();
+      el('dz-just-error').style.display = 'none';
+      el('dz-just').closest('.dsc-field').classList.remove('is-invalid');
+      el('drawer-desempate').style.display = 'flex';
+      marcarBotaoBarra('sw-drawer');
+    }
+
+    function abrirPrimeiroEmpate() {
+      showScreen('screen-apuracao');
+      for (var i = 0; i < BLOCOS.length; i++) {
+        var p = empatesPendentes(BLOCOS[i]);
+        if (p.length) { abrirDesempate(BLOCOS[i].uf, p[0].grupo.id, p[0].emp.id, p[0].corte); return; }
+      }
+      toastErro('Não há mais empates pendentes na linha de corte desta etapa.');
+    }
+
+    function fecharDrawer() {
+      el('drawer-desempate').style.display = 'none';
+      marcarBotaoBarra(el('screen-apuracao').classList.contains('is-active') ? 'sw-apuracao' : 'sw-fechamento');
+    }
+
+    function dzContar() {
+      var v = el('dz-just').value.length;
+      el('dz-contador').textContent = v + ' / 1.000 caracteres · mínimo de 30';
+    }
+    function dzLimparErroVencedora() { el('dz-venc-error').style.display = 'none'; }
+
+    function dzSalvar() {
+      if (!dzCtx) return;
+      var radios = document.getElementsByName('dz-venc'), venc = '';
+      for (var i = 0; i < radios.length; i++) if (radios[i].checked) venc = radios[i].value;
+      var just = el('dz-just').value.trim();
+      var campo = el('dz-just').closest('.dsc-field');
+
+      el('dz-venc-error').style.display = 'none';
+      el('dz-just-error').style.display = 'none';
+      campo.classList.remove('is-invalid');
+
+      if (!venc) { el('dz-venc-error').style.display = 'flex'; return; }
+      if (!just) { campo.classList.add('is-invalid'); el('dz-just-error-text').textContent = 'Campo obrigatório.'; el('dz-just-error').style.display = 'flex'; return; }
+      if (just.length < 30) { campo.classList.add('is-invalid'); el('dz-just-error-text').textContent = 'Mínimo de 30 caracteres.'; el('dz-just-error').style.display = 'flex'; return; }
+      if (just.length > 1000) { campo.classList.add('is-invalid'); el('dz-just-error-text').textContent = 'Máximo de 1.000 caracteres.'; el('dz-just-error').style.display = 'flex'; return; }
+
+      var emp = dzCtx.emp, g = dzCtx.grupo;
+      emp.decidido[dzCtx.corte] = { venc: venc, just: just, por: RESPONSAVEL, em: AGORA };
+      /* A vencedora passa a ocupar a colocação acima da linha de corte resolvida. */
+      var menor = null;
+      for (var j = 0; j < emp.ids.length; j++) {
+        var o = inscPorId(g, emp.ids[j]).ord;
+        if (menor === null || o < menor) menor = o;
+      }
+      inscPorId(g, venc).ord = menor - 1;
+      dzCtx.bloco.recusa = '';
+
+      fecharDrawer();
+      renderTudo();
+      toastOk('Registro salvo com sucesso.');
+    }
+
+    /* ================================================================
+       Fechamento por estado (AVL-APU-03)
+       ================================================================ */
+    var ufAtual = '';
+
+    function abrirFechamento(uf) {
+      if (PERFIL !== 'nacional') { toastErro('Você não tem permissão para esta ação.'); return; }
+      var b = blocoPorUf(uf);
+      /* Estado já encerrado: mantém o fechamento existente e não cria um segundo
+         (por isso a ação nem é oferecida em bloco fechado). */
+      if (b.situacao === 'Fechado') return;
+      ufAtual = uf;
+      el('fx-text').textContent = 'Deseja encerrar a ' + ETAPA.nome + ' no estado «' + b.nome + '»?';
+      el('fx-obs').value = '';
+      fxContar();
+      toggleModal('modal-fechar', true);
+    }
+    function fxContar() { el('fx-contador').textContent = el('fx-obs').value.length + ' / 500 caracteres'; }
+
+    function confirmarFechamento() {
+      var b = blocoPorUf(ufAtual);
+      if (!b) return;
+
+      /* 1) Empate atravessando a linha de corte (classificação ou premiação) */
+      if (empatesPendentes(b).length) {
+        b.recusa = 'empate';
+        toggleModal('modal-fechar', false);
+        renderTudo();
+        toastErro('Há empate na linha de corte deste estado. Resolva o desempate antes de fechar.');
+        return;
+      }
+      /* 2) Pendências por participante (feedback consolidado) */
+      if (b.pendencias.length) {
+        b.recusa = 'pendencias';
+        toggleModal('modal-fechar', false);
+        renderTudo();
+        toastErro('Este estado ainda tem inscrições sem feedback consolidado. Resolva as pendências antes de fechar.');
+        showScreen('screen-fechamento');
+        return;
+      }
+      /* 3) Fechamento efetivo */
+      b.situacao = 'Fechado';
+      b.responsavel = RESPONSAVEL;
+      b.data = AGORA;
+      b.obs = el('fx-obs').value.trim();
+      b.recusa = '';
+      toggleModal('modal-fechar', false);
+
+      /* A etapa é encerrada quando o último estado pendente é fechado. */
+      if (contarFechados() === BLOCOS.length) ETAPA.situacao = 'Fechada';
+
+      renderTudo();
+      toastOk('Registro salvo com sucesso.');
+    }
+
+    /* ================================================================
+       Reabertura de estado (AVL-APU-12)
+       ================================================================ */
+    function abrirReabertura(uf) {
+      if (PERFIL !== 'nacional') { toastErro('Você não tem permissão para esta ação.'); return; }
+      var b = blocoPorUf(uf);
+      /* A ação só é oferecida em bloco fechado — estado aberto não tem o que reabrir (RN1). */
+      if (b.situacao !== 'Fechado') return;
+      ufAtual = uf;
+      el('rx-text').textContent = 'Deseja reabrir a ' + ETAPA.nome + ' no estado «' + b.nome + '»?';
+      toggleModal('modal-reabrir', true);
+    }
+
+    function confirmarReabertura() {
+      var b = blocoPorUf(ufAtual);
+      if (!b) return;
+
+      /* 1) Etapa posterior da premiação já encerrada bloqueia a reabertura (RN7) */
+      if (ETAPA_POSTERIOR_FECHADA) {
+        b.recusa = 'posterior';
+        toggleModal('modal-reabrir', false);
+        renderTudo();
+        toastErro('Há etapa posterior já encerrada nesta premiação. Reabra as etapas seguintes antes de reabrir este estado.');
+        return;
+      }
+      /* 2) Reabertura efetiva: o registro do fechamento é apagado, não marcado (RN2) */
+      b.situacao = 'Aberto';
+      b.responsavel = '';
+      b.data = '';
+      b.obs = '';
+      b.recusa = '';
+      b.reaberto = true;
+      toggleModal('modal-reabrir', false);
+
+      /* A etapa encerrada volta a Aberta assim que qualquer estado é reaberto (RN6). */
+      ETAPA.situacao = 'Aberta';
+
+      renderTudo();
+      toastOk('Registro salvo com sucesso.');
+    }
+
+    function alternarEtapaPosterior() {
+      ETAPA_POSTERIOR_FECHADA = !ETAPA_POSTERIOR_FECHADA;
+      el('fe-posterior-rotulo').textContent = ETAPA_POSTERIOR_FECHADA ? 'Etapa posterior: fechada' : 'Etapa posterior: aberta';
+      if (!ETAPA_POSTERIOR_FECHADA) for (var i = 0; i < BLOCOS.length; i++) if (BLOCOS[i].recusa === 'posterior') BLOCOS[i].recusa = '';
+      renderTudo();
+    }
+
+    function irParaPendencias(uf) {
+      el('fe-situacao').value = '';
+      renderFechamento();
+      setFeState('data');
+      showScreen('screen-fechamento');
+    }
+    function irParaEmpate(uf) {
+      el('fb-estado').value = uf;
+      renderRanking();
+      setApState('data');
+      showScreen('screen-apuracao');
+    }
+    function simularConsolidacaoSP() {
+      var b = blocoPorUf('SP');
+      b.pendencias = [];
+      b.recusa = '';
+      renderTudo();
+      toastOk('Registro salvo com sucesso.');
+    }
+
+
+    /* ================================================================
+       Relatório da etapa em planilha (AVL-APU-09)
+       ================================================================
+       Reproduz o resultado JÁ APURADO — lê os mesmos BLOCOS do ranking, sem
+       recalcular colocação nem selos (RN1). O recorte segue o perfil: o
+       Regional exporta só as UFs a que está vinculado (RN5). */
+    var CEGAS = false;
+
+    function setCegas(v) { CEGAS = v; if (el('screen-planilha').classList.contains('is-active')) abrirPlanilhaEtapa(); }
+
+    function blocosDoPerfil() {
+      /* O protótipo encena o Regional vinculado a MG: o recorte da planilha é o
+         mesmo da tela, não um filtro à parte. */
+      if (PERFIL === 'nacional') return BLOCOS;
+      var out = [];
+      for (var i = 0; i < BLOCOS.length; i++) if (BLOCOS[i].uf === 'MG') out.push(BLOCOS[i]);
+      return out;
+    }
+
+    function abrirPlanilhaEtapa() {
+      var blocos = blocosDoPerfil();
+      el('pl-escopo').textContent = PERFIL === 'nacional'
+        ? 'Escopo: todos os estados da etapa'
+        : 'Escopo: apenas MG — o Regional exporta as UFs a que está vinculado';
+
+      var resumo = '<table class="dsc-table dsc-table--dense"><thead><tr>'
+        + '<th>Estado</th><th>Grupo de disputa</th><th>Participantes</th><th>Classificados</th>'
+        + '<th>Premiados</th><th>Situação</th><th>Fechado por</th></tr></thead><tbody>';
+      for (var i = 0; i < blocos.length; i++) {
+        var b = blocos[i];
+        for (var g = 0; g < b.grupos.length; g++) {
+          var gr = b.grupos[g];
+          var cls = Math.min(ETAPA.classificados, gr.insc.length);
+          var pre = ETAPA.premiados ? Math.min(ETAPA.premiados, gr.insc.length) : 0;
+          resumo += '<tr><td>' + esc(b.nome) + '</td><td>' + esc(gr.oferta) + ' · ' + esc(gr.enq) + '</td>'
+            + '<td>' + gr.insc.length + '</td><td>' + cls + '</td><td>' + pre + '</td>'
+            + '<td>' + esc(b.situacao) + '</td><td>' + (b.responsavel ? esc(b.responsavel) : '<span class="dsc-text-muted">—</span>') + '</td></tr>';
+        }
+      }
+      el('pl-resumo').innerHTML = resumo + '</tbody></table>';
+
+      /* Uma aba por TIPO DE PARTICIPANTE, com as notas de cada avaliador. Na
+         avaliação às cegas o nome do avaliador vira apelido numerado (RN4). */
+      var porTipo = {};
+      for (var i2 = 0; i2 < blocos.length; i2++) {
+        var b2 = blocos[i2];
+        for (var g2 = 0; g2 < b2.grupos.length; g2++) {
+          var gr2 = b2.grupos[g2];
+          var tipo = gr2.oferta.split(' · ')[0];
+          if (!porTipo[tipo]) porTipo[tipo] = [];
+          for (var k = 0; k < gr2.insc.length; k++) {
+            var it = gr2.insc[k];
+            porTipo[tipo].push({ uf: b2.uf, nome: b2.nome, prot: it.prot, media: it.media, av: it.av, ord: k + 1 });
+          }
+        }
+      }
+      var out = '';
+      for (var tipo2 in porTipo) {
+        if (!porTipo.hasOwnProperty(tipo2)) continue;
+        var linhas = porTipo[tipo2];
+        out += '<div class="dsc-card" style="margin-bottom:16px">'
+          + '<div class="dsc-card-header"><div><span class="dsc-card-title">Aba: ' + esc(tipo2) + '</span>'
+          + '<div class="dsc-body-sm dsc-text-muted">' + linhas.length + ' inscrição(ões) no resultado — sem limite de linhas (RN6)</div></div></div>'
+          + '<div class="dsc-table-wrap"><table class="dsc-table dsc-table--dense"><thead><tr>'
+          + '<th>Estado</th><th>Colocação</th><th>Protocolo</th><th>Média</th><th>Avaliadores</th>'
+          + '<th>Nota por avaliador</th><th>Classificação</th></tr></thead><tbody>';
+        for (var n = 0; n < linhas.length; n++) {
+          var L = linhas[n];
+          var avs = CEGAS
+            ? 'Avaliador 1 · Avaliador 2 · Avaliador 3'
+            : 'Ana Ribeiro · Carlos Nunes · Marta Alves';
+          out += '<tr><td>' + esc(L.uf) + '</td><td>' + L.ord + '</td><td>' + esc(L.prot) + '</td>'
+            + '<td>' + L.media.toFixed(2) + '</td><td>' + esc(L.av) + '</td>'
+            + '<td>' + avs + '</td>'
+            + '<td>' + (L.ord <= ETAPA.classificados ? 'Classificada' : 'Não classificada') + '</td></tr>';
+        }
+        out += '</tbody></table></div>'
+          + '<p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">As respostas do formulário de cada inscrição entram como colunas depois destas (RN3).</p>'
+          + '</div>';
+      }
+      el('pl-abas').innerHTML = out;
+      showScreen('screen-planilha');
+    }
+
+    /* ================================================================
+       Navegação, estados de tela, perfil, modal e toasts
+       ================================================================ */
+    function marcarBotaoBarra(id) {
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      if (id && el(id)) el(id).classList.add('is-current');
+    }
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      marcarBotaoBarra({ 'screen-apuracao': 'sw-apuracao', 'screen-fechamento': 'sw-fechamento', 'screen-planilha': 'sw-planilha' }[id]);
+      window.scrollTo(0, 0);
+    }
+    function setApState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) el('ap-state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+    }
+    function setFeState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) el('fe-state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+    }
+    function onFiltrarRanking() {
+      var achou = renderRanking();
+      setApState(achou ? 'data' : 'noresult');
+    }
+    function onLimparRanking() {
+      el('fb-estado').value = '';
+      renderRanking();
+      setApState('data');
+    }
+    function onFiltrarFechamento() {
+      var achou = renderFechamento();
+      setFeState(achou ? 'data' : 'noresult');
+    }
+    function onLimparFechamento() {
+      el('fe-situacao').value = '';
+      renderFechamento();
+      setFeState('data');
+    }
+    function setPerfil(v) {
+      PERFIL = v;
+      el('topbar-user').innerHTML = v === 'nacional'
+        ? 'Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span>'
+        : 'Renata Alencar Vasconcelos · <span style="opacity:.85">Administrador Regional <span style="opacity:.6">PIT.3</span></span>';
+      renderTudo();
+    }
+    function toggleModal(id, show) { el(id).style.display = show ? 'flex' : 'none'; }
+    function toastOk(text) {
+      var t = el('toast-ok');
+      el('toast-ok-text').textContent = text || 'Registro salvo com sucesso.';
+      el('toast-err').style.display = 'none';
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 4000);
+    }
+    function toastErro(text) {
+      var t = el('toast-err');
+      el('toast-err-text').textContent = text;
+      el('toast-ok').style.display = 'none';
+      t.style.display = 'flex';
+    }
+
+    /* ---- Init ---- */
+    renderTudo();
+    setApState('data');
+    setFeState('data');
+  </script>
+</body>
+</html>

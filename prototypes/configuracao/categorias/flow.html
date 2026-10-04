@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Categorias — Configuração da Premiação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-list" class="is-current" onclick="showScreen('screen-list')">Catálogo</button>
+    <button id="sw-new" onclick="openNew()">Nova Categoria</button>
+    <button id="sw-edit" onclick="openEdit('iel-estagio')">Editar</button>
+    <button id="sw-detail" onclick="openDetail('iel-estagio')">Detalhe</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">CFG-CAT · Configuração da Premiação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Administração > Categorias ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-list')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1l-.4-2.5H9.6L9.2 4a7 7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.4 2.5h4.8l.4-2.5a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Catálogo de Categorias (Pesquisar CFG-CAT-01 + Ativar/Inativar CFG-CAT-05) -->
+      <!-- ============================================================= -->
+      <div id="screen-list" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Administração</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Categorias</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Categorias</h1>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--create" onclick="openNew()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nova Categoria
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados da lista (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da lista:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setListState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('error')">Erro</button>
+        </div>
+
+        <!-- Barra de filtros: Nome (busca) + Situação -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-nome">Nome</label>
+            <span class="dsc-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="dsc-input" id="fb-nome" placeholder="Buscar por nome…"></span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-sit">Situação</label>
+            <select class="dsc-select" id="fb-sit">
+              <option value="">Todas</option>
+              <option value="Ativo">Ativo</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="onFiltrar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="onLimpar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS -->
+        <div id="state-data">
+          <div class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th class="dsc-sortable is-sorted">Nome</th>
+                  <th>Descrição</th>
+                  <th class="dsc-num">Modalidades vinculadas</th>
+                  <th>Situação</th>
+                  <th class="dsc-col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="cat-tbody">
+                <!-- linhas geradas por JS a partir de CATS -->
+              </tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info">Mostrando 1 a 6 de 6 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Primeira">«</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Última">»</button>
+              </span>
+              <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>10</option><option>25</option><option>50</option></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: VAZIO (sem categorias no catálogo) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Cadastre a primeira categoria para montar o catálogo da premiação.</span>
+              <button class="dsc-btn dsc-btn--create dsc-btn--sm" onclick="openNew()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nova Categoria
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Revise o nome buscado ou a situação selecionada e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="onLimpar()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:22%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:22%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:22%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:22%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setListState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Nova Categoria (Cadastrar CFG-CAT-02) -->
+      <!-- ============================================================= -->
+      <div id="screen-new" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Administração</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-list')">Categorias</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Nova Categoria</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Nova Categoria</h1>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="max-width:720px">
+          <div class="dsc-field" style="margin-bottom:16px">
+            <label class="dsc-field-label" for="new-nome">Nome <span class="dsc-req">*</span></label>
+            <input class="dsc-input" id="new-nome" maxlength="200" placeholder="Digite o nome da categoria…">
+            <span class="dsc-field-error" id="new-nome-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span id="new-nome-error-text">Campo obrigatório.</span></span>
+          </div>
+          <div class="dsc-field" style="margin-bottom:24px">
+            <label class="dsc-field-label" for="new-desc">Descrição <span class="dsc-text-muted" style="font-weight:400">(opcional)</span></label>
+            <textarea class="dsc-textarea" id="new-desc" placeholder="Descreva a categoria…"></textarea>
+          </div>
+          <div class="dsc-flex dsc-gap-1">
+            <button class="dsc-btn" onclick="saveCategoria('new')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Salvar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 3: Editar Categoria (Editar CFG-CAT-03) -->
+      <!-- ============================================================= -->
+      <div id="screen-edit" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Administração</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-list')">Categorias</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current" id="edit-crumb">Editar Categoria</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Editar Categoria</h1>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="max-width:720px">
+          <div class="dsc-field" style="margin-bottom:16px">
+            <label class="dsc-field-label" for="edit-nome">Nome <span class="dsc-req">*</span></label>
+            <input class="dsc-input" id="edit-nome" maxlength="200" value="IEL Estágio">
+            <span class="dsc-field-error" id="edit-nome-error" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span id="edit-nome-error-text">Campo obrigatório.</span></span>
+          </div>
+          <div class="dsc-field" style="margin-bottom:24px">
+            <label class="dsc-field-label" for="edit-desc">Descrição <span class="dsc-text-muted" style="font-weight:400">(opcional)</span></label>
+            <textarea class="dsc-textarea" id="edit-desc">A categoria IEL Estágio destaca a importância de programas educacionais que promovam práticas inovadoras.</textarea>
+          </div>
+          <div class="dsc-flex dsc-gap-1">
+            <button class="dsc-btn" onclick="saveCategoria('edit')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Salvar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 4: Detalhe da Categoria (Visualizar CFG-CAT-04) -->
+      <!-- ============================================================= -->
+      <div id="screen-detail" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Administração</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-list')">Categorias</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current" id="detail-crumb">IEL Estágio</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title" id="detail-title">IEL Estágio</h1>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar
+            </button>
+            <button class="dsc-btn dsc-btn--outline" onclick="openEdit(detailKey)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+              Editar
+            </button>
+            <button class="dsc-btn dsc-btn--danger dsc-btn--outline" onclick="openConfirm(detailKey)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg>
+              <span id="detail-toggle-label">Inativar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-tabs" id="detail-tabs">
+          <button class="dsc-tab is-active" onclick="switchDetailTab('dados', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="20" x2="9" y2="9"/></svg>
+            Dados Gerais
+          </button>
+          <button class="dsc-tab" onclick="switchDetailTab('vinculos', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg>
+            Vínculos
+          </button>
+        </div>
+
+        <!-- Aba: Dados Gerais (somente leitura, label-valor) -->
+        <div id="tab-dados" class="dsc-card" style="margin-top:24px">
+          <div class="dsc-row">
+            <div class="dsc-col-6">
+              <div class="dsc-lv"><span class="dsc-lv-label">Nome</span><span class="dsc-lv-value" id="lv-nome">IEL Estágio</span></div>
+            </div>
+            <div class="dsc-col-6">
+              <div class="dsc-lv"><span class="dsc-lv-label">Situação</span><span class="dsc-lv-value" id="lv-sit"><span class="dsc-badge dsc-badge--success">Ativo</span></span></div>
+            </div>
+            <div class="dsc-col-12">
+              <div class="dsc-lv"><span class="dsc-lv-label">Descrição</span><span class="dsc-lv-value" id="lv-desc">A categoria IEL Estágio destaca a importância de programas educacionais que promovam práticas inovadoras.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aba: Vínculos (prêmios vinculados + situação do vínculo) -->
+        <div id="tab-vinculos" style="display:none;margin-top:24px">
+          <div class="proto-demo">
+            <span class="proto-demo-label">Estados da aba:</span>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setVinculos('data')">Com vínculos</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setVinculos('empty')">Sem vínculos</button>
+          </div>
+
+          <div id="vinc-data" class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th class="dsc-sortable is-sorted">Prêmio</th>
+                  <th>Etapa</th>
+                  <th>Situação do vínculo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Prêmio IEL 2026</td>
+                  <td>Regional</td>
+                  <td><span class="dsc-badge dsc-badge--success">Ativo</span></td>
+                </tr>
+                <tr>
+                  <td>Inova Talentos 2025</td>
+                  <td>Nacional</td>
+                  <td><span class="dsc-badge dsc-badge--success">Ativo</span></td>
+                </tr>
+                <tr>
+                  <td>Prêmio IEL de Robótica 2027</td>
+                  <td>Regional</td>
+                  <td><span class="dsc-badge dsc-badge--neutral">Inativo</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info">Mostrando 1 a 3 de 3 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+              </span>
+            </div>
+          </div>
+
+          <div id="vinc-empty" class="dsc-table-wrap" style="display:none">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Esta categoria ainda não está vinculada a nenhum prêmio.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura da premiação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <!-- Modal de confirmação: Ativar/Inativar (CFG-CAT-05) -->
+  <div id="modal-confirm" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-confirm',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span id="confirm-title">Inativar categoria</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-confirm',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="confirm-text">Deseja realmente inativar a categoria «IEL Estágio»?</p>
+        <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">A inativação é lógica (exclusão lógica): a categoria não é removida e não afeta as modalidades vinculadas.</p>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-confirm',false)">Cancelar</button>
+        <button class="dsc-btn dsc-btn--danger" id="confirm-ok" onclick="confirmToggle()">Inativar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de sucesso (canto superior direito) -->
+  <div id="toast-ok" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-ok-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> Feature Set CFG-CAT (N2) e os N3 CFG-CAT-01..05. Telas: Catálogo (Pesquisar + Ativar/Inativar), Nova, Editar e Detalhe (Visualizar).</li>
+      <li><strong>Cadastro/edição — erros:</strong> "Salvar" com o Nome vazio mostra "Campo obrigatório."; digite um nome já existente (ex.: <em>Inova Talentos</em>) para ver "Já existe uma categoria com este nome neste prêmio." (CFG-CAT-02/03).</li>
+      <li><strong>⚠️ Unicidade do nome:</strong> a RN1 de CFG-CAT-02 marca como "a confirmar" se a checagem de nome duplicado vale já no catálogo (sem prêmio) ou só no vínculo. O protótipo simula o erro no catálogo.</li>
+      <li><strong>⚠️ Detalhe com "Editar"/"Inativar":</strong> o Fluxo Principal do N2 liga Visualizar → Editar e Visualizar → Ativar/Inativar, então essas ações aparecem no Detalhe. A regra 17 do prompt sugere visualização só-leitura com "Voltar"; conflito registrado para decisão na aprovação.</li>
+      <li><strong>Não representado:</strong> criação rápida pela árvore de configuração (nome padrão "Nova Categoria" + editor) — CFG-CAT-02 caminho alternativo; o Catálogo é a lista administrativa e não usa a árvore "Estrutura".</li>
+      <li><strong>Permissões:</strong> Administrador Regional é somente-leitura (N2). O estado "Você não tem permissão para esta ação." não é encenado — as ações de escrita assumem o perfil Administrador Nacional.</li>
+      <li><strong>⚠️ Shell:</strong> usa o shell real da biblioteca (topbar teal + menu horizontal), não o esqueleto genérico <code>dsc-sidebar</code>/<code>dsc-header</code> do PROMPT_PROTOTYPE_FLOW_FULL — essas classes não existem no <code>ds.css</code> desta instância.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ---- Dados fictícios do catálogo (domínio real) ---- */
+    var CATS = {
+      'iel-estagio':        { nome: 'IEL Estágio',        desc: 'A categoria IEL Estágio destaca a importância de programas educacionais que promovam práticas inovadoras.', sit: 'Ativo',   mod: 3 },
+      'inova-talentos':     { nome: 'Inova Talentos',     desc: 'Categoria voltada a projetos de inovação conduzidos por bolsistas e pesquisadores.',                         sit: 'Ativo',   mod: 2 },
+      'educacao-inovadora': { nome: 'Educação Inovadora', desc: 'Reconhece instituições de ensino com práticas pedagógicas inovadoras.',                                      sit: 'Ativo',   mod: 4 },
+      'estagio-inovador':   { nome: 'Estágio Inovador',   desc: 'Destaca programas de estágio com impacto e inovação na formação profissional.',                              sit: 'Ativo',   mod: 1 },
+      'empresa-inovadora':  { nome: 'Empresa Inovadora',  desc: 'Empresas que se destacam por soluções inovadoras junto ao Sistema Indústria.',                              sit: 'Inativo', mod: 0 },
+      'sistema-s':          { nome: 'Prêmio Sistema S',   desc: 'Categoria histórica das primeiras edições do Sistema S.',                                                    sit: 'Inativo', mod: 2 }
+    };
+    var ORDER = ['iel-estagio', 'inova-talentos', 'educacao-inovadora', 'estagio-inovador', 'empresa-inovadora', 'sistema-s'];
+    var detailKey = 'iel-estagio';
+    var editKey = 'iel-estagio';
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    /* ---- Renderiza a tabela do catálogo ---- */
+    function renderTable() {
+      var eye = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+      var pencil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+      var slash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/></svg>';
+      var check = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>';
+      var html = '';
+      for (var i = 0; i < ORDER.length; i++) {
+        var k = ORDER[i], c = CATS[k];
+        var badge = c.sit === 'Ativo'
+          ? '<span class="dsc-badge dsc-badge--success">Ativo</span>'
+          : '<span class="dsc-badge dsc-badge--neutral">Inativo</span>';
+        var toggle = c.sit === 'Ativo'
+          ? '<button class="dsc-icon-action dsc-icon-action--danger" aria-label="Inativar categoria" title="Inativar" onclick="openConfirm(\'' + k + '\')">' + slash + '</button>'
+          : '<button class="dsc-icon-action dsc-icon-action--success" aria-label="Ativar categoria" title="Ativar" onclick="openConfirm(\'' + k + '\')">' + check + '</button>';
+        html += '<tr>'
+          + '<td><a href="#" onclick="openDetail(\'' + k + '\');return false">' + esc(c.nome) + '</a></td>'
+          + '<td>' + esc(c.desc) + '</td>'
+          + '<td class="dsc-num">' + c.mod + '</td>'
+          + '<td>' + badge + '</td>'
+          + '<td class="dsc-col-actions">'
+          + '<button class="dsc-icon-action" aria-label="Visualizar categoria" title="Visualizar" onclick="openDetail(\'' + k + '\')">' + eye + '</button>'
+          + '<button class="dsc-icon-action dsc-icon-action--info" aria-label="Editar categoria" title="Editar" onclick="openEdit(\'' + k + '\')">' + pencil + '</button>'
+          + toggle
+          + '</td></tr>';
+      }
+      el('cat-tbody').innerHTML = html;
+    }
+
+    /* ---- Navegação entre telas ---- */
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      // seletor de revisão
+      var map = { 'screen-list': 'sw-list', 'screen-new': 'sw-new', 'screen-edit': 'sw-edit', 'screen-detail': 'sw-detail' };
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      if (map[id]) el(map[id]).classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+
+    /* ---- Estados da lista ---- */
+    function setListState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+    function onFiltrar() {
+      var nome = el('fb-nome').value.trim();
+      // Simulação: "zzz" (ou termo improvável) → busca sem resultado; senão, dados.
+      if (nome && /^z/i.test(nome)) setListState('noresult');
+      else setListState('data');
+    }
+    function onLimpar() {
+      el('fb-nome').value = '';
+      el('fb-sit').value = '';
+      setListState('data');
+    }
+
+    /* ---- Nova categoria ---- */
+    function openNew() {
+      el('new-nome').value = '';
+      el('new-desc').value = '';
+      clearError('new');
+      showScreen('screen-new');
+    }
+
+    /* ---- Editar categoria ---- */
+    function openEdit(key) {
+      editKey = key || 'iel-estagio';
+      var c = CATS[editKey];
+      el('edit-nome').value = c.nome;
+      el('edit-desc').value = c.desc;
+      el('edit-crumb').textContent = 'Editar — ' + c.nome;
+      clearError('edit');
+      showScreen('screen-edit');
+    }
+
+    /* ---- Validação e salvamento (cadastrar/editar) ---- */
+    function clearError(mode) {
+      el(mode + '-nome').closest('.dsc-field').classList.remove('is-invalid');
+      el(mode + '-nome-error').style.display = 'none';
+    }
+    function setError(mode, msg) {
+      el(mode + '-nome').closest('.dsc-field').classList.add('is-invalid');
+      el(mode + '-nome-error-text').textContent = msg;
+      el(mode + '-nome-error').style.display = 'flex';
+    }
+    function isDuplicate(nome, mode) {
+      var alvo = nome.toLowerCase();
+      for (var i = 0; i < ORDER.length; i++) {
+        var k = ORDER[i];
+        if (mode === 'edit' && k === editKey) continue; // o próprio registro não conflita
+        if (CATS[k].nome.toLowerCase() === alvo) return true;
+      }
+      return false;
+    }
+    function saveCategoria(mode) {
+      var val = el(mode + '-nome').value.trim();
+      clearError(mode);
+      if (!val) { setError(mode, 'Campo obrigatório.'); return; }
+      if (isDuplicate(val, mode)) { setError(mode, 'Já existe uma categoria com este nome neste prêmio.'); return; }
+      showScreen('screen-list');
+      showToast('Registro salvo com sucesso.');
+    }
+
+    /* ---- Detalhe (visualizar) ---- */
+    function openDetail(key) {
+      detailKey = key || 'iel-estagio';
+      var c = CATS[detailKey];
+      el('detail-title').textContent = c.nome;
+      el('detail-crumb').textContent = c.nome;
+      el('lv-nome').textContent = c.nome;
+      el('lv-desc').textContent = c.desc;
+      el('lv-sit').innerHTML = c.sit === 'Ativo'
+        ? '<span class="dsc-badge dsc-badge--success">Ativo</span>'
+        : '<span class="dsc-badge dsc-badge--neutral">Inativo</span>';
+      el('detail-toggle-label').textContent = c.sit === 'Ativo' ? 'Inativar' : 'Ativar';
+      // volta sempre para a aba Dados Gerais
+      switchDetailTab('dados', el('detail-tabs').querySelector('.dsc-tab'));
+      setVinculos('data');
+      showScreen('screen-detail');
+    }
+    function switchDetailTab(tab, btn) {
+      var tabs = el('detail-tabs').querySelectorAll('.dsc-tab');
+      for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('is-active');
+      if (btn) btn.classList.add('is-active');
+      el('tab-dados').style.display = (tab === 'dados') ? 'block' : 'none';
+      el('tab-vinculos').style.display = (tab === 'vinculos') ? 'block' : 'none';
+    }
+    function setVinculos(name) {
+      el('vinc-data').style.display = (name === 'data') ? 'block' : 'none';
+      el('vinc-empty').style.display = (name === 'empty') ? 'block' : 'none';
+    }
+
+    /* ---- Ativar/Inativar (modal de confirmação + toast) ---- */
+    function openConfirm(key) {
+      var c = CATS[key];
+      var okBtn = el('confirm-ok');
+      if (c.sit === 'Ativo') {
+        el('confirm-title').textContent = 'Inativar categoria';
+        el('confirm-text').textContent = 'Deseja realmente inativar a categoria «' + c.nome + '»?';
+        okBtn.textContent = 'Inativar';
+        okBtn.className = 'dsc-btn dsc-btn--danger';
+      } else {
+        el('confirm-title').textContent = 'Ativar categoria';
+        el('confirm-text').textContent = 'Deseja realmente ativar a categoria «' + c.nome + '»?';
+        okBtn.textContent = 'Ativar';
+        okBtn.className = 'dsc-btn';
+      }
+      okBtn.setAttribute('data-key', key);
+      toggleModal('modal-confirm', true);
+    }
+    function confirmToggle() {
+      var key = el('confirm-ok').getAttribute('data-key');
+      var c = CATS[key];
+      c.sit = (c.sit === 'Ativo') ? 'Inativo' : 'Ativo';
+      renderTable();
+      // se o detalhe estiver aberto para este registro, reflete a nova situação
+      if (detailKey === key && el('screen-detail').classList.contains('is-active')) openDetail(key);
+      toggleModal('modal-confirm', false);
+      showToast('Registro salvo com sucesso.');
+    }
+
+    /* ---- Modal e toast ---- */
+    function toggleModal(id, show) {
+      el(id).style.display = show ? 'flex' : 'none';
+    }
+    function showToast(text) {
+      var t = el('toast-ok');
+      el('toast-ok-text').textContent = text || 'Registro salvo com sucesso.';
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 4000);
+    }
+
+    /* ---- Init ---- */
+    renderTable();
+    setListState('data');
+  </script>
+</body>
+</html>

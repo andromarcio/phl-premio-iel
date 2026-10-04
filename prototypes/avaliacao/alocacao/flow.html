@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Alocação de Avaliadores — Avaliação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    /* Ancoragem do popover de multisseleção (posicionamento, não componente) */
+    .proto-anchor { position:relative; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-part" data-feature="AVL-ALO-01 AVL-ALO-04" class="is-current" onclick="showScreen('screen-participante')">Alocação por Inscrição</button>
+    <button id="sw-aloc" data-feature="AVL-ALO-04" onclick="openAlocar('i1')">Designar avaliadores</button>
+    <button id="sw-drawer" data-feature="AVL-ALO-01" onclick="openDrawer('i2')">Drawer “Projeto”</button>
+    <button id="sw-grupo" data-feature="AVL-ALO-02" onclick="showScreen('screen-grupos')">Alocação por Grupo (contexto)</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">AVL-ALO-04 · AVL-ALO-01 — Avaliação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Avaliação ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-participante')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Avaliação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Alocação por Inscrição (AVL-ALO-04)                   -->
+      <!-- ============================================================= -->
+      <div id="screen-participante" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Avaliação</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Alocação por Inscrição</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div>
+            <div class="dsc-page-title-wrap">
+              <h1 class="dsc-page-title">Alocação por Inscrição</h1>
+            </div>
+            <p class="dsc-page-subtitle">Designe, a partir do pool do grupo, os avaliadores de cada inscrição elegível da etapa.</p>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--outline" onclick="showScreen('screen-grupos')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Alocação por Grupo
+            </button>
+          </div>
+        </div>
+
+        <!-- Premiação, etapa e avaliadores esperados por inscrição -->
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-row">
+            <div class="dsc-col-5">
+              <div class="dsc-field">
+                <label class="dsc-field-label" for="sel-premiacao">Premiação <span class="dsc-req">*</span></label>
+                <select class="dsc-select" id="sel-premiacao">
+                  <option>Prêmio IEL de Talentos 2026</option>
+                  <option>Prêmio IEL de Talentos 2025</option>
+                  <option>Inova Talentos 2026</option>
+                </select>
+              </div>
+            </div>
+            <div class="dsc-col-4">
+              <div class="dsc-field">
+                <label class="dsc-field-label" for="sel-etapa">Etapa <span class="dsc-req">*</span></label>
+                <select class="dsc-select" id="sel-etapa">
+                  <option>Etapa 1 — Triagem Regional</option>
+                  <option selected>Etapa 2 — Avaliação Regional</option>
+                  <option>Etapa 3 — Etapa Nacional</option>
+                </select>
+              </div>
+            </div>
+            <div class="dsc-col-3">
+              <div class="dsc-lv" style="padding-top:22px">
+                <span class="dsc-lv-label">Avaliadores esperados por inscrição</span>
+                <span class="dsc-lv-value"><span class="dsc-tag dsc-tag--highlight dsc-tag--lg">2 por inscrição</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de filtros em MULTISSELEÇÃO (SP05): Grupo · Estado · Situação da alocação -->
+        <div class="dsc-filterbar" style="margin-bottom:12px">
+          <div class="dsc-field proto-anchor">
+            <span class="dsc-field-label">Grupo</span>
+            <div class="dsc-input-chips" id="box-grupo" style="cursor:pointer" onclick="togglePop('pop-grupo')">
+              <span class="dsc-text-muted" id="ph-grupo">Todos os grupos</span>
+            </div>
+            <span class="dsc-field-hint">Categoria · Modalidade · Tipo de participante · Submodalidade</span>
+            <div class="dsc-card" id="pop-grupo" style="display:none;position:absolute;top:70px;left:0;z-index:150;width:420px;max-width:80vw;padding:8px;max-height:280px;overflow:auto">
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="grupo" value="g1" onchange="onFiltroChange()"> IEL Estágio · Individual · Estagiário · Ensino Superior</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="grupo" value="g2" onchange="onFiltroChange()"> IEL Estágio · Individual · Estagiário · Ensino Técnico</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="grupo" value="g3" onchange="onFiltroChange()"> Inova Talentos · Institucional · Empresa · Grande Porte</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="grupo" value="g4" onchange="onFiltroChange()"> Inova Talentos · Institucional · Empresa · Pequeno Porte</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="grupo" value="g5" onchange="onFiltroChange()"> Educação Inovadora · Institucional · Instituição de Ensino · Rede Pública</label>
+            </div>
+          </div>
+
+          <div class="dsc-field proto-anchor">
+            <span class="dsc-field-label">Estado</span>
+            <div class="dsc-input-chips" id="box-uf" style="cursor:pointer" onclick="togglePop('pop-uf')">
+              <span class="dsc-text-muted" id="ph-uf">Todos os estados</span>
+            </div>
+            <span class="dsc-field-hint">“Nacional” reúne as inscrições sem unidade federativa.</span>
+            <div class="dsc-card" id="pop-uf" style="display:none;position:absolute;top:70px;left:0;z-index:150;width:260px;padding:8px;max-height:280px;overflow:auto">
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="Nacional" onchange="onFiltroChange()"> Nacional (sem UF)</label>
+              <hr class="dsc-divider" style="margin:6px 0">
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="BA" onchange="onFiltroChange()"> BA — Bahia</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="ES" onchange="onFiltroChange()"> ES — Espírito Santo</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="GO" onchange="onFiltroChange()"> GO — Goiás</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="MG" onchange="onFiltroChange()"> MG — Minas Gerais</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="PR" onchange="onFiltroChange()"> PR — Paraná</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="SC" onchange="onFiltroChange()"> SC — Santa Catarina</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="uf" value="SP" onchange="onFiltroChange()"> SP — São Paulo</label>
+            </div>
+          </div>
+
+          <div class="dsc-field proto-anchor">
+            <span class="dsc-field-label">Situação da alocação</span>
+            <div class="dsc-input-chips" id="box-sit" style="cursor:pointer" onclick="togglePop('pop-sit')">
+              <span class="dsc-text-muted" id="ph-sit">Todas as situações</span>
+            </div>
+            <span class="dsc-field-hint">Comparação entre designados e esperados por inscrição.</span>
+            <div class="dsc-card" id="pop-sit" style="display:none;position:absolute;top:70px;left:0;z-index:150;width:280px;padding:8px">
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="sit" value="Sem avaliadores" onchange="onFiltroChange()"> Sem avaliadores</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="sit" value="Alocação incompleta" onchange="onFiltroChange()"> Alocação incompleta</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="sit" value="Alocação completa" onchange="onFiltroChange()"> Alocação completa</label>
+              <label class="dsc-flex dsc-items-center dsc-gap-1" style="padding:6px 4px;cursor:pointer"><input type="checkbox" class="dsc-check" data-f="sit" value="Acima do esperado" onchange="onFiltroChange()"> Acima do esperado</label>
+            </div>
+          </div>
+
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="aplicarFiltros()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="limparFiltros()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Critérios aplicados (chips removíveis acima da lista) -->
+        <div class="dsc-flex dsc-items-center dsc-gap-1 dsc-wrap" id="criterios" style="margin-bottom:16px;display:none">
+          <span class="dsc-caption dsc-text-muted">Critérios aplicados:</span>
+          <span id="criterios-chips" class="dsc-flex dsc-gap-1 dsc-wrap"></span>
+          <button class="dsc-btn dsc-btn--chromeless dsc-btn--sm" onclick="limparFiltros()">Limpar todos</button>
+        </div>
+
+        <!-- Barra de demonstração dos estados da lista (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da lista:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setListState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('error')">Erro</button>
+        </div>
+
+        <!-- Estado: COM DADOS -->
+        <div id="state-data">
+          <div class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th class="dsc-sortable is-sorted">Protocolo</th>
+                  <th>Participante / Projeto</th>
+                  <th>Grupo</th>
+                  <th>Estado</th>
+                  <th>Avaliadores alocados</th>
+                  <th>Situação da alocação</th>
+                  <th class="dsc-col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="insc-tbody">
+                <!-- linhas geradas por JS a partir de INSCRICOES -->
+              </tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info" id="pag-info">Mostrando 1 a 8 de 8 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Primeira">«</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Última">»</button>
+              </span>
+              <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>10</option><option>25</option><option>50</option></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: VAZIO (etapa sem inscrições elegíveis) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Esta etapa ainda não tem inscrições elegíveis à alocação.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO (recorte sem correspondência) -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhuma inscrição elegível atende a todos os critérios selecionados.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="limparFiltros()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:18%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:8%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setListState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2: Alocação por Grupo (AVL-ALO-01 — contexto da tela)    -->
+      <!-- ============================================================= -->
+      <div id="screen-grupos" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Avaliação</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Alocação por Grupo</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div>
+            <div class="dsc-page-title-wrap">
+              <h1 class="dsc-page-title">Alocação por Grupo</h1>
+            </div>
+            <p class="dsc-page-subtitle">Grupos da etapa com a quantidade de inscrições e o pool de avaliadores já autorizado.</p>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn" onclick="showScreen('screen-participante')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+              Alocação por Inscrição
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-row">
+            <div class="dsc-col-6">
+              <div class="dsc-field">
+                <label class="dsc-field-label" for="sel-premiacao-g">Premiação <span class="dsc-req">*</span></label>
+                <select class="dsc-select" id="sel-premiacao-g">
+                  <option>Prêmio IEL de Talentos 2026</option>
+                  <option>Prêmio IEL de Talentos 2025</option>
+                </select>
+              </div>
+            </div>
+            <div class="dsc-col-6">
+              <div class="dsc-field">
+                <label class="dsc-field-label" for="sel-etapa-g">Etapa <span class="dsc-req">*</span></label>
+                <select class="dsc-select" id="sel-etapa-g">
+                  <option>Etapa 1 — Triagem Regional</option>
+                  <option selected>Etapa 2 — Avaliação Regional</option>
+                  <option>Etapa 3 — Etapa Nacional</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da matriz:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setGrupoState('data')">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setGrupoState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setGrupoState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setGrupoState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setGrupoState('error')">Erro</button>
+        </div>
+
+        <div id="gstate-data">
+          <div class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th class="dsc-sortable is-sorted">Grupo</th>
+                  <th>Categoria</th>
+                  <th>Modalidade</th>
+                  <th>Tipo de participante</th>
+                  <th class="dsc-num dsc-sortable">Inscrições no grupo</th>
+                  <th class="dsc-num">Avaliadores no pool</th>
+                  <th>Status do pool</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>IEL Estágio × Individual × Estagiário</td>
+                  <td>IEL Estágio</td>
+                  <td>Individual</td>
+                  <td>Estagiário</td>
+                  <td class="dsc-num">128</td>
+                  <td class="dsc-num">6</td>
+                  <td><span class="dsc-badge dsc-badge--success">Pool ativo</span></td>
+                </tr>
+                <tr>
+                  <td>IEL Estágio × Individual × Estudante Bolsista</td>
+                  <td>IEL Estágio</td>
+                  <td>Individual</td>
+                  <td>Estudante Bolsista</td>
+                  <td class="dsc-num">74</td>
+                  <td class="dsc-num">4</td>
+                  <td><span class="dsc-badge dsc-badge--success">Pool ativo</span></td>
+                </tr>
+                <tr>
+                  <td>Inova Talentos × Institucional × Empresa</td>
+                  <td>Inova Talentos</td>
+                  <td>Institucional</td>
+                  <td>Empresa</td>
+                  <td class="dsc-num">96</td>
+                  <td class="dsc-num">5</td>
+                  <td><span class="dsc-badge dsc-badge--success">Pool ativo</span></td>
+                </tr>
+                <tr>
+                  <td>Educação Inovadora × Institucional × Instituição de Ensino</td>
+                  <td>Educação Inovadora</td>
+                  <td>Institucional</td>
+                  <td>Instituição de Ensino</td>
+                  <td class="dsc-num">61</td>
+                  <td class="dsc-num">0</td>
+                  <td><span class="dsc-badge dsc-badge--neutral">Sem avaliadores</span></td>
+                </tr>
+                <tr>
+                  <td>Empresa Inovadora × Institucional × Empresa</td>
+                  <td>Empresa Inovadora</td>
+                  <td>Institucional</td>
+                  <td>Empresa</td>
+                  <td class="dsc-num">33</td>
+                  <td class="dsc-num">3</td>
+                  <td><span class="dsc-badge dsc-badge--success">Pool ativo</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info">Mostrando 1 a 5 de 5 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div id="gstate-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">A premiação selecionada ainda não tem grupos com inscrições.</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="gstate-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Nenhum grupo corresponde à premiação e à etapa selecionadas.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setGrupoState('data')">Ver todos os grupos</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="gstate-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:12%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <div id="gstate-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setGrupoState('data')">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura da premiação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- DIÁLOGO: Designar avaliadores da inscrição (AVL-ALO-04)           -->
+  <!-- ================================================================= -->
+  <div id="modal-alocar" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-alocar',false)">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span id="al-title">Alocar avaliadores — PIEL-2026-000412</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-alocar',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <div class="dsc-row">
+          <div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Grupo</span><span class="dsc-lv-value" id="al-grupo">—</span></div></div>
+          <div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">Estado</span><span class="dsc-lv-value" id="al-uf">—</span></div></div>
+          <div class="dsc-col-3"><div class="dsc-lv"><span class="dsc-lv-label">Esperados</span><span class="dsc-lv-value">2 por inscrição</span></div></div>
+        </div>
+        <hr class="dsc-divider">
+        <span class="dsc-title-sm">Pool do grupo nesta etapa</span>
+        <p class="dsc-field-hint" style="margin:4px 0 12px">Só avaliadores do pool do grupo podem ser designados. A sub-alocação e a sobre-alocação são permitidas.</p>
+        <div id="al-pool"></div>
+      </div>
+      <div class="dsc-modal-footer">
+        <span class="dsc-modal-footer-start dsc-caption dsc-text-muted" id="al-contador">2 selecionado(s) de 2 esperados</span>
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-alocar',false)">Cancelar</button>
+        <button class="dsc-btn" id="al-save" onclick="salvarAlocacao()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmação: retirar avaliador que já registrou notas (RN5) -->
+  <div id="modal-notas" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-notas',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Remover avaliador que já pontuou</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-notas',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="notas-text">Deseja realmente retirar «Ana Lúcia Menezes» desta inscrição?</p>
+        <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">As notas que este avaliador registrou na inscrição deixam de valer (exclusão lógica) e não entram na apuração.</p>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-notas',false)">Cancelar</button>
+        <button class="dsc-btn dsc-btn--danger" onclick="confirmaRemocao()">Retirar avaliador</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- DRAWER LATERAL: "Projeto" — detalhe da inscrição em leitura       -->
+  <!-- ================================================================= -->
+  <div id="drawer-projeto" class="dsc-modal-mask" style="display:none;justify-content:flex-end;padding:0" onclick="if(event.target===this)closeDrawer()">
+    <div class="dsc-modal" style="width:min(620px,100%);max-height:none;height:100%;border-radius:0">
+      <div class="dsc-modal-header">
+        <span class="dsc-flex dsc-items-center dsc-gap-2">Projeto <span class="dsc-badge dsc-badge--info dsc-badge--sm">Somente leitura</span></span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <!-- Loading do drawer -->
+        <div id="drawer-loading" style="display:none">
+          <span class="dsc-loading-inline"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          <div style="margin-top:16px">
+            <span class="dsc-skeleton" style="height:16px;width:60%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:16px;width:90%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:16px;width:75%;margin-bottom:12px"></span>
+            <span class="dsc-skeleton" style="height:120px;width:100%"></span>
+          </div>
+        </div>
+        <div id="drawer-content"></div>
+      </div>
+      <div class="dsc-modal-footer">
+        <span class="dsc-modal-footer-start dsc-caption dsc-text-muted">Ao fechar, a lista volta no mesmo ponto.</span>
+        <button class="dsc-btn dsc-btn--neutral" onclick="closeDrawer()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (canto superior direito) -->
+  <div id="toast" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <svg id="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> N3 <em>AVL-ALO-04 Alocar Avaliador à Inscrição</em> (tela principal, já atualizada pela SP05) e <em>AVL-ALO-01 Consultar Alocação de Avaliadores</em> (segunda tela, só para situar o pool por grupo). Telas: Alocação por Inscrição (`/avaliacao-admin/alocacao-participante`), diálogo de designação, drawer "Projeto" e Alocação por Grupo (`/avaliacao-admin/alocacao-matriz`).</li>
+      <li><strong>Novidade da SP05 encenada:</strong> a barra de filtros em <strong>multisseleção</strong> — Grupo, Estado (com a opção <em>Nacional</em>) e Situação da alocação —, com os critérios aplicados visíveis como <strong>chips removíveis acima da lista</strong>, e o <strong>drawer "Projeto"</strong> abrindo pela lateral, em leitura, sem sair da lista.</li>
+      <li><strong>Estados da listagem:</strong> com dados · vazio ("Nenhum registro encontrado.") · busca sem resultado ("Nenhum resultado para a busca.") · carregando (skeleton + "Carregando…") · erro ("Não foi possível carregar os dados.") — na barra de demonstração e também <strong>de verdade</strong>: combine filtros que não casem (ex.: grupo <em>Ensino Técnico</em> + estado <em>BA</em>) e a lista cai no estado de busca sem resultado.</li>
+      <li><strong>Situação da alocação (N/M):</strong> os quatro valores do N3 aparecem nas linhas — Sem avaliadores (0/2), Alocação incompleta (1/2), Alocação completa (2/2) e Acima do esperado (3/2), esta última encenando a sobre-alocação permitida pela RN3.</li>
+      <li><strong>Nacional:</strong> a inscrição <em>PIEL-2026-000474</em> não tem unidade federativa e aparece como "Nacional" — o filtro de estado a alcança pela opção <em>Nacional (sem UF)</em> (RN8).</li>
+      <li><strong>Retirar avaliador que já pontuou (RN5):</strong> abra "Alocar" na inscrição <em>PIEL-2026-000412</em> e desmarque <em>Ana Lúcia Menezes</em> (marcada como "já registrou notas"): a confirmação avisa que as notas dela deixam de valer por exclusão lógica. O texto da confirmação <strong>não está no MESSAGE-DICTIONARY</strong> — ⚠️ redação a validar.</li>
+      <li><strong>✅ Divergência de vocabulário resolvida na conferência com o código (2026-08-28):</strong> as duas leituras estão certas, para finalidades diferentes. O <strong>grupo de alocação</strong> (<code>TB_ALOCACAO_AVALIADOR_GRUPO</code>) é <strong>etapa × oferta</strong> — categoria × modalidade × tipo de participante, <em>sem</em> submodalidade — como descreve <code>AVL-ALO-01</code>/<code>AVL-ALO-02</code>. O <strong>grupo competitivo</strong> do ranking e do fechamento acrescenta a quarta dimensão: no código, <em>“Enquadramento (submodalidade) — quarta dimensão de grupo competitivo, opcional”</em> (<code>FechamentoEtapaServiceImpl</code>), como descreve <code>AVL-ALO-04</code>. Atenção ao termo: no produto, <strong>submodalidade = enquadramento</strong> (<code>TB_ENQUADRAMENTO</code>), e não a oferta — ver <code>global/CONFORMIDADE-CODIGO.md</code> § 3.2.</li>
+      <li><strong>⚠️ Detalhe do projeto:</strong> a RN10 diz que o conteúdo do drawer replica o detalhe de <code>VAL-ANA-01 Detalhar Inscrição</code> e que a decisão de reaproveitar aquela visão segue pendente (decisão 8 do relatório de impacto da SP05). O drawer aqui monta identificação + respostas + anexos + equipe conforme a RN10; se a decisão for reaproveitar VAL-ANA-01, o layout muda.</li>
+      <li><strong>⚠️ Elegibilidade:</strong> a RN1 (etapas seguintes = inscrições <em>classificadas</em> na etapa anterior, e não as premiadas) está marcada como "a confirmar com a liderança do prêmio" no N3. O protótipo mostra a etapa 2 já com a lista elegível pronta, sem encenar a origem.</li>
+      <li><strong>⚠️ Drawer sem componente no DS:</strong> a biblioteca <code>ds.css</code> não tem componente de painel lateral; o drawer reusa <code>.dsc-modal-mask</code>/<code>.dsc-modal</code> ancorados à direita apenas por estilo inline de posicionamento. Se o drawer virar padrão, vale promovê-lo a componente da biblioteca.</li>
+      <li><strong>Escopo regional:</strong> a RN6 restringe o Administrador Regional às UFs vinculadas ao seu perfil. O protótipo assume o <strong>Administrador Nacional <span style="opacity:.6">PIT.1</span></strong> (todas as UFs); o recorte por perfil não é encenado.</li>
+      <li><strong>Não representado:</strong> Alocar Avaliador ao Grupo (AVL-ALO-02, o picker que compõe o pool) e Cadastrar Avaliador (AVL-ALO-03) — features do mesmo Feature Set, fora do alvo. A matriz de grupos é <strong>somente contexto</strong>.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ---- Catálogos fictícios (domínio real do Prêmio IEL) ---- */
+    var GRUPOS = {
+      g1: 'IEL Estágio · Individual · Estagiário · Ensino Superior',
+      g2: 'IEL Estágio · Individual · Estagiário · Ensino Técnico',
+      g3: 'Inova Talentos · Institucional · Empresa · Grande Porte',
+      g4: 'Inova Talentos · Institucional · Empresa · Pequeno Porte',
+      g5: 'Educação Inovadora · Institucional · Instituição de Ensino · Rede Pública'
+    };
+    var AVALIADORES = {
+      a1: { nome: 'Ana Lúcia Menezes',      login: 'ana.menezes' },
+      a2: { nome: 'Carlos Eduardo Tavares', login: 'carlos.tavares' },
+      a3: { nome: 'Fernanda Rocha Lima',    login: 'fernanda.lima' },
+      a4: { nome: 'João Batista Nogueira',  login: 'joao.nogueira' },
+      a5: { nome: 'Marina Duarte Salles',   login: 'marina.salles' },
+      a6: { nome: 'Rafael Antunes Prado',   login: 'rafael.prado' },
+      a7: { nome: 'Patrícia Vilela Campos', login: 'patricia.campos' },
+      a8: { nome: 'Sérgio Moretti Alencar', login: 'sergio.alencar' }
+    };
+    /* Pool autorizado por grupo nesta etapa (AVL-ALO-02) */
+    var POOL = {
+      g1: ['a3', 'a7', 'a8', 'a1'],
+      g2: ['a8', 'a1', 'a5'],
+      g3: ['a1', 'a2', 'a6'],
+      g4: ['a4', 'a5', 'a6'],
+      g5: ['a3', 'a2', 'a7']
+    };
+    var ESPERADOS = 2; /* quantidade de avaliadores por inscrição — única na premiação (AVL-ETA-01) */
+
+    var INSCRICOES = [
+      { id:'i1', prot:'PIEL-2026-000412', part:'Metalúrgica Vale Verde', proj:'Sensor preditivo na linha de galvanização', grupo:'g3', uf:'MG', aloc:['a1','a2'], comNotas:['a1'],
+        resp:['Perdas detectadas tarde demais na galvanização, com retrabalho e parada não programada da linha.',
+              'Sensores instalados na linha alimentam um modelo que aponta o desvio antes da falha; validado em piloto de seis meses.',
+              'Redução de 22% no retrabalho e de 15% nas paradas não programadas no período do piloto.',
+              'Integra o dado de chão de fábrica à programação da manutenção sem trocar o parque de máquinas.'],
+        anexos:[['Memorial descritivo do projeto.pdf','1,8 MB'],['Carta de anuência da empresa.pdf','240 KB'],['Registro fotográfico da linha.jpg','920 KB']],
+        equipe:[['Renata Alves Coutinho','Responsável pela inscrição','Metalúrgica Vale Verde'],['Bruno Tadeu Marques','Coordenador técnico','Metalúrgica Vale Verde'],['Ítalo Nunes Ribeiro','Estagiário','CEFET-MG']] },
+
+      { id:'i2', prot:'PIEL-2026-000437', part:'Camila Souza Andrade', proj:'Automação do envase em linha piloto', grupo:'g1', uf:'SP', aloc:['a3'], comNotas:[],
+        resp:['A linha de envase parava a cada troca de formato, com ajuste manual demorado.',
+              'Durante o estágio, desenvolvi uma rotina de troca assistida com receitas parametrizadas no CLP da linha.',
+              'O tempo de setup caiu de 40 para 12 minutos por troca de formato.',
+              'O ganho veio de transformar o conhecimento do operador em receita, sem investimento em equipamento novo.'],
+        anexos:[['Relatório de estágio assinado.pdf','1,1 MB'],['Declaração de vínculo do IEL.pdf','180 KB']],
+        equipe:[['Camila Souza Andrade','Responsável pela inscrição','Universidade Estadual Paulista'],['Marcos Vinícius Leal','Supervisor de estágio','Bebidas Ipiranga S.A.']] },
+
+      { id:'i3', prot:'PIEL-2026-000455', part:'SENAI Vitória', proj:'Trilha maker na formação técnica', grupo:'g5', uf:'ES', aloc:[], comNotas:[],
+        resp:['Os alunos do curso técnico chegavam ao estágio sem prática de prototipagem.',
+              'Criamos uma trilha maker de 60 horas integrada ao currículo, com desafios trazidos por empresas parceiras.',
+              '92% das turmas concluíram a trilha e 18 protótipos foram levados a empresas da região.',
+              'A trilha usa demanda real de empresa como enunciado, no lugar do exercício de laboratório.'],
+        anexos:[['Projeto pedagógico da trilha.pdf','2,4 MB'],['Termo de aceite assinado.pdf','160 KB'],['Registro fotográfico das turmas.jpg','1,4 MB']],
+        equipe:[['Heloísa Prado Barcellos','Responsável pela inscrição','SENAI Vitória'],['Diego Sampaio Rangel','Coordenador de curso','SENAI Vitória']] },
+
+      { id:'i4', prot:'PIEL-2026-000468', part:'Têxtil Aurora', proj:'Reuso de água no tingimento', grupo:'g4', uf:'SC', aloc:['a4','a5','a6'], comNotas:[],
+        resp:['O tingimento consumia água tratada em volume alto e elevava o custo do tratamento de efluente.',
+              'Implantamos o reuso do banho de tingimento com filtragem e correção de pH em circuito fechado.',
+              'Reuso de 63% da água do tingimento e queda de 28% no volume de efluente enviado à estação.',
+              'O circuito usa equipamento nacional e se paga em 14 meses, viável para uma empresa de pequeno porte.'],
+        anexos:[['Memorial técnico do circuito.pdf','1,3 MB'],['Laudo de análise do efluente.pdf','680 KB']],
+        equipe:[['Luciana Hartmann Bregenski','Responsável pela inscrição','Têxtil Aurora'],['Everton Kruger','Técnico ambiental','Têxtil Aurora']] },
+
+      { id:'i5', prot:'PIEL-2026-000474', part:'Programa Nacional de Estágio', proj:'Painel único de vagas de estágio', grupo:'g1', uf:'Nacional', aloc:['a7'], comNotas:[],
+        resp:['As vagas de estágio ficavam espalhadas em canais regionais e o estudante não encontrava a oferta.',
+              'Reunimos as vagas das unidades em um painel único, com filtro por curso e por cidade.',
+              '4.300 vagas publicadas e 1.180 encaminhamentos no primeiro semestre.',
+              'É a primeira visão nacional da oferta, antes disponível apenas unidade a unidade.'],
+        anexos:[['Apresentação do painel.pdf','3,2 MB'],['Termo de aceite assinado.pdf','150 KB']],
+        equipe:[['Tatiana Borges Amaral','Responsável pela inscrição','IEL Nacional'],['Gustavo Lemos Ferraz','Analista de projetos','IEL Nacional']] },
+
+      { id:'i6', prot:'PIEL-2026-000489', part:'Lucas Ferreira Pinto', proj:'Gêmeo digital para manutenção preditiva', grupo:'g2', uf:'PR', aloc:['a8','a1'], comNotas:[],
+        resp:['A manutenção do compressor era corretiva e derrubava a produção sem aviso.',
+              'Montei um gêmeo digital simplificado do compressor a partir dos dados de vibração e temperatura.',
+              'Duas falhas previstas com 9 e 12 dias de antecedência, sem parada não programada no semestre.',
+              'Usa sensores de baixo custo e acompanhamento simples, ao alcance de uma empresa pequena.'],
+        anexos:[['Relatório do gêmeo digital.pdf','2,0 MB'],['Declaração de vínculo do IEL.pdf','170 KB']],
+        equipe:[['Lucas Ferreira Pinto','Responsável pela inscrição','SENAI Curitiba'],['Cláudia Bianchi Moraes','Supervisora de estágio','Compressores Paranaense Ltda.']] },
+
+      { id:'i7', prot:'PIEL-2026-000501', part:'Cerâmica Boa Vista', proj:'Forno híbrido de baixa emissão', grupo:'g3', uf:'BA', aloc:[], comNotas:[],
+        resp:['O forno a lenha respondia por quase toda a emissão e por boa parte do custo de energia da olaria.',
+              'Convertemos o forno para operação híbrida com biomassa e gás, com controle da curva de queima.',
+              'Queda de 34% na emissão de particulados e de 19% no custo de energia por milheiro.',
+              'A conversão aproveita o forno existente, o que torna a solução replicável nas olarias da região.'],
+        anexos:[['Projeto de conversão do forno.pdf','1,6 MB'],['Laudo de emissões.pdf','740 KB']],
+        equipe:[['Josefa Andrade Lima','Responsável pela inscrição','Cerâmica Boa Vista'],['Antônio Carlos Sena','Responsável técnico','Cerâmica Boa Vista']] },
+
+      { id:'i8', prot:'PIEL-2026-000517', part:'Colégio Dom Pedro II', proj:'Laboratório de robótica na rede pública', grupo:'g5', uf:'GO', aloc:['a3','a2'], comNotas:[],
+        resp:['A escola não tinha espaço de prática e a evasão no ensino médio técnico era alta.',
+              'Montamos o laboratório com kits de robótica e monitoria de alunos veteranos, em contraturno.',
+              'A evasão caiu de 17% para 8% e a escola levou dois times à olimpíada estadual de robótica.',
+              'A monitoria por veteranos sustenta o laboratório sem depender de professor extra.'],
+        anexos:[['Plano do laboratório.pdf','1,9 MB'],['Termo de aceite assinado.pdf','155 KB'],['Registro das oficinas.jpg','1,2 MB']],
+        equipe:[['Márcia Rezende Villar','Responsável pela inscrição','Colégio Estadual Dom Pedro II'],['Paulo Sérgio Nakamura','Professor de robótica','Colégio Estadual Dom Pedro II']] }
+    ];
+
+    var alocandoId = null;      /* inscrição aberta no diálogo de designação */
+    var pendenteRemocao = null; /* avaliador com notas aguardando confirmação */
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function busca(id) { for (var i = 0; i < INSCRICOES.length; i++) if (INSCRICOES[i].id === id) return INSCRICOES[i]; return null; }
+
+    /* ---- Situação da alocação: derivada de designados × esperados (RN9) ---- */
+    function situacao(n) {
+      if (n === 0) return { txt: 'Sem avaliadores', cls: 'dsc-badge--neutral' };
+      if (n < ESPERADOS) return { txt: 'Alocação incompleta', cls: 'dsc-badge--warning' };
+      if (n === ESPERADOS) return { txt: 'Alocação completa', cls: 'dsc-badge--success' };
+      return { txt: 'Acima do esperado', cls: 'dsc-badge--info' };
+    }
+
+    /* ---- Filtros em multisseleção ---- */
+    function selecionados(f) {
+      var out = [];
+      var boxes = document.querySelectorAll('input[data-f="' + f + '"]');
+      for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) out.push(boxes[i].value);
+      return out;
+    }
+    function togglePop(id) {
+      var alvo = el(id);
+      var abrir = (alvo.style.display === 'none');
+      fechaPopovers();
+      alvo.style.display = abrir ? 'block' : 'none';
+    }
+    function fechaPopovers() {
+      var ids = ['pop-grupo', 'pop-uf', 'pop-sit'];
+      for (var i = 0; i < ids.length; i++) el(ids[i]).style.display = 'none';
+    }
+    function onFiltroChange() { renderChipsFiltro(); }
+    function desmarcar(f, valor) {
+      var boxes = document.querySelectorAll('input[data-f="' + f + '"]');
+      for (var i = 0; i < boxes.length; i++) if (boxes[i].value === valor) boxes[i].checked = false;
+      aplicarFiltros();                      /* chip removido re-aplica o recorte */
+    }
+    function rotulo(f, v) { return (f === 'grupo') ? GRUPOS[v] : v; }
+
+    /* Chips dentro de cada campo — refletem a SELEÇÃO corrente */
+    function renderChipsFiltro() {
+      var mapa = [['grupo', 'box-grupo', 'Todos os grupos'], ['uf', 'box-uf', 'Todos os estados'], ['sit', 'box-sit', 'Todas as situações']];
+      for (var m = 0; m < mapa.length; m++) {
+        var f = mapa[m][0], sel = selecionados(f), html = '';
+        if (!sel.length) {
+          html = '<span class="dsc-text-muted">' + mapa[m][2] + '</span>';
+        } else {
+          for (var i = 0; i < sel.length; i++) {
+            var curto = rotulo(f, sel[i]);
+            if (f === 'grupo') curto = curto.split(' · ').slice(2).join(' · ');
+            html += '<span class="dsc-chip">' + esc(curto) + '<button type="button" aria-label="Remover" onclick="event.stopPropagation();desmarcar(\'' + f + '\',\'' + sel[i] + '\')">×</button></span>';
+          }
+        }
+        el(mapa[m][1]).innerHTML = html;
+      }
+    }
+
+    /* Chips acima da lista — refletem os critérios APLICADOS (após Filtrar) */
+    var APLICADOS = { grupo: [], uf: [], sit: [] };
+    function renderCriterios() {
+      var ordem = ['grupo', 'uf', 'sit'], html = '';
+      for (var m = 0; m < ordem.length; m++) {
+        var f = ordem[m];
+        for (var i = 0; i < APLICADOS[f].length; i++) {
+          html += '<span class="dsc-chip">' + esc(rotulo(f, APLICADOS[f][i])) + '<button type="button" aria-label="Remover critério" onclick="desmarcar(\'' + f + '\',\'' + APLICADOS[f][i] + '\')">×</button></span>';
+        }
+      }
+      el('criterios-chips').innerHTML = html;
+      el('criterios').style.display = html ? 'flex' : 'none';
+    }
+    function aplicarFiltros() {
+      fechaPopovers();
+      APLICADOS = { grupo: selecionados('grupo'), uf: selecionados('uf'), sit: selecionados('sit') };
+      renderChipsFiltro();
+      renderCriterios();
+      renderTabela();
+    }
+    function limparFiltros() {
+      var boxes = document.querySelectorAll('input[data-f]');
+      for (var i = 0; i < boxes.length; i++) boxes[i].checked = false;
+      fechaPopovers();
+      APLICADOS = { grupo: [], uf: [], sit: [] };
+      renderChipsFiltro();
+      renderCriterios();
+      renderTabela();
+    }
+    function filtradas() {
+      var out = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        var r = INSCRICOES[i];
+        if (APLICADOS.grupo.length && APLICADOS.grupo.indexOf(r.grupo) < 0) continue;
+        if (APLICADOS.uf.length && APLICADOS.uf.indexOf(r.uf) < 0) continue;
+        if (APLICADOS.sit.length && APLICADOS.sit.indexOf(situacao(r.aloc.length).txt) < 0) continue;
+        out.push(r);
+      }
+      return out;
+    }
+
+    /* ---- Tabela de inscrições elegíveis ---- */
+    function renderTabela() {
+      var lista = filtradas();
+      var users = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>';
+      var panel = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>';
+      var html = '';
+      for (var i = 0; i < lista.length; i++) {
+        var r = lista[i];
+        var st = situacao(r.aloc.length);
+        var chips = '';
+        if (!r.aloc.length) {
+          chips = '<span class="dsc-text-muted">—</span>';
+        } else {
+          for (var j = 0; j < r.aloc.length; j++) {
+            chips += '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">' + esc(AVALIADORES[r.aloc[j]].nome) + '</span> ';
+          }
+        }
+        html += '<tr>'
+          + '<td>' + esc(r.prot) + '</td>'
+          + '<td><a href="#" onclick="openDrawer(\'' + r.id + '\');return false">' + esc(r.part) + '</a><br><span class="dsc-body-sm dsc-text-muted">' + esc(r.proj) + '</span></td>'
+          + '<td><span class="dsc-body-sm">' + esc(GRUPOS[r.grupo]) + '</span></td>'
+          + '<td>' + (r.uf === 'Nacional' ? '<span class="dsc-tag dsc-tag--info dsc-tag--sm">Nacional</span>' : esc(r.uf)) + '</td>'
+          + '<td><span class="dsc-flex dsc-gap-1 dsc-wrap">' + chips + '</span></td>'
+          + '<td><span class="dsc-badge ' + st.cls + '">' + st.txt + ' (' + r.aloc.length + '/' + ESPERADOS + ')</span></td>'
+          + '<td class="dsc-col-actions">'
+          +   '<button class="dsc-icon-action dsc-icon-action--primary" aria-label="Alocar avaliadores" title="Alocar avaliadores" onclick="openAlocar(\'' + r.id + '\')">' + users + '</button>'
+          +   '<button class="dsc-icon-action dsc-icon-action--info" aria-label="Abrir o projeto" title="Projeto" onclick="openDrawer(\'' + r.id + '\')">' + panel + '</button>'
+          + '</td></tr>';
+      }
+      el('insc-tbody').innerHTML = html;
+      el('pag-info').textContent = lista.length
+        ? 'Mostrando 1 a ' + lista.length + ' de ' + lista.length + ' registros'
+        : 'Mostrando 0 registros';
+      setListState(lista.length ? 'data' : 'noresult');
+    }
+
+    /* ---- Navegação e estados ---- */
+    function showScreen(id) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      marcaBotao(id === 'screen-grupos' ? 'sw-grupo' : 'sw-part');
+      window.scrollTo(0, 0);
+    }
+    function marcaBotao(id) {
+      var btns = document.querySelectorAll('.proto-bar button');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('is-current');
+      el(id).classList.add('is-current');
+    }
+    function setListState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+    }
+    function setGrupoState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) el('gstate-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+    }
+
+    /* ---- Diálogo de designação de avaliadores ---- */
+    function openAlocar(id) {
+      var r = busca(id);
+      if (!r) return;
+      alocandoId = id;
+      el('al-title').textContent = 'Alocar avaliadores — ' + r.prot;
+      el('al-grupo').textContent = GRUPOS[r.grupo];
+      el('al-uf').innerHTML = (r.uf === 'Nacional') ? '<span class="dsc-tag dsc-tag--info dsc-tag--sm">Nacional</span>' : esc(r.uf);
+      var pool = POOL[r.grupo], html = '';
+      for (var i = 0; i < pool.length; i++) {
+        var a = AVALIADORES[pool[i]];
+        var marcado = (r.aloc.indexOf(pool[i]) >= 0) ? ' checked' : '';
+        var selo = (r.comNotas.indexOf(pool[i]) >= 0) ? ' <span class="dsc-tag dsc-tag--warning dsc-tag--sm">já registrou notas</span>' : '';
+        html += '<label class="dsc-flex dsc-items-center dsc-gap-2" style="padding:8px 4px;cursor:pointer;border-bottom:1px solid var(--dsc-border-neutral-3)">'
+          + '<input type="checkbox" class="dsc-check" data-aval="' + pool[i] + '"' + marcado + ' onchange="onPoolChange(this)">'
+          + '<span class="dsc-avatar dsc-avatar--sm">' + esc(a.nome.charAt(0)) + '</span>'
+          + '<span><span class="dsc-body">' + esc(a.nome) + '</span>' + selo + '<br><span class="dsc-body-sm dsc-text-muted">' + esc(a.login) + '</span></span>'
+          + '</label>';
+      }
+      el('al-pool').innerHTML = html;
+      atualizaContador();
+      toggleModal('modal-alocar', true);
+      marcaBotao('sw-aloc');
+    }
+    function marcadosNoPool() {
+      var out = [], boxes = el('al-pool').querySelectorAll('input[data-aval]');
+      for (var i = 0; i < boxes.length; i++) if (boxes[i].checked) out.push(boxes[i].getAttribute('data-aval'));
+      return out;
+    }
+    function atualizaContador() {
+      var n = marcadosNoPool().length;
+      el('al-contador').textContent = n + ' selecionado(s) de ' + ESPERADOS + ' esperados';
+    }
+    function onPoolChange(box) {
+      var r = busca(alocandoId);
+      var aval = box.getAttribute('data-aval');
+      /* Retirada de avaliador que já pontuou: pede confirmação (RN5) */
+      if (!box.checked && r && r.comNotas.indexOf(aval) >= 0) {
+        pendenteRemocao = aval;
+        box.checked = true;
+        el('notas-text').textContent = 'Deseja realmente retirar «' + AVALIADORES[aval].nome + '» desta inscrição?';
+        toggleModal('modal-notas', true);
+        return;
+      }
+      atualizaContador();
+    }
+    function confirmaRemocao() {
+      var boxes = el('al-pool').querySelectorAll('input[data-aval]');
+      for (var i = 0; i < boxes.length; i++) if (boxes[i].getAttribute('data-aval') === pendenteRemocao) boxes[i].checked = false;
+      pendenteRemocao = null;
+      toggleModal('modal-notas', false);
+      atualizaContador();
+    }
+    function salvarAlocacao() {
+      var r = busca(alocandoId);
+      if (!r) return;
+      var novos = marcadosNoPool();
+      var btn = el('al-save');
+      btn.classList.add('is-loading');
+      btn.disabled = true;
+      setTimeout(function () {
+        btn.classList.remove('is-loading');
+        btn.disabled = false;
+        /* Notas do avaliador retirado deixam de valer (exclusão lógica) */
+        var restantes = [];
+        for (var i = 0; i < r.comNotas.length; i++) if (novos.indexOf(r.comNotas[i]) >= 0) restantes.push(r.comNotas[i]);
+        r.comNotas = restantes;
+        r.aloc = novos;
+        toggleModal('modal-alocar', false);
+        marcaBotao('sw-part');
+        renderTabela();              /* mantém os filtros aplicados */
+        showToast('Registro salvo com sucesso.', 'positive');
+      }, 700);
+    }
+
+    /* ---- Drawer "Projeto" (detalhe da inscrição em leitura) ---- */
+    function openDrawer(id) {
+      var r = busca(id);
+      if (!r) return;
+      el('drawer-content').innerHTML = '';
+      el('drawer-loading').style.display = 'block';
+      toggleModal('drawer-projeto', true);
+      marcaBotao('sw-drawer');
+      setTimeout(function () {
+        el('drawer-loading').style.display = 'none';
+        el('drawer-content').innerHTML = drawerHTML(r);
+      }, 600);
+    }
+    function closeDrawer() {
+      toggleModal('drawer-projeto', false);
+      marcaBotao('sw-part');
+    }
+    var PERGUNTAS = ['Qual problema o projeto resolve?', 'Como a solução foi desenvolvida?', 'Resultados alcançados', 'Qual o caráter inovador?'];
+    function respostasHTML(r) {
+      var out = '';
+      for (var i = 0; i < PERGUNTAS.length; i++) {
+        out += '<div class="dsc-lv"><span class="dsc-lv-label">' + PERGUNTAS[i] + '</span><span class="dsc-lv-value">' + esc(r.resp[i]) + '</span></div>';
+      }
+      return out;
+    }
+    function anexosHTML(r, clip) {
+      var out = '';
+      for (var i = 0; i < r.anexos.length; i++) {
+        out += '<tr><td>' + clip + ' ' + esc(r.anexos[i][0]) + '</td><td class="dsc-num">' + esc(r.anexos[i][1]) + '</td></tr>';
+      }
+      return out;
+    }
+    function equipeHTML(r) {
+      var out = '';
+      for (var i = 0; i < r.equipe.length; i++) {
+        out += '<tr><td>' + esc(r.equipe[i][0]) + '</td><td>' + esc(r.equipe[i][1]) + '</td><td>' + esc(r.equipe[i][2]) + '</td></tr>';
+      }
+      return out;
+    }
+    function drawerHTML(r) {
+      var st = situacao(r.aloc.length);
+      var clip = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-3px;color:var(--dsc-grayscale-90)"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>';
+      var html = ''
+        + '<span class="dsc-title-sm">Identificação</span>'
+        + '<div class="dsc-row" style="margin-top:12px">'
+        +   '<div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Protocolo</span><span class="dsc-lv-value">' + esc(r.prot) + '</span></div></div>'
+        +   '<div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Estado</span><span class="dsc-lv-value">' + (r.uf === 'Nacional' ? '<span class="dsc-tag dsc-tag--info dsc-tag--sm">Nacional</span>' : esc(r.uf)) + '</span></div></div>'
+        +   '<div class="dsc-col-12"><div class="dsc-lv"><span class="dsc-lv-label">Participante <span style="opacity:.6">PIT.2</span></span><span class="dsc-lv-value">' + esc(r.part) + '</span></div></div>'
+        +   '<div class="dsc-col-12"><div class="dsc-lv"><span class="dsc-lv-label">Projeto</span><span class="dsc-lv-value">' + esc(r.proj) + '</span></div></div>'
+        +   '<div class="dsc-col-12"><div class="dsc-lv"><span class="dsc-lv-label">Grupo</span><span class="dsc-lv-value">' + esc(GRUPOS[r.grupo]) + '</span></div></div>'
+        +   '<div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Situação da inscrição</span><span class="dsc-lv-value"><span class="dsc-badge dsc-badge--success">Validada</span></span></div></div>'
+        +   '<div class="dsc-col-6"><div class="dsc-lv"><span class="dsc-lv-label">Situação da alocação</span><span class="dsc-lv-value"><span class="dsc-badge ' + st.cls + '">' + st.txt + ' (' + r.aloc.length + '/' + ESPERADOS + ')</span></span></div></div>'
+        + '</div>'
+        + '<hr class="dsc-divider">'
+        + '<span class="dsc-title-sm">Respostas do participante</span>'
+        + '<div style="margin-top:12px">' + respostasHTML(r) + '</div>'
+        + '<hr class="dsc-divider">'
+        + '<span class="dsc-title-sm">Anexos</span>'
+        + '<div class="dsc-table-wrap" style="margin-top:12px">'
+        +   '<table class="dsc-table dsc-table--dense"><tbody>' + anexosHTML(r, clip) + '</tbody></table>'
+        + '</div>'
+        + '<hr class="dsc-divider">'
+        + '<span class="dsc-title-sm">Equipe</span>'
+        + '<div class="dsc-table-wrap" style="margin-top:12px">'
+        +   '<table class="dsc-table dsc-table--dense">'
+        +     '<thead><tr><th>Integrante</th><th>Papel</th><th>Instituição</th></tr></thead>'
+        +     '<tbody>' + equipeHTML(r) + '</tbody>'
+        +   '</table>'
+        + '</div>';
+      return html;
+    }
+
+    /* ---- Modal e toast ---- */
+    function toggleModal(id, show) { el(id).style.display = show ? 'flex' : 'none'; }
+    function showToast(text, kind) {
+      var t = el('toast');
+      el('toast-text').textContent = text;
+      t.className = 'dsc-toast dsc-toast--' + (kind || 'positive');
+      el('toast-icon').innerHTML = (kind === 'positive' || !kind)
+        ? '<path d="M20 6 9 17l-5-5"/>'
+        : '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>';
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 5000);
+    }
+
+    /* ---- Fecha os popovers ao clicar fora ---- */
+    document.addEventListener('click', function (ev) {
+      var n = ev.target;
+      while (n && n !== document.body) {
+        if (n.id && (n.id.indexOf('pop-') === 0 || n.id.indexOf('box-') === 0)) return;
+        n = n.parentNode;
+      }
+      fechaPopovers();
+    });
+
+    /* ---- Init ---- */
+    renderChipsFiltro();
+    renderCriterios();
+    renderTabela();
+    setGrupoState('data');
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+---
+id: AVL-ETA-07
+feature_set: AVL-ETA
+dominio: AVL
+entidade: Termo de Confidencialidade
+prioridade: P2
+mvp: false
+data_model_ref: data-models/avaliacao.md#termo-de-confidencialidade
+endpoints: []
+error_codes: []
+depende_de: []
+estado: rascunho
+gates:
+  requisitos:   { aprovado: false, por: "", em: "", pr: "" }
+  modelo-dados: { aprovado: false, por: "", em: "", pr: "" }
+  testes:       { aprovado: false, por: "", em: "", pr: "" }
+  codigo:       { aprovado: false, por: "", em: "", pr: "" }
+---
+
+# Configurar Termo de Confidencialidade
+> **Nível 3** - Feature Set: Etapas e Configuração da Avaliação — Domínio: Avaliação - `AVL-ETA-07`
+> **Prioridade**: P2 · **MVP**: não
+
+## Descrição
+Permite ao administrador cadastrar, substituir ou desativar o termo de confidencialidade — em texto ou arquivo — exigido do avaliador na premiação.
+
+> ⚠️ Feature derivada do modelo de dados (`Termo de Confidencialidade`) e do N2; a HU específica do termo (HU-029) não faz parte deste lote — validar o conteúdo quando disponível.
+
+---
+
+<div class="dev-only">
+
+## Superfície
+
+**Tela própria** — rota `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(aba **Avaliação & Etapas** → “Termo de Confidencialidade do Avaliador”)* (cadastro do termo de confidencialidade)
+
+**Fidelidade ao protótipo**: n/a
+
+---
+
+</div>
+
+## Regras de negócio
+
+1. Uma premiação mantém no máximo um termo de confidencialidade ativo por vez.
+2. O termo é fornecido de uma única forma por vez: texto ou arquivo anexo.
+3. Substituir o termo desativa o termo anterior e passa o novo a ser o termo ativo da premiação.
+4. O termo de confidencialidade ativo é exigido do avaliador antes do início das avaliações da premiação. ⚠️ *(o aceite do termo pelo avaliador é especificado em Avaliação de Projetos — AVL-AVA)*
+5. O arquivo do termo respeita o tamanho e os tipos permitidos. → ver RULES-DICTIONARY: Arquivo com tamanho máximo (parâmetro: tamanho e tipos a confirmar ⚠️).
+
+---
+
+## Cenários
+
+```gherkin
+# ← MESSAGE-DICTIONARY: BASELINE
+
+# ── Caminho feliz ──────────────────────────────────────────────
+
+Scenario: Cadastrar termo de confidencialidade em texto
+  Given que a premiação não tem termo de confidencialidade ativo
+  When escolho o tipo Texto, informo o conteúdo do termo e salvo
+  Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
+
+Scenario: Cadastrar termo de confidencialidade como arquivo
+  Given que a premiação não tem termo de confidencialidade ativo
+  When escolho o tipo Arquivo, anexo o documento do termo e salvo
+  Then o sistema registra o termo como ativo e exibe "Registro salvo com sucesso."
+
+# ── Estados especiais ──────────────────────────────────────────
+
+Scenario: Substituir o termo ativo
+  Given que a premiação já tem um termo de confidencialidade ativo
+  When cadastro um novo termo e salvo
+  Then o sistema desativa o termo anterior e passa o novo a vigorar como termo ativo
+
+Scenario: Desativar o termo de confidencialidade
+  Given que a premiação tem um termo de confidencialidade ativo
+  When desativo o termo
+  Then o sistema deixa a premiação sem termo de confidencialidade ativo
+
+# ── Erros de validação ─────────────────────────────────────────
+
+Scenario: Arquivo do termo acima do tamanho permitido
+  Given que seleciono um arquivo de termo maior que o tamanho máximo
+  When tento salvar
+  Then o sistema rejeita e exibe "Arquivo excede o tamanho máximo de [tamanho]."
+  # ← RULES-DICTIONARY: Arquivo com tamanho máximo
+
+# ── Restrições de acesso ───────────────────────────────────────
+
+Scenario: Usuário sem permissão de configuração
+  Given que meu perfil não tem permissão para configurar o termo de confidencialidade
+  When tento salvar o termo
+  Then o sistema bloqueia e exibe "Você não tem permissão para esta ação."
+```
+
+---
+
+## Campos
+
+| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|
+| Título | entrada do usuário | editável | texto | não | máximo de 500 caracteres |
+| Tipo do termo | entrada do usuário | editável | opção (Texto, Arquivo) | sim | define se o termo é fornecido como texto ou como arquivo |
+| Texto do termo | entrada do usuário | editável | texto longo | condicional | obrigatório quando o Tipo do termo é Texto |
+| Arquivo do termo | entrada do usuário (anexo) | editável | arquivo | condicional | obrigatório quando o Tipo do termo é Arquivo; respeita tamanho e tipos permitidos ⚠️ |
+
+---
+
+## Campos automáticos
+
+| Label PO | Valor | Quando |
+|---|---|---|
+| Situação do termo | Ativo | No cadastro de um novo termo |
+| Situação do termo anterior | Inativo | Ao substituir o termo ativo |
+
+---
+
+## Comportamento de tela
+
+### Onde fica
+Página do termo de confidencialidade em `/configuracao-premiacao/premiacoes/:premiacaoId/configurar` *(aba **Avaliação & Etapas** → “Termo de Confidencialidade do Avaliador”)*: seleção do tipo (texto ou arquivo), o editor de texto ou o campo de anexo conforme o tipo, e as ações de salvar e desativar.
+
+### Estados da tela
+
+| Estado | Comportamento |
+|---|---|
+| Loading | Botão "Salvar" desabilitado com indicador enquanto grava |
+| Erro de validação | Sinaliza conteúdo do termo ausente ou arquivo fora do tamanho/tipo permitidos |
+| Erro de servidor | Exibe "Ocorreu um erro. Tente novamente." |
+| Sucesso | Exibe "Registro salvo com sucesso." |
+| Empty state | Sem termo ativo: convite a cadastrar o termo de confidencialidade |
+
+---
+
+## Critérios de sucesso
+
+| # | Critério mensurável | Origem |
+|---|---|---|
+| SC-01 | Um termo de confidencialidade (texto ou arquivo) é registrado como ativo na premiação | cenário "Cadastrar termo de confidencialidade em texto" |
+| SC-02 | Cadastrar um novo termo desativa o termo anterior | cenário "Substituir o termo ativo" |
+| SC-03 | O termo ativo pode ser desativado, deixando a premiação sem termo vigente | cenário "Desativar o termo de confidencialidade" |
+
+---
+
+## Métricas de tamanho
+
+> **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
+
+| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — |
+
+**Total: — PF.**
+
+---
+
+## Changelog
+
+<!-- Ordem decrescente por data: a entrada mais recente fica sempre no topo, logo abaixo do cabeçalho. -->
+
+| Data | Autor | Tipo | Descrição |
+|---|---|---|---|
+| 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
+| 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do modelo de dados e do N2 (HU-029 fora deste lote) |
+
+---
+
+*Feature Set: Etapas e Configuração da Avaliação · Domínio: Avaliação · Última revisão: 2026-08-27*
+
+*Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

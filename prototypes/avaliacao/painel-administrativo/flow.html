@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<!--
+  ⚠️ PROTÓTIPO NAVEGÁVEL — treino, não jogo.
+  Fonte de verdade de LAYOUT, COMPORTAMENTO e ESTADOS — NUNCA de implementação.
+  Não copie este HTML/CSS/JS para o código de produção: aqui tudo é autocontido
+  e procedural DE PROPÓSITO (simulação). A implementação real segue outra
+  estratégia: componentes do design system do projeto (mapa de equivalência no
+  README do tema), catálogo global/PATTERNS.md e convenções do global/MASTER.md.
+  Classes .dsc-* são EXCLUSIVAS de protótipo — proibidas em código de produção.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo: Painel Administrativo de Avaliações — Avaliação</title>
+  <!-- Biblioteca de componentes (Prêmio IEL DS) — não inventar estilos -->
+  <link rel="stylesheet" href="../../_biblioteca-ds/ds.css">
+  <style>
+    /* Chrome EXCLUSIVO do protótipo (fora do "sistema") — não redefine classes .dsc-*. */
+    .proto-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 16px; background:#111417; color:#f9fafb; font-size:13px; }
+    .proto-bar strong { font-weight:700; margin-right:4px; }
+    .proto-bar button { height:30px; padding:0 12px; border-radius:4px; border:1px solid #3a444d; background:#2b333a; color:#f9fafb; font:inherit; font-size:12px; cursor:pointer; }
+    .proto-bar button:hover { background:#3a444d; }
+    .proto-bar button.is-current { background:#3b8580; border-color:#3b8580; color:#fff; font-weight:600; }
+    .proto-bar .sepv { width:1px; height:18px; background:#3a444d; margin:0 2px; }
+    .proto-demo { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:16px; padding:10px 12px; border:1px dashed var(--dsc-border-neutral-3); border-radius:6px; background:var(--dsc-bg-neutral-1); }
+    .proto-demo-label { font-size:12px; font-weight:700; color:var(--dsc-grayscale-90); text-transform:uppercase; letter-spacing:.04em; }
+    .proto-conformidade { margin:0; padding:8px 16px; background:#0f2f2c; color:#a7e8e0; font-size:12px; border-bottom:1px solid #1c4a45; }
+    .proto-conformidade code { background:rgba(255,255,255,.08); padding:1px 5px; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Seletor de tela (revisão) — discreto, fora do sistema -->
+  <div class="proto-bar">
+    <strong>Revisar telas:</strong>
+    <button id="sw-list" data-feature="AVL-PAI-01" class="is-current" onclick="showScreen('screen-list','sw-list')">Painel de Avaliações</button>
+    <button id="sw-detail" data-feature="AVL-PAI-02" onclick="openDetail('i1','e1','avaliadores','sw-detail')">Avaliações por Etapa</button>
+    <button id="sw-cons" data-feature="AVL-PAI-03" onclick="openDetail('i3','e1','consolidacao','sw-cons')">Consolidar Avaliação</button>
+    <button id="sw-lock" data-feature="AVL-PAI-03" onclick="abrirCasoFechado()">Consolidação bloqueada (BA fechada)</button>
+    <button id="sw-xlsx" data-feature="AVL-PAI-04" onclick="abrirPlanilhaAvaliadores()">Planilha de avaliadores</button>
+    <span class="sepv"></span>
+    <strong>Perfil:</strong>
+    <button id="sw-nac" class="is-current" onclick="setPerfil('nacional')">Adm. Nacional <span style="opacity:.6">PIT.1</span></button>
+    <button id="sw-reg" onclick="setPerfil('regional')">Adm. Regional (MG · ES)</button>
+    <span class="sepv"></span>
+    <span style="color:#97a3ab">AVL-PAI · Avaliação</span>
+  </div>
+
+  <div class="dsc-proto-badge">🎨 PROTÓTIPO — não é o sistema real</div>
+  <!-- Conferência doc × código, 2026-08-28: rotas e perfis deste protótipo foram alinhados ao
+       backend e ao frontend reais. Divergências que continuam abertas (inclusive a arquitetura
+       de navegação da configuração da premiação) estão em global/CONFORMIDADE-CODIGO.md. -->
+  <div class="proto-conformidade">✅ Rotas e perfis conferidos com o código em 2026-08-28 — divergências abertas em <code>global/CONFORMIDADE-CODIGO.md</code></div>
+
+  <div class="dsc-app">
+
+    <!-- Barra superior fixa (marca) -->
+    <header class="dsc-topbar">
+      <a href="#" class="dsc-topbar-brand" onclick="return false">Prêmio IEL</a>
+      <div class="dsc-topbar-user">
+        <span class="dsc-topbar-name" id="top-user">Pedro Henrique Fernandes Barbosa · <span style="opacity:.85">Administrador Nacional <span style="opacity:.6">PIT.1</span></span></span>
+        <span class="dsc-topbar-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <!-- Menu horizontal principal: Premiação > Avaliações ativo -->
+    <nav class="dsc-navbar">
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l4-2"/></svg>
+        Dashboard
+      </a>
+      <a class="dsc-nav-item" href="#" onclick="return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Administração
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <a class="dsc-nav-item is-active" href="#" onclick="showScreen('screen-list','sw-list')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></svg>
+        Premiação
+        <svg class="dsc-nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+    </nav>
+
+    <main class="dsc-main">
+
+      <!-- ============================================================= -->
+      <!-- TELA 1: Painel de Avaliações (AVL-PAI-01)                     -->
+      <!-- ============================================================= -->
+      <div id="screen-list" class="dsc-screen is-active">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Avaliações</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title">Avaliações</h1>
+            <p class="dsc-page-subtitle" id="list-subtitle">Prêmio IEL de Talentos 2026 · Etapa 1 — Regional</p>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--outline" onclick="abrirPlanilhaAvaliadores()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar relatório de avaliadores
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de demonstração dos estados da lista (proto only) -->
+        <div class="proto-demo">
+          <span class="proto-demo-label">Estados da lista:</span>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="renderTabela()">Com dados</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('empty')">Vazio</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('noresult')">Busca sem resultado</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('loading')">Carregando</button>
+          <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setListState('error')">Erro</button>
+        </div>
+
+        <!-- Recorte do Administrador Regional (só aparece no perfil regional) -->
+        <div id="escopo-alert" class="dsc-alert" role="status" style="display:none;margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span id="escopo-alert-text">Administrador Regional — acompanhamento restrito aos estados vinculados.</span>
+        </div>
+
+        <!-- Indicadores agregados (AVL-PAI-01 · cenário "Consultar os indicadores agregados") -->
+        <div class="dsc-row" style="margin-bottom:16px">
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Avaliadores alocados</span>
+              <p class="dsc-title-sm" id="kpi-alocados">0</p>
+            </div>
+          </div>
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Avaliações em andamento</span>
+              <p class="dsc-title-sm" id="kpi-andamento">0</p>
+            </div>
+          </div>
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Avaliações concluídas</span>
+              <p class="dsc-title-sm" id="kpi-concluidas">0</p>
+            </div>
+          </div>
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Prontas para consolidação</span>
+              <p class="dsc-title-sm" id="kpi-prontas">0</p>
+            </div>
+          </div>
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Consolidadas</span>
+              <p class="dsc-title-sm" id="kpi-consolidadas">0</p>
+            </div>
+          </div>
+          <div class="dsc-col-2">
+            <div class="dsc-card">
+              <span class="dsc-caption dsc-text-muted">Sem avaliadores</span>
+              <p class="dsc-title-sm" id="kpi-sem">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumo de consolidação por estado (SP05 · AVL-PAI-01 RN8/RN9) -->
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-card-header">
+            <h2 class="dsc-card-title">Consolidação por estado</h2>
+            <span class="dsc-body-sm dsc-text-muted" id="resumo-legenda">Inscrições com feedback consolidado sobre o total da etapa</span>
+          </div>
+          <div id="resumo-estados"></div>
+        </div>
+
+        <!-- Barra de filtros: Premiação · Etapa · Estado (UF) · Status de consolidação · Busca -->
+        <div class="dsc-filterbar" style="margin-bottom:16px">
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-premio">Premiação</label>
+            <select class="dsc-select" id="fb-premio" onchange="renderTudo()">
+              <option value="">Prêmio IEL de Talentos 2026</option>
+            </select>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-etapa">Etapa</label>
+            <select class="dsc-select" id="fb-etapa" onchange="renderTudo()">
+              <option value="e1" selected>1 · Regional</option>
+              <option value="e2">2 · Nacional</option>
+              <option value="">Todas as etapas</option>
+            </select>
+          </div>
+          <div class="dsc-field" style="flex:2 1 280px">
+            <label class="dsc-field-label">Estado (UF) <span class="dsc-text-muted" style="font-weight:400">(seleção múltipla)</span></label>
+            <span class="dsc-input-chips" id="fb-uf-chips" onclick="openUfModal()"></span>
+          </div>
+          <div class="dsc-field" style="flex:2 1 280px">
+            <label class="dsc-field-label">Status de consolidação <span class="dsc-text-muted" style="font-weight:400">(seleção múltipla)</span></label>
+            <span class="dsc-input-chips" id="fb-st-chips" onclick="openStatusModal()"></span>
+          </div>
+          <div class="dsc-field">
+            <label class="dsc-field-label" for="fb-busca">Busca</label>
+            <span class="dsc-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="dsc-input" id="fb-busca" placeholder="Protocolo, identificador ou participante…"></span>
+          </div>
+          <div class="dsc-filterbar-actions">
+            <button class="dsc-btn" onclick="onFiltrar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Filtrar
+            </button>
+            <button class="dsc-btn dsc-btn--neutral" onclick="onLimpar()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Limpar
+            </button>
+          </div>
+        </div>
+
+        <!-- Estado: COM DADOS (árvore inscrição › etapa › avaliadores em tabela) -->
+        <div id="state-data">
+          <div class="dsc-table-wrap">
+            <table class="dsc-table">
+              <thead>
+                <tr>
+                  <th class="dsc-sortable is-sorted">Inscrição (Identificador · Protocolo)</th>
+                  <th>Premiação</th>
+                  <th>Categoria</th>
+                  <th>Modalidade</th>
+                  <th class="dsc-sortable">Estado (UF)</th>
+                  <th>Avaliações</th>
+                  <th class="dsc-sortable">Status de consolidação</th>
+                  <th class="dsc-col-actions">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="aval-tbody"><!-- linhas geradas por JS --></tbody>
+            </table>
+            <div class="dsc-pagination">
+              <span class="dsc-pagination-info" id="pag-info">Mostrando 1 a 15 de 15 registros</span>
+              <span class="dsc-pagination-controls">
+                <button class="dsc-pagination-btn" disabled aria-label="Primeira">«</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+                <button class="dsc-pagination-btn" disabled aria-label="Última">»</button>
+              </span>
+              <select class="dsc-select dsc-pagination-size" aria-label="Itens por página"><option>25</option><option>50</option><option>100</option></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: VAZIO (sem avaliações na premiação) -->
+        <div id="state-empty" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></span>
+              <span class="dsc-state-title">Nenhum registro encontrado.</span>
+              <span class="dsc-state-text">Ainda não há avaliações em andamento nesta premiação. Aloque avaliadores às inscrições validadas para começar.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: BUSCA SEM RESULTADO -->
+        <div id="state-noresult" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+              <span class="dsc-state-title">Nenhum resultado para a busca.</span>
+              <span class="dsc-state-text">Revise o termo buscado, os estados selecionados ou o status de consolidação e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="onLimpar()">Limpar filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado: CARREGANDO (skeleton) -->
+        <div id="state-loading" style="display:none">
+          <div class="dsc-table-wrap" style="padding:16px">
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:26%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:26%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+              <span class="dsc-skeleton" style="height:16px;width:26%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+              <span class="dsc-skeleton" style="height:16px;width:26%"></span>
+              <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+              <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+            </div>
+            <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+          </div>
+        </div>
+
+        <!-- Estado: ERRO AO CARREGAR -->
+        <div id="state-error" style="display:none">
+          <div class="dsc-table-wrap">
+            <div class="dsc-state">
+              <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+              <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+              <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="renderTabela()">Tentar novamente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 4: Planilha do relatório de avaliadores (AVL-PAI-04)      -->
+      <!-- ============================================================= -->
+      <div id="screen-xlsx" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-list','sw-list')">Avaliações</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current">Relatório de avaliadores</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <div>
+              <h1 class="dsc-page-title">Relatório de avaliadores — planilha</h1>
+              <p class="dsc-page-subtitle">Dois níveis: o total por avaliador e a relação das avaliações do recorte consultado.</p>
+            </div>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list','sw-list')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar ao painel
+            </button>
+          </div>
+        </div>
+
+        <div class="dsc-alert" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span><strong>Encenação do protótipo.</strong> No sistema real a ação entrega o arquivo pelo navegador; esta tela existe para revisar o <strong>conteúdo</strong>. Os critérios são os já escolhidos na consulta — a exportação não tem filtro próprio (RN1) e não é paginada (RN2).</span>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-flex dsc-gap-2 dsc-wrap dsc-items-center">
+            <span class="dsc-lv-label">Mesmo recorte do painel:</span>
+            <span class="dsc-chip" id="xl-premio">Premiação: Prêmio IEL de Talentos 2026</span>
+            <span class="dsc-chip" id="xl-etapa">Etapa: Regional</span>
+            <span class="dsc-chip" id="xl-escopo">Escopo: todos os estados</span>
+            <span class="dsc-chip" id="xl-cegas">Identificação do avaliador visível</span>
+          </div>
+        </div>
+
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-card-header">
+            <div><span class="dsc-card-title">Aba: Resumo por avaliador</span>
+            <div class="dsc-body-sm dsc-text-muted">Uma linha por avaliador, com os totais por situação</div></div>
+          </div>
+          <div class="dsc-table-wrap" id="xl-resumo"></div>
+        </div>
+
+        <div class="dsc-card">
+          <div class="dsc-card-header">
+            <div><span class="dsc-card-title">Aba: Avaliações</span>
+            <div class="dsc-body-sm dsc-text-muted">Uma linha por avaliação do recorte</div></div>
+          </div>
+          <div class="dsc-table-wrap" id="xl-detalhe"></div>
+        </div>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- TELA 2/3: Detalhe da Avaliação — abas Avaliadores (AVL-PAI-02) -->
+      <!--          e Consolidação (AVL-PAI-03)                          -->
+      <!-- ============================================================= -->
+      <div id="screen-detail" class="dsc-screen">
+        <nav class="dsc-breadcrumb">
+          <a href="#" onclick="return false">Início</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="return false">Premiação</a>
+          <span class="dsc-sep">›</span>
+          <a href="#" onclick="showScreen('screen-list','sw-list')">Avaliações</a>
+          <span class="dsc-sep">›</span>
+          <span class="is-current" id="det-crumb">Detalhe da avaliação</span>
+        </nav>
+
+        <div class="dsc-page-header">
+          <div class="dsc-page-title-wrap">
+            <h1 class="dsc-page-title" id="det-title">Detalhe da avaliação</h1>
+            <p class="dsc-page-subtitle" id="det-subtitle">—</p>
+          </div>
+          <div class="dsc-page-actions">
+            <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list','sw-list')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              Voltar
+            </button>
+            <button class="dsc-btn dsc-btn--outline" onclick="openNotas()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              Conferência de notas
+            </button>
+          </div>
+        </div>
+
+        <!-- Cabeçalho de identificação (AVL-PAI-02 · ## Campos) -->
+        <div class="dsc-card" style="margin-bottom:16px">
+          <div class="dsc-row">
+            <div class="dsc-col-4">
+              <div class="dsc-lv"><span class="dsc-lv-label">Identificação do participante</span><span class="dsc-lv-value" id="lv-part">—</span></div>
+            </div>
+            <div class="dsc-col-4">
+              <div class="dsc-lv"><span class="dsc-lv-label">Premiação · Categoria · Modalidade</span><span class="dsc-lv-value" id="lv-pcm">—</span></div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-lv"><span class="dsc-lv-label">Etapa atual</span><span class="dsc-lv-value" id="lv-etapa">—</span></div>
+            </div>
+            <div class="dsc-col-2">
+              <div class="dsc-lv"><span class="dsc-lv-label">Estado (UF)</span><span class="dsc-lv-value" id="lv-uf">—</span></div>
+            </div>
+            <div class="dsc-col-4">
+              <div class="dsc-lv"><span class="dsc-lv-label">Avaliadores (finalizados / alocados)</span><span class="dsc-lv-value" id="lv-aval">—</span></div>
+            </div>
+            <div class="dsc-col-4">
+              <div class="dsc-lv"><span class="dsc-lv-label">Status de consolidação</span><span class="dsc-lv-value" id="lv-status">—</span></div>
+            </div>
+            <div class="dsc-col-4">
+              <div class="dsc-lv"><span class="dsc-lv-label">Confidencialidade da premiação</span><span class="dsc-lv-value" id="lv-confid">—</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dsc-tabs" id="det-tabs">
+          <button class="dsc-tab is-active" id="tabbtn-avaliadores" onclick="switchTab('avaliadores')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><path d="M17 11a3 3 0 1 0 0-6"/><path d="M19 21v-1a5 5 0 0 0-3-4.6"/></svg>
+            Avaliadores
+          </button>
+          <button class="dsc-tab" id="tabbtn-consolidacao" onclick="switchTab('consolidacao')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+            Consolidação
+          </button>
+        </div>
+
+        <!-- ---------------- ABA: AVALIADORES (AVL-PAI-02) ---------------- -->
+        <div id="tab-avaliadores" style="margin-top:24px">
+          <div class="proto-demo">
+            <span class="proto-demo-label">Estados da lista:</span>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setAvalState('data')">Com dados</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setAvalState('empty')">Vazio (etapa sem avaliadores)</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setAvalState('loading')">Carregando</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setAvalState('error')">Erro</button>
+            <span class="sepv"></span>
+            <span class="proto-demo-label">Premiação confidencial:</span>
+            <span class="dsc-flex dsc-items-center dsc-gap-1"><span class="dsc-switch" id="sw-confid" onclick="toggleConfid()"></span> <span class="dsc-body-sm">Avaliadores como “Avaliador N”</span></span>
+          </div>
+
+          <div id="av-data">
+            <div class="dsc-table-wrap" style="margin-bottom:24px">
+              <table class="dsc-table">
+                <thead>
+                  <tr>
+                    <th class="dsc-sortable is-sorted">Avaliador</th>
+                    <th class="dsc-sortable">Status</th>
+                    <th>Início da avaliação</th>
+                    <th>Finalização da avaliação</th>
+                    <th class="dsc-num">Média ponderada</th>
+                    <th class="dsc-col-actions">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="av-tbody"></tbody>
+              </table>
+              <div class="dsc-pagination">
+                <span class="dsc-pagination-info" id="av-pag">Mostrando 1 a 3 de 3 registros</span>
+                <span class="dsc-pagination-controls">
+                  <button class="dsc-pagination-btn" disabled aria-label="Anterior">‹</button>
+                  <button class="dsc-pagination-btn is-current" aria-current="page">1</button>
+                  <button class="dsc-pagination-btn" disabled aria-label="Próxima">›</button>
+                </span>
+              </div>
+            </div>
+
+            <!-- Uma aba somente leitura por avaliador: parecer + notas por questão -->
+            <div class="dsc-card">
+              <div class="dsc-card-header">
+                <h2 class="dsc-card-title">Parecer individual</h2>
+                <span class="dsc-body-sm dsc-text-muted">Somente leitura para o administrador (AVL-PAI-02 RN2)</span>
+              </div>
+              <div class="dsc-tabs" id="par-tabs"></div>
+              <div id="par-conteudo" style="margin-top:16px"></div>
+            </div>
+          </div>
+
+          <div id="av-empty" style="display:none">
+            <div class="dsc-table-wrap">
+              <div class="dsc-state">
+                <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/></svg></span>
+                <span class="dsc-state-title">Nenhum registro encontrado.</span>
+                <span class="dsc-state-text">Esta inscrição ainda não tem avaliadores alocados nesta etapa.</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="av-loading" style="display:none">
+            <div class="dsc-table-wrap" style="padding:16px">
+              <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+                <span class="dsc-skeleton" style="height:16px;width:30%"></span>
+                <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+                <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+                <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              </div>
+              <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:16px">
+                <span class="dsc-skeleton" style="height:16px;width:30%"></span>
+                <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+                <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+                <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              </div>
+              <div class="dsc-flex dsc-items-center dsc-gap-2" style="margin-bottom:8px">
+                <span class="dsc-skeleton" style="height:16px;width:30%"></span>
+                <span class="dsc-skeleton" style="height:16px;width:14%"></span>
+                <span class="dsc-skeleton" style="height:16px;flex:1"></span>
+                <span class="dsc-skeleton" style="height:16px;width:10%"></span>
+              </div>
+              <span class="dsc-loading-inline" style="margin-top:8px"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+            </div>
+          </div>
+
+          <div id="av-error" style="display:none">
+            <div class="dsc-table-wrap">
+              <div class="dsc-state">
+                <span class="dsc-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+                <span class="dsc-state-title">Não foi possível carregar os dados.</span>
+                <span class="dsc-state-text">Verifique sua conexão e tente novamente.</span>
+                <button class="dsc-btn dsc-btn--neutral dsc-btn--sm" onclick="setAvalState('data')">Tentar novamente</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------- ABA: CONSOLIDAÇÃO (AVL-PAI-03) ---------------- -->
+        <div id="tab-consolidacao" style="display:none;margin-top:24px">
+          <div class="proto-demo">
+            <span class="proto-demo-label">Estado do editor:</span>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--outline" onclick="setConsState('edit')">Editável</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setConsState('locked')">Bloqueado (estado fechado)</button>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--neutral" onclick="setConsState('unavailable')">Indisponível (avaliadores pendentes)</button>
+            <span class="sepv"></span>
+            <button class="dsc-btn dsc-btn--sm dsc-btn--danger dsc-btn--outline" onclick="tentarAlterarBloqueado()">Cenário: alterar com o estado fechado</button>
+            <label class="dsc-flex dsc-items-center dsc-gap-1 dsc-body-sm"><input type="checkbox" class="dsc-check" id="cons-fail"> Simular erro do servidor</label>
+          </div>
+
+          <div id="cons-alert-locked" class="dsc-alert dsc-alert--danger" role="alert" style="display:none;margin-bottom:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <span>O estado já foi fechado; o feedback consolidado não pode mais ser alterado.</span>
+          </div>
+          <div id="cons-alert-unavail" class="dsc-alert dsc-alert--warning" role="status" style="display:none;margin-bottom:16px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="cons-unavail-text">Consolidação indisponível: há avaliadores alocados que ainda não finalizaram a avaliação.</span>
+          </div>
+
+          <div class="dsc-row">
+            <div class="dsc-col-7">
+              <div class="dsc-card">
+                <div class="dsc-card-header">
+                  <h2 class="dsc-card-title">Feedback consolidado</h2>
+                  <span id="cons-status-tag"></span>
+                </div>
+                <div class="dsc-field" style="margin-bottom:16px">
+                  <label class="dsc-field-label" for="cons-texto">Texto oficial da banca <span class="dsc-req">*</span></label>
+                  <textarea class="dsc-textarea" id="cons-texto" style="min-height:240px" placeholder="Escreva o feedback consolidado da banca para esta inscrição…" oninput="contarCaracteres()"></textarea>
+                  <span class="dsc-field-hint" id="cons-count">0 de 6.000 caracteres · mínimo de 100</span>
+                  <span class="dsc-field-error" id="cons-erro" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span id="cons-erro-text">Mínimo de 100 caracteres.</span></span>
+                </div>
+                <div class="dsc-flex dsc-items-center dsc-gap-3 dsc-wrap" style="margin-bottom:24px">
+                  <span class="dsc-flex dsc-items-center dsc-gap-1"><span class="dsc-switch" id="cons-ia" onclick="toggleIA()"></span> <span class="dsc-body-sm">Gerado com apoio de IA</span></span>
+                  <button class="dsc-btn dsc-btn--secondary dsc-btn--sm" id="btn-ia" onclick="gerarComIA()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
+                    Gerar com IA
+                  </button>
+                </div>
+                <div class="dsc-flex dsc-gap-1 dsc-wrap">
+                  <button class="dsc-btn" id="btn-salvar" onclick="salvarConsolidacao()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    Salvar consolidação
+                  </button>
+                  <button class="dsc-btn dsc-btn--outline" onclick="abrirPreview()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Pré-visualizar
+                  </button>
+                  <button class="dsc-btn dsc-btn--neutral" onclick="showScreen('screen-list','sw-list')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    Cancelar
+                  </button>
+                  <span class="dsc-loading-inline" id="cons-saving" style="display:none"><span class="dsc-spinner" role="status"></span> Carregando…</span>
+                </div>
+                <p class="dsc-body-sm dsc-text-muted" id="cons-meta" style="margin-top:16px"></p>
+              </div>
+            </div>
+            <div class="dsc-col-5">
+              <div class="dsc-card">
+                <div class="dsc-card-header">
+                  <h2 class="dsc-card-title">Pareceres dos avaliadores</h2>
+                  <button class="dsc-btn dsc-btn--sm dsc-btn--chromeless" onclick="openNotas()">Ver notas</button>
+                </div>
+                <div id="cons-pareceres"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <button class="dsc-fab" aria-label="Estrutura" title="Estrutura da premiação">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-2h12v2"/></svg>
+    </button>
+  </div>
+
+  <!-- Modal: seleção múltipla de Estado (UF) — inclui Nacional (SP05) -->
+  <div id="modal-uf" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-uf',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Estado (UF)</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-uf',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body-sm dsc-text-muted" id="uf-modal-hint" style="margin-bottom:16px">Seleção múltipla. A opção “Nacional” reúne as inscrições sem estado definido.</p>
+        <div id="uf-opcoes"></div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-uf',false)">Cancelar</button>
+        <button class="dsc-btn" onclick="aplicarUf()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: seleção múltipla de Status de consolidação -->
+  <div id="modal-status" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-status',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Status de consolidação</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-status',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:16px">Seleção múltipla entre os quatro status possíveis da etapa.</p>
+        <div id="st-opcoes"></div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-status',false)">Cancelar</button>
+        <button class="dsc-btn" onclick="aplicarStatus()">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer de auditoria de notas (AVL-PAI-02) — encenado como modal grande -->
+  <div id="modal-notas" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-notas',false)">
+    <div class="dsc-modal dsc-modal--lg" style="width:min(1040px,100%)">
+      <div class="dsc-modal-header">
+        <span id="notas-title">Conferência de notas</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-notas',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body-sm dsc-text-muted" style="margin-bottom:16px">Nota de cada avaliador por questão, o peso da questão e as médias ponderadas. Escala de 1 a 5.</p>
+        <div id="notas-conteudo"></div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-notas',false)">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: pré-visualização do texto como o participante verá -->
+  <div id="modal-preview" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-preview',false)">
+    <div class="dsc-modal dsc-modal--lg">
+      <div class="dsc-modal-header">
+        <span>Pré-visualização — como o participante verá</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-preview',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <div class="dsc-alert" role="status" style="margin-bottom:16px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>O participante só enxerga a devolutiva a partir da data de liberação configurada na etapa.</span>
+        </div>
+        <div class="dsc-card">
+          <div class="dsc-card-header">
+            <h2 class="dsc-card-title">Devolutiva da banca</h2>
+            <span class="dsc-tag dsc-tag--highlight" id="preview-etapa">Etapa 1 · Regional</span>
+          </div>
+          <p class="dsc-body" id="preview-texto" style="white-space:pre-wrap"></p>
+        </div>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-preview',false)">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: confirmação antes de publicar a consolidação -->
+  <div id="modal-confirm" class="dsc-modal-mask" style="display:none" onclick="if(event.target===this)toggleModal('modal-confirm',false)">
+    <div class="dsc-modal">
+      <div class="dsc-modal-header">
+        <span>Confirmar consolidação</span>
+        <button class="dsc-modal-close" aria-label="Fechar" onclick="toggleModal('modal-confirm',false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="dsc-modal-body">
+        <p class="dsc-body" id="confirm-text">Deseja registrar este texto como feedback consolidado da banca?</p>
+        <p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">O feedback é único por inscrição e etapa: uma nova consolidação substitui o texto anterior e atualiza a data e o autor, sem histórico de versões.</p>
+      </div>
+      <div class="dsc-modal-footer">
+        <button class="dsc-btn dsc-btn--neutral" onclick="toggleModal('modal-confirm',false)">Cancelar</button>
+        <button class="dsc-btn" onclick="confirmarConsolidacao()">Consolidar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast (canto superior direito) -->
+  <div id="toast" class="dsc-toast dsc-toast--positive" style="display:none;position:fixed;top:24px;right:24px;z-index:400">
+    <span id="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span>
+    <span id="toast-text">Registro salvo com sucesso.</span>
+  </div>
+
+  <div class="dsc-proto-notes">
+    <strong>📋 Notas do protótipo:</strong>
+    <ul>
+      <li><strong>Fonte:</strong> Feature Set AVL-PAI (N2) e os N3 <em>AVL-PAI-01</em> (Acompanhar Painel de Avaliações), <em>AVL-PAI-02</em> (Consultar Avaliações por Etapa) e <em>AVL-PAI-03</em> (Consolidar Avaliação), já atualizados pela SP05. Telas: <strong>Lista de Avaliações</strong> (<code>/avaliacao-admin/avaliacoes</code>) e <strong>Detalhe da Avaliação</strong> (<code>/avaliacao-admin/avaliacoes/:inscricaoId/etapa/:etapaId</code>) com as abas <em>Avaliadores</em> e <em>Consolidação</em> — o editor de consolidação é aba do detalhe, conforme os N3, e não rota própria.</li>
+      <li><strong>Novo na SP05 (encenado):</strong> filtro <strong>Estado (UF)</strong> em seleção múltipla, com a opção <strong>Nacional</strong> (inscrições sem estado definido); <strong>resumo de consolidação por estado</strong> acima da lista, com a relação consolidadas/total e o selo <em>Concluído</em> (Goiás e Bahia) ou <em>Pendente</em> (MG, ES, SP e Nacional); coluna <strong>Estado (UF)</strong> no resultado; e a <strong>trava de edição</strong> do feedback consolidado depois do fechamento do estado na etapa.</li>
+      <li><strong>Recorte do Administrador Regional:</strong> alterne o perfil na barra preta. Como <em>Luciana Prado Rezende · Administrador Regional (MG · ES)</em>, a lista, os indicadores, a seleção de estado e o resumo por estado passam a trazer <strong>apenas MG e ES</strong> — o recorte acontece à vista (AVL-PAI-01 RN7/RN9). O escopo Nacional não aparece para o Regional, que é vinculado a estados.</li>
+      <li><strong>Caso crítico SP05 (AVL-PAI-03 SC-04):</strong> o botão <em>“Consolidação bloqueada (BA fechada)”</em> abre a inscrição <em>Fábrica Verde do Recôncavo S.A. · 2026-IEL-00501</em>, da Bahia, cujo estado já foi fechado na etapa Regional: o editor abre <strong>somente leitura</strong>, com o texto preservado, o salvamento desabilitado e a mensagem literal <code>AVL_CONSOLIDACAO_ESTADO_FECHADO</code> — “O estado já foi fechado; o feedback consolidado não pode mais ser alterado.”. O botão <em>“Cenário: alterar com o estado fechado”</em> encena a tentativa de alteração descrita no Gherkin (o texto anterior é mantido e a mensagem aparece em toast).</li>
+      <li><strong>Estados encenados:</strong> lista principal com os cinco estados (com dados · vazio · busca sem resultado · carregando · erro); lista de avaliadores do detalhe com quatro (com dados · vazio · carregando · erro — <em>não há busca nessa lista</em>, então “busca sem resultado” não se aplica); editor de consolidação com <em>editável · bloqueado · indisponível (avaliadores pendentes) · salvando · erro do servidor</em>. Textos literais do <code>global/MESSAGE-DICTIONARY.md</code>: “Nenhum registro encontrado.”, “Nenhum resultado para a busca.”, “Carregando…”, “Não foi possível carregar os dados.”, “Registro salvo com sucesso.”, “Ocorreu um erro. Tente novamente.”, “Mínimo de 100 caracteres.”, “Máximo de 6.000 caracteres.” e a específica <code>AVL_CONSOLIDACAO_ESTADO_FECHADO</code>.</li>
+      <li><strong>Filtros e busca funcionam de verdade:</strong> a seleção de estados, o status de consolidação, a etapa e a busca por protocolo (ex.: <em>2026-IEL-00123</em>), identificador ou participante recalculam a árvore, os indicadores e o resumo por estado. Sem resultado, a tela cai em “Nenhum resultado para a busca.”</li>
+      <li><strong>Auditoria de notas:</strong> “Conferência de notas” abre a matriz questão × avaliador com o peso de cada questão, a média da questão, a média ponderada de cada avaliador e a média da inscrição (escala de 1 a 5, pesos do questionário). Avaliação em andamento aparece com as questões ainda sem nota como “—”.</li>
+      <li><strong>Confidencialidade:</strong> o switch na aba Avaliadores encena a premiação confidencial — os avaliadores passam a ser exibidos como “Avaliador N” sem esconder pareceres e notas do administrador (AVL-PAI-02 RN5).</li>
+      <li><strong>⚠️ Agrupamento “Nacional” (do N3):</strong> AVL-PAI-01 RN6 e AVL-PAI-03 RN7 adotam as inscrições sem estado definido como escopo Nacional <em>por analogia ao fechamento por UF</em> — <strong>a confirmar</strong> com o produto. Aqui ele aparece como opção da seleção de estado, como linha do resumo e como valor da coluna Estado (UF).</li>
+      <li><strong>⚠️ Reabertura por estado (do N3):</strong> AVL-PAI-03 RN6 prevê que a reabertura devolve o texto à condição alterável, mas a <strong>feature de reabertura ainda não tem N3</strong> (prevista na SP05; citada como <code>AVL-APU-08</code> em AVL-APU-03 RN10). Por isso o protótipo <strong>não tem</strong> ação de reabrir: o caso da Bahia só sai do bloqueio por uma tela que ainda não existe.</li>
+      <li><strong>⚠️ Mínimo do texto (do N3):</strong> AVL-PAI-03 RN1 registra mínimo de 100 caracteres (HU-027) e máximo de 6.000 (HU-031), com o <strong>mínimo definitivo a confirmar</strong>. O contador e a validação usam 100/6.000.</li>
+      <li><strong>⚠️ Capability por etapa (do N3):</strong> AVL-PAI-01 RN4 deixa o modelo de escopo por etapa <strong>a confirmar</strong>. O protótipo encena apenas o recorte <em>geográfico</em> (estados do Regional); a restrição por etapa não está representada.</li>
+      <li><strong>⚠️ Fronteira consolidação × devolutiva (do N2):</strong> o botão <em>“Gerar com IA”</em> aciona a geração descrita em <code>AVL-APU-04</code> (Gerar Devolutiva com IA, outro Feature Set), aqui encenada dentro do editor porque o registro trabalhado é o mesmo — divisão documental <strong>a confirmar</strong>. A marcação “Gerado com apoio de IA” é do próprio AVL-PAI-03 (RN4).</li>
+      <li><strong>⚠️ Selo “Estado fechado” no resumo:</strong> AVL-PAI-01 RN8 define apenas <em>concluído</em> e <em>pendente</em>. O marcador adicional de estado fechado (Bahia) foi acrescentado para tornar legível a trava da SP05 — validar na aprovação se ele entra no resumo ou fica só no fechamento por UF (<code>AVL-APU-03</code>).</li>
+      <li><strong>⚠️ Textos fora do dicionário:</strong> a faixa de escopo do Regional, o aviso de consolidação indisponível, a confirmação antes de publicar e a nota da pré-visualização são <em>copy</em> de apoio (não são mensagens de erro/sucesso) e ainda não constam do <code>MESSAGE-DICTIONARY</code> — confirmar na aprovação.</li>
+      <li><strong>⚠️ Drawer:</strong> o <code>ds.css</code> desta instância não traz componente de <em>drawer</em>; a auditoria de notas foi encenada com <code>dsc-modal--lg</code>. Se o drawer lateral for requisito visual, ele precisa entrar na biblioteca.</li>
+      <li><strong>Não representado:</strong> ordenação e paginação reais (controles estáticos); liberação da devolutiva ao participante conforme a data da etapa (AVL-PAI-03 RN5 — pertence a Apuração e Devolutiva / Acompanhamento); o bloqueio “Você não tem permissão para esta ação.” dos cenários de acesso (ambos os perfis do N2 têm as três permissões, mudando apenas o alcance).</li>
+      <li><strong>⚠️ Shell:</strong> usa o shell real da biblioteca (topbar teal + menu horizontal), não o esqueleto genérico <code>dsc-sidebar</code>/<code>dsc-header</code> do PROMPT_PROTOTYPE_FLOW_FULL — essas classes não existem no <code>ds.css</code> desta instância.</li>
+    </ul>
+  </div>
+
+  <script>
+    /* ====================================================================== */
+    /* Dados fictícios — Prêmio IEL de Talentos 2026 (domínio real)           */
+    /* ====================================================================== */
+
+    var PREMIO = 'Prêmio IEL de Talentos 2026';
+
+    var ETAPAS = {
+      e1: { ordem: 1, nome: 'Regional' },
+      e2: { ordem: 2, nome: 'Nacional' }
+    };
+
+    var UFS = {
+      MG:  'Minas Gerais',
+      ES:  'Espírito Santo',
+      GO:  'Goiás',
+      BA:  'Bahia',
+      SP:  'São Paulo',
+      NAC: 'Nacional'
+    };
+    var UF_ORDEM = ['MG', 'ES', 'GO', 'BA', 'SP', 'NAC'];
+
+    /* Fechamento de etapa por estado (AVL-APU-03) — trava a consolidação (AVL-PAI-03 RN6) */
+    var FECHAMENTOS = {
+      'BA|e1': { por: 'Pedro Henrique Fernandes Barbosa', em: '25/08/2026 09:12' }
+    };
+
+    var USUARIOS = {
+      nacional: { nome: 'Pedro Henrique Fernandes Barbosa', perfil: 'Administrador Nacional', ufs: null },
+      regional: { nome: 'Luciana Prado Rezende',            perfil: 'Administrador Regional', ufs: ['MG', 'ES'] }
+    };
+    var PERFIL = 'nacional';
+
+    var QUESTOES = [
+      { t: 'Aderência ao tema da modalidade',            peso: 1 },
+      { t: 'Grau de inovação da solução',                peso: 2 },
+      { t: 'Impacto para a indústria e a comunidade',    peso: 2 },
+      { t: 'Metodologia e consistência da execução',     peso: 1 },
+      { t: 'Potencial de replicação e continuidade',     peso: 1 }
+    ];
+
+    var PARECERES = [
+      'Projeto bem estruturado, com objetivos claros e evidências consistentes de execução. O grau de inovação é perceptível, embora a mensuração de impacto ainda seja incipiente.',
+      'A proposta demonstra articulação real entre a instituição de ensino e a indústria, com resultados verificáveis. Recomendo maior detalhamento da metodologia de acompanhamento.',
+      'Iniciativa relevante e replicável em outras unidades regionais. A documentação apresentada sustenta os resultados declarados, mas faltam indicadores de continuidade.',
+      'O impacto para a comunidade industrial local está bem demonstrado. A solução é simples e eficaz, ainda que o diferencial tecnológico seja moderado frente ao mercado.',
+      'Excelente aderência ao tema da modalidade. A equipe apresenta domínio técnico e a execução foi comprovada com dados; o potencial de replicação é o ponto mais forte da inscrição.',
+      'A inovação proposta é incremental, porém aplicada com rigor e boa gestão de riscos. Sugiro reforçar a mensuração de resultados na próxima edição do programa.',
+      'Há clareza no problema atacado e coerência entre diagnóstico, solução e resultados. A continuidade depende de parcerias que ainda não estão formalizadas.',
+      'Trabalho consistente, com forte envolvimento dos estagiários e apoio institucional evidente. A escala alcançada é modesta, mas a metodologia está bem documentada.'
+    ];
+
+    var CONSOLIDADOS = {
+      c1: 'A banca reconhece a maturidade do programa apresentado, com articulação efetiva entre ensino e indústria e resultados comprovados na documentação enviada. Os avaliadores destacaram a clareza dos objetivos e o potencial de replicação em outras unidades. Como oportunidade de melhoria, a banca recomenda a definição de indicadores de continuidade e o detalhamento da metodologia de acompanhamento dos egressos.',
+      c2: 'A banca considerou consistente a proposta apresentada, com boa gestão de riscos e execução comprovada junto às turmas atendidas. O caráter incremental da inovação foi apontado por mais de um avaliador, assim como a necessidade de ampliar a mensuração de resultados na próxima edição do programa.',
+      c3: 'A banca destacou o envolvimento do estagiário com o processo produtivo e o apoio institucional evidente ao longo do projeto. A escala alcançada ainda é modesta, mas a metodologia está bem documentada e sustenta os resultados apresentados na inscrição.',
+      c4: 'A banca regional da Bahia reconheceu a solidez técnica da iniciativa e o impacto ambiental mensurado na cadeia produtiva do Recôncavo. Os pareceres convergiram quanto ao potencial de replicação em outras plantas industriais do estado, com ressalva sobre a formalização das parcerias necessárias à continuidade do projeto.',
+      c5: 'A banca avaliou positivamente a aderência do projeto ao tema da modalidade e a consistência das evidências apresentadas. O grau de inovação é perceptível no contexto regional e a proposta se sustenta com os recursos disponíveis na instituição.',
+      c6: 'A banca reconheceu o impacto do projeto na formação técnica dos participantes e a articulação com empresas do Sistema Indústria. Recomenda-se ampliar o registro de indicadores para as próximas edições, de modo a evidenciar a continuidade dos resultados.',
+      c7: 'A banca avaliou a iniciativa como relevante para a comunidade industrial local, com solução simples e eficaz. O diferencial tecnológico é moderado frente ao mercado, mas a execução e o alcance junto aos estudantes foram comprovados pelos avaliadores.'
+    };
+
+    /* Avaliador: nome, status, início, fim, notas por questão, índice do parecer */
+    function av(nome, status, ini, fim, notas, p) {
+      return { nome: nome, status: status, ini: ini, fim: fim, notas: notas, parecer: (p == null ? null : PARECERES[p]) };
+    }
+    function cons(chave, em, por, ia) {
+      return { texto: CONSOLIDADOS[chave], em: em, por: por, ia: !!ia };
+    }
+
+    var INSCRICOES = [
+      { id: 'i1', ident: 'Instituto Federal de Minas Gerais', prot: '2026-IEL-00123', part: 'Instituto Federal de Minas Gerais — Campus Betim',
+        cat: 'Educação Inovadora', mod: 'Instituição de Ensino Superior', uf: 'MG', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Ana Carolina Meireles', 'Finalizada', '10/08/2026 08:40', '12/08/2026 17:05', [5,4,5,4,4], 0),
+                  av('Rodrigo Tavares Lima',  'Finalizada', '11/08/2026 10:12', '13/08/2026 09:30', [4,4,4,5,4], 4),
+                  av('Juliana Bastos Corrêa', 'Finalizada', '11/08/2026 14:00', '14/08/2026 11:20', [5,5,4,4,5], 2)
+                ],
+                cons: cons('c1', '20/08/2026 14:32', 'Pedro Henrique Fernandes Barbosa', true) }
+        } },
+
+      { id: 'i2', ident: 'Metalúrgica Vale do Aço Ltda.', prot: '2026-IEL-00187', part: 'Metalúrgica Vale do Aço Ltda.',
+        cat: 'Inova Talentos', mod: 'Empresa de Médio Porte', uf: 'MG', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Marcelo Aparecido Nunes',  'Finalizada',   '12/08/2026 09:05', '15/08/2026 16:40', [4,3,4,4,3], 3),
+                  av('Fernanda Queiroz Antunes', 'Finalizada',   '12/08/2026 11:30', '16/08/2026 10:15', [3,4,4,4,4], 5),
+                  av('Paulo Vitor Nascimento',   'Em andamento', '18/08/2026 09:00', null,               [4,3,null,null,null], null)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i3', ident: 'Camila Ferreira dos Santos', prot: '2026-IEL-00204', part: 'Camila Ferreira dos Santos',
+        cat: 'IEL Estágio', mod: 'Estagiário do Ano', uf: 'MG', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Cristina Barbosa Rangel',  'Finalizada', '13/08/2026 08:20', '16/08/2026 14:10', [5,5,4,5,5], 4),
+                  av('Eduardo Sampaio Trindade', 'Finalizada', '13/08/2026 15:45', '17/08/2026 09:55', [4,5,5,5,5], 6)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i4', ident: 'SENAI CETEC Belo Horizonte', prot: '2026-IEL-00221', part: 'SENAI CETEC Belo Horizonte',
+        cat: 'Educação Inovadora', mod: 'Instituição de Ensino Técnico', uf: 'MG', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Ana Carolina Meireles',  'Finalizada', '10/08/2026 13:10', '14/08/2026 18:00', [4,4,4,3,4], 1),
+                  av('Heloísa Camargo Vieira', 'Finalizada', '11/08/2026 09:25', '15/08/2026 11:40', [4,3,4,4,4], 7),
+                  av('Thiago Menezes Duarte',  'Finalizada', '11/08/2026 16:50', '15/08/2026 17:20', [3,4,4,3,3], 2)
+                ],
+                cons: cons('c2', '21/08/2026 10:05', 'Luciana Prado Rezende', false) }
+        } },
+
+      { id: 'i5', ident: 'Bruno Almeida Ferrari', prot: '2026-IEL-00312', part: 'Bruno Almeida Ferrari',
+        cat: 'IEL Estágio', mod: 'Estagiário do Ano', uf: 'ES', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Juliana Bastos Corrêa',  'Finalizada', '12/08/2026 10:00', '16/08/2026 15:35', [4,4,5,4,4], 5),
+                  av('Paulo Vitor Nascimento', 'Finalizada', '12/08/2026 14:20', '17/08/2026 08:45', [5,4,4,5,5], 0)
+                ],
+                cons: cons('c3', '22/08/2026 16:48', 'Luciana Prado Rezende', true) }
+        } },
+
+      { id: 'i6', ident: 'Cooperativa Capixaba de Inovação', prot: '2026-IEL-00338', part: 'Cooperativa Capixaba de Inovação',
+        cat: 'Inova Talentos', mod: 'Empresa de Pequeno Porte', uf: 'ES', confid: false,
+        etapas: { e1: { aval: [], cons: null } } },
+
+      { id: 'i7', ident: 'Colégio Estadual Cerrado Tech', prot: '2026-IEL-00415', part: 'Colégio Estadual Cerrado Tech',
+        cat: 'Educação Inovadora', mod: 'Projeto de Educação Inovadora', uf: 'GO', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Marcelo Aparecido Nunes',  'Finalizada', '09/08/2026 08:00', '13/08/2026 12:30', [5,5,5,4,5], 4),
+                  av('Cristina Barbosa Rangel',  'Finalizada', '09/08/2026 10:40', '13/08/2026 17:15', [4,5,5,5,4], 2),
+                  av('Heloísa Camargo Vieira',   'Finalizada', '10/08/2026 09:15', '14/08/2026 10:00', [5,4,5,4,5], 0)
+                ],
+                cons: cons('c5', '19/08/2026 11:20', 'Pedro Henrique Fernandes Barbosa', false) },
+          e2: { aval: [
+                  av('Eduardo Sampaio Trindade', 'Finalizada', '24/08/2026 09:00', '26/08/2026 16:20', [5,5,4,5,5], 4),
+                  av('Rodrigo Tavares Lima',     'Finalizada', '24/08/2026 11:10', '26/08/2026 18:05', [4,5,5,5,5], 6)
+                ],
+                cons: cons('c6', '27/08/2026 09:40', 'Pedro Henrique Fernandes Barbosa', true) }
+        } },
+
+      { id: 'i8', ident: 'AgroIndústria Planalto S.A.', prot: '2026-IEL-00427', part: 'AgroIndústria Planalto S.A.',
+        cat: 'Inova Talentos', mod: 'Empresa de Grande Porte', uf: 'GO', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Fernanda Queiroz Antunes', 'Finalizada', '10/08/2026 14:00', '14/08/2026 16:45', [4,4,5,4,4], 3),
+                  av('Thiago Menezes Duarte',    'Finalizada', '10/08/2026 16:30', '15/08/2026 09:10', [4,5,4,5,4], 5)
+                ],
+                cons: cons('c7', '19/08/2026 15:05', 'Pedro Henrique Fernandes Barbosa', false) },
+          e2: { aval: [
+                  av('Ana Carolina Meireles',  'Finalizada', '24/08/2026 08:30', '26/08/2026 11:50', [4,4,5,4,4], 1),
+                  av('Juliana Bastos Corrêa',  'Finalizada', '24/08/2026 13:15', '26/08/2026 17:30', [4,4,4,5,4], 2)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i9', ident: 'Rafael Moraes Siqueira', prot: '2026-IEL-00433', part: 'Rafael Moraes Siqueira',
+        cat: 'IEL Estágio', mod: 'Estagiário do Ano', uf: 'GO', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Paulo Vitor Nascimento',  'Finalizada', '11/08/2026 08:50', '15/08/2026 14:25', [4,4,4,5,4], 6),
+                  av('Eduardo Sampaio Trindade','Finalizada', '11/08/2026 15:05', '16/08/2026 09:35', [5,4,4,4,5], 7)
+                ],
+                cons: cons('c6', '20/08/2026 08:55', 'Pedro Henrique Fernandes Barbosa', false) }
+        } },
+
+      { id: 'i10', ident: 'Fábrica Verde do Recôncavo S.A.', prot: '2026-IEL-00501', part: 'Fábrica Verde do Recôncavo S.A.',
+        cat: 'Inova Talentos', mod: 'Empresa de Médio Porte', uf: 'BA', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Cristina Barbosa Rangel', 'Finalizada', '08/08/2026 09:30', '12/08/2026 15:00', [5,5,5,4,4], 4),
+                  av('Marcelo Aparecido Nunes', 'Finalizada', '08/08/2026 11:00', '12/08/2026 18:20', [4,4,5,4,5], 3),
+                  av('Heloísa Camargo Vieira',  'Finalizada', '09/08/2026 08:15', '13/08/2026 10:45', [5,4,5,5,4], 0)
+                ],
+                cons: cons('c4', '18/08/2026 17:10', 'Pedro Henrique Fernandes Barbosa', true) },
+          e2: { aval: [
+                  av('Rodrigo Tavares Lima',     'Finalizada',   '24/08/2026 10:00', '26/08/2026 14:30', [4,5,5,4,4], 5),
+                  av('Fernanda Queiroz Antunes', 'Finalizada',   '24/08/2026 14:40', '27/08/2026 09:15', [5,4,4,4,5], 1),
+                  av('Thiago Menezes Duarte',    'Em andamento', '27/08/2026 08:20', null,               [4,4,4,null,null], null)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i11', ident: 'SENAI CIMATEC Camaçari', prot: '2026-IEL-00516', part: 'SENAI CIMATEC Camaçari',
+        cat: 'Educação Inovadora', mod: 'Instituição de Ensino Técnico', uf: 'BA', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Ana Carolina Meireles',  'Finalizada', '08/08/2026 14:10', '13/08/2026 16:00', [4,4,4,4,4], 1),
+                  av('Juliana Bastos Corrêa',  'Finalizada', '09/08/2026 09:45', '13/08/2026 18:40', [4,4,5,3,4], 7)
+                ],
+                cons: cons('c5', '18/08/2026 18:00', 'Pedro Henrique Fernandes Barbosa', false) }
+        } },
+
+      { id: 'i12', ident: 'Larissa Yumi Nakamura', prot: '2026-IEL-00602', part: 'Larissa Yumi Nakamura',
+        cat: 'IEL Estágio', mod: 'Estagiário do Ano', uf: 'SP', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Eduardo Sampaio Trindade', 'Finalizada',   '14/08/2026 09:00', '18/08/2026 11:30', [4,4,3,4,4], 6),
+                  av('Heloísa Camargo Vieira',   'Em andamento', '19/08/2026 10:20', null,               [4,3,4,null,null], null),
+                  av('Paulo Vitor Nascimento',   'A iniciar',    null,               null,               [null,null,null,null,null], null)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i13', ident: 'Centro Universitário FEI', prot: '2026-IEL-00618', part: 'Centro Universitário FEI',
+        cat: 'Educação Inovadora', mod: 'Instituição de Ensino Superior', uf: 'SP', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Rodrigo Tavares Lima',    'Finalizada', '13/08/2026 10:30', '17/08/2026 15:20', [4,5,4,4,4], 2),
+                  av('Cristina Barbosa Rangel', 'Finalizada', '13/08/2026 14:00', '18/08/2026 09:05', [5,4,4,5,5], 5)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i14', ident: 'Rede Nacional de Núcleos de Inovação', prot: '2026-IEL-00701', part: 'Rede Nacional de Núcleos de Inovação',
+        cat: 'Inova Talentos', mod: 'Empresa de Grande Porte', uf: 'NAC', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Marcelo Aparecido Nunes',  'Finalizada', '12/08/2026 08:10', '16/08/2026 17:45', [4,4,4,4,4], 3),
+                  av('Fernanda Queiroz Antunes', 'Finalizada', '12/08/2026 13:35', '17/08/2026 10:20', [4,5,4,3,4], 0),
+                  av('Thiago Menezes Duarte',    'Finalizada', '13/08/2026 09:50', '17/08/2026 16:10', [3,4,4,4,4], 5)
+                ],
+                cons: null }
+        } },
+
+      { id: 'i15', ident: 'Observatório da Educação Industrial', prot: '2026-IEL-00714', part: 'Observatório da Educação Industrial',
+        cat: 'Educação Inovadora', mod: 'Projeto de Educação Inovadora', uf: 'NAC', confid: false,
+        etapas: {
+          e1: { aval: [
+                  av('Heloísa Camargo Vieira', 'Finalizada', '11/08/2026 11:15', '15/08/2026 13:00', [4,4,4,4,3], 2),
+                  av('Ana Carolina Meireles',  'Finalizada', '11/08/2026 16:00', '16/08/2026 09:25', [4,3,4,4,4], 7)
+                ],
+                cons: cons('c7', '21/08/2026 14:15', 'Pedro Henrique Fernandes Barbosa', false) }
+        } }
+    ];
+
+    /* ====================================================================== */
+    /* Estado da tela                                                         */
+    /* ====================================================================== */
+
+    var filtroUf = [];          // vazio = todos os estados do escopo
+    var filtroStatus = [];      // vazio = todos os status
+    var expandidos = { 'i1': true, 'i1|e1': true };
+    var detInsId = 'i1', detEtId = 'e1', detAba = 'avaliadores', detParecer = 0;
+    var consMode = 'edit';
+    var confidencial = false;
+
+    var STATUS = {
+      sem:         { rot: 'Sem avaliadores',         cls: 'dsc-tag dsc-tag--neutral' },
+      aguardando:  { rot: 'Aguardando avaliadores',  cls: 'dsc-tag dsc-tag--warning' },
+      pronta:      { rot: 'Pronta para consolidação',cls: 'dsc-tag dsc-tag--info' },
+      consolidada: { rot: 'Consolidada',             cls: 'dsc-tag dsc-tag--success' }
+    };
+    var STATUS_ORDEM = ['aguardando', 'pronta', 'consolidada', 'sem'];
+
+    var ST_AVAL = {
+      'A iniciar':    'dsc-tag dsc-tag--neutral',
+      'Em andamento': 'dsc-tag dsc-tag--warning',
+      'Finalizada':   'dsc-tag dsc-tag--success'
+    };
+
+    /* ---- Utilitários ---- */
+    function el(id) { return document.getElementById(id); }
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function usuario() { return USUARIOS[PERFIL]; }
+    function ufsEscopo() {
+      var u = usuario();
+      if (u.ufs) return u.ufs.slice();
+      return UF_ORDEM.slice();
+    }
+    function etapaRot(etId) { return ETAPAS[etId].ordem + ' · ' + ETAPAS[etId].nome; }
+    function fechado(uf, etId) { return !!FECHAMENTOS[uf + '|' + etId]; }
+    function fmtNum(n) { return n.toFixed(2).replace('.', ','); }
+    function fmtMil(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+    function statusEtapa(et) {
+      if (!et.aval.length) return 'sem';
+      var fin = 0;
+      for (var i = 0; i < et.aval.length; i++) if (et.aval[i].status === 'Finalizada') fin++;
+      if (fin < et.aval.length) return 'aguardando';
+      return et.cons ? 'consolidada' : 'pronta';
+    }
+    function finalizados(et) {
+      var fin = 0;
+      for (var i = 0; i < et.aval.length; i++) if (et.aval[i].status === 'Finalizada') fin++;
+      return fin;
+    }
+    function mediaPonderada(notas) {
+      var soma = 0, pesos = 0;
+      for (var i = 0; i < QUESTOES.length; i++) {
+        if (notas[i] == null) return null;
+        soma += notas[i] * QUESTOES[i].peso;
+        pesos += QUESTOES[i].peso;
+      }
+      return soma / pesos;
+    }
+    function nomeAvaliador(av, idx) { return confidencial ? ('Avaliador ' + (idx + 1)) : av.nome; }
+
+    /* ---- Linhas (inscrição × etapa) após escopo e filtros ---- */
+    function etapasFiltradas() {
+      var f = el('fb-etapa').value;
+      return f ? [f] : ['e1', 'e2'];
+    }
+    function linhas(aplicarFiltros) {
+      var escopo = ufsEscopo();
+      var etsFiltro = etapasFiltradas();
+      var busca = aplicarFiltros === false ? '' : el('fb-busca').value.trim().toLowerCase();
+      var out = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        var ins = INSCRICOES[i];
+        if (escopo.indexOf(ins.uf) < 0) continue;
+        if (aplicarFiltros !== false && filtroUf.length && filtroUf.indexOf(ins.uf) < 0) continue;
+        if (busca) {
+          var alvo = (ins.ident + ' ' + ins.prot + ' ' + ins.part).toLowerCase();
+          if (alvo.indexOf(busca) < 0) continue;
+        }
+        for (var j = 0; j < etsFiltro.length; j++) {
+          var etId = etsFiltro[j];
+          var et = ins.etapas[etId];
+          if (!et) continue;
+          var st = statusEtapa(et);
+          if (aplicarFiltros !== false && filtroStatus.length && filtroStatus.indexOf(st) < 0) continue;
+          out.push({ ins: ins, etId: etId, et: et, st: st });
+        }
+      }
+      return out;
+    }
+    function temFiltroAtivo() {
+      return !!(el('fb-busca').value.trim() || filtroUf.length || filtroStatus.length);
+    }
+
+    /* ====================================================================== */
+    /* Render: indicadores agregados                                          */
+    /* ====================================================================== */
+    function renderKpis() {
+      var ls = linhas(), alocados = 0, andamento = 0, concluidas = 0, prontas = 0, consolidadas = 0, sem = 0;
+      for (var i = 0; i < ls.length; i++) {
+        var et = ls[i].et;
+        alocados += et.aval.length;
+        for (var j = 0; j < et.aval.length; j++) {
+          if (et.aval[j].status === 'Em andamento') andamento++;
+          if (et.aval[j].status === 'Finalizada') concluidas++;
+        }
+        if (ls[i].st === 'pronta') prontas++;
+        if (ls[i].st === 'consolidada') consolidadas++;
+        if (ls[i].st === 'sem') sem++;
+      }
+      el('kpi-alocados').textContent = alocados;
+      el('kpi-andamento').textContent = andamento;
+      el('kpi-concluidas').textContent = concluidas;
+      el('kpi-prontas').textContent = prontas;
+      el('kpi-consolidadas').textContent = consolidadas;
+      el('kpi-sem').textContent = sem;
+    }
+
+    /* ====================================================================== */
+    /* Render: resumo de consolidação por estado (SP05)                       */
+    /* ====================================================================== */
+    function renderResumo() {
+      var etsFiltro = etapasFiltradas();
+      var escopo = ufsEscopo();
+      var html = '';
+      for (var e = 0; e < etsFiltro.length; e++) {
+        var etId = etsFiltro[e];
+        var blocos = '';
+        for (var u = 0; u < UF_ORDEM.length; u++) {
+          var uf = UF_ORDEM[u];
+          if (escopo.indexOf(uf) < 0) continue;
+          var total = 0, feitas = 0;
+          for (var i = 0; i < INSCRICOES.length; i++) {
+            var ins = INSCRICOES[i];
+            if (ins.uf !== uf) continue;
+            var et = ins.etapas[etId];
+            if (!et) continue;
+            total++;
+            if (et.cons) feitas++;
+          }
+          if (!total) continue;
+          var pct = Math.round((feitas / total) * 100);
+          var concluido = feitas === total;
+          var selo = concluido
+            ? '<span class="dsc-badge dsc-badge--success dsc-badge--sm">Concluído</span>'
+            : '<span class="dsc-badge dsc-badge--warning dsc-badge--sm">Pendente</span>';
+          var travado = fechado(uf, etId)
+            ? ' <span class="dsc-tag dsc-tag--sm dsc-tag--neutral" title="Estado fechado na etapa — consolidação bloqueada">🔒 Estado fechado</span>'
+            : '';
+          blocos += '<div class="dsc-col-4" style="margin-bottom:8px">'
+            + '<div class="dsc-flex dsc-items-center dsc-justify-between dsc-gap-2" style="margin-bottom:6px">'
+            + '<span class="dsc-body" style="font-weight:600">' + esc(UFS[uf]) + (uf === 'NAC' ? ' <span class="dsc-text-muted" style="font-weight:400">(sem estado definido)</span>' : '') + '</span>'
+            + '<span>' + selo + travado + '</span>'
+            + '</div>'
+            + '<span class="dsc-progress"><span style="width:' + pct + '%"></span></span>'
+            + '<span class="dsc-caption dsc-text-muted">' + feitas + ' de ' + total + ' inscrições consolidadas</span>'
+            + '</div>';
+        }
+        if (!blocos) {
+          blocos = '<div class="dsc-col-12"><p class="dsc-body-sm dsc-text-muted">Nenhum registro encontrado.</p></div>';
+        }
+        if (etsFiltro.length > 1) {
+          html += '<p class="dsc-body-sm dsc-text-secondary" style="font-weight:600;margin:8px 0">Etapa ' + esc(etapaRot(etId)) + '</p>';
+        }
+        html += '<div class="dsc-row">' + blocos + '</div>';
+      }
+      el('resumo-estados').innerHTML = html;
+    }
+
+    /* ====================================================================== */
+    /* Render: árvore inscrição › etapa › avaliadores                         */
+    /* ====================================================================== */
+    function renderTabela() {
+      var ls = linhas();
+      var eye = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+      var pencil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+      var lock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+      var chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+      var icoIns = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>';
+      var icoEt = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>';
+      var icoAv = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg>';
+
+      /* agrupa por inscrição preservando a ordem */
+      var grupos = [], mapa = {};
+      for (var i = 0; i < ls.length; i++) {
+        var k = ls[i].ins.id;
+        if (!mapa[k]) { mapa[k] = { ins: ls[i].ins, etapas: [] }; grupos.push(mapa[k]); }
+        mapa[k].etapas.push(ls[i]);
+      }
+
+      var html = '';
+      for (var g = 0; g < grupos.length; g++) {
+        var ins = grupos[g].ins, ets = grupos[g].etapas;
+        var abertoIns = !!expandidos[ins.id];
+        var totFin = 0, totAloc = 0;
+        for (var t = 0; t < ets.length; t++) { totFin += finalizados(ets[t].et); totAloc += ets[t].et.aval.length; }
+        var stIns = ets.length === 1 ? '<span class="' + STATUS[ets[0].st].cls + '">' + STATUS[ets[0].st].rot + '</span>' : '<span class="dsc-text-muted">' + ets.length + ' etapas</span>';
+        var ufTag = ins.uf === 'NAC'
+          ? '<span class="dsc-tag dsc-tag--secondary dsc-tag--sm" title="Inscrição sem estado definido">Nacional</span>'
+          : esc(UFS[ins.uf]) + ' <span class="dsc-text-muted">(' + ins.uf + ')</span>';
+
+        /* linha raiz: inscrição */
+        html += '<tr>'
+          + '<td><span class="dsc-flex dsc-items-center dsc-gap-1">'
+          + '<button class="dsc-tree-toggle' + (abertoIns ? '' : ' is-collapsed') + '" aria-label="Expandir" onclick="toggle(\'' + ins.id + '\')" style="' + (abertoIns ? '' : 'transform:rotate(-90deg)') + '">' + chev + '</button>'
+          + '<span class="dsc-tree-icon">' + icoIns + '</span>'
+          + '<a href="#" onclick="openDetail(\'' + ins.id + '\',\'' + ets[0].etId + '\',\'avaliadores\',\'sw-detail\');return false"><strong>' + esc(ins.ident) + '</strong></a>'
+          + ' <span class="dsc-text-muted">· ' + esc(ins.prot) + '</span>'
+          + '</span></td>'
+          + '<td>' + esc(PREMIO) + '</td>'
+          + '<td>' + esc(ins.cat) + '</td>'
+          + '<td>' + esc(ins.mod) + '</td>'
+          + '<td>' + ufTag + '</td>'
+          + '<td class="dsc-num">' + totFin + ' / ' + totAloc + '</td>'
+          + '<td>' + stIns + '</td>'
+          + '<td class="dsc-col-actions"><button class="dsc-icon-action" aria-label="Consultar avaliações" title="Consultar avaliações" onclick="openDetail(\'' + ins.id + '\',\'' + ets[0].etId + '\',\'avaliadores\',\'sw-detail\')">' + eye + '</button></td>'
+          + '</tr>';
+
+        if (!abertoIns) continue;
+
+        for (var e = 0; e < ets.length; e++) {
+          var etId = ets[e].etId, et = ets[e].et, st = ets[e].st;
+          var chaveEt = ins.id + '|' + etId;
+          var abertoEt = !!expandidos[chaveEt];
+          var travada = fechado(ins.uf, etId);
+          var acoes = '<button class="dsc-icon-action" aria-label="Consultar avaliações da etapa" title="Consultar avaliações da etapa" onclick="openDetail(\'' + ins.id + '\',\'' + etId + '\',\'avaliadores\',\'sw-detail\')">' + eye + '</button>';
+          if (st === 'pronta' || st === 'consolidada') {
+            acoes += travada
+              ? '<button class="dsc-icon-action dsc-icon-action--danger" aria-label="Consolidação bloqueada" title="Estado fechado — consolidação bloqueada" onclick="openDetail(\'' + ins.id + '\',\'' + etId + '\',\'consolidacao\',\'sw-lock\')">' + lock + '</button>'
+              : '<button class="dsc-icon-action dsc-icon-action--info" aria-label="Consolidar avaliação" title="Consolidar avaliação" onclick="openDetail(\'' + ins.id + '\',\'' + etId + '\',\'consolidacao\',\'sw-cons\')">' + pencil + '</button>';
+          }
+          html += '<tr>'
+            + '<td><span class="dsc-flex dsc-items-center dsc-gap-1" style="padding-left:28px">'
+            + '<button class="dsc-tree-toggle' + (abertoEt ? '' : ' is-collapsed') + '" aria-label="Expandir" onclick="toggle(\'' + chaveEt + '\')" style="' + (abertoEt ? '' : 'transform:rotate(-90deg)') + '">' + chev + '</button>'
+            + '<span class="dsc-tree-icon">' + icoEt + '</span>'
+            + '<span>Etapa ' + esc(etapaRot(etId)) + '</span>'
+            + (travada ? ' <span class="dsc-tag dsc-tag--sm dsc-tag--neutral" title="Estado fechado na etapa">🔒 Estado fechado</span>' : '')
+            + '</span></td>'
+            + '<td></td><td></td><td></td><td></td>'
+            + '<td class="dsc-num">' + finalizados(et) + ' / ' + et.aval.length + '</td>'
+            + '<td><span class="' + STATUS[st].cls + '">' + STATUS[st].rot + '</span></td>'
+            + '<td class="dsc-col-actions">' + acoes + '</td>'
+            + '</tr>';
+
+          if (!abertoEt) continue;
+
+          if (!et.aval.length) {
+            html += '<tr><td colspan="8"><span style="padding-left:56px" class="dsc-body-sm dsc-text-muted">Nenhum registro encontrado.</span></td></tr>';
+          }
+          for (var a = 0; a < et.aval.length; a++) {
+            var avi = et.aval[a];
+            var m = mediaPonderada(avi.notas);
+            html += '<tr>'
+              + '<td><span class="dsc-flex dsc-items-center dsc-gap-1" style="padding-left:56px">'
+              + '<span class="dsc-tree-toggle is-empty"></span>'
+              + '<span class="dsc-tree-icon">' + icoAv + '</span>'
+              + '<span>' + esc(nomeAvaliador(avi, a)) + '</span>'
+              + '</span></td>'
+              + '<td></td><td></td><td></td><td></td>'
+              + '<td class="dsc-num">' + (m == null ? '<span class="dsc-text-muted">—</span>' : '<span class="dsc-text-muted">Média</span> ' + fmtNum(m)) + '</td>'
+              + '<td><span class="' + ST_AVAL[avi.status] + '">' + avi.status + '</span></td>'
+              + '<td class="dsc-col-actions"></td>'
+              + '</tr>';
+          }
+        }
+      }
+
+      el('aval-tbody').innerHTML = html;
+      el('pag-info').textContent = 'Mostrando 1 a ' + grupos.length + ' de ' + grupos.length + ' registros';
+
+      if (!grupos.length) setListState(temFiltroAtivo() ? 'noresult' : 'empty');
+      else setListState('data');
+    }
+
+    function toggle(chave) {
+      expandidos[chave] = !expandidos[chave];
+      renderTabela();
+    }
+
+    /* ====================================================================== */
+    /* Filtros: chips de Estado (UF) e de Status                              */
+    /* ====================================================================== */
+    function renderChips() {
+      var x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      var h = '';
+      if (!filtroUf.length) {
+        h = '<span class="dsc-body-sm dsc-text-muted">' + (usuario().ufs ? 'Todos os estados do meu acesso' : 'Todos os estados da premiação') + '</span>';
+      } else {
+        for (var i = 0; i < filtroUf.length; i++) {
+          h += '<span class="dsc-chip">' + esc(UFS[filtroUf[i]]) + '<button aria-label="Remover" onclick="event.stopPropagation();removeUf(\'' + filtroUf[i] + '\')">' + x + '</button></span>';
+        }
+      }
+      h += '<button class="dsc-btn dsc-btn--sm dsc-btn--chromeless" onclick="event.stopPropagation();openUfModal()">Selecionar estados</button>';
+      el('fb-uf-chips').innerHTML = h;
+
+      var h2 = '';
+      if (!filtroStatus.length) {
+        h2 = '<span class="dsc-body-sm dsc-text-muted">Todos os status</span>';
+      } else {
+        for (var j = 0; j < filtroStatus.length; j++) {
+          h2 += '<span class="dsc-chip">' + STATUS[filtroStatus[j]].rot + '<button aria-label="Remover" onclick="event.stopPropagation();removeStatus(\'' + filtroStatus[j] + '\')">' + x + '</button></span>';
+        }
+      }
+      h2 += '<button class="dsc-btn dsc-btn--sm dsc-btn--chromeless" onclick="event.stopPropagation();openStatusModal()">Selecionar status</button>';
+      el('fb-st-chips').innerHTML = h2;
+    }
+    function removeUf(uf) {
+      var i = filtroUf.indexOf(uf);
+      if (i >= 0) filtroUf.splice(i, 1);
+      renderTudo();
+    }
+    function removeStatus(st) {
+      var i = filtroStatus.indexOf(st);
+      if (i >= 0) filtroStatus.splice(i, 1);
+      renderTudo();
+    }
+    function openUfModal() {
+      var escopo = ufsEscopo(), h = '';
+      for (var i = 0; i < escopo.length; i++) {
+        var uf = escopo[i];
+        var extra = uf === 'NAC' ? ' <span class="dsc-text-muted">— inscrições sem estado definido</span>' : ' <span class="dsc-text-muted">(' + uf + ')</span>';
+        h += '<label class="dsc-flex dsc-items-center dsc-gap-2" style="padding:8px 0">'
+          + '<input type="checkbox" class="dsc-check" value="' + uf + '"' + (filtroUf.indexOf(uf) >= 0 ? ' checked' : '') + '>'
+          + '<span class="dsc-body">' + esc(UFS[uf]) + extra + '</span></label>';
+      }
+      el('uf-opcoes').innerHTML = h;
+      el('uf-modal-hint').innerHTML = usuario().ufs
+        ? 'Seleção múltipla. Como Administrador Regional, apenas os estados aos quais você está vinculado são oferecidos.'
+        : 'Seleção múltipla. A opção “Nacional” reúne as inscrições sem estado definido.';
+      toggleModal('modal-uf', true);
+    }
+    function aplicarUf() {
+      var caixas = el('uf-opcoes').querySelectorAll('input[type=checkbox]');
+      filtroUf = [];
+      for (var i = 0; i < caixas.length; i++) if (caixas[i].checked) filtroUf.push(caixas[i].value);
+      toggleModal('modal-uf', false);
+      renderTudo();
+    }
+    function openStatusModal() {
+      var h = '';
+      for (var i = 0; i < STATUS_ORDEM.length; i++) {
+        var st = STATUS_ORDEM[i];
+        h += '<label class="dsc-flex dsc-items-center dsc-gap-2" style="padding:8px 0">'
+          + '<input type="checkbox" class="dsc-check" value="' + st + '"' + (filtroStatus.indexOf(st) >= 0 ? ' checked' : '') + '>'
+          + '<span class="' + STATUS[st].cls + '">' + STATUS[st].rot + '</span></label>';
+      }
+      el('st-opcoes').innerHTML = h;
+      toggleModal('modal-status', true);
+    }
+    function aplicarStatus() {
+      var caixas = el('st-opcoes').querySelectorAll('input[type=checkbox]');
+      filtroStatus = [];
+      for (var i = 0; i < caixas.length; i++) if (caixas[i].checked) filtroStatus.push(caixas[i].value);
+      toggleModal('modal-status', false);
+      renderTudo();
+    }
+    function onFiltrar() { renderTudo(); }
+    function onLimpar() {
+      el('fb-busca').value = '';
+      el('fb-etapa').value = 'e1';
+      filtroUf = [];
+      filtroStatus = [];
+      renderTudo();
+    }
+
+    /* ====================================================================== */
+    /* Perfil (Nacional × Regional) — recorte por estado                      */
+    /* ====================================================================== */
+    function setPerfil(p) {
+      PERFIL = p;
+      var u = usuario();
+      el('top-user').innerHTML = esc(u.nome) + ' · <span style="opacity:.85">' + esc(u.perfil) + (u.ufs ? ' (' + u.ufs.join(' · ') + ')' : '') + '</span>';
+      el('sw-nac').classList.toggle('is-current', p === 'nacional');
+      el('sw-reg').classList.toggle('is-current', p === 'regional');
+
+      /* estados fora do escopo saem do filtro */
+      var escopo = ufsEscopo(), novo = [];
+      for (var i = 0; i < filtroUf.length; i++) if (escopo.indexOf(filtroUf[i]) >= 0) novo.push(filtroUf[i]);
+      filtroUf = novo;
+
+      if (u.ufs) {
+        var nomes = [];
+        for (var j = 0; j < u.ufs.length; j++) nomes.push(UFS[u.ufs[j]]);
+        el('escopo-alert-text').textContent = 'Administrador Regional — acompanhamento e consolidação restritos aos estados vinculados: ' + nomes.join(' e ') + '.';
+        el('escopo-alert').style.display = 'flex';
+      } else {
+        el('escopo-alert').style.display = 'none';
+      }
+
+      /* se o detalhe aberto saiu do escopo, volta ao painel */
+      var ins = acharInscricao(detInsId);
+      if (el('screen-detail').classList.contains('is-active') && ins && escopo.indexOf(ins.uf) < 0) {
+        showScreen('screen-list', 'sw-list');
+      }
+      renderTudo();
+    }
+
+    function renderTudo() {
+      renderChips();
+      renderKpis();
+      renderResumo();
+      renderTabela();
+      var etV = el('fb-etapa').value;
+      el('list-subtitle').textContent = PREMIO + ' · ' + (etV ? 'Etapa ' + etapaRot(etV) : 'Todas as etapas');
+    }
+
+    /* ====================================================================== */
+    /* Navegação e estados de lista                                           */
+    /* ====================================================================== */
+
+    /* ================================================================
+       Relatório de avaliadores em planilha (AVL-PAI-04)
+       ================================================================
+       Dois níveis: total POR AVALIADOR e a relação das avaliações. Os critérios
+       são os já aplicados no painel — a exportação não tem filtro próprio (RN1)
+       e não é paginada (RN2). O Regional exporta só as suas UFs (RN5); na
+       avaliação às cegas o identificador do avaliador é omitido (RN4). */
+    function abrirPlanilhaAvaliadores() {
+      var escopo = ufsEscopo(), u = usuario();
+      el('xl-escopo').textContent = u.ufs
+        ? 'Escopo: ' + u.ufs.join(' · ') + ' — o Regional exporta as UFs a que está vinculado'
+        : 'Escopo: todos os estados';
+
+      /* a confidencialidade é por inscrição no data-model; a planilha omite o
+         identificador do avaliador quando a premiação está às cegas */
+      var algumaCegas = false;
+      var porAvaliador = {}, detalhe = [];
+      for (var i = 0; i < INSCRICOES.length; i++) {
+        var ins = INSCRICOES[i];
+        if (escopo.indexOf(ins.uf) < 0) continue;
+        if (ins.confid) algumaCegas = true;
+        for (var etapa in ins.etapas) {
+          if (!ins.etapas.hasOwnProperty(etapa)) continue;
+          var avs = ins.etapas[etapa].aval || [];
+          for (var k = 0; k < avs.length; k++) {
+            var a = avs[k];
+            var nome = ins.confid ? 'Avaliador ' + (k + 1) : a.nome;
+            if (!porAvaliador[nome]) porAvaliador[nome] = { alocadas: 0, iniciar: 0, andamento: 0, final: 0 };
+            var acc = porAvaliador[nome];
+            acc.alocadas++;
+            if (a.status === 'Finalizada') acc.final++;
+            else if (a.status === 'Em andamento') acc.andamento++;
+            else acc.iniciar++;
+            detalhe.push({ av: nome, uf: ins.uf, prot: ins.prot, part: ins.part, etapa: 'Regional', sit: a.status });
+          }
+        }
+      }
+      el('xl-cegas').textContent = algumaCegas
+        ? 'Identificação do avaliador omitida — avaliação às cegas'
+        : 'Identificação do avaliador visível';
+
+      var r = '<table class="dsc-table dsc-table--dense"><thead><tr><th>Avaliador</th>'
+        + '<th>Alocadas</th><th>A iniciar</th><th>Em andamento</th><th>Finalizadas</th></tr></thead><tbody>';
+      var nomes = Object.keys(porAvaliador).sort();
+      for (var n = 0; n < nomes.length; n++) {
+        var t = porAvaliador[nomes[n]];
+        r += '<tr><td>' + esc(nomes[n]) + '</td><td>' + t.alocadas + '</td><td>' + t.iniciar
+          + '</td><td>' + t.andamento + '</td><td>' + t.final + '</td></tr>';
+      }
+      el('xl-resumo').innerHTML = nomes.length
+        ? r + '</tbody></table>'
+        : '<div class="dsc-empty" style="padding:24px"><span class="dsc-body-sm dsc-text-muted">Planilha entregue sem linhas — o recorte não tem avaliações.</span></div>';
+
+      var d = '<table class="dsc-table dsc-table--dense"><thead><tr><th>Avaliador</th><th>UF</th>'
+        + '<th>Premiação</th><th>Etapa</th><th>Inscrição</th><th>Situação da avaliação</th></tr></thead><tbody>';
+      for (var m = 0; m < detalhe.length; m++) {
+        var L = detalhe[m];
+        d += '<tr><td>' + esc(L.av) + '</td><td>' + esc(L.uf) + '</td>'
+          + '<td>Prêmio IEL de Talentos 2026</td><td>' + esc(L.etapa) + '</td>'
+          + '<td>' + esc(L.prot) + ' — ' + esc(L.part) + '</td><td>' + esc(L.sit) + '</td></tr>';
+      }
+      el('xl-detalhe').innerHTML = detalhe.length
+        ? d + '</tbody></table>'
+        : '<div class="dsc-empty" style="padding:24px"><span class="dsc-body-sm dsc-text-muted">Sem avaliações no recorte.</span></div>';
+
+      showScreen('screen-xlsx', 'sw-xlsx');
+    }
+
+    function showScreen(id, sw) {
+      var screens = document.querySelectorAll('.dsc-screen');
+      for (var i = 0; i < screens.length; i++) screens[i].classList.remove('is-active');
+      el(id).classList.add('is-active');
+      var btns = ['sw-list', 'sw-detail', 'sw-cons', 'sw-lock', 'sw-xlsx'];
+      for (var j = 0; j < btns.length; j++) el(btns[j]).classList.remove('is-current');
+      if (sw) el(sw).classList.add('is-current');
+      window.scrollTo(0, 0);
+    }
+    function setListState(name) {
+      var states = ['data', 'empty', 'noresult', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('state-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+    function setAvalState(name) {
+      var states = ['data', 'empty', 'loading', 'error'];
+      for (var i = 0; i < states.length; i++) {
+        el('av-' + states[i]).style.display = (states[i] === name) ? 'block' : 'none';
+      }
+    }
+
+    /* ====================================================================== */
+    /* Detalhe da avaliação (AVL-PAI-02) + Consolidação (AVL-PAI-03)          */
+    /* ====================================================================== */
+    function acharInscricao(id) {
+      for (var i = 0; i < INSCRICOES.length; i++) if (INSCRICOES[i].id === id) return INSCRICOES[i];
+      return null;
+    }
+    function detIns() { return acharInscricao(detInsId); }
+    function detEt() { var ins = detIns(); return ins ? ins.etapas[detEtId] : null; }
+
+    function abrirCasoFechado() {
+      if (PERFIL !== 'nacional') setPerfil('nacional');
+      openDetail('i10', 'e1', 'consolidacao', 'sw-lock');
+    }
+
+    function openDetail(insId, etId, aba, sw) {
+      detInsId = insId; detEtId = etId; detParecer = 0;
+      var ins = detIns(), et = detEt();
+      if (!ins || !et) return;
+
+      el('det-title').textContent = ins.ident;
+      el('det-crumb').textContent = ins.ident;
+      el('det-subtitle').textContent = 'Protocolo ' + ins.prot + ' · ' + PREMIO + ' · Etapa ' + etapaRot(etId);
+      el('lv-part').textContent = ins.ident + ' · ' + ins.prot;
+      el('lv-pcm').textContent = PREMIO + ' · ' + ins.cat + ' · ' + ins.mod;
+      el('lv-etapa').textContent = etapaRot(etId);
+      el('lv-uf').innerHTML = ins.uf === 'NAC'
+        ? '<span class="dsc-tag dsc-tag--secondary dsc-tag--sm" title="Inscrição sem estado definido">Nacional</span>'
+        : esc(UFS[ins.uf]) + ' (' + ins.uf + ')'
+          + (fechado(ins.uf, etId) ? ' <span class="dsc-tag dsc-tag--sm dsc-tag--neutral">🔒 Estado fechado</span>' : '');
+      var fin = finalizados(et);
+      el('lv-aval').innerHTML = fin + ' / ' + et.aval.length
+        + (et.aval.length && fin === et.aval.length ? ' <span class="dsc-tag dsc-tag--sm dsc-tag--success">Todos finalizaram</span>' : '');
+      var st = statusEtapa(et);
+      el('lv-status').innerHTML = '<span class="' + STATUS[st].cls + '">' + STATUS[st].rot + '</span>';
+      el('lv-confid').innerHTML = confidencial
+        ? '<span class="dsc-tag dsc-tag--warning dsc-tag--sm">Ativa — avaliadores anonimizados</span>'
+        : '<span class="dsc-tag dsc-tag--neutral dsc-tag--sm">Inativa</span>';
+      el('sw-confid').classList.toggle('is-on', confidencial);
+
+      renderAvaliadores();
+      renderConsolidacao();
+      setAvalState(et.aval.length ? 'data' : 'empty');
+      switchTab(aba || 'avaliadores');
+      showScreen('screen-detail', sw || (aba === 'consolidacao' ? 'sw-cons' : 'sw-detail'));
+    }
+
+    function switchTab(aba) {
+      detAba = aba;
+      el('tabbtn-avaliadores').classList.toggle('is-active', aba === 'avaliadores');
+      el('tabbtn-consolidacao').classList.toggle('is-active', aba === 'consolidacao');
+      el('tab-avaliadores').style.display = (aba === 'avaliadores') ? 'block' : 'none';
+      el('tab-consolidacao').style.display = (aba === 'consolidacao') ? 'block' : 'none';
+    }
+
+    function toggleConfid() {
+      confidencial = !confidencial;
+      openDetail(detInsId, detEtId, detAba);
+    }
+
+    function renderAvaliadores() {
+      var et = detEt();
+      var eye = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+      var html = '';
+      for (var i = 0; i < et.aval.length; i++) {
+        var a = et.aval[i], m = mediaPonderada(a.notas);
+        html += '<tr>'
+          + '<td>' + esc(nomeAvaliador(a, i)) + '</td>'
+          + '<td><span class="' + ST_AVAL[a.status] + '">' + a.status + '</span></td>'
+          + '<td>' + (a.ini ? esc(a.ini) : '<span class="dsc-text-muted">—</span>') + '</td>'
+          + '<td>' + (a.fim ? esc(a.fim) : '<span class="dsc-text-muted">—</span>') + '</td>'
+          + '<td class="dsc-num">' + (m == null ? '<span class="dsc-text-muted">—</span>' : fmtNum(m)) + '</td>'
+          + '<td class="dsc-col-actions"><button class="dsc-icon-action" aria-label="Ver parecer" title="Ver parecer e notas" onclick="verParecer(' + i + ')">' + eye + '</button></td>'
+          + '</tr>';
+      }
+      el('av-tbody').innerHTML = html;
+      el('av-pag').textContent = 'Mostrando 1 a ' + et.aval.length + ' de ' + et.aval.length + ' registros';
+      renderParecerTabs();
+    }
+
+    function renderParecerTabs() {
+      var et = detEt();
+      if (!et.aval.length) { el('par-tabs').innerHTML = ''; el('par-conteudo').innerHTML = ''; return; }
+      if (detParecer >= et.aval.length) detParecer = 0;
+      var tabs = '';
+      for (var i = 0; i < et.aval.length; i++) {
+        tabs += '<button class="dsc-tab' + (i === detParecer ? ' is-active' : '') + '" onclick="verParecer(' + i + ')">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/></svg>'
+          + esc(nomeAvaliador(et.aval[i], i)) + '</button>';
+      }
+      el('par-tabs').innerHTML = tabs;
+
+      var a = et.aval[detParecer], m = mediaPonderada(a.notas);
+      var notas = '<div class="dsc-table-wrap" style="margin-top:16px"><table class="dsc-table dsc-table--dense"><thead><tr>'
+        + '<th>Questão</th><th class="dsc-num">Peso</th><th class="dsc-num">Nota</th></tr></thead><tbody>';
+      for (var q = 0; q < QUESTOES.length; q++) {
+        notas += '<tr><td>' + esc(QUESTOES[q].t) + '</td><td class="dsc-num">' + QUESTOES[q].peso + '</td>'
+          + '<td class="dsc-num">' + (a.notas[q] == null ? '<span class="dsc-text-muted">—</span>' : a.notas[q]) + '</td></tr>';
+      }
+      notas += '<tr><td><strong>Média ponderada</strong></td><td class="dsc-num"></td><td class="dsc-num"><strong>'
+        + (m == null ? '—' : fmtNum(m)) + '</strong></td></tr></tbody></table></div>';
+
+      var parecer = a.parecer
+        ? '<p class="dsc-body" style="margin-top:8px">' + esc(a.parecer) + '</p>'
+          + '<p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">' + a.parecer.length + ' caracteres · mínimo de 50 · somente leitura</p>'
+        : '<div class="dsc-alert dsc-alert--warning" role="status" style="margin-top:8px">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+          + '<span>O parecer individual é registrado na finalização da avaliação. Este avaliador ainda não finalizou.</span></div>';
+
+      el('par-conteudo').innerHTML = '<div class="dsc-flex dsc-items-center dsc-gap-2 dsc-wrap">'
+        + '<span class="' + ST_AVAL[a.status] + '">' + a.status + '</span>'
+        + '<span class="dsc-body-sm dsc-text-muted">Início: ' + (a.ini || '—') + ' · Finalização: ' + (a.fim || '—') + '</span>'
+        + '</div>' + parecer + notas;
+    }
+    function verParecer(i) {
+      detParecer = i;
+      renderParecerTabs();
+      switchTab('avaliadores');
+    }
+
+    /* ---- Drawer de auditoria de notas (matriz questão × avaliador) ---- */
+    function openNotas() {
+      var ins = detIns(), et = detEt();
+      el('notas-title').textContent = 'Conferência de notas — ' + ins.ident + ' · ' + ins.prot;
+      if (!et.aval.length) {
+        el('notas-conteudo').innerHTML = '<div class="dsc-state"><span class="dsc-state-title">Nenhum registro encontrado.</span>'
+          + '<span class="dsc-state-text">Esta inscrição ainda não tem avaliadores alocados nesta etapa.</span></div>';
+        toggleModal('modal-notas', true);
+        return;
+      }
+      var h = '<div class="dsc-table-wrap"><table class="dsc-table dsc-table--dense"><thead><tr>'
+        + '<th>Questão</th><th class="dsc-num">Peso</th>';
+      for (var i = 0; i < et.aval.length; i++) h += '<th class="dsc-num">' + esc(nomeAvaliador(et.aval[i], i)) + '</th>';
+      h += '<th class="dsc-num" title="Média da questão">Média</th></tr></thead><tbody>';
+
+      for (var q = 0; q < QUESTOES.length; q++) {
+        h += '<tr><td>' + esc(QUESTOES[q].t) + '</td><td class="dsc-num">' + QUESTOES[q].peso + '</td>';
+        var soma = 0, n = 0;
+        for (var a = 0; a < et.aval.length; a++) {
+          var nota = et.aval[a].notas[q];
+          h += '<td class="dsc-num">' + (nota == null ? '<span class="dsc-text-muted">—</span>' : nota) + '</td>';
+          if (nota != null) { soma += nota; n++; }
+        }
+        h += '<td class="dsc-num">' + (n ? fmtNum(soma / n) : '<span class="dsc-text-muted">—</span>') + '</td></tr>';
+      }
+
+      h += '<tr><td><strong>Média ponderada</strong></td><td class="dsc-num"></td>';
+      var somaM = 0, nM = 0;
+      for (var b = 0; b < et.aval.length; b++) {
+        var m = mediaPonderada(et.aval[b].notas);
+        h += '<td class="dsc-num"><strong>' + (m == null ? '—' : fmtNum(m)) + '</strong></td>';
+        if (m != null) { somaM += m; nM++; }
+      }
+      h += '<td class="dsc-num"><strong>' + (nM ? fmtNum(somaM / nM) : '—') + '</strong></td></tr>';
+      h += '</tbody></table></div>'
+        + '<p class="dsc-body-sm dsc-text-muted" style="margin-top:8px">Média da inscrição na etapa: <strong>'
+        + (nM ? fmtNum(somaM / nM) : '—') + '</strong> · calculada apenas sobre as avaliações finalizadas.</p>';
+      el('notas-conteudo').innerHTML = h;
+      toggleModal('modal-notas', true);
+    }
+
+    /* ====================================================================== */
+    /* Consolidação (AVL-PAI-03)                                              */
+    /* ====================================================================== */
+    function renderConsolidacao() {
+      var ins = detIns(), et = detEt();
+      var st = statusEtapa(et);
+      var modo = fechado(ins.uf, detEtId) ? 'locked' : (st === 'sem' || st === 'aguardando' ? 'unavailable' : 'edit');
+
+      el('cons-texto').value = et.cons ? et.cons.texto : '';
+      el('cons-ia').classList.toggle('is-on', !!(et.cons && et.cons.ia));
+      el('cons-status-tag').innerHTML = '<span class="' + STATUS[st].cls + '">' + STATUS[st].rot + '</span>';
+
+      /* pareceres de referência ao lado do editor */
+      var p = '';
+      if (!et.aval.length) {
+        p = '<p class="dsc-body-sm dsc-text-muted">Nenhum registro encontrado.</p>';
+      } else {
+        for (var i = 0; i < et.aval.length; i++) {
+          var a = et.aval[i];
+          p += '<div style="margin-bottom:16px">'
+            + '<div class="dsc-flex dsc-items-center dsc-gap-2 dsc-wrap" style="margin-bottom:4px">'
+            + '<strong class="dsc-body">' + esc(nomeAvaliador(a, i)) + '</strong>'
+            + '<span class="' + ST_AVAL[a.status] + '">' + a.status + '</span>'
+            + '</div>'
+            + '<p class="dsc-body-sm">' + (a.parecer ? esc(a.parecer) : '<span class="dsc-text-muted">Parecer ainda não registrado.</span>') + '</p>'
+            + (i < et.aval.length - 1 ? '<hr class="dsc-divider">' : '')
+            + '</div>';
+        }
+      }
+      el('cons-pareceres').innerHTML = p;
+
+      setConsState(modo);
+      contarCaracteres();
+    }
+
+    function setConsState(modo) {
+      consMode = modo;
+      var et = detEt(), ins = detIns();
+      var bloqueado = (modo === 'locked' || modo === 'unavailable');
+      el('cons-alert-locked').style.display = (modo === 'locked') ? 'flex' : 'none';
+      el('cons-alert-unavail').style.display = (modo === 'unavailable') ? 'flex' : 'none';
+      if (modo === 'unavailable') {
+        el('cons-unavail-text').textContent = et && !et.aval.length
+          ? 'Consolidação indisponível: esta inscrição ainda não tem avaliadores alocados nesta etapa.'
+          : 'Consolidação indisponível: há avaliadores alocados que ainda não finalizaram a avaliação.';
+      }
+      el('cons-texto').disabled = bloqueado;
+      el('btn-salvar').disabled = bloqueado;
+      el('btn-ia').disabled = bloqueado;
+      el('cons-erro').style.display = 'none';
+
+      var meta = '';
+      if (et && et.cons) {
+        meta = 'Feedback consolidado em ' + et.cons.em + ' por ' + et.cons.por + '.'
+          + (et.cons.ia ? '  ✨ Gerado com apoio de IA.' : '');
+      } else {
+        meta = 'Ainda sem feedback consolidado para esta inscrição nesta etapa.';
+      }
+      if (modo === 'locked' && ins) {
+        var f = FECHAMENTOS[ins.uf + '|' + detEtId];
+        meta += '  Estado fechado na etapa em ' + f.em + ' por ' + f.por + '.';
+      }
+      el('cons-meta').textContent = meta;
+    }
+
+    function contarCaracteres() {
+      var v = el('cons-texto').value;
+      var n = v.replace(/\s/g, '').length;
+      el('cons-count').textContent = fmtMil(v.length) + ' de 6.000 caracteres · mínimo de 100 não-brancos (atual: ' + fmtMil(n) + ')';
+    }
+
+    function toggleIA() {
+      if (el('cons-texto').disabled) return;
+      el('cons-ia').classList.toggle('is-on');
+    }
+
+    function gerarComIA() {
+      if (el('cons-texto').disabled) return;
+      var et = detEt();
+      var base = 'A banca consolidou os pareceres dos avaliadores desta inscrição. Há convergência quanto à aderência ao tema da modalidade e à consistência das evidências apresentadas; o grau de inovação foi reconhecido no contexto regional. Como oportunidade de melhoria, os avaliadores apontam a necessidade de indicadores de continuidade e de maior detalhamento da metodologia de acompanhamento dos resultados.';
+      el('cons-texto').value = base;
+      el('cons-ia').classList.add('is-on');
+      contarCaracteres();
+      showToast('Texto sugerido a partir de ' + finalizados(et) + ' pareceres. Revise antes de salvar.', 'info');
+    }
+
+    function abrirPreview() {
+      el('preview-texto').textContent = el('cons-texto').value.trim() || 'Ainda sem feedback consolidado.';
+      el('preview-etapa').textContent = 'Etapa ' + etapaRot(detEtId);
+      toggleModal('modal-preview', true);
+    }
+
+    function salvarConsolidacao() {
+      if (consMode !== 'edit') return;
+      var v = el('cons-texto').value;
+      var naoBrancos = v.replace(/\s/g, '').length;
+      el('cons-erro').style.display = 'none';
+      el('cons-texto').closest('.dsc-field').classList.remove('is-invalid');
+
+      if (naoBrancos < 100) {
+        el('cons-texto').closest('.dsc-field').classList.add('is-invalid');
+        el('cons-erro-text').textContent = 'Mínimo de 100 caracteres.';
+        el('cons-erro').style.display = 'flex';
+        return;
+      }
+      if (v.length > 6000) {
+        el('cons-texto').closest('.dsc-field').classList.add('is-invalid');
+        el('cons-erro-text').textContent = 'Máximo de 6.000 caracteres.';
+        el('cons-erro').style.display = 'flex';
+        return;
+      }
+      el('confirm-text').textContent = detEt().cons
+        ? 'Já existe um feedback consolidado para esta inscrição nesta etapa. Deseja substituí-lo pelo texto atual?'
+        : 'Deseja registrar este texto como feedback consolidado da banca?';
+      toggleModal('modal-confirm', true);
+    }
+
+    function confirmarConsolidacao() {
+      toggleModal('modal-confirm', false);
+      var btn = el('btn-salvar');
+      btn.disabled = true;
+      el('cons-saving').style.display = 'inline-flex';
+
+      setTimeout(function () {
+        el('cons-saving').style.display = 'none';
+        btn.disabled = false;
+
+        if (el('cons-fail').checked) {
+          showToast('Ocorreu um erro. Tente novamente.', 'erro');
+          return;
+        }
+        var et = detEt();
+        et.cons = {
+          texto: el('cons-texto').value.trim(),
+          em: '28/08/2026 10:22',
+          por: usuario().nome,
+          ia: el('cons-ia').classList.contains('is-on')
+        };
+        renderTudo();
+        openDetail(detInsId, detEtId, 'consolidacao', 'sw-cons');
+        showToast('Registro salvo com sucesso.', 'ok');
+      }, 900);
+    }
+
+    /* Cenário Gherkin: alterar a consolidação com o estado já fechado */
+    function tentarAlterarBloqueado() {
+      var ins = detIns();
+      if (!fechado(ins.uf, detEtId)) {
+        showToast('Este estado não está fechado. Abra o caso da Bahia pela barra de telas.', 'info');
+        return;
+      }
+      var et = detEt();
+      el('cons-texto').value = et.cons ? et.cons.texto : '';  /* o texto anterior é mantido */
+      contarCaracteres();
+      showToast('O estado já foi fechado; o feedback consolidado não pode mais ser alterado.', 'erro');
+    }
+
+    /* ====================================================================== */
+    /* Modal e toast                                                          */
+    /* ====================================================================== */
+    function toggleModal(id, show) {
+      el(id).style.display = show ? 'flex' : 'none';
+    }
+    var ICONES_TOAST = {
+      ok:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>',
+      erro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+      info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+    };
+    function showToast(texto, tipo) {
+      var t = el('toast');
+      tipo = tipo || 'ok';
+      t.className = 'dsc-toast' + (tipo === 'ok' ? ' dsc-toast--positive' : (tipo === 'erro' ? ' dsc-toast--danger' : ''));
+      el('toast-icon').innerHTML = ICONES_TOAST[tipo];
+      el('toast-text').textContent = texto;
+      t.style.display = 'flex';
+      clearTimeout(t._timer);
+      t._timer = setTimeout(function () { t.style.display = 'none'; }, 5000);
+    }
+
+    /* ====================================================================== */
+    /* Init                                                                   */
+    /* ====================================================================== */
+    setPerfil('nacional');
+    openDetail('i1', 'e1', 'avaliadores');
+    showScreen('screen-list', 'sw-list');
+  </script>
+</body>
+</html>
