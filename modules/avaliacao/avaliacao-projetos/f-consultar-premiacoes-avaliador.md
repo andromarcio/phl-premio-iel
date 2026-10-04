@@ -10,7 +10,7 @@ error_codes: []
 depende_de: [ACS-ACE-01]
 origem:
   tipo: issue
-  chave: HU-033_Painel_Avaliacao_Avaliador
+  chave: HU-029_Termo_Confidencialidade_Avaliador
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Apresenta ao avaliador, logo ao entrar, as premiações em que ele tem projetos para avaliar, com quanto já avançou em cada uma e o aviso de qual delas ainda exige o aceite do termo de confidencialidade.
 
+Ao entrar na área do avaliador, ele vê um cartão por premiação, com a situação do termo e os contadores, e aciona "Ler e aceitar termo", quando o termo está pendente, ou "Avaliar", para seguir à lista de projetos daquela premiação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-033_Painel_Avaliacao_Avaliador`](../../../hus/HU-033_Painel_Avaliacao_Avaliador.docx) | Criação | — |
+| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — funcionalidade *Selecionar Premiação para Avaliar* da HU: um cartão por premiação alocada, com a situação do termo e os contadores de avaliações, levando ao aceite ou às avaliações |
 
 ---
 
@@ -118,9 +120,9 @@ Feature: Consultar Premiações do Avaliador
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Premiação escolhida | seleção → cartão da premiação | somente leitura | lista | não | apenas premiações em que o avaliador tem projetos designados |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação escolhida | Premiação | entrada do usuário | somente leitura | seleção → Premiação | não | escolhida pelo cartão da premiação; apenas premiações em que o avaliador tem projetos designados |
 
 *A consulta não tem preenchimento: a lista é montada a partir do avaliador autenticado.*
 
@@ -132,6 +134,17 @@ Feature: Consultar Premiações do Avaliador
 |---|---|---|
 | Situação do termo de confidencialidade | aceito, pendente de aceite ou não exigido | Ao montar a consulta |
 | Data do aceite | data em que o avaliador aceitou o termo daquela premiação | Ao montar a consulta, quando o termo já foi aceito |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Alocação de Avaliadores | lê | Delimita as premiações em que o avaliador tem projetos designados (regra 1) |
+| Avaliação de Inscrição | lê | Dá os contadores A iniciar, Em andamento e Finalizados de cada premiação, só com os projetos do próprio avaliador (regra 5) |
+| Termo de Confidencialidade | lê | Diz se a premiação tem termo ativo; sem termo, o acesso aos projetos é direto (regras 2 e 4) |
+| Aceite do Termo de Confidencialidade | lê | Diz se o avaliador já aceitou o termo e em que data (regra 2 e campo automático *Data do aceite*) |
 
 ---
 
@@ -165,9 +178,9 @@ Página própria em `/avaliacao`, primeira tela do perfil Avaliador. Traz uma sa
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -179,12 +192,12 @@ Página própria em `/avaliacao`, primeira tela do perfil Avaliador. Traz uma sa
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); HU de origem corrigida na `## Origem` — sai a HU-033, que descreve o painel de inscrições e não a seleção de premiação, e entra a HU-029, cuja funcionalidade *Selecionar Premiação para Avaliar* é esta feature — e critérios em prosa, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; `## Dados lidos e gravados`; coluna Papel na tabela de `## Métricas de tamanho`, ainda sem processo elementar contado. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (seleção de premiação, porta de entrada do avaliador) — tela citada no N2 e até então sem feature própria |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

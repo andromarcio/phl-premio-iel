@@ -10,7 +10,7 @@ error_codes: []
 depende_de: ["AVL-ALO-04"]
 origem:
   tipo: issue
-  chave: HU-028_Avaliar_Inscricao
+  chave: HU-033_Painel_Avaliacao_Avaliador
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
@@ -29,15 +29,16 @@ contagem:
 ## Descrição
 Permite ao avaliador acompanhar, em uma tela própria, todas as inscrições que lhe foram alocadas, com indicadores de andamento, prazos e seleção por premiação, etapa e status.
 
+No menu Minhas Avaliações, o avaliador abre o Painel do Avaliador, restringe a visão por premiação, etapa e status e aciona "Iniciar", "Continuar" ou "Ver" no cartão da inscrição para abrir a avaliação dela.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
-| [`HU-033_Painel_Avaliacao_Avaliador`](../../../hus/HU-033_Painel_Avaliacao_Avaliador.docx) | Criação | — |
-| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — |
+| [`HU-033_Painel_Avaliacao_Avaliador`](../../../hus/HU-033_Painel_Avaliacao_Avaliador.docx) | Criação | — funcionalidades *Consultar Minhas Avaliações* e *Filtrar Avaliações por Premiação, Etapa e Status* da HU: cartões das inscrições alocadas, indicadores agregados e filtros combinados |
+| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — o painel passa a ser a fonte da fila de pendentes, com a sequência e o recorte consumidos pelo salto "Próxima pendente" |
 
 ---
 
@@ -107,11 +108,11 @@ Feature: Acompanhar Minhas Avaliações
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Premiação | entrada do usuário | editável | seleção (Todas as premiações; premiações com alocação) | não | padrão: Todas as premiações |
-| Etapa | entrada do usuário | editável | seleção (Todas as etapas; etapas da premiação) | não | limpa ao trocar de premiação |
-| Status | entrada do usuário | editável | seleção (Todas, A iniciar, Em andamento, Finalizadas) | não | padrão: Todas |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Premiação | Premiação | entrada do usuário | editável | seleção (Todas as premiações; premiações com alocação) | não | padrão: Todas as premiações |
+| Etapa | Etapa | entrada do usuário | editável | seleção (Todas as etapas; etapas da premiação) | não | limpa ao trocar de premiação |
+| Status | dado de código | entrada do usuário | editável | seleção (Todas, A iniciar, Em andamento, Finalizadas) | não | padrão: Todas |
 
 ---
 
@@ -136,6 +137,20 @@ Feature: Acompanhar Minhas Avaliações
 |---|---|---|
 | Status da avaliação | A iniciar, Em andamento ou Finalizada | Derivado do registro de notas, a cada consulta |
 | Progresso da pontuação | Percentual de questões pontuadas | Derivado a cada consulta |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Alocação de Avaliadores | lê | Os grupos de avaliação a que o avaliador está alocado em cada etapa (ALR do baseline) |
+| Avaliação de Inscrição | lê | Traz as inscrições alocadas ao próprio avaliador e o status de cada avaliação, que compõem os cartões, os indicadores e a fila de pendentes (regras 1, 2, 3 e 7) |
+| Nota de Avaliação | lê | O status e o progresso da pontuação derivam das notas registradas (regra 2 e campos automáticos) |
+| Inscrição | lê | Protocolo, nome do projeto e identificação do participante de cada cartão, oculta em inscrição confidencial (regras 5 e 7) |
+| Tipo de Participante | lê | Tipo de participante do enquadramento exibido no cartão (ALR do baseline) |
+| Modalidade | lê | Modalidade do enquadramento exibida no cartão (ALR do baseline) |
+| Categoria | lê | Categoria do enquadramento exibida no cartão (ALR do baseline) |
 
 ---
 
@@ -170,19 +185,30 @@ Página própria em `/avaliacao/premiacao/:premiacaoId` (Painel do Avaliador): c
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Painel Minhas Avaliações | SE | 7 | 18 | Complexo | 7 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Acompanhar Minhas Avaliações | principal | SE | 7 | 18 | Complexo | 7 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Consultar Painel Minhas Avaliações*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Painel Minhas Avaliações** — ALR (7): Alocação Avaliadores · Avaliação de Inscrição · Premiação · Inscrição · Modalidade · Categoria · Tipo de Participante. DER (18): Nome avaliador · Quantidade de avaliações pendentes · Prazo máximo para avaliação pendentes · Qtd avaliações a iniciar · Qtd avaliações em andamento · Qtd avaliações finalizadas · Premiação · Etapa · Status · Número projeto · Status avaliação da Inscrição · Modalidade · Categoria · Tipo Participante · Percentual de conclusão · Prazo inscrição · Ação · Mensagem.
+**Acompanhar Minhas Avaliações** — SE · ALR 7 · DER 18 · Complexo · 7 PF
 
 ```json
-{"pe": "Consultar Painel Minhas Avaliações",
+{"pe": "Acompanhar Minhas Avaliações",
  "alr": ["Alocação Avaliadores", "Avaliação de Inscrição", "Premiação", "Inscrição", "Modalidade", "Categoria", "Tipo de Participante"],
  "der": ["Nome avaliador", "Quantidade de avaliações pendentes", "Prazo máximo para avaliação pendentes", "Qtd avaliações a iniciar", "Qtd avaliações em andamento", "Qtd avaliações finalizadas", "Premiação", "Etapa", "Status", "Número projeto", "Status avaliação da Inscrição", "Modalidade", "Categoria", "Tipo Participante", "Percentual de conclusão", "Prazo inscrição", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Alocação Avaliadores` — os grupos de avaliação a que o avaliador está alocado em cada etapa
+2. `Avaliação de Inscrição` — as inscrições designadas ao avaliador, com o status de cada avaliação e as notas que dão o progresso da pontuação
+3. `Premiação` — o nome da premiação e as etapas dela, com o prazo de cada uma
+4. `Inscrição` — o protocolo, o nome do projeto e a identificação do participante de cada cartão
+5. `Modalidade` — a modalidade do enquadramento exibida no cartão
+6. `Categoria` — a categoria do enquadramento exibida no cartão
+7. `Tipo de Participante` — o tipo de participante do enquadramento exibido no cartão
 
 **Total: 7 PF** (1 processo elementar).
 
@@ -194,7 +220,7 @@ Página própria em `/avaliacao/premiacao/:premiacaoId` (Painel do Avaliador): c
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); HU de origem corrigida na `## Origem` — sai a HU-028, que só cita o painel, e fica a HU-033, de onde a feature deriva — e critérios em prosa, porque as HUs não numeram critérios; coluna Entidade em `## Campos`; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Fila confirmada | O produto confirmou que a fila do salto "Próxima pendente" é **a do painel** — mesmo recorte e mesma ordem de protocolo que o acompanhamento apresenta. A regra deixa de ser suposição |
@@ -204,6 +230,6 @@ Página própria em `/avaliacao/premiacao/:premiacaoId` (Painel do Avaliador): c
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

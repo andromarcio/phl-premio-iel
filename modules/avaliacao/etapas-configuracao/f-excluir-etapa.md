@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador remover uma etapa da premiação quando não há avaliadores alocados nela, preservando o histórico por exclusão lógica.
 
+No cartão da etapa, na aba "Avaliação & Etapas" da configuração da premiação, o administrador aciona "Remover" e confirma a exclusão.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — funcionalidade *Desativar Etapa* da HU: remoção da etapa com confirmação, bloqueada enquanto houver alocações de avaliadores ativas nela |
 
 ---
 
@@ -100,9 +102,9 @@ Feature: Excluir Etapa
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Etapa | seleção na listagem de etapas | somente leitura | referência → Etapa | sim | etapa alvo da exclusão |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Etapa | Etapa | exibido do cadastro | somente leitura | referência → Etapa | sim | etapa alvo da exclusão, escolhida no cartão da listagem de etapas |
 
 ---
 
@@ -111,6 +113,14 @@ Feature: Excluir Etapa
 | Label PO | Valor | Quando |
 |---|---|---|
 | Situação do registro | Inativo (exclusão lógica) | Na confirmação da exclusão |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Alocação de Avaliadores | lê | Confere se há avaliadores alocados ativos na etapa, o que impede a exclusão (regra 1) |
 
 ---
 
@@ -144,19 +154,24 @@ Ação "Remover" no card da etapa, na aba "Avaliação & Etapas" (`/configuracao
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Excluir Etapa | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Excluir Etapa | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Excluir Etapa** — ALR (1): Premiação. DER (3): ID · Ação · Mensagem.
+**Excluir Etapa** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Excluir Etapa",
  "alr": ["Premiação"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação inativa a etapa, subgrupo do arquivo lógico da premiação
+
+⚠️ A planilha conta ALR 1, mas a exclusão confere antes se há avaliadores alocados ativos na etapa (regra 1), leitura do arquivo lógico *Alocação Avaliadores* que a enumeração não traz. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -168,13 +183,13 @@ Ação "Remover" no card da etapa, na aba "Avaliação & Etapas" (`/configuracao
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-024 |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao avaliador ler e aceitar o termo de confidencialidade de uma premiação, liberando o acesso aos dados dos participantes; o aceite é registrado uma única vez por avaliador e premiação.
 
+Na seleção de premiação, o avaliador aciona "Ler e aceitar termo" no cartão da premiação com termo pendente, lê o termo na tela — ou baixa o anexo —, marca "Li e aceito" e aciona "Aceitar e continuar".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — |
+| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — funcionalidade *Aceitar Termo de Confidencialidade* da HU: leitura do termo em texto ou anexo, confirmação "Li e aceito" e aceite registrado uma única vez por avaliador e premiação, com data e IP de origem |
 
 ---
 
@@ -101,9 +103,9 @@ Feature: Aceitar Termo de Confidencialidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Li e aceito o termo | entrada do usuário | editável | confirmação | sim | habilita o registro do aceite |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Li e aceito o termo | Aceite do Termo de Confidencialidade | entrada do usuário | editável | confirmação | sim | habilita o registro do aceite |
 
 ---
 
@@ -115,6 +117,15 @@ Feature: Aceitar Termo de Confidencialidade
 | IP de origem | Endereço de origem do avaliador | No momento do aceite |
 | Nome do avaliador | Nome vigente no cadastro corporativo | No momento do aceite |
 | Login do avaliador | Login vigente no cadastro corporativo | No momento do aceite |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Termo de Confidencialidade | lê | Exibe o título e o conteúdo do termo ativo da premiação, em texto ou anexo, e diz se há termo a aceitar (regras 1 e 5) |
+| Premiação | lê | O termo e o aceite são escopados pela premiação (regra 2); é o arquivo lógico que a planilha do baseline nomeia nas três transações |
 
 ---
 
@@ -148,35 +159,52 @@ Página própria em `/avaliacao/premiacao/:premiacaoId/termo` (Aceite do Termo):
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Termos de Aceite por Prêmios | CE | 1 | 3 | Simples | 3 | 2026-02-28 |
-| Visualizar Termo de Aceite | CE | 1 | 2 | Simples | 3 | 2026-02-28 |
-| Aceitar Termo de Aceite | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Termos de Aceite por Prêmios | acessório | CE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Visualizar Termo de Aceite | acessório | CE | 1 | 2 | Simples | 3 | 2026-02-28 |
+| Aceitar Termo de Confidencialidade | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar principal se chama *Aceitar Termo de Aceite*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Consultar Termos de Aceite por Prêmios** — ALR (1): Premiação. DER (3): Prêmio · Status Termo · Ação.
+**Consultar Termos de Aceite por Prêmios** — CE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Consultar Termos de Aceite por Prêmios",
  "alr": ["Premiação"],
  "der": ["Prêmio", "Status Termo", "Ação"]}
 ```
-- **Visualizar Termo de Aceite** — ALR (1): Premiação. DER (2): Termo de Confidencialidade · Ação.
+
+Por que cada ALR:
+1. `Premiação` — as premiações do avaliador, cada uma com a situação do termo de confidencialidade
+
+⚠️ Esta lista — as premiações do avaliador com a situação do termo — é a tela Seleção de Premiação, que a feature `AVL-AVA-07` (Consultar Premiações do Avaliador) especifica e que segue sem contagem. Se o processo elementar realiza aquela feature, ele deveria contar lá; mover a linha é decisão da equipe de métricas.
+
+**Visualizar Termo de Aceite** — CE · ALR 1 · DER 2 · Simples · 3 PF
 
 ```json
 {"pe": "Visualizar Termo de Aceite",
  "alr": ["Premiação"],
  "der": ["Termo de Confidencialidade", "Ação"]}
 ```
-- **Aceitar Termo de Aceite** — ALR (1): Premiação. DER (3): ID Termo · Ação · Mensagem.
+
+Por que cada ALR:
+1. `Premiação` — o termo de confidencialidade ativo da premiação, exibido em texto ou como anexo para leitura
+
+**Aceitar Termo de Confidencialidade** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
-{"pe": "Aceitar Termo de Aceite",
+{"pe": "Aceitar Termo de Confidencialidade",
  "alr": ["Premiação"],
  "der": ["ID Termo", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava o aceite do avaliador no termo da premiação, com data e IP de origem
+
+⚠️ A planilha nomeia o arquivo lógico *Premiação* nas três transações, mas o `global/data-models/avaliacao.md` registra o Termo de Confidencialidade e o Aceite como subgrupos do ALI *Avaliação de Inscrição*. Ficou o nome da planilha — o número não muda, ALR 1 nos dois casos —, e a divergência vai à equipe de métricas.
 
 **Total: 9 PF** (3 processos elementares).
 
@@ -188,7 +216,7 @@ Página própria em `/avaliacao/premiacao/:premiacaoId/termo` (Aceite do Termo):
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (3 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
@@ -196,6 +224,6 @@ Página própria em `/avaliacao/premiacao/:premiacaoId/termo` (Aceite do Termo):
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

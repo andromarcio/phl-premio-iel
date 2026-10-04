@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao administrador criar uma etapa eliminatória de avaliação com nome, período, perfis autorizados e os cortes de classificação e de premiação que ela aplica, posicionando-a ao final da sequência da premiação.
 
+Na aba "Avaliação & Etapas" da configuração da premiação, o administrador aciona "Nova etapa", preenche no editor dados como nome, período e quantidade de classificados e aciona "Salvar etapa".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
-| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — |
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — funcionalidades *Criar Etapa* e *Configurar Capability da Etapa* da HU: nome, período e perfis autorizados, ordem na próxima posição livre e limite de cinco etapas |
+| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — campos Quantidade de classificados, obrigatório com mínimo 1, e Quantidade de premiados, opcional, no editor de etapa |
 
 ---
 
@@ -154,15 +156,15 @@ Feature: Cadastrar Etapa
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome da etapa | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
-| Data de início | entrada do usuário | editável | data | sim | — |
-| Data de término | entrada do usuário | editável | data | sim | maior ou igual à data de início |
-| Perfis autorizados | entrada do usuário | editável | seleção múltipla (Administrador Nacional, Administrador Regional) | sim | ao menos um perfil selecionado |
-| Quantidade de classificados | entrada do usuário | editável | número inteiro | sim | mínimo 1 |
-| Quantidade de premiados | entrada do usuário | editável | número inteiro | não | mínimo 1 quando informada; em branco = a etapa não premia |
-| Liberação do feedback | entrada do usuário | editável | data | não | igual ou posterior à data de término; em branco = liberado assim que a consolidação for feita |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome da etapa | Etapa | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
+| Data de início | Etapa | entrada do usuário | editável | data | sim | — |
+| Data de término | Etapa | entrada do usuário | editável | data | sim | maior ou igual à data de início |
+| Perfis autorizados | Perfil de Acesso à Etapa | entrada do usuário | editável | seleção múltipla (Administrador Nacional, Administrador Regional) | sim | ao menos um perfil selecionado |
+| Quantidade de classificados | Etapa | entrada do usuário | editável | número inteiro | sim | mínimo 1 |
+| Quantidade de premiados | Etapa | entrada do usuário | editável | número inteiro | não | mínimo 1 quando informada; em branco = a etapa não premia |
+| Liberação do feedback | Etapa | entrada do usuário | editável | data | não | igual ou posterior à data de término; em branco = liberado assim que a consolidação for feita |
 
 ---
 
@@ -211,19 +213,26 @@ Diálogo "Editor de Etapa" aberto pela ação "Nova etapa" na aba "Avaliação &
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Cadastrar Nova Etapa | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Cadastrar Etapa | principal | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Cadastrar Nova Etapa*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Cadastrar Nova Etapa** — ALR (1): Premiação. DER (7): Nome da etapa · Início · Fim · Liberação do feedback · Operador da etapa · Ação · Mensagem.
+**Cadastrar Etapa** — EE · ALR 1 · DER 7 · Simples · 3 PF
 
 ```json
-{"pe": "Cadastrar Nova Etapa",
+{"pe": "Cadastrar Etapa",
  "alr": ["Premiação"],
  "der": ["Nome da etapa", "Início", "Fim", "Liberação do feedback", "Operador da etapa", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava a etapa nova e os perfis autorizados dela, subgrupos do arquivo lógico da premiação
+
+⚠️ A enumeração é a do baseline, anterior aos campos *Quantidade de classificados* e *Quantidade de premiados*, que entraram com o `PDTIC25093-67`; a contagem da alteração está na AIM do ticket.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -235,7 +244,7 @@ Diálogo "Editor de Etapa" aberto pela ação "Nova etapa" na aba "Avaliação &
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU e o ticket não numeram critérios; coluna Entidade em `## Campos`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/etapas-configuracao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Critério da abrangência trocado | A abrangência do corte passa a derivar da **natureza da etapa** — nacional apura entre todos os inscritos, regional apura por estado — e não mais da lista de perfis autorizados. A visibilidade da etapa por perfil passa a ser matriz do N2. ⚠️ Falta um campo que declare a natureza da etapa; hoje ela é lida dos perfis autorizados |
@@ -246,6 +255,6 @@ Diálogo "Editor de Etapa" aberto pela ação "Nova etapa" na aba "Avaliação &
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

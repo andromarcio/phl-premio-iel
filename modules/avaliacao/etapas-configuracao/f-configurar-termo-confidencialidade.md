@@ -29,6 +29,8 @@ contagem:
 ## Descrição
 Permite ao administrador cadastrar, substituir ou desativar o termo de confidencialidade — em texto ou arquivo — exigido do avaliador na premiação.
 
+Na aba "Avaliação & Etapas" da configuração da premiação, no bloco "Termo de Confidencialidade do Avaliador", o administrador escolhe o tipo do termo, escreve o texto ou anexa o arquivo e salva — ou desativa o termo vigente.
+
 > ⚠️ Feature derivada do modelo de dados (`Termo de Confidencialidade`) e do N2; a HU específica do termo (HU-029) não faz parte deste lote — validar o conteúdo quando disponível.
 
 ---
@@ -37,7 +39,7 @@ Permite ao administrador cadastrar, substituir ou desativar o termo de confidenc
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — |
+| [`HU-029_Termo_Confidencialidade_Avaliador`](../../../hus/HU-029_Termo_Confidencialidade_Avaliador.docx) | Criação | — funcionalidade *Configurar Termo de Confidencialidade da Premiação* da HU: cadastro em texto ou anexo, substituição do termo ativo e desativação, que remove o aceite obrigatório |
 
 ---
 
@@ -114,12 +116,12 @@ Feature: Configurar Termo de Confidencialidade
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Título | entrada do usuário | editável | texto | não | máximo de 500 caracteres |
-| Tipo do termo | entrada do usuário | editável | opção (Texto, Arquivo) | sim | define se o termo é fornecido como texto ou como arquivo |
-| Texto do termo | entrada do usuário | editável | texto longo | condicional | obrigatório quando o Tipo do termo é Texto |
-| Arquivo do termo | entrada do usuário (anexo) | editável | arquivo | condicional | obrigatório quando o Tipo do termo é Arquivo; respeita tamanho e tipos permitidos ⚠️ |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Título | Termo de Confidencialidade | entrada do usuário | editável | texto | não | máximo de 500 caracteres |
+| Tipo do termo | Termo de Confidencialidade | entrada do usuário | editável | opção (Texto, Arquivo) | sim | define se o termo é fornecido como texto ou como arquivo |
+| Texto do termo | Termo de Confidencialidade | entrada do usuário | editável | texto longo | condicional | obrigatório quando o Tipo do termo é Texto |
+| Arquivo do termo | Termo de Confidencialidade | entrada do usuário | editável | arquivo | condicional | enviado como anexo; obrigatório quando o Tipo do termo é Arquivo; respeita tamanho e tipos permitidos ⚠️ |
 
 ---
 
@@ -129,6 +131,14 @@ Feature: Configurar Termo de Confidencialidade
 |---|---|---|
 | Situação do termo | Ativo | No cadastro de um novo termo |
 | Situação do termo anterior | Inativo | Ao substituir o termo ativo |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Arquivo | grava | Guarda o documento do termo do tipo arquivo, com o tamanho e o tipo conferidos (regra 5) |
 
 ---
 
@@ -163,9 +173,9 @@ Página do termo de confidencialidade em `/configuracao-premiacao/premiacoes/:pr
 
 > **Sem contagem no baseline APF** — sem PE no baseline ⚠️. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -177,12 +187,12 @@ Página do termo de confidencialidade em `/configuracao-premiacao/premiacoes/:pr
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; `## Dados lidos e gravados`; coluna Papel na tabela de `## Métricas de tamanho`, ainda sem processo elementar contado. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado do modelo de dados e do N2 (HU-029 fora deste lote) |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

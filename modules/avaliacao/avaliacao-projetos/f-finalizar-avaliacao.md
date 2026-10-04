@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao avaliador finalizar a avaliação depois de pontuar todas as questões e registrar o parecer, encerrando o registro em modo somente leitura e abrindo em seguida a próxima avaliação pendente da sua fila.
 
+Na tela de avaliação da inscrição, com todas as questões pontuadas e o parecer escrito, o avaliador aciona "Finalizar avaliação" e confirma; concluída a finalização, aciona "Próxima pendente" para seguir à próxima avaliação da sua fila.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
-| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — |
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — funcionalidade *Finalizar Avaliação* da HU: conclusão explícita com todas as questões pontuadas e parecer de no mínimo 50 caracteres, registro somente leitura depois dela e bloqueio com a etapa fechada |
+| [`PDTIC25093-61`](../../../analise-impacto/AIM-PDTIC25093-61.md) | Alteração | — salto "Próxima pendente" após a finalização, restrito ao recorte vigente do acompanhamento, com aviso quando não resta pendência |
 
 ---
 
@@ -122,10 +124,10 @@ Feature: Finalizar Avaliação
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Parecer do avaliador | entrada do usuário | editável | texto longo | sim | mínimo de 50 caracteres não-brancos |
-| Confirmação de finalização | entrada do usuário | editável | confirmação | sim | reconhece que as notas não poderão ser alteradas após finalizar |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Parecer do avaliador | Avaliação de Inscrição | entrada do usuário | editável | texto longo | sim | mínimo de 50 caracteres não-brancos |
+| Confirmação de finalização | Avaliação de Inscrição | entrada do usuário | editável | confirmação | sim | reconhece que as notas não poderão ser alteradas após finalizar |
 
 ---
 
@@ -135,6 +137,18 @@ Feature: Finalizar Avaliação
 |---|---|---|
 | Status da avaliação | Finalizada | Na confirmação da finalização |
 | Finalização da avaliação | Data e hora | Na confirmação da finalização |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Nota de Avaliação | lê | Confere se todas as questões do questionário estão pontuadas (regra 1) |
+| Questionário | lê | O questionário de avaliação do tipo de participante, que define o conjunto de questões a pontuar (regra 1) |
+| Questão de Avaliação | lê | As questões do questionário que precisam ter nota para a finalização (regra 1) |
+| Etapa | lê | A situação da etapa da inscrição: etapa fechada impede a finalização (regra 4) |
+| Histórico de Avaliação | grava | Recebe a transição de status da finalização (regra 5) |
 
 ---
 
@@ -171,19 +185,24 @@ Na tela Avaliação da Inscrição (`/avaliacao/:alocacaoId`), o comando de fina
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Finalizar Avaliação | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Finalizar Avaliação | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Finalizar Avaliação** — ALR (1): Avaliação de Inscrição. DER (3): ID · Ação · Mensagem.
+**Finalizar Avaliação** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Finalizar Avaliação",
  "alr": ["Avaliação de Inscrição"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — a transação grava o status Finalizada, o momento da conclusão e a transição no histórico da avaliação, subgrupo do mesmo arquivo lógico
+
+⚠️ A planilha conta ALR 1, mas a finalização confere antes as questões do questionário a pontuar e a situação da etapa (regras 1 e 4), leituras dos arquivos lógicos *Tipo de Participante* e *Premiação* que a enumeração não traz. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -195,7 +214,7 @@ Na tela Avaliação da Inscrição (`/avaliacao/:alocacaoId`), o comando de fina
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/avaliacao-projetos/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
 | 2026-09-01 | Decisões de produto (docqui) | Fila confirmada | O produto confirmou que a fila do salto "Próxima pendente" é **a do painel** — mesmo recorte e mesma ordem de protocolo que o acompanhamento apresenta. A regra deixa de ser suposição |
@@ -205,6 +224,6 @@ Na tela Avaliação da Inscrição (`/avaliacao/:alocacaoId`), o comando de fina
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

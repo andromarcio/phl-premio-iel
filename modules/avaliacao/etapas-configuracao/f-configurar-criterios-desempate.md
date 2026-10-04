@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao Administrador Nacional definir, por tipo de participante, a lista ordenada de questões que o sistema aplica para quebrar empates de média no ranking, seguindo o modelo lexicográfico.
 
+No bloco "Critérios de Desempate" da aba "Avaliação & Etapas", o administrador marca, no cartão de cada tipo de participante, as questões que servirão de critério, ordena-as por arraste e aciona "Salvar critérios".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-032_Configurar_Criterios_de_Desempate`](../../../hus/HU-032_Configurar_Criterios_de_Desempate.docx) | Criação | — |
+| [`HU-032_Configurar_Criterios_de_Desempate`](../../../hus/HU-032_Configurar_Criterios_de_Desempate.docx) | Criação | — funcionalidades *Configurar Critérios Automáticos de Desempate* e *Bloqueio Automático de Edição em Janela de Fechamento* da HU: lista lexicográfica de questões por tipo de participante, substituída integralmente ao salvar e travada na janela de fechamento |
 
 ---
 
@@ -110,11 +112,11 @@ Feature: Configurar Critérios de Desempate
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Tipo de participante | derivado (árvore Categoria → Modalidade → Tipo de Participante) | somente leitura | referência → Tipo de Participante | — | um bloco de configuração por tipo de participante da premiação |
-| Questão de critério | seleção → Questão de Avaliação do tipo | editável | seleção múltipla | não | cada questão no máximo uma vez por premiação |
-| Ordem de aplicação | entrada do usuário (reordenação) | editável | número inteiro | não | posição única na lista de critérios ativos da premiação |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Tipo de participante | Tipo de Participante | exibido do cadastro | somente leitura | referência → Tipo de Participante | — | um bloco de configuração por tipo de participante da premiação, resolvido pela árvore Categoria → Modalidade → Tipo de Participante |
+| Questão de critério | Questão de Avaliação | entrada do usuário | editável | seleção múltipla → Questão de Avaliação | não | questões do questionário do tipo de participante; cada questão no máximo uma vez por premiação |
+| Ordem de aplicação | Critério de Desempate | entrada do usuário | editável | número inteiro | não | definida por reordenação; posição única na lista de critérios ativos da premiação |
 
 ---
 
@@ -123,6 +125,17 @@ Feature: Configurar Critérios de Desempate
 | Label PO | Valor | Quando |
 |---|---|---|
 | Critérios desativados | Critérios ausentes da nova lista | Ao salvar a configuração (substituição integral) |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Questionário | lê | O questionário de avaliação de cada tipo de participante, de onde saem as questões disponíveis como critério (regra 2) |
+| Categoria | lê | Os tipos de participante da premiação são resolvidos pela árvore de categorias e modalidades vinculadas a ela (campo *Tipo de participante*) |
+| Modalidade | lê | A modalidade é o nível da árvore que liga a categoria ao tipo de participante da premiação (campo *Tipo de participante*) |
+| Etapa | lê | Confere se há etapa com prazo final encerrado e situação ainda Aberta, a janela de fechamento que trava a configuração (regra 7) |
 
 ---
 
@@ -157,15 +170,22 @@ Bloco "Critérios de Desempate" na aba "Avaliação & Etapas" (`/premiacoes/:id/
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Configurar Critérios de Desempate | EE | — | 11 | Simples | 3 | 2026-02-28 |
-| Consultar Critérios de Desempate | CE | — | 10 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Configurar Critérios de Desempate | principal | EE | — | 11 | Simples | 3 | 2026-02-28 |
+| Consultar Critérios de Desempate | acessório | CE | — | 10 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Configurar Critérios de Desempate** — ALR (0): Premiação · Avaliação de Inscrição · Tipo de Participante · Inscrição. DER (11): Tipo de participante · Quetões disponíveis · Questão · Descrição questão · Tipo · Peso · Ordem · Qtd Critérios configurados · Qtd critérios selecionados · Ação · Mensagem.
-- **Consultar Critérios de Desempate** — ALR (0): Premiação · Avaliação de Inscrição · Tipo de Participante · Inscrição. DER (10): Tipo de participante · Quetões disponíveis · Questão · Descrição questão · Tipo · Peso · Ordem · Qtd Critérios configurados · Qtd critérios selecionados · Ação.
+**Configurar Critérios de Desempate** — EE · ALR — · DER 11 · Simples · 3 PF
+
+A planilha deixa o ALR em branco e nomeia quatro arquivos lógicos: Premiação · Avaliação de Inscrição · Tipo de Participante · Inscrição. DER (11): Tipo de participante · Quetões disponíveis · Questão · Descrição questão · Tipo · Peso · Ordem · Qtd Critérios configurados · Qtd critérios selecionados · Ação · Mensagem.
+
+**Consultar Critérios de Desempate** — CE · ALR — · DER 10 · Simples · 3 PF
+
+A planilha deixa o ALR em branco e nomeia os mesmos quatro arquivos lógicos: Premiação · Avaliação de Inscrição · Tipo de Participante · Inscrição. DER (10): Tipo de participante · Quetões disponíveis · Questão · Descrição questão · Tipo · Peso · Ordem · Qtd Critérios configurados · Qtd critérios selecionados · Ação.
+
+⚠️ Os dois processos elementares ficam sem o bloco JSON da enumeração: a tabela traz ALR `—`, que não é número, e a lista do bloco precisa ter o tamanho do ALR. A complexidade Simples registrada na planilha só fecha com ALR 0 ou 1 para os dois tipos, mas a enumeração nomeia quatro arquivos lógicos. O número do ALR precisa vir da equipe de métricas antes de a memória virar bloco.
 
 **Total: 6 PF** (2 processos elementares).
 
@@ -177,12 +197,12 @@ Bloco "Critérios de Desempate" na aba "Avaliação & Etapas" (`/premiacoes/:id/
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; `## Dados lidos e gravados`; coluna Papel e memória de cálculo no formato novo, ainda sem o bloco JSON porque a planilha deixa o ALR em branco. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-032 |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

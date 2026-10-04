@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Permite ao administrador alterar a ordem relativa das etapas da premiação enquanto nenhuma delas estiver fechada, mantendo a numeração sequencial sem lacunas.
 
+No cartão de cada etapa, na aba "Avaliação & Etapas" da configuração da premiação, o administrador aciona "Subir" ou "Descer" para mover a etapa uma posição na sequência.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — funcionalidade *Reordenar Etapas* da HU: botões de subir e descer no cartão, bloqueados quando a premiação tem ao menos uma etapa Fechada |
 
 ---
 
@@ -93,9 +95,9 @@ Feature: Reordenar Etapas
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Ordem | derivado (posição na sequência) | editável por reordenação | número inteiro | sim | sequência de 1 a N, sem lacunas nem repetições |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Ordem | Etapa | entrada do usuário | editável por reordenação | número inteiro | sim | derivada da posição para a qual o administrador move a etapa; sequência de 1 a N, sem lacunas nem repetições |
 
 ---
 
@@ -137,19 +139,24 @@ Ações de subir e descer no card de cada etapa, na aba "Avaliação & Etapas" (
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Alterar ordem das etapas | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Reordenar Etapas | principal | EE | 1 | 4 | Simples | 3 | 2026-02-28 |
+
+> No baseline, o processo elementar se chama *Alterar ordem das etapas*; aqui leva o nome da feature, como pede o `global/SIZING.md` para o `principal`. O número é o do baseline.
 
 ### Memória de cálculo
 
-- **Alterar ordem das etapas** — ALR (1): Premiação. DER (4): ID · Ordem · Ação · Mensagem.
+**Reordenar Etapas** — EE · ALR 1 · DER 4 · Simples · 3 PF
 
 ```json
-{"pe": "Alterar ordem das etapas",
+{"pe": "Reordenar Etapas",
  "alr": ["Premiação"],
  "der": ["ID", "Ordem", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação confere a situação das etapas da premiação e grava a nova ordem delas, subgrupo do arquivo lógico da premiação
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -161,13 +168,13 @@ Ações de subir e descer no card de cada etapa, na aba "Avaliação & Etapas" (
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-024 |
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

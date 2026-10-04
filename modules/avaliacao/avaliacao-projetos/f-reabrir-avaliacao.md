@@ -10,7 +10,7 @@ error_codes: []
 depende_de: ["AVL-AVA-04"]
 origem:
   tipo: issue
-  chave: HU-028_Avaliar_Inscricao
+  chave: HU-025_Alocar_Avaliadores
 estado: rascunho
 gates:
   requisitos:   { aprovado: false, por: "", em: "", pr: "" }
@@ -29,14 +29,15 @@ contagem:
 ## Descrição
 Permite ao Administrador Nacional reabrir uma avaliação já finalizada, revertendo-a para Em andamento e preservando as notas registradas, para devolver o trabalho ao avaliador.
 
+Na tela Alocação por Inscrição, o Administrador Nacional aciona o comando de desfinalizar na avaliação finalizada da inscrição e confirma a reabertura.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
-| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — |
+| [`HU-025_Alocar_Avaliadores`](../../../hus/HU-025_Alocar_Avaliadores.docx) | Criação | — ação *Desfinalizar Alocação* da HU: devolve a avaliação finalizada para Em andamento preservando as notas, só com a etapa Aberta e só pelo Administrador Nacional |
 
 ---
 
@@ -95,9 +96,9 @@ Feature: Reabrir Avaliação
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Confirmação de reabertura | entrada do usuário | editável | confirmação | sim | reconhece que a avaliação volta para Em andamento, preservando as notas |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Confirmação de reabertura | Avaliação de Inscrição | entrada do usuário | editável | confirmação | sim | reconhece que a avaliação volta para Em andamento, preservando as notas |
 
 ---
 
@@ -107,6 +108,15 @@ Feature: Reabrir Avaliação
 |---|---|---|
 | Status da avaliação | Em andamento | Na confirmação da reabertura |
 | Histórico da avaliação | Transição do status e responsável | Na confirmação da reabertura |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Etapa | lê | A reabertura só é possível com a etapa da inscrição aberta (regra 3) |
+| Histórico de Avaliação | grava | Recebe a transição de status e o responsável pela reabertura (regra 4 e campo automático *Histórico da avaliação*) |
 
 ---
 
@@ -140,19 +150,24 @@ Na tela Alocação por Inscrição (`/avaliacao-admin/alocacao-participante`), o
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Reabrir Avaliação | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Reabrir Avaliação | principal | EE | 1 | 3 | Simples | 3 | 2026-02-28 |
 
 ### Memória de cálculo
 
-- **Reabrir Avaliação** — ALR (1): Avaliação de Inscrição. DER (3): ID · Ação · Mensagem.
+**Reabrir Avaliação** — EE · ALR 1 · DER 3 · Simples · 3 PF
 
 ```json
 {"pe": "Reabrir Avaliação",
  "alr": ["Avaliação de Inscrição"],
  "der": ["ID", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Avaliação de Inscrição` — a transação devolve a avaliação a Em andamento e registra a transição e o responsável no histórico, subgrupo do mesmo arquivo lógico
+
+⚠️ A planilha conta ALR 1, mas a reabertura confere antes a situação da etapa da inscrição (regra 3), leitura do arquivo lógico *Premiação* que a enumeração não traz. Ficou o número da planilha; a divergência vai à equipe de métricas.
 
 **Total: 3 PF** (1 processo elementar).
 
@@ -164,13 +179,13 @@ Na tela Alocação por Inscrição (`/avaliacao-admin/alocacao-participante`), o
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); HU de origem corrigida na `## Origem` — sai a HU-028, que só cita a reabertura numa regra, e fica a HU-025, que traz a ação de desfinalizar — e critérios em prosa, porque a HU não numera critérios; coluna Entidade em `## Campos`; `## Dados lidos e gravados`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-27 | Engenharia reversa (docqui) | Feature criada | N3 negocial derivado da HU-025 |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-27*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

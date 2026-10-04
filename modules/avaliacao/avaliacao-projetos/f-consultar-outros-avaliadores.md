@@ -29,13 +29,15 @@ contagem:
 ## Descrição
 Mostra ao avaliador quantas outras pessoas avaliam o mesmo projeto na mesma etapa e em que pé está cada uma, sem revelar quem são nem que notas atribuíram.
 
+Na tela de avaliação do projeto, o avaliador consulta o bloco de outros avaliadores: uma linha por avaliador designado ao mesmo projeto na etapa — a sua com o próprio nome, as demais sob apelido numerado —, com colunas como situação, início e finalização da avaliação.
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — |
+| [`HU-028_Avaliar_Inscricao`](../../../hus/HU-028_Avaliar_Inscricao.docx) | Criação | — item *Consultar Outros Avaliadores* da funcionalidade *Avaliar Inscrição* da HU: os demais avaliadores da mesma inscrição, com status e data de conclusão, sem acesso às notas e aos pareceres |
 
 ---
 
@@ -118,9 +120,9 @@ Feature: Consultar Outros Avaliadores
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Avaliação de origem | Avaliação de Inscrição | somente leitura | identificação | sim | precisa ser uma avaliação do próprio avaliador |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Avaliação de origem | Avaliação de Inscrição | exibido do cadastro | somente leitura | identificação | sim | precisa ser uma avaliação do próprio avaliador |
 
 ---
 
@@ -130,6 +132,14 @@ Feature: Consultar Outros Avaliadores
 |---|---|---|
 | Apelido do avaliador | "Avaliador" seguido de um número sequencial estável | Ao montar a consulta, para todo avaliador que não seja o próprio |
 | Marca "você" | indicação na linha do próprio avaliador | Ao montar a consulta |
+
+---
+
+## Dados lidos e gravados
+
+| Entidade | Papel | Por que a feature a toca |
+|---|---|---|
+| Aceite do Termo de Confidencialidade | lê | A consulta só é liberada a quem já aceitou o termo da premiação (regra 2) |
 
 ---
 
@@ -164,9 +174,9 @@ Bloco dentro da Avaliação do Projeto (`/avaliacao/:alocacaoId`), ao lado do qu
 
 > **Sem contagem no baseline APF** — sem processo elementar correspondente. Ver `global/SIZING.md` → *Conciliação Feature ↔ Processo Elementar*.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| — | — | — | — | — | — | — |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| — | — | — | — | — | — | — | — |
 
 **Total: — PF.**
 
@@ -178,12 +188,12 @@ Bloco dentro da Avaliação do Projeto (`/avaliacao/:alocacaoId`), ao lado do qu
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU não numera critérios; coluna Entidade em `## Campos`, com o Preenchimento normalizado; `## Dados lidos e gravados`; coluna Papel na tabela de `## Métricas de tamanho`, ainda sem processo elementar contado. Sem mudança de regra, cenário ou número de PF |
 | 2026-09-01 | Carga do baseline (docqui) | Contagem registrada | Seção `## Métricas de tamanho` preenchida com o baseline APF de 2026-02-28, incluindo a memória de cálculo (ALR e DER nomeados) |
 | 2026-08-28 | Conferência doc × código (docqui) | Feature criada | N3 derivado do código (consulta aos demais avaliadores do projeto, com apelido numerado e sem notas) — capacidade implementada e até então não especificada; a HU-028 a mencionava sem detalhamento |
 
 ---
 
-*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Avaliação de Projetos · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*

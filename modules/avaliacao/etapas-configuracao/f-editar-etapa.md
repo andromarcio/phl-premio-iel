@@ -29,14 +29,16 @@ contagem:
 ## Descrição
 Permite ao administrador alterar o nome, o período, os perfis autorizados e os cortes de classificação e de premiação de uma etapa ainda aberta, sem mover a sua posição na sequência da premiação.
 
+No cartão da etapa, na aba "Avaliação & Etapas" da configuração da premiação, o administrador aciona "Editar", altera no editor dados como nome, período e quantidade de classificados e aciona "Salvar etapa".
+
 ---
 
 ## Origem
 
 | Ticket (AIM) | Tipo | Critérios cobertos |
 |---|---|---|
-| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — |
-| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — |
+| [`HU-024_Configurar_Etapas_de_Avaliacao`](../../../hus/HU-024_Configurar_Etapas_de_Avaliacao.docx) | Criação | — funcionalidades *Editar Etapa* e *Configurar Capability da Etapa* da HU: editor em modo edição com os dados atuais, perfis autorizados não vazios e bloqueio da etapa Fechada |
+| [`PDTIC25093-67`](../../../analise-impacto/AIM-PDTIC25093-67.md) | Alteração | — edição das quantidades de classificados e de premiados, bloqueio do corte com a etapa fechada e selos de classificados e de premiados no cartão |
 
 ---
 
@@ -151,17 +153,17 @@ Feature: Editar Etapa
 
 ## Campos
 
-| Label PO | Preenchimento | Edição | Tipo | Obrigatório | Validação |
-|---|---|---|---|---|---|
-| Nome da etapa | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
-| Data de início | entrada do usuário | editável | data | sim | — |
-| Data de término | entrada do usuário | editável | data | sim | maior ou igual à data de início |
-| Perfis autorizados | entrada do usuário | editável | seleção múltipla (Administrador Nacional, Administrador Regional) | sim | ao menos um perfil selecionado |
-| Quantidade de classificados | entrada do usuário | editável enquanto a etapa está Aberta | número inteiro | sim | mínimo 1 |
-| Quantidade de premiados | entrada do usuário | editável enquanto a etapa está Aberta | número inteiro | não | mínimo 1 quando informada; em branco = a etapa não premia |
-| Liberação do feedback | entrada do usuário | editável enquanto a etapa está Aberta | data | não | igual ou posterior à data de término; em branco = liberado assim que a consolidação for feita |
-| Ordem | Etapa | somente leitura | número inteiro | — | posição na sequência; alterada apenas por reordenação |
-| Situação | Etapa | somente leitura | Aberta ou Fechada | — | edição permitida apenas quando Aberta |
+| Label PO | Entidade | Preenchimento | Edição | Tipo | Obrigatório | Validação |
+|---|---|---|---|---|---|---|
+| Nome da etapa | Etapa | entrada do usuário | editável | texto | sim | máximo de 200 caracteres |
+| Data de início | Etapa | entrada do usuário | editável | data | sim | — |
+| Data de término | Etapa | entrada do usuário | editável | data | sim | maior ou igual à data de início |
+| Perfis autorizados | Perfil de Acesso à Etapa | entrada do usuário | editável | seleção múltipla (Administrador Nacional, Administrador Regional) | sim | ao menos um perfil selecionado |
+| Quantidade de classificados | Etapa | entrada do usuário | editável enquanto a etapa está Aberta | número inteiro | sim | mínimo 1 |
+| Quantidade de premiados | Etapa | entrada do usuário | editável enquanto a etapa está Aberta | número inteiro | não | mínimo 1 quando informada; em branco = a etapa não premia |
+| Liberação do feedback | Etapa | entrada do usuário | editável enquanto a etapa está Aberta | data | não | igual ou posterior à data de término; em branco = liberado assim que a consolidação for feita |
+| Ordem | Etapa | exibido do cadastro | somente leitura | número inteiro | — | posição na sequência; alterada apenas por reordenação |
+| Situação | Etapa | exibido do cadastro | somente leitura | Aberta ou Fechada | — | edição permitida apenas quando Aberta |
 
 ---
 
@@ -211,26 +213,34 @@ O cartão da etapa, de onde parte a edição, exibe os selos "Classificados" e "
 
 > Contagem do baseline APF (`arquivos/PIEL_BASELINE_PF_CD.xlsx`, aba *AFP - Detalhada*, coluna **PFB**), elaborada pela equipe de métricas em 2026-02-28. A memória de cálculo abaixo — os ALR e DER nomeados — vem da própria planilha.
 
-| Função de Transação | Tipo | ALR | DER | Complexidade | PF | Data |
-|---|---|---|---|---|---|---|
-| Consultar Etapa (implícita) | CE | — | — | — | 0 | 2026-02-28 |
-| Editar Etapa | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+| Função de Transação | Papel | Tipo | ALR | DER | Complexidade | PF | Data |
+|---|---|---|---|---|---|---|---|
+| Consultar Etapa (implícita) | acessório | — | — | — | — | 0 | 2026-02-28 |
+| Editar Etapa | principal | EE | 1 | 7 | Simples | 3 | 2026-02-28 |
+
+> No baseline, a linha *Consultar Etapa (implícita)* tem o tipo CE, sem ALR, DER nem complexidade; aqui fica com `—` nessas colunas, como pede o `global/SIZING.md` para a linha de 0 PF.
 
 ### Memória de cálculo
 
-- **Consultar Etapa (implícita)** — ALR (0): —. DER (0): —. *Não contada: um processo elementar exige que os dados atravessem a fronteira, e a lista de etapas já exibe os campos que o formulário de edição abre preenchidos — nada cruza a fronteira de novo. Critério da equipe de métricas, registrado em 2026-09-02; ver a coluna Observação de `global/CONTAGEM-PF.md`.*
+**Consultar Etapa (implícita)** — 0 PF
 
 ```json
 {"pe": "Consultar Etapa (implícita)",
- "motivo": "um processo elementar exige que os dados atravessem a fronteira, e a lista de etapas já exibe os campos que o formulário de edição abre preenchidos — nada cruza a fronteira de novo. Critério da equipe de métricas, registrado em 2026-09-02; ver a coluna Observação de `global/CONTAGEM-PF.md`."}
+ "motivo": "um processo elementar exige que os dados atravessem a fronteira, e a lista de etapas já exibe os campos que o formulário de edição abre preenchidos, de modo que nada cruza a fronteira de novo. Critério da equipe de métricas, registrado em 2026-09-02 na coluna Observação do global/CONTAGEM-PF.md"}
 ```
-- **Editar Etapa** — ALR (1): Premiação. DER (7): Nome da etapa · Início · Fim · Liberação do feedback · Operador da etapa · Ação · Mensagem.
+
+**Editar Etapa** — EE · ALR 1 · DER 7 · Simples · 3 PF
 
 ```json
 {"pe": "Editar Etapa",
  "alr": ["Premiação"],
  "der": ["Nome da etapa", "Início", "Fim", "Liberação do feedback", "Operador da etapa", "Ação", "Mensagem"]}
 ```
+
+Por que cada ALR:
+1. `Premiação` — a transação grava os dados alterados da etapa e os perfis autorizados dela, subgrupos do arquivo lógico da premiação
+
+⚠️ A enumeração é a do baseline, anterior aos campos *Quantidade de classificados* e *Quantidade de premiados*, que entraram com o `PDTIC25093-67`; a contagem da alteração está na AIM do ticket.
 
 **Total: 3 PF** (2 processos elementares).
 
@@ -242,7 +252,7 @@ O cartão da etapa, de onde parte a edição, exibe os selos "Classificados" e "
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
-| 2026-10-04 | Regeneração 4.1.0 (docqui) | Estrutura atualizada | Artefato regenerado com o engine 4.1.0: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, `## Origem` com a HU e os tickets das AIMs, Gherkin com `Feature:` |
+| 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU e o ticket não numeram critérios; coluna Entidade em `## Campos`, com o Preenchimento de Ordem e Situação normalizado; coluna Papel e memória de cálculo em bloco JSON, com a linha de 0 PF sem tipo, ALR, DER nem complexidade. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Contagem APF (docqui) | Memória complementada | A memória de `Consultar Etapa (implícita)` passa a dizer **por que** sai com ALR e DER zerados — critério de fronteira informado pela equipe de métricas. Antes a linha era indistinguível de contagem por preencher |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/etapas-configuracao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
@@ -255,6 +265,6 @@ O cartão da etapa, de onde parte a edição, exibe os selos "Classificados" e "
 
 ---
 
-*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-08-28*
+*Feature Set: Etapas e Configuração da Avaliação · Major Feature Set: Avaliação · Última revisão: 2026-10-04*
 
 *Links: [N2 do Feature Set](./README.md) · [N1 do domínio](../README.md) · [INDEX geral](../../INDEX.md)*
