@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-05 -->
 ---
 id: AVL-ETA-03
 feature_set: AVL-ETA
@@ -62,7 +62,7 @@ No cartão da etapa, na aba "Avaliação & Etapas" da configuração da premiaç
 4. A lista de perfis autorizados permanece não vazia após a edição; os valores aceitos continuam sendo Administrador Nacional e Administrador Regional.
 5. A quantidade de classificados — quantos participantes de cada grupo de disputa avançam para a etapa seguinte — permanece com valor mínimo um após a edição.
 6. A quantidade de premiados continua opcional e independente da classificação: quando informada tem valor mínimo um; quando apagada, a etapa deixa de premiar, sem alterar a quantidade de classificados.
-7. A abrangência do corte acompanha a **natureza da etapa** vigente após a edição: etapa **nacional** apura entre todos os inscritos, dentro de cada grupo; etapa **regional** apura por estado dentro de cada grupo. → ver `AVL-ETA-02` (Cadastrar Etapa), regra 9. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `ANALISE_IMPACTO_SP05.md`, *Definições ainda em aberto*)*
+7. A abrangência do corte acompanha a **natureza da etapa** vigente após a edição: etapa **nacional** apura entre todos os inscritos, dentro de cada grupo; etapa **regional** apura por estado dentro de cada grupo. → ver `AVL-ETA-02` (Cadastrar Etapa), regra 9. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `analise-impacto/AIM-SP05.md`, *Definições ainda em aberto*)*
 8. A ordem da etapa não é alterada na edição — a mudança de posição é uma ação própria de reordenação.
 9. A data de liberação do feedback, quando informada, é igual ou posterior à data de término vigente após a edição.
 10. Sem data de liberação informada, o feedback fica disponível ao participante assim que a consolidação da sua avaliação é concluída; com a data informada, fica disponível a partir dela. → ver `INS-ACO-02` (Visualizar Devolutiva)
@@ -252,6 +252,7 @@ Por que cada ALR:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | A remissão apontava para `ANALISE_IMPACTO_SP05.md`, relatório que a migração de 2026-10-04 transformou em `analise-impacto/AIM-SP05.md`; o nome antigo não existe mais. Só o caminho mudou — a seção citada, *Definições ainda em aberto*, é a mesma |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU e o ticket não numeram critérios; coluna Entidade em `## Campos`, com o Preenchimento de Ordem e Situação normalizado; coluna Papel e memória de cálculo em bloco JSON, com a linha de 0 PF sem tipo, ALR, DER nem complexidade. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (2 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Contagem APF (docqui) | Memória complementada | A memória de `Consultar Etapa (implícita)` passa a dizer **por que** sai com ALR e DER zerados — critério de fronteira informado pela equipe de métricas. Antes a linha era indistinguível de contagem por preencher |

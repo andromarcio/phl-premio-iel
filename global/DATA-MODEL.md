@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-05 -->
 # DATA-MODEL.md
 > **Índice e fonte de verdade** para nomenclatura e mapeamento de campos. Os modelos detalhados estão fragmentados por domínio em `global/data-models/` — cole apenas o fragmento do domínio em trabalho, não o arquivo inteiro.
 >
@@ -50,7 +50,7 @@ Implícitos — **não** são listados nos fragmentos de domínio (só aqui). A 
 
 **62 entidades** em 5 fragmentos: as 59 tabelas do schema de origem, **mais** duas descobertas na conferência com o código — `TB_PESSOA` (cadastro legado da base CNI, em Acesso e Gestão) e `TB_DOWNLOAD_ARQUIVO` (infra de download temporário, em Inscrição) — **mais** `TB_DISPARO_FEEDBACK`, criada pela migração **V00034** na Sprint 6 (entidade *Disparo de Feedback*, no fragmento de Avaliação). Nenhuma tabela ficou sem mapeamento; nenhuma coluna de entidade JPA ficou sem linha no fragmento correspondente.
 
-> ✅ **Migrações da Sprint 6 conciliadas em 2026-10-04.** A **V00034** criou `TB_DISPARO_FEEDBACK`, acrescentou quatro colunas de ligação a `TB_AUDITORIA_EMAIL` (tipo, inscrição, etapa, disparo) e inseriu o modelo de e-mail `FEEDBACK_ETAPA_DISPONIVEL` nas premiações ativas; a **V00035** acrescentou as cinco colunas da desclassificação manual a `TB_APROVACAO_ETAPA_PARTICIPANTE`, com a constraint `CK_APROV_ETAPA_PART_DESCLASSIF`. **Nenhuma das duas move PF**: os dois ALIs alcançados seguem Média, 10 PF cada. Detalhe em `arquivos/demandas/ANALISE_IMPACTO_SP06.md`, seção 3.
+> ✅ **Migrações da Sprint 6 conciliadas em 2026-10-04.** A **V00034** criou `TB_DISPARO_FEEDBACK`, acrescentou quatro colunas de ligação a `TB_AUDITORIA_EMAIL` (tipo, inscrição, etapa, disparo) e inseriu o modelo de e-mail `FEEDBACK_ETAPA_DISPONIVEL` nas premiações ativas; a **V00035** acrescentou as cinco colunas da desclassificação manual a `TB_APROVACAO_ETAPA_PARTICIPANTE`, com a constraint `CK_APROV_ETAPA_PART_DESCLASSIF`. **Nenhuma das duas move PF**: os dois ALIs alcançados seguem Média, 10 PF cada. Detalhe em `analise-impacto/AIM-SP06.md`, *Funções de dados alteradas*.
 
 ---
 
@@ -160,6 +160,7 @@ Pontos levantados na extração do schema que pedem confirmação de negócio/m�
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | Três remissões ao relatório `arquivos/demandas/ANALISE_IMPACTO_SP06.md`, que a migração de 2026-10-04 transformou em `analise-impacto/AIM-SP06.md`, passam a apontar para a AIM: o detalhe das migrações da Sprint 6 (aqui), a pendência da métrica sobre a Auditoria de E-mails (`data-models/validacao.md`) e a do Disparo de Feedback (`data-models/avaliacao.md`). As antigas seções 3 e 5 viraram *Funções de dados alteradas* e *Decisões de produto pendentes* |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Índice e fragmentos carimbados com o engine 4.1.0 e conferidos pelo `validate-doc`. ⚠️ Mantido o formato **técnico** (Label Dev, campo banco, tipo SQL e contagem de ALI/AIE): no perfil `requisitos` a 4.1.0 prevê o modelo negocial, sem camada física, mas converter apagaria o mapeamento conciliado com o código e a contagem das funções de dados — decisão do PO/arquitetura |
 | 2026-10-04 | Migrações da Sprint 6 (docqui) | Conciliação com as migrações | **V00034** e **V00035** registradas: nova entidade *Disparo de Feedback* (`TB_DISPARO_FEEDBACK`), quatro colunas de ligação em `TB_AUDITORIA_EMAIL`, cinco colunas da desclassificação em *Apuração por Etapa* com a constraint `CK_APROV_ETAPA_PART_DESCLASSIF`, e o valor `FEEDBACK_ETAPA_DISPONIVEL` no enum `TipoEmailEnum`. 61 → 62 entidades. Os ALIs **Auditoria de E-mails** (RLR 2→3, DER 20→36) e **Avaliação de Inscrição** (DER 38→43) seguem Média, **10 PF cada — sem Δ PF** |
 | 2026-08-28 | Conferência doc × código (docqui) | Conciliação com o código | 144 Label Dev corrigidos a partir das entidades JPA; valores reais de 18 enums; 2 entidades acrescentadas (`TB_PESSOA`, `TB_DOWNLOAD_ARQUIVO`); achados de `FL_STORED`, `TL_LOG_AUDITORIA` e AIE do diretório corporativo registrados. Ver `global/CONFORMIDADE-CODIGO.md` |

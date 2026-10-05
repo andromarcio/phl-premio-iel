@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-05 -->
 ---
 id: AVL-APU-12
 feature_set: AVL-APU
@@ -133,7 +133,7 @@ Feature: Reabrir Etapa por UF
 |---|---|---|---|---|---|---|
 | Estado | Unidade Federativa | entrada do usuário | somente leitura | seleção → Unidade Federativa | sim | o estado é o do bloco de onde a reabertura parte; ausência de estado corresponde ao bloco Nacional ⚠️ |
 
-⚠️ *A reabertura não registra justificativa nem observação: como a regra 2 apaga o registro do fechamento e nenhuma outra entidade guarda a reabertura, não há onde gravá-la. Se o produto quiser motivo registrado, é preciso decidir onde persistir — o que reabre a definição de modelo apontada em `arquivos/demandas/ANALISE_IMPACTO_SP05.md`.*
+⚠️ *A reabertura não registra justificativa nem observação: como a regra 2 apaga o registro do fechamento e nenhuma outra entidade guarda a reabertura, não há onde gravá-la. Se o produto quiser motivo registrado, é preciso decidir onde persistir — o que reabre a definição de modelo apontada em `analise-impacto/AIM-SP05.md`.*
 
 ---
 
@@ -226,6 +226,7 @@ Fora da contagem: a preservação da desclassificação na reabertura (regra 9, 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | A remissão apontava para `ANALISE_IMPACTO_SP05.md`, relatório que a migração de 2026-10-04 transformou em `analise-impacto/AIM-SP05.md`; o nome antigo não existe mais. Só o caminho mudou: a nota segue apontando a mesma definição de modelo em aberto |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: prosa do que a feature realiza da HU (sem documento em `hus/`) e do ticket na `## Origem`; em `## Campos`, a coluna Entidade com o nome do data-model (`Unidade Federativa`) e o Preenchimento no vocabulário do padrão; em `## Dados lidos e gravados`, a linha *Critério/Decisão de Desempate* passa a *Decisão de Desempate*, a entidade que a regra 4 desfaz; coluna Papel e memória de cálculo com o cabeçalho do processo elementar e a lista dos ALR no formato do engine. A Descrição já tinha o parágrafo de como se usa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do que a reabertura faz com a desclassificação. *Antes* a reabertura desfazia o fechamento e os desempates do estado e preservava o feedback consolidado — a desclassificação não existia, logo nada dizia sobre ela. *Agora* a RN9 fixa que a reabertura **preserva** a desclassificação, e desfazê-la exige a reversão própria. Sem Δ DER — é lógica de processamento |

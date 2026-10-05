@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_2A | atualizado: 2026-10-05 -->
 # Feature Set: Apuração e Devolutiva
 > **Nível 2** - Major Feature Set: Avaliação - `AVL-APU`
 
@@ -114,7 +114,7 @@ O que cada perfil enxerga de uma etapa deriva da **natureza da etapa**, não da 
 
 *(decidido em 2026-09-01)* A abrangência do corte e a visibilidade saem ambas da natureza da etapa — antes da decisão a spec as derivava dos perfis autorizados, o que fazia uma configuração de permissão mudar o resultado da apuração.
 
-⚠️ **Falta o dado que declara a natureza da etapa.** Não há campo em Etapa que diga se ela é nacional ou regional; hoje isso só pode ser lido da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela. Enquanto for assim, o acoplamento que a decisão quis remover continua existindo de fato, só que nomeado. Declarar a natureza como campo próprio é alteração de modelo a decidir — ver `arquivos/demandas/ANALISE_IMPACTO_SP05.md`, *Definições ainda em aberto*.
+⚠️ **Falta o dado que declara a natureza da etapa.** Não há campo em Etapa que diga se ela é nacional ou regional; hoje isso só pode ser lido da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela. Enquanto for assim, o acoplamento que a decisão quis remover continua existindo de fato, só que nomeado. Declarar a natureza como campo próprio é alteração de modelo a decidir — ver `analise-impacto/AIM-SP05.md`, *Definições ainda em aberto*.
 
 ---
 
@@ -122,6 +122,7 @@ O que cada perfil enxerga de uma etapa deriva da **natureza da etapa**, não da 
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | A nota sobre a natureza da etapa passa a citar a análise da Sprint 5 pelo nome que ela tem desde 2026-10-04, `analise-impacto/AIM-SP05.md`. Sem mudança de regra |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0: carimbo, subtítulo com *Major Feature Set*, tabela de Features sem a coluna Prioridade (perfil `requisitos`), tabela de Telas separada da régua seguinte e rodapé com o nome do N1. Mantida a coluna Caminho de menu, convenção desta instância |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature Set ampliado | Duas features novas da Sprint 6: `AVL-APU-13` — Desclassificar Inscrição na Etapa (entrega de 2026-10-01, migração V00035) e `AVL-APU-14` — Enviar Feedback ao Participante (entrega de 2026-10-01, migração V00034), ambas exclusivas do Administrador Nacional. Tela nova **Disparo de Feedback**. O Relatório da Etapa sai da tela de Ranking por Etapa e passa à de **Fechamento de Etapa**, que é onde o resumo de entrega o situa — o Ranking é somente leitura, sem ações |
 | 2026-09-01 | Especificação (docqui) | Fluxo corrigido | O Fluxo Principal ainda passava por "Exportar Relatório de Inscrições Paradas", absorvida por `AVL-APU-06` **Gerar Relatório de Inscrições Paradas** na unificação de 2026-09-01. A tela e a planilha são a mesma feature |

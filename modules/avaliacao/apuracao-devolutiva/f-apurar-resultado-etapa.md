@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-05 -->
 ---
 id: AVL-APU-01
 feature_set: AVL-APU
@@ -59,7 +59,7 @@ Na tela de Fechamento de Etapa (Premiação › Avaliação), o administrador es
 1a. A nota atribuída a cada questão vai de 1 a 5, e o peso de cada questão é sempre maior que zero.
 2. A apuração considera apenas as inscrições cujas avaliações da etapa estão todas finalizadas. ⚠️ *(condição derivada do data-model — a confirmar na HU de fechamento)*
 3. As inscrições competem entre si dentro do mesmo grupo de disputa — oferta (tipo de participante × modalidade × categoria × submodalidade) e enquadramento. *(a submodalidade foi acrescentada ao grupo em 2026-09-01, convergindo com a alocação)*
-4. A abrangência da disputa deriva da **natureza da etapa**: em etapa **nacional**, todas as inscrições da etapa disputam entre si dentro de cada grupo, sem recorte por estado; em etapa **regional**, a disputa ocorre por estado dentro de cada grupo. → ver `AVL-ETA-02` (Cadastrar Etapa), regra da abrangência do corte. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `ANALISE_IMPACTO_SP05.md`, *Definições ainda em aberto*)*
+4. A abrangência da disputa deriva da **natureza da etapa**: em etapa **nacional**, todas as inscrições da etapa disputam entre si dentro de cada grupo, sem recorte por estado; em etapa **regional**, a disputa ocorre por estado dentro de cada grupo. → ver `AVL-ETA-02` (Cadastrar Etapa), regra da abrangência do corte. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `analise-impacto/AIM-SP05.md`, *Definições ainda em aberto*)*
 5. As inscrições sem estado definido compõem um bloco próprio de disputa, identificado como Nacional.
 6. Dentro de cada bloco de disputa, a colocação vai da maior para a menor média ponderada e recomeça em 1 a cada bloco.
 7. É classificada a inscrição cuja colocação no bloco é menor ou igual à quantidade de classificados configurada na etapa; a classificação decorre exclusivamente da colocação, sem decisão individual de aprovação ou reprovação por inscrição.
@@ -277,6 +277,7 @@ Fora da contagem: as inscrições sem estado formam o bloco Nacional — é o me
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | A remissão apontava para `ANALISE_IMPACTO_SP05.md`, relatório que a migração de 2026-10-04 transformou em `analise-impacto/AIM-SP05.md`; o nome antigo não existe mais. Só o caminho mudou — a seção citada, *Definições ainda em aberto*, é a mesma |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa), prosa do que a feature realiza do ticket na `## Origem`, coluna Entidade e as sete colunas do padrão em `## Campos`, `## Dados lidos e gravados`, coluna Papel e memória de cálculo em bloco JSON, com a anotação sobre os DER da desclassificação levada da lista para a prosa. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | Análise de impacto SP06 (docqui) | Feature alterada | **Inclusão** do efeito da desclassificação manual na apuração. *Antes* todas as inscrições com avaliação finalizada entravam na disputa do bloco e recebiam colocação; não havia como retirar uma do resultado. *Agora* a inscrição desclassificada sai da disputa, fica sem colocação e ao fim do bloco (RN11), e a desclassificação recalcula na hora as colocações e as duas linhas de corte (RN12). DER 17 → 19, sem mover o PF |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/apuracao-devolutiva/flow-fechamento.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |

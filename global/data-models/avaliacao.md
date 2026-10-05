@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-05 -->
 # Data Model: Avaliação
 > Fragmento do DATA-MODEL.md — cole apenas este arquivo nas sessões que envolvam o domínio Avaliação.
 >
@@ -209,7 +209,7 @@ Registra cada disparo de feedback que o Administrador Nacional faz para os parti
 
 Campos globais: estende `Auditavel` — `CD_CRIADO_POR`, `DT_CRIADO_EM`, `CD_ATUALIZADO_POR`, `DT_ATUALIZADO_EM`, `FL_ATIVO`. → ver `global/MASTER.md`, *Campos globais obrigatórios em toda tabela*.
 
-⚠️ **Classificação a confirmar com a métrica.** A entidade está registrada como **subgrupo do ALI Auditoria de E-mails**, porque o dado que ela guarda é o lote dos e-mails enviados e a ligação é direta (`TB_AUDITORIA_EMAIL.CD_DISPARO_FEEDBACK`). A leitura alternativa — grupo lógico próprio, mantido por transação própria e consultado como registro de negócio — a tornaria um **ALI novo** de RLR 1 × DER 11, **Baixa**, 7 PF. A opção adotada é a conservadora: não cria função de dados nova. Ver `arquivos/demandas/ANALISE_IMPACTO_SP06.md`, seção 5.
+⚠️ **Classificação a confirmar com a métrica.** A entidade está registrada como **subgrupo do ALI Auditoria de E-mails**, porque o dado que ela guarda é o lote dos e-mails enviados e a ligação é direta (`TB_AUDITORIA_EMAIL.CD_DISPARO_FEEDBACK`). A leitura alternativa — grupo lógico próprio, mantido por transação própria e consultado como registro de negócio — a tornaria um **ALI novo** de RLR 1 × DER 11, **Baixa**, 7 PF. A opção adotada é a conservadora: não cria função de dados nova. Ver `analise-impacto/AIM-SP06.md`, *Decisões de produto pendentes*.
 
 ---
 

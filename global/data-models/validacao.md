@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_REVERSE_ENGINEERING | atualizado: 2026-10-05 -->
 # Data Model: Validação
 > Fragmento do DATA-MODEL.md — cole apenas este arquivo nas sessões que envolvam o domínio Validação.
 >
@@ -81,7 +81,7 @@ Os e-mails registrados antes da V00034 ficam com as quatro colunas vazias.
 - ⚠️ RLR/DER são do baseline APF (autoritativo); a granularidade de RET do mapeamento físico pode diferir.
 
 **ALI: Auditoria de E-mails** — RLR 3 · DER 36 · Média · 10 PF (baseline APF de 2026-02-28, revisto em 2026-10-04)
-- A **V00034** levou o RLR de 2 a 3 e o DER de 20 a 36, **sem mover o PF**: entraram as quatro colunas de ligação em `TB_AUDITORIA_EMAIL` (tipo, inscrição, etapa, disparo) e o subgrupo **Disparo de Feedback** (`TB_DISPARO_FEEDBACK`, 11 DER + auditoria), cuja definição vive em `global/data-models/avaliacao.md` por ser do domínio Avaliação. RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média. ⚠️ A classificação do Disparo de Feedback como subgrupo deste ALI, e não como ALI próprio, está pendente de confirmação da métrica — ver `arquivos/demandas/ANALISE_IMPACTO_SP06.md`, seção 5.
+- A **V00034** levou o RLR de 2 a 3 e o DER de 20 a 36, **sem mover o PF**: entraram as quatro colunas de ligação em `TB_AUDITORIA_EMAIL` (tipo, inscrição, etapa, disparo) e o subgrupo **Disparo de Feedback** (`TB_DISPARO_FEEDBACK`, 11 DER + auditoria), cuja definição vive em `global/data-models/avaliacao.md` por ser do domínio Avaliação. RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média. ⚠️ A classificação do Disparo de Feedback como subgrupo deste ALI, e não como ALI próprio, está pendente de confirmação da métrica — ver `analise-impacto/AIM-SP06.md`, *Decisões de produto pendentes*.
 - Constituintes físicos (engenharia reversa): TB_AUDITORIA_EMAIL (principal), TB_ANEXO_AUDITORIA_EMAIL (suporte: anexos do e-mail).
 - ⚠️ RLR/DER são do baseline APF (autoritativo); a granularidade de RET do mapeamento físico pode diferir.
 

@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: PROMPT_4A | atualizado: 2026-10-05 -->
 ---
 id: AVL-ETA-02
 feature_set: AVL-ETA
@@ -64,7 +64,7 @@ Na aba "Avaliação & Etapas" da configuração da premiação, o administrador 
 6. A lista de perfis autorizados de uma etapa vale para toda a sua operação; ela não é alterada pelo fechamento ou pela reabertura da etapa.
 7. Cada etapa define uma quantidade de classificados — quantos participantes de cada grupo de disputa avançam para a etapa seguinte —, de valor mínimo um.
 8. A quantidade de premiados é opcional e independente da classificação: quando informada tem valor mínimo um e determina quantos participantes de cada grupo de disputa são premiados; quando ausente, a etapa não premia.
-9. A abrangência do corte deriva da **natureza da etapa**: a etapa **nacional** apura o corte entre todos os inscritos da etapa, dentro de cada grupo de disputa; a etapa **regional** apura por estado dentro de cada grupo. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `ANALISE_IMPACTO_SP05.md`, *Definições ainda em aberto*)*
+9. A abrangência do corte deriva da **natureza da etapa**: a etapa **nacional** apura o corte entre todos os inscritos da etapa, dentro de cada grupo de disputa; a etapa **regional** apura por estado dentro de cada grupo. ⚠️ *(não há campo próprio que declare a natureza da etapa: hoje ela é lida da lista de perfis autorizados — a etapa é regional quando o Administrador Regional consta nela e nacional quando não consta. Declarar a natureza como campo da etapa é alteração de modelo ainda a decidir — ver `analise-impacto/AIM-SP05.md`, *Definições ainda em aberto*)*
 10. A data de liberação do feedback, quando informada, é igual ou posterior à data de término da etapa.
 11. Sem data de liberação informada, o feedback fica disponível ao participante assim que a consolidação da sua avaliação é concluída; com a data informada, fica disponível a partir dela. → ver `INS-ACO-02` (Visualizar Devolutiva)
 
@@ -244,6 +244,7 @@ Por que cada ALR:
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Referência corrigida | A remissão apontava para `ANALISE_IMPACTO_SP05.md`, relatório que a migração de 2026-10-04 transformou em `analise-impacto/AIM-SP05.md`; o nome antigo não existe mais. Só o caminho mudou — a seção citada, *Definições ainda em aberto*, é a mesma |
 | 2026-10-04 | Regeneração 4.1.0 (docqui) | Regenerado | Artefato regenerado com o engine 4.1.0. Estrutura: carimbo, front-matter do perfil `requisitos` (sem `prioridade`/`mvp`, com os blocos `origem` e `contagem`), subtítulo e rodapé com *Major Feature Set*, Gherkin com `Feature:`. Redação: segundo parágrafo da Descrição (como se usa); critérios em prosa na `## Origem`, porque a HU e o ticket não numeram critérios; coluna Entidade em `## Campos`; coluna Papel e memória de cálculo em bloco JSON, com o processo elementar principal levando o nome da feature. Sem mudança de regra, cenário ou número de PF |
 | 2026-10-04 | migra-enumeracao | Contagem | Enumeração de ALR e DER da memória de cálculo em bloco JSON (1 PE) — migra-enumeracao; sem mudança de número |
 | 2026-09-02 | Protótipo (docqui) | Vínculo corrigido | A linha dizia **n/a** embora a feature já estivesse desenhada em `prototypes/avaliacao/etapas-configuracao/flow.html` desde a geração daquele fluxo — o manifesto registrava o vínculo e este N3 não. Fidelidade passa a **referência** |
