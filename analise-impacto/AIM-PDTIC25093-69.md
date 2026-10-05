@@ -137,9 +137,7 @@ São essas quatro colunas que tornam possível saber se um participante **já re
 
 **Sem Δ de complexidade**: RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média, **10 PF** — alterada, logo **10 PFB · 5 PFL**.
 
-### ALI: Premiação — sem alteração
-
-O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum `TipoEmailEnum` da entidade *Configuração de E-mail da Premiação*. Acrescentar valor a enum **não cria DER**: o atributo `DS_TIPO_EMAIL` já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e 15 PF, e carga de dados não é alteração de função.
+**ALI Premiação — examinado, sem alteração.** O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum `TipoEmailEnum` da entidade *Configuração de E-mail da Premiação*. Acrescentar valor a enum **não cria DER**: o atributo `DS_TIPO_EMAIL` já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e 15 PF, e carga de dados não é alteração de função.
 
 | Origem | Natureza | PFB | PFL |
 |---|---|---|---|
@@ -181,4 +179,5 @@ Aberta na entrega — migrada do relatório `arquivos/demandas/ANALISE_IMPACTO_P
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Contagem da SP06 (docqui) | Função de dados reclassificada | O ALI Premiação, examinado e **não** alterado pela V00034, deixa de ser título `### ALI:` em `## Funções de dados alteradas` e passa a parágrafo da mesma seção. O título o fazia entrar na planilha de contagem como função da entrega — sem natureza, com os 15 PF dele contados no PFB. A análise e os números não mudam: 10 PFB · 5 PFL de funções de dados, só a Auditoria de E-mails |
 | 2026-10-04 | migra-aim | AIM migrada | relatório `arquivos/demandas/ANALISE_IMPACTO_PDTIC25093-69.md` → AIM única |

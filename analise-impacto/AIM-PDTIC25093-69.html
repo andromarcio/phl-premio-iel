@@ -640,8 +640,7 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 </tbody></table></div>
 <p>São essas quatro colunas que tornam possível saber se um participante <strong>já recebeu</strong> o aviso de uma etapa — sem elas a regra que evita o envio duplicado não teria onde se sustentar. Até aqui a auditoria guardava o e-mail e não o ligava à inscrição. Os e-mails já registrados ficam com as quatro vazias.</p>
 <p><strong>Sem Δ de complexidade</strong>: RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média, <strong>10 PF</strong> — alterada, logo <strong>10 PFB · 5 PFL</strong>.</p>
-<h3>ALI: Premiação — sem alteração</h3>
-<p>O script insere o modelo <code>FEEDBACK_ETAPA_DISPONIVEL</code> em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum <code>TipoEmailEnum</code> da entidade <em>Configuração de E-mail da Premiação</em>. Acrescentar valor a enum <strong>não cria DER</strong>: o atributo <code>DS_TIPO_EMAIL</code> já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e 15 PF, e carga de dados não é alteração de função.</p>
+<p><strong>ALI Premiação — examinado, sem alteração.</strong> O script insere o modelo <code>FEEDBACK_ETAPA_DISPONIVEL</code> em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum <code>TipoEmailEnum</code> da entidade <em>Configuração de E-mail da Premiação</em>. Acrescentar valor a enum <strong>não cria DER</strong>: o atributo <code>DS_TIPO_EMAIL</code> já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e 15 PF, e carga de dados não é alteração de função.</p>
 <div class="table-container"><table class="custom-table">
 <thead>
 <tr>
@@ -785,6 +784,12 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 </tr>
 </thead>
 <tbody><tr>
+<td>05/10/2026</td>
+<td>Contagem da SP06 (docqui)</td>
+<td>Função de dados reclassificada</td>
+<td>O ALI Premiação, examinado e <strong>não</strong> alterado pela V00034, deixa de ser título <code>### ALI:</code> em <code>## Funções de dados alteradas</code> e passa a parágrafo da mesma seção. O título o fazia entrar na planilha de contagem como função da entrega — sem natureza, com os 15 PF dele contados no PFB. A análise e os números não mudam: 10 PFB · 5 PFL de funções de dados, só a Auditoria de E-mails</td>
+</tr>
+<tr>
 <td>04/10/2026</td>
 <td>migra-aim</td>
 <td>AIM migrada</td>

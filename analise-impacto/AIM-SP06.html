@@ -838,8 +838,7 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 </tbody></table></div>
 <p>Índices novos <code>IX_AUD_EMAIL_INSC_TIPO</code> e <code>IX_AUD_EMAIL_DISPARO</code>. As quatro colunas são o que torna possível saber se um participante já recebeu o aviso de uma etapa — é delas que vive a regra 6 de <code>AVL-APU-14</code> — Enviar Feedback ao Participante. Até aqui a auditoria guardava o e-mail e não o ligava à inscrição.</p>
 <p><strong>Sem Δ PF</strong>: RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média, <strong>10 PF</strong>.</p>
-<h3>V00034 → ALI: Premiação — sem alteração</h3>
-<p>O script insere o modelo <code>FEEDBACK_ETAPA_DISPONIVEL</code> em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum <code>TipoEmailEnum</code> da entidade <strong>Configuração de E-mail da Premiação</strong>. Acrescentar valor a um enum <strong>não cria DER</strong>: o atributo <code>DS_TIPO_EMAIL</code> já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e <strong>15 PF</strong>, e a carga de dados não é alteração de função.</p>
+<p><strong>V00034 → ALI Premiação — examinado, sem alteração.</strong> O script insere o modelo <code>FEEDBACK_ETAPA_DISPONIVEL</code> em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum <code>TipoEmailEnum</code> da entidade <strong>Configuração de E-mail da Premiação</strong>. Acrescentar valor a um enum <strong>não cria DER</strong>: o atributo <code>DS_TIPO_EMAIL</code> já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e <strong>15 PF</strong>, e a carga de dados não é alteração de função.</p>
 <h3>Funções de dados da sprint</h3>
 <div class="table-container"><table class="custom-table">
 <thead>
@@ -861,12 +860,6 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 <td>alterada</td>
 <td class="col-num">10</td>
 <td class="col-num">5</td>
-</tr>
-<tr>
-<td>Premiação</td>
-<td>não alterada</td>
-<td class="col-num">0</td>
-<td class="col-num">0</td>
 </tr>
 </tbody></table></div>
 
@@ -1023,6 +1016,12 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 </tr>
 </thead>
 <tbody><tr>
+<td>05/10/2026</td>
+<td>Contagem da SP06 (docqui)</td>
+<td>Função de dados reclassificada</td>
+<td>O ALI Premiação, examinado e não alterado, sai da tabela das funções de dados da sprint e deixa de ser título <code>### ALI:</code> — os dois o levavam à planilha de contagem como função da entrega. Fica o parágrafo que explica por que a carga de dados da V00034 não o altera. Números inalterados: 20 PFB · 10 PFL de funções de dados, 108 PFB · 75,5 PFL no apurável</td>
+</tr>
+<tr>
 <td>05/10/2026</td>
 <td>Especificação Funcional SP06 (docqui)</td>
 <td>Estrutura conformada</td>

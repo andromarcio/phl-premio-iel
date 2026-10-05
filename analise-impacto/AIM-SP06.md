@@ -216,9 +216,7 @@ Tabela nova `TB_DISPARO_FEEDBACK` (entidade **Disparo de Feedback**, 11 atributo
 
 **Sem Δ PF**: RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média, **10 PF**.
 
-### V00034 → ALI: Premiação — sem alteração
-
-O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum `TipoEmailEnum` da entidade **Configuração de E-mail da Premiação**. Acrescentar valor a um enum **não cria DER**: o atributo `DS_TIPO_EMAIL` já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e **15 PF**, e a carga de dados não é alteração de função.
+**V00034 → ALI Premiação — examinado, sem alteração.** O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum `TipoEmailEnum` da entidade **Configuração de E-mail da Premiação**. Acrescentar valor a um enum **não cria DER**: o atributo `DS_TIPO_EMAIL` já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e **15 PF**, e a carga de dados não é alteração de função.
 
 ### Funções de dados da sprint
 
@@ -226,7 +224,6 @@ O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa q
 |---|---|---|---|
 | Avaliação de Inscrição | alterada | 10 | 5 |
 | Auditoria de E-mails | alterada | 10 | 5 |
-| Premiação | não alterada | 0 | 0 |
 
 ## Apurável da sprint
 
@@ -302,5 +299,6 @@ Cruzamento do resumo de entrega da Sprint 6 — recebido em 2026-10-04, com as d
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Contagem da SP06 (docqui) | Função de dados reclassificada | O ALI Premiação, examinado e não alterado, sai da tabela das funções de dados da sprint e deixa de ser título `### ALI:` — os dois o levavam à planilha de contagem como função da entrega. Fica o parágrafo que explica por que a carga de dados da V00034 não o altera. Números inalterados: 20 PFB · 10 PFL de funções de dados, 108 PFB · 75,5 PFL no apurável |
 | 2026-10-05 | Especificação Funcional SP06 (docqui) | Estrutura conformada | AIM da sprint posta no formato do template 4.1.0, sem mudar número: a tabela das funções de dados passa a ter as colunas do template e o nome da função sem o prefixo "ALI" — que impedia o `validate-impact` de casá-la com o `### ALI:` das AIMs dos tickets —, a linha de total sai dela, e o antigo *Fechamento do dimensionamento* vira a seção `## Apurável da sprint`. As remissões à numeração do relatório anterior à migração ("seção 2", "seção 5") passam a citar as seções pelo nome |
 | 2026-10-04 | migra-aim | AIM da sprint migrada | relatório agregado `arquivos/demandas/ANALISE_IMPACTO_SP06.md` → AIM da sprint |
