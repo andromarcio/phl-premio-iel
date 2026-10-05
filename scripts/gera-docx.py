@@ -62,6 +62,14 @@ def clean_md(s):
     s = re.sub(r'\[\*\*(.*?)\*\*\]\([^)]*\)', r'\1', s)
     s = re.sub(r'\[(.*?)\]\([^)]*\)', r'\1', s)
     s = s.replace('**','').replace('`','')
+    # itálico de um asterisco (`*(nota)*`, `*Nome da seção*`): o marcador saía cru no
+    # documento, no meio da regra ou da nota — o .docx não interpreta markdown
+    # — repetido até estabilizar: itálico aninhado (`*(ver *Seção*)*`) só se desfaz
+    # de dentro para fora
+    for _ in range(4):
+        t = re.sub(r'(?<![\w*])\*(?=\S)([^*\n]+?)(?<=\S)\*(?![\w*])', r'\1', s)
+        if t == s: break
+        s = t
     return re.sub(r'\s+', ' ', s).strip()
 def md_table(block):
     rows=[]
@@ -114,6 +122,32 @@ def widths_por_conteudo(linhas, grid=None):
     w[-1] += grid - sum(w)          # a última absorve o arredondamento
     return w
 
+def widths_com_piso(linhas, grid=None):
+    """Larguras por conteúdo, mas nenhuma coluna abaixo do próprio cabeçalho.
+
+    A tabela de Campos do N3 tem sete colunas desde o engine 4.1.0. Em larguras
+    iguais o cabeçalho quebrava no meio da palavra ("Preenchimen / to") e a
+    Validação, a coluna de texto longo, ficava com a mesma fatia que "Obrigatório".
+    O piso é o cabeçalho em negrito sem quebrar e a palavra mais longa da coluna
+    inteira ("desclassificação" partida em "desclassificaç / ão" lê mal); o que
+    sobra se reparte pelo conteúdo, como em widths_por_conteudo().
+    """
+    grid = grid or GRID
+    n = len(linhas[0])
+    def palavra(i):
+        return max((len(p) for r in linhas[1:] if i < len(r) for p in r[i].split()), default=0)
+    piso = [max(100 * len(linhas[0][i]) + 260, 90 * min(palavra(i), 16) + 260, 700) for i in range(n)]
+    if sum(piso) >= grid:               # palavras longas demais: o piso encolhe por igual
+        w = [int(grid * p / sum(piso)) for p in piso]
+        w[-1] += grid - sum(w)
+        return w
+    tam = [max((len(r[i]) if i < len(r) else 0) for r in linhas[1:]) or 1 for i in range(n)]
+    peso = [max(t, 4) ** 0.5 for t in tam]
+    sobra = grid - sum(piso)
+    w = [piso[i] + int(sobra * peso[i] / sum(peso)) for i in range(n)]
+    w[-1] += grid - sum(w)          # a última absorve o arredondamento
+    return w
+
 def numbered(block):
     return [(m.group(1), clean_md(m.group(2))) for line in block.splitlines()
             if (m:=re.match(r'^\s*(\d+)\.\s+(.*)$', line))]
@@ -150,7 +184,8 @@ def _regras_do_n1(dominio):
         achado = {}
         for f in glob.glob(os.path.join(ROOT, "modules", "*", "README.md")):
             md = rd(f)
-            h = re.search(r'^#\s*Dom[ií]nio:\s*(.+)$', md, re.M)
+            # o N1 se intitula `Major Feature Set:` desde o engine 4.1.0; `Domínio:` antes
+            h = re.search(r'^#\s*(?:Major Feature Set|Dom[ií]nio):\s*(.+)$', md, re.M)
             if h and _chave(h.group(1)) == k[1]:
                 achado = {int(n): t for n, t in numbered(section(md, "Regras transversais de negócio"))}
                 break
@@ -340,7 +375,11 @@ def render_jornada(src, out_png):
     try:
         open(h1,"w").write(page())
         dom=run(["--virtual-time-budget=8000","--dump-dom",f"file://{h1}"], cap=True).stdout
-        mm=re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', dom or "")
+        # o viewBox do <svg> RAIZ, que pode começar em coordenada negativa: quando
+        # uma aresta contorna o diagrama pela esquerda ele vem "-35 0 W H", e procurar
+        # só "0 0 W H" casava o primeiro <marker> de seta (10×10) — a janela saía
+        # quadrada e a foto cortava o diagrama, com barra de rolagem.
+        mm=re.search(r'<svg[^>]*?viewBox="[-\d.]+ [-\d.]+ ([\d.]+) ([\d.]+)"', dom or "")
         if not mm: return None
         W,H=float(mm.group(1)),float(mm.group(2)); TW=1200; TH=round(TW*H/W)+8
         open(h2,"w").write(page(force_w=TW))
@@ -709,7 +748,11 @@ def build_body(fs_dir):
         md=rd(fn)
         nome=(re.search(r'^#\s+(.+)$', md, re.M) or [None,os.path.basename(fn)])[1].strip()
         body.append(FUNC(f"Funcionalidade: {nome}"))
-        body.append(H("Descrição")); body.append(P(clean_md(section(md,"Descrição"))))
+        # a Descrição do N3 tem dois parágrafos desde o engine 4.1.0 — a entrega e o
+        # "como se usa"; juntá-los num só apagava a fronteira entre as duas camadas
+        body.append(H("Descrição"))
+        for para in [p for p in section(md,"Descrição").split("\n") if p.strip()]:
+            body.append(P(clean_md(para)))
         reg=section(md,"Regras de negócio")
         body.append(H("Regras de Negócio"))
         # a remissão a regra de outro artefato vira a regra original — ver regra_original()
@@ -739,7 +782,7 @@ def build_body(fs_dir):
         elif campos and len(campos)>1:
             body.append(P("Campos da funcionalidade:", italic=True, size=18))
             hdr=campos[0]
-            widths=[1500,1350,1150,1550,1250,2828] if len(hdr)==6 else eq_widths(len(hdr))
+            widths=[1500,1350,1150,1550,1250,2828] if len(hdr)==6 else widths_com_piso(campos)
             body.append(table(hdr, campos[1:], widths))
         body.append(H("Campos Automáticos"))
         ca=md_table(section(md,"Campos automáticos"))

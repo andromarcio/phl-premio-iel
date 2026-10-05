@@ -1,4 +1,4 @@
-<!-- docqui: 4.1.0 | prompt: — | atualizado: 2026-10-04 -->
+<!-- docqui: 4.1.0 | prompt: — | atualizado: 2026-10-05 -->
 # Registro de mudanças para replicação
 
 > Ledger das mudanças feitas **primeiro aqui** (`premio-iel`) que precisam ser **replicadas depois** nas outras instâncias docqui que usam a mesma solução — `portal-compras` e `transparencia-web`. Cada entrada diz o que mudou, onde e como aplicar no destino; a **matriz de status** mostra o que já foi replicado e o que ainda falta. O fluxo é sempre *fazer tudo aqui → registrar → replicar nos outros → marcar o status* — nunca os três ao mesmo tempo.
@@ -37,6 +37,7 @@ As instâncias **divergem** entre si — a mesma seção existe numa com um nome
 | ID | Data | Mudança | Rota | `portal-compras` | `transparencia-web` |
 |---|---|---|---|:---:|:---:|
 | REP-001 | 2026-10-04 | Geradores de `.docx` leem o título `Major Feature Set:` do N1 e do N2 | Local entre instâncias (manual) | ⬜ | ⬜ |
+| REP-002 | 2026-10-05 | `gera-docx.py` no formato 4.1.0 do N3 e jornada sem corte: remissão a regra do N1, Descrição em parágrafos, larguras da tabela de Campos, itálico cru, `viewBox` do diagrama | Local entre instâncias (manual) | ⬜ | ⬜ |
 
 ---
 
@@ -99,3 +100,17 @@ As três expressões passaram a aceitar `(?:Major Feature Set|Domínio):`, de mo
 **Como conferir.** As expressões foram testadas com as duas formas (casam) e com uma terceira (não casa). O `index.html`, o `gera-mapa-features.mjs`, o `gera-planilha-contagem.py`, o `generate-trace-index.mjs` e o `valida-citacoes-dicionario.mjs` já aceitavam as duas formas — não precisaram de mudança.
 
 **Como aplicar no destino.** Procure no destino as expressões que leem `Domínio:` do N1 ou do N2 (`grep -rn "Dom[íi]nio:" scripts/`) e estenda cada uma para `(?:Major Feature Set|Domínio):` — não troque uma pela outra, porque o destino pode ter N1/N2 nos dois formatos. Só é urgente no destino que for regenerar os N1/N2 para o título novo.
+
+### REP-002 — `gera-docx.py` no formato 4.1.0 do N3 e jornada sem corte (2026-10-05)
+
+**O que mudou.** A geração da Especificação Funcional da Sprint 06 foi a primeira depois de os N3 passarem ao formato do engine 4.1.0, e a conferência página a página do `.docx` (convertido em PDF) mostrou cinco defeitos no `scripts/gera-docx.py`. Nenhum é regra de exportação nova — a regra de 2026-09-23 e o leiaute continuam os mesmos —; são o gerador alcançando o formato e um erro de medição antigo:
+
+- **Remissão a regra do N1 não resolvia.** `_regras_do_n1` procurava o N1 por `^# Domínio:`. Com o título `Major Feature Set:`, nenhum N1 casava, e "→ ver N1 <Domínio>: Regras transversais de negócio: N" saía do documento sem a regra original. O REP-001 estendeu `fs_meta` e deixou esta expressão para trás; agora ela também aceita `(?:Major Feature Set|Domínio):`.
+- **Descrição do N3 num parágrafo só.** O N3 4.1.0 tem dois parágrafos — a entrega e o "como se usa" —, e o gerador os colava num. Agora sai um parágrafo do Word por parágrafo da fonte, como já acontecia com a Descrição do N2.
+- **Tabela de Campos com sete colunas em larguras iguais.** A 4.1.0 acrescentou as colunas Entidade, Preenchimento e Edição; a largura fixa só servia para seis colunas, e as sete caíam em `eq_widths` — o cabeçalho quebrava no meio da palavra ("Preenchimen / to") e o conteúdo também ("desclassificaç / ão"). A função nova `widths_com_piso` dá a cada coluna, no mínimo, o cabeçalho em negrito e a palavra mais longa do conteúdo, e reparte o que sobra pelo tamanho do conteúdo. A largura fixa das tabelas de seis colunas não mudou.
+- **Itálico de um asterisco saía cru.** O `clean_md` tirava `**` e crases, não `*…*`: toda nota `⚠️ *(…)*` aparecia com os asteriscos no documento. Agora sai o marcador, inclusive aninhado (`*(ver *Seção*)*`, desfeito de dentro para fora); multiplicação com espaços (`2 * 3`) e `a*b*c` ficam como estão.
+- **Diagrama da jornada cortado, com barra de rolagem.** `render_jornada` media o diagrama pelo primeiro `viewBox="0 0 W H"` do DOM. Quando uma aresta contorna o fluxo pela esquerda, o `<svg>` raiz do mermaid vem com origem negativa (`viewBox="-35 0 W H"`), e a expressão casava o `<marker>` de seta (10×10): a janela saía quadrada e a foto cortava o diagrama. Agora a medida é a do `<svg>` raiz, com qualquer origem.
+
+**Como conferir.** Cada defeito foi reproduzido antes da correção e conferido depois: a remissão do N1 resolvida contra `Configuração da Premiação` (antes, nenhum N1 casava); o `clean_md` com nota aninhada, com `2 * 3 * 4` e com `a*b*c`; as larguras nas tabelas de Campos dos seis Feature Sets da SP06 (nenhuma precisou encolher o piso); e a jornada de `INS-ACO` re-renderizada de 2400×2416 cortada para 2400×2866 inteira — as outras cinco saíram idênticas à medida anterior, o que confirma que só o caso de origem negativa mudou. Regerar sem navegador (`GERA_DOCX_NO_BROWSER=1`, como a CI) não altera um byte.
+
+**Como aplicar no destino.** As três cópias do gerador divergem (ver `documentos/README.md` → *Escopo e manutenção*); aplique cada item procurando a função equivalente, não por `cp`. `_regras_do_n1` e `render_jornada` devem existir nos três, porque a remissão (regra de 2026-09-23) e a jornada renderizada são comuns às três cópias — não conferido daqui, confira no destino; a tabela de Campos e a Descrição do N3 só importam no destino cujos N3 já estão no formato 4.1.0 — confira o cabeçalho da `## Campos` antes. Para provar a correção da jornada no destino, procure um N2 cujo diagrama tenha aresta contornando o fluxo pela esquerda: é o caso que o defeito corta.
