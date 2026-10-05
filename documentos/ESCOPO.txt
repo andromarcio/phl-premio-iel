@@ -6,12 +6,13 @@
 # no push seguinte.
 #
 # Apague o arquivo (ou esvazie-o) para voltar a entregar todos.
-# Recorte atual: Feature Sets alcançados pela SP05 (2026-09-02).
+# Recorte atual: Feature Sets alcançados pela SP06 (2026-10-05) — os seis com
+# feature incluída ou alterada na AIM-SP06. Os quatro só da SP05 (AVL-AVA, AVL-ETA,
+# VAL-ANA, VAL-FIL) saíram da central; a entrega deles segue no histórico do git.
 
 AVL-ALO
 AVL-APU
-AVL-AVA
-AVL-ETA
 AVL-PAI
-VAL-ANA
-VAL-FIL
+CFG-EMA
+INS-ACO
+INS-NOT
