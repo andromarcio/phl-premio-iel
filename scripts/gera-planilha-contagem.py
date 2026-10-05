@@ -60,6 +60,14 @@ O Tipo (G) e as quantidades e descrições de DER e ALR (I a L) também ficam em
 PE não foi mensurado. Sem o motivo, a Observação diz que ele falta. Linha com `—` no PF
 (ainda não medida, ou PE reutilizado `↪`) não entra.
 
+**Zero da AIM.** Numa sprint, a feature que a AIM traz alterada com **PFB 0 · PFL 0** —
+mudou na spec, mas nenhum processo elementar dela foi alterado na entrega (o quinto tipo
+de e-mail que é linha de dado, a navegação nova que não é lógica) — sai do mesmo jeito: os
+PE dela ficam na planilha com Tipo, DER e ALR em branco e `Não contado nesta entrega: …`
+na Observação, com o motivo que a AIM escreve depois de `**0 PF**`. Sem isto, a natureza
+"alterada" da feature levava todos os PE dela a 50%, e o total passava do apurado na AIM.
+Basta uma AIM com número diferente de zero para a feature contar. Na baseline, nada muda.
+
 Por cima do modelo, a AFP - Detalhada sai com a largura das colunas B, F, J, L e T e o
 alinhamento de J, L, T e U nas linhas de conteúdo pedidos pelo PO (2026-10-02) —
 `LARGURA_PX` e `ALINHAMENTO`.
@@ -510,6 +518,26 @@ def rotulo_feature(cel):
     m = re.search(r"`([A-Z]{3}-[A-Z]{3}-\d{2})`\s*\*\*([^*]+)\*\*", cel)
     return f"{m.group(1)} — {m.group(2).strip()}" if m else re.search(r"[A-Z]{3}-[A-Z]{3}-\d{2}", cel).group(0)
 
+def zero_da_linha(cab, c):
+    """O motivo, se a linha da AIM traz PFB 0 e PFL 0; False, se traz número diferente
+    de zero; None, se não traz número (sem as colunas, `—` ou `(E)`).
+
+    Feature alterada na spec sem processo elementar alterado — o quinto tipo de e-mail
+    que é linha de dado, não DER; a navegação nova que não é lógica de processamento —
+    entra na AIM com 0 PF e o motivo escrito como "**0 PF**: …". Sem isto, a planilha
+    levava todos os PE da feature a 50%, e o total saía maior que o apurado na AIM."""
+    iB, iL = col(cab, r"^PFB$"), col(cab, r"^PFL$")
+    if iB < 0 or iL < 0 or max(iB, iL) >= len(c):
+        return None
+    vals = [re.sub(r"[`*\s]", "", c[i]).replace(",", ".") for i in (iB, iL)]
+    if not all(re.fullmatch(r"\d+(?:\.\d+)?", v) for v in vals):
+        return None
+    if any(float(v) for v in vals):
+        return False
+    m = re.search(r"\*\*0 PF\*\*\s*:?\s*(.+)", " | ".join(c))
+    motivo = re.sub(r"\s+", " ", re.split(r"\s\|\s", m.group(1))[0]).strip(" .") if m else ""
+    return motivo or "a AIM registra 0 PF para esta entrega, sem o motivo na linha"
+
 def mapa_tickets(raiz, sprint=None, estimadas=None):
     """{fid: {"jira": [chaves], "natureza": "incluída"|"alterada"|"", "ca": {chave: "CA-1, CA-3"},
               "ca_pe": {PE: {chave: "CRIT.01.02, CRIT.01.19"}}}}
@@ -549,7 +577,7 @@ def mapa_tickets(raiz, sprint=None, estimadas=None):
             if ja != crit:
                 CA_PE_DIVERGENTES.append((fid, pe, chave, ja, crit))
 
-    def registra(fid, chave, natureza, ca=""):
+    def registra(fid, chave, natureza, ca="", zero=None):
         d = mapa.setdefault(fid, {"jira": [], "natureza": "", "ca": {}})
         if chave and chave not in d["jira"]:
             d["jira"].append(chave)
@@ -557,6 +585,14 @@ def mapa_tickets(raiz, sprint=None, estimadas=None):
             d["natureza"] = natureza
         if chave and ca:
             d["ca"].setdefault(chave, ca)
+        # Zero da AIM: a feature mudou na spec, mas nenhum processo elementar dela foi
+        # alterado nesta entrega (PFB 0 · PFL 0, com o motivo na linha). Basta uma AIM
+        # com número diferente de zero para a feature voltar a contar.
+        if zero is False:
+            d["conta"] = True
+            d.pop("zero", None)          # vale em qualquer ordem de leitura das AIMs
+        elif zero is not None and not d.get("conta"):
+            d.setdefault("zero", zero)
 
     def limpa_nat(x):
         # A célula pode trazer um qualificador — "incluída (proposta)", "alterada · 50%".
@@ -573,7 +609,7 @@ def mapa_tickets(raiz, sprint=None, estimadas=None):
         if chave is None:
             continue
         trecho = secao_md(arq.read_text(encoding="utf-8"), SECAO_ALTERACOES)
-        nat_por_id, ca_por_id, est_ids, do_pe = {}, {}, {}, []
+        nat_por_id, ca_por_id, est_ids, do_pe, zero_por_id = {}, {}, {}, [], {}
         for cab, corpo in tabelas(trecho.splitlines(), 0, lambda l: False):
             do_pe += criterios_por_pe(cab, corpo)
             iF, iN = col(cab, r"^Feature$"), col(cab, r"^Natureza$")
@@ -588,12 +624,14 @@ def mapa_tickets(raiz, sprint=None, estimadas=None):
                     nat_por_id[m.group(1)] = limpa_nat(c[iN])
                 if m and 0 <= iC < len(c):
                     ca_por_id[m.group(1)] = normaliza_ca(c[iC])
+                if m:
+                    zero_por_id[m.group(1)] = zero_da_linha(cab, c)
         for fid in re.findall(r"^\| `([A-Z]{3}-[A-Z]{3}-\d{2})` \*\*", trecho, re.M):
             if fid in est_ids:
                 if estimadas is not None and chave not in estimadas.setdefault(est_ids[fid], []):
                     estimadas[est_ids[fid]].append(chave)
                 continue
-            registra(fid, chave, nat_por_id.get(fid, ""), ca_por_id.get(fid, ""))
+            registra(fid, chave, nat_por_id.get(fid, ""), ca_por_id.get(fid, ""), zero_por_id.get(fid))
         for fid, pe, _, crit in do_pe:
             if fid not in est_ids:
                 registra_pe(fid, pe, chave, crit)
@@ -626,8 +664,9 @@ def mapa_tickets(raiz, sprint=None, estimadas=None):
                         ja += [k for k in chaves if k not in ja]
                     continue
                 ca = normaliza_ca(c[iC]) if len(chaves) == 1 and 0 <= iC < len(c) else ""
+                zero = zero_da_linha(cab, c)
                 for chave in chaves or [""]:
-                    registra(m.group(1), chave, limpa_nat(c[iN]) if iN < len(c) else "", ca)
+                    registra(m.group(1), chave, limpa_nat(c[iN]) if iN < len(c) else "", ca, zero)
         # A tabela de PE da sprint cita o ticket pelo número curto (`612`), e vem depois
         # das tabelas de feature — por isso só aqui, com as chaves da feature já no mapa.
         for fid, pe, tk, crit in do_pe:
@@ -1291,6 +1330,12 @@ def main():
         d["ca_do_pe"] = chave_pe(d["pe"]) in do_pe
         d["insumo"] = insumo(info["jira"], info["ca"], d["origem_ca"], do_pe.get(chave_pe(d["pe"]))) if info else ""
         d["tipo_projeto"] = TIPO_PROJETO.get(d["natureza"], "") if recorte else TIPO_PROJETO_BASELINE
+        # Feature que a AIM zerou: o PE fica na planilha, impactado e não contado, como a
+        # linha de 0 PF do N3 — Tipo, DER e ALR em branco (a fórmula do modelo dá 0) e o
+        # motivo à vista na Observação. Só num recorte: a baseline é o tamanho da aplicação.
+        if recorte and info and info.get("zero"):
+            d["tipo"] = d["der_qtd"] = d["alr_qtd"] = d["der_desc"] = d["alr_desc"] = ""
+            d["nota_alt"] = f"Não contado nesta entrega: {info['zero']}"
     contadas = len(linhas)
     if a.escopo:
         linhas = [d for d in linhas if any(d["id"].startswith(e.upper()) for e in a.escopo)]
