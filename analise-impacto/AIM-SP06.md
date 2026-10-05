@@ -58,7 +58,7 @@ As duas reclassificações têm o mesmo motivo e direções opostas. No item 1, 
 
 ### 1 · Fechar Etapa de Avaliação — dois deltas em datas diferentes
 
-**Colocação no Relatório da Etapa** (onda de 28/08) — a planilha ganhou a coluna **Colocação** nas abas por tipo de participante, **antes** da coluna Média final, gravada como número para permitir ordenação, e preenchida **apenas** para inscrições de estados já fechados: no estado aberto a célula fica vazia, porque a posição ainda pode mudar. Isso responde duas das três decisões que a análise de `PDTIC25093-64` deixou abertas em 2026-10-02 — ver a seção 5.
+**Colocação no Relatório da Etapa** (onda de 28/08) — a planilha ganhou a coluna **Colocação** nas abas por tipo de participante, **antes** da coluna Média final, gravada como número para permitir ordenação, e preenchida **apenas** para inscrições de estados já fechados: no estado aberto a célula fica vazia, porque a posição ainda pode mudar. Isso responde duas das três decisões que a análise de `PDTIC25093-64` deixou abertas em 2026-10-02 — ver *Decisões de produto pendentes*.
 
 E corrige um erro da spec. A `## Superfície` de `AVL-APU-09` — Exportar Relatório da Etapa dizia que o relatório é acionado na **Consulta de Ranking da Etapa**; o resumo de entrega o situa na tela de **Fechamento**, e o próprio resumo explica por que o Ranking não pode ser a origem: ali a tela é somente leitura, sem ações. A origem foi corrigida no N3 e no N2 do Feature Set.
 
@@ -220,26 +220,27 @@ Tabela nova `TB_DISPARO_FEEDBACK` (entidade **Disparo de Feedback**, 11 atributo
 
 O script insere o modelo `FEEDBACK_ETAPA_DISPONIVEL` em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum `TipoEmailEnum` da entidade **Configuração de E-mail da Premiação**. Acrescentar valor a um enum **não cria DER**: o atributo `DS_TIPO_EMAIL` já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e **15 PF**, e a carga de dados não é alteração de função.
 
-### Total das funções de dados
+### Funções de dados da sprint
 
-| Função de dados | Natureza | PFB | PFL |
+| Função de dados | Natureza da função | PFB | PFL |
 |---|---|---|---|
-| ALI Avaliação de Inscrição | alterada | 10 | 5 |
-| ALI Auditoria de E-mails | alterada | 10 | 5 |
-| ALI Premiação | não alterada | 0 | 0 |
-| **Funções de dados da sprint** | — | **20** | **10** |
+| Avaliação de Inscrição | alterada | 10 | 5 |
+| Auditoria de E-mails | alterada | 10 | 5 |
+| Premiação | não alterada | 0 | 0 |
 
-### Fechamento do dimensionamento da SP06
+## Apurável da sprint
 
-| Origem | PFB | PFL |
+| | PFB | PFL |
 |---|---|---|
-| Funções de transação — 15 features, 5 PE incluídos e 7 alterados | 88 | 65,5 |
+| Transações — 15 features, 5 PE incluídos e 7 alterados | 88 | 65,5 |
 | Funções de dados — 2 ALIs alterados | 20 | 10 |
-| **Apurável da sprint** | **108** | **75,5** |
+| **Total** | **108** | **75,5** |
 
-Os 29 PF dos cinco processos elementares novos entram **integralmente** no PFL, por serem funções incluídas; os sete processos elementares alterados entram a 50%. As três features alteradas sem Δ de contagem — `INS-NOT-01` — Consultar Notificações, `CFG-EMA-01` — Consultar Modelos de E-mail e `CFG-EMA-02` — Editar Modelo de E-mail — aparecem na seção 2 com zero, e o motivo está em cada linha: navegação e quantidade de linhas de dados não são alteração funcional.
+Nenhum ticket da SP06 tem contagem estimada — as três AIMs foram abertas na entrega —, por isso não há as linhas Estimado e Diferença.
 
-⚠️ **Dois números desta seção podem cair**, e as duas perguntas são da métrica: se a alternância da desclassificação for um processo elementar só, o apurável vai a **102 PFB · 69,5 PFL**; se `AVL-APU-09` — Exportar Relatório da Etapa pertencer ao mesmo período de medição de `PDTIC25093-49`, que a contou integralmente na SP05, saem outros 3,5 PFL. Ver a seção 5.
+Os 29 PF dos cinco processos elementares novos entram **integralmente** no PFL, por serem funções incluídas; os sete processos elementares alterados entram a 50%. As três features alteradas sem Δ de contagem — `INS-NOT-01` — Consultar Notificações, `CFG-EMA-01` — Consultar Modelos de E-mail e `CFG-EMA-02` — Editar Modelo de E-mail — aparecem em *Alterações na spec, por Feature Set* com zero, e o motivo está em cada linha: navegação e quantidade de linhas de dados não são alteração funcional.
+
+⚠️ **Dois números do apurável podem cair**, e as duas perguntas são da métrica: se a alternância da desclassificação for um processo elementar só, o apurável vai a **102 PFB · 69,5 PFL**; se `AVL-APU-09` — Exportar Relatório da Etapa pertencer ao mesmo período de medição de `PDTIC25093-49`, que a contou integralmente na SP05, saem outros 3,5 PFL. Ver *Decisões de produto pendentes*.
 
 ## Impacto em dicionários
 
@@ -301,4 +302,5 @@ Cruzamento do resumo de entrega da Sprint 6 — recebido em 2026-10-04, com as d
 
 | Data | Autor | Tipo | Descrição |
 |---|---|---|---|
+| 2026-10-05 | Especificação Funcional SP06 (docqui) | Estrutura conformada | AIM da sprint posta no formato do template 4.1.0, sem mudar número: a tabela das funções de dados passa a ter as colunas do template e o nome da função sem o prefixo "ALI" — que impedia o `validate-impact` de casá-la com o `### ALI:` das AIMs dos tickets —, a linha de total sai dela, e o antigo *Fechamento do dimensionamento* vira a seção `## Apurável da sprint`. As remissões à numeração do relatório anterior à migração ("seção 2", "seção 5") passam a citar as seções pelo nome |
 | 2026-10-04 | migra-aim | AIM da sprint migrada | relatório agregado `arquivos/demandas/ANALISE_IMPACTO_SP06.md` → AIM da sprint |

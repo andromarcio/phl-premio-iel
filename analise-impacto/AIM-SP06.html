@@ -363,7 +363,7 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
     </summary>
     <div class="section-body markdown-body">
 <h3>1 · Fechar Etapa de Avaliação — dois deltas em datas diferentes</h3>
-<p><strong>Colocação no Relatório da Etapa</strong> (onda de 28/08) — a planilha ganhou a coluna <strong>Colocação</strong> nas abas por tipo de participante, <strong>antes</strong> da coluna Média final, gravada como número para permitir ordenação, e preenchida <strong>apenas</strong> para inscrições de estados já fechados: no estado aberto a célula fica vazia, porque a posição ainda pode mudar. Isso responde duas das três decisões que a análise de <code>PDTIC25093-64</code> deixou abertas em 2026-10-02 — ver a seção 5.</p>
+<p><strong>Colocação no Relatório da Etapa</strong> (onda de 28/08) — a planilha ganhou a coluna <strong>Colocação</strong> nas abas por tipo de participante, <strong>antes</strong> da coluna Média final, gravada como número para permitir ordenação, e preenchida <strong>apenas</strong> para inscrições de estados já fechados: no estado aberto a célula fica vazia, porque a posição ainda pode mudar. Isso responde duas das três decisões que a análise de <code>PDTIC25093-64</code> deixou abertas em 2026-10-02 — ver <em>Decisões de produto pendentes</em>.</p>
 <p>E corrige um erro da spec. A <code>## Superfície</code> de <code>AVL-APU-09</code> — Exportar Relatório da Etapa dizia que o relatório é acionado na <strong>Consulta de Ranking da Etapa</strong>; o resumo de entrega o situa na tela de <strong>Fechamento</strong>, e o próprio resumo explica por que o Ranking não pode ser a origem: ali a tela é somente leitura, sem ações. A origem foi corrigida no N3 e no N2 do Feature Set.</p>
 <p><strong>Desclassificação manual</strong> (onda de 01/10) — capacidade inteiramente nova, com motivação concreta: uma mesma instituição de ensino pode concorrer em vários estados, mas só pode seguir <strong>uma vez</strong> para a etapa nacional, e não havia como retirar a inscrição excedente do resultado de um estado.</p>
 <p>O que a entrega traz, e que virou <code>AVL-APU-13</code> — Desclassificar Inscrição na Etapa: botão por linha do ranking na tela de Fechamento, só para o Administrador Nacional e só enquanto a etapa e o estado estão abertos; justificativa obrigatória de até 100 caracteres, visível ao apontar o selo; a inscrição sai da disputa, perde a colocação e vai ao fim do bloco, com o próximo colocado subindo e as duas linhas de corte recalculadas na hora; no fechamento, é gravada como não classificada; dispensa feedback consolidado para que o estado feche; não recebe o e-mail de feedback; a reabertura do estado ou da etapa <strong>mantém</strong> a desclassificação, que só a reversão desfaz; e o participante não vê nem o selo nem a justificativa.</p>
@@ -840,52 +840,63 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 <p><strong>Sem Δ PF</strong>: RLR 3 × DER 36 segue na faixa de 20 a 50 DET, Média, <strong>10 PF</strong>.</p>
 <h3>V00034 → ALI: Premiação — sem alteração</h3>
 <p>O script insere o modelo <code>FEEDBACK_ETAPA_DISPONIVEL</code> em cada premiação ativa que ainda não o tenha, e acrescenta esse valor ao enum <code>TipoEmailEnum</code> da entidade <strong>Configuração de E-mail da Premiação</strong>. Acrescentar valor a um enum <strong>não cria DER</strong>: o atributo <code>DS_TIPO_EMAIL</code> já existia e já era referenciado. O ALI permanece com 9 RLR, 71 DER e <strong>15 PF</strong>, e a carga de dados não é alteração de função.</p>
-<h3>Total das funções de dados</h3>
+<h3>Funções de dados da sprint</h3>
 <div class="table-container"><table class="custom-table">
 <thead>
 <tr>
 <th>Função de dados</th>
-<th class="col-id">Natureza</th>
+<th>Natureza da função</th>
 <th class="col-num">PFB</th>
 <th class="col-num">PFL</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>ALI Avaliação de Inscrição</td>
-<td class="col-id">alterada</td>
+<td>Avaliação de Inscrição</td>
+<td>alterada</td>
 <td class="col-num">10</td>
 <td class="col-num">5</td>
 </tr>
 <tr>
-<td>ALI Auditoria de E-mails</td>
-<td class="col-id">alterada</td>
+<td>Auditoria de E-mails</td>
+<td>alterada</td>
 <td class="col-num">10</td>
 <td class="col-num">5</td>
 </tr>
 <tr>
-<td>ALI Premiação</td>
-<td class="col-id">não alterada</td>
+<td>Premiação</td>
+<td>não alterada</td>
 <td class="col-num">0</td>
 <td class="col-num">0</td>
-</tr>
-<tr>
-<td><strong>Funções de dados da sprint</strong></td>
-<td class="col-id">—</td>
-<td class="col-num"><strong>20</strong></td>
-<td class="col-num"><strong>10</strong></td>
 </tr>
 </tbody></table></div>
-<h3>Fechamento do dimensionamento da SP06</h3>
+
+    </div>
+  </details>
+  <details class="doc-section" id="apuravel-da-sprint" open>
+    <summary class="section-header">
+      <span class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+        Apurável da sprint
+      </span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </summary>
+    <div class="section-body markdown-body">
 <div class="table-container"><table class="custom-table">
 <thead>
 <tr>
-<th>Origem</th>
+<th></th>
 <th class="col-num">PFB</th>
 <th class="col-num">PFL</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>Funções de transação — 15 features, 5 PE incluídos e 7 alterados</td>
+<td>Transações — 15 features, 5 PE incluídos e 7 alterados</td>
 <td class="col-num">88</td>
 <td class="col-num">65,5</td>
 </tr>
@@ -895,13 +906,14 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 <td class="col-num">10</td>
 </tr>
 <tr>
-<td><strong>Apurável da sprint</strong></td>
+<td><strong>Total</strong></td>
 <td class="col-num"><strong>108</strong></td>
 <td class="col-num"><strong>75,5</strong></td>
 </tr>
 </tbody></table></div>
-<p>Os 29 PF dos cinco processos elementares novos entram <strong>integralmente</strong> no PFL, por serem funções incluídas; os sete processos elementares alterados entram a 50%. As três features alteradas sem Δ de contagem — <code>INS-NOT-01</code> — Consultar Notificações, <code>CFG-EMA-01</code> — Consultar Modelos de E-mail e <code>CFG-EMA-02</code> — Editar Modelo de E-mail — aparecem na seção 2 com zero, e o motivo está em cada linha: navegação e quantidade de linhas de dados não são alteração funcional.</p>
-<p>⚠️ <strong>Dois números desta seção podem cair</strong>, e as duas perguntas são da métrica: se a alternância da desclassificação for um processo elementar só, o apurável vai a <strong>102 PFB · 69,5 PFL</strong>; se <code>AVL-APU-09</code> — Exportar Relatório da Etapa pertencer ao mesmo período de medição de <code>PDTIC25093-49</code>, que a contou integralmente na SP05, saem outros 3,5 PFL. Ver a seção 5.</p>
+<p>Nenhum ticket da SP06 tem contagem estimada — as três AIMs foram abertas na entrega —, por isso não há as linhas Estimado e Diferença.</p>
+<p>Os 29 PF dos cinco processos elementares novos entram <strong>integralmente</strong> no PFL, por serem funções incluídas; os sete processos elementares alterados entram a 50%. As três features alteradas sem Δ de contagem — <code>INS-NOT-01</code> — Consultar Notificações, <code>CFG-EMA-01</code> — Consultar Modelos de E-mail e <code>CFG-EMA-02</code> — Editar Modelo de E-mail — aparecem em <em>Alterações na spec, por Feature Set</em> com zero, e o motivo está em cada linha: navegação e quantidade de linhas de dados não são alteração funcional.</p>
+<p>⚠️ <strong>Dois números do apurável podem cair</strong>, e as duas perguntas são da métrica: se a alternância da desclassificação for um processo elementar só, o apurável vai a <strong>102 PFB · 69,5 PFL</strong>; se <code>AVL-APU-09</code> — Exportar Relatório da Etapa pertencer ao mesmo período de medição de <code>PDTIC25093-49</code>, que a contou integralmente na SP05, saem outros 3,5 PFL. Ver <em>Decisões de produto pendentes</em>.</p>
 
     </div>
   </details>
@@ -1011,6 +1023,12 @@ details[open] > .section-header .chevron { transform: rotate(180deg); }
 </tr>
 </thead>
 <tbody><tr>
+<td>05/10/2026</td>
+<td>Especificação Funcional SP06 (docqui)</td>
+<td>Estrutura conformada</td>
+<td>AIM da sprint posta no formato do template 4.1.0, sem mudar número: a tabela das funções de dados passa a ter as colunas do template e o nome da função sem o prefixo &quot;ALI&quot; — que impedia o <code>validate-impact</code> de casá-la com o <code>### ALI:</code> das AIMs dos tickets —, a linha de total sai dela, e o antigo <em>Fechamento do dimensionamento</em> vira a seção <code>## Apurável da sprint</code>. As remissões à numeração do relatório anterior à migração (&quot;seção 2&quot;, &quot;seção 5&quot;) passam a citar as seções pelo nome</td>
+</tr>
+<tr>
 <td>04/10/2026</td>
 <td>migra-aim</td>
 <td>AIM da sprint migrada</td>
